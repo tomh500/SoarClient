@@ -78,6 +78,32 @@ public class NanoVGHelper {
 		nvgColor.free();
 	}
 	
+	public void drawText(String text, float x, float y, Color color, float size, Font font) {
+
+		if (text == null) {
+			text = "null";
+		}
+
+		y += size / 2;
+
+		NanoVG.nvgBeginPath(nvg);
+		NanoVG.nvgFontSize(nvg, size);
+		NanoVG.nvgFontFace(nvg, font.getName());
+		NanoVG.nvgTextAlign(nvg, NanoVG.NVG_ALIGN_LEFT | NanoVG.NVG_ALIGN_MIDDLE);
+
+		NVGColor nvgColor = getColor(color);
+
+		NanoVG.nvgText(nvg, x, y, text);
+		nvgColor.free();
+	}
+
+	public void drawCenteredText(String text, float x, float y, Color color, float size, Font font) {
+
+		float textWidth = getTextWidth(text, size, font);
+
+		drawText(text, x - (textWidth / 2F), y, color, size, font);
+	}
+	
 	public float getTextWidth(String text, float size, Font font) {
 
 		float[] bounds = new float[4];

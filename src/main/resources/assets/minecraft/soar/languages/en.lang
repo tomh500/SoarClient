@@ -3,3 +3,5 @@ text.hud=HUD
 text.render=Render
 text.player=Player
 text.misc=Misc
+
+design.simple=Simple
