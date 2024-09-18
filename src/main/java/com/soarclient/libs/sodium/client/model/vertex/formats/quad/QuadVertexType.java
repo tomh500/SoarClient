@@ -1,0 +1,31 @@
+package com.soarclient.libs.sodium.client.model.vertex.formats.quad;
+
+import com.soarclient.libs.sodium.client.model.vertex.buffer.VertexBufferView;
+import com.soarclient.libs.sodium.client.model.vertex.formats.quad.writer.QuadVertexBufferWriterNio;
+import com.soarclient.libs.sodium.client.model.vertex.formats.quad.writer.QuadVertexBufferWriterUnsafe;
+import com.soarclient.libs.sodium.client.model.vertex.formats.quad.writer.QuadVertexWriterFallback;
+import com.soarclient.libs.sodium.client.model.vertex.type.BlittableVertexType;
+import com.soarclient.libs.sodium.client.model.vertex.type.VanillaVertexType;
+
+import net.minecraft.client.renderer.WorldRenderer;
+import net.minecraft.client.renderer.vertex.VertexFormat;
+
+public class QuadVertexType implements VanillaVertexType<QuadVertexSink>, BlittableVertexType<QuadVertexSink> {
+	public QuadVertexSink createFallbackWriter(WorldRenderer consumer) {
+		return new QuadVertexWriterFallback(consumer);
+	}
+
+	public QuadVertexSink createBufferWriter(VertexBufferView buffer, boolean direct) {
+		return (QuadVertexSink)(direct ? new QuadVertexBufferWriterUnsafe(buffer) : new QuadVertexBufferWriterNio(buffer));
+	}
+
+	@Override
+	public VertexFormat getVertexFormat() {
+		return QuadVertexSink.VERTEX_FORMAT;
+	}
+
+	@Override
+	public BlittableVertexType<QuadVertexSink> asBlittable() {
+		return this;
+	}
+}
