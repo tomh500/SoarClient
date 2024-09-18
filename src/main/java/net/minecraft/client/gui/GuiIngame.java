@@ -7,6 +7,8 @@ import java.util.Random;
 import com.google.common.base.Predicate;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
+import com.soarclient.event.EventBus;
+import com.soarclient.event.impl.RenderGameOverlayEvent;
 import com.soarclient.libraries.sodium.SodiumClientMod;
 
 import net.minecraft.block.material.Material;
@@ -363,6 +365,10 @@ public class GuiIngame extends Gui
         GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
         GlStateManager.disableLighting();
         GlStateManager.enableAlpha();
+        
+        EventBus event = EventBus.getInstance();
+        
+        event.post(new RenderGameOverlayEvent(partialTicks));
     }
 
     protected void renderTooltip(ScaledResolution sr, float partialTicks)

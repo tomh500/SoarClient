@@ -34,7 +34,7 @@ public class NanoVGHelper {
 		}
 	}
 	
-	public void setupAndDraw(LongConsumer consumer, boolean mcScale) {
+	public void setupAndDraw(Runnable task, boolean mcScale) {
 
 		ScaledResolution sr = new ScaledResolution(mc);
 
@@ -45,15 +45,15 @@ public class NanoVGHelper {
 			NanoVG.nvgScale(nvg, sr.getScaleFactor(), sr.getScaleFactor());
 		}
 		
-		consumer.accept(nvg);
+		task.run();
 
 		GL11.glDisable(GL11.GL_ALPHA_TEST);
 		NanoVG.nvgEndFrame(nvg);
 		GL11.glPopAttrib();
 	}
 	
-	public void setupAndDraw(LongConsumer consumer) {
-		setupAndDraw(consumer, true);
+	public void setupAndDraw(Runnable task) {
+		setupAndDraw(task, true);
 	}
 	
 	public void drawRect(float x, float y, float width, float height, Color color) {

@@ -55,6 +55,10 @@ import com.mojang.authlib.minecraft.MinecraftSessionService;
 import com.mojang.authlib.properties.Property;
 import com.mojang.authlib.properties.PropertyMap;
 import com.mojang.authlib.yggdrasil.YggdrasilAuthenticationService;
+import com.soarclient.Soar;
+import com.soarclient.event.EventBus;
+import com.soarclient.event.impl.ClientTickEvent;
+import com.soarclient.event.impl.GameLoopEvent;
 import com.soarclient.libraries.sodium.SodiumClientMod;
 import com.soarclient.libraries.sodium.client.gui.SodiumGameOptions.LightingQuality;
 
@@ -558,6 +562,7 @@ public class Minecraft implements IThreadListener, IPlayerUsage {
 		this.effectRenderer = new EffectRenderer(this.theWorld, this.renderEngine);
 		this.checkGLError("Post startup");
 		this.ingameGUI = new GuiIngame(this);
+		Soar.getInstance().start();
 
 		if (this.serverName != null) {
 			this.displayGuiScreen(new GuiConnecting(new GuiMainMenu(), this, this.serverName, this.serverPort));
@@ -983,6 +988,7 @@ public class Minecraft implements IThreadListener, IPlayerUsage {
 		try {
 			this.stream.shutdownStream();
 			logger.info("Stopping!");
+			Soar.getInstance().stop();
 
 			try {
 				this.loadWorld((WorldClient) null);
@@ -1006,6 +1012,9 @@ public class Minecraft implements IThreadListener, IPlayerUsage {
 	 * Called repeatedly from run()
 	 */
 	private void runGameLoop() throws IOException {
+		
+		EventBus.getInstance().post(new GameLoopEvent());
+		
 		long i = System.nanoTime();
 		this.mcProfiler.startSection("root");
 
@@ -1997,6 +2006,7 @@ public class Minecraft implements IThreadListener, IPlayerUsage {
 
 		this.mcProfiler.endSection();
 		this.systemTime = getSystemTime();
+		EventBus.getInstance().post(new ClientTickEvent());
 	}
 
 	/**

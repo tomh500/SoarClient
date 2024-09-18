@@ -1,6 +1,8 @@
 package com.soarclient;
 
+import com.soarclient.animation.Delta;
 import com.soarclient.management.mods.ModManager;
+import com.soarclient.nanovg.NanoVGHelper;
 
 public class Soar {
 
@@ -10,8 +12,12 @@ public class Soar {
 	
 	public void start() {
 		
+		NanoVGHelper.getInstance().start();
+		
 		modManager = new ModManager();
 		modManager.init();
+		
+		Delta.register();
 	}
 	
 	public void stop() {

@@ -11,7 +11,7 @@ public class Mod {
 	protected FontRenderer fr = mc.fontRendererObj;
 
 	private String name, description, icon;
-	private boolean enabled, movable;
+	private boolean enabled, movable, hidden;
 	
 	private ModCategory category;
 	
@@ -20,6 +20,7 @@ public class Mod {
 		this.description = description;
 		this.category = category;
 		this.movable = false;
+		this.hidden = false;
 	}
 	
 	public void onEnable() {
@@ -94,5 +95,13 @@ public class Mod {
 
 	public boolean isEnabled() {
 		return enabled;
+	}
+
+	public boolean isHidden() {
+		return hidden;
+	}
+
+	public void setHidden(boolean hidden) {
+		this.hidden = hidden;
 	}
 }
