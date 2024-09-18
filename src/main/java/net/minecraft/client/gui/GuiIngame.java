@@ -7,7 +7,7 @@ import java.util.Random;
 import com.google.common.base.Predicate;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
-import com.soarclient.libs.sodium.SodiumClientMod;
+import com.soarclient.libraries.sodium.SodiumClientMod;
 
 import net.minecraft.block.material.Material;
 import net.minecraft.client.Minecraft;

@@ -1,7 +1,7 @@
 package net.minecraft.client.renderer.block.model;
 
-import com.soarclient.libs.sodium.client.model.quad.ModelQuadView;
-import com.soarclient.libs.sodium.client.model.quad.properties.ModelQuadFlags;
+import com.soarclient.libraries.sodium.client.model.quad.ModelQuadView;
+import com.soarclient.libraries.sodium.client.model.quad.properties.ModelQuadFlags;
 
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.util.EnumFacing;

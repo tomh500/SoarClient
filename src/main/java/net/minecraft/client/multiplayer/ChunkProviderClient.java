@@ -6,9 +6,9 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import com.google.common.collect.Lists;
-import com.soarclient.libs.sodium.client.util.ExtChunkProviderClient;
-import com.soarclient.libs.sodium.client.world.ChunkStatusListener;
-import com.soarclient.libs.sodium.client.world.ChunkStatusListenerManager;
+import com.soarclient.libraries.sodium.client.util.ExtChunkProviderClient;
+import com.soarclient.libraries.sodium.client.world.ChunkStatusListener;
+import com.soarclient.libraries.sodium.client.world.ChunkStatusListenerManager;
 
 import it.unimi.dsi.fastutil.longs.LongOpenHashSet;
 import net.minecraft.entity.EnumCreatureType;

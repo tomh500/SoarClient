@@ -2,7 +2,7 @@ package net.minecraft.block;
 
 import java.util.Random;
 
-import com.soarclient.libs.sodium.SodiumClientMod;
+import com.soarclient.libraries.sodium.SodiumClientMod;
 
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.PropertyBool;

@@ -5,7 +5,7 @@ import java.util.Set;
 import java.util.concurrent.Callable;
 
 import com.google.common.collect.Sets;
-import com.soarclient.libs.sodium.client.util.rand.XoRoShiRoRandom;
+import com.soarclient.libraries.sodium.client.util.rand.XoRoShiRoRandom;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;

@@ -1,6 +1,6 @@
 package net.minecraft.world;
 
-import com.soarclient.libs.sodium.SodiumClientMod;
+import com.soarclient.libraries.sodium.SodiumClientMod;
 
 import net.minecraft.init.Blocks;
 import net.minecraft.util.BlockPos;

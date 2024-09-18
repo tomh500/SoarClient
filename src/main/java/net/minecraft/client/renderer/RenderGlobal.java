@@ -20,9 +20,9 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import com.google.gson.JsonSyntaxException;
-import com.soarclient.libs.sodium.client.gl.device.RenderDevice;
-import com.soarclient.libs.sodium.client.render.SodiumWorldRenderer;
-import com.soarclient.libs.sodium.common.util.CameraUtil;
+import com.soarclient.libraries.sodium.client.gl.device.RenderDevice;
+import com.soarclient.libraries.sodium.client.render.SodiumWorldRenderer;
+import com.soarclient.libraries.sodium.common.util.CameraUtil;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockChest;

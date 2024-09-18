@@ -3,8 +3,8 @@ package net.minecraft.block;
 import java.util.List;
 import java.util.Random;
 
-import com.soarclient.libs.sodium.client.model.quad.blender.BlockColorSettings;
-import com.soarclient.libs.sodium.client.model.quad.blender.DefaultBlockColorSettings;
+import com.soarclient.libraries.sodium.client.model.quad.blender.BlockColorSettings;
+import com.soarclient.libraries.sodium.client.model.quad.blender.DefaultBlockColorSettings;
 
 import net.minecraft.block.material.MapColor;
 import net.minecraft.block.material.Material;

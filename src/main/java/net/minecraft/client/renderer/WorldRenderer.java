@@ -12,13 +12,13 @@ import java.util.Comparator;
 import org.apache.logging.log4j.LogManager;
 
 import com.google.common.primitives.Floats;
-import com.soarclient.libs.sodium.SodiumClientMod;
-import com.soarclient.libs.sodium.client.gl.attribute.BufferVertexFormat;
-import com.soarclient.libs.sodium.client.model.vertex.VertexDrain;
-import com.soarclient.libs.sodium.client.model.vertex.VertexSink;
-import com.soarclient.libs.sodium.client.model.vertex.buffer.VertexBufferView;
-import com.soarclient.libs.sodium.client.model.vertex.type.BlittableVertexType;
-import com.soarclient.libs.sodium.client.model.vertex.type.VertexType;
+import com.soarclient.libraries.sodium.SodiumClientMod;
+import com.soarclient.libraries.sodium.client.gl.attribute.BufferVertexFormat;
+import com.soarclient.libraries.sodium.client.model.vertex.VertexDrain;
+import com.soarclient.libraries.sodium.client.model.vertex.VertexSink;
+import com.soarclient.libraries.sodium.client.model.vertex.buffer.VertexBufferView;
+import com.soarclient.libraries.sodium.client.model.vertex.type.BlittableVertexType;
+import com.soarclient.libraries.sodium.client.model.vertex.type.VertexType;
 
 import net.minecraft.client.renderer.vertex.VertexFormat;
 import net.minecraft.client.renderer.vertex.VertexFormatElement;

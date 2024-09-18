@@ -7,8 +7,8 @@ import java.util.concurrent.Callable;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
-import com.soarclient.libs.sodium.SodiumClientMod;
-import com.soarclient.libs.sodium.client.render.SodiumWorldRenderer;
+import com.soarclient.libraries.sodium.SodiumClientMod;
+import com.soarclient.libraries.sodium.client.render.SodiumWorldRenderer;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;

@@ -6,7 +6,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import com.google.common.collect.Lists;
-import com.soarclient.libs.sodium.client.gl.attribute.BufferVertexFormat;
+import com.soarclient.libraries.sodium.client.gl.attribute.BufferVertexFormat;
 
 public class VertexFormat implements BufferVertexFormat 
 {

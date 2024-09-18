@@ -3,8 +3,8 @@ package net.minecraft.client.renderer.entity;
 import java.util.Map;
 
 import com.google.common.collect.Maps;
-import com.soarclient.libs.sodium.client.gui.SodiumGameOptions.LightingQuality;
-import com.soarclient.libs.sodium.client.model.light.EntityLighter;
+import com.soarclient.libraries.sodium.client.gui.SodiumGameOptions.LightingQuality;
+import com.soarclient.libraries.sodium.client.model.light.EntityLighter;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockBed;

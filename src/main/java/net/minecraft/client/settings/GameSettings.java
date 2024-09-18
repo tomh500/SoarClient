@@ -23,8 +23,8 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import com.google.gson.Gson;
-import com.soarclient.libs.sodium.SodiumClientMod;
-import com.soarclient.libs.sodium.client.gui.SodiumGameOptions;
+import com.soarclient.libraries.sodium.SodiumClientMod;
+import com.soarclient.libraries.sodium.client.gui.SodiumGameOptions;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.SoundCategory;

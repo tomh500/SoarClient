@@ -1,7 +1,7 @@
 package net.minecraft.world.biome;
 
-import com.soarclient.libs.sodium.SodiumClientMod;
-import com.soarclient.libs.sodium.client.world.SodiumBlockAccess;
+import com.soarclient.libraries.sodium.SodiumClientMod;
+import com.soarclient.libraries.sodium.client.world.SodiumBlockAccess;
 
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.BlockPos.MutableBlockPos;

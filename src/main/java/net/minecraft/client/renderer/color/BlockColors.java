@@ -25,7 +25,7 @@ import net.minecraft.world.World;
 import net.minecraft.world.biome.BiomeColorHelper;
 import org.jetbrains.annotations.Nullable;
 
-import com.soarclient.libs.sodium.client.world.biome.BlockColorsExtended;
+import com.soarclient.libraries.sodium.client.world.biome.BlockColorsExtended;
 
 public class BlockColors implements BlockColorsExtended {
 	private final ObjectIntIdentityMap<IBlockColor> mapBlockColors = new ObjectIntIdentityMap();

@@ -1,6 +1,6 @@
 package net.minecraft.world.chunk;
 
-import com.soarclient.libs.sodium.client.world.ExtendedNibbleArray;
+import com.soarclient.libraries.sodium.client.world.ExtendedNibbleArray;
 
 public class NibbleArray implements ExtendedNibbleArray
 {

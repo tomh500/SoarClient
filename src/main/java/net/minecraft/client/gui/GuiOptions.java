@@ -2,7 +2,7 @@ package net.minecraft.client.gui;
 
 import java.io.IOException;
 
-import com.soarclient.libs.sodium.client.gui.ReeseSodiumVideoOptionsScreen;
+import com.soarclient.libraries.sodium.client.gui.ReeseSodiumVideoOptionsScreen;
 
 import net.minecraft.client.audio.PositionedSoundRecord;
 import net.minecraft.client.audio.SoundCategory;

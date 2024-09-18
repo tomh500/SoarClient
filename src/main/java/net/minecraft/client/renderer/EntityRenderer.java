@@ -17,8 +17,8 @@ import org.lwjgl.util.glu.Project;
 import com.google.common.base.Predicate;
 import com.google.common.base.Predicates;
 import com.google.gson.JsonSyntaxException;
-import com.soarclient.libs.sodium.SodiumClientMod;
-import com.soarclient.libs.sodium.client.render.pipeline.context.ChunkRenderCacheShared;
+import com.soarclient.libraries.sodium.SodiumClientMod;
+import com.soarclient.libraries.sodium.client.render.pipeline.context.ChunkRenderCacheShared;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockBed;

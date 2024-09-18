@@ -1,6 +1,6 @@
 package net.minecraft.client.renderer.culling;
 
-import com.soarclient.libs.sodium.client.util.math.FrustumExtended;
+import com.soarclient.libraries.sodium.client.util.math.FrustumExtended;
 
 import net.minecraft.util.AxisAlignedBB;
 
