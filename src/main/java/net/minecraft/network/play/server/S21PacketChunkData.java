@@ -1,6 +1,8 @@
 package net.minecraft.network.play.server;
 
 import com.google.common.collect.Lists;
+import com.soarclient.libraries.phosphor.api.ILightingEngineProvider;
+
 import java.io.IOException;
 import java.util.List;
 import net.minecraft.network.Packet;
@@ -77,6 +79,8 @@ public class S21PacketChunkData implements Packet<INetHandlerPlayClient>
 
     public static S21PacketChunkData.Extracted getExtractedData(Chunk p_179756_0_, boolean p_179756_1_, boolean p_179756_2_, int p_179756_3_)
     {
+    	((ILightingEngineProvider) p_179756_0_).getLightingEngine().processLightUpdates();
+    	
         ExtendedBlockStorage[] aextendedblockstorage = p_179756_0_.getBlockStorageArray();
         S21PacketChunkData.Extracted s21packetchunkdata$extracted = new S21PacketChunkData.Extracted();
         List<ExtendedBlockStorage> list = Lists.<ExtendedBlockStorage>newArrayList();

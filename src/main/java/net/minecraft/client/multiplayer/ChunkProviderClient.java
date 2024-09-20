@@ -212,4 +212,8 @@ public class ChunkProviderClient implements IChunkProvider, ChunkStatusListenerM
 	public void setListener(ChunkStatusListener listener) {
 		this.listener = listener;
 	}
+
+	public LongHashMap<Chunk> getChunkMapping() {
+		return chunkMapping;
+	}
 }

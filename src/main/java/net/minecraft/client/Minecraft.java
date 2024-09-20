@@ -59,6 +59,7 @@ import com.soarclient.Soar;
 import com.soarclient.event.EventBus;
 import com.soarclient.event.impl.ClientTickEvent;
 import com.soarclient.event.impl.GameLoopEvent;
+import com.soarclient.libraries.phosphor.api.ILightingEngineProvider;
 import com.soarclient.libraries.sodium.SodiumClientMod;
 import com.soarclient.libraries.sodium.client.gui.SodiumGameOptions.LightingQuality;
 
@@ -1939,6 +1940,10 @@ public class Minecraft implements IThreadListener, IPlayerUsage {
 
 			this.mcProfiler.endStartSection("gameRenderer");
 
+			this.mcProfiler.endStartSection("lighting");
+
+			((ILightingEngineProvider) this.theWorld).getLightingEngine().processLightUpdates();
+			
 			if (!this.isGamePaused) {
 				this.entityRenderer.updateRenderer();
 			}
