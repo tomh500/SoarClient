@@ -59,6 +59,7 @@ import com.soarclient.Soar;
 import com.soarclient.event.EventBus;
 import com.soarclient.event.impl.ClientTickEvent;
 import com.soarclient.event.impl.GameLoopEvent;
+import com.soarclient.event.impl.KeyEvent;
 import com.soarclient.libraries.phosphor.api.ILightingEngineProvider;
 import com.soarclient.libraries.sodium.SodiumClientMod;
 import com.soarclient.libraries.sodium.client.gui.SodiumGameOptions.LightingQuality;
@@ -416,6 +417,15 @@ public class Minecraft implements IThreadListener, IPlayerUsage {
 	}
 
 	public void run() {
+		
+		if (displayWidth < 1100) {
+			displayWidth = 1100;
+		}
+
+		if (displayHeight < 630) {
+			displayHeight = 630;
+		}
+		
 		this.running = true;
 
 		try {
@@ -1741,6 +1751,17 @@ public class Minecraft implements IThreadListener, IPlayerUsage {
 
 				this.dispatchKeypresses();
 
+				if (Keyboard.getEventKeyState() && Minecraft.getMinecraft().currentScreen == null) {
+
+					KeyEvent event = new KeyEvent(k);
+
+					EventBus.getInstance().post(event);
+
+					if (event.isCancelled()) {
+						return;
+					}
+				}
+				
 				if (Keyboard.getEventKeyState()) {
 					if (k == 62 && this.entityRenderer != null) {
 						this.entityRenderer.switchUseShader();

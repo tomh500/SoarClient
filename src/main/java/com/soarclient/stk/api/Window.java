@@ -5,40 +5,34 @@ import java.util.List;
 
 import com.soarclient.nanovg.NanoVGHelper;
 import com.soarclient.stk.component.Component;
+import com.soarclient.stk.palette.ColorHelper;
+import com.soarclient.stk.palette.ColorPalette;
+import com.soarclient.utils.StyleUtils;
 
-public class Window {
+public class Window extends Component {
 
 	private List<Component> components = new ArrayList<>();
 
-	private Size size;
-	private ColorPalette palette;
-	private Align align;
-
-	public Window(Size size, ColorPalette palette, Align align) {
-		this.size = size;
-		this.palette = palette;
-		this.align = align;
+	public Window(float width, float height, Align align) {
+		super(align);
+		
+		float[] pos = align.getPosition();
+		
+		this.width = StyleUtils.dpToPixel(width);
+		this.height = StyleUtils.dpToPixel(height);
+		
+		this.x = pos[0] - (this.width * align.getX());
+		this.y = pos[1] - (this.height * align.getY());
 	}
 
 	public void draw(int mouseX, int mouseY) {
 
 		NanoVGHelper nvg = NanoVGHelper.getInstance();
-
+		ColorPalette palette = ColorHelper.getPalette();
+		
 		nvg.setupAndDraw(() -> {
 
-			float[] pos = align.getPosition();
-			int cx = 1;
-			int cy = 1;
-
-			if (align.equals(Align.MIDDLE_CENTER)) {
-				cx = 2;
-				cy = 2;
-			} else if (align.equals(Align.BOTTOM_CENTER) || align.equals(Align.TOP_CENTER)) {
-				cx = 2;
-			}
-
-			nvg.drawRoundedRect(pos[0] - (size.getWidth() / cx), pos[1] - (size.getHeight() / cy), size.getWidth(),
-					size.getHeight(), 20, palette.getSurface());
+			nvg.drawRoundedRect(x, y, width, height, StyleUtils.dpToPixel(30), palette.getSurface());
 
 			for (Component c : components) {
 				c.draw(mouseX, mouseY);
@@ -56,5 +50,10 @@ public class Window {
 		for (Component c : components) {
 			c.mouseReleased(mouseX, mouseY, mouseButton);
 		}
+	}
+
+	public Window addComponent(Component component) {
+		components.add(component);
+		return this;
 	}
 }

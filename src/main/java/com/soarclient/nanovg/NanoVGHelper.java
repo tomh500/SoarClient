@@ -78,6 +78,17 @@ public class NanoVGHelper {
 		nvgColor.free();
 	}
 	
+	public void drawCircle(float x, float y, float radius, Color color) {
+
+		NanoVG.nvgBeginPath(nvg);
+		NanoVG.nvgCircle(nvg, x, y, radius);
+
+		NVGColor nvgColor = getColor(color);
+
+		NanoVG.nvgFill(nvg);
+		nvgColor.free();
+	}
+	
 	public void drawText(String text, float x, float y, Color color, float size, Font font) {
 
 		if (text == null) {
@@ -124,7 +135,7 @@ public class NanoVGHelper {
 		NanoVG.nvgFontFace(nvg, font.getName());
 		NanoVG.nvgTextBounds(nvg, 0, 0, text, bounds);
 
-		return bounds[3] - bounds[1];
+		return bounds[3] - bounds[1] + 1.5F;
 	}
 
 	public NVGColor getColor(Color color) {
