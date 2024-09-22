@@ -9,6 +9,8 @@ import org.lwjgl.nanovg.NanoVG;
 import com.soarclient.nanovg.NanoVGHelper;
 import com.soarclient.stk.styles.Materials;
 
+import net.minecraft.util.MathHelper;
+
 public class AppleRenderer {
 
 	public static void drawWindow(float x, float y, float width, float height, float radius) {
@@ -19,38 +21,45 @@ public class AppleRenderer {
 		drawWindowOutline(x, y, width, height, radius);
 	}
 
-	private static void drawWindowOutline(float x, float y, float width, float height, float radius) {
+    private static float calc(float x) {
+        return 0.25F / (float) Math.pow(x, 1.5F);
+    }
 
-		NVGPaint paint = NVGPaint.create();
-		NanoVGHelper nvg = getNvg();
-		long ctx = nvg.getContext();
+    private static void drawWindowOutline(float x, float y, float width, float height, float radius) {
 
-		NanoVG.nvgBeginPath(ctx);
-		NanoVG.nvgRoundedRect(ctx, x, y, width, height, radius);
-		NanoVG.nvgStrokeWidth(ctx, 1);
+        NVGPaint paint = NVGPaint.create();
+        NanoVGHelper nvg = getNvg();
+        long ctx = nvg.getContext();
 
-		NVGColor nvgColor = nvg.getColor(Materials.WINDOWS_GLASS_OUTLINE_0);
-		NVGColor tColor = nvg.getColor(new Color(0, 0, 0, 0));
+        NanoVG.nvgBeginPath(ctx);
+        NanoVG.nvgRoundedRect(ctx, x, y, width, height, radius);
+        NanoVG.nvgStrokeWidth(ctx, 1);
 
-		NanoVG.nvgStrokePaint(ctx,
-				NanoVG.nvgLinearGradient(ctx, x, y, x + (width / 10), y + (height / 2), nvgColor, tColor, paint));
-		NanoVG.nvgStroke(ctx);
+        NVGColor nvgColor = nvg.getColor(Materials.WINDOWS_GLASS_OUTLINE_0);
+        NVGColor tColor = nvg.getColor(new Color(0, 0, 0, 0));
+        float aspectRatio = width / height;
 
-		nvgColor.free();
+        NanoVG.nvgStrokePaint(ctx,
+                NanoVG.nvgLinearGradient(ctx, x + (width * 0.5F), y,
+                        x + (width * 0.5F) + (width * calc(aspectRatio) * 0.22F), y + (height) * 0.22F, nvgColor, tColor, paint));
+        NanoVG.nvgStroke(ctx);
 
-		NVGColor nvgColor1 = nvg.getColor(Materials.WINDOWS_GLASS_OUTLINE_1);
+        nvgColor.free();
 
-		NanoVG.nvgBeginPath(ctx);
-		NanoVG.nvgRoundedRect(ctx, x, y, width, height, radius);
-		NanoVG.nvgStrokeWidth(ctx, 1);
+        NVGColor nvgColor1 = nvg.getColor(Materials.WINDOWS_GLASS_OUTLINE_1);
 
-        NanoVG.nvgStrokePaint(ctx, NanoVG.nvgLinearGradient(ctx, x + (width / 2), y + height, x + (width / 2),
-                y + (height / 1.6F), nvgColor1, tColor, paint));
-		NanoVG.nvgStroke(ctx);
+        NanoVG.nvgBeginPath(ctx);
+        NanoVG.nvgRoundedRect(ctx, x, y, width, height, radius);
+        NanoVG.nvgStrokeWidth(ctx, 1);
 
-		tColor.free();
-		nvgColor1.free();
-	}
+        NanoVG.nvgStrokePaint(ctx,
+                NanoVG.nvgLinearGradient(ctx, x + (width * 0.5F) + (width * calc(aspectRatio) * 0.57F), y + (height * 0.57F),
+                        x + (width * 0.5F) + (width * calc(aspectRatio)), y + height, tColor, nvgColor1, paint));
+        NanoVG.nvgStroke(ctx);
+
+        tColor.free();
+        nvgColor1.free();
+    }
 
 	private static NanoVGHelper getNvg() {
 		return NanoVGHelper.getInstance();

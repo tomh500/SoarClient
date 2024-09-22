@@ -9,10 +9,12 @@ public class Materials {
 	public static final Color FILLS_HOVER_1 = new Color(255, 255, 255, 10);
 	public static final Color FILLS_PINCH_0 = new Color(94, 94, 94, 92);
 	public static final Color FILLS_PINCH_1 = new Color(255, 255, 255, 41);
+	public static final Color FILLS_SEPARATOR_0 = new Color(94, 94, 94, 38);
+	public static final Color FILLS_SEPARATOR_1 = new Color(255, 255, 255, 18);
 	public static final Color SELECTED = new Color(255, 255, 255);
 	public static final Color FILLS_DISABLED_0 = new Color(94, 94, 94, 15);
 	public static final Color FILLS_DISABLED_1 = new Color(255, 255, 255, 10);
-	public static final Color TEXT_PRIMARY = new Color(255, 255, 255);
+	public static final Color TEXT_PRIMARY = new Color(255, 255, 255, 242);
 	public static final Color TEXT_SECONDARY_0 = new Color(84, 84, 84, 255);
 	public static final Color TEXT_SECONDARY_1 = new Color(255, 255, 255, 58);
 	public static final Color TEXT_TERTIARY_0 = new Color(94, 94, 94, 53);
