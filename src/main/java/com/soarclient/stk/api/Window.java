@@ -4,19 +4,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.soarclient.event.EventBus;
-import com.soarclient.event.EventHandler;
-import com.soarclient.event.impl.RenderBlurEvent;
 import com.soarclient.nanovg.NanoVGHelper;
 import com.soarclient.stk.component.Component;
 import com.soarclient.stk.renderer.AppleRenderer;
-import com.soarclient.stk.shader.blur.NvgGaussianBlur;
-import com.soarclient.stk.styles.Materials;
+import com.soarclient.stk.shader.blur.GaussianBlur;
 import com.soarclient.utils.math.MathUtils;
 
 public class Window extends Component {
 
 	private List<Component> components = new ArrayList<>();
-	private NvgGaussianBlur blur = new NvgGaussianBlur();
+	private GaussianBlur blur = new GaussianBlur(true);
 
 	public Window(float width, float height, Align align) {
 		super(align);

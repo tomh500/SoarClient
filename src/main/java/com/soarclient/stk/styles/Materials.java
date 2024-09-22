@@ -18,7 +18,8 @@ public class Materials {
 	public static final Color TEXT_TERTIARY_0 = new Color(94, 94, 94, 53);
 	public static final Color TEXT_TERTIARY_1 = new Color(255, 255, 255, 28);
 	public static final Color WINDOWS_GLASS = new Color(128, 128, 128, 76);
-	public static final Color WINDOWS_GLASS_OUTLINE = new Color(255, 255, 255, 128);
+	public static final Color WINDOWS_GLASS_OUTLINE_0 = new Color(255, 255, 255, 102);
+	public static final Color WINDOWS_GLASS_OUTLINE_1 = new Color(255, 255, 255, 25);
 	public static final Color VIEWS_RESOURCES_0 = new Color(208, 208, 208, 127);
 	public static final Color VIEWS_RESOURCES_1 = new Color(0, 0, 0, 25);
 	public static final Color VIEWS_THIN_0 = new Color(94, 94, 94, 33);
