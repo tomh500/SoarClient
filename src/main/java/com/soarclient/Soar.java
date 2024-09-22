@@ -9,6 +9,7 @@ import com.soarclient.event.impl.KeyEvent;
 import com.soarclient.gui.GuiTest;
 import com.soarclient.management.mods.ModManager;
 import com.soarclient.nanovg.NanoVGHelper;
+import com.soarclient.stk.StkHandler;
 
 import net.minecraft.client.Minecraft;
 
@@ -26,7 +27,9 @@ public class Soar {
 		modManager.init();
 		
 		Delta.register();
+		
 		EventBus.getInstance().register(this);
+		EventBus.getInstance().register(new StkHandler());
 	}
 	
 	public void stop() {

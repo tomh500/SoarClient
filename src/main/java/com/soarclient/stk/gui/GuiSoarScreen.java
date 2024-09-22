@@ -26,4 +26,13 @@ public class GuiSoarScreen extends GuiScreen {
 	public void mouseReleased(int mouseX, int mouseY, int mouseButton) {
 		window.mouseReleased(mouseX, mouseY, mouseButton);
 	}
+	
+	@Override
+    public boolean doesGuiPauseGame() {
+        return false;
+    }
+
+	public Window getWindow() {
+		return window;
+	}
 }

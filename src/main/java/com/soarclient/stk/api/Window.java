@@ -3,36 +3,44 @@ package com.soarclient.stk.api;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.soarclient.event.EventBus;
+import com.soarclient.event.EventHandler;
+import com.soarclient.event.impl.RenderBlurEvent;
 import com.soarclient.nanovg.NanoVGHelper;
 import com.soarclient.stk.component.Component;
-import com.soarclient.stk.palette.ColorHelper;
-import com.soarclient.stk.palette.ColorPalette;
-import com.soarclient.utils.StyleUtils;
+import com.soarclient.stk.renderer.AppleRenderer;
+import com.soarclient.stk.shader.blur.NvgGaussianBlur;
+import com.soarclient.stk.styles.Materials;
+import com.soarclient.utils.math.MathUtils;
 
 public class Window extends Component {
 
 	private List<Component> components = new ArrayList<>();
+	private NvgGaussianBlur blur = new NvgGaussianBlur();
 
 	public Window(float width, float height, Align align) {
 		super(align);
 		
 		float[] pos = align.getPosition();
 		
-		this.width = StyleUtils.dpToPixel(width);
-		this.height = StyleUtils.dpToPixel(height);
+		this.width = MathUtils.dpToPixel(width);
+		this.height = MathUtils.dpToPixel(height);
 		
 		this.x = pos[0] - (this.width * align.getX());
 		this.y = pos[1] - (this.height * align.getY());
+		
+		EventBus.getInstance().register(this);
 	}
 
 	public void draw(int mouseX, int mouseY) {
 
 		NanoVGHelper nvg = NanoVGHelper.getInstance();
-		ColorPalette palette = ColorHelper.getPalette();
+		
+		blur.draw(50);
 		
 		nvg.setupAndDraw(() -> {
 
-			nvg.drawRoundedRect(x, y, width, height, StyleUtils.dpToPixel(30), palette.getSurface());
+			AppleRenderer.drawWindow(x, y, width, height, MathUtils.dpToPixel(30));
 
 			for (Component c : components) {
 				c.draw(mouseX, mouseY);

@@ -1,7 +1,6 @@
 package com.soarclient.nanovg;
 
 import java.awt.Color;
-import java.util.function.LongConsumer;
 
 import org.lwjgl.nanovg.NVGColor;
 import org.lwjgl.nanovg.NanoVG;
@@ -19,7 +18,7 @@ public class NanoVGHelper {
 	private static NanoVGHelper instance = new NanoVGHelper();
 	private Minecraft mc = Minecraft.getMinecraft();
 	private long nvg = -1;
-	
+
 	public void start() {
 
 		if (nvg == -1) {
@@ -29,11 +28,11 @@ public class NanoVGHelper {
 			if (nvg == -1) {
 				throw new RuntimeException("Failed to create nano vg context");
 			}
-			
+
 			FontHelper.getInstance().init(nvg);
 		}
 	}
-	
+
 	public void setupAndDraw(Runnable task, boolean mcScale) {
 
 		ScaledResolution sr = new ScaledResolution(mc);
@@ -44,18 +43,18 @@ public class NanoVGHelper {
 		if (mcScale) {
 			NanoVG.nvgScale(nvg, sr.getScaleFactor(), sr.getScaleFactor());
 		}
-		
+
 		task.run();
 
 		GL11.glDisable(GL11.GL_ALPHA_TEST);
 		NanoVG.nvgEndFrame(nvg);
 		GL11.glPopAttrib();
 	}
-	
+
 	public void setupAndDraw(Runnable task) {
 		setupAndDraw(task, true);
 	}
-	
+
 	public void drawRect(float x, float y, float width, float height, Color color) {
 
 		NanoVG.nvgBeginPath(nvg);
@@ -77,7 +76,21 @@ public class NanoVGHelper {
 		NanoVG.nvgFill(nvg);
 		nvgColor.free();
 	}
-	
+
+	public void drawOutline(float x, float y, float width, float height, float radius, float strokeWidth, Color color) {
+
+		NanoVG.nvgBeginPath(nvg);
+		NanoVG.nvgRoundedRect(nvg, x, y, width, height, radius);
+		NanoVG.nvgStrokeWidth(nvg, strokeWidth);
+
+		NVGColor nvgColor = getColor(color);
+
+		NanoVG.nvgStrokeColor(nvg, nvgColor);
+		NanoVG.nvgStroke(nvg);
+
+		nvgColor.free();
+	}
+
 	public void drawCircle(float x, float y, float radius, Color color) {
 
 		NanoVG.nvgBeginPath(nvg);
@@ -88,7 +101,7 @@ public class NanoVGHelper {
 		NanoVG.nvgFill(nvg);
 		nvgColor.free();
 	}
-	
+
 	public void drawText(String text, float x, float y, Color color, float size, Font font) {
 
 		if (text == null) {
@@ -114,7 +127,7 @@ public class NanoVGHelper {
 
 		drawText(text, x - (textWidth / 2F), y, color, size, font);
 	}
-	
+
 	public float getTextWidth(String text, float size, Font font) {
 
 		float[] bounds = new float[4];
@@ -148,6 +161,36 @@ public class NanoVGHelper {
 		NanoVG.nvgFillColor(nvg, nvgColor);
 
 		return nvgColor;
+	}
+	
+	public void scale(float x, float y, float scale) {
+		if (scale != 0 && scale != 1) {
+			NanoVG.nvgTranslate(nvg, x, y);
+			NanoVG.nvgScale(nvg, scale, scale);
+			NanoVG.nvgTranslate(nvg, -x, -y);
+		}
+	}
+
+	public void scale(float x, float y, float width, float height, float scale) {
+		if (scale != 0 && scale != 1) {
+			NanoVG.nvgTranslate(nvg, (x + (x + width)) / 2, (y + (y + height)) / 2);
+			NanoVG.nvgScale(nvg, scale, scale);
+			NanoVG.nvgTranslate(nvg, -(x + (x + width)) / 2, -(y + (y + height)) / 2);
+		}
+	}
+
+	public void rotate(float x, float y, float width, float height, float angle, boolean toRadians) {
+		NanoVG.nvgTranslate(nvg, (x + (x + width)) / 2, (y + (y + height)) / 2);
+		NanoVG.nvgRotate(nvg, toRadians ? (float) Math.toRadians(angle) : angle);
+		NanoVG.nvgTranslate(nvg, -(x + (x + width)) / 2, -(y + (y + height)) / 2);
+	}
+
+	public void restore() {
+		NanoVG.nvgRestore(nvg);
+	}
+	
+	public long getContext() {
+		return nvg;
 	}
 
 	public static NanoVGHelper getInstance() {
