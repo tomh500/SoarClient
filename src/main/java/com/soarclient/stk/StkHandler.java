@@ -4,7 +4,7 @@ import com.soarclient.event.EventHandler;
 import com.soarclient.event.impl.RenderBlurEvent;
 import com.soarclient.stk.api.Window;
 import com.soarclient.stk.gui.GuiSoarScreen;
-import com.soarclient.utils.math.MathUtils;
+import com.soarclient.stk.styles.Style;
 
 import net.minecraft.client.Minecraft;
 
@@ -20,7 +20,7 @@ public class StkHandler {
 
 			event.setupAndDraw(() -> {
 				event.drawRoundedRect(window.getX(), window.getY(), window.getWidth(), window.getHeight(),
-						MathUtils.dpToPixel(30), 1F);
+						Style.dpToPixel(50), 1F);
 			});
 		}
 	}

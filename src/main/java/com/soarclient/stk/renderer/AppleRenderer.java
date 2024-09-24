@@ -8,17 +8,16 @@ import org.lwjgl.nanovg.NanoVG;
 
 import com.soarclient.nanovg.NanoVGHelper;
 import com.soarclient.stk.styles.Materials;
-
-import net.minecraft.util.MathHelper;
+import com.soarclient.stk.styles.Style;
 
 public class AppleRenderer {
 
-	public static void drawWindow(float x, float y, float width, float height, float radius) {
+	public static void drawWindow(float x, float y, float width, float height) {
 
 		NanoVGHelper nvg = getNvg();
 
-		nvg.drawRoundedRect(x, y, width, height, radius, Materials.WINDOWS_GLASS);
-		drawWindowOutline(x, y, width, height, radius);
+		nvg.drawRoundedRect(x, y, width, height, Style.dpToPixel(50), Materials.WINDOWS_GLASS);
+		drawWindowOutline(x, y, width, height, Style.dpToPixel(50));
 	}
 
     private static float calc(float x) {
@@ -33,7 +32,7 @@ public class AppleRenderer {
 
         NanoVG.nvgBeginPath(ctx);
         NanoVG.nvgRoundedRect(ctx, x, y, width, height, radius);
-        NanoVG.nvgStrokeWidth(ctx, 1);
+        NanoVG.nvgStrokeWidth(ctx, Style.dpToPixel(2));
 
         NVGColor nvgColor = nvg.getColor(Materials.WINDOWS_GLASS_OUTLINE_0);
         NVGColor tColor = nvg.getColor(new Color(0, 0, 0, 0));
@@ -50,7 +49,7 @@ public class AppleRenderer {
 
         NanoVG.nvgBeginPath(ctx);
         NanoVG.nvgRoundedRect(ctx, x, y, width, height, radius);
-        NanoVG.nvgStrokeWidth(ctx, 1);
+        NanoVG.nvgStrokeWidth(ctx, Style.dpToPixel(2));
 
         NanoVG.nvgStrokePaint(ctx,
                 NanoVG.nvgLinearGradient(ctx, x + (width * 0.5F) + (width * calc(aspectRatio) * 0.57F), y + (height * 0.57F),

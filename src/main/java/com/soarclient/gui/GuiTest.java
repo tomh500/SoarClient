@@ -10,7 +10,7 @@ public class GuiTest {
 
 	public static GuiScreen getTestGui() {
 		
-		Window window = Stk.createWindow(1280, 720, Align.MIDDLE_CENTER);
+		Window window = Stk.createWindow(1680, 1120, Align.MIDDLE_CENTER);
 		
 		return Stk.create(window);
 	}

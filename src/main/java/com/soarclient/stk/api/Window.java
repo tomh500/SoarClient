@@ -8,7 +8,7 @@ import com.soarclient.nanovg.NanoVGHelper;
 import com.soarclient.stk.component.Component;
 import com.soarclient.stk.renderer.AppleRenderer;
 import com.soarclient.stk.shader.blur.GaussianBlur;
-import com.soarclient.utils.math.MathUtils;
+import com.soarclient.stk.styles.Style;
 
 public class Window extends Component {
 
@@ -20,8 +20,8 @@ public class Window extends Component {
 		
 		float[] pos = align.getPosition();
 		
-		this.width = MathUtils.dpToPixel(width);
-		this.height = MathUtils.dpToPixel(height);
+		this.width = Style.dpToPixel(width);
+		this.height = Style.dpToPixel(height);
 		
 		this.x = pos[0] - (this.width * align.getX());
 		this.y = pos[1] - (this.height * align.getY());
@@ -33,11 +33,11 @@ public class Window extends Component {
 
 		NanoVGHelper nvg = NanoVGHelper.getInstance();
 		
-		blur.draw(50);
+		blur.draw(100);
 		
 		nvg.setupAndDraw(() -> {
 
-			AppleRenderer.drawWindow(x, y, width, height, MathUtils.dpToPixel(30));
+			AppleRenderer.drawWindow(x, y, width, height);
 
 			for (Component c : components) {
 				c.draw(mouseX, mouseY);
