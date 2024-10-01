@@ -1,10 +1,14 @@
 package com.soarclient.event.impl;
 
+import java.awt.Color;
+
+import org.lwjgl.nanovg.NVGColor;
 import org.lwjgl.nanovg.NVGPaint;
 import org.lwjgl.nanovg.NanoVG;
 
 import com.soarclient.event.Event;
 import com.soarclient.nanovg.NanoVGHelper;
+import com.soarclient.nanovg.font.Font;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.ScaledResolution;
@@ -46,6 +50,7 @@ public class RenderBlurEvent extends Event {
 		int mcWidth = mc.displayWidth;
 		int mcHeight = mc.displayHeight;
 
+		NanoVG.nvgBeginPath(nvg.getContext());
 		NanoVG.nvgRect(nvg.getContext(), x * scale, y * scale, width * scale, height * scale);
 		NanoVG.nvgFillPaint(nvg.getContext(),
 				NanoVG.nvgImagePattern(nvg.getContext(), 0, mcHeight, mcWidth, -mcHeight, 0, texture, alpha, paint));
@@ -61,7 +66,24 @@ public class RenderBlurEvent extends Event {
 		int mcWidth = mc.displayWidth;
 		int mcHeight = mc.displayHeight;
 
+		NanoVG.nvgBeginPath(nvg.getContext());
 		NanoVG.nvgRoundedRect(nvg.getContext(), x * scale, y * scale, width * scale, height * scale, radius * scale);
+		NanoVG.nvgFillPaint(nvg.getContext(),
+				NanoVG.nvgImagePattern(nvg.getContext(), 0, mcHeight, mcWidth, -mcHeight, 0, texture, alpha, paint));
+		NanoVG.nvgFill(nvg.getContext());
+	}
+	
+	public void drawCircle(float x, float y, float radius, float alpha) {
+
+		ScaledResolution sr = new ScaledResolution(Minecraft.getMinecraft());
+		NanoVGHelper nvg = NanoVGHelper.getInstance();
+
+		int scale = sr.getScaleFactor();
+		int mcWidth = mc.displayWidth;
+		int mcHeight = mc.displayHeight;
+
+		NanoVG.nvgBeginPath(nvg.getContext());
+		NanoVG.nvgCircle(nvg.getContext(), x * scale, y * scale, radius * scale);
 		NanoVG.nvgFillPaint(nvg.getContext(),
 				NanoVG.nvgImagePattern(nvg.getContext(), 0, mcHeight, mcWidth, -mcHeight, 0, texture, alpha, paint));
 		NanoVG.nvgFill(nvg.getContext());

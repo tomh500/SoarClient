@@ -3,12 +3,14 @@ package com.soarclient.gui;
 import com.soarclient.event.EventBus;
 import com.soarclient.event.impl.RenderBlurEvent;
 
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiScreen;
 
 public class SoarGui {
 
+	protected Minecraft mc = Minecraft.getMinecraft();
+	
 	private static SoarGuiHandler handler;
-	private static GuiScreen guiScreen;
 
 	public void init() {
 	}
@@ -33,7 +35,7 @@ public class SoarGui {
 
 	public static GuiScreen create(SoarGui gui) {
 
-		if (guiScreen == null) {
+		if (handler == null) {
 			handler = new SoarGuiHandler(gui);
 			EventBus.getInstance().register(handler);
 		}
@@ -70,6 +72,11 @@ public class SoarGui {
 			@Override
 			public void onGuiClosed() {
 				gui.onClosed();
+			}
+			
+			@Override
+			public boolean doesGuiPauseGame() {
+				return false;
 			}
 		};
 	}

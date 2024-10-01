@@ -1,17 +1,22 @@
 package com.soarclient.nanovg;
 
 import java.awt.Color;
+import java.io.File;
 
 import org.lwjgl.nanovg.NVGColor;
+import org.lwjgl.nanovg.NVGPaint;
 import org.lwjgl.nanovg.NanoVG;
 import org.lwjgl.nanovg.NanoVGGL2;
 import org.lwjgl.opengl.GL11;
 
+import com.soarclient.nanovg.asset.AssetFlag;
+import com.soarclient.nanovg.asset.AssetHelper;
 import com.soarclient.nanovg.font.Font;
 import com.soarclient.nanovg.font.FontHelper;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.ScaledResolution;
+import net.minecraft.util.ResourceLocation;
 
 public class NanoVGHelper {
 
@@ -109,11 +114,28 @@ public class NanoVGHelper {
 		}
 
 		y += size / 2;
-
+		
 		NanoVG.nvgBeginPath(nvg);
 		NanoVG.nvgFontSize(nvg, size);
 		NanoVG.nvgFontFace(nvg, font.getName());
 		NanoVG.nvgTextAlign(nvg, NanoVG.NVG_ALIGN_LEFT | NanoVG.NVG_ALIGN_MIDDLE);
+
+		NVGColor nvgColor = getColor(color);
+
+		NanoVG.nvgText(nvg, x, y, text);
+		nvgColor.free();
+	}
+
+	public void drawAlignCenteredText(String text, float x, float y, Color color, float size, Font font) {
+
+		if (text == null) {
+			text = "null";
+		}
+
+		NanoVG.nvgBeginPath(nvg);
+		NanoVG.nvgFontSize(nvg, size);
+		NanoVG.nvgFontFace(nvg, font.getName());
+		NanoVG.nvgTextAlign(nvg, NanoVG.NVG_ALIGN_MIDDLE | NanoVG.NVG_ALIGN_CENTER);
 
 		NVGColor nvgColor = getColor(color);
 
@@ -135,7 +157,6 @@ public class NanoVGHelper {
 		NanoVG.nvgFontSize(nvg, size);
 		NanoVG.nvgFontFace(nvg, font.getName());
 		NanoVG.nvgTextBounds(nvg, 0, 0, text, bounds);
-		NanoVG.nvgTextAlign(nvg, NanoVG.NVG_ALIGN_LEFT | NanoVG.NVG_ALIGN_MIDDLE);
 
 		return bounds[2] - bounds[0];
 	}
@@ -148,7 +169,7 @@ public class NanoVGHelper {
 		NanoVG.nvgFontFace(nvg, font.getName());
 		NanoVG.nvgTextBounds(nvg, 0, 0, text, bounds);
 
-		return bounds[3] - bounds[1] + 1.5F;
+		return bounds[3] - bounds[1];
 	}
 
 	public NVGColor getColor(Color color) {
@@ -162,7 +183,7 @@ public class NanoVGHelper {
 
 		return nvgColor;
 	}
-	
+
 	public void scale(float x, float y, float scale) {
 		if (scale != 0 && scale != 1) {
 			NanoVG.nvgTranslate(nvg, x, y);
@@ -188,7 +209,73 @@ public class NanoVGHelper {
 	public void restore() {
 		NanoVG.nvgRestore(nvg);
 	}
-	
+
+	public void drawImage(int texture, float x, float y, float width, float height, float alpha) {
+
+		AssetHelper assetHelper = AssetHelper.getInstance();
+
+		if (assetHelper.loadImage(nvg, texture, width, height)) {
+
+			int image = assetHelper.getImage(texture);
+
+			NanoVG.nvgImageSize(nvg, image, new int[] { (int) width }, new int[] { -(int) height });
+			NVGPaint p = NVGPaint.calloc();
+
+			NanoVG.nvgImagePattern(nvg, x, y, width, height, 0, image, alpha, p);
+			NanoVG.nvgBeginPath(nvg);
+			NanoVG.nvgRect(nvg, x, y, width, height);
+			NanoVG.nvgFillPaint(nvg, p);
+			NanoVG.nvgFill(nvg);
+			NanoVG.nvgClosePath(nvg);
+
+			p.free();
+		}
+	}
+
+	public void drawImage(File file, float x, float y, float width, float height, AssetFlag assetFlag) {
+
+		AssetHelper assetHelper = AssetHelper.getInstance();
+
+		if (assetHelper.loadImage(nvg, file, assetFlag)) {
+
+			NVGPaint imagePaint = NVGPaint.calloc();
+			int image = assetHelper.getImage(file);
+
+			NanoVG.nvgBeginPath(nvg);
+			NanoVG.nvgImagePattern(nvg, x, y, width, height, 0, image, 1, imagePaint);
+			NanoVG.nvgRect(nvg, x, y, width, height);
+			NanoVG.nvgFillPaint(nvg, imagePaint);
+			NanoVG.nvgFill(nvg);
+			imagePaint.free();
+		}
+	}
+
+	public void drawImage(File file, float x, float y, float width, float height) {
+		drawImage(file, x, y, width, height, AssetFlag.DEFAULT);
+	}
+
+	public void drawImage(ResourceLocation location, float x, float y, float width, float height, AssetFlag assetFlag) {
+
+		AssetHelper assetHelper = AssetHelper.getInstance();
+
+		if (assetHelper.loadImage(nvg, location, assetFlag)) {
+
+			NVGPaint imagePaint = NVGPaint.calloc();
+			int image = assetHelper.getImage(location);
+
+			NanoVG.nvgBeginPath(nvg);
+			NanoVG.nvgImagePattern(nvg, x, y, width, height, 0, image, 1, imagePaint);
+			NanoVG.nvgRect(nvg, x, y, width, height);
+			NanoVG.nvgFillPaint(nvg, imagePaint);
+			NanoVG.nvgFill(nvg);
+			imagePaint.free();
+		}
+	}
+
+	public void drawImage(ResourceLocation location, float x, float y, float width, float height) {
+		drawImage(location, x, y, width, height, AssetFlag.DEFAULT);
+	}
+
 	public long getContext() {
 		return nvg;
 	}

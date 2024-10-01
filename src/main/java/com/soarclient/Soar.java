@@ -1,16 +1,19 @@
 package com.soarclient;
 
-import java.awt.Color;
-
 import org.lwjgl.input.Keyboard;
 
 import com.soarclient.animation.Delta;
 import com.soarclient.event.EventBus;
 import com.soarclient.event.EventHandler;
 import com.soarclient.event.impl.KeyEvent;
+import com.soarclient.gui.SoarGui;
+import com.soarclient.gui.modmenu.GuiModMenu;
 import com.soarclient.management.mods.ModManager;
 import com.soarclient.nanovg.NanoVGHelper;
-import com.soarclient.utils.ColorUtils;
+import com.soarclient.utils.language.I18n;
+import com.soarclient.utils.language.Language;
+
+import net.minecraft.client.Minecraft;
 
 public class Soar {
 
@@ -26,6 +29,7 @@ public class Soar {
 		modManager.init();
 		
 		Delta.register();
+		I18n.setLanguage(Language.ENGLISH);
 		
 		EventBus.getInstance().register(this);
 	}
@@ -36,10 +40,8 @@ public class Soar {
 	
 	@EventHandler
 	public void onKey(KeyEvent event) {
-		// 120, 120, 120, 
-		//System.out.println(ColorUtils.blend(new Color(0, 0, 0, 26), new Color(255, 255, 255, 26)).getAlpha());
 		if(event.getKeyCode() == Keyboard.KEY_RSHIFT) {
-			//Minecraft.getMinecraft().displayGuiScreen(GuiTest.getTestGui());
+			Minecraft.getMinecraft().displayGuiScreen(SoarGui.create(new GuiModMenu()));
 		}
 	}
 

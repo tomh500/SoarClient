@@ -54,6 +54,8 @@ import com.soarclient.event.EventBus;
 import com.soarclient.event.impl.ClientTickEvent;
 import com.soarclient.event.impl.GameLoopEvent;
 import com.soarclient.event.impl.KeyEvent;
+import com.soarclient.gui.SoarGui;
+import com.soarclient.gui.mainmenu.GuiSoarMainMenu;
 import com.soarclient.libraries.phosphor.api.ILightingEngineProvider;
 import com.soarclient.libraries.sodium.SodiumClientMod;
 import com.soarclient.libraries.sodium.client.gui.SodiumGameOptions.LightingQuality;
@@ -929,7 +931,7 @@ public class Minecraft implements IThreadListener  {
 		}
 
 		this.currentScreen = (GuiScreen) guiScreenIn;
-
+		
 		if (guiScreenIn != null) {
 			this.setIngameNotInFocus();
 			ScaledResolution scaledresolution = new ScaledResolution(this);
@@ -940,6 +942,10 @@ public class Minecraft implements IThreadListener  {
 		} else {
 			this.mcSoundHandler.resumeSounds();
 			this.setIngameFocus();
+		}
+		
+		if(guiScreenIn instanceof GuiMainMenu) {
+			displayGuiScreen(SoarGui.create(new GuiSoarMainMenu()));
 		}
 	}
 
@@ -1142,7 +1148,8 @@ public class Minecraft implements IThreadListener  {
 	}
 
 	public int getLimitFramerate() {
-		return this.theWorld == null && this.currentScreen != null ? 30 : this.gameSettings.limitFramerate;
+		// this.theWorld == null && this.currentScreen != null ? 30 : this.gameSettings.limitFramerate;
+		return this.gameSettings.limitFramerate;
 	}
 
 	public boolean isFramerateLimitBelowMax() {

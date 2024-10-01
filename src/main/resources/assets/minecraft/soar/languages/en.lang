@@ -3,5 +3,14 @@ text.hud=HUD
 text.render=Render
 text.player=Player
 text.misc=Misc
+text.home=Home
+text.mods=Mods
+text.music=Music
+text.profile=Profile
+text.settings=Settings
+text.singleplayer=Singleplayer
+text.multiplayer=Multiplayer
+text.accountmanager=Account Manager
+text.exit=Exit
 
 design.simple=Simple
