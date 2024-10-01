@@ -32,7 +32,6 @@ public class GuiModMenu extends SoarGui {
 
 		ScaledResolution sr = new ScaledResolution(mc);
 
-		Style.DPI = 100;
 		width = Style.px(1280);
 		height = Style.px(720);
 		x = (sr.getScaledWidth() / 2) - (width / 2);
@@ -41,13 +40,13 @@ public class GuiModMenu extends SoarGui {
 		float tWidth = Style.px(68);
 
 		List<Page> pages = new ArrayList<>();
-		
+
 		pages.add(new HomePage(x, y, width, height));
 		pages.add(new ModsPage(x, y, width, height));
 		pages.add(new MusicPage(x, y, width, height));
 		pages.add(new ProfilePage(x, y, width, height));
 		pages.add(new SettingsPage(x, y, width, height));
-		
+
 		toolbar = new Toolbar(pages, x - tWidth - Style.px(32), y + (height / 2), tWidth);
 	}
 
@@ -71,7 +70,7 @@ public class GuiModMenu extends SoarGui {
 			toolbar.drawBlur(event);
 		});
 	}
-	
+
 	@Override
 	public void mouseClicked(int mouseX, int mouseY, int mouseButton) {
 		toolbar.mouseClicked(mouseX, mouseY, mouseButton);

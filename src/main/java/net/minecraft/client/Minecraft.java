@@ -54,6 +54,7 @@ import com.soarclient.event.EventBus;
 import com.soarclient.event.impl.ClientTickEvent;
 import com.soarclient.event.impl.GameLoopEvent;
 import com.soarclient.event.impl.KeyEvent;
+import com.soarclient.event.impl.UpdateFramebufferSizeEvent;
 import com.soarclient.gui.SoarGui;
 import com.soarclient.gui.mainmenu.GuiSoarMainMenu;
 import com.soarclient.libraries.phosphor.api.ILightingEngineProvider;
@@ -1556,6 +1557,7 @@ public class Minecraft implements IThreadListener  {
 	}
 
 	private void updateFramebufferSize() {
+		EventBus.getInstance().post(new UpdateFramebufferSizeEvent());
 		this.framebufferMc.createBindFramebuffer(this.displayWidth, this.displayHeight);
 
 		if (this.entityRenderer != null) {

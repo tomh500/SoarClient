@@ -32,6 +32,7 @@ public class Soar {
 		I18n.setLanguage(Language.ENGLISH);
 		
 		EventBus.getInstance().register(this);
+		EventBus.getInstance().register(new SoarHandler());
 	}
 	
 	public void stop() {
