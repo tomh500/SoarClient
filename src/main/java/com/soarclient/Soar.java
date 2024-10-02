@@ -1,5 +1,11 @@
 package com.soarclient;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+
+import javax.sound.sampled.LineUnavailableException;
+
 import org.lwjgl.input.Keyboard;
 
 import com.soarclient.animation.Delta;
@@ -9,7 +15,11 @@ import com.soarclient.event.impl.KeyEvent;
 import com.soarclient.gui.SoarGui;
 import com.soarclient.gui.modmenu.GuiModMenu;
 import com.soarclient.management.mods.ModManager;
+import com.soarclient.management.music.MusicManager;
+import com.soarclient.management.music.MusicPlayer;
 import com.soarclient.nanovg.NanoVGHelper;
+import com.soarclient.utils.Multithreading;
+import com.soarclient.utils.file.FileLocation;
 import com.soarclient.utils.language.I18n;
 import com.soarclient.utils.language.Language;
 
@@ -20,6 +30,9 @@ public class Soar {
 	private static Soar instance = new Soar();
 	
 	private ModManager modManager;
+	private MusicManager musicManager;
+	
+	private MusicPlayer musicPlayer = new MusicPlayer();
 	
 	public void start() {
 		
@@ -27,12 +40,25 @@ public class Soar {
 		
 		modManager = new ModManager();
 		modManager.init();
+		musicManager = new MusicManager();
 		
+		FileLocation.init();
 		Delta.register();
 		I18n.setLanguage(Language.ENGLISH);
 		
 		EventBus.getInstance().register(this);
 		EventBus.getInstance().register(new SoarHandler());
+		
+		musicPlayer.setCurrentMusic(musicManager.getMusics().get(0));
+		musicPlayer.setVolume(0.1F);
+		new Thread("Music Thread") {
+			@Override
+			public void run() {
+				while (Minecraft.getMinecraft().isRunning()) {
+					musicPlayer.run();
+				}
+			}
+		}.start();
 	}
 	
 	public void stop() {
@@ -52,5 +78,9 @@ public class Soar {
 
 	public ModManager getModManager() {
 		return modManager;
+	}
+
+	public MusicManager getMusicManager() {
+		return musicManager;
 	}
 }

@@ -2706,4 +2706,8 @@ public class Minecraft implements IThreadListener  {
 	public void setConnectedToRealms(boolean isConnected) {
 		this.connectedToRealms = isConnected;
 	}
+
+	public boolean isRunning() {
+		return running;
+	}
 }
