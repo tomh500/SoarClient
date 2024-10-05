@@ -10,17 +10,55 @@ import com.soarclient.libraries.flac.FLACDecoder;
 import com.soarclient.libraries.flac.metadata.Metadata;
 import com.soarclient.libraries.flac.metadata.Picture;
 import com.soarclient.libraries.flac.metadata.VorbisComment;
+import com.soarclient.utils.RandomUtils;
 import com.soarclient.utils.file.FileLocation;
 import com.soarclient.utils.file.FileUtils;
+
+import net.minecraft.client.Minecraft;
 
 public class MusicManager {
 
 	private List<Music> musics = new ArrayList<>();
 
+	private Music currentMusic;
+	private MusicPlayer musicPlayer;
+	private boolean shuffle;
+	private boolean repeat;
+	
 	public MusicManager() {
 		try {
 			load();
 		} catch (Exception e) {}
+		
+		this.musicPlayer = new MusicPlayer(() -> {
+			Music nextMusic;
+
+			if (repeat) {
+				nextMusic = currentMusic;
+			} else if (shuffle) {
+				nextMusic = musics.get(RandomUtils.getRandomInt(0, musics.size() - 1));
+			} else {
+				nextMusic = null;
+			}
+
+			currentMusic = nextMusic;
+
+			if (currentMusic != null) {
+				play();
+			} else {
+				musicPlayer.setPlaying(false);
+			}
+		});
+		this.shuffle = false;
+		this.repeat = false;
+		new Thread("Music Thread") {
+			@Override
+			public void run() {
+				while (Minecraft.getMinecraft().isRunning()) {
+					musicPlayer.run();
+				}
+			}
+		}.start();
 	}
 
 	public void load() throws Exception {
@@ -74,7 +112,107 @@ public class MusicManager {
 		}
 	}
 
+	public void play() {
+
+		if (currentMusic == null) {
+			return;
+		}
+
+		setVolume(getVolume());
+		musicPlayer.setCurrentMusic(currentMusic);
+	}
+
+	public float getVolume() {
+		return musicPlayer.getVolume();
+	}
+
+	public void setVolume(float volume) {
+		musicPlayer.setVolume(volume);
+	}
+
+	public void next() {
+
+		if (currentMusic == null) {
+			return;
+		}
+
+		int max = musics.size();
+		int index = musics.indexOf(currentMusic);
+
+		if (index < max - 1) {
+			index++;
+		} else {
+			index = 0;
+		}
+
+		currentMusic = musics.get(index);
+		play();
+	}
+
+	public void back() {
+
+		if (currentMusic == null) {
+			return;
+		}
+
+		int max = musics.size();
+		int index = musics.indexOf(currentMusic);
+
+		if (index > 0) {
+			index--;
+		} else {
+			index = max - 1;
+		}
+
+		currentMusic = musics.get(index);
+		play();
+	}
+
+	public void switchPlayBack() {
+		musicPlayer.setPlaying(!musicPlayer.isPlaying());
+	}
+
+	public void stop() {
+		musicPlayer.setPlaying(false);
+	}
+
+	public boolean isPlaying() {
+		return musicPlayer.isPlaying();
+	}
+
+	public float getCurrentTime() {
+		return musicPlayer.getCurrentTime();
+	}
+
+	public float getEndTime() {
+		return musicPlayer.getEndTime();
+	}
+
 	public List<Music> getMusics() {
 		return musics;
+	}
+
+	public Music getCurrentMusic() {
+		return currentMusic;
+	}
+
+	public void setCurrentMusic(Music currentMusic) {
+		this.currentMusic = currentMusic;
+	}
+
+	public boolean isShuffle() {
+		return shuffle;
+	}
+
+	public void setShuffle(boolean shuffle) {
+		this.shuffle = shuffle;
+	}
+
+	public boolean isRepeat() {
+		return repeat;
+	}
+
+	public void setRepeat(boolean repeat) {
+		this.repeat = repeat;
 	}
 }

@@ -1,29 +1,17 @@
 package com.soarclient;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-
-import javax.sound.sampled.LineUnavailableException;
-
 import org.lwjgl.input.Keyboard;
 
 import com.soarclient.animation.Delta;
 import com.soarclient.event.EventBus;
 import com.soarclient.event.EventHandler;
 import com.soarclient.event.impl.KeyEvent;
-import com.soarclient.gui.SoarGui;
-import com.soarclient.gui.modmenu.GuiModMenu;
 import com.soarclient.management.mods.ModManager;
 import com.soarclient.management.music.MusicManager;
-import com.soarclient.management.music.MusicPlayer;
 import com.soarclient.nanovg.NanoVGHelper;
-import com.soarclient.utils.Multithreading;
 import com.soarclient.utils.file.FileLocation;
 import com.soarclient.utils.language.I18n;
 import com.soarclient.utils.language.Language;
-
-import net.minecraft.client.Minecraft;
 
 public class Soar {
 
@@ -31,8 +19,6 @@ public class Soar {
 	
 	private ModManager modManager;
 	private MusicManager musicManager;
-	
-	private MusicPlayer musicPlayer = new MusicPlayer();
 	
 	public void start() {
 		
@@ -47,18 +33,6 @@ public class Soar {
 		I18n.setLanguage(Language.ENGLISH);
 		
 		EventBus.getInstance().register(this);
-		EventBus.getInstance().register(new SoarHandler());
-		
-		musicPlayer.setCurrentMusic(musicManager.getMusics().get(0));
-		musicPlayer.setVolume(0.1F);
-		new Thread("Music Thread") {
-			@Override
-			public void run() {
-				while (Minecraft.getMinecraft().isRunning()) {
-					musicPlayer.run();
-				}
-			}
-		}.start();
 	}
 	
 	public void stop() {
@@ -68,7 +42,6 @@ public class Soar {
 	@EventHandler
 	public void onKey(KeyEvent event) {
 		if(event.getKeyCode() == Keyboard.KEY_RSHIFT) {
-			Minecraft.getMinecraft().displayGuiScreen(SoarGui.create(new GuiModMenu()));
 		}
 	}
 

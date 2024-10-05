@@ -15,6 +15,8 @@ import com.soarclient.libraries.flac.util.ByteData;
 
 public class MusicPlayer implements Runnable {
 
+	private Runnable runnable;
+	
 	private FLACDecoder decoder;
 	private StreamInfo streamInfo;
 
@@ -26,7 +28,8 @@ public class MusicPlayer implements Runnable {
 	private boolean playing;
 	private float volume;
 
-	public MusicPlayer() {
+	public MusicPlayer(Runnable runnable) {
+		this.runnable = runnable;
 		this.playing = false;
 		this.volume = 0.5F;
 	}
@@ -64,6 +67,7 @@ public class MusicPlayer implements Runnable {
 
 				sourceDataLine.drain();
 				sourceDataLine.close();
+				runnable.run();
 			} catch (Exception e) {
 			}
 		}

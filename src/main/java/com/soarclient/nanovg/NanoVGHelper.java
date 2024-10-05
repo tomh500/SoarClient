@@ -276,6 +276,74 @@ public class NanoVGHelper {
 		drawImage(location, x, y, width, height, AssetFlag.DEFAULT);
 	}
 
+	public void drawRoundedImage(File file, float x, float y, float width, float height, float radius,
+			AssetFlag assetFlag) {
+
+		AssetHelper assetHelper = AssetHelper.getInstance();
+
+		if (assetHelper.loadImage(nvg, file, assetFlag)) {
+
+			NVGPaint imagePaint = NVGPaint.calloc();
+			int image = assetHelper.getImage(file);
+
+			NanoVG.nvgBeginPath(nvg);
+			NanoVG.nvgImagePattern(nvg, x, y, width, height, 0, image, 1, imagePaint);
+			NanoVG.nvgRoundedRect(nvg, x, y, width, height, radius);
+			NanoVG.nvgFillPaint(nvg, imagePaint);
+			NanoVG.nvgFill(nvg);
+			imagePaint.free();
+		}
+	}
+
+	public void drawRoundedImage(File file, float x, float y, float width, float height, float radius) {
+		drawRoundedImage(file, x, y, width, height, radius, AssetFlag.DEFAULT);
+	}
+
+	public void drawRoundedImage(ResourceLocation location, float x, float y, float width, float height, float radius,
+			AssetFlag assetFlag) {
+
+		AssetHelper assetHelper = AssetHelper.getInstance();
+
+		if (assetHelper.loadImage(nvg, location, assetFlag)) {
+
+			NVGPaint imagePaint = NVGPaint.calloc();
+			int image = assetHelper.getImage(location);
+
+			NanoVG.nvgBeginPath(nvg);
+			NanoVG.nvgImagePattern(nvg, x, y, width, height, 0, image, 1, imagePaint);
+			NanoVG.nvgRoundedRect(nvg, x, y, width, height, radius);
+			NanoVG.nvgFillPaint(nvg, imagePaint);
+			NanoVG.nvgFill(nvg);
+			imagePaint.free();
+		}
+	}
+
+	public void drawRoundedImage(ResourceLocation location, float x, float y, float width, float height, float radius) {
+		drawRoundedImage(location, x, y, width, height, radius, AssetFlag.DEFAULT);
+	}
+
+	public void drawRoundedImage(int texture, float x, float y, float width, float height, float radius, float alpha) {
+
+		AssetHelper assetHelper = AssetHelper.getInstance();
+
+		if (assetHelper.loadImage(nvg, texture, width, height)) {
+
+			int image = assetHelper.getImage(texture);
+
+			NanoVG.nvgImageSize(nvg, image, new int[] { (int) width }, new int[] { -(int) height });
+			NVGPaint p = NVGPaint.calloc();
+
+			NanoVG.nvgImagePattern(nvg, x, y, width, height, 0, image, alpha, p);
+			NanoVG.nvgBeginPath(nvg);
+			NanoVG.nvgRoundedRect(nvg, x, y, width, height, radius);
+			NanoVG.nvgFillPaint(nvg, p);
+			NanoVG.nvgFill(nvg);
+			NanoVG.nvgClosePath(nvg);
+
+			p.free();
+		}
+	}
+	
 	public long getContext() {
 		return nvg;
 	}
