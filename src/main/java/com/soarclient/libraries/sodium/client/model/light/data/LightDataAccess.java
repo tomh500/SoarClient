@@ -13,9 +13,8 @@ public abstract class LightDataAccess {
 	protected WorldSlice world;
 
 	public long get(int x, int y, int z, EnumFacing d1, EnumFacing d2) {
-		return this.get(
-			x + d1.getFrontOffsetX() + d2.getFrontOffsetX(), y + d1.getFrontOffsetY() + d2.getFrontOffsetY(), z + d1.getFrontOffsetZ() + d2.getFrontOffsetZ()
-		);
+		return this.get(x + d1.getFrontOffsetX() + d2.getFrontOffsetX(),
+				y + d1.getFrontOffsetY() + d2.getFrontOffsetY(), z + d1.getFrontOffsetZ() + d2.getFrontOffsetZ());
 	}
 
 	public long get(int x, int y, int z, EnumFacing dir) {
@@ -79,21 +78,21 @@ public abstract class LightDataAccess {
 	}
 
 	public static long packLM(int lm) {
-		return (long)lm & 4294967295L;
+		return (long) lm & 4294967295L;
 	}
 
 	public static int unpackLM(long word) {
-		return (int)(word & 4294967295L);
+		return (int) (word & 4294967295L);
 	}
 
 	public static long packAO(float ao) {
-		int aoi = (int)(ao * 4096.0F);
-		return ((long)aoi & 65535L) << 32;
+		int aoi = (int) (ao * 4096.0F);
+		return ((long) aoi & 65535L) << 32;
 	}
 
 	public static float unpackAO(long word) {
-		int aoi = (int)(word >>> 32 & 65535L);
-		return (float)aoi * 2.4414062E-4F;
+		int aoi = (int) (word >>> 32 & 65535L);
+		return (float) aoi * 2.4414062E-4F;
 	}
 
 	public WorldSlice getWorld() {

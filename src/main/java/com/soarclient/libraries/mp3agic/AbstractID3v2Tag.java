@@ -81,7 +81,6 @@ public abstract class AbstractID3v2Tag implements ID3v2 {
 	public static final byte PICTURETYPE_BAND_LOGOTYPE = 0x13;
 	public static final byte PICTURETYPE_PUBLISHER_LOGOTYPE = 0x14;
 
-
 	protected static final String TAG = "ID3";
 	protected static final String FOOTER_TAG = "3DI";
 	protected static final int HEADER_LENGTH = 10;
@@ -120,7 +119,8 @@ public abstract class AbstractID3v2Tag implements ID3v2 {
 		this(bytes, false);
 	}
 
-	public AbstractID3v2Tag(byte[] bytes, boolean obseleteFormat) throws NoSuchTagException, UnsupportedTagException, InvalidDataException {
+	public AbstractID3v2Tag(byte[] bytes, boolean obseleteFormat)
+			throws NoSuchTagException, UnsupportedTagException, InvalidDataException {
 		frameSets = new TreeMap<>();
 		this.obseleteFormat = obseleteFormat;
 		unpackTag(bytes);
@@ -134,7 +134,8 @@ public abstract class AbstractID3v2Tag implements ID3v2 {
 				offset = unpackExtendedHeader(bytes, offset);
 			}
 			int framesLength = dataLength;
-			if (footer) framesLength -= 10;
+			if (footer)
+				framesLength -= 10;
 			offset = unpackFrames(bytes, offset, framesLength);
 			if (footer) {
 				offset = unpackFooter(bytes, dataLength);
@@ -152,16 +153,20 @@ public abstract class AbstractID3v2Tag implements ID3v2 {
 			throw new UnsupportedTagException("Unsupported version " + version);
 		}
 		unpackFlags(bytes);
-		if ((bytes[FLAGS_OFFSET] & 0x0F) != 0) throw new UnsupportedTagException("Unrecognised bits in header");
-		dataLength = BufferTools.unpackSynchsafeInteger(bytes[DATA_LENGTH_OFFSET], bytes[DATA_LENGTH_OFFSET + 1], bytes[DATA_LENGTH_OFFSET + 2], bytes[DATA_LENGTH_OFFSET + 3]);
-		if (dataLength < 1) throw new InvalidDataException("Zero size tag");
+		if ((bytes[FLAGS_OFFSET] & 0x0F) != 0)
+			throw new UnsupportedTagException("Unrecognised bits in header");
+		dataLength = BufferTools.unpackSynchsafeInteger(bytes[DATA_LENGTH_OFFSET], bytes[DATA_LENGTH_OFFSET + 1],
+				bytes[DATA_LENGTH_OFFSET + 2], bytes[DATA_LENGTH_OFFSET + 3]);
+		if (dataLength < 1)
+			throw new InvalidDataException("Zero size tag");
 		return HEADER_LENGTH;
 	}
 
 	protected abstract void unpackFlags(byte[] bytes);
 
 	private int unpackExtendedHeader(byte[] bytes, int offset) {
-		extendedHeaderLength = BufferTools.unpackSynchsafeInteger(bytes[offset], bytes[offset + 1], bytes[offset + 2], bytes[offset + 3]) + 4;
+		extendedHeaderLength = BufferTools.unpackSynchsafeInteger(bytes[offset], bytes[offset + 1], bytes[offset + 2],
+				bytes[offset + 3]) + 4;
 		extendedHeaderData = BufferTools.copyBuffer(bytes, offset + 4, extendedHeaderLength);
 		return extendedHeaderLength;
 	}
@@ -196,17 +201,21 @@ public abstract class AbstractID3v2Tag implements ID3v2 {
 	}
 
 	protected ID3v2Frame createFrame(byte[] bytes, int currentOffset) throws InvalidDataException {
-		if (obseleteFormat) return new ID3v2ObseleteFrame(bytes, currentOffset);
+		if (obseleteFormat)
+			return new ID3v2ObseleteFrame(bytes, currentOffset);
 		return new ID3v2Frame(bytes, currentOffset);
 	}
 
 	protected ID3v2Frame createFrame(String id, byte[] data) {
-		if (obseleteFormat) return new ID3v2ObseleteFrame(id, data);
-		else return new ID3v2Frame(id, data);
+		if (obseleteFormat)
+			return new ID3v2ObseleteFrame(id, data);
+		else
+			return new ID3v2Frame(id, data);
 	}
 
 	private int unpackFooter(byte[] bytes, int offset) throws InvalidDataException {
-		if (!FOOTER_TAG.equals(BufferTools.byteBufferToStringIgnoringEncodingIssues(bytes, offset, FOOTER_TAG.length()))) {
+		if (!FOOTER_TAG
+				.equals(BufferTools.byteBufferToStringIgnoringEncodingIssues(bytes, offset, FOOTER_TAG.length()))) {
 			throw new InvalidDataException("Invalid footer");
 		}
 		return FOOTER_LENGTH;
@@ -263,9 +272,11 @@ public abstract class AbstractID3v2Tag implements ID3v2 {
 		return newOffset;
 	}
 
-	private int packSpecifiedFrames(byte[] bytes, int offset, String onlyId, String notId) throws NotSupportedException {
+	private int packSpecifiedFrames(byte[] bytes, int offset, String onlyId, String notId)
+			throws NotSupportedException {
 		for (ID3v2FrameSet frameSet : frameSets.values()) {
-			if ((onlyId == null || onlyId.equals(frameSet.getId())) && (notId == null || !notId.equals(frameSet.getId()))) {
+			if ((onlyId == null || onlyId.equals(frameSet.getId()))
+					&& (notId == null || !notId.equals(frameSet.getId()))) {
 				for (ID3v2Frame frame : frameSet.getFrames()) {
 					if (frame.getDataLength() > 0) {
 						byte[] frameData = frame.toBytes();
@@ -299,9 +310,12 @@ public abstract class AbstractID3v2Tag implements ID3v2 {
 
 	private int calculateDataLength() {
 		int length = 0;
-		if (extendedHeader) length += extendedHeaderLength;
-		if (footer) length += FOOTER_LENGTH;
-		else if (padding) length += PADDING_LENGTH;
+		if (extendedHeader)
+			length += extendedHeaderLength;
+		if (footer)
+			length += FOOTER_LENGTH;
+		else if (padding)
+			length += PADDING_LENGTH;
 		for (ID3v2FrameSet frameSet : frameSets.values()) {
 			for (ID3v2Frame frame : frameSet.getFrames()) {
 				length += frame.getLength();
@@ -388,7 +402,8 @@ public abstract class AbstractID3v2Tag implements ID3v2 {
 	@Override
 	public String getTrack() {
 		ID3v2TextFrameData frameData = extractTextFrameData(obseleteFormat ? ID_TRACK_OBSELETE : ID_TRACK);
-		if (frameData != null && frameData.getText() != null) return frameData.getText().toString();
+		if (frameData != null && frameData.getText() != null)
+			return frameData.getText().toString();
 		return null;
 	}
 
@@ -404,7 +419,8 @@ public abstract class AbstractID3v2Tag implements ID3v2 {
 	@Override
 	public String getPartOfSet() {
 		ID3v2TextFrameData frameData = extractTextFrameData(obseleteFormat ? ID_PART_OF_SET_OBSELETE : ID_PART_OF_SET);
-		if (frameData != null && frameData.getText() != null) return frameData.getText().toString();
+		if (frameData != null && frameData.getText() != null)
+			return frameData.getText().toString();
 		return null;
 	}
 
@@ -412,7 +428,8 @@ public abstract class AbstractID3v2Tag implements ID3v2 {
 	public void setPartOfSet(String partOfSet) {
 		if (partOfSet != null && partOfSet.length() > 0) {
 			invalidateDataLength();
-			ID3v2TextFrameData frameData = new ID3v2TextFrameData(useFrameUnsynchronisation(), new EncodedText(partOfSet));
+			ID3v2TextFrameData frameData = new ID3v2TextFrameData(useFrameUnsynchronisation(),
+					new EncodedText(partOfSet));
 			addFrame(createFrame(ID_PART_OF_SET, frameData.toBytes()), true);
 		}
 	}
@@ -421,21 +438,24 @@ public abstract class AbstractID3v2Tag implements ID3v2 {
 	public boolean isCompilation() {
 		// unofficial frame used by iTunes
 		ID3v2TextFrameData frameData = extractTextFrameData(obseleteFormat ? ID_COMPILATION_OBSELETE : ID_COMPILATION);
-		if (frameData != null && frameData.getText() != null) return "1".equals(frameData.getText().toString());
+		if (frameData != null && frameData.getText() != null)
+			return "1".equals(frameData.getText().toString());
 		return false;
 	}
 
 	@Override
 	public void setCompilation(boolean compilation) {
 		invalidateDataLength();
-		ID3v2TextFrameData frameData = new ID3v2TextFrameData(useFrameUnsynchronisation(), new EncodedText(compilation ? "1" : "0"));
+		ID3v2TextFrameData frameData = new ID3v2TextFrameData(useFrameUnsynchronisation(),
+				new EncodedText(compilation ? "1" : "0"));
 		addFrame(createFrame(ID_COMPILATION, frameData.toBytes()), true);
 	}
 
 	@Override
 	public String getGrouping() {
 		ID3v2TextFrameData frameData = extractTextFrameData(obseleteFormat ? ID_GROUPING_OBSELETE : ID_GROUPING);
-		if (frameData != null && frameData.getText() != null) return frameData.getText().toString();
+		if (frameData != null && frameData.getText() != null)
+			return frameData.getText().toString();
 		return null;
 	}
 
@@ -443,7 +463,8 @@ public abstract class AbstractID3v2Tag implements ID3v2 {
 	public void setGrouping(String grouping) {
 		if (grouping != null && grouping.length() > 0) {
 			invalidateDataLength();
-			ID3v2TextFrameData frameData = new ID3v2TextFrameData(useFrameUnsynchronisation(), new EncodedText(grouping));
+			ID3v2TextFrameData frameData = new ID3v2TextFrameData(useFrameUnsynchronisation(),
+					new EncodedText(grouping));
 			addFrame(createFrame(ID_GROUPING, frameData.toBytes()), true);
 		}
 	}
@@ -451,7 +472,8 @@ public abstract class AbstractID3v2Tag implements ID3v2 {
 	@Override
 	public String getArtist() {
 		ID3v2TextFrameData frameData = extractTextFrameData(obseleteFormat ? ID_ARTIST_OBSELETE : ID_ARTIST);
-		if (frameData != null && frameData.getText() != null) return frameData.getText().toString();
+		if (frameData != null && frameData.getText() != null)
+			return frameData.getText().toString();
 		return null;
 	}
 
@@ -466,8 +488,10 @@ public abstract class AbstractID3v2Tag implements ID3v2 {
 
 	@Override
 	public String getAlbumArtist() {
-		ID3v2TextFrameData frameData = extractTextFrameData(obseleteFormat ? ID_ALBUM_ARTIST_OBSELETE : ID_ALBUM_ARTIST);
-		if (frameData != null && frameData.getText() != null) return frameData.getText().toString();
+		ID3v2TextFrameData frameData = extractTextFrameData(
+				obseleteFormat ? ID_ALBUM_ARTIST_OBSELETE : ID_ALBUM_ARTIST);
+		if (frameData != null && frameData.getText() != null)
+			return frameData.getText().toString();
 		return null;
 	}
 
@@ -475,7 +499,8 @@ public abstract class AbstractID3v2Tag implements ID3v2 {
 	public void setAlbumArtist(String albumArtist) {
 		if (albumArtist != null && albumArtist.length() > 0) {
 			invalidateDataLength();
-			ID3v2TextFrameData frameData = new ID3v2TextFrameData(useFrameUnsynchronisation(), new EncodedText(albumArtist));
+			ID3v2TextFrameData frameData = new ID3v2TextFrameData(useFrameUnsynchronisation(),
+					new EncodedText(albumArtist));
 			addFrame(createFrame(ID_ALBUM_ARTIST, frameData.toBytes()), true);
 		}
 	}
@@ -483,7 +508,8 @@ public abstract class AbstractID3v2Tag implements ID3v2 {
 	@Override
 	public String getTitle() {
 		ID3v2TextFrameData frameData = extractTextFrameData(obseleteFormat ? ID_TITLE_OBSELETE : ID_TITLE);
-		if (frameData != null && frameData.getText() != null) return frameData.getText().toString();
+		if (frameData != null && frameData.getText() != null)
+			return frameData.getText().toString();
 		return null;
 	}
 
@@ -499,7 +525,8 @@ public abstract class AbstractID3v2Tag implements ID3v2 {
 	@Override
 	public String getAlbum() {
 		ID3v2TextFrameData frameData = extractTextFrameData(obseleteFormat ? ID_ALBUM_OBSELETE : ID_ALBUM);
-		if (frameData != null && frameData.getText() != null) return frameData.getText().toString();
+		if (frameData != null && frameData.getText() != null)
+			return frameData.getText().toString();
 		return null;
 	}
 
@@ -515,7 +542,8 @@ public abstract class AbstractID3v2Tag implements ID3v2 {
 	@Override
 	public String getYear() {
 		ID3v2TextFrameData frameData = extractTextFrameData(obseleteFormat ? ID_YEAR_OBSELETE : ID_YEAR);
-		if (frameData != null && frameData.getText() != null) return frameData.getText().toString();
+		if (frameData != null && frameData.getText() != null)
+			return frameData.getText().toString();
 		return null;
 	}
 
@@ -531,7 +559,8 @@ public abstract class AbstractID3v2Tag implements ID3v2 {
 	@Override
 	public String getDate() {
 		ID3v2TextFrameData frameData = extractTextFrameData(obseleteFormat ? ID_DATE_OBSELETE : ID_DATE);
-		if (frameData != null && frameData.getText() != null) return frameData.getText().toString();
+		if (frameData != null && frameData.getText() != null)
+			return frameData.getText().toString();
 		return null;
 	}
 
@@ -571,7 +600,8 @@ public abstract class AbstractID3v2Tag implements ID3v2 {
 			invalidateDataLength();
 			String genreDescription = genre < ID3v1Genres.GENRES.length ? ID3v1Genres.GENRES[genre] : "";
 			String combinedGenre = "(" + (genre) + ")" + genreDescription;
-			ID3v2TextFrameData frameData = new ID3v2TextFrameData(useFrameUnsynchronisation(), new EncodedText(combinedGenre));
+			ID3v2TextFrameData frameData = new ID3v2TextFrameData(useFrameUnsynchronisation(),
+					new EncodedText(combinedGenre));
 			addFrame(createFrame(ID_GENRE, frameData.toBytes()), true);
 		} else {
 			// TODO remove frame?
@@ -597,7 +627,8 @@ public abstract class AbstractID3v2Tag implements ID3v2 {
 	public void setBPM(int bpm) {
 		if (bpm >= 0) {
 			invalidateDataLength();
-			ID3v2TextFrameData frameData = new ID3v2TextFrameData(useFrameUnsynchronisation(), new EncodedText(Integer.toString(bpm)));
+			ID3v2TextFrameData frameData = new ID3v2TextFrameData(useFrameUnsynchronisation(),
+					new EncodedText(Integer.toString(bpm)));
 			addFrame(createFrame(ID_BPM, frameData.toBytes()), true);
 		}
 	}
@@ -677,11 +708,12 @@ public abstract class AbstractID3v2Tag implements ID3v2 {
 		return null;
 	}
 
-
 	@Override
 	public String getComment() {
-		ID3v2CommentFrameData frameData = extractCommentFrameData(obseleteFormat ? ID_COMMENT_OBSELETE : ID_COMMENT, false);
-		if (frameData != null && frameData.getComment() != null) return frameData.getComment().toString();
+		ID3v2CommentFrameData frameData = extractCommentFrameData(obseleteFormat ? ID_COMMENT_OBSELETE : ID_COMMENT,
+				false);
+		if (frameData != null && frameData.getComment() != null)
+			return frameData.getComment().toString();
 		return null;
 	}
 
@@ -689,15 +721,18 @@ public abstract class AbstractID3v2Tag implements ID3v2 {
 	public void setComment(String comment) {
 		if (comment != null && comment.length() > 0) {
 			invalidateDataLength();
-			ID3v2CommentFrameData frameData = new ID3v2CommentFrameData(useFrameUnsynchronisation(), "eng", null, new EncodedText(comment));
+			ID3v2CommentFrameData frameData = new ID3v2CommentFrameData(useFrameUnsynchronisation(), "eng", null,
+					new EncodedText(comment));
 			addFrame(createFrame(ID_COMMENT, frameData.toBytes()), true);
 		}
 	}
 
 	@Override
 	public String getItunesComment() {
-		ID3v2CommentFrameData frameData = extractCommentFrameData(obseleteFormat ? ID_COMMENT_OBSELETE : ID_COMMENT, true);
-		if (frameData != null && frameData.getComment() != null) return frameData.getComment().toString();
+		ID3v2CommentFrameData frameData = extractCommentFrameData(obseleteFormat ? ID_COMMENT_OBSELETE : ID_COMMENT,
+				true);
+		if (frameData != null && frameData.getComment() != null)
+			return frameData.getComment().toString();
 		return null;
 	}
 
@@ -705,7 +740,8 @@ public abstract class AbstractID3v2Tag implements ID3v2 {
 	public void setItunesComment(String itunesComment) {
 		if (itunesComment != null && itunesComment.length() > 0) {
 			invalidateDataLength();
-			ID3v2CommentFrameData frameData = new ID3v2CommentFrameData(useFrameUnsynchronisation(), "eng", new EncodedText(ITUNES_COMMENT_DESCRIPTION), new EncodedText(itunesComment));
+			ID3v2CommentFrameData frameData = new ID3v2CommentFrameData(useFrameUnsynchronisation(), "eng",
+					new EncodedText(ITUNES_COMMENT_DESCRIPTION), new EncodedText(itunesComment));
 			addFrame(createFrame(ID_COMMENT, frameData.toBytes()), true);
 		}
 	}
@@ -744,7 +780,8 @@ public abstract class AbstractID3v2Tag implements ID3v2 {
 	public void setLyrics(String lyrics) {
 		if (lyrics != null && lyrics.length() > 0) {
 			invalidateDataLength();
-			ID3v2CommentFrameData frameData = new ID3v2CommentFrameData(useFrameUnsynchronisation(), "eng", null, new EncodedText(lyrics));
+			ID3v2CommentFrameData frameData = new ID3v2CommentFrameData(useFrameUnsynchronisation(), "eng", null,
+					new EncodedText(lyrics));
 			addFrame(createFrame(ID_TEXT_LYRICS, frameData.toBytes()), true);
 		}
 	}
@@ -752,7 +789,8 @@ public abstract class AbstractID3v2Tag implements ID3v2 {
 	@Override
 	public String getComposer() {
 		ID3v2TextFrameData frameData = extractTextFrameData(obseleteFormat ? ID_COMPOSER_OBSELETE : ID_COMPOSER);
-		if (frameData != null && frameData.getText() != null) return frameData.getText().toString();
+		if (frameData != null && frameData.getText() != null)
+			return frameData.getText().toString();
 		return null;
 	}
 
@@ -760,7 +798,8 @@ public abstract class AbstractID3v2Tag implements ID3v2 {
 	public void setComposer(String composer) {
 		if (composer != null && composer.length() > 0) {
 			invalidateDataLength();
-			ID3v2TextFrameData frameData = new ID3v2TextFrameData(useFrameUnsynchronisation(), new EncodedText(composer));
+			ID3v2TextFrameData frameData = new ID3v2TextFrameData(useFrameUnsynchronisation(),
+					new EncodedText(composer));
 			addFrame(createFrame(ID_COMPOSER, frameData.toBytes()), true);
 		}
 	}
@@ -768,7 +807,8 @@ public abstract class AbstractID3v2Tag implements ID3v2 {
 	@Override
 	public String getPublisher() {
 		ID3v2TextFrameData frameData = extractTextFrameData(obseleteFormat ? ID_PUBLISHER_OBSELETE : ID_PUBLISHER);
-		if (frameData != null && frameData.getText() != null) return frameData.getText().toString();
+		if (frameData != null && frameData.getText() != null)
+			return frameData.getText().toString();
 		return null;
 	}
 
@@ -776,15 +816,18 @@ public abstract class AbstractID3v2Tag implements ID3v2 {
 	public void setPublisher(String publisher) {
 		if (publisher != null && publisher.length() > 0) {
 			invalidateDataLength();
-			ID3v2TextFrameData frameData = new ID3v2TextFrameData(useFrameUnsynchronisation(), new EncodedText(publisher));
+			ID3v2TextFrameData frameData = new ID3v2TextFrameData(useFrameUnsynchronisation(),
+					new EncodedText(publisher));
 			addFrame(createFrame(ID_PUBLISHER, frameData.toBytes()), true);
 		}
 	}
 
 	@Override
 	public String getOriginalArtist() {
-		ID3v2TextFrameData frameData = extractTextFrameData(obseleteFormat ? ID_ORIGINAL_ARTIST_OBSELETE : ID_ORIGINAL_ARTIST);
-		if (frameData != null && frameData.getText() != null) return frameData.getText().toString();
+		ID3v2TextFrameData frameData = extractTextFrameData(
+				obseleteFormat ? ID_ORIGINAL_ARTIST_OBSELETE : ID_ORIGINAL_ARTIST);
+		if (frameData != null && frameData.getText() != null)
+			return frameData.getText().toString();
 		return null;
 	}
 
@@ -792,7 +835,8 @@ public abstract class AbstractID3v2Tag implements ID3v2 {
 	public void setOriginalArtist(String originalArtist) {
 		if (originalArtist != null && originalArtist.length() > 0) {
 			invalidateDataLength();
-			ID3v2TextFrameData frameData = new ID3v2TextFrameData(useFrameUnsynchronisation(), new EncodedText(originalArtist));
+			ID3v2TextFrameData frameData = new ID3v2TextFrameData(useFrameUnsynchronisation(),
+					new EncodedText(originalArtist));
 			addFrame(createFrame(ID_ORIGINAL_ARTIST, frameData.toBytes()), true);
 		}
 	}
@@ -800,7 +844,8 @@ public abstract class AbstractID3v2Tag implements ID3v2 {
 	@Override
 	public String getCopyright() {
 		ID3v2TextFrameData frameData = extractTextFrameData(obseleteFormat ? ID_COPYRIGHT_OBSELETE : ID_COPYRIGHT);
-		if (frameData != null && frameData.getText() != null) return frameData.getText().toString();
+		if (frameData != null && frameData.getText() != null)
+			return frameData.getText().toString();
 		return null;
 	}
 
@@ -808,7 +853,8 @@ public abstract class AbstractID3v2Tag implements ID3v2 {
 	public void setCopyright(String copyright) {
 		if (copyright != null && copyright.length() > 0) {
 			invalidateDataLength();
-			ID3v2TextFrameData frameData = new ID3v2TextFrameData(useFrameUnsynchronisation(), new EncodedText(copyright));
+			ID3v2TextFrameData frameData = new ID3v2TextFrameData(useFrameUnsynchronisation(),
+					new EncodedText(copyright));
 			addFrame(createFrame(ID_COPYRIGHT, frameData.toBytes()), true);
 		}
 	}
@@ -816,7 +862,8 @@ public abstract class AbstractID3v2Tag implements ID3v2 {
 	@Override
 	public String getArtistUrl() {
 		ID3v2WWWFrameData frameData = extractWWWFrameData(ID_ARTIST_URL);
-		if (frameData != null) return frameData.getUrl();
+		if (frameData != null)
+			return frameData.getUrl();
 		return null;
 	}
 
@@ -832,7 +879,8 @@ public abstract class AbstractID3v2Tag implements ID3v2 {
 	@Override
 	public String getCommercialUrl() {
 		ID3v2WWWFrameData frameData = extractWWWFrameData(ID_COMMERCIAL_URL);
-		if (frameData != null) return frameData.getUrl();
+		if (frameData != null)
+			return frameData.getUrl();
 		return null;
 	}
 
@@ -848,7 +896,8 @@ public abstract class AbstractID3v2Tag implements ID3v2 {
 	@Override
 	public String getCopyrightUrl() {
 		ID3v2WWWFrameData frameData = extractWWWFrameData(ID_COPYRIGHT_URL);
-		if (frameData != null) return frameData.getUrl();
+		if (frameData != null)
+			return frameData.getUrl();
 		return null;
 	}
 
@@ -864,7 +913,8 @@ public abstract class AbstractID3v2Tag implements ID3v2 {
 	@Override
 	public String getAudiofileUrl() {
 		ID3v2WWWFrameData frameData = extractWWWFrameData(ID_AUDIOFILE_URL);
-		if (frameData != null) return frameData.getUrl();
+		if (frameData != null)
+			return frameData.getUrl();
 		return null;
 	}
 
@@ -880,7 +930,8 @@ public abstract class AbstractID3v2Tag implements ID3v2 {
 	@Override
 	public String getAudioSourceUrl() {
 		ID3v2WWWFrameData frameData = extractWWWFrameData(ID_AUDIOSOURCE_URL);
-		if (frameData != null) return frameData.getUrl();
+		if (frameData != null)
+			return frameData.getUrl();
 		return null;
 	}
 
@@ -896,7 +947,8 @@ public abstract class AbstractID3v2Tag implements ID3v2 {
 	@Override
 	public String getRadiostationUrl() {
 		ID3v2WWWFrameData frameData = extractWWWFrameData(ID_RADIOSTATION_URL);
-		if (frameData != null) return frameData.getUrl();
+		if (frameData != null)
+			return frameData.getUrl();
 		return null;
 	}
 
@@ -912,7 +964,8 @@ public abstract class AbstractID3v2Tag implements ID3v2 {
 	@Override
 	public String getPaymentUrl() {
 		ID3v2WWWFrameData frameData = extractWWWFrameData(ID_PAYMENT_URL);
-		if (frameData != null) return frameData.getUrl();
+		if (frameData != null)
+			return frameData.getUrl();
 		return null;
 	}
 
@@ -928,7 +981,8 @@ public abstract class AbstractID3v2Tag implements ID3v2 {
 	@Override
 	public String getPublisherUrl() {
 		ID3v2WWWFrameData frameData = extractWWWFrameData(ID_PUBLISHER_URL);
-		if (frameData != null) return frameData.getUrl();
+		if (frameData != null)
+			return frameData.getUrl();
 		return null;
 	}
 
@@ -944,7 +998,8 @@ public abstract class AbstractID3v2Tag implements ID3v2 {
 	@Override
 	public String getUrl() {
 		ID3v2UrlFrameData frameData = extractUrlFrameData(obseleteFormat ? ID_URL_OBSELETE : ID_URL);
-		if (frameData != null) return frameData.getUrl();
+		if (frameData != null)
+			return frameData.getUrl();
 		return null;
 	}
 
@@ -1010,7 +1065,8 @@ public abstract class AbstractID3v2Tag implements ID3v2 {
 	@Override
 	public String getEncoder() {
 		ID3v2TextFrameData frameData = extractTextFrameData(obseleteFormat ? ID_ENCODER_OBSELETE : ID_ENCODER);
-		if (frameData != null && frameData.getText() != null) return frameData.getText().toString();
+		if (frameData != null && frameData.getText() != null)
+			return frameData.getText().toString();
 		return null;
 	}
 
@@ -1018,7 +1074,8 @@ public abstract class AbstractID3v2Tag implements ID3v2 {
 	public void setEncoder(String encoder) {
 		if (encoder != null && encoder.length() > 0) {
 			invalidateDataLength();
-			ID3v2TextFrameData frameData = new ID3v2TextFrameData(useFrameUnsynchronisation(), new EncodedText(encoder));
+			ID3v2TextFrameData frameData = new ID3v2TextFrameData(useFrameUnsynchronisation(),
+					new EncodedText(encoder));
 			addFrame(createFrame(ID_ENCODER, frameData.toBytes()), true);
 		}
 	}
@@ -1026,7 +1083,8 @@ public abstract class AbstractID3v2Tag implements ID3v2 {
 	@Override
 	public byte[] getAlbumImage() {
 		ID3v2PictureFrameData frameData = createPictureFrameData(obseleteFormat ? ID_IMAGE_OBSELETE : ID_IMAGE);
-		if (frameData != null) return frameData.getImageData();
+		if (frameData != null)
+			return frameData.getImageData();
 		return null;
 	}
 
@@ -1039,10 +1097,8 @@ public abstract class AbstractID3v2Tag implements ID3v2 {
 	public void setAlbumImage(byte[] albumImage, String mimeType, byte imageType, String imageDescription) {
 		if (albumImage != null && albumImage.length > 0 && mimeType != null && mimeType.length() > 0) {
 			invalidateDataLength();
-			ID3v2PictureFrameData frameData = new ID3v2PictureFrameData(
-					useFrameUnsynchronisation(), mimeType, imageType,
-					null == imageDescription ? null : new EncodedText(imageDescription),
-					albumImage);
+			ID3v2PictureFrameData frameData = new ID3v2PictureFrameData(useFrameUnsynchronisation(), mimeType,
+					imageType, null == imageDescription ? null : new EncodedText(imageDescription), albumImage);
 			addFrame(createFrame(ID_IMAGE, frameData.toBytes()), true);
 		}
 	}
@@ -1055,7 +1111,8 @@ public abstract class AbstractID3v2Tag implements ID3v2 {
 	@Override
 	public String getAlbumImageMimeType() {
 		ID3v2PictureFrameData frameData = createPictureFrameData(obseleteFormat ? ID_IMAGE_OBSELETE : ID_IMAGE);
-		if (frameData != null && frameData.getMimeType() != null) return frameData.getMimeType();
+		if (frameData != null && frameData.getMimeType() != null)
+			return frameData.getMimeType();
 		return null;
 	}
 
@@ -1065,7 +1122,6 @@ public abstract class AbstractID3v2Tag implements ID3v2 {
 			invalidateDataLength();
 		}
 	}
-
 
 	@Override
 	public int getWmpRating() {
@@ -1094,8 +1150,7 @@ public abstract class AbstractID3v2Tag implements ID3v2 {
 			for (ID3v2Frame frame : frames) {
 				ID3v2ChapterFrameData frameData;
 				try {
-					frameData = new ID3v2ChapterFrameData(useFrameUnsynchronisation(),
-							frame.getData());
+					frameData = new ID3v2ChapterFrameData(useFrameUnsynchronisation(), frame.getData());
 					chapterData.add(frameData);
 				} catch (InvalidDataException e) {
 					// do nothing
@@ -1114,8 +1169,7 @@ public abstract class AbstractID3v2Tag implements ID3v2 {
 			for (ID3v2Frame frame : frames) {
 				ID3v2ChapterTOCFrameData frameData;
 				try {
-					frameData = new ID3v2ChapterTOCFrameData(useFrameUnsynchronisation(),
-							frame.getData());
+					frameData = new ID3v2ChapterTOCFrameData(useFrameUnsynchronisation(), frame.getData());
 					chapterData.add(frameData);
 				} catch (InvalidDataException e) {
 					// do nothing
@@ -1199,7 +1253,8 @@ public abstract class AbstractID3v2Tag implements ID3v2 {
 			try {
 				if (obseleteFormat)
 					frameData = new ID3v2ObseletePictureFrameData(useFrameUnsynchronisation(), frame.getData());
-				else frameData = new ID3v2PictureFrameData(useFrameUnsynchronisation(), frame.getData());
+				else
+					frameData = new ID3v2PictureFrameData(useFrameUnsynchronisation(), frame.getData());
 				return frameData;
 			} catch (InvalidDataException e) {
 				// do nothing
@@ -1225,24 +1280,39 @@ public abstract class AbstractID3v2Tag implements ID3v2 {
 
 	@Override
 	public boolean equals(Object obj) {
-		if (!(obj instanceof AbstractID3v2Tag)) return false;
-		if (super.equals(obj)) return true;
+		if (!(obj instanceof AbstractID3v2Tag))
+			return false;
+		if (super.equals(obj))
+			return true;
 		AbstractID3v2Tag other = (AbstractID3v2Tag) obj;
-		if (unsynchronisation != other.unsynchronisation) return false;
-		if (extendedHeader != other.extendedHeader) return false;
-		if (experimental != other.experimental) return false;
-		if (footer != other.footer) return false;
-		if (compression != other.compression) return false;
-		if (dataLength != other.dataLength) return false;
-		if (extendedHeaderLength != other.extendedHeaderLength) return false;
+		if (unsynchronisation != other.unsynchronisation)
+			return false;
+		if (extendedHeader != other.extendedHeader)
+			return false;
+		if (experimental != other.experimental)
+			return false;
+		if (footer != other.footer)
+			return false;
+		if (compression != other.compression)
+			return false;
+		if (dataLength != other.dataLength)
+			return false;
+		if (extendedHeaderLength != other.extendedHeaderLength)
+			return false;
 		if (version == null) {
-			if (other.version != null) return false;
-		} else if (other.version == null) return false;
-		else if (!version.equals(other.version)) return false;
+			if (other.version != null)
+				return false;
+		} else if (other.version == null)
+			return false;
+		else if (!version.equals(other.version))
+			return false;
 		if (frameSets == null) {
-			if (other.frameSets != null) return false;
-		} else if (other.frameSets == null) return false;
-		else if (!frameSets.equals(other.frameSets)) return false;
+			if (other.frameSets != null)
+				return false;
+		} else if (other.frameSets == null)
+			return false;
+		else if (!frameSets.equals(other.frameSets))
+			return false;
 		return true;
 	}
 }

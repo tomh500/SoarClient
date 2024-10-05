@@ -26,9 +26,8 @@ import net.minecraft.util.BlockPos;
 import net.minecraft.util.Vec3;
 
 public class ChunkRenderTranslucencySortTask<T extends ChunkGraphicsState> extends ChunkRenderBuildTask<T> {
-	private static final BlockRenderPass[] TRANSLUCENT_PASSES = (BlockRenderPass[])Arrays.stream(BlockRenderPass.VALUES)
-		.filter(BlockRenderPass::isTranslucent)
-		.toArray(BlockRenderPass[]::new);
+	private static final BlockRenderPass[] TRANSLUCENT_PASSES = (BlockRenderPass[]) Arrays
+			.stream(BlockRenderPass.VALUES).filter(BlockRenderPass::isTranslucent).toArray(BlockRenderPass[]::new);
 	private static final BlockRenderPass[] NO_PASSES = new BlockRenderPass[0];
 	private final ChunkRenderContainer<T> render;
 	private final BlockPos offset;
@@ -41,7 +40,8 @@ public class ChunkRenderTranslucencySortTask<T extends ChunkGraphicsState> exten
 	}
 
 	@Override
-	public ChunkBuildResult<T> performBuild(ChunkRenderCacheLocal cache, ChunkBuildBuffers buffers, CancellationSource cancellationSource) {
+	public ChunkBuildResult<T> performBuild(ChunkRenderCacheLocal cache, ChunkBuildBuffers buffers,
+			CancellationSource cancellationSource) {
 		ChunkRenderData data = this.render.getData();
 		Map<BlockRenderPass, ChunkMeshData> replacementMeshes;
 		if (!data.isEmpty()) {
@@ -62,19 +62,16 @@ public class ChunkRenderTranslucencySortTask<T extends ChunkGraphicsState> exten
 							}
 
 							sortedData.flip();
-							ChunkBufferSorter.sortStandardFormat(
-								buffers.getVertexType(),
-								sortedData,
-								sortedData.capacity(),
-								(float)this.camera.xCoord - (float)this.offset.getX(),
-								(float)this.camera.yCoord - (float)this.offset.getY(),
-								(float)this.camera.zCoord - (float)this.offset.getZ()
-							);
+							ChunkBufferSorter.sortStandardFormat(buffers.getVertexType(), sortedData,
+									sortedData.capacity(), (float) this.camera.xCoord - (float) this.offset.getX(),
+									(float) this.camera.yCoord - (float) this.offset.getY(),
+									(float) this.camera.zCoord - (float) this.offset.getZ());
 							ChunkMeshData newMesh = new ChunkMeshData();
-							newMesh.setVertexData(new VertexData(sortedData, buffers.getVertexType().getCustomVertexFormat()));
+							newMesh.setVertexData(
+									new VertexData(sortedData, buffers.getVertexType().getCustomVertexFormat()));
 
 							for (Entry<ModelQuadFacing, BufferSlice> entry : translucentMesh.getSlices()) {
-								newMesh.setModelSlice((ModelQuadFacing)entry.getKey(), (BufferSlice)entry.getValue());
+								newMesh.setModelSlice((ModelQuadFacing) entry.getKey(), (BufferSlice) entry.getValue());
 							}
 
 							replacementMeshes.put(pass, newMesh);
@@ -87,7 +84,7 @@ public class ChunkRenderTranslucencySortTask<T extends ChunkGraphicsState> exten
 		}
 
 		ChunkBuildResult<T> result = new ChunkBuildResult<>(this.render, data.copyAndReplaceMesh(replacementMeshes));
-		result.passesToUpload = (BlockRenderPass[])replacementMeshes.keySet().toArray(NO_PASSES);
+		result.passesToUpload = (BlockRenderPass[]) replacementMeshes.keySet().toArray(NO_PASSES);
 		return result;
 	}
 

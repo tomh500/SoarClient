@@ -11,13 +11,16 @@ import org.apache.commons.io.IOUtils;
 import com.soarclient.libraries.sodium.client.gl.device.RenderDevice;
 
 public class ShaderLoader {
-	public static GlShader loadShader(RenderDevice device, ShaderType type, ResourceLocation name, ShaderConstants constants) {
+	public static GlShader loadShader(RenderDevice device, ShaderType type, ResourceLocation name,
+			ShaderConstants constants) {
 		return new GlShader(device, type, name, getShaderSource(getShaderPath(name)), constants);
 	}
 
 	@Deprecated
-	public static GlShader loadShader(RenderDevice device, ShaderType type, ResourceLocation name, List<String> constants) {
-		return new GlShader(device, type, name, getShaderSource(getShaderPath(name)), ShaderConstants.fromStringList(constants));
+	public static GlShader loadShader(RenderDevice device, ShaderType type, ResourceLocation name,
+			List<String> constants) {
+		return new GlShader(device, type, name, getShaderSource(getShaderPath(name)),
+				ShaderConstants.fromStringList(constants));
 	}
 
 	private static String getShaderPath(ResourceLocation name) {

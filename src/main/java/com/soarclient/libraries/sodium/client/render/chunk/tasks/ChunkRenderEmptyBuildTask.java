@@ -16,7 +16,8 @@ public class ChunkRenderEmptyBuildTask<T extends ChunkGraphicsState> extends Chu
 	}
 
 	@Override
-	public ChunkBuildResult<T> performBuild(ChunkRenderCacheLocal cache, ChunkBuildBuffers buffers, CancellationSource cancellationSource) {
+	public ChunkBuildResult<T> performBuild(ChunkRenderCacheLocal cache, ChunkBuildBuffers buffers,
+			CancellationSource cancellationSource) {
 		return new ChunkBuildResult<>(this.render, ChunkRenderData.EMPTY);
 	}
 

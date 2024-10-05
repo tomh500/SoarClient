@@ -42,9 +42,8 @@ public class ChunkBuildBuffers {
 			VertexBufferBuilder[] buffers = this.buffersByLayer[passId];
 
 			for (ModelQuadFacing facing : ModelQuadFacing.VALUES) {
-				buffers[facing.ordinal()] = new VertexBufferBuilder(
-					vertexType.getBufferVertexFormat(), (Integer)BufferSizeUtil.BUFFER_SIZES.get(layer) / ModelQuadFacing.COUNT
-				);
+				buffers[facing.ordinal()] = new VertexBufferBuilder(vertexType.getBufferVertexFormat(),
+						(Integer) BufferSizeUtil.BUFFER_SIZES.get(layer) / ModelQuadFacing.COUNT);
 			}
 		}
 	}
@@ -55,8 +54,9 @@ public class ChunkBuildBuffers {
 
 			for (ModelQuadFacing facing : ModelQuadFacing.VALUES) {
 				writers[facing.ordinal()] = new ChunkModelVertexTransformer(
-					this.vertexType.createBufferWriter(this.buffersByLayer[i][facing.ordinal()], SodiumClientMod.isDirectMemoryAccessEnabled()), this.offset
-				);
+						this.vertexType.createBufferWriter(this.buffersByLayer[i][facing.ordinal()],
+								SodiumClientMod.isDirectMemoryAccessEnabled()),
+						this.offset);
 			}
 
 			this.delegates[i] = new BakedChunkModelBuffers(writers, renderData);
@@ -91,9 +91,10 @@ public class ChunkBuildBuffers {
 			ByteBuffer buffer = GLAllocation.createDirectByteBuffer(bufferLen);
 
 			for (Entry<ModelQuadFacing, BufferSlice> entry : meshData.getSlices()) {
-				BufferSlice slice = (BufferSlice)entry.getValue();
+				BufferSlice slice = (BufferSlice) entry.getValue();
 				buffer.position(slice.start);
-				VertexBufferBuilder builder = this.buffersByLayer[pass.ordinal()][((ModelQuadFacing)entry.getKey()).ordinal()];
+				VertexBufferBuilder builder = this.buffersByLayer[pass.ordinal()][((ModelQuadFacing) entry.getKey())
+						.ordinal()];
 				builder.copyInto(buffer);
 			}
 

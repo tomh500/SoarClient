@@ -14,8 +14,9 @@ public class BasicScreenQuadVertexWriterFallback extends VertexWriterFallback im
 	@Override
 	public void writeQuad(float x, float y, float z, int color) {
 		WorldRenderer consumer = this.consumer;
-		consumer.pos((double)x, (double)y, (double)z);
-		consumer.color(ColorABGR.unpackRed(color), ColorABGR.unpackGreen(color), ColorABGR.unpackBlue(color), ColorABGR.unpackAlpha(color));
+		consumer.pos((double) x, (double) y, (double) z);
+		consumer.color(ColorABGR.unpackRed(color), ColorABGR.unpackGreen(color), ColorABGR.unpackBlue(color),
+				ColorABGR.unpackAlpha(color));
 		consumer.endVertex();
 	}
 }

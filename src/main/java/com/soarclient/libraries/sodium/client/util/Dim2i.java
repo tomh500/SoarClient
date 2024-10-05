@@ -38,7 +38,8 @@ public class Dim2i {
 	}
 
 	public boolean containsCursor(double x, double y) {
-		return x >= (double)this.x && x < (double)this.getLimitX() && y >= (double)this.y && y < (double)this.getLimitY();
+		return x >= (double) this.x && x < (double) this.getLimitX() && y >= (double) this.y
+				&& y < (double) this.getLimitY();
 	}
 
 	public int getCenterX() {
@@ -66,13 +67,12 @@ public class Dim2i {
 	}
 
 	public boolean canFitDimension(Dim2i anotherDim) {
-		return this.x <= anotherDim.getOriginX()
-			&& this.y <= anotherDim.getOriginY()
-			&& this.getLimitX() >= anotherDim.getLimitX()
-			&& this.getLimitY() >= anotherDim.getLimitY();
+		return this.x <= anotherDim.getOriginX() && this.y <= anotherDim.getOriginY()
+				&& this.getLimitX() >= anotherDim.getLimitX() && this.getLimitY() >= anotherDim.getLimitY();
 	}
 
 	public boolean overlapWith(Dim2i other) {
-		return this.x < other.getLimitX() && this.getLimitX() > other.getOriginX() && this.y < other.getLimitY() && this.getLimitY() > other.getOriginY();
+		return this.x < other.getLimitX() && this.getLimitX() > other.getOriginX() && this.y < other.getLimitY()
+				&& this.getLimitY() > other.getOriginY();
 	}
 }

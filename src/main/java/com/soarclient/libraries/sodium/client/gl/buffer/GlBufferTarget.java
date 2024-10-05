@@ -1,9 +1,7 @@
 package com.soarclient.libraries.sodium.client.gl.buffer;
 
 public enum GlBufferTarget {
-	ARRAY_BUFFER(34962, 34964),
-	COPY_READ_BUFFER(36662, 36662),
-	COPY_WRITE_BUFFER(36663, 36663),
+	ARRAY_BUFFER(34962, 34964), COPY_READ_BUFFER(36662, 36662), COPY_WRITE_BUFFER(36663, 36663),
 	DRAW_INDIRECT_BUFFER(36671, 36675);
 
 	public static final GlBufferTarget[] VALUES = values();

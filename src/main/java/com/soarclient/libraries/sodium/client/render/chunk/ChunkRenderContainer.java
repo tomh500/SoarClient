@@ -29,12 +29,14 @@ public class ChunkRenderContainer<T extends ChunkGraphicsState> {
 	private int id;
 	private boolean rebuildableForTranslucents;
 
-	public ChunkRenderContainer(ChunkRenderBackend<T> backend, SodiumWorldRenderer worldRenderer, int chunkX, int chunkY, int chunkZ, ChunkRenderColumn<T> column) {
+	public ChunkRenderContainer(ChunkRenderBackend<T> backend, SodiumWorldRenderer worldRenderer, int chunkX,
+			int chunkY, int chunkZ, ChunkRenderColumn<T> column) {
 		this.worldRenderer = worldRenderer;
 		this.chunkX = chunkX;
 		this.chunkY = chunkY;
 		this.chunkZ = chunkZ;
-		this.graphicsStates = (T[])((ChunkGraphicsState[])Array.newInstance(backend.getGraphicsStateType(), BlockRenderPass.COUNT));
+		this.graphicsStates = (T[]) ((ChunkGraphicsState[]) Array.newInstance(backend.getGraphicsStateType(),
+				BlockRenderPass.COUNT));
 		this.rebuildableForTranslucents = false;
 		this.column = column;
 	}
@@ -128,9 +130,9 @@ public class ChunkRenderContainer<T extends ChunkGraphicsState> {
 	}
 
 	public boolean isOutsideFrustum(FrustumExtended frustum) {
-		float x = (float)this.getOriginX();
-		float y = (float)this.getOriginY();
-		float z = (float)this.getOriginZ();
+		float x = (float) this.getOriginX();
+		float y = (float) this.getOriginY();
+		float z = (float) this.getOriginZ();
 		return !frustum.fastAabbTest(x, y, z, x + 16.0F, y + 16.0F, z + 16.0F);
 	}
 
@@ -169,15 +171,15 @@ public class ChunkRenderContainer<T extends ChunkGraphicsState> {
 	}
 
 	private double getCenterX() {
-		return (double)this.getOriginX() + 8.0;
+		return (double) this.getOriginX() + 8.0;
 	}
 
 	private double getCenterY() {
-		return (double)this.getOriginY() + 8.0;
+		return (double) this.getOriginY() + 8.0;
 	}
 
 	private double getCenterZ() {
-		return (double)this.getOriginZ() + 8.0;
+		return (double) this.getOriginZ() + 8.0;
 	}
 
 	public BlockPos getRenderOrigin() {
@@ -239,17 +241,8 @@ public class ChunkRenderContainer<T extends ChunkGraphicsState> {
 	}
 
 	public String toString() {
-		return String.format(
-			"ChunkRenderContainer at chunk (%d, %d, %d) from (%d, %d, %d) to (%d, %d, %d)",
-			this.chunkX,
-			this.chunkY,
-			this.chunkZ,
-			this.getOriginX(),
-			this.getOriginY(),
-			this.getOriginZ(),
-			this.getOriginX() + 15,
-			this.getOriginY() + 15,
-			this.getOriginZ() + 15
-		);
+		return String.format("ChunkRenderContainer at chunk (%d, %d, %d) from (%d, %d, %d) to (%d, %d, %d)",
+				this.chunkX, this.chunkY, this.chunkZ, this.getOriginX(), this.getOriginY(), this.getOriginZ(),
+				this.getOriginX() + 15, this.getOriginY() + 15, this.getOriginZ() + 15);
 	}
 }

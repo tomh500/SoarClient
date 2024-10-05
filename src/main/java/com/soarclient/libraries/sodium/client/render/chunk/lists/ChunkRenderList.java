@@ -14,13 +14,13 @@ public class ChunkRenderList<T> {
 
 	public ChunkRenderList(int capacity) {
 		this.capacity = capacity;
-		this.stateArray = (T[])(new Object[capacity]);
+		this.stateArray = (T[]) (new Object[capacity]);
 		this.cullArray = new int[capacity];
 	}
 
 	private void resize() {
 		this.capacity *= 2;
-		this.stateArray = (T[])Arrays.copyOf(this.stateArray, this.capacity);
+		this.stateArray = (T[]) Arrays.copyOf(this.stateArray, this.capacity);
 		this.cullArray = Arrays.copyOf(this.cullArray, this.capacity);
 	}
 

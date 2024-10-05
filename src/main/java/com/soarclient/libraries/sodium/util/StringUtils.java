@@ -42,7 +42,7 @@ public class StringUtils {
 			UnmodifiableIterator var7 = page.getOptions().iterator();
 
 			while (var7.hasNext()) {
-				Option<?> option = (Option<?>)var7.next();
+				Option<?> option = (Option<?>) var7.next();
 				String sentence = option.getName().toLowerCase();
 				boolean containsAllWords = true;
 

@@ -33,7 +33,8 @@ public class ChunkRegionManager<T extends ChunkGraphicsState> {
 		long key = getRegionKey(x, y, z);
 		ChunkRegion<T> region = this.regions.get(key);
 		if (region == null) {
-			this.regions.put(key, region = new ChunkRegion<>(this.device, 256, x >> BUFFER_WIDTH_SH, y >> BUFFER_HEIGHT_SH, z >> BUFFER_LENGTH_SH));
+			this.regions.put(key, region = new ChunkRegion<>(this.device, 256, x >> BUFFER_WIDTH_SH,
+					y >> BUFFER_HEIGHT_SH, z >> BUFFER_LENGTH_SH));
 		}
 
 		return region;
@@ -55,7 +56,7 @@ public class ChunkRegionManager<T extends ChunkGraphicsState> {
 		ObjectIterator<ChunkRegion<T>> iterator = this.regions.values().iterator();
 
 		while (iterator.hasNext()) {
-			ChunkRegion<T> region = (ChunkRegion<T>)iterator.next();
+			ChunkRegion<T> region = (ChunkRegion<T>) iterator.next();
 			if (region.isArenaEmpty()) {
 				region.deleteResources();
 				iterator.remove();

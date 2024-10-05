@@ -16,7 +16,8 @@ public class QuadVertexType implements VanillaVertexType<QuadVertexSink>, Blitta
 	}
 
 	public QuadVertexSink createBufferWriter(VertexBufferView buffer, boolean direct) {
-		return (QuadVertexSink)(direct ? new QuadVertexBufferWriterUnsafe(buffer) : new QuadVertexBufferWriterNio(buffer));
+		return (QuadVertexSink) (direct ? new QuadVertexBufferWriterUnsafe(buffer)
+				: new QuadVertexBufferWriterNio(buffer));
 	}
 
 	@Override

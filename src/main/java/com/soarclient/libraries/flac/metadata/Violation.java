@@ -22,40 +22,44 @@ package com.soarclient.libraries.flac.metadata;
 
 /**
  * Meta data format violation exception.
+ * 
  * @author kc7bfi
  */
 public class Violation extends Exception {
 
-    /**
-     * Constructor.
-     */
-    public Violation() {
-        super();
-    }
+	/**
+	 * Constructor.
+	 */
+	public Violation() {
+		super();
+	}
 
-    /**
-     * Constructor.
-     * @param msg   The error message
-     */
-    public Violation(String msg) {
-        super(msg);
-    }
+	/**
+	 * Constructor.
+	 * 
+	 * @param msg The error message
+	 */
+	public Violation(String msg) {
+		super(msg);
+	}
 
-    /**
-     * Constructor.
-     * @param err   The causing exception
-     */
-    public Violation(Throwable err) {
-        super(err);
-    }
+	/**
+	 * Constructor.
+	 * 
+	 * @param err The causing exception
+	 */
+	public Violation(Throwable err) {
+		super(err);
+	}
 
-    /**
-     * Constructor.
-     * @param msg   The error message
-     * @param err   The causing exception
-     */
-    public Violation(String msg, Throwable err) {
-        super(msg, err);
-    }
+	/**
+	 * Constructor.
+	 * 
+	 * @param msg The error message
+	 * @param err The causing exception
+	 */
+	public Violation(String msg, Throwable err) {
+		super(msg, err);
+	}
 
 }

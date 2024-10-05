@@ -72,7 +72,7 @@ public class RenderBlurEvent extends Event {
 				NanoVG.nvgImagePattern(nvg.getContext(), 0, mcHeight, mcWidth, -mcHeight, 0, texture, alpha, paint));
 		NanoVG.nvgFill(nvg.getContext());
 	}
-	
+
 	public void drawCircle(float x, float y, float radius, float alpha) {
 
 		ScaledResolution sr = new ScaledResolution(Minecraft.getMinecraft());

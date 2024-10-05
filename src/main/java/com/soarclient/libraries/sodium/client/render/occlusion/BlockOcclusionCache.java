@@ -11,7 +11,8 @@ public class BlockOcclusionCache {
 
 	public boolean shouldDrawSide(IBlockAccess view, BlockPos pos, EnumFacing facing) {
 		MutableBlockPos adjPos = this.cpos;
-		adjPos.set(pos.getX() + facing.getFrontOffsetX(), pos.getY() + facing.getFrontOffsetY(), pos.getZ() + facing.getFrontOffsetZ());
+		adjPos.set(pos.getX() + facing.getFrontOffsetX(), pos.getY() + facing.getFrontOffsetY(),
+				pos.getZ() + facing.getFrontOffsetZ());
 		Block self = view.getBlockState(pos).getBlock();
 		return self.shouldSideBeRendered(view, adjPos, facing);
 	}

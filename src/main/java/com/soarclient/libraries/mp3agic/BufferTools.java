@@ -7,7 +7,8 @@ public final class BufferTools {
 
 	private static final String defaultCharsetName = StandardCharsets.ISO_8859_1.name();
 
-	private BufferTools() {}
+	private BufferTools() {
+	}
 
 	public static String byteBufferToStringIgnoringEncodingIssues(byte[] bytes, int offset, int length) {
 		try {
@@ -21,8 +22,10 @@ public final class BufferTools {
 		return byteBufferToString(bytes, offset, length, defaultCharsetName);
 	}
 
-	public static String byteBufferToString(byte[] bytes, int offset, int length, String charsetName) throws UnsupportedEncodingException {
-		if (length < 1) return "";
+	public static String byteBufferToString(byte[] bytes, int offset, int length, String charsetName)
+			throws UnsupportedEncodingException {
+		if (length < 1)
+			return "";
 		return new String(bytes, offset, length, charsetName);
 	}
 
@@ -38,16 +41,19 @@ public final class BufferTools {
 		return stringToByteBuffer(s, offset, length, defaultCharsetName);
 	}
 
-	public static byte[] stringToByteBuffer(String s, int offset, int length, String charsetName) throws UnsupportedEncodingException {
+	public static byte[] stringToByteBuffer(String s, int offset, int length, String charsetName)
+			throws UnsupportedEncodingException {
 		String stringToCopy = s.substring(offset, offset + length);
 		return stringToCopy.getBytes(charsetName);
 	}
 
-	public static void stringIntoByteBuffer(String s, int offset, int length, byte[] bytes, int destOffset) throws UnsupportedEncodingException {
+	public static void stringIntoByteBuffer(String s, int offset, int length, byte[] bytes, int destOffset)
+			throws UnsupportedEncodingException {
 		stringIntoByteBuffer(s, offset, length, bytes, destOffset, defaultCharsetName);
 	}
 
-	public static void stringIntoByteBuffer(String s, int offset, int length, byte[] bytes, int destOffset, String charsetName) throws UnsupportedEncodingException {
+	public static void stringIntoByteBuffer(String s, int offset, int length, byte[] bytes, int destOffset,
+			String charsetName) throws UnsupportedEncodingException {
 		String stringToCopy = s.substring(offset, offset + length);
 		byte[] srcBytes = stringToCopy.getBytes(charsetName);
 		if (srcBytes.length > 0) {
@@ -65,13 +71,16 @@ public final class BufferTools {
 			}
 			endPosition--;
 		}
-		if (endPosition == s.length() - 1) return s;
-		else if (endPosition < 0) return "";
+		if (endPosition == s.length() - 1)
+			return s;
+		else if (endPosition < 0)
+			return "";
 		return s.substring(0, endPosition + 1);
 	}
 
 	public static String padStringRight(String s, int length, char padWith) {
-		if (s.length() >= length) return s;
+		if (s.length() >= length)
+			return s;
 		StringBuilder stringBuffer = new StringBuilder(s);
 		while (stringBuffer.length() < length) {
 			stringBuffer.append(padWith);
@@ -162,7 +171,8 @@ public final class BufferTools {
 				count++;
 			}
 		}
-		if (bytes.length > 0 && bytes[bytes.length - 1] == (byte) 0xff) count++;
+		if (bytes.length > 0 && bytes[bytes.length - 1] == (byte) 0xff)
+			count++;
 		return count;
 	}
 
@@ -171,7 +181,8 @@ public final class BufferTools {
 		// 11111111 111xxxxx with 11111111 00000000 111xxxxx and
 		// 11111111 00000000 with 11111111 00000000 00000000
 		int count = sizeUnsynchronisationWouldAdd(bytes);
-		if (count == 0) return bytes;
+		if (count == 0)
+			return bytes;
 		byte[] newBuffer = new byte[bytes.length + count];
 		int j = 0;
 		for (int i = 0; i < bytes.length - 1; i++) {
@@ -190,11 +201,13 @@ public final class BufferTools {
 	public static int sizeSynchronisationWouldSubtract(byte[] bytes) {
 		int count = 0;
 		for (int i = 0; i < bytes.length - 2; i++) {
-			if (bytes[i] == (byte) 0xff && bytes[i + 1] == 0 && ((bytes[i + 2] & (byte) 0xe0) == (byte) 0xe0 || bytes[i + 2] == 0)) {
+			if (bytes[i] == (byte) 0xff && bytes[i + 1] == 0
+					&& ((bytes[i + 2] & (byte) 0xe0) == (byte) 0xe0 || bytes[i + 2] == 0)) {
 				count++;
 			}
 		}
-		if (bytes.length > 1 && bytes[bytes.length - 2] == (byte) 0xff && bytes[bytes.length - 1] == 0) count++;
+		if (bytes.length > 1 && bytes[bytes.length - 2] == (byte) 0xff && bytes[bytes.length - 1] == 0)
+			count++;
 		return count;
 	}
 
@@ -203,12 +216,14 @@ public final class BufferTools {
 		// 11111111 00000000 111xxxxx with 11111111 111xxxxx and
 		// 11111111 00000000 00000000 with 11111111 00000000
 		int count = sizeSynchronisationWouldSubtract(bytes);
-		if (count == 0) return bytes;
+		if (count == 0)
+			return bytes;
 		byte[] newBuffer = new byte[bytes.length - count];
 		int i = 0;
 		for (int j = 0; j < newBuffer.length - 1; j++) {
 			newBuffer[j] = bytes[i];
-			if (bytes[i] == (byte) 0xff && bytes[i + 1] == 0 && ((bytes[i + 2] & (byte) 0xe0) == (byte) 0xe0 || bytes[i + 2] == 0)) {
+			if (bytes[i] == (byte) 0xff && bytes[i + 1] == 0
+					&& ((bytes[i + 2] & (byte) 0xe0) == (byte) 0xe0 || bytes[i + 2] == 0)) {
 				i++;
 			}
 			i++;
@@ -267,7 +282,8 @@ public final class BufferTools {
 			if ((i - fromIndex) % terminatorLength == 0) {
 				int matched;
 				for (matched = 0; matched < terminatorLength; matched++) {
-					if (bytes[i + matched] != 0) break;
+					if (bytes[i + matched] != 0)
+						break;
 				}
 				if (matched == terminatorLength) {
 					marker = i;
@@ -279,7 +295,8 @@ public final class BufferTools {
 	}
 
 	public static int indexOfTerminatorForEncoding(byte[] bytes, int fromIndex, int encoding) {
-		int terminatorLength = (encoding == EncodedText.TEXT_ENCODING_UTF_16 || encoding == EncodedText.TEXT_ENCODING_UTF_16BE) ? 2 : 1;
+		int terminatorLength = (encoding == EncodedText.TEXT_ENCODING_UTF_16
+				|| encoding == EncodedText.TEXT_ENCODING_UTF_16BE) ? 2 : 1;
 		return indexOfTerminator(bytes, fromIndex, terminatorLength);
 	}
 }

@@ -1,8 +1,7 @@
 package com.soarclient.libraries.sodium.client.gui.options.named;
 
 public enum GraphicsMode implements NamedState {
-	FANCY("options.graphics.fancy"),
-	FAST("options.graphics.fast");
+	FANCY("options.graphics.fancy"), FAST("options.graphics.fast");
 
 	private final String name;
 

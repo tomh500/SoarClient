@@ -10,9 +10,11 @@ import com.soarclient.libraries.sodium.client.model.vertex.type.VanillaVertexTyp
 import net.minecraft.client.renderer.WorldRenderer;
 import net.minecraft.client.renderer.vertex.VertexFormat;
 
-public class ParticleVertexType implements VanillaVertexType<ParticleVertexSink>, BlittableVertexType<ParticleVertexSink> {
+public class ParticleVertexType
+		implements VanillaVertexType<ParticleVertexSink>, BlittableVertexType<ParticleVertexSink> {
 	public ParticleVertexSink createBufferWriter(VertexBufferView buffer, boolean direct) {
-		return (ParticleVertexSink)(direct ? new ParticleVertexBufferWriterUnsafe(buffer) : new ParticleVertexBufferWriterNio(buffer));
+		return (ParticleVertexSink) (direct ? new ParticleVertexBufferWriterUnsafe(buffer)
+				: new ParticleVertexBufferWriterNio(buffer));
 	}
 
 	public ParticleVertexSink createFallbackWriter(WorldRenderer consumer) {

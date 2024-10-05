@@ -10,27 +10,30 @@ import com.soarclient.libraries.flac.metadata.StreamInfo;
 import com.soarclient.libraries.flac.util.ByteData;
 
 /**
- * PCMProcessor interface.
- * This interface defines the signatures for a class to listen
- * to PCM decode events.
+ * PCMProcessor interface. This interface defines the signatures for a class to
+ * listen to PCM decode events.
+ * 
  * @author kc7bfi
  */
 public interface PCMProcessor {
-    /**
-     * Called when StreamInfo read.
-     * @param streamInfo The FLAC stream info metadata block
-     */
-    public void processStreamInfo(StreamInfo streamInfo);
-    
-    /**
-     * Called when each data frame is decompressed.
-     * @param pcm The decompressed PCM data
-     */
-    public void processPCM(ByteData pcm);
-    
-    /** returns true if process has to be canceled
-     * 
-     * @return
-     */
-   // public boolean isCanceled();
+	/**
+	 * Called when StreamInfo read.
+	 * 
+	 * @param streamInfo The FLAC stream info metadata block
+	 */
+	public void processStreamInfo(StreamInfo streamInfo);
+
+	/**
+	 * Called when each data frame is decompressed.
+	 * 
+	 * @param pcm The decompressed PCM data
+	 */
+	public void processPCM(ByteData pcm);
+
+	/**
+	 * returns true if process has to be canceled
+	 * 
+	 * @return
+	 */
+	// public boolean isCanceled();
 }

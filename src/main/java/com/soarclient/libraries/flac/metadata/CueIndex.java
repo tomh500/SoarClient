@@ -26,25 +26,27 @@ import com.soarclient.libraries.flac.io.BitInputStream;
 
 /**
  * An entry into the cue track.
+ * 
  * @author kc7bfi
  */
 public class CueIndex {
 
-    private static final int CUESHEET_INDEX_OFFSET_LEN = 64; // bits
-    private static final int CUESHEET_INDEX_NUMBER_LEN = 8; // bits
-    private static final int CUESHEET_INDEX_RESERVED_LEN = 3 * 8; // bits
+	private static final int CUESHEET_INDEX_OFFSET_LEN = 64; // bits
+	private static final int CUESHEET_INDEX_NUMBER_LEN = 8; // bits
+	private static final int CUESHEET_INDEX_RESERVED_LEN = 3 * 8; // bits
 
-    protected long offset; // Offset in samples, relative to the track offset, of the index point.
-    protected byte number; // The index point number.
-    
-    /**
-     * The constructor.
-     * @param is                The InputBitStream
-     * @throws IOException      Thrown if error reading from InputBitStream
-     */
-    public CueIndex(BitInputStream is) throws IOException {
-        offset = is.readRawULong(CUESHEET_INDEX_OFFSET_LEN);
-        number = (byte) is.readRawUInt(CUESHEET_INDEX_NUMBER_LEN);
-        is.skipBitsNoCRC(CUESHEET_INDEX_RESERVED_LEN);
-    }
+	protected long offset; // Offset in samples, relative to the track offset, of the index point.
+	protected byte number; // The index point number.
+
+	/**
+	 * The constructor.
+	 * 
+	 * @param is The InputBitStream
+	 * @throws IOException Thrown if error reading from InputBitStream
+	 */
+	public CueIndex(BitInputStream is) throws IOException {
+		offset = is.readRawULong(CUESHEET_INDEX_OFFSET_LEN);
+		number = (byte) is.readRawUInt(CUESHEET_INDEX_NUMBER_LEN);
+		is.skipBitsNoCRC(CUESHEET_INDEX_RESERVED_LEN);
+	}
 }

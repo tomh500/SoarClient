@@ -12,11 +12,11 @@ public class EntityLighter {
 
 	public static int getBlendedLight(Entity entity, float tickDelta) {
 		boolean calcBlockLight = !entity.isBurning();
-		double x1 = MathUtil.lerp((double)tickDelta, entity.prevPosX, entity.posX);
-		double y1 = MathUtil.lerp((double)tickDelta, entity.prevPosY, entity.posY);
-		double z1 = MathUtil.lerp((double)tickDelta, entity.prevPosZ, entity.posZ);
-		double width = Math.max((double)entity.width, 0.001);
-		double height = Math.max((double)entity.height, 0.001);
+		double x1 = MathUtil.lerp((double) tickDelta, entity.prevPosX, entity.posX);
+		double y1 = MathUtil.lerp((double) tickDelta, entity.prevPosY, entity.posY);
+		double z1 = MathUtil.lerp((double) tickDelta, entity.prevPosZ, entity.posZ);
+		double width = Math.max((double) entity.width, 0.001);
+		double height = Math.max((double) entity.height, 0.001);
 		double x2 = x1 + width;
 		double y2 = y1 + height;
 		double z2 = z1 + width;
@@ -32,24 +32,24 @@ public class EntityLighter {
 		MutableBlockPos pos = new MutableBlockPos();
 
 		for (int bX = bMinX; bX < bMaxX; bX++) {
-			double ix1 = Math.max((double)bX, x1);
-			double ix2 = Math.min((double)(bX + 1), x2);
+			double ix1 = Math.max((double) bX, x1);
+			double ix2 = Math.min((double) (bX + 1), x2);
 
 			for (int bY = bMinY; bY < bMaxY; bY++) {
-				double iy1 = Math.max((double)bY, y1);
-				double iy2 = Math.min((double)(bY + 1), y2);
+				double iy1 = Math.max((double) bY, y1);
+				double iy2 = Math.min((double) (bY + 1), y2);
 
 				for (int bZ = bMinZ; bZ < bMaxZ; bZ++) {
 					pos.set(bX, bY, bZ);
 					IBlockState blockState = entity.worldObj.getBlockState(pos);
 					if (!blockState.getBlock().isOpaqueCube() || blockState.getBlock().getLightValue() > 0) {
-						double iz1 = Math.max((double)bZ, z1);
-						double iz2 = Math.min((double)(bZ + 1), z2);
+						double iz1 = Math.max((double) bZ, z1);
+						double iz2 = Math.min((double) (bZ + 1), z2);
 						double weight = (ix2 - ix1) * (iy2 - iy1) * (iz2 - iz1);
 						max += weight;
-						sl += weight * ((double)entity.worldObj.getLightFor(EnumSkyBlock.SKY, pos) / 15.0);
+						sl += weight * ((double) entity.worldObj.getLightFor(EnumSkyBlock.SKY, pos) / 15.0);
 						if (calcBlockLight) {
-							bl += weight * ((double)entity.worldObj.getLightFor(EnumSkyBlock.BLOCK, pos) / 15.0);
+							bl += weight * ((double) entity.worldObj.getLightFor(EnumSkyBlock.BLOCK, pos) / 15.0);
 						} else {
 							bl += weight;
 						}

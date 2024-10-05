@@ -16,32 +16,32 @@ import com.soarclient.utils.language.Language;
 public class Soar {
 
 	private static Soar instance = new Soar();
-	
+
 	private ModManager modManager;
 	private MusicManager musicManager;
-	
+
 	public void start() {
-		
+
 		NanoVGHelper.getInstance().start();
-		
+
 		modManager = new ModManager();
 		modManager.init();
 		musicManager = new MusicManager();
-		
+
 		FileLocation.init();
 		Delta.register();
 		I18n.setLanguage(Language.ENGLISH);
-		
+
 		EventBus.getInstance().register(this);
 	}
-	
+
 	public void stop() {
-		
+
 	}
-	
+
 	@EventHandler
 	public void onKey(KeyEvent event) {
-		if(event.getKeyCode() == Keyboard.KEY_RSHIFT) {
+		if (event.getKeyCode() == Keyboard.KEY_RSHIFT) {
 		}
 	}
 

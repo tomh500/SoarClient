@@ -69,31 +69,26 @@ public class SodiumOptionsGUI extends ScrollableGuiScreen {
 				throw new IllegalStateException("No pages are available?!");
 			}
 
-			this.currentPage = (OptionPage)this.pages.get(0);
+			this.currentPage = (OptionPage) this.pages.get(0);
 		}
 
 		this.rebuildGUIPages();
 		this.rebuildGUIOptions();
-		this.undoButton = new FlatButtonWidget(
-			new Dim2i(this.width - 211, this.height - 26, 65, 20),
-			new ChatComponentTranslation("sodium.options.buttons.undo", new Object[0]).getFormattedText(),
-			this::undoChanges
-		);
-		this.applyButton = new FlatButtonWidget(
-			new Dim2i(this.width - 142, this.height - 26, 65, 20),
-			new ChatComponentTranslation("sodium.options.buttons.apply", new Object[0]).getFormattedText(),
-			this::applyChanges
-		);
-		this.closeButton = new FlatButtonWidget(
-			new Dim2i(this.width - 73, this.height - 26, 65, 20), new ChatComponentTranslation("gui.done", new Object[0]).getFormattedText(), this::onClose
-		);
+		this.undoButton = new FlatButtonWidget(new Dim2i(this.width - 211, this.height - 26, 65, 20),
+				new ChatComponentTranslation("sodium.options.buttons.undo", new Object[0]).getFormattedText(),
+				this::undoChanges);
+		this.applyButton = new FlatButtonWidget(new Dim2i(this.width - 142, this.height - 26, 65, 20),
+				new ChatComponentTranslation("sodium.options.buttons.apply", new Object[0]).getFormattedText(),
+				this::applyChanges);
+		this.closeButton = new FlatButtonWidget(new Dim2i(this.width - 73, this.height - 26, 65, 20),
+				new ChatComponentTranslation("gui.done", new Object[0]).getFormattedText(), this::onClose);
 		this.children.add(this.undoButton);
 		this.children.add(this.applyButton);
 		this.children.add(this.closeButton);
 
 		for (Element element : this.children) {
 			if (element instanceof Drawable) {
-				this.drawable.add((Drawable)element);
+				this.drawable.add((Drawable) element);
 			}
 		}
 	}
@@ -104,7 +99,8 @@ public class SodiumOptionsGUI extends ScrollableGuiScreen {
 
 		for (OptionPage page : this.pages) {
 			int width = 12 + this.fontRendererObj.getStringWidth(page.getNewName().getFormattedText());
-			FlatButtonWidget button = new FlatButtonWidget(new Dim2i(x, y, width, 18), page.getNewName(), () -> this.setPage(page));
+			FlatButtonWidget button = new FlatButtonWidget(new Dim2i(x, y, width, 18), page.getNewName(),
+					() -> this.setPage(page));
 			button.setSelected(this.currentPage == page);
 			x += width + 6;
 			this.children.add(button);
@@ -116,10 +112,10 @@ public class SodiumOptionsGUI extends ScrollableGuiScreen {
 		int y = 28;
 
 		for (UnmodifiableIterator var3 = this.currentPage.getGroups().iterator(); var3.hasNext(); y += 4) {
-			OptionGroup group = (OptionGroup)var3.next();
+			OptionGroup group = (OptionGroup) var3.next();
 
 			for (UnmodifiableIterator var5 = group.getOptions().iterator(); var5.hasNext(); y += 18) {
-				Option<?> option = (Option<?>)var5.next();
+				Option<?> option = (Option<?>) var5.next();
 				Control<?> control = option.getControl();
 				ControlElement<?> element = control.createElement(new Dim2i(x, y, 200, 18));
 				this.controls.add(element);
@@ -148,14 +144,15 @@ public class SodiumOptionsGUI extends ScrollableGuiScreen {
 	}
 
 	private void updateControls() {
-		ControlElement<?> hovered = (ControlElement<?>)this.getActiveControls().filter(ControlElement::isHovered).findFirst().orElse(null);
+		ControlElement<?> hovered = (ControlElement<?>) this.getActiveControls().filter(ControlElement::isHovered)
+				.findFirst().orElse(null);
 		boolean hasChanges = this.getAllOptions().anyMatch(Option::hasChanged);
 
 		for (OptionPage page : this.pages) {
 			UnmodifiableIterator var5 = page.getOptions().iterator();
 
 			while (var5.hasNext()) {
-				Option<?> option = (Option<?>)var5.next();
+				Option<?> option = (Option<?>) var5.next();
 				if (option.hasChanged()) {
 					hasChanges = true;
 				}
@@ -185,10 +182,12 @@ public class SodiumOptionsGUI extends ScrollableGuiScreen {
 		int boxY = dim.getOriginY();
 		int boxX = dim.getLimitX() + boxPadding;
 		Option<?> option = element.getOption();
-		List<String> tooltip = new ArrayList(this.fontRendererObj.listFormattedStringToWidth(option.getTooltip().getFormattedText(), boxWidth - textPadding * 2));
+		List<String> tooltip = new ArrayList(this.fontRendererObj
+				.listFormattedStringToWidth(option.getTooltip().getFormattedText(), boxWidth - textPadding * 2));
 		OptionImpact impact = option.getImpact();
 		if (impact != null) {
-			tooltip.add(EnumChatFormatting.GRAY + I18n.format("sodium.options.performance_impact_string", new Object[]{impact.toDisplayString()}));
+			tooltip.add(EnumChatFormatting.GRAY + I18n.format("sodium.options.performance_impact_string",
+					new Object[] { impact.toDisplayString() }));
 		}
 
 		int boxHeight = tooltip.size() * 12 + boxPadding;
@@ -201,7 +200,8 @@ public class SodiumOptionsGUI extends ScrollableGuiScreen {
 		this.drawGradientRect(boxX, boxY, boxX + boxWidth, boxY + boxHeight, -536870912, -536870912);
 
 		for (int i = 0; i < tooltip.size(); i++) {
-			this.fontRendererObj.drawString((String)tooltip.get(i), boxX + textPadding, boxY + textPadding + i * 12, -1);
+			this.fontRendererObj.drawString((String) tooltip.get(i), boxX + textPadding, boxY + textPadding + i * 12,
+					-1);
 		}
 	}
 
@@ -261,12 +261,13 @@ public class SodiumOptionsGUI extends ScrollableGuiScreen {
 	protected void mouseClicked(int mouseX, int mouseY, int mouseButton) {
 		try {
 			super.mouseClicked(mouseX, mouseY, mouseButton);
-		} catch (IOException e) {}
-		this.children.forEach(element -> element.mouseClicked((double)mouseX, (double)mouseY, mouseButton));
+		} catch (IOException e) {
+		}
+		this.children.forEach(element -> element.mouseClicked((double) mouseX, (double) mouseY, mouseButton));
 	}
 
 	protected void mouseClickMove(int mouseX, int mouseY, int clickedMouseButton, long timeSinceLastClick) {
 		super.mouseClickMove(mouseX, mouseY, clickedMouseButton, timeSinceLastClick);
-		this.children.forEach(element -> element.mouseDragged((double)mouseX, (double)mouseY, clickedMouseButton));
+		this.children.forEach(element -> element.mouseDragged((double) mouseX, (double) mouseY, clickedMouseButton));
 	}
 }

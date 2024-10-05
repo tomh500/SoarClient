@@ -31,7 +31,8 @@ public class ChunkRenderBackendOneshot extends ChunkRenderShaderBackend<ChunkOne
 	@Override
 	public void upload(CommandList commandList, Iterator<ChunkBuildResult<ChunkOneshotGraphicsState>> queue) {
 		while (queue.hasNext()) {
-			ChunkBuildResult<ChunkOneshotGraphicsState> result = (ChunkBuildResult<ChunkOneshotGraphicsState>)queue.next();
+			ChunkBuildResult<ChunkOneshotGraphicsState> result = (ChunkBuildResult<ChunkOneshotGraphicsState>) queue
+					.next();
 			ChunkRenderContainer<ChunkOneshotGraphicsState> render = result.render;
 			ChunkRenderData data = result.data;
 
@@ -63,7 +64,8 @@ public class ChunkRenderBackendOneshot extends ChunkRenderShaderBackend<ChunkOne
 	}
 
 	@Override
-	public void render(CommandList commandList, ChunkRenderListIterator<ChunkOneshotGraphicsState> it, ChunkCameraContext camera) {
+	public void render(CommandList commandList, ChunkRenderListIterator<ChunkOneshotGraphicsState> it,
+			ChunkCameraContext camera) {
 		while (it.hasNext()) {
 			ChunkOneshotGraphicsState state = it.getGraphicsState();
 			int visibleFaces = it.getVisibleFaces();
@@ -81,7 +83,8 @@ public class ChunkRenderBackendOneshot extends ChunkRenderShaderBackend<ChunkOne
 		float modelX = camera.getChunkModelOffset(state.getX(), camera.blockOriginX, camera.originX);
 		float modelY = camera.getChunkModelOffset(state.getY(), camera.blockOriginY, camera.originY);
 		float modelZ = camera.getChunkModelOffset(state.getZ(), camera.blockOriginZ, camera.originZ);
-		GL20.glVertexAttrib4f(ChunkShaderBindingPoints.MODEL_OFFSET.getGenericAttributeIndex(), modelX, modelY, modelZ, 0.0F);
+		GL20.glVertexAttrib4f(ChunkShaderBindingPoints.MODEL_OFFSET.getGenericAttributeIndex(), modelX, modelY, modelZ,
+				0.0F);
 	}
 
 	protected void buildBatch(ChunkOneshotGraphicsState state, int visibleFaces) {

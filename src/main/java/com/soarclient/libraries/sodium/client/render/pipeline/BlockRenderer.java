@@ -48,7 +48,8 @@ public class BlockRenderer {
 		this.occlusionCache = new BlockOcclusionCache();
 	}
 
-	public boolean renderModel(IBlockAccess world, IBlockState state, BlockPos pos, IBakedModel model, ChunkModelBuffers buffers, boolean cull) {
+	public boolean renderModel(IBlockAccess world, IBlockState state, BlockPos pos, IBakedModel model,
+			ChunkModelBuffers buffers, boolean cull) {
 		LightMode mode = this.getLightingMode(state, model, world, pos);
 		LightPipeline lighter = this.lighters.getLighter(mode);
 		Vector3f offset = new Vector3f();
@@ -56,12 +57,12 @@ public class BlockRenderer {
 		if (offsetType != EnumOffsetType.NONE) {
 			int x = pos.getX();
 			int z = pos.getZ();
-			long i = (long)x * 3129871L ^ (long)z * 116129781L;
+			long i = (long) x * 3129871L ^ (long) z * 116129781L;
 			i = i * i * 42317861L + i * 11L;
-			offset.x += ((float)(i >> 16 & 15L) / 15.0F - 0.5F) * 0.5F;
-			offset.z += ((float)(i >> 24 & 15L) / 15.0F - 0.5F) * 0.5F;
+			offset.x += ((float) (i >> 16 & 15L) / 15.0F - 0.5F) * 0.5F;
+			offset.z += ((float) (i >> 24 & 15L) / 15.0F - 0.5F) * 0.5F;
 			if (offsetType == EnumOffsetType.XYZ) {
-				offset.y += ((float)(i >> 20 & 15L) / 15.0F - 1.0F) * 0.2F;
+				offset.y += ((float) (i >> 20 & 15L) / 15.0F - 1.0F) * 0.2F;
 			}
 		}
 
@@ -84,17 +85,10 @@ public class BlockRenderer {
 		return rendered;
 	}
 
-	private void renderQuadList(
-		IBlockAccess world,
-		IBlockState state,
-		BlockPos pos,
-		LightPipeline lighter,
-		Vector3f offset,
-		ChunkModelBuffers buffers,
-		List<BakedQuad> quads,
-		EnumFacing cullFace
-	) {
-		ModelQuadFacing facing = cullFace == null ? ModelQuadFacing.UNASSIGNED : ModelQuadFacing.fromDirection(cullFace);
+	private void renderQuadList(IBlockAccess world, IBlockState state, BlockPos pos, LightPipeline lighter,
+			Vector3f offset, ChunkModelBuffers buffers, List<BakedQuad> quads, EnumFacing cullFace) {
+		ModelQuadFacing facing = cullFace == null ? ModelQuadFacing.UNASSIGNED
+				: ModelQuadFacing.fromDirection(cullFace);
 		IBlockColor colorizer = null;
 		ModelVertexSink sink = buffers.getSink(facing);
 		sink.ensureCapacity(quads.size() * 4);
@@ -102,10 +96,10 @@ public class BlockRenderer {
 		int i = 0;
 
 		for (int quadsSize = quads.size(); i < quadsSize; i++) {
-			BakedQuad quad = (BakedQuad)quads.get(i);
+			BakedQuad quad = (BakedQuad) quads.get(i);
 			EnumFacing quadFace = quad.getFace();
 			QuadLightData light = this.cachedQuadLightData;
-			lighter.calculate((ModelQuadView)quad, pos, light, cullFace, quadFace, quad.hasTintIndex());
+			lighter.calculate((ModelQuadView) quad, pos, light, cullFace, quadFace, quad.hasTintIndex());
 			if (quad.hasTintIndex() && colorizer == null) {
 				colorizer = this.blockColors.getColorProvider(state);
 			}
@@ -116,18 +110,9 @@ public class BlockRenderer {
 		sink.flush();
 	}
 
-	private void renderQuad(
-		IBlockAccess world,
-		IBlockState state,
-		BlockPos pos,
-		ModelVertexSink sink,
-		Vector3f offset,
-		IBlockColor colorProvider,
-		BakedQuad bakedQuad,
-		QuadLightData light,
-		Builder renderData
-	) {
-		ModelQuadView src = (ModelQuadView)bakedQuad;
+	private void renderQuad(IBlockAccess world, IBlockState state, BlockPos pos, ModelVertexSink sink, Vector3f offset,
+			IBlockColor colorProvider, BakedQuad bakedQuad, QuadLightData light, Builder renderData) {
+		ModelQuadView src = (ModelQuadView) bakedQuad;
 		ModelQuadOrientation order = ModelQuadOrientation.orient(light.br);
 		int[] colors = null;
 		if (bakedQuad.hasTintIndex()) {
@@ -160,6 +145,7 @@ public class BlockRenderer {
 
 	private LightMode getLightingMode(IBlockState state, IBakedModel model, IBlockAccess world, BlockPos pos) {
 		Block block = state.getBlock();
-		return this.useAmbientOcclusion && model.isAmbientOcclusion() && block.getLightValue() == 0 ? LightMode.SMOOTH : LightMode.FLAT;
+		return this.useAmbientOcclusion && model.isAmbientOcclusion() && block.getLightValue() == 0 ? LightMode.SMOOTH
+				: LightMode.FLAT;
 	}
 }

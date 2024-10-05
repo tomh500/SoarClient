@@ -160,11 +160,11 @@ public class CrashReportCategory {
 	 * Removes the given number entries from the bottom of the stack trace.
 	 */
 	public void trimStackTraceEntriesFromBottom(int amount) {
-		
-		if(stackTrace.length - amount < 0) {
+
+		if (stackTrace.length - amount < 0) {
 			return;
 		}
-		
+
 		StackTraceElement[] astacktraceelement = new StackTraceElement[this.stackTrace.length - amount];
 		System.arraycopy(this.stackTrace, 0, astacktraceelement, 0, astacktraceelement.length);
 		this.stackTrace = astacktraceelement;

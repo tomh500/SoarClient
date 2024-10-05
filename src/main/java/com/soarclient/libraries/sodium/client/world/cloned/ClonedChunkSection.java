@@ -45,15 +45,14 @@ public class ClonedChunkSection {
 
 			this.data = new ExtendedBlockStorageExt(chunk, section);
 			this.biomeData = new BiomeGenBase[chunk.getBiomeArray().length];
-			StructureBoundingBox box = new StructureBoundingBox(
-				this.pos.getMinX(), this.pos.getMinY(), this.pos.getMinZ(), this.pos.getMaxX(), this.pos.getMaxY(), this.pos.getMaxZ()
-			);
+			StructureBoundingBox box = new StructureBoundingBox(this.pos.getMinX(), this.pos.getMinY(),
+					this.pos.getMinZ(), this.pos.getMaxX(), this.pos.getMaxY(), this.pos.getMaxZ());
 			this.blockEntities.clear();
 
 			for (Entry<BlockPos, TileEntity> entry : chunk.getTileEntityMap().entrySet()) {
-				BlockPos entityPos = (BlockPos)entry.getKey();
+				BlockPos entityPos = (BlockPos) entry.getKey();
 				if (box.isVecInside(entityPos)) {
-					this.blockEntities.put(ChunkSectionPos.packLocal(entityPos), (TileEntity)entry.getValue());
+					this.blockEntities.put(ChunkSectionPos.packLocal(entityPos), (TileEntity) entry.getValue());
 				}
 			}
 
@@ -93,7 +92,8 @@ public class ClonedChunkSection {
 	}
 
 	public int getLightLevel(int x, int y, int z, EnumSkyBlock type) {
-		NibbleArray lightArray = type == EnumSkyBlock.BLOCK ? this.data.getBlocklightArray() : this.data.getSkylightArray();
+		NibbleArray lightArray = type == EnumSkyBlock.BLOCK ? this.data.getBlocklightArray()
+				: this.data.getSkylightArray();
 		return lightArray != null ? lightArray.get(x, y, z) : type.defaultLightValue;
 	}
 
@@ -119,7 +119,7 @@ public class ClonedChunkSection {
 	}
 
 	private static short packLocal(int x, int y, int z) {
-		return (short)(x << 8 | z << 4 | y);
+		return (short) (x << 8 | z << 4 | y);
 	}
 
 	public ClonedChunkSection(ClonedChunkSectionCache backingCache, World world) {

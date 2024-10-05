@@ -26,30 +26,32 @@ import com.soarclient.libraries.flac.io.BitInputStream;
 
 /**
  * Application Metadata block.
+ * 
  * @author kc7bfi
  */
 public class Application extends Metadata {
 
-    private static final int APPLICATION_ID_LEN = 32; // bits
+	private static final int APPLICATION_ID_LEN = 32; // bits
 
-    private byte[] id = new byte[4];
-    private byte[] data;
+	private byte[] id = new byte[4];
+	private byte[] data;
 
-    /**
-     * The constructor.
-     * @param is                The InputBitStream
-     * @param length            Length of the record
-     * @param isLast            True if this is the last Metadata block in the chain
-     * @throws IOException      Thrown if error reading from InputBitStream
-     */
-    public Application(BitInputStream is, int length, boolean isLast) throws IOException {
-        super(isLast, length);
-        is.readByteBlockAlignedNoCRC(id, APPLICATION_ID_LEN / 8);
-        length -= APPLICATION_ID_LEN / 8;
+	/**
+	 * The constructor.
+	 * 
+	 * @param is     The InputBitStream
+	 * @param length Length of the record
+	 * @param isLast True if this is the last Metadata block in the chain
+	 * @throws IOException Thrown if error reading from InputBitStream
+	 */
+	public Application(BitInputStream is, int length, boolean isLast) throws IOException {
+		super(isLast, length);
+		is.readByteBlockAlignedNoCRC(id, APPLICATION_ID_LEN / 8);
+		length -= APPLICATION_ID_LEN / 8;
 
-        if (length > 0) {
-            data = new byte[length];
-            is.readByteBlockAlignedNoCRC(data, length);
-        }
-    }
+		if (length > 0) {
+			data = new byte[length];
+			is.readByteBlockAlignedNoCRC(data, length);
+		}
+	}
 }

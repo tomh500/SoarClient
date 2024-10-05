@@ -3,7 +3,7 @@ package com.soarclient.libraries.sodium.client.model.light.smooth;
 import net.minecraft.util.EnumFacing;
 
 enum AoNeighborInfo {
-	DOWN(new EnumFacing[]{EnumFacing.WEST, EnumFacing.EAST, EnumFacing.NORTH, EnumFacing.SOUTH}, 0.5F) {
+	DOWN(new EnumFacing[] { EnumFacing.WEST, EnumFacing.EAST, EnumFacing.NORTH, EnumFacing.SOUTH }, 0.5F) {
 		@Override
 		public void calculateCornerWeights(float x, float y, float z, float[] out) {
 			float v = 1.0F - x;
@@ -30,7 +30,7 @@ enum AoNeighborInfo {
 			return y;
 		}
 	},
-	UP(new EnumFacing[]{EnumFacing.EAST, EnumFacing.WEST, EnumFacing.NORTH, EnumFacing.SOUTH}, 1.0F) {
+	UP(new EnumFacing[] { EnumFacing.EAST, EnumFacing.WEST, EnumFacing.NORTH, EnumFacing.SOUTH }, 1.0F) {
 		@Override
 		public void calculateCornerWeights(float x, float y, float z, float[] out) {
 			out[0] = x * z;
@@ -56,7 +56,7 @@ enum AoNeighborInfo {
 			return 1.0F - y;
 		}
 	},
-	NORTH(new EnumFacing[]{EnumFacing.UP, EnumFacing.DOWN, EnumFacing.EAST, EnumFacing.WEST}, 0.8F) {
+	NORTH(new EnumFacing[] { EnumFacing.UP, EnumFacing.DOWN, EnumFacing.EAST, EnumFacing.WEST }, 0.8F) {
 		@Override
 		public void calculateCornerWeights(float x, float y, float z, float[] out) {
 			float u = 1.0F - x;
@@ -83,7 +83,7 @@ enum AoNeighborInfo {
 			return z;
 		}
 	},
-	SOUTH(new EnumFacing[]{EnumFacing.WEST, EnumFacing.EAST, EnumFacing.DOWN, EnumFacing.UP}, 0.8F) {
+	SOUTH(new EnumFacing[] { EnumFacing.WEST, EnumFacing.EAST, EnumFacing.DOWN, EnumFacing.UP }, 0.8F) {
 		@Override
 		public void calculateCornerWeights(float x, float y, float z, float[] out) {
 			float v = 1.0F - x;
@@ -110,7 +110,7 @@ enum AoNeighborInfo {
 			return 1.0F - z;
 		}
 	},
-	WEST(new EnumFacing[]{EnumFacing.UP, EnumFacing.DOWN, EnumFacing.NORTH, EnumFacing.SOUTH}, 0.6F) {
+	WEST(new EnumFacing[] { EnumFacing.UP, EnumFacing.DOWN, EnumFacing.NORTH, EnumFacing.SOUTH }, 0.6F) {
 		@Override
 		public void calculateCornerWeights(float x, float y, float z, float[] out) {
 			out[0] = y * z;
@@ -136,7 +136,7 @@ enum AoNeighborInfo {
 			return x;
 		}
 	},
-	EAST(new EnumFacing[]{EnumFacing.DOWN, EnumFacing.UP, EnumFacing.NORTH, EnumFacing.SOUTH}, 0.6F) {
+	EAST(new EnumFacing[] { EnumFacing.DOWN, EnumFacing.UP, EnumFacing.NORTH, EnumFacing.SOUTH }, 0.6F) {
 		@Override
 		public void calculateCornerWeights(float x, float y, float z, float[] out) {
 			float v = 1.0F - y;

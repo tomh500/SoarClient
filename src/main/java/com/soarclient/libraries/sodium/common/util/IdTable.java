@@ -10,7 +10,7 @@ public class IdTable<T> {
 	private int capacity;
 
 	public IdTable(int capacity) {
-		this.elements = (T[])(new Object[capacity]);
+		this.elements = (T[]) (new Object[capacity]);
 		this.capacity = capacity;
 	}
 
@@ -25,7 +25,7 @@ public class IdTable<T> {
 	}
 
 	private void grow() {
-		this.elements = (T[])Arrays.copyOf(this.elements, this.capacity *= 2);
+		this.elements = (T[]) Arrays.copyOf(this.elements, this.capacity *= 2);
 	}
 
 	public void remove(int id) {

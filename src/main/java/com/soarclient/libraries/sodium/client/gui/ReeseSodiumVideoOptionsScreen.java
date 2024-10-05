@@ -25,7 +25,7 @@ import net.minecraft.util.IChatComponent;
 import org.jetbrains.annotations.Nullable;
 
 public class ReeseSodiumVideoOptionsScreen extends SodiumOptionsGUI {
-	
+
 	private Element focused;
 	private static final AtomicReference<IChatComponent> tabFrameSelectedTab = new AtomicReference(null);
 	private static final AtomicReference<Integer> tabFrameScrollBarOffset = new AtomicReference(0);
@@ -58,7 +58,7 @@ public class ReeseSodiumVideoOptionsScreen extends SodiumOptionsGUI {
 	public void initGui() {
 		this.frame = this.parentFrameBuilder().build();
 		this.children.add(this.frame);
-		this.searchTextField.setFocused(!((String)lastSearch.get()).trim().isEmpty());
+		this.searchTextField.setFocused(!((String) lastSearch.get()).trim().isEmpty());
 		if (this.searchTextField.isFocused()) {
 			this.setFocused(this.searchTextField);
 		} else {
@@ -68,62 +68,39 @@ public class ReeseSodiumVideoOptionsScreen extends SodiumOptionsGUI {
 
 	protected Builder parentFrameBuilder() {
 		int newWidth = this.width;
-		if ((double)((float)this.width / (float)this.height) > 1.77777777778) {
-			newWidth = (int)((double)this.height * 1.77777777778);
+		if ((double) ((float) this.width / (float) this.height) > 1.77777777778) {
+			newWidth = (int) ((double) this.height * 1.77777777778);
 		}
 
 		Dim2i basicFrameDim = new Dim2i((this.width - newWidth) / 2, 0, newWidth, this.height);
-		Dim2i tabFrameDim = new Dim2i(
-			basicFrameDim.getOriginX() + basicFrameDim.getWidth() / 20 / 2,
-			basicFrameDim.getOriginY() + basicFrameDim.getHeight() / 4 / 2,
-			basicFrameDim.getWidth() - basicFrameDim.getWidth() / 20,
-			basicFrameDim.getHeight() / 4 * 3
-		);
+		Dim2i tabFrameDim = new Dim2i(basicFrameDim.getOriginX() + basicFrameDim.getWidth() / 20 / 2,
+				basicFrameDim.getOriginY() + basicFrameDim.getHeight() / 4 / 2,
+				basicFrameDim.getWidth() - basicFrameDim.getWidth() / 20, basicFrameDim.getHeight() / 4 * 3);
 		Dim2i undoButtonDim = new Dim2i(tabFrameDim.getLimitX() - 203, tabFrameDim.getLimitY() + 5, 65, 20);
 		Dim2i applyButtonDim = new Dim2i(tabFrameDim.getLimitX() - 134, tabFrameDim.getLimitY() + 5, 65, 20);
 		Dim2i closeButtonDim = new Dim2i(tabFrameDim.getLimitX() - 65, tabFrameDim.getLimitY() + 5, 65, 20);
 		this.undoButton = new FlatButtonWidget(undoButtonDim, "Undo", this::undoChanges);
 		this.applyButton = new FlatButtonWidget(applyButtonDim, "Apply", this::applyChanges);
 		this.closeButton = new FlatButtonWidget(closeButtonDim, "Close", this::onClose);
-		Dim2i searchTextFieldDim = new Dim2i(tabFrameDim.getOriginX(), tabFrameDim.getOriginY() - 26, tabFrameDim.getWidth(), 20);
+		Dim2i searchTextFieldDim = new Dim2i(tabFrameDim.getOriginX(), tabFrameDim.getOriginY() - 26,
+				tabFrameDim.getWidth(), 20);
 		Builder basicFrameBuilder = this.parentBasicFrameBuilder(basicFrameDim, tabFrameDim);
-		this.searchTextField = new SearchTextFieldComponent(
-			searchTextFieldDim,
-			this.pages,
-			tabFrameSelectedTab,
-			tabFrameScrollBarOffset,
-			optionPageScrollBarOffset,
-			tabFrameDim.getHeight(),
-			this,
-			lastSearch,
-			lastSearchIndex
-		);
+		this.searchTextField = new SearchTextFieldComponent(searchTextFieldDim, this.pages, tabFrameSelectedTab,
+				tabFrameScrollBarOffset, optionPageScrollBarOffset, tabFrameDim.getHeight(), this, lastSearch,
+				lastSearchIndex);
 		basicFrameBuilder.addChild(dim -> this.searchTextField);
 		return basicFrameBuilder;
 	}
 
 	public Builder parentBasicFrameBuilder(Dim2i parentBasicFrameDim, Dim2i tabFrameDim) {
-		return BasicFrame.createBuilder()
-			.setDimension(parentBasicFrameDim)
-			.shouldRenderOutline(false)
-			.addChild(
-				parentDim -> TabFrame.createBuilder()
-						.setDimension(tabFrameDim)
-						.shouldRenderOutline(false)
+		return BasicFrame.createBuilder().setDimension(parentBasicFrameDim).shouldRenderOutline(false)
+				.addChild(parentDim -> TabFrame.createBuilder().setDimension(tabFrameDim).shouldRenderOutline(false)
 						.setTabSectionScrollBarOffset(tabFrameScrollBarOffset)
 						.setTabSectionSelectedTab(tabFrameSelectedTab)
-						.addTabs(
-							tabs -> this.pages
-									.stream()
-									.filter(page -> !page.getGroups().isEmpty())
-									.forEach(page -> tabs.add(Tab.createBuilder().from(page, optionPageScrollBarOffset)))
-						)
-						.onSetTab(() -> optionPageScrollBarOffset.set(0))
-						.build()
-			)
-			.addChild(dim -> this.undoButton)
-			.addChild(dim -> this.applyButton)
-			.addChild(dim -> this.closeButton);
+						.addTabs(tabs -> this.pages.stream().filter(page -> !page.getGroups().isEmpty())
+								.forEach(page -> tabs.add(Tab.createBuilder().from(page, optionPageScrollBarOffset))))
+						.onSetTab(() -> optionPageScrollBarOffset.set(0)).build())
+				.addChild(dim -> this.undoButton).addChild(dim -> this.applyButton).addChild(dim -> this.closeButton);
 	}
 
 	@Override
@@ -141,7 +118,7 @@ public class ReeseSodiumVideoOptionsScreen extends SodiumOptionsGUI {
 			UnmodifiableIterator var4 = page.getOptions().iterator();
 
 			while (var4.hasNext()) {
-				Option<?> option = (Option<?>)var4.next();
+				Option<?> option = (Option<?>) var4.next();
 				if (option.hasChanged()) {
 					hasChanges = true;
 				}

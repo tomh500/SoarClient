@@ -24,10 +24,8 @@ public class SodiumGameOptions {
 	public final SodiumGameOptions.PerformanceSettings performance = new SodiumGameOptions.PerformanceSettings();
 	private Path configPath;
 	private static final Gson GSON = new GsonBuilder()
-		.setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
-		.setPrettyPrinting()
-		.excludeFieldsWithModifiers(new int[]{2})
-		.create();
+			.setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES).setPrettyPrinting()
+			.excludeFieldsWithModifiers(new int[] { 2 }).create();
 
 	public static SodiumGameOptions load(Path path) {
 		boolean resaveConfig = true;
@@ -37,7 +35,7 @@ public class SodiumGameOptions {
 				FileReader reader = new FileReader(path.toFile());
 
 				try {
-					config = (SodiumGameOptions)GSON.fromJson(reader, SodiumGameOptions.class);
+					config = (SodiumGameOptions) GSON.fromJson(reader, SodiumGameOptions.class);
 				} catch (Throwable var8) {
 					try {
 						reader.close();

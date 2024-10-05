@@ -1,7 +1,7 @@
 package com.soarclient.utils.math;
 
 public class MathUtils {
-	
+
 	public static int clamp(int number, int min, int max) {
 		return number < min ? min : Math.min(number, max);
 	}

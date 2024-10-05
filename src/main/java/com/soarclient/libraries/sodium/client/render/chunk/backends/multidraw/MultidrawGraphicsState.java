@@ -17,21 +17,16 @@ public class MultidrawGraphicsState extends ChunkGraphicsState {
 	private final GlBufferSegment segment;
 	private final long[] parts;
 
-	public MultidrawGraphicsState(
-		ChunkRenderContainer<?> container,
-		ChunkRegion<MultidrawGraphicsState> region,
-		GlBufferSegment segment,
-		ChunkMeshData meshData,
-		GlVertexFormat<?> vertexFormat
-	) {
+	public MultidrawGraphicsState(ChunkRenderContainer<?> container, ChunkRegion<MultidrawGraphicsState> region,
+			GlBufferSegment segment, ChunkMeshData meshData, GlVertexFormat<?> vertexFormat) {
 		super(container);
 		this.region = region;
 		this.segment = segment;
 		this.parts = new long[ModelQuadFacing.COUNT];
 
 		for (Entry<ModelQuadFacing, BufferSlice> entry : meshData.getSlices()) {
-			ModelQuadFacing facing = (ModelQuadFacing)entry.getKey();
-			BufferSlice slice = (BufferSlice)entry.getValue();
+			ModelQuadFacing facing = (ModelQuadFacing) entry.getKey();
+			BufferSlice slice = (BufferSlice) entry.getValue();
 			int start = (segment.getStart() + slice.start) / vertexFormat.getStride();
 			int count = slice.len / vertexFormat.getStride();
 			this.parts[facing.ordinal()] = BufferSlice.pack(start, count);

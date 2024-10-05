@@ -17,11 +17,12 @@ public class ChunkProgram extends GlProgram {
 	private final int uLightTex = this.getUniformLocation("u_LightTex");
 	private final ChunkShaderFogComponent fogShader;
 
-	protected ChunkProgram(RenderDevice owner, ResourceLocation name, int handle, Function<ChunkProgram, ChunkShaderFogComponent> fogShaderFunction) {
+	protected ChunkProgram(RenderDevice owner, ResourceLocation name, int handle,
+			Function<ChunkProgram, ChunkShaderFogComponent> fogShaderFunction) {
 		super(owner, name, handle);
 		this.uModelScale = this.getUniformLocation("u_ModelScale");
 		this.uTextureScale = this.getUniformLocation("u_TextureScale");
-		this.fogShader = (ChunkShaderFogComponent)fogShaderFunction.apply(this);
+		this.fogShader = (ChunkShaderFogComponent) fogShaderFunction.apply(this);
 	}
 
 	public void setup(float modelScale, float textureScale) {
@@ -30,6 +31,7 @@ public class ChunkProgram extends GlProgram {
 		GL20.glUniform3f(this.uModelScale, modelScale, modelScale, modelScale);
 		GL20.glUniform2f(this.uTextureScale, textureScale, textureScale);
 		this.fogShader.setup();
-		GL20.glUniformMatrix4(this.uModelViewProjectionMatrix, false, GameRendererContext.getModelViewProjectionMatrix());
+		GL20.glUniformMatrix4(this.uModelViewProjectionMatrix, false,
+				GameRendererContext.getModelViewProjectionMatrix());
 	}
 }

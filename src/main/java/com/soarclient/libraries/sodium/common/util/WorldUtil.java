@@ -26,28 +26,28 @@ public class WorldUtil {
 					adjDecay = getEffectiveFlowDecay(world, mutable.down(), thizz);
 					if (adjDecay >= 0) {
 						adjDecay -= decay - 8;
-						velocity = velocity.add((double)((adjX - pos.getX()) * adjDecay), 0.0, (double)((adjZ - pos.getZ()) * adjDecay));
+						velocity = velocity.add((double) ((adjX - pos.getX()) * adjDecay), 0.0,
+								(double) ((adjZ - pos.getZ()) * adjDecay));
 					}
 				}
 			} else {
 				adjDecay -= decay;
-				velocity = velocity.add((double)((adjX - pos.getX()) * adjDecay), 0.0, (double)((adjZ - pos.getZ()) * adjDecay));
+				velocity = velocity.add((double) ((adjX - pos.getX()) * adjDecay), 0.0,
+						(double) ((adjZ - pos.getZ()) * adjDecay));
 			}
 		}
 
 		IBlockState state = world.getBlockState(pos);
 		Block block = state.getBlock();
-		if ((Integer)state.getValue(BlockLiquid.LEVEL) >= 8
-			&& (
-				block.isBlockSolid(world, pos.north(), EnumFacing.NORTH)
-					|| block.isBlockSolid(world, pos.south(), EnumFacing.SOUTH)
-					|| block.isBlockSolid(world, pos.west(), EnumFacing.WEST)
-					|| block.isBlockSolid(world, pos.east(), EnumFacing.EAST)
-					|| block.isBlockSolid(world, pos.up().south(), EnumFacing.NORTH)
-					|| block.isBlockSolid(world, pos.up().west(), EnumFacing.SOUTH)
-					|| block.isBlockSolid(world, pos.up().west(), EnumFacing.WEST)
-					|| block.isBlockSolid(world, pos.up().east(), EnumFacing.EAST)
-			)) {
+		if ((Integer) state.getValue(BlockLiquid.LEVEL) >= 8
+				&& (block.isBlockSolid(world, pos.north(), EnumFacing.NORTH)
+						|| block.isBlockSolid(world, pos.south(), EnumFacing.SOUTH)
+						|| block.isBlockSolid(world, pos.west(), EnumFacing.WEST)
+						|| block.isBlockSolid(world, pos.east(), EnumFacing.EAST)
+						|| block.isBlockSolid(world, pos.up().south(), EnumFacing.NORTH)
+						|| block.isBlockSolid(world, pos.up().west(), EnumFacing.SOUTH)
+						|| block.isBlockSolid(world, pos.up().west(), EnumFacing.WEST)
+						|| block.isBlockSolid(world, pos.up().east(), EnumFacing.EAST))) {
 			velocity = velocity.normalize().add(0.0, -6.0, 0.0);
 		}
 
@@ -75,7 +75,7 @@ public class WorldUtil {
 		if (world.getBlockState(pos).getBlock().getMaterial() != thiz.getBlock().getMaterial()) {
 			return -1;
 		} else {
-			int decay = (Integer)thiz.getValue(BlockLiquid.LEVEL);
+			int decay = (Integer) thiz.getValue(BlockLiquid.LEVEL);
 			return decay >= 8 ? 0 : decay;
 		}
 	}
@@ -98,12 +98,13 @@ public class WorldUtil {
 		if (f == thiz) {
 			return false;
 		} else {
-			return dir == EnumFacing.UP ? true : b.getBlock().getMaterial() != Material.ice && b.getBlock().isBlockSolid(world, pos, dir);
+			return dir == EnumFacing.UP ? true
+					: b.getBlock().getMaterial() != Material.ice && b.getBlock().isBlockSolid(world, pos, dir);
 		}
 	}
 
 	public static BlockLiquid toFluidBlock(Block block) {
-		return block instanceof BlockLiquid ? (BlockLiquid)block : null;
+		return block instanceof BlockLiquid ? (BlockLiquid) block : null;
 	}
 
 	public static BlockLiquid getFluidOfBlock(Block block) {

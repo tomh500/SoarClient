@@ -63,8 +63,7 @@ public class ClickEvent {
 
 	public static enum Action {
 		OPEN_URL("open_url", true), OPEN_FILE("open_file", false), RUN_COMMAND("run_command", true),
-		SUGGEST_COMMAND("suggest_command", true),
-		CHANGE_PAGE("change_page", true);
+		SUGGEST_COMMAND("suggest_command", true), CHANGE_PAGE("change_page", true);
 
 		private static final Map<String, ClickEvent.Action> nameMapping = Maps.<String, ClickEvent.Action>newHashMap();
 		private final boolean allowedInChat;

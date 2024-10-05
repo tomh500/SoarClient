@@ -24,12 +24,13 @@ public class MusicManager {
 	private MusicPlayer musicPlayer;
 	private boolean shuffle;
 	private boolean repeat;
-	
+
 	public MusicManager() {
 		try {
 			load();
-		} catch (Exception e) {}
-		
+		} catch (Exception e) {
+		}
+
 		this.musicPlayer = new MusicPlayer(() -> {
 			Music nextMusic;
 

@@ -17,14 +17,16 @@ public class ExtendedBlockStorageExt extends ExtendedBlockStorage {
 		char[] blockLSBArray = this.getData();
 		System.arraycopy(storage.getData(), 0, blockLSBArray, 0, blockLSBArray.length);
 		int arrayLen = blockLSBArray.length;
-		copyNibbleArray((ExtendedNibbleArray)storage.getBlocklightArray(), (ExtendedNibbleArray)this.getBlocklightArray());
+		copyNibbleArray((ExtendedNibbleArray) storage.getBlocklightArray(),
+				(ExtendedNibbleArray) this.getBlocklightArray());
 		if (storage.getSkylightArray() != null) {
 			this.hasSky = true;
 			if (this.getSkylightArray() == null) {
 				this.setSkylightArray(new NibbleArray(new byte[arrayLen]));
 			}
 
-			copyNibbleArray((ExtendedNibbleArray)storage.getSkylightArray(), (ExtendedNibbleArray)this.getSkylightArray());
+			copyNibbleArray((ExtendedNibbleArray) storage.getSkylightArray(),
+					(ExtendedNibbleArray) this.getSkylightArray());
 		}
 
 		storage.setBlockRefCount(storage.getBlockRefCount());
@@ -35,7 +37,8 @@ public class ExtendedBlockStorageExt extends ExtendedBlockStorage {
 			byte[] data = srcArray.getData();
 			System.arraycopy(data, 0, dstArray.getData(), 0, data.length);
 		} else {
-			throw new RuntimeException("NibbleArray is null src: " + (srcArray == null) + " dst: " + (dstArray == null));
+			throw new RuntimeException(
+					"NibbleArray is null src: " + (srcArray == null) + " dst: " + (dstArray == null));
 		}
 	}
 }

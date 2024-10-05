@@ -26,10 +26,10 @@ public abstract class AbstractWidget implements Drawable, Element {
 	}
 
 	protected void drawRect(double x1, double y1, double x2, double y2, int color) {
-		float a = (float)(color >> 24 & 0xFF) / 255.0F;
-		float r = (float)(color >> 16 & 0xFF) / 255.0F;
-		float g = (float)(color >> 8 & 0xFF) / 255.0F;
-		float b = (float)(color & 0xFF) / 255.0F;
+		float a = (float) (color >> 24 & 0xFF) / 255.0F;
+		float r = (float) (color >> 16 & 0xFF) / 255.0F;
+		float g = (float) (color >> 8 & 0xFF) / 255.0F;
+		float b = (float) (color & 0xFF) / 255.0F;
 		this.drawQuads(vertices -> addQuad(vertices, x1, y1, x2, y2, a, r, g, b));
 	}
 
@@ -46,7 +46,8 @@ public abstract class AbstractWidget implements Drawable, Element {
 		GlStateManager.disableBlend();
 	}
 
-	protected static void addQuad(WorldRenderer consumer, double x1, double y1, double x2, double y2, float a, float r, float g, float b) {
+	protected static void addQuad(WorldRenderer consumer, double x1, double y1, double x2, double y2, float a, float r,
+			float g, float b) {
 		consumer.pos(x2, y1, 0.0).color(r, g, b, a).endVertex();
 		consumer.pos(x1, y1, 0.0).color(r, g, b, a).endVertex();
 		consumer.pos(x1, y2, 0.0).color(r, g, b, a).endVertex();
@@ -54,7 +55,8 @@ public abstract class AbstractWidget implements Drawable, Element {
 	}
 
 	protected void playClickSound() {
-		Minecraft.getMinecraft().getSoundHandler().playSound(PositionedSoundRecord.create(new ResourceLocation("gui.button.press"), 1.0F));
+		Minecraft.getMinecraft().getSoundHandler()
+				.playSound(PositionedSoundRecord.create(new ResourceLocation("gui.button.press"), 1.0F));
 	}
 
 	protected int getStringWidth(String text) {

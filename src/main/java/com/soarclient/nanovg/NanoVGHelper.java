@@ -114,7 +114,7 @@ public class NanoVGHelper {
 		}
 
 		y += size / 2;
-		
+
 		NanoVG.nvgBeginPath(nvg);
 		NanoVG.nvgFontSize(nvg, size);
 		NanoVG.nvgFontFace(nvg, font.getName());
@@ -343,7 +343,7 @@ public class NanoVGHelper {
 			p.free();
 		}
 	}
-	
+
 	public long getContext() {
 		return nvg;
 	}

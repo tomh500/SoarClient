@@ -51,7 +51,8 @@ public class VertexBufferBuilder implements VertexBufferView {
 	@Override
 	public void oldium$flush(int vertexCount, BufferVertexFormat format) {
 		if (this.vertexFormat != format) {
-			throw new IllegalStateException("Mis-matched vertex format (expected: [" + format + "], currently using: [" + this.vertexFormat + "])");
+			throw new IllegalStateException("Mis-matched vertex format (expected: [" + format + "], currently using: ["
+					+ this.vertexFormat + "])");
 		} else {
 			this.writerOffset = this.writerOffset + vertexCount * format.getStride();
 		}

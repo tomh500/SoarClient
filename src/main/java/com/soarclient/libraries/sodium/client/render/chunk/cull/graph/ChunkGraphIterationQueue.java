@@ -32,7 +32,7 @@ public class ChunkGraphIterationQueue {
 	private void resize() {
 		this.capacity *= 2;
 		this.positions = Arrays.copyOf(this.positions, this.capacity);
-		this.nodes = (ChunkGraphNode[])Arrays.copyOf(this.nodes, this.capacity);
+		this.nodes = (ChunkGraphNode[]) Arrays.copyOf(this.nodes, this.capacity);
 	}
 
 	public ChunkGraphNode getNode(int i) {

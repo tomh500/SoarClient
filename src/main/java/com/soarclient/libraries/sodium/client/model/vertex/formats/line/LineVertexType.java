@@ -12,7 +12,8 @@ import net.minecraft.client.renderer.vertex.VertexFormat;
 
 public class LineVertexType implements VanillaVertexType<LineVertexSink>, BlittableVertexType<LineVertexSink> {
 	public LineVertexSink createBufferWriter(VertexBufferView buffer, boolean direct) {
-		return (LineVertexSink)(direct ? new LineVertexBufferWriterUnsafe(buffer) : new LineVertexBufferWriterNio(buffer));
+		return (LineVertexSink) (direct ? new LineVertexBufferWriterUnsafe(buffer)
+				: new LineVertexBufferWriterNio(buffer));
 	}
 
 	public LineVertexSink createFallbackWriter(WorldRenderer consumer) {

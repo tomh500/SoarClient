@@ -43,7 +43,7 @@ public class ShaderConstants {
 		}
 
 		public void define(String name, String value) {
-			String prev = (String)this.constants.get(name);
+			String prev = (String) this.constants.get(name);
 			if (prev != null) {
 				throw new IllegalArgumentException("Constant " + name + " is already defined with value " + prev);
 			} else {
@@ -55,8 +55,8 @@ public class ShaderConstants {
 			List<String> defines = new ArrayList(this.constants.size());
 
 			for (Entry<String, String> entry : this.constants.entrySet()) {
-				String key = (String)entry.getKey();
-				String value = (String)entry.getValue();
+				String key = (String) entry.getKey();
+				String value = (String) entry.getValue();
 				if (value.length() <= 0) {
 					defines.add("#define " + key);
 				} else {

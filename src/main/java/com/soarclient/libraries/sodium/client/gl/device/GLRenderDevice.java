@@ -71,14 +71,17 @@ public class GLRenderDevice implements RenderDevice {
 		@Override
 		public void uploadData(GlMutableBuffer glBuffer, ByteBuffer byteBuffer) {
 			this.bindBuffer(GlBufferTarget.ARRAY_BUFFER, glBuffer);
-			GL15.glBufferData(GlBufferTarget.ARRAY_BUFFER.getTargetParameter(), byteBuffer, glBuffer.getUsageHint().getId());
-			glBuffer.setSize((long)byteBuffer.limit());
+			GL15.glBufferData(GlBufferTarget.ARRAY_BUFFER.getTargetParameter(), byteBuffer,
+					glBuffer.getUsageHint().getId());
+			glBuffer.setSize((long) byteBuffer.limit());
 		}
 
 		@Override
-		public void copyBufferSubData(GlBuffer src, GlMutableBuffer dst, long readOffset, long writeOffset, long bytes) {
+		public void copyBufferSubData(GlBuffer src, GlMutableBuffer dst, long readOffset, long writeOffset,
+				long bytes) {
 			if (writeOffset + bytes > dst.getSize()) {
-				throw new IllegalArgumentException("Not enough space in destination buffer (writeOffset + bytes > bufferSize)");
+				throw new IllegalArgumentException(
+						"Not enough space in destination buffer (writeOffset + bytes > bufferSize)");
 			} else {
 				this.bindBuffer(GlBufferTarget.COPY_READ_BUFFER, src);
 				this.bindBuffer(GlBufferTarget.COPY_WRITE_BUFFER, dst);
@@ -162,7 +165,8 @@ public class GLRenderDevice implements RenderDevice {
 		@Override
 		public GlTessellation createTessellation(GlPrimitiveType primitiveType, TessellationBinding[] bindings) {
 			if (GlVertexArrayTessellation.isSupported()) {
-				GlVertexArrayTessellation tessellation = new GlVertexArrayTessellation(new GlVertexArray(GLRenderDevice.this), primitiveType, bindings);
+				GlVertexArrayTessellation tessellation = new GlVertexArrayTessellation(
+						new GlVertexArray(GLRenderDevice.this), primitiveType, bindings);
 				tessellation.init(this);
 				return tessellation;
 			} else {

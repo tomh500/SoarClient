@@ -6,7 +6,8 @@ import com.soarclient.libraries.sodium.client.model.vertex.buffer.VertexBufferWr
 import com.soarclient.libraries.sodium.client.model.vertex.formats.screen_quad.BasicScreenQuadVertexSink;
 import com.soarclient.libraries.sodium.client.util.CompatMemoryUtil;
 
-public class BasicScreenQuadVertexBufferWriterUnsafe extends VertexBufferWriterUnsafe implements BasicScreenQuadVertexSink {
+public class BasicScreenQuadVertexBufferWriterUnsafe extends VertexBufferWriterUnsafe
+		implements BasicScreenQuadVertexSink {
 	public BasicScreenQuadVertexBufferWriterUnsafe(VertexBufferView backingBuffer) {
 		super(backingBuffer, VanillaVertexTypes.BASIC_SCREEN_QUADS);
 	}

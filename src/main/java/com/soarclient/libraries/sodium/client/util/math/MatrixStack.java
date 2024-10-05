@@ -18,11 +18,11 @@ public class MatrixStack {
 	}
 
 	public MatrixStack.Entry peek() {
-		return (MatrixStack.Entry)this.matrixStack.getLast();
+		return (MatrixStack.Entry) this.matrixStack.getLast();
 	}
 
 	public void push() {
-		MatrixStack.Entry lv = (MatrixStack.Entry)this.matrixStack.getLast();
+		MatrixStack.Entry lv = (MatrixStack.Entry) this.matrixStack.getLast();
 		this.matrixStack.addLast(new MatrixStack.Entry(new Matrix4f(lv.model), new Matrix3f(lv.normal)));
 	}
 
@@ -35,30 +35,30 @@ public class MatrixStack {
 	}
 
 	public void translate(double d, double e, double f) {
-		MatrixStack.Entry lv = (MatrixStack.Entry)this.matrixStack.getLast();
-		lv.model.translate((float)d, (float)e, (float)f);
+		MatrixStack.Entry lv = (MatrixStack.Entry) this.matrixStack.getLast();
+		lv.model.translate((float) d, (float) e, (float) f);
 	}
 
 	public void rotateX(float f) {
-		MatrixStack.Entry lv = (MatrixStack.Entry)this.matrixStack.getLast();
+		MatrixStack.Entry lv = (MatrixStack.Entry) this.matrixStack.getLast();
 		lv.model.rotateX(f);
 		lv.normal.rotateX(f);
 	}
 
 	public void rotateY(float f) {
-		MatrixStack.Entry lv = (MatrixStack.Entry)this.matrixStack.getLast();
+		MatrixStack.Entry lv = (MatrixStack.Entry) this.matrixStack.getLast();
 		lv.model.rotateY(f);
 		lv.normal.rotateY(f);
 	}
 
 	public void rotateZ(float f) {
-		MatrixStack.Entry lv = (MatrixStack.Entry)this.matrixStack.getLast();
+		MatrixStack.Entry lv = (MatrixStack.Entry) this.matrixStack.getLast();
 		lv.model.rotateZ(f);
 		lv.normal.rotateZ(f);
 	}
 
 	public void scale(float f, float g, float h) {
-		MatrixStack.Entry lv = (MatrixStack.Entry)this.matrixStack.getLast();
+		MatrixStack.Entry lv = (MatrixStack.Entry) this.matrixStack.getLast();
 		lv.model.scale(f, g, h);
 		if (f == g && g == h) {
 			if (f > 0.0F) {

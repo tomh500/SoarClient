@@ -27,20 +27,18 @@ import javax.sound.sampled.AudioFileFormat;
  */
 public class FlacFileFormatType extends AudioFileFormat.Type {
 
-    /**
-     * Specifies an FLAC file.
-     */
-    public static final AudioFileFormat.Type FLAC = new FlacFileFormatType("FLAC", "flac");
+	/**
+	 * Specifies an FLAC file.
+	 */
+	public static final AudioFileFormat.Type FLAC = new FlacFileFormatType("FLAC", "flac");
 
-    /**
-     * Constructs a file type.
-     * 
-     * @param name -
-     *            the name of the Flac File Format.
-     * @param extension -
-     *            the file extension for this Flac File Format.
-     */
-    public FlacFileFormatType(String name, String extension) {
-        super(name, extension);
-    }
+	/**
+	 * Constructs a file type.
+	 * 
+	 * @param name      - the name of the Flac File Format.
+	 * @param extension - the file extension for this Flac File Format.
+	 */
+	public FlacFileFormatType(String name, String extension) {
+		super(name, extension);
+	}
 }

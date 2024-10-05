@@ -19,6 +19,6 @@ public class GenericBinding<S, T> implements OptionBinding<S, T> {
 
 	@Override
 	public T getValue(S storage) {
-		return (T)this.getter.apply(storage);
+		return (T) this.getter.apply(storage);
 	}
 }

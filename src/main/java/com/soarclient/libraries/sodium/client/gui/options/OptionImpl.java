@@ -33,23 +33,16 @@ public class OptionImpl<S, T> implements OptionExtended<T> {
 	private boolean highlight;
 	private boolean selected;
 
-	private OptionImpl(
-		OptionStorage<S> storage,
-		IChatComponent name,
-		IChatComponent tooltip,
-		OptionBinding<S, T> binding,
-		Function<OptionImpl<S, T>, Control<T>> control,
-		EnumSet<OptionFlag> flags,
-		OptionImpact impact,
-		boolean enabled
-	) {
+	private OptionImpl(OptionStorage<S> storage, IChatComponent name, IChatComponent tooltip,
+			OptionBinding<S, T> binding, Function<OptionImpl<S, T>, Control<T>> control, EnumSet<OptionFlag> flags,
+			OptionImpact impact, boolean enabled) {
 		this.storage = storage;
 		this.name = name;
 		this.tooltip = tooltip;
 		this.binding = binding;
 		this.impact = impact;
 		this.flags = flags;
-		this.control = (Control<T>)control.apply(this);
+		this.control = (Control<T>) control.apply(this);
 		this.enabled = enabled;
 		this.reset();
 	}
@@ -238,7 +231,8 @@ public class OptionImpl<S, T> implements OptionExtended<T> {
 			Validate.notNull(this.tooltip, "Tooltip must be specified", new Object[0]);
 			Validate.notNull(this.binding, "Option binding must be specified", new Object[0]);
 			Validate.notNull(this.control, "Control must be specified", new Object[0]);
-			return new OptionImpl<>(this.storage, this.name, this.tooltip, this.binding, this.control, this.flags, this.impact, this.enabled);
+			return new OptionImpl<>(this.storage, this.name, this.tooltip, this.binding, this.control, this.flags,
+					this.impact, this.enabled);
 		}
 	}
 }

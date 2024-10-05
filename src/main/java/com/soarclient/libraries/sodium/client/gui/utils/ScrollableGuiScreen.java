@@ -18,13 +18,14 @@ public abstract class ScrollableGuiScreen extends GuiScreen {
 			int dWheel = Mouse.getEventDWheel();
 			if (dWheel != 0) {
 				for (Element child : this.children()) {
-					child.mouseScrolled((double)mouseX, (double)mouseY, (double)dWheel);
+					child.mouseScrolled((double) mouseX, (double) mouseY, (double) dWheel);
 				}
 			}
 
 			try {
 				this.mc.currentScreen.handleMouseInput();
-			} catch (IOException e) {}
+			} catch (IOException e) {
+			}
 		}
 	}
 }

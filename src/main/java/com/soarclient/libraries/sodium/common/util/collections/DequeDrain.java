@@ -15,6 +15,6 @@ public class DequeDrain<T> implements Iterator<T> {
 	}
 
 	public T next() {
-		return (T)this.deque.remove();
+		return (T) this.deque.remove();
 	}
 }

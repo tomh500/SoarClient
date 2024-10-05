@@ -62,24 +62,21 @@ public class FlacFormatConversionProvider extends FormatConversionProvider {
 	// AudioFormat.Encoding.PCM_SIGNED
 	// };
 	/** */
+
 	// private static final AudioFormat[] NO_FORMAT = {};
 	/**
 	 * Obtains the set of source format encodings from which format conversion
 	 * services are provided by this provider.
 	 * 
-	 * @return array of source format encodings. The array will always have a
-	 *         length of at least 1.
+	 * @return array of source format encodings. The array will always have a length
+	 *         of at least 1.
 	 */
 	public AudioFormat.Encoding[] getSourceEncodings() {
 		if (HAS_ENCODING) {
-			AudioFormat.Encoding[] encodings = {
-					FlacEncoding.FLAC, AudioFormat.Encoding.PCM_SIGNED
-			};
+			AudioFormat.Encoding[] encodings = { FlacEncoding.FLAC, AudioFormat.Encoding.PCM_SIGNED };
 			return encodings;
 		} else {
-			AudioFormat.Encoding[] encodings = {
-				FlacEncoding.FLAC
-			};
+			AudioFormat.Encoding[] encodings = { FlacEncoding.FLAC };
 			return encodings;
 		}
 	}
@@ -88,39 +85,34 @@ public class FlacFormatConversionProvider extends FormatConversionProvider {
 	 * Obtains the set of target format encodings to which format conversion
 	 * services are provided by this provider.
 	 * 
-	 * @return array of target format encodings. The array will always have a
-	 *         length of at least 1.
+	 * @return array of target format encodings. The array will always have a length
+	 *         of at least 1.
 	 */
 	public AudioFormat.Encoding[] getTargetEncodings() {
 		if (HAS_ENCODING) {
-			AudioFormat.Encoding[] encodings = {
-					FlacEncoding.FLAC, AudioFormat.Encoding.PCM_SIGNED
-			};
+			AudioFormat.Encoding[] encodings = { FlacEncoding.FLAC, AudioFormat.Encoding.PCM_SIGNED };
 			return encodings;
 		} else {
-			AudioFormat.Encoding[] encodings = {
-				FlacEncoding.PCM_SIGNED
-			};
+			AudioFormat.Encoding[] encodings = { FlacEncoding.PCM_SIGNED };
 			return encodings;
 		}
 	}
 
 	private boolean isBitSizeOK(AudioFormat format, boolean notSpecifiedOK) {
 		int bitSize = format.getSampleSizeInBits();
-		return (notSpecifiedOK && (bitSize == AudioSystem.NOT_SPECIFIED))
-				|| (bitSize == 8) || (bitSize == 16) || (bitSize == 24);
+		return (notSpecifiedOK && (bitSize == AudioSystem.NOT_SPECIFIED)) || (bitSize == 8) || (bitSize == 16)
+				|| (bitSize == 24);
 	}
 
 	private boolean isChannelsOK(AudioFormat format, boolean notSpecifiedOK) {
 		int channels = format.getChannels();
-		return (notSpecifiedOK && (channels == AudioSystem.NOT_SPECIFIED))
-				|| (channels == 1) || (channels == 2);
+		return (notSpecifiedOK && (channels == AudioSystem.NOT_SPECIFIED)) || (channels == 1) || (channels == 2);
 	}
 
 	/**
-	 * Obtains the set of target format encodings supported by the format
-	 * converter given a particular source format. If no target format encodings
-	 * are supported for this source format, an array of length 0 is returned.
+	 * Obtains the set of target format encodings supported by the format converter
+	 * given a particular source format. If no target format encodings are supported
+	 * for this source format, an array of length 0 is returned.
 	 * 
 	 * @param sourceFormat format of the incoming data.
 	 * @return array of supported target format encodings.
@@ -128,33 +120,24 @@ public class FlacFormatConversionProvider extends FormatConversionProvider {
 	public AudioFormat.Encoding[] getTargetEncodings(AudioFormat sourceFormat) {
 		boolean bitSizeOK = isBitSizeOK(sourceFormat, true);
 		boolean channelsOK = isChannelsOK(sourceFormat, true);
-		if (HAS_ENCODING
-				&& bitSizeOK
-				&& channelsOK
-				&& !sourceFormat.isBigEndian()
-				&& sourceFormat.getEncoding().equals(
-						AudioFormat.Encoding.PCM_SIGNED)) {
+		if (HAS_ENCODING && bitSizeOK && channelsOK && !sourceFormat.isBigEndian()
+				&& sourceFormat.getEncoding().equals(AudioFormat.Encoding.PCM_SIGNED)) {
 			// encoder
 			if (DEBUG) {
-				System.out.println("FLAC converter: can encode to PCM: "+sourceFormat);
+				System.out.println("FLAC converter: can encode to PCM: " + sourceFormat);
 			}
-			AudioFormat.Encoding[] encodings = {
-				FlacEncoding.FLAC
-			};
+			AudioFormat.Encoding[] encodings = { FlacEncoding.FLAC };
 			return encodings;
-		} else if (bitSizeOK && channelsOK
-				&& sourceFormat.getEncoding().equals(FlacEncoding.FLAC)) {
+		} else if (bitSizeOK && channelsOK && sourceFormat.getEncoding().equals(FlacEncoding.FLAC)) {
 			// decoder
 			if (DEBUG) {
-				System.out.println("FLAC converter: can decode to FLAC: "+sourceFormat);
+				System.out.println("FLAC converter: can decode to FLAC: " + sourceFormat);
 			}
-			AudioFormat.Encoding[] encodings = {
-				AudioFormat.Encoding.PCM_SIGNED
-			};
+			AudioFormat.Encoding[] encodings = { AudioFormat.Encoding.PCM_SIGNED };
 			return encodings;
 		} else {
 			if (DEBUG) {
-				System.out.println("FLAC converter: cannot de/encode: "+sourceFormat);
+				System.out.println("FLAC converter: cannot de/encode: " + sourceFormat);
 			}
 			AudioFormat.Encoding[] encodings = {};
 			return encodings;
@@ -162,73 +145,63 @@ public class FlacFormatConversionProvider extends FormatConversionProvider {
 	}
 
 	/**
-	 * Obtains the set of target formats with the encoding specified supported
-	 * by the format converter. If no target formats with the specified encoding
-	 * are supported for this source format, an array of length 0 is returned.
+	 * Obtains the set of target formats with the encoding specified supported by
+	 * the format converter. If no target formats with the specified encoding are
+	 * supported for this source format, an array of length 0 is returned.
 	 * 
 	 * @param targetEncoding desired encoding of the outgoing data.
-	 * @param sourceFormat format of the incoming data.
+	 * @param sourceFormat   format of the incoming data.
 	 * @return array of supported target formats.
 	 */
-	public AudioFormat[] getTargetFormats(AudioFormat.Encoding targetEncoding,
-			AudioFormat sourceFormat) {
+	public AudioFormat[] getTargetFormats(AudioFormat.Encoding targetEncoding, AudioFormat sourceFormat) {
 		return getTargetFormats(targetEncoding, sourceFormat, true);
 	}
 
 	/**
-	 * Like getTargetFormats(AudioFormat.Encoding, AudioFormat), but with
-	 * additional choice if AudioSystem.NOT_SPECIFIED is supported in
-	 * sourceFormat's bitSize or channels.
+	 * Like getTargetFormats(AudioFormat.Encoding, AudioFormat), but with additional
+	 * choice if AudioSystem.NOT_SPECIFIED is supported in sourceFormat's bitSize or
+	 * channels.
 	 * 
 	 * @param notSpecifiedOK if true, bitSize and channels can have value
-	 *            AudioSystem.NOT_SPECIFIED
+	 *                       AudioSystem.NOT_SPECIFIED
 	 * @return array of supported target formats.
 	 */
-	private AudioFormat[] getTargetFormats(AudioFormat.Encoding targetEncoding,
-			AudioFormat sourceFormat, boolean notSpecifiedOK) {
+	private AudioFormat[] getTargetFormats(AudioFormat.Encoding targetEncoding, AudioFormat sourceFormat,
+			boolean notSpecifiedOK) {
 		boolean bitSizeOK = isBitSizeOK(sourceFormat, notSpecifiedOK);
 		boolean channelsOK = isChannelsOK(sourceFormat, notSpecifiedOK);
-		if (HAS_ENCODING
-				&& bitSizeOK
-				&& channelsOK
-				&& !sourceFormat.isBigEndian()
-				&& sourceFormat.getEncoding().equals(
-						AudioFormat.Encoding.PCM_SIGNED)
+		if (HAS_ENCODING && bitSizeOK && channelsOK && !sourceFormat.isBigEndian()
+				&& sourceFormat.getEncoding().equals(AudioFormat.Encoding.PCM_SIGNED)
 				&& targetEncoding.equals(FlacEncoding.FLAC)) {
 			// encode to FLAC
 			if (DEBUG) {
-				System.out.println("FLAC converter: can encode: "+sourceFormat+" to "+targetEncoding);
+				System.out.println("FLAC converter: can encode: " + sourceFormat + " to " + targetEncoding);
 			}
-			AudioFormat[] formats = { // 
-				new AudioFormat(FlacEncoding.FLAC,
-						sourceFormat.getSampleRate(), // 
-						-1, // sample size in bits
-						sourceFormat.getChannels(), //
-						-1, // frame size
-						-1, // frame rate
-						false)
-			}; // little endian
+			AudioFormat[] formats = { //
+					new AudioFormat(FlacEncoding.FLAC, sourceFormat.getSampleRate(), //
+							-1, // sample size in bits
+							sourceFormat.getChannels(), //
+							-1, // frame size
+							-1, // frame rate
+							false) }; // little endian
 			return formats;
 
-		} else if (bitSizeOK && channelsOK
-				&& sourceFormat.getEncoding().equals(FlacEncoding.FLAC)
+		} else if (bitSizeOK && channelsOK && sourceFormat.getEncoding().equals(FlacEncoding.FLAC)
 				&& targetEncoding.equals(AudioFormat.Encoding.PCM_SIGNED)) {
 			// decode to PCM
 			if (DEBUG) {
-				System.out.println("FLAC converter: can decode: "+sourceFormat+" to "+targetEncoding);
+				System.out.println("FLAC converter: can decode: " + sourceFormat + " to " + targetEncoding);
 			}
-			AudioFormat[] formats = {
-				new AudioFormat(sourceFormat.getSampleRate(), // 
-						sourceFormat.getSampleSizeInBits(), // sample size in
-						// bits
-						sourceFormat.getChannels(), // 
-						true, // signed
-						false)
-			}; // little endian (for PCM wav)
+			AudioFormat[] formats = { new AudioFormat(sourceFormat.getSampleRate(), //
+					sourceFormat.getSampleSizeInBits(), // sample size in
+					// bits
+					sourceFormat.getChannels(), //
+					true, // signed
+					false) }; // little endian (for PCM wav)
 			return formats;
 		} else {
 			if (DEBUG) {
-				System.out.println("FLAC converter: cannot de/encode: "+sourceFormat+" to "+targetEncoding);
+				System.out.println("FLAC converter: cannot de/encode: " + sourceFormat + " to " + targetEncoding);
 			}
 			AudioFormat[] formats = {};
 			return formats;
@@ -240,15 +213,13 @@ public class FlacFormatConversionProvider extends FormatConversionProvider {
 	 * audio input stream.
 	 * 
 	 * @param targetEncoding - desired encoding of the stream after processing.
-	 * @param sourceStream - stream from which data to be processed should be
-	 *            read.
-	 * @return stream from which processed data with the specified target
-	 *         encoding may be read.
+	 * @param sourceStream   - stream from which data to be processed should be
+	 *                       read.
+	 * @return stream from which processed data with the specified target encoding
+	 *         may be read.
 	 */
-	public AudioInputStream getAudioInputStream(
-			AudioFormat.Encoding targetEncoding, AudioInputStream sourceStream) {
-		AudioFormat[] formats = getTargetFormats(targetEncoding,
-				sourceStream.getFormat(), false);
+	public AudioInputStream getAudioInputStream(AudioFormat.Encoding targetEncoding, AudioInputStream sourceStream) {
+		AudioFormat[] formats = getTargetFormats(targetEncoding, sourceStream.getFormat(), false);
 		if (formats != null && formats.length > 0) {
 			return getAudioInputStream(formats[0], sourceStream);
 		} else {
@@ -257,46 +228,37 @@ public class FlacFormatConversionProvider extends FormatConversionProvider {
 	}
 
 	/**
-	 * Obtains an audio input stream with the specified format from the given
-	 * audio input stream.
+	 * Obtains an audio input stream with the specified format from the given audio
+	 * input stream.
 	 * 
 	 * @param targetFormat - desired data format of the stream after processing.
-	 * @param sourceStream - stream from which data to be processed should be
-	 *            read.
+	 * @param sourceStream - stream from which data to be processed should be read.
 	 * @return stream from which processed data with the specified format may be
 	 *         read.
 	 */
-	public AudioInputStream getAudioInputStream(AudioFormat targetFormat,
-			AudioInputStream sourceStream) {
+	public AudioInputStream getAudioInputStream(AudioFormat targetFormat, AudioInputStream sourceStream) {
 		AudioFormat sourceFormat = sourceStream.getFormat();
-		AudioFormat[] formats = getTargetFormats(targetFormat.getEncoding(),
-				sourceFormat, false);
+		AudioFormat[] formats = getTargetFormats(targetFormat.getEncoding(), sourceFormat, false);
 		if (formats != null && formats.length > 0) {
 			if (sourceFormat.equals(targetFormat)) {
 				return sourceStream;
 			} else if (sourceFormat.getChannels() == targetFormat.getChannels()
 					&& sourceFormat.getSampleSizeInBits() == targetFormat.getSampleSizeInBits()
-					&& !targetFormat.isBigEndian()
-					&& sourceFormat.getEncoding().equals(FlacEncoding.FLAC)
-					&& targetFormat.getEncoding().equals(
-							AudioFormat.Encoding.PCM_SIGNED)) {
+					&& !targetFormat.isBigEndian() && sourceFormat.getEncoding().equals(FlacEncoding.FLAC)
+					&& targetFormat.getEncoding().equals(AudioFormat.Encoding.PCM_SIGNED)) {
 				// decoder
 				return new Flac2PcmAudioInputStream(sourceStream, targetFormat, sourceStream.getFrameLength());
 			} else if (sourceFormat.getChannels() == targetFormat.getChannels()
 					&& sourceFormat.getSampleSizeInBits() == targetFormat.getSampleSizeInBits()
-					&& sourceFormat.getEncoding().equals(
-							AudioFormat.Encoding.PCM_SIGNED)
+					&& sourceFormat.getEncoding().equals(AudioFormat.Encoding.PCM_SIGNED)
 					&& targetFormat.getEncoding().equals(FlacEncoding.FLAC)) {
 				// encoder
 
 				// return new Pcm2FlacAudioInputStream(sourceStream,
 				// targetFormat, -1);
-				throw new IllegalArgumentException(
-						"FLAC encoder not yet implemented");
+				throw new IllegalArgumentException("FLAC encoder not yet implemented");
 			} else {
-				throw new IllegalArgumentException("unable to convert "
-						+ sourceFormat + " to "
-						+ targetFormat);
+				throw new IllegalArgumentException("unable to convert " + sourceFormat + " to " + targetFormat);
 			}
 		} else {
 			throw new IllegalArgumentException("conversion not supported");

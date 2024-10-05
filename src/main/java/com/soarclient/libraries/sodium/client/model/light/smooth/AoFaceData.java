@@ -149,11 +149,11 @@ class AoFaceData {
 	}
 
 	private static float unpackSkyLight(int i) {
-		return (float)(i >> 16 & 0xFF);
+		return (float) (i >> 16 & 0xFF);
 	}
 
 	private static float unpackBlockLight(int i) {
-		return (float)(i & 0xFF);
+		return (float) (i & 0xFF);
 	}
 
 	private static int calculateCornerBrightness(int a, int b, int c, int d) {

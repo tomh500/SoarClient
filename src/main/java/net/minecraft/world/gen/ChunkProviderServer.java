@@ -261,11 +261,11 @@ public class ChunkProviderServer implements IChunkProvider {
 	 */
 	public boolean unloadQueuedChunks() {
 		if (!this.worldObj.disableLevelSaving) {
-			
+
 			if (!this.droppedChunksSet.isEmpty()) {
 				((ILightingEngineProvider) this.worldObj).getLightingEngine().processLightUpdates();
 			}
-			
+
 			for (int i = 0; i < 100; ++i) {
 				if (!this.droppedChunksSet.isEmpty()) {
 					Long olong = (Long) this.droppedChunksSet.iterator().next();

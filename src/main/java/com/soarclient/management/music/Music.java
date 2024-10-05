@@ -7,14 +7,14 @@ public class Music {
 	private File audio;
 	private String title, artist;
 	private File album;
-	
+
 	public Music(File audio, String title, String artist, File album) {
 		this.audio = audio;
 		this.title = title;
 		this.artist = artist;
 		this.album = album;
 	}
-	
+
 	public File getAudio() {
 		return audio;
 	}

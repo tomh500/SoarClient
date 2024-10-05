@@ -58,7 +58,7 @@ public class ChunkSectionPos extends Vec3i {
 		int x = getLocalCoord(pos.getX());
 		int y = getLocalCoord(pos.getY());
 		int z = getLocalCoord(pos.getZ());
-		return (short)(x << 8 | z << 4 | y);
+		return (short) (x << 8 | z << 4 | y);
 	}
 
 	public static int unpackLocalX(short packedLocalPos) {
@@ -78,15 +78,15 @@ public class ChunkSectionPos extends Vec3i {
 	}
 
 	public static int unpackX(long packed) {
-		return (int)(packed >> 42);
+		return (int) (packed >> 42);
 	}
 
 	public static int unpackY(long packed) {
-		return (int)(packed << 44 >> 44);
+		return (int) (packed << 44 >> 44);
 	}
 
 	public static int unpackZ(long packed) {
-		return (int)(packed << 22 >> 42);
+		return (int) (packed << 22 >> 42);
 	}
 
 	public static long fromBlockPos(long blockPos) {
@@ -103,9 +103,9 @@ public class ChunkSectionPos extends Vec3i {
 
 	public static long asLong(int x, int y, int z) {
 		long l = 0L;
-		l |= ((long)x & 4194303L) << 42;
-		l |= (long)y & 1048575L;
-		return l | ((long)z & 4194303L) << 20;
+		l |= ((long) x & 4194303L) << 42;
+		l |= (long) y & 1048575L;
+		return l | ((long) z & 4194303L) << 20;
 	}
 
 	public int unpackBlockX(short packedLocalPos) {
@@ -183,6 +183,7 @@ public class ChunkSectionPos extends Vec3i {
 	}
 
 	public Iterable<BlockPos> streamBlocks() {
-		return BlockPos.getAllInBox(new BlockPos(this.getMinX(), this.getMinY(), this.getMinZ()), new BlockPos(this.getMaxX(), this.getMaxY(), this.getMaxZ()));
+		return BlockPos.getAllInBox(new BlockPos(this.getMinX(), this.getMinY(), this.getMinZ()),
+				new BlockPos(this.getMaxX(), this.getMaxY(), this.getMaxZ()));
 	}
 }

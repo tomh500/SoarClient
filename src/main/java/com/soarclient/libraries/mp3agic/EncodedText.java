@@ -20,36 +20,21 @@ public class EncodedText {
 	public static final String CHARSET_UTF_16BE = "UTF-16BE";
 	public static final String CHARSET_UTF_8 = "UTF-8";
 
-	private static final String[] characterSets = {
-			CHARSET_ISO_8859_1,
-			CHARSET_UTF_16,
-			CHARSET_UTF_16BE,
-			CHARSET_UTF_8
-	};
+	private static final String[] characterSets = { CHARSET_ISO_8859_1, CHARSET_UTF_16, CHARSET_UTF_16BE,
+			CHARSET_UTF_8 };
 
-	private static final byte[] textEncodingFallback = {0, 2, 1, 3};
+	private static final byte[] textEncodingFallback = { 0, 2, 1, 3 };
 
-	private static final byte[][] boms = {
-			{},
-			{(byte) 0xff, (byte) 0xfe},
-			{(byte) 0xfe, (byte) 0xff},
-			{}
-	};
+	private static final byte[][] boms = { {}, { (byte) 0xff, (byte) 0xfe }, { (byte) 0xfe, (byte) 0xff }, {} };
 
-	private static final byte[][] terminators = {
-			{0},
-			{0, 0},
-			{0, 0},
-			{0}
-	};
+	private static final byte[][] terminators = { { 0 }, { 0, 0 }, { 0, 0 }, { 0 } };
 
 	private byte[] value;
 	private byte textEncoding;
 
 	public EncodedText(byte textEncoding, byte[] value) {
 		// if encoding type 1 and big endian BOM is present, switch to big endian
-		if ((textEncoding == TEXT_ENCODING_UTF_16) &&
-				(textEncodingForBytesFromBOM(value) == TEXT_ENCODING_UTF_16BE)) {
+		if ((textEncoding == TEXT_ENCODING_UTF_16) && (textEncodingForBytesFromBOM(value) == TEXT_ENCODING_UTF_16BE)) {
 			this.textEncoding = TEXT_ENCODING_UTF_16BE;
 		} else {
 			this.textEncoding = textEncoding;
@@ -70,7 +55,8 @@ public class EncodedText {
 		throw new IllegalArgumentException("Invalid string, could not find appropriate encoding");
 	}
 
-	public EncodedText(String string, byte transcodeToTextEncoding) throws IllegalArgumentException, CharacterCodingException {
+	public EncodedText(String string, byte transcodeToTextEncoding)
+			throws IllegalArgumentException, CharacterCodingException {
 		this(string);
 		setTextEncoding(transcodeToTextEncoding, true);
 	}
@@ -90,7 +76,8 @@ public class EncodedText {
 			return TEXT_ENCODING_UTF_16;
 		} else if (value.length >= 2 && value[0] == (byte) 0xfe && value[1] == (byte) 0xff) {
 			return TEXT_ENCODING_UTF_16BE;
-		} else if (value.length >= 3 && (value[0] == (byte) 0xef && value[1] == (byte) 0xbb && value[2] == (byte) 0xbf)) {
+		} else if (value.length >= 3
+				&& (value[0] == (byte) 0xef && value[1] == (byte) 0xbb && value[2] == (byte) 0xbf)) {
 			return TEXT_ENCODING_UTF_8;
 		} else {
 			return TEXT_ENCODING_ISO_8859_1;
@@ -107,9 +94,11 @@ public class EncodedText {
 
 	private void stripBomAndTerminator() {
 		int leadingCharsToRemove = 0;
-		if (value.length >= 2 && ((value[0] == (byte) 0xfe && value[1] == (byte) 0xff) || (value[0] == (byte) 0xff && value[1] == (byte) 0xfe))) {
+		if (value.length >= 2 && ((value[0] == (byte) 0xfe && value[1] == (byte) 0xff)
+				|| (value[0] == (byte) 0xff && value[1] == (byte) 0xfe))) {
 			leadingCharsToRemove = 2;
-		} else if (value.length >= 3 && (value[0] == (byte) 0xef && value[1] == (byte) 0xbb && value[2] == (byte) 0xbf)) {
+		} else if (value.length >= 3
+				&& (value[0] == (byte) 0xef && value[1] == (byte) 0xbb && value[2] == (byte) 0xbf)) {
 			leadingCharsToRemove = 3;
 		}
 		int trailingCharsToRemove = 0;
@@ -122,7 +111,8 @@ public class EncodedText {
 					break;
 				}
 			}
-			if (haveTerminator) trailingCharsToRemove = terminator.length;
+			if (haveTerminator)
+				trailingCharsToRemove = terminator.length;
 		}
 		if (leadingCharsToRemove + trailingCharsToRemove > 0) {
 			int newLength = value.length - leadingCharsToRemove - trailingCharsToRemove;
@@ -165,7 +155,8 @@ public class EncodedText {
 
 	public byte[] toBytes(boolean includeBom, boolean includeTerminator) {
 		characterSetForTextEncoding(textEncoding); // ensured textEncoding is valid
-		int newLength = value.length + (includeBom ? boms[textEncoding].length : 0) + (includeTerminator ? getTerminator().length : 0);
+		int newLength = value.length + (includeBom ? boms[textEncoding].length : 0)
+				+ (includeTerminator ? getTerminator().length : 0);
 		if (newLength == value.length) {
 			return value;
 		} else {
@@ -234,7 +225,8 @@ public class EncodedText {
 		CharBuffer cbuf = bytesToCharBuffer(bytes, characterSet);
 		String s = cbuf.toString();
 		int length = s.indexOf(0);
-		if (length == -1) return s;
+		if (length == -1)
+			return s;
 		return s.substring(0, length);
 	}
 
@@ -252,7 +244,8 @@ public class EncodedText {
 		}
 	}
 
-	protected static byte[] charBufferToBytes(CharBuffer charBuffer, String characterSet) throws CharacterCodingException {
+	protected static byte[] charBufferToBytes(CharBuffer charBuffer, String characterSet)
+			throws CharacterCodingException {
 		Charset charset = Charset.forName(characterSet);
 		CharsetEncoder encoder = charset.newEncoder();
 		ByteBuffer byteBuffer = encoder.encode(charBuffer);

@@ -8,7 +8,7 @@ public class MathUtil {
 	}
 
 	public static long hashPos(BlockPos pos) {
-		return cantor((long)pos.getX(), cantor((long)pos.getY(), (long)pos.getZ()));
+		return cantor((long) pos.getX(), cantor((long) pos.getY(), (long) pos.getZ()));
 	}
 
 	private static long cantor(long a, long b) {

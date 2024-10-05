@@ -12,7 +12,8 @@ import net.minecraft.client.renderer.vertex.VertexFormat;
 
 public class GlyphVertexType implements VanillaVertexType<GlyphVertexSink>, BlittableVertexType<GlyphVertexSink> {
 	public GlyphVertexSink createBufferWriter(VertexBufferView buffer, boolean direct) {
-		return (GlyphVertexSink)(direct ? new GlyphVertexBufferWriterUnsafe(buffer) : new GlyphVertexBufferWriterNio(buffer));
+		return (GlyphVertexSink) (direct ? new GlyphVertexBufferWriterUnsafe(buffer)
+				: new GlyphVertexBufferWriterNio(buffer));
 	}
 
 	public GlyphVertexSink createFallbackWriter(WorldRenderer consumer) {

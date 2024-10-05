@@ -51,7 +51,7 @@ public class TickBoxControl implements Control<Boolean> {
 			}
 
 			if (ticked) {
-				this.drawRect((double)(x + 2), (double)(y + 2), (double)(w - 2), (double)(h - 2), color);
+				this.drawRect((double) (x + 2), (double) (y + 2), (double) (w - 2), (double) (h - 2), color);
 			}
 
 			this.drawRectOutline(x, y, w, h, color);
@@ -69,15 +69,15 @@ public class TickBoxControl implements Control<Boolean> {
 		}
 
 		protected void drawRectOutline(int x, int y, int w, int h, int color) {
-			float a = (float)(color >> 24 & 0xFF) / 255.0F;
-			float r = (float)(color >> 16 & 0xFF) / 255.0F;
-			float g = (float)(color >> 8 & 0xFF) / 255.0F;
-			float b = (float)(color & 0xFF) / 255.0F;
+			float a = (float) (color >> 24 & 0xFF) / 255.0F;
+			float r = (float) (color >> 16 & 0xFF) / 255.0F;
+			float g = (float) (color >> 8 & 0xFF) / 255.0F;
+			float b = (float) (color & 0xFF) / 255.0F;
 			this.drawQuads(vertices -> {
-				addQuad(vertices, (double)x, (double)y, (double)w, (double)(y + 1), a, r, g, b);
-				addQuad(vertices, (double)x, (double)(h - 1), (double)w, (double)h, a, r, g, b);
-				addQuad(vertices, (double)x, (double)y, (double)(x + 1), (double)h, a, r, g, b);
-				addQuad(vertices, (double)(w - 1), (double)y, (double)w, (double)h, a, r, g, b);
+				addQuad(vertices, (double) x, (double) y, (double) w, (double) (y + 1), a, r, g, b);
+				addQuad(vertices, (double) x, (double) (h - 1), (double) w, (double) h, a, r, g, b);
+				addQuad(vertices, (double) x, (double) y, (double) (x + 1), (double) h, a, r, g, b);
+				addQuad(vertices, (double) (w - 1), (double) y, (double) w, (double) h, a, r, g, b);
 			});
 		}
 	}

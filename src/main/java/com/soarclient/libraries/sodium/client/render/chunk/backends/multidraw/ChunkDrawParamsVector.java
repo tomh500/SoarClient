@@ -17,9 +17,9 @@ public abstract class ChunkDrawParamsVector extends StructBuffer {
 	}
 
 	public static ChunkDrawParamsVector create(int capacity) {
-		return (ChunkDrawParamsVector)(SodiumClientMod.isDirectMemoryAccessEnabled()
-			? new ChunkDrawParamsVector.UnsafeChunkDrawCallVector(capacity)
-			: new ChunkDrawParamsVector.NioChunkDrawCallVector(capacity));
+		return (ChunkDrawParamsVector) (SodiumClientMod.isDirectMemoryAccessEnabled()
+				? new ChunkDrawParamsVector.UnsafeChunkDrawCallVector(capacity)
+				: new ChunkDrawParamsVector.NioChunkDrawCallVector(capacity));
 	}
 
 	public abstract void pushChunkDrawParams(float float1, float float2, float float3);
@@ -77,7 +77,7 @@ public abstract class ChunkDrawParamsVector extends StructBuffer {
 			CompatMemoryUtil.memPutFloat(this.writePointer, x);
 			CompatMemoryUtil.memPutFloat(this.writePointer + 4L, y);
 			CompatMemoryUtil.memPutFloat(this.writePointer + 8L, z);
-			this.writePointer = this.writePointer + (long)this.stride;
+			this.writePointer = this.writePointer + (long) this.stride;
 		}
 
 		@Override

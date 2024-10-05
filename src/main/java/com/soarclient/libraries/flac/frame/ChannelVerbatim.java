@@ -27,37 +27,40 @@ import com.soarclient.libraries.flac.io.BitInputStream;
 
 /**
  * Verbatim FLAC subframe (channel).
+ * 
  * @author kc7bfi
  */
 public class ChannelVerbatim extends Channel {
-    private int[] data; // A pointer to verbatim signal.
-    
-    /**
-     * The constructor.
-     * @param is            The InputBitStream
-     * @param header        The FLAC Frame Header
-     * @param channelData   The decoded channel data (output)
-     * @param bps           The bits-per-second
-     * @param wastedBits    The bits waisted in the frame
-     * @throws IOException  Thrown if error reading from the InputBitStream
-     */
-    public ChannelVerbatim(BitInputStream is, Header header, ChannelData channelData, int bps, int wastedBits) throws IOException {
-        super(header, wastedBits);
+	private int[] data; // A pointer to verbatim signal.
 
-        data = channelData.getResidual();
+	/**
+	 * The constructor.
+	 * 
+	 * @param is          The InputBitStream
+	 * @param header      The FLAC Frame Header
+	 * @param channelData The decoded channel data (output)
+	 * @param bps         The bits-per-second
+	 * @param wastedBits  The bits waisted in the frame
+	 * @throws IOException Thrown if error reading from the InputBitStream
+	 */
+	public ChannelVerbatim(BitInputStream is, Header header, ChannelData channelData, int bps, int wastedBits)
+			throws IOException {
+		super(header, wastedBits);
 
-        for (int i = 0; i < header.blockSize; i++) {
-            data[i] = is.readRawInt(bps);
-        }
+		data = channelData.getResidual();
 
-        // decode the subframe
-        System.arraycopy(data, 0, channelData.getOutput(), 0, header.blockSize);
-    }
-    
-    /**
-     * @see java.lang.Object#toString()
-     */
-    public String toString() {
-        return "ChannelVerbatim: WastedBits=" + wastedBits;
-    }
+		for (int i = 0; i < header.blockSize; i++) {
+			data[i] = is.readRawInt(bps);
+		}
+
+		// decode the subframe
+		System.arraycopy(data, 0, channelData.getOutput(), 0, header.blockSize);
+	}
+
+	/**
+	 * @see java.lang.Object#toString()
+	 */
+	public String toString() {
+		return "ChannelVerbatim: WastedBits=" + wastedBits;
+	}
 }

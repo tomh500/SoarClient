@@ -27,14 +27,17 @@ public class FlatButtonWidget extends AbstractWidget implements Drawable {
 	@Override
 	public void render(int mouseX, int mouseY, float delta) {
 		if (this.visible) {
-			boolean hovered = this.dim.containsCursor((double)mouseX, (double)mouseY);
+			boolean hovered = this.dim.containsCursor((double) mouseX, (double) mouseY);
 			int backgroundColor = this.enabled ? (hovered ? -536870912 : -1879048192) : 1610612736;
 			int textColor = this.enabled ? -1 : -1862270977;
 			int strWidth = this.font.getStringWidth(this.label.getFormattedText());
-			this.drawRect((double)this.dim.getOriginX(), (double)this.dim.getOriginY(), (double)this.dim.getLimitX(), (double)this.dim.getLimitY(), backgroundColor);
-			this.drawString(this.label.getFormattedText(), this.dim.getCenterX() - strWidth / 2, this.dim.getCenterY() - 4, textColor);
+			this.drawRect((double) this.dim.getOriginX(), (double) this.dim.getOriginY(), (double) this.dim.getLimitX(),
+					(double) this.dim.getLimitY(), backgroundColor);
+			this.drawString(this.label.getFormattedText(), this.dim.getCenterX() - strWidth / 2,
+					this.dim.getCenterY() - 4, textColor);
 			if (this.enabled && this.selected) {
-				this.drawRect((double)this.dim.getOriginX(), (double)(this.dim.getLimitY() - 1), (double)this.dim.getLimitX(), (double)this.dim.getLimitY(), -7019309);
+				this.drawRect((double) this.dim.getOriginX(), (double) (this.dim.getLimitY() - 1),
+						(double) this.dim.getLimitX(), (double) this.dim.getLimitY(), -7019309);
 			}
 		}
 	}

@@ -46,17 +46,11 @@ public class SearchTextFieldComponent extends AbstractWidget {
 	private boolean focused;
 	private int lastCursorPosition = this.getCursor();
 
-	public SearchTextFieldComponent(
-		Dim2i dim,
-		List<OptionPage> pages,
-		AtomicReference<IChatComponent> tabFrameSelectedTab,
-		AtomicReference<Integer> tabFrameScrollBarOffset,
-		AtomicReference<Integer> optionPageScrollBarOffset,
-		int tabDimHeight,
-		ReeseSodiumVideoOptionsScreen sodiumVideoOptionsScreen,
-		AtomicReference<String> lastSearch,
-		AtomicReference<Integer> lastSearchIndex
-	) {
+	public SearchTextFieldComponent(Dim2i dim, List<OptionPage> pages,
+			AtomicReference<IChatComponent> tabFrameSelectedTab, AtomicReference<Integer> tabFrameScrollBarOffset,
+			AtomicReference<Integer> optionPageScrollBarOffset, int tabDimHeight,
+			ReeseSodiumVideoOptionsScreen sodiumVideoOptionsScreen, AtomicReference<String> lastSearch,
+			AtomicReference<Integer> lastSearchIndex) {
 		this.dim = dim;
 		this.pages = pages;
 		this.tabFrameSelectedTab = tabFrameSelectedTab;
@@ -66,8 +60,8 @@ public class SearchTextFieldComponent extends AbstractWidget {
 		this.sodiumVideoOptionsScreen = sodiumVideoOptionsScreen;
 		this.lastSearch = lastSearch;
 		this.lastSearchIndex = lastSearchIndex;
-		if (!((String)lastSearch.get()).trim().isEmpty()) {
-			this.write((String)lastSearch.get());
+		if (!((String) lastSearch.get()).trim().isEmpty()) {
+			this.write((String) lastSearch.get());
 		}
 	}
 
@@ -84,16 +78,12 @@ public class SearchTextFieldComponent extends AbstractWidget {
 				this.textRenderer.drawString(text, this.dim.getOriginX() + 6, this.dim.getOriginY() + 6, -5592406);
 			}
 
-			this.drawRect(
-				(double)this.dim.getOriginX(),
-				(double)this.dim.getOriginY(),
-				(double)this.dim.getLimitX(),
-				(double)this.dim.getLimitY(),
-				this.isFocused() ? -536870912 : -1879048192
-			);
+			this.drawRect((double) this.dim.getOriginX(), (double) this.dim.getOriginY(), (double) this.dim.getLimitX(),
+					(double) this.dim.getLimitY(), this.isFocused() ? -536870912 : -1879048192);
 			int j = this.selectionStart - this.firstCharacterIndex;
 			int k = this.selectionEnd - this.firstCharacterIndex;
-			String string = this.textRenderer.trimStringToWidth(this.text.substring(this.firstCharacterIndex), this.getInnerWidth());
+			String string = this.textRenderer.trimStringToWidth(this.text.substring(this.firstCharacterIndex),
+					this.getInnerWidth());
 			boolean bl = j >= 0 && j <= string.length();
 			int l = this.dim.getOriginX() + 6;
 			int m = this.dim.getOriginY() + 6;
@@ -104,7 +94,7 @@ public class SearchTextFieldComponent extends AbstractWidget {
 
 			if (!string.isEmpty()) {
 				String string2 = bl ? string.substring(0, j) : string;
-				n = this.textRenderer.drawStringWithShadow(string2, (float)l, (float)m, 14737632);
+				n = this.textRenderer.drawStringWithShadow(string2, (float) l, (float) m, 14737632);
 			}
 
 			boolean bl3 = this.selectionStart < this.text.length() || this.text.length() >= this.getMaxLength();
@@ -117,11 +107,12 @@ public class SearchTextFieldComponent extends AbstractWidget {
 			}
 
 			if (!string.isEmpty() && bl && j < string.length()) {
-				this.textRenderer.drawStringWithShadow(string.substring(j), (float)n, (float)m, 14737632);
+				this.textRenderer.drawStringWithShadow(string.substring(j), (float) n, (float) m, 14737632);
 			}
 
 			if (this.isFocused()) {
-				this.drawRect((double)o, (double)(m - 1), (double)(o + 1), (double)(m + 1 + this.textRenderer.FONT_HEIGHT), -3092272);
+				this.drawRect((double) o, (double) (m - 1), (double) (o + 1),
+						(double) (m + 1 + this.textRenderer.FONT_HEIGHT), -3092272);
 			}
 
 			if (k != j) {
@@ -134,17 +125,12 @@ public class SearchTextFieldComponent extends AbstractWidget {
 	@Override
 	public boolean mouseClicked(double mouseX, double mouseY, int button) {
 		int i = MathHelper.floor_double(mouseX) - this.dim.getOriginX() - 6;
-		String string = this.textRenderer.trimStringToWidth(this.text.substring(this.firstCharacterIndex), this.getInnerWidth());
+		String string = this.textRenderer.trimStringToWidth(this.text.substring(this.firstCharacterIndex),
+				this.getInnerWidth());
 		this.setCursor(this.textRenderer.trimStringToWidth(string, i).length() + this.firstCharacterIndex);
 		this.setFocused(this.dim.containsCursor(mouseX, mouseY));
-		this.pages
-			.forEach(
-				page -> page.getOptions()
-						.stream()
-						.filter(OptionExtended.class::isInstance)
-						.map(OptionExtended.class::cast)
-						.forEach(optionExtended -> optionExtended.setSelected(false))
-			);
+		this.pages.forEach(page -> page.getOptions().stream().filter(OptionExtended.class::isInstance)
+				.map(OptionExtended.class::cast).forEach(optionExtended -> optionExtended.setSelected(false)));
 		return this.isFocused();
 	}
 
@@ -171,7 +157,7 @@ public class SearchTextFieldComponent extends AbstractWidget {
 
 		GL11.glEnable(3058);
 		GL11.glLogicOp(5387);
-		this.drawRect((double)x1, (double)y1, (double)x2, (double)y2, -16776961);
+		this.drawRect((double) x1, (double) y1, (double) x2, (double) y2, -16776961);
 		GL11.glDisable(3058);
 	}
 
@@ -206,18 +192,13 @@ public class SearchTextFieldComponent extends AbstractWidget {
 	}
 
 	private void onChanged(String newText) {
-		this.pages
-			.forEach(
-				page -> page.getOptions()
-						.stream()
-						.filter(OptionExtended.class::isInstance)
-						.map(OptionExtended.class::cast)
-						.forEach(optionExtended -> optionExtended.setHighlight(false))
-			);
+		this.pages.forEach(page -> page.getOptions().stream().filter(OptionExtended.class::isInstance)
+				.map(OptionExtended.class::cast).forEach(optionExtended -> optionExtended.setHighlight(false)));
 		this.lastSearch.set(newText.trim());
 		if (this.editable && !newText.trim().isEmpty()) {
 			List<Option<?>> fuzzy = StringUtils.fuzzySearch(this.pages, newText, 2);
-			fuzzy.stream().filter(OptionExtended.class::isInstance).map(OptionExtended.class::cast).forEach(optionExtended -> optionExtended.setHighlight(true));
+			fuzzy.stream().filter(OptionExtended.class::isInstance).map(OptionExtended.class::cast)
+					.forEach(optionExtended -> optionExtended.setHighlight(true));
 		}
 	}
 
@@ -342,7 +323,8 @@ public class SearchTextFieldComponent extends AbstractWidget {
 			String string = this.textRenderer.trimStringToWidth(this.text.substring(this.firstCharacterIndex), j);
 			int k = string.length() + this.firstCharacterIndex;
 			if (this.selectionEnd == this.firstCharacterIndex) {
-				this.firstCharacterIndex = this.firstCharacterIndex - this.textRenderer.trimStringToWidth(this.text, j, true).length();
+				this.firstCharacterIndex = this.firstCharacterIndex
+						- this.textRenderer.trimStringToWidth(this.text, j, true).length();
 			}
 
 			if (this.selectionEnd > k) {
@@ -361,14 +343,8 @@ public class SearchTextFieldComponent extends AbstractWidget {
 
 	@Override
 	public boolean keyTyped(char typedChar, int keyCode) {
-		this.pages
-			.forEach(
-				page2 -> page2.getOptions()
-						.stream()
-						.filter(OptionExtended.class::isInstance)
-						.map(OptionExtended.class::cast)
-						.forEach(optionExtended2 -> optionExtended2.setSelected(false))
-			);
+		this.pages.forEach(page2 -> page2.getOptions().stream().filter(OptionExtended.class::isInstance)
+				.map(OptionExtended.class::cast).forEach(optionExtended2 -> optionExtended2.setSelected(false)));
 		if (!this.isActive()) {
 			return false;
 		} else {
@@ -395,115 +371,112 @@ public class SearchTextFieldComponent extends AbstractWidget {
 				return true;
 			} else {
 				switch (keyCode) {
-					case 14:
-						if (this.editable) {
-							this.selecting = false;
-							this.erase(-1);
-							this.selecting = GuiScreen.isShiftKeyDown();
-						}
+				case 14:
+					if (this.editable) {
+						this.selecting = false;
+						this.erase(-1);
+						this.selecting = GuiScreen.isShiftKeyDown();
+					}
 
-						return true;
-					case 28:
-						if (this.editable) {
-							int count = 0;
+					return true;
+				case 28:
+					if (this.editable) {
+						int count = 0;
 
-							for (OptionPage page : this.pages) {
-								UnmodifiableIterator var6 = page.getOptions().iterator();
+						for (OptionPage page : this.pages) {
+							UnmodifiableIterator var6 = page.getOptions().iterator();
 
-								while (var6.hasNext()) {
-									Option<?> option = (Option<?>)var6.next();
-									if (option instanceof OptionExtended) {
-										OptionExtended<?> optionExtended = (OptionExtended<?>)option;
-										if (optionExtended.isHighlight() && optionExtended.getParentDimension() != null) {
-											if (count == (Integer)this.lastSearchIndex.get()) {
-												Dim2i optionDim = optionExtended.getDim2i();
-												if (optionDim == null) {
-													return false;
-												}
-
-												Dim2i parentDim = optionExtended.getParentDimension();
-												int maxOffset = parentDim.getHeight() - this.tabDimHeight;
-												int input = optionDim.getOriginY() - parentDim.getOriginY();
-												int inputOffset = input + optionDim.getHeight() == parentDim.getHeight() ? parentDim.getHeight() : input;
-												int offset = inputOffset * maxOffset / parentDim.getHeight();
-												int total = this.pages
-													.stream()
-													.mapToInt(
-														page2 -> Math.toIntExact(
-																page2.getOptions()
-																	.stream()
-																	.filter(OptionExtended.class::isInstance)
-																	.map(OptionExtended.class::cast)
-																	.filter(OptionExtended::isHighlight)
-																	.count()
-															)
-													)
-													.sum();
-												int value = total == this.lastSearchIndex.get() + 1 ? 0 : (Integer)this.lastSearchIndex.get() + 1;
-												optionExtended.setSelected(true);
-												this.lastSearchIndex.set(value);
-												this.tabFrameSelectedTab.set(page.getName());
-												this.tabFrameScrollBarOffset.set(0);
-												this.optionPageScrollBarOffset.set(offset);
-												this.setFocused(false);
-												this.sodiumVideoOptionsScreen.rebuildGUI();
-												return true;
+							while (var6.hasNext()) {
+								Option<?> option = (Option<?>) var6.next();
+								if (option instanceof OptionExtended) {
+									OptionExtended<?> optionExtended = (OptionExtended<?>) option;
+									if (optionExtended.isHighlight() && optionExtended.getParentDimension() != null) {
+										if (count == (Integer) this.lastSearchIndex.get()) {
+											Dim2i optionDim = optionExtended.getDim2i();
+											if (optionDim == null) {
+												return false;
 											}
 
-											count++;
+											Dim2i parentDim = optionExtended.getParentDimension();
+											int maxOffset = parentDim.getHeight() - this.tabDimHeight;
+											int input = optionDim.getOriginY() - parentDim.getOriginY();
+											int inputOffset = input + optionDim.getHeight() == parentDim.getHeight()
+													? parentDim.getHeight()
+													: input;
+											int offset = inputOffset * maxOffset / parentDim.getHeight();
+											int total = this.pages.stream()
+													.mapToInt(page2 -> Math.toIntExact(page2.getOptions().stream()
+															.filter(OptionExtended.class::isInstance)
+															.map(OptionExtended.class::cast)
+															.filter(OptionExtended::isHighlight).count()))
+													.sum();
+											int value = total == this.lastSearchIndex.get() + 1 ? 0
+													: (Integer) this.lastSearchIndex.get() + 1;
+											optionExtended.setSelected(true);
+											this.lastSearchIndex.set(value);
+											this.tabFrameSelectedTab.set(page.getName());
+											this.tabFrameScrollBarOffset.set(0);
+											this.optionPageScrollBarOffset.set(offset);
+											this.setFocused(false);
+											this.sodiumVideoOptionsScreen.rebuildGUI();
+											return true;
 										}
+
+										count++;
 									}
 								}
 							}
 						}
+					}
 
-						return true;
-					case 199:
-						this.setCursorToStart();
-						return true;
-					case 203:
-						if (GuiScreen.isCtrlKeyDown()) {
-							this.setCursor(this.getWordSkipPosition(-1));
-						} else {
-							this.moveCursor(-1);
-						}
+					return true;
+				case 199:
+					this.setCursorToStart();
+					return true;
+				case 203:
+					if (GuiScreen.isCtrlKeyDown()) {
+						this.setCursor(this.getWordSkipPosition(-1));
+					} else {
+						this.moveCursor(-1);
+					}
 
-						boolean state2 = this.getCursor() != this.lastCursorPosition && this.getCursor() != 0;
-						this.lastCursorPosition = this.getCursor();
-						return state2;
-					case 205:
-						if (GuiScreen.isCtrlKeyDown()) {
-							this.setCursor(this.getWordSkipPosition(1));
-						} else {
-							this.moveCursor(1);
-						}
+					boolean state2 = this.getCursor() != this.lastCursorPosition && this.getCursor() != 0;
+					this.lastCursorPosition = this.getCursor();
+					return state2;
+				case 205:
+					if (GuiScreen.isCtrlKeyDown()) {
+						this.setCursor(this.getWordSkipPosition(1));
+					} else {
+						this.moveCursor(1);
+					}
 
-						boolean state = this.getCursor() != this.lastCursorPosition && this.getCursor() != this.text.length() + 1;
-						this.lastCursorPosition = this.getCursor();
-						return state;
-					case 207:
-						this.setCursorToEnd();
-						return true;
-					case 211:
+					boolean state = this.getCursor() != this.lastCursorPosition
+							&& this.getCursor() != this.text.length() + 1;
+					this.lastCursorPosition = this.getCursor();
+					return state;
+				case 207:
+					this.setCursorToEnd();
+					return true;
+				case 211:
+					if (this.editable) {
+						this.selecting = false;
+						this.erase(1);
+						this.selecting = GuiScreen.isShiftKeyDown();
+					}
+
+					return true;
+				default:
+					if (ChatAllowedCharacters.isAllowedCharacter(typedChar)) {
 						if (this.editable) {
-							this.selecting = false;
-							this.erase(1);
-							this.selecting = GuiScreen.isShiftKeyDown();
+							this.lastSearch.set(this.text.trim());
+							this.write(Character.toString(typedChar));
+							this.lastSearchIndex.set(0);
 						}
 
 						return true;
-					default:
-						if (ChatAllowedCharacters.isAllowedCharacter(typedChar)) {
-							if (this.editable) {
-								this.lastSearch.set(this.text.trim());
-								this.write(Character.toString(typedChar));
-								this.lastSearchIndex.set(0);
-							}
-
-							return true;
-						} else {
-							return false;
-						}
+					} else {
+						return false;
+					}
 				}
 			}
 		}

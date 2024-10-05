@@ -41,11 +41,11 @@ public class XoRoShiRoRandom extends Random {
 	}
 
 	public int nextInt() {
-		return (int)this.nextLong();
+		return (int) this.nextLong();
 	}
 
 	public int nextInt(int n) {
-		return (int)this.nextLong((long)n);
+		return (int) this.nextLong((long) n);
 	}
 
 	public long nextLong(long n) {
@@ -73,7 +73,7 @@ public class XoRoShiRoRandom extends Random {
 	}
 
 	public float nextFloat() {
-		return (float)(this.nextLong() >>> 40) * 5.9604645E-8F;
+		return (float) (this.nextLong() >>> 40) * 5.9604645E-8F;
 	}
 
 	public boolean nextBoolean() {
@@ -88,7 +88,7 @@ public class XoRoShiRoRandom extends Random {
 
 			for (long bits = this.nextLong(); n-- != 0; bits >>= 8) {
 				i--;
-				bytes[i] = (byte)((int)bits);
+				bytes[i] = (byte) ((int) bits);
 			}
 		}
 	}

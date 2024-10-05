@@ -27,21 +27,22 @@ public abstract class ChunkRenderShaderBackend<T extends ChunkGraphicsState> imp
 		this.vertexFormat = vertexType.getCustomVertexFormat();
 	}
 
-	private ChunkProgram createShader(RenderDevice device, ChunkFogMode fogMode, GlVertexFormat<ChunkMeshAttribute> vertexFormat) {
-		GlShader vertShader = ShaderLoader.loadShader(device, ShaderType.VERTEX, new ResourceLocation("sodium", "chunk_gl20.v.glsl"), fogMode.getDefines());
-		GlShader fragShader = ShaderLoader.loadShader(device, ShaderType.FRAGMENT, new ResourceLocation("sodium", "chunk_gl20.f.glsl"), fogMode.getDefines());
+	private ChunkProgram createShader(RenderDevice device, ChunkFogMode fogMode,
+			GlVertexFormat<ChunkMeshAttribute> vertexFormat) {
+		GlShader vertShader = ShaderLoader.loadShader(device, ShaderType.VERTEX,
+				new ResourceLocation("sodium", "chunk_gl20.v.glsl"), fogMode.getDefines());
+		GlShader fragShader = ShaderLoader.loadShader(device, ShaderType.FRAGMENT,
+				new ResourceLocation("sodium", "chunk_gl20.f.glsl"), fogMode.getDefines());
 
 		ChunkProgram var6;
 		try {
-			var6 = GlProgram.builder(new ResourceLocation("sodium", "chunk_shader"))
-				.attachShader(vertShader)
-				.attachShader(fragShader)
-				.bindAttribute("a_Pos", ChunkShaderBindingPoints.POSITION)
-				.bindAttribute("a_Color", ChunkShaderBindingPoints.COLOR)
-				.bindAttribute("a_TexCoord", ChunkShaderBindingPoints.TEX_COORD)
-				.bindAttribute("a_LightCoord", ChunkShaderBindingPoints.LIGHT_COORD)
-				.bindAttribute("d_ModelOffset", ChunkShaderBindingPoints.MODEL_OFFSET)
-				.build((program, name) -> new ChunkProgram(device, program, name, fogMode.getFactory()));
+			var6 = GlProgram.builder(new ResourceLocation("sodium", "chunk_shader")).attachShader(vertShader)
+					.attachShader(fragShader).bindAttribute("a_Pos", ChunkShaderBindingPoints.POSITION)
+					.bindAttribute("a_Color", ChunkShaderBindingPoints.COLOR)
+					.bindAttribute("a_TexCoord", ChunkShaderBindingPoints.TEX_COORD)
+					.bindAttribute("a_LightCoord", ChunkShaderBindingPoints.LIGHT_COORD)
+					.bindAttribute("d_ModelOffset", ChunkShaderBindingPoints.MODEL_OFFSET)
+					.build((program, name) -> new ChunkProgram(device, program, name, fogMode.getFactory()));
 		} finally {
 			vertShader.delete();
 			fragShader.delete();
@@ -59,7 +60,7 @@ public abstract class ChunkRenderShaderBackend<T extends ChunkGraphicsState> imp
 
 	@Override
 	public void begin() {
-		this.activeProgram = (ChunkProgram)this.programs.get(FogHelper.getFogMode());
+		this.activeProgram = (ChunkProgram) this.programs.get(FogHelper.getFogMode());
 		this.activeProgram.bind();
 		this.activeProgram.setup(this.vertexType.getModelScale(), this.vertexType.getTextureScale());
 	}

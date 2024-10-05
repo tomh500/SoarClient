@@ -11,12 +11,12 @@ import com.soarclient.libraries.sodium.client.render.chunk.format.ModelVertexSin
 import net.minecraft.client.renderer.WorldRenderer;
 
 public class SFPModelVertexType implements ChunkVertexType {
-	public static final GlVertexFormat<ChunkMeshAttribute> VERTEX_FORMAT = GlVertexFormat.builder(ChunkMeshAttribute.class, 32)
-		.addElement(ChunkMeshAttribute.POSITION, 0, GlVertexAttributeFormat.FLOAT, 3, false)
-		.addElement(ChunkMeshAttribute.COLOR, 12, GlVertexAttributeFormat.UNSIGNED_BYTE, 4, true)
-		.addElement(ChunkMeshAttribute.TEXTURE, 16, GlVertexAttributeFormat.FLOAT, 2, false)
-		.addElement(ChunkMeshAttribute.LIGHT, 24, GlVertexAttributeFormat.UNSIGNED_SHORT, 2, true)
-		.build();
+	public static final GlVertexFormat<ChunkMeshAttribute> VERTEX_FORMAT = GlVertexFormat
+			.builder(ChunkMeshAttribute.class, 32)
+			.addElement(ChunkMeshAttribute.POSITION, 0, GlVertexAttributeFormat.FLOAT, 3, false)
+			.addElement(ChunkMeshAttribute.COLOR, 12, GlVertexAttributeFormat.UNSIGNED_BYTE, 4, true)
+			.addElement(ChunkMeshAttribute.TEXTURE, 16, GlVertexAttributeFormat.FLOAT, 2, false)
+			.addElement(ChunkMeshAttribute.LIGHT, 24, GlVertexAttributeFormat.UNSIGNED_SHORT, 2, true).build();
 	public static final float MODEL_SCALE = 1.0F;
 	public static final float TEXTURE_SCALE = 1.0F;
 
@@ -25,7 +25,8 @@ public class SFPModelVertexType implements ChunkVertexType {
 	}
 
 	public ModelVertexSink createBufferWriter(VertexBufferView buffer, boolean direct) {
-		return (ModelVertexSink)(direct ? new SFPModelVertexBufferWriterUnsafe(buffer) : new SFPModelVertexBufferWriterNio(buffer));
+		return (ModelVertexSink) (direct ? new SFPModelVertexBufferWriterUnsafe(buffer)
+				: new SFPModelVertexBufferWriterNio(buffer));
 	}
 
 	@Override

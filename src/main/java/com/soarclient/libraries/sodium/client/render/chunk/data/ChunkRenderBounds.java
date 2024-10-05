@@ -3,9 +3,9 @@ package com.soarclient.libraries.sodium.client.render.chunk.data;
 import com.soarclient.libraries.sodium.client.util.math.ChunkSectionPos;
 
 public class ChunkRenderBounds {
-	public static final ChunkRenderBounds ALWAYS_FALSE = new ChunkRenderBounds(
-		Float.POSITIVE_INFINITY, Float.POSITIVE_INFINITY, Float.POSITIVE_INFINITY, Float.NEGATIVE_INFINITY, Float.NEGATIVE_INFINITY, Float.NEGATIVE_INFINITY
-	);
+	public static final ChunkRenderBounds ALWAYS_FALSE = new ChunkRenderBounds(Float.POSITIVE_INFINITY,
+			Float.POSITIVE_INFINITY, Float.POSITIVE_INFINITY, Float.NEGATIVE_INFINITY, Float.NEGATIVE_INFINITY,
+			Float.NEGATIVE_INFINITY);
 	public final float x1;
 	public final float y1;
 	public final float z1;
@@ -23,12 +23,12 @@ public class ChunkRenderBounds {
 	}
 
 	public ChunkRenderBounds(ChunkSectionPos origin) {
-		this.x1 = (float)origin.getMinX();
-		this.y1 = (float)origin.getMinY();
-		this.z1 = (float)origin.getMinZ();
-		this.x2 = (float)(origin.getMaxX() + 1);
-		this.y2 = (float)(origin.getMaxY() + 1);
-		this.z2 = (float)(origin.getMaxZ() + 1);
+		this.x1 = (float) origin.getMinX();
+		this.y1 = (float) origin.getMinY();
+		this.z1 = (float) origin.getMinZ();
+		this.x2 = (float) (origin.getMaxX() + 1);
+		this.y2 = (float) (origin.getMaxY() + 1);
+		this.z2 = (float) (origin.getMaxZ() + 1);
 	}
 
 	public static class Builder {
@@ -52,14 +52,10 @@ public class ChunkRenderBounds {
 				int y2 = origin.getMinY() + rightBound(this.y);
 				int z1 = origin.getMinZ() + leftBound(this.z);
 				int z2 = origin.getMinZ() + rightBound(this.z);
-				return new ChunkRenderBounds(
-					(float)Math.max(x1, origin.getMinX()) - 0.5F,
-					(float)Math.max(y1, origin.getMinY()) - 0.5F,
-					(float)Math.max(z1, origin.getMinZ()) - 0.5F,
-					(float)Math.min(x2, origin.getMaxX()) + 0.5F,
-					(float)Math.min(y2, origin.getMaxY()) + 0.5F,
-					(float)Math.min(z2, origin.getMaxZ()) + 0.5F
-				);
+				return new ChunkRenderBounds((float) Math.max(x1, origin.getMinX()) - 0.5F,
+						(float) Math.max(y1, origin.getMinY()) - 0.5F, (float) Math.max(z1, origin.getMinZ()) - 0.5F,
+						(float) Math.min(x2, origin.getMaxX()) + 0.5F, (float) Math.min(y2, origin.getMaxY()) + 0.5F,
+						(float) Math.min(z2, origin.getMaxZ()) + 0.5F);
 			}
 		}
 

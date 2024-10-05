@@ -7,8 +7,8 @@ import com.soarclient.libraries.sodium.client.gui.SodiumGameOptions;
 
 import net.minecraft.client.Minecraft;
 
-public class SodiumClientMod  {
-	
+public class SodiumClientMod {
+
 	public static final String MODID = "oldium";
 	public static final String MODNAME = "Oldium";
 	private static SodiumGameOptions CONFIG;
@@ -31,7 +31,8 @@ public class SodiumClientMod  {
 	}
 
 	private static SodiumGameOptions loadConfig() {
-		return SodiumGameOptions.load(Minecraft.getMinecraft().mcDataDir.toPath().resolve("config").resolve("oldium-options.json"));
+		return SodiumGameOptions
+				.load(Minecraft.getMinecraft().mcDataDir.toPath().resolve("config").resolve("oldium-options.json"));
 	}
 
 	public static boolean isDirectMemoryAccessEnabled() {

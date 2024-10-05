@@ -9,7 +9,7 @@ public interface BlockColorSettings<T> {
 
 	static boolean isSmoothBlendingEnabled(IBlockAccess world, IBlockState state, BlockPos pos) {
 		if (state.getBlock() instanceof BlockColorSettings) {
-			BlockColorSettings<IBlockState> settings = (BlockColorSettings<IBlockState>)state.getBlock();
+			BlockColorSettings<IBlockState> settings = (BlockColorSettings<IBlockState>) state.getBlock();
 			return settings.oldium$useSmoothColorBlending(world, state, pos);
 		} else {
 			return false;

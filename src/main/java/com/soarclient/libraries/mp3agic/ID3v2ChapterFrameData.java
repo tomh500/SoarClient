@@ -16,8 +16,8 @@ public class ID3v2ChapterFrameData extends AbstractID3v2FrameData {
 		super(unsynchronisation);
 	}
 
-	public ID3v2ChapterFrameData(boolean unsynchronisation, String id, int startTime,
-								 int endTime, int startOffset, int endOffset) {
+	public ID3v2ChapterFrameData(boolean unsynchronisation, String id, int startTime, int endTime, int startOffset,
+			int endOffset) {
 		super(unsynchronisation);
 		this.id = id;
 		this.startTime = startTime;
@@ -26,8 +26,7 @@ public class ID3v2ChapterFrameData extends AbstractID3v2FrameData {
 		this.endOffset = endOffset;
 	}
 
-	public ID3v2ChapterFrameData(boolean unsynchronisation, byte[] bytes)
-			throws InvalidDataException {
+	public ID3v2ChapterFrameData(boolean unsynchronisation, byte[] bytes) throws InvalidDataException {
 		super(unsynchronisation);
 		synchroniseAndUnpackFrameData(bytes);
 	}
@@ -44,7 +43,7 @@ public class ID3v2ChapterFrameData extends AbstractID3v2FrameData {
 		startOffset = bb.getInt();
 		endOffset = bb.getInt();
 
-		for (int offset = bb.position(); offset < bytes.length; ) {
+		for (int offset = bb.position(); offset < bytes.length;) {
 			ID3v2Frame frame = new ID3v2Frame(bytes, offset);
 			offset += frame.getLength();
 			subframes.add(frame);
@@ -167,8 +166,7 @@ public class ID3v2ChapterFrameData extends AbstractID3v2FrameData {
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		result = prime * result + startOffset;
 		result = prime * result + startTime;
-		result = prime * result
-				+ ((subframes == null) ? 0 : subframes.hashCode());
+		result = prime * result + ((subframes == null) ? 0 : subframes.hashCode());
 		return result;
 	}
 

@@ -182,7 +182,7 @@ import net.minecraft.world.storage.ISaveFormat;
 import net.minecraft.world.storage.ISaveHandler;
 import net.minecraft.world.storage.WorldInfo;
 
-public class Minecraft implements IThreadListener  {
+public class Minecraft implements IThreadListener {
 
 	private static final Logger logger = LogManager.getLogger();
 	private static final ResourceLocation locationMojangPng = new ResourceLocation("textures/gui/title/mojang.png");
@@ -930,7 +930,7 @@ public class Minecraft implements IThreadListener  {
 		}
 
 		this.currentScreen = (GuiScreen) guiScreenIn;
-		
+
 		if (guiScreenIn != null) {
 			this.setIngameNotInFocus();
 			ScaledResolution scaledresolution = new ScaledResolution(this);
@@ -1143,7 +1143,8 @@ public class Minecraft implements IThreadListener  {
 	}
 
 	public int getLimitFramerate() {
-		// this.theWorld == null && this.currentScreen != null ? 30 : this.gameSettings.limitFramerate;
+		// this.theWorld == null && this.currentScreen != null ? 30 :
+		// this.gameSettings.limitFramerate;
 		return this.gameSettings.limitFramerate;
 	}
 

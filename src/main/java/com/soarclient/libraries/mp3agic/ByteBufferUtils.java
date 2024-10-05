@@ -4,7 +4,8 @@ import java.nio.ByteBuffer;
 
 public final class ByteBufferUtils {
 
-	private ByteBufferUtils() {}
+	private ByteBufferUtils() {
+	}
 
 	public static String extractNullTerminatedString(ByteBuffer bb) {
 		int start = bb.position();

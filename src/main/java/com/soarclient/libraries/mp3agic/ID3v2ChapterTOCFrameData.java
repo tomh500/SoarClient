@@ -17,8 +17,8 @@ public class ID3v2ChapterTOCFrameData extends AbstractID3v2FrameData {
 		super(unsynchronisation);
 	}
 
-	public ID3v2ChapterTOCFrameData(boolean unsynchronisation, boolean isRoot, boolean isOrdered,
-									String id, String[] children) {
+	public ID3v2ChapterTOCFrameData(boolean unsynchronisation, boolean isRoot, boolean isOrdered, String id,
+			String[] children) {
 		super(unsynchronisation);
 		this.isRoot = isRoot;
 		this.isOrdered = isOrdered;
@@ -26,8 +26,7 @@ public class ID3v2ChapterTOCFrameData extends AbstractID3v2FrameData {
 		this.children = children;
 	}
 
-	public ID3v2ChapterTOCFrameData(boolean unsynchronisation, byte[] bytes)
-			throws InvalidDataException {
+	public ID3v2ChapterTOCFrameData(boolean unsynchronisation, byte[] bytes) throws InvalidDataException {
 		super(unsynchronisation);
 		synchroniseAndUnpackFrameData(bytes);
 	}
@@ -54,7 +53,7 @@ public class ID3v2ChapterTOCFrameData extends AbstractID3v2FrameData {
 			children[i] = ByteBufferUtils.extractNullTerminatedString(bb);
 		}
 
-		for (int offset = bb.position(); offset < bytes.length; ) {
+		for (int offset = bb.position(); offset < bytes.length;) {
 			ID3v2Frame frame = new ID3v2Frame(bytes, offset);
 			offset += frame.getLength();
 			subframes.add(frame);
@@ -155,7 +154,8 @@ public class ID3v2ChapterTOCFrameData extends AbstractID3v2FrameData {
 	@Override
 	protected int getLength() {
 		int length = 3;
-		if (id != null) length += id.length();
+		if (id != null)
+			length += id.length();
 		if (children != null) {
 			length += children.length;
 			for (String child : children) {
@@ -195,8 +195,7 @@ public class ID3v2ChapterTOCFrameData extends AbstractID3v2FrameData {
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		result = prime * result + (isOrdered ? 1231 : 1237);
 		result = prime * result + (isRoot ? 1231 : 1237);
-		result = prime * result
-				+ ((subframes == null) ? 0 : subframes.hashCode());
+		result = prime * result + ((subframes == null) ? 0 : subframes.hashCode());
 		return result;
 	}
 

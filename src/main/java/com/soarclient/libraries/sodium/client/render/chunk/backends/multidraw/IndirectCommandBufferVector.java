@@ -29,6 +29,7 @@ public class IndirectCommandBufferVector extends StructBuffer {
 	}
 
 	protected void growBuffer(int n) {
-		this.buffer = CompatMemoryUtil.memReallocDirect(this.buffer, Math.max(this.buffer.capacity() * 2, this.buffer.capacity() + n));
+		this.buffer = CompatMemoryUtil.memReallocDirect(this.buffer,
+				Math.max(this.buffer.capacity() * 2, this.buffer.capacity() + n));
 	}
 }

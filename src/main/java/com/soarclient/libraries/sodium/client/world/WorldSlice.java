@@ -55,13 +55,13 @@ public class WorldSlice implements SodiumBlockAccess {
 	private ChunkSectionPos origin;
 	private StructureBoundingBox volume;
 
-	public static ChunkRenderContext prepare(World world, ChunkSectionPos origin, ClonedChunkSectionCache sectionCache) {
+	public static ChunkRenderContext prepare(World world, ChunkSectionPos origin,
+			ClonedChunkSectionCache sectionCache) {
 		Chunk chunk = world.getChunkFromChunkCoords(origin.getX(), origin.getZ());
 		ExtendedBlockStorage section = chunk.getBlockStorageArray()[origin.getY()];
 		if (section != null && !section.isEmpty()) {
-			StructureBoundingBox volume = new StructureBoundingBox(
-				origin.getMinX() - 2, origin.getMinY() - 2, origin.getMinZ() - 2, origin.getMaxX() + 2, origin.getMaxY() + 2, origin.getMaxZ() + 2
-			);
+			StructureBoundingBox volume = new StructureBoundingBox(origin.getMinX() - 2, origin.getMinY() - 2,
+					origin.getMinZ() - 2, origin.getMaxX() + 2, origin.getMaxY() + 2, origin.getMaxZ() + 2);
 			int minChunkX = origin.getX() - NEIGHBOR_CHUNK_RADIUS;
 			int minChunkY = origin.getY() - NEIGHBOR_CHUNK_RADIUS;
 			int minChunkZ = origin.getZ() - NEIGHBOR_CHUNK_RADIUS;
@@ -73,7 +73,8 @@ public class WorldSlice implements SodiumBlockAccess {
 			for (int chunkX = minChunkX; chunkX <= maxChunkX; chunkX++) {
 				for (int chunkZ = minChunkZ; chunkZ <= maxChunkZ; chunkZ++) {
 					for (int chunkY = minChunkY; chunkY <= maxChunkY; chunkY++) {
-						int sectionIndex = getLocalSectionIndex(chunkX - minChunkX, chunkY - minChunkY, chunkZ - minChunkZ);
+						int sectionIndex = getLocalSectionIndex(chunkX - minChunkX, chunkY - minChunkY,
+								chunkZ - minChunkZ);
 						sections[sectionIndex] = sectionCache.acquire(chunkX, chunkY, chunkZ);
 					}
 				}
@@ -89,7 +90,8 @@ public class WorldSlice implements SodiumBlockAccess {
 		this.world = context;
 		this.worldType = this.world.getWorldType();
 		this.defaultLightValues = new int[LIGHT_TYPES.length];
-		this.defaultLightValues[EnumSkyBlock.SKY.ordinal()] = this.world.provider.getHasNoSky() ? 0 : EnumSkyBlock.SKY.defaultLightValue;
+		this.defaultLightValues[EnumSkyBlock.SKY.ordinal()] = this.world.provider.getHasNoSky() ? 0
+				: EnumSkyBlock.SKY.defaultLightValue;
 		this.defaultLightValues[EnumSkyBlock.BLOCK.ordinal()] = EnumSkyBlock.BLOCK.defaultLightValue;
 		this.sections = new ClonedChunkSection[SECTION_TABLE_ARRAY_SIZE];
 		this.blockStatesArrays = new IBlockState[SECTION_TABLE_ARRAY_SIZE][];
@@ -141,9 +143,8 @@ public class WorldSlice implements SodiumBlockAccess {
 		}
 	}
 
-	private static void copyBlocks(
-		IBlockState[] blocks, ClonedChunkSection section, int minBlockY, int maxBlockY, int minBlockZ, int maxBlockZ, int minBlockX, int maxBlockX
-	) {
+	private static void copyBlocks(IBlockState[] blocks, ClonedChunkSection section, int minBlockY, int maxBlockY,
+			int minBlockZ, int maxBlockZ, int minBlockX, int maxBlockX) {
 		for (int y = minBlockY; y <= maxBlockY; y++) {
 			for (int z = minBlockZ; z <= maxBlockZ; z++) {
 				for (int x = minBlockX; x <= maxBlockX; x++) {
@@ -241,7 +242,8 @@ public class WorldSlice implements SodiumBlockAccess {
 	private int getLightFor(EnumSkyBlock type, int relX, int relY, int relZ) {
 		int sectionIdx = getLocalSectionIndex(relX >> 4, relY >> 4, relZ >> 4);
 		NibbleArray lightArray = this.lightArrays[sectionIdx][type.ordinal()];
-		return lightArray == null ? this.defaultLightValues[type.ordinal()] : lightArray.get(relX & 15, relY & 15, relZ & 15);
+		return lightArray == null ? this.defaultLightValues[type.ordinal()]
+				: lightArray.get(relX & 15, relY & 15, relZ & 15);
 	}
 
 	private int getLightFromNeighborsFor(EnumSkyBlock type, BlockPos pos) {
@@ -302,7 +304,7 @@ public class WorldSlice implements SodiumBlockAccess {
 			if (this.prevColorResolver == resolver) {
 				cache = this.prevColorCache;
 			} else {
-				cache = (BiomeColorCache)this.biomeColorCaches.get(resolver);
+				cache = (BiomeColorCache) this.biomeColorCaches.get(resolver);
 				if (cache == null) {
 					this.biomeColorCaches.put(resolver, cache = new BiomeColorCache(resolver, this));
 				}
@@ -329,7 +331,8 @@ public class WorldSlice implements SodiumBlockAccess {
 		int relY = y - this.baseY;
 		int relZ = z - this.baseZ;
 		int idx = getLocalSectionIndex(relX >> 4, relY >> 4, relZ >> 4);
-		return idx >= 0 && idx < this.biomeCaches.length ? this.biomeCaches[idx].getBiome(x, relY >> 4, z) : BiomeGenBase.plains;
+		return idx >= 0 && idx < this.biomeCaches.length ? this.biomeCaches[idx].getBiome(x, relY >> 4, z)
+				: BiomeGenBase.plains;
 	}
 
 	public float getBrightness(EnumFacing direction, boolean shaded) {
@@ -337,10 +340,10 @@ public class WorldSlice implements SodiumBlockAccess {
 			return this.world.provider.getHasNoSky() ? 0.9F : 1.0F;
 		} else {
 			return switch (direction) {
-				case DOWN -> 0.5F;
-				case UP -> 1.0F;
-				case NORTH, SOUTH -> 0.8F;
-				default -> 0.6F;
+			case DOWN -> 0.5F;
+			case UP -> 1.0F;
+			case NORTH, SOUTH -> 0.8F;
+			default -> 0.6F;
 			};
 		}
 	}

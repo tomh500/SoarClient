@@ -42,8 +42,10 @@ public class ID3v2UrlFrameData extends AbstractID3v2FrameData {
 	@Override
 	protected byte[] packFrameData() {
 		byte[] bytes = new byte[getLength()];
-		if (description != null) bytes[0] = description.getTextEncoding();
-		else bytes[0] = 0;
+		if (description != null)
+			bytes[0] = description.getTextEncoding();
+		else
+			bytes[0] = 0;
 		int marker = 1;
 		if (description != null) {
 			byte[] descriptionBytes = description.toBytes(true, true);
@@ -64,9 +66,12 @@ public class ID3v2UrlFrameData extends AbstractID3v2FrameData {
 	@Override
 	protected int getLength() {
 		int length = 1;
-		if (description != null) length += description.toBytes(true, true).length;
-		else length++;
-		if (url != null) length += url.length();
+		if (description != null)
+			length += description.toBytes(true, true).length;
+		else
+			length++;
+		if (url != null)
+			length += url.length();
 		return length;
 	}
 

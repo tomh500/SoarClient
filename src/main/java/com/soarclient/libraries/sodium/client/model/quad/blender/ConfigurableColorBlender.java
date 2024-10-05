@@ -11,7 +11,9 @@ import net.minecraft.world.IBlockAccess;
 
 class ConfigurableColorBlender implements BiomeColorBlender {
 	private final BiomeColorBlender defaultBlender = new FlatBiomeColorBlender();
-	private final BiomeColorBlender smoothBlender = (BiomeColorBlender)(isSmoothBlendingEnabled() ? new SmoothBiomeColorBlender() : this.defaultBlender);
+	private final BiomeColorBlender smoothBlender = (BiomeColorBlender) (isSmoothBlendingEnabled()
+			? new SmoothBiomeColorBlender()
+			: this.defaultBlender);
 
 	public ConfigurableColorBlender(Minecraft client) {
 	}
@@ -21,7 +23,8 @@ class ConfigurableColorBlender implements BiomeColorBlender {
 	}
 
 	@Override
-	public int[] getColors(IBlockColor colorizer, IBlockAccess world, IBlockState state, BlockPos origin, ModelQuadView quad) {
+	public int[] getColors(IBlockColor colorizer, IBlockAccess world, IBlockState state, BlockPos origin,
+			ModelQuadView quad) {
 		BiomeColorBlender blender;
 		if (BlockColorSettings.isSmoothBlendingEnabled(world, state, origin)) {
 			blender = this.smoothBlender;

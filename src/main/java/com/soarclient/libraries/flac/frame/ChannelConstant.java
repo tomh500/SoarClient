@@ -26,38 +26,43 @@ import com.soarclient.libraries.flac.ChannelData;
 import com.soarclient.libraries.flac.io.BitInputStream;
 
 /**
- * FLAC Constant Subframe (Channel) data.
- * This class represents a FLAC subframe (channel) for a Constant data
+ * FLAC Constant Subframe (Channel) data. This class represents a FLAC subframe
+ * (channel) for a Constant data
+ * 
  * @author kc7bfi
  */
 public class ChannelConstant extends Channel {
-    
-    /** The constant signal value. */
-    private int value;
 
-    /**
-     * The constructor.
-     * @param is            The InputBitStream
-     * @param header        The FLAC Frame Header
-     * @param channelData   The decoded channel data (output)
-     * @param bps           The bits-per-second
-     * @param wastedBits    The bits waisted in the frame
-     * @throws IOException  Thrown if error reading from the InputBitStream
-     */
-    public ChannelConstant(BitInputStream is, Header header, ChannelData channelData, int bps, int wastedBits) throws IOException {
-        super(header, wastedBits);
+	/** The constant signal value. */
+	private int value;
 
-        value = is.readRawInt(bps);
+	/**
+	 * The constructor.
+	 * 
+	 * @param is          The InputBitStream
+	 * @param header      The FLAC Frame Header
+	 * @param channelData The decoded channel data (output)
+	 * @param bps         The bits-per-second
+	 * @param wastedBits  The bits waisted in the frame
+	 * @throws IOException Thrown if error reading from the InputBitStream
+	 */
+	public ChannelConstant(BitInputStream is, Header header, ChannelData channelData, int bps, int wastedBits)
+			throws IOException {
+		super(header, wastedBits);
 
-        // decode the subframe
-        for (int i = 0; i < header.blockSize; i++) channelData.getOutput()[i] = value;
-    }
-    
-    /**
-     * toString conversion.
-     * @see java.lang.Object#toString()
-     */
-    public String toString() {
-        return "ChannelConstant: Value=" + value + " WastedBits=" + wastedBits;
-    }
+		value = is.readRawInt(bps);
+
+		// decode the subframe
+		for (int i = 0; i < header.blockSize; i++)
+			channelData.getOutput()[i] = value;
+	}
+
+	/**
+	 * toString conversion.
+	 * 
+	 * @see java.lang.Object#toString()
+	 */
+	public String toString() {
+		return "ChannelConstant: Value=" + value + " WastedBits=" + wastedBits;
+	}
 }

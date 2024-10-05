@@ -22,9 +22,9 @@ public abstract class ChunkDrawCallBatcher extends StructBuffer {
 	}
 
 	public static ChunkDrawCallBatcher create(int capacity) {
-		return (ChunkDrawCallBatcher)(SodiumClientMod.isDirectMemoryAccessEnabled()
-			? new ChunkDrawCallBatcher.UnsafeChunkDrawCallBatcher(capacity)
-			: new ChunkDrawCallBatcher.NioChunkDrawCallBatcher(capacity));
+		return (ChunkDrawCallBatcher) (SodiumClientMod.isDirectMemoryAccessEnabled()
+				? new ChunkDrawCallBatcher.UnsafeChunkDrawCallBatcher(capacity)
+				: new ChunkDrawCallBatcher.NioChunkDrawCallBatcher(capacity));
 	}
 
 	public void begin() {
@@ -107,7 +107,7 @@ public abstract class ChunkDrawCallBatcher extends StructBuffer {
 				CompatMemoryUtil.memPutInt(this.writePointer + 4L, instanceCount);
 				CompatMemoryUtil.memPutInt(this.writePointer + 8L, first);
 				CompatMemoryUtil.memPutInt(this.writePointer + 12L, baseInstance);
-				this.writePointer = this.writePointer + (long)this.stride;
+				this.writePointer = this.writePointer + (long) this.stride;
 			}
 		}
 	}

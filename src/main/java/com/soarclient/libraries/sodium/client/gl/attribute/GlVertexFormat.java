@@ -18,7 +18,7 @@ public class GlVertexFormat<T extends Enum<T>> implements BufferVertexFormat {
 	}
 
 	public GlVertexAttribute getAttribute(T name) {
-		GlVertexAttribute attr = (GlVertexAttribute)this.attributesKeyed.get(name);
+		GlVertexAttribute attr = (GlVertexAttribute) this.attributesKeyed.get(name);
 		if (attr == null) {
 			throw new NullPointerException("No attribute exists for " + name.toString());
 		} else {
@@ -27,7 +27,8 @@ public class GlVertexFormat<T extends Enum<T>> implements BufferVertexFormat {
 	}
 
 	public String toString() {
-		return String.format("GlVertexFormat<%s>{attributes=%d,stride=%d}", this.attributeEnum.getName(), this.attributesKeyed.size(), this.stride);
+		return String.format("GlVertexFormat<%s>{attributes=%d,stride=%d}", this.attributeEnum.getName(),
+				this.attributesKeyed.size(), this.stride);
 	}
 
 	@Override
@@ -46,7 +47,8 @@ public class GlVertexFormat<T extends Enum<T>> implements BufferVertexFormat {
 			this.stride = stride;
 		}
 
-		public GlVertexFormat.Builder<T> addElement(T type, int pointer, GlVertexAttributeFormat format, int count, boolean normalized) {
+		public GlVertexFormat.Builder<T> addElement(T type, int pointer, GlVertexAttributeFormat format, int count,
+				boolean normalized) {
 			return this.addElement(type, new GlVertexAttribute(format, count, normalized, pointer, this.stride));
 		}
 
@@ -56,7 +58,8 @@ public class GlVertexFormat<T extends Enum<T>> implements BufferVertexFormat {
 			} else if (attribute.getPointer() + attribute.getSize() > this.stride) {
 				throw new IllegalArgumentException("Element extends outside vertex format");
 			} else if (this.attributes.put(type, attribute) != null) {
-				throw new IllegalStateException("Generic attribute " + type.name() + " already defined in vertex format");
+				throw new IllegalStateException(
+						"Generic attribute " + type.name() + " already defined in vertex format");
 			} else {
 				return this;
 			}
@@ -66,7 +69,7 @@ public class GlVertexFormat<T extends Enum<T>> implements BufferVertexFormat {
 			int size = 0;
 
 			for (T key : this.type.getEnumConstants()) {
-				GlVertexAttribute attribute = (GlVertexAttribute)this.attributes.get(key);
+				GlVertexAttribute attribute = (GlVertexAttribute) this.attributes.get(key);
 				if (attribute == null) {
 					throw new NullPointerException("Generic attribute not assigned to enumeration " + key.name());
 				}

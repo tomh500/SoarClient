@@ -48,7 +48,8 @@ public abstract class AbstractFrame extends AbstractWidget implements ParentElem
 	@Override
 	public void render(int mouseX, int mouseY, float delta) {
 		if (this.renderOutline) {
-			this.drawRectOutline((double)this.dim.getOriginX(), (double)this.dim.getOriginY(), (double)this.dim.getLimitX(), (double)this.dim.getLimitY(), -5592406);
+			this.drawRectOutline((double) this.dim.getOriginX(), (double) this.dim.getOriginY(),
+					(double) this.dim.getLimitX(), (double) this.dim.getLimitY(), -5592406);
 		}
 
 		for (Drawable drawable : this.drawable) {
@@ -57,23 +58,21 @@ public abstract class AbstractFrame extends AbstractWidget implements ParentElem
 	}
 
 	public void applyScissor(int x, int y, int width, int height, Runnable action) {
-		double scale = (double)new ScaledResolution(Minecraft.getMinecraft()).getScaleFactor();
+		double scale = (double) new ScaledResolution(Minecraft.getMinecraft()).getScaleFactor();
 		GL11.glEnable(3089);
-		GL11.glScissor(
-			(int)((double)x * scale),
-			(int)((double)Minecraft.getMinecraft().getFramebuffer().framebufferHeight - (double)(y + height) * scale),
-			(int)((double)width * scale),
-			(int)((double)height * scale)
-		);
+		GL11.glScissor((int) ((double) x * scale),
+				(int) ((double) Minecraft.getMinecraft().getFramebuffer().framebufferHeight
+						- (double) (y + height) * scale),
+				(int) ((double) width * scale), (int) ((double) height * scale));
 		action.run();
 		GL11.glDisable(3089);
 	}
 
 	protected void drawRectOutline(double x, double y, double w, double h, int color) {
-		float a = (float)(color >> 24 & 0xFF) / 255.0F;
-		float r = (float)(color >> 16 & 0xFF) / 255.0F;
-		float g = (float)(color >> 8 & 0xFF) / 255.0F;
-		float b = (float)(color & 0xFF) / 255.0F;
+		float a = (float) (color >> 24 & 0xFF) / 255.0F;
+		float r = (float) (color >> 16 & 0xFF) / 255.0F;
+		float g = (float) (color >> 8 & 0xFF) / 255.0F;
+		float b = (float) (color & 0xFF) / 255.0F;
 		this.drawQuads(vertices -> {
 			addQuad(vertices, x, y, w, y + 1.0, a, r, g, b);
 			addQuad(vertices, x, h - 1.0, w, h, a, r, g, b);

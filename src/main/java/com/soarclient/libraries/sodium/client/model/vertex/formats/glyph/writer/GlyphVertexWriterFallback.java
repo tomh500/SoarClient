@@ -18,9 +18,9 @@ public class GlyphVertexWriterFallback extends VertexWriterFallback implements G
 		int green = ColorABGR.unpackGreen(color);
 		int blue = ColorABGR.unpackBlue(color);
 		int alpha = ColorABGR.unpackAlpha(color);
-		consumer.pos((double)x, (double)y, (double)z);
+		consumer.pos((double) x, (double) y, (double) z);
 		consumer.color(red, green, blue, alpha);
-		consumer.tex((double)u, (double)v);
+		consumer.tex((double) u, (double) v);
 		consumer.lightmap(light & 65535, light >> 16 & 65535);
 		consumer.endVertex();
 	}

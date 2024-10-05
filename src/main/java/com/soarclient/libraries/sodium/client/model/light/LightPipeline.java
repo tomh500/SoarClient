@@ -7,5 +7,6 @@ import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
 
 public interface LightPipeline {
-	void calculate(ModelQuadView modelQuadView, BlockPos blockPos, QuadLightData quadLightData, EnumFacing enumFacing4, EnumFacing enumFacing5, boolean boolean6);
+	void calculate(ModelQuadView modelQuadView, BlockPos blockPos, QuadLightData quadLightData, EnumFacing enumFacing4,
+			EnumFacing enumFacing5, boolean boolean6);
 }

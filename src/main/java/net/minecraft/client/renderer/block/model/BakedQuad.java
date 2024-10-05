@@ -6,45 +6,39 @@ import com.soarclient.libraries.sodium.client.model.quad.properties.ModelQuadFla
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.util.EnumFacing;
 
-public class BakedQuad implements ModelQuadView
-{
-    /**
-     * Joined 4 vertex records, each has 7 fields (x, y, z, shadeColor, u, v, <unused>), see
-     * FaceBakery.storeVertexData()
-     */
-    protected final int[] vertexData;
-    protected final int tintIndex;
-    protected final EnumFacing face;
+public class BakedQuad implements ModelQuadView {
+	/**
+	 * Joined 4 vertex records, each has 7 fields (x, y, z, shadeColor, u, v,
+	 * <unused>), see FaceBakery.storeVertexData()
+	 */
+	protected final int[] vertexData;
+	protected final int tintIndex;
+	protected final EnumFacing face;
 
 	protected int cachedFlags;
-	
-    public BakedQuad(int[] vertexDataIn, int tintIndexIn, EnumFacing faceIn)
-    {
-        this.vertexData = vertexDataIn;
-        this.tintIndex = tintIndexIn;
-        this.face = faceIn;
-        this.cachedFlags = ModelQuadFlags.getQuadFlags(this, this.face);
-    }
 
-    public int[] getVertexData()
-    {
-        return this.vertexData;
-    }
+	public BakedQuad(int[] vertexDataIn, int tintIndexIn, EnumFacing faceIn) {
+		this.vertexData = vertexDataIn;
+		this.tintIndex = tintIndexIn;
+		this.face = faceIn;
+		this.cachedFlags = ModelQuadFlags.getQuadFlags(this, this.face);
+	}
 
-    public boolean hasTintIndex()
-    {
-        return this.tintIndex != -1;
-    }
+	public int[] getVertexData() {
+		return this.vertexData;
+	}
 
-    public int getTintIndex()
-    {
-        return this.tintIndex;
-    }
+	public boolean hasTintIndex() {
+		return this.tintIndex != -1;
+	}
 
-    public EnumFacing getFace()
-    {
-        return this.face;
-    }
+	public int getTintIndex() {
+		return this.tintIndex;
+	}
+
+	public EnumFacing getFace() {
+		return this.face;
+	}
 
 	public int vertexOffset(int vertexIndex) {
 		return vertexIndex * 7;

@@ -45,15 +45,18 @@ public class Mp3File extends FileWrapper {
 		this(filename, DEFAULT_BUFFER_LENGTH, true);
 	}
 
-	public Mp3File(String filename, int bufferLength) throws IOException, UnsupportedTagException, InvalidDataException {
+	public Mp3File(String filename, int bufferLength)
+			throws IOException, UnsupportedTagException, InvalidDataException {
 		this(filename, bufferLength, true);
 	}
 
-	public Mp3File(String filename, boolean scanFile) throws IOException, UnsupportedTagException, InvalidDataException {
+	public Mp3File(String filename, boolean scanFile)
+			throws IOException, UnsupportedTagException, InvalidDataException {
 		this(filename, DEFAULT_BUFFER_LENGTH, scanFile);
 	}
 
-	public Mp3File(String filename, int bufferLength, boolean scanFile) throws IOException, UnsupportedTagException, InvalidDataException {
+	public Mp3File(String filename, int bufferLength, boolean scanFile)
+			throws IOException, UnsupportedTagException, InvalidDataException {
 		super(filename);
 		init(bufferLength, scanFile);
 	}
@@ -66,7 +69,8 @@ public class Mp3File extends FileWrapper {
 		this(file, bufferLength, true);
 	}
 
-	public Mp3File(File file, int bufferLength, boolean scanFile) throws IOException, UnsupportedTagException, InvalidDataException {
+	public Mp3File(File file, int bufferLength, boolean scanFile)
+			throws IOException, UnsupportedTagException, InvalidDataException {
 		super(file);
 		init(bufferLength, scanFile);
 	}
@@ -79,13 +83,16 @@ public class Mp3File extends FileWrapper {
 		this(path, bufferLength, true);
 	}
 
-	public Mp3File(Path path, int bufferLength, boolean scanFile) throws IOException, UnsupportedTagException, InvalidDataException {
+	public Mp3File(Path path, int bufferLength, boolean scanFile)
+			throws IOException, UnsupportedTagException, InvalidDataException {
 		super(path);
 		init(bufferLength, scanFile);
 	}
 
-	private void init(int bufferLength, boolean scanFile) throws IOException, UnsupportedTagException, InvalidDataException {
-		if (bufferLength < MINIMUM_BUFFER_LENGTH + 1) throw new IllegalArgumentException("Buffer too small");
+	private void init(int bufferLength, boolean scanFile)
+			throws IOException, UnsupportedTagException, InvalidDataException {
+		if (bufferLength < MINIMUM_BUFFER_LENGTH + 1)
+			throw new IllegalArgumentException("Buffer too small");
 
 		this.bufferLength = bufferLength;
 		this.scanFile = scanFile;
@@ -113,7 +120,10 @@ public class Mp3File extends FileWrapper {
 				try {
 					byte[] bytes = byteBuffer.array();
 					ID3v2TagFactory.sanityCheckTag(bytes);
-					return AbstractID3v2Tag.HEADER_LENGTH + BufferTools.unpackSynchsafeInteger(bytes[AbstractID3v2Tag.DATA_LENGTH_OFFSET], bytes[AbstractID3v2Tag.DATA_LENGTH_OFFSET + 1], bytes[AbstractID3v2Tag.DATA_LENGTH_OFFSET + 2], bytes[AbstractID3v2Tag.DATA_LENGTH_OFFSET + 3]);
+					return AbstractID3v2Tag.HEADER_LENGTH + BufferTools.unpackSynchsafeInteger(
+							bytes[AbstractID3v2Tag.DATA_LENGTH_OFFSET], bytes[AbstractID3v2Tag.DATA_LENGTH_OFFSET + 1],
+							bytes[AbstractID3v2Tag.DATA_LENGTH_OFFSET + 2],
+							bytes[AbstractID3v2Tag.DATA_LENGTH_OFFSET + 3]);
 				} catch (NoSuchTagException | UnsupportedTagException e) {
 					// do nothing
 				}
@@ -134,7 +144,8 @@ public class Mp3File extends FileWrapper {
 			byteBuffer.clear();
 			int bytesRead = seekableByteChannel.read(byteBuffer);
 			byte[] bytes = byteBuffer.array();
-			if (bytesRead < bufferLength) lastBlock = true;
+			if (bytesRead < bufferLength)
+				lastBlock = true;
 			if (bytesRead >= MINIMUM_BUFFER_LENGTH) {
 				while (true) {
 					try {
@@ -174,7 +185,8 @@ public class Mp3File extends FileWrapper {
 		while (offset < bytesRead - MINIMUM_BUFFER_LENGTH) {
 			if (bytes[offset] == (byte) 0xFF && (bytes[offset + 1] & (byte) 0xE0) == (byte) 0xE0) {
 				try {
-					MpegFrame frame = new MpegFrame(bytes[offset], bytes[offset + 1], bytes[offset + 2], bytes[offset + 3]);
+					MpegFrame frame = new MpegFrame(bytes[offset], bytes[offset + 1], bytes[offset + 2],
+							bytes[offset + 3]);
 					if (xingOffset < 0 && isXingFrame(bytes, offset)) {
 						xingOffset = absoluteOffset + offset;
 						xingBitrate = frame.getBitrate();
@@ -223,25 +235,32 @@ public class Mp3File extends FileWrapper {
 
 	private int maxEndOffset() {
 		int maxEndOffset = (int) getLength();
-		if (hasId3v1Tag()) maxEndOffset -= ID3v1Tag.TAG_LENGTH;
+		if (hasId3v1Tag())
+			maxEndOffset -= ID3v1Tag.TAG_LENGTH;
 		return maxEndOffset;
 	}
 
 	private boolean isXingFrame(byte[] bytes, int offset) {
 		if (bytes.length >= offset + XING_MARKER_OFFSET_1 + 3) {
-			if ("Xing".equals(BufferTools.byteBufferToStringIgnoringEncodingIssues(bytes, offset + XING_MARKER_OFFSET_1, 4)))
+			if ("Xing".equals(
+					BufferTools.byteBufferToStringIgnoringEncodingIssues(bytes, offset + XING_MARKER_OFFSET_1, 4)))
 				return true;
-			if ("Info".equals(BufferTools.byteBufferToStringIgnoringEncodingIssues(bytes, offset + XING_MARKER_OFFSET_1, 4)))
+			if ("Info".equals(
+					BufferTools.byteBufferToStringIgnoringEncodingIssues(bytes, offset + XING_MARKER_OFFSET_1, 4)))
 				return true;
 			if (bytes.length >= offset + XING_MARKER_OFFSET_2 + 3) {
-				if ("Xing".equals(BufferTools.byteBufferToStringIgnoringEncodingIssues(bytes, offset + XING_MARKER_OFFSET_2, 4)))
+				if ("Xing".equals(
+						BufferTools.byteBufferToStringIgnoringEncodingIssues(bytes, offset + XING_MARKER_OFFSET_2, 4)))
 					return true;
-				if ("Info".equals(BufferTools.byteBufferToStringIgnoringEncodingIssues(bytes, offset + XING_MARKER_OFFSET_2, 4)))
+				if ("Info".equals(
+						BufferTools.byteBufferToStringIgnoringEncodingIssues(bytes, offset + XING_MARKER_OFFSET_2, 4)))
 					return true;
 				if (bytes.length >= offset + XING_MARKER_OFFSET_3 + 3) {
-					if ("Xing".equals(BufferTools.byteBufferToStringIgnoringEncodingIssues(bytes, offset + XING_MARKER_OFFSET_3, 4)))
+					if ("Xing".equals(BufferTools.byteBufferToStringIgnoringEncodingIssues(bytes,
+							offset + XING_MARKER_OFFSET_3, 4)))
 						return true;
-					if ("Info".equals(BufferTools.byteBufferToStringIgnoringEncodingIssues(bytes, offset + XING_MARKER_OFFSET_3, 4)))
+					if ("Info".equals(BufferTools.byteBufferToStringIgnoringEncodingIssues(bytes,
+							offset + XING_MARKER_OFFSET_3, 4)))
 						return true;
 				}
 			}
@@ -250,9 +269,12 @@ public class Mp3File extends FileWrapper {
 	}
 
 	private void sanityCheckFrame(MpegFrame frame, int offset) throws InvalidDataException {
-		if (sampleRate != frame.getSampleRate()) throw new InvalidDataException("Inconsistent frame header");
-		if (!layer.equals(frame.getLayer())) throw new InvalidDataException("Inconsistent frame header");
-		if (!version.equals(frame.getVersion())) throw new InvalidDataException("Inconsistent frame header");
+		if (sampleRate != frame.getSampleRate())
+			throw new InvalidDataException("Inconsistent frame header");
+		if (!layer.equals(frame.getLayer()))
+			throw new InvalidDataException("Inconsistent frame header");
+		if (!version.equals(frame.getVersion()))
+			throw new InvalidDataException("Inconsistent frame header");
 		if (offset + frame.getLengthInBytes() > getLength())
 			throw new InvalidDataException("Frame would extend beyond end of file");
 	}
@@ -272,7 +294,8 @@ public class Mp3File extends FileWrapper {
 		seekableByteChannel.position(getLength() - ID3v1Tag.TAG_LENGTH);
 		byteBuffer.clear();
 		int bytesRead = seekableByteChannel.read(byteBuffer);
-		if (bytesRead < ID3v1Tag.TAG_LENGTH) throw new IOException("Not enough bytes read");
+		if (bytesRead < ID3v1Tag.TAG_LENGTH)
+			throw new IOException("Not enough bytes read");
 		try {
 			id3v1Tag = new ID3v1Tag(byteBuffer.array());
 		} catch (NoSuchTagException e) {
@@ -280,18 +303,22 @@ public class Mp3File extends FileWrapper {
 		}
 	}
 
-	private void initId3v2Tag(SeekableByteChannel seekableByteChannel) throws IOException, UnsupportedTagException, InvalidDataException {
+	private void initId3v2Tag(SeekableByteChannel seekableByteChannel)
+			throws IOException, UnsupportedTagException, InvalidDataException {
 		if (xingOffset == 0 || startOffset == 0) {
 			id3v2Tag = null;
 		} else {
 			int bufferLength;
-			if (hasXingFrame()) bufferLength = xingOffset;
-			else bufferLength = startOffset;
+			if (hasXingFrame())
+				bufferLength = xingOffset;
+			else
+				bufferLength = startOffset;
 			ByteBuffer byteBuffer = ByteBuffer.allocate(bufferLength);
 			seekableByteChannel.position(0);
 			byteBuffer.clear();
 			int bytesRead = seekableByteChannel.read(byteBuffer);
-			if (bytesRead < bufferLength) throw new IOException("Not enough bytes read");
+			if (bytesRead < bufferLength)
+				throw new IOException("Not enough bytes read");
 			try {
 				id3v2Tag = ID3v2TagFactory.createTag(byteBuffer.array());
 			} catch (NoSuchTagException e) {
@@ -302,7 +329,8 @@ public class Mp3File extends FileWrapper {
 
 	private void initCustomTag(SeekableByteChannel seekableByteChannel) throws IOException {
 		int bufferLength = (int) (getLength() - (endOffset + 1));
-		if (hasId3v1Tag()) bufferLength -= ID3v1Tag.TAG_LENGTH;
+		if (hasId3v1Tag())
+			bufferLength -= ID3v1Tag.TAG_LENGTH;
 		if (bufferLength <= 0) {
 			customTag = null;
 		} else {
@@ -311,7 +339,8 @@ public class Mp3File extends FileWrapper {
 			byteBuffer.clear();
 			int bytesRead = seekableByteChannel.read(byteBuffer);
 			customTag = byteBuffer.array();
-			if (bytesRead < bufferLength) throw new IOException("Not enough bytes read");
+			if (bytesRead < bufferLength)
+				throw new IOException("Not enough bytes read");
 		}
 	}
 
@@ -443,7 +472,8 @@ public class Mp3File extends FileWrapper {
 		if (path.toAbsolutePath().compareTo(Paths.get(newFilename).toAbsolutePath()) == 0) {
 			throw new IllegalArgumentException("Save filename same as source filename");
 		}
-		try (SeekableByteChannel saveFile = Files.newByteChannel(Paths.get(newFilename), EnumSet.of(StandardOpenOption.CREATE, StandardOpenOption.TRUNCATE_EXISTING, StandardOpenOption.WRITE))) {
+		try (SeekableByteChannel saveFile = Files.newByteChannel(Paths.get(newFilename), EnumSet
+				.of(StandardOpenOption.CREATE, StandardOpenOption.TRUNCATE_EXISTING, StandardOpenOption.WRITE))) {
 			if (hasId3v2Tag()) {
 				ByteBuffer byteBuffer = ByteBuffer.wrap(id3v2Tag.toBytes());
 				byteBuffer.rewind();
@@ -465,9 +495,12 @@ public class Mp3File extends FileWrapper {
 
 	private void saveMpegFrames(SeekableByteChannel saveFile) throws IOException {
 		int filePos = xingOffset;
-		if (filePos < 0) filePos = startOffset;
-		if (filePos < 0) return;
-		if (endOffset < filePos) return;
+		if (filePos < 0)
+			filePos = startOffset;
+		if (filePos < 0)
+			return;
+		if (endOffset < filePos)
+			return;
 		ByteBuffer byteBuffer = ByteBuffer.allocate(bufferLength);
 		try (SeekableByteChannel seekableByteChannel = Files.newByteChannel(path, StandardOpenOption.READ)) {
 			seekableByteChannel.position(filePos);

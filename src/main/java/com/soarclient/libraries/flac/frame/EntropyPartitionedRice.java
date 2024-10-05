@@ -26,56 +26,62 @@ import com.soarclient.libraries.flac.io.BitInputStream;
 
 /**
  * This class holds the Entropy Partitioned Rice contents.
+ * 
  * @author kc7bfi
  */
 public class EntropyPartitionedRice extends EntropyCodingMethod {
-    private static final int ENTROPY_CODING_METHOD_PARTITIONED_RICE_PARAMETER_LEN = 4; /* bits */
-    private static final int ENTROPY_CODING_METHOD_PARTITIONED_RICE_RAW_LEN = 5; /* bits */
-    private static final int ENTROPY_CODING_METHOD_PARTITIONED_RICE_ESCAPE_PARAMETER = 15;
+	private static final int ENTROPY_CODING_METHOD_PARTITIONED_RICE_PARAMETER_LEN = 4; /* bits */
+	private static final int ENTROPY_CODING_METHOD_PARTITIONED_RICE_RAW_LEN = 5; /* bits */
+	private static final int ENTROPY_CODING_METHOD_PARTITIONED_RICE_ESCAPE_PARAMETER = 15;
 
-    /**
-     * Read compressed signal residual data.
-     * 
-     * @param is                The InputBitStream
-     * @param predictorOrder    The predicate order
-     * @param partitionOrder    The partition order
-     * @param header            The FLAC Frame Header
-     * @param residual          The residual signal (output)
-     * @throws IOException      On error reading from InputBitStream
-     */
-    void readResidual(BitInputStream is, int predictorOrder, int partitionOrder, Header header, int[] residual) throws IOException {
-        //System.out.println("readREsidual Pred="+predictorOrder+" part="+partitionOrder);
-        int sample = 0;
-        int partitions = 1 << partitionOrder;
-        int partitionSamples = partitionOrder > 0 ? header.blockSize >> partitionOrder : header.blockSize - predictorOrder;
-        if (predictorOrder == 0) {
-        	if (header.blockSize < predictorOrder) {
-        		//System.err.printf("NEED RESYNC  %d - %d%n", header.blockSize, predictorOrder);
-        		return;
-        	}
-        } else {
-        	if (partitionSamples < predictorOrder) {
-        		//System.err.printf("NEED RESYNC2  %d - %d%n", partitionSamples , predictorOrder);
-        		return;
-        	}
-        }
-        contents.ensureSize(Math.max(6, partitionOrder));
-        //contents.parameters = new int[partitions];
+	/**
+	 * Read compressed signal residual data.
+	 * 
+	 * @param is             The InputBitStream
+	 * @param predictorOrder The predicate order
+	 * @param partitionOrder The partition order
+	 * @param header         The FLAC Frame Header
+	 * @param residual       The residual signal (output)
+	 * @throws IOException On error reading from InputBitStream
+	 */
+	void readResidual(BitInputStream is, int predictorOrder, int partitionOrder, Header header, int[] residual)
+			throws IOException {
+		// System.out.println("readREsidual Pred="+predictorOrder+"
+		// part="+partitionOrder);
+		int sample = 0;
+		int partitions = 1 << partitionOrder;
+		int partitionSamples = partitionOrder > 0 ? header.blockSize >> partitionOrder
+				: header.blockSize - predictorOrder;
+		if (predictorOrder == 0) {
+			if (header.blockSize < predictorOrder) {
+				// System.err.printf("NEED RESYNC %d - %d%n", header.blockSize, predictorOrder);
+				return;
+			}
+		} else {
+			if (partitionSamples < predictorOrder) {
+				// System.err.printf("NEED RESYNC2 %d - %d%n", partitionSamples ,
+				// predictorOrder);
+				return;
+			}
+		}
+		contents.ensureSize(Math.max(6, partitionOrder));
+		// contents.parameters = new int[partitions];
 
-        for (int partition = 0; partition < partitions; partition++) {
-            int riceParameter = is.readRawUInt(ENTROPY_CODING_METHOD_PARTITIONED_RICE_PARAMETER_LEN);
-            contents.parameters[partition] = riceParameter;
-            if (riceParameter < ENTROPY_CODING_METHOD_PARTITIONED_RICE_ESCAPE_PARAMETER) {
-                int u = (partitionOrder == 0 || partition > 0) ? partitionSamples : partitionSamples - predictorOrder;
-                is.readRiceSignedBlock(residual, sample, u, riceParameter);
-                sample += u;
-            } else {
-                riceParameter = is.readRawUInt(ENTROPY_CODING_METHOD_PARTITIONED_RICE_RAW_LEN);
-                contents.rawBits[partition] = riceParameter;
-                for (int u = (partitionOrder == 0 || partition > 0) ? 0 : predictorOrder; u < partitionSamples; u++, sample++) {
-                    residual[sample] = is.readRawInt(riceParameter);
-                }
-            }
-        }
-    }
+		for (int partition = 0; partition < partitions; partition++) {
+			int riceParameter = is.readRawUInt(ENTROPY_CODING_METHOD_PARTITIONED_RICE_PARAMETER_LEN);
+			contents.parameters[partition] = riceParameter;
+			if (riceParameter < ENTROPY_CODING_METHOD_PARTITIONED_RICE_ESCAPE_PARAMETER) {
+				int u = (partitionOrder == 0 || partition > 0) ? partitionSamples : partitionSamples - predictorOrder;
+				is.readRiceSignedBlock(residual, sample, u, riceParameter);
+				sample += u;
+			} else {
+				riceParameter = is.readRawUInt(ENTROPY_CODING_METHOD_PARTITIONED_RICE_RAW_LEN);
+				contents.rawBits[partition] = riceParameter;
+				for (int u = (partitionOrder == 0 || partition > 0) ? 0
+						: predictorOrder; u < partitionSamples; u++, sample++) {
+					residual[sample] = is.readRawInt(riceParameter);
+				}
+			}
+		}
+	}
 }

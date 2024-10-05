@@ -103,7 +103,7 @@ public class SodiumWorldRenderer implements ChunkStatusListener {
 		this.world = world;
 		ChunkRenderCacheShared.createRenderContext(this.world);
 		this.initRenderer();
-		((ChunkStatusListenerManager)world.getChunkProvider()).setListener(this);
+		((ChunkStatusListenerManager) world.getChunkProvider()).setListener(this);
 	}
 
 	private void unloadWorld() {
@@ -150,15 +150,15 @@ public class SodiumWorldRenderer implements ChunkStatusListener {
 		if (viewEntity == null) {
 			throw new IllegalStateException("Client instance has no active render entity");
 		} else {
-			double x = viewEntity.lastTickPosX + (viewEntity.posX - viewEntity.lastTickPosX) * (double)ticks;
-			double y = viewEntity.lastTickPosY + (viewEntity.posY - viewEntity.lastTickPosY) * (double)ticks + (double)viewEntity.getEyeHeight();
-			double z = viewEntity.lastTickPosZ + (viewEntity.posZ - viewEntity.lastTickPosZ) * (double)ticks;
+			double x = viewEntity.lastTickPosX + (viewEntity.posX - viewEntity.lastTickPosX) * (double) ticks;
+			double y = viewEntity.lastTickPosY + (viewEntity.posY - viewEntity.lastTickPosY) * (double) ticks
+					+ (double) viewEntity.getEyeHeight();
+			double z = viewEntity.lastTickPosZ + (viewEntity.posZ - viewEntity.lastTickPosZ) * (double) ticks;
 			this.chunkRenderManager.setCameraPosition(x, y, z);
 			float fogDistance = FogHelper.getFogCutoff();
-			boolean dirty = x != this.lastCameraX
-				|| y != this.lastCameraY
-				|| z != this.lastCameraZ
-				|| (double)viewEntity.rotationPitch != this.lastCameraPitch | (double)viewEntity.rotationYaw != this.lastCameraYaw;
+			boolean dirty = x != this.lastCameraX || y != this.lastCameraY || z != this.lastCameraZ
+					|| (double) viewEntity.rotationPitch != this.lastCameraPitch
+							| (double) viewEntity.rotationYaw != this.lastCameraYaw;
 			if (dirty) {
 				this.chunkRenderManager.markDirty();
 			}
@@ -166,14 +166,14 @@ public class SodiumWorldRenderer implements ChunkStatusListener {
 			this.lastCameraX = x;
 			this.lastCameraY = y;
 			this.lastCameraZ = z;
-			this.lastCameraPitch = (double)viewEntity.rotationPitch;
-			this.lastCameraYaw = (double)viewEntity.rotationYaw;
+			this.lastCameraPitch = (double) viewEntity.rotationPitch;
+			this.lastCameraYaw = (double) viewEntity.rotationYaw;
 			this.lastFogDistance = fogDistance;
 			profiler.endStartSection("chunk_update");
 			this.chunkRenderManager.updateChunks();
 			if (!hasForcedFrustum && this.chunkRenderManager.isDirty()) {
 				profiler.endStartSection("chunk_graph_rebuild");
-				this.chunkRenderManager.update(ticks, (FrustumExtended)frustum, frame, spectator);
+				this.chunkRenderManager.update(ticks, (FrustumExtended) frustum, frame, spectator);
 			}
 
 			profiler.endStartSection("visible_chunk_tick");
@@ -219,15 +219,18 @@ public class SodiumWorldRenderer implements ChunkStatusListener {
 
 		this.chunkRenderBackend = createChunkRenderBackend(device, opts, vertexFormat);
 		this.chunkRenderBackend.createShaders(device);
-		this.chunkRenderManager = new ChunkRenderManager<>(this, this.chunkRenderBackend, this.renderPassManager, this.world, this.renderDistance);
+		this.chunkRenderManager = new ChunkRenderManager<>(this, this.chunkRenderBackend, this.renderPassManager,
+				this.world, this.renderDistance);
 		this.chunkRenderManager.restoreChunks(this.loadedChunkPositions);
 	}
 
-	private static ChunkRenderBackend<?> createChunkRenderBackend(RenderDevice device, SodiumGameOptions options, ChunkVertexType vertexFormat) {
+	private static ChunkRenderBackend<?> createChunkRenderBackend(RenderDevice device, SodiumGameOptions options,
+			ChunkVertexType vertexFormat) {
 		boolean disableBlacklist = SodiumClientMod.options().advanced.ignoreDriverBlacklist;
-		return (ChunkRenderBackend<?>)(options.advanced.useChunkMultidraw && MultidrawChunkRenderBackend.isSupported(disableBlacklist)
-			? new MultidrawChunkRenderBackend(device, vertexFormat)
-			: new ChunkRenderBackendOneshot(vertexFormat));
+		return (ChunkRenderBackend<?>) (options.advanced.useChunkMultidraw
+				&& MultidrawChunkRenderBackend.isSupported(disableBlacklist)
+						? new MultidrawChunkRenderBackend(device, vertexFormat)
+						: new ChunkRenderBackendOneshot(vertexFormat));
 	}
 
 	private boolean checkBEVisibility(TileEntity entity) {
@@ -289,7 +292,7 @@ public class SodiumWorldRenderer implements ChunkStatusListener {
 			if (this.world.getBlockState(pos).getBlock().hasTileEntity()) {
 				TileEntity tileEntity = this.world.getTileEntity(pos);
 				if (tileEntity instanceof TileEntityChest) {
-					TileEntityChest chest = (TileEntityChest)tileEntity;
+					TileEntityChest chest = (TileEntityChest) tileEntity;
 					if (chest.adjacentChestXNeg != null) {
 						pos = pos.offset(EnumFacing.WEST);
 						tileEntity = this.world.getTileEntity(pos);
@@ -321,17 +324,14 @@ public class SodiumWorldRenderer implements ChunkStatusListener {
 	}
 
 	public void onChunkRenderUpdated(int x, int y, int z, ChunkRenderData meshBefore, ChunkRenderData meshAfter) {
-		ListUtil.updateList(this.globalBlockEntities, meshBefore.getGlobalBlockEntities(), meshAfter.getGlobalBlockEntities());
+		ListUtil.updateList(this.globalBlockEntities, meshBefore.getGlobalBlockEntities(),
+				meshAfter.getGlobalBlockEntities());
 		this.chunkRenderManager.onChunkRenderUpdates(x, y, z, meshAfter);
 	}
 
 	private static boolean isInfiniteExtentsBox(AxisAlignedBB box) {
-		return Double.isInfinite(box.minX)
-			|| Double.isInfinite(box.minY)
-			|| Double.isInfinite(box.minZ)
-			|| Double.isInfinite(box.maxX)
-			|| Double.isInfinite(box.maxY)
-			|| Double.isInfinite(box.maxZ);
+		return Double.isInfinite(box.minX) || Double.isInfinite(box.minY) || Double.isInfinite(box.minZ)
+				|| Double.isInfinite(box.maxX) || Double.isInfinite(box.maxY) || Double.isInfinite(box.maxZ);
 	}
 
 	public boolean isEntityVisible(Entity entity) {
@@ -369,7 +369,8 @@ public class SodiumWorldRenderer implements ChunkStatusListener {
 	}
 
 	private boolean isGlowing(Entity entity) {
-		return Minecraft.getMinecraft().theWorld.isRemote && (entity.getDataWatcher().getWatchableObjectByte(0) & 64) != 0;
+		return Minecraft.getMinecraft().theWorld.isRemote
+				&& (entity.getDataWatcher().getWatchableObjectByte(0) & 64) != 0;
 	}
 
 	public int getTotalSections() {
@@ -384,11 +385,13 @@ public class SodiumWorldRenderer implements ChunkStatusListener {
 		return this.chunkRenderManager.getImportantRebuildQueueSize();
 	}
 
-	public void scheduleRebuildForBlockArea(int minX, int minY, int minZ, int maxX, int maxY, int maxZ, boolean important) {
+	public void scheduleRebuildForBlockArea(int minX, int minY, int minZ, int maxX, int maxY, int maxZ,
+			boolean important) {
 		this.scheduleRebuildForChunks(minX >> 4, minY >> 4, minZ >> 4, maxX >> 4, maxY >> 4, maxZ >> 4, important);
 	}
 
-	public void scheduleRebuildForChunks(int minX, int minY, int minZ, int maxX, int maxY, int maxZ, boolean important) {
+	public void scheduleRebuildForChunks(int minX, int minY, int minZ, int maxX, int maxY, int maxZ,
+			boolean important) {
 		for (int chunkX = minX; chunkX <= maxX; chunkX++) {
 			for (int chunkY = minY; chunkY <= maxY; chunkY++) {
 				for (int chunkZ = minZ; chunkZ <= maxZ; chunkZ++) {

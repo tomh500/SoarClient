@@ -39,12 +39,14 @@ public interface ParentElement extends Element {
 	@Override
 	default boolean mouseReleased(double mouseX, double mouseY, int button) {
 		this.setDragging(false);
-		return this.hoveredElement(mouseX, mouseY).filter(element -> element.mouseReleased(mouseX, mouseY, button)).isPresent();
+		return this.hoveredElement(mouseX, mouseY).filter(element -> element.mouseReleased(mouseX, mouseY, button))
+				.isPresent();
 	}
 
 	@Override
 	default boolean mouseDragged(double mouseX, double mouseY, int button) {
-		return this.getFocused() != null && this.isDragging() && button == 0 && this.getFocused().mouseDragged(mouseX, mouseY, button);
+		return this.getFocused() != null && this.isDragging() && button == 0
+				&& this.getFocused().mouseDragged(mouseX, mouseY, button);
 	}
 
 	boolean isDragging();
@@ -53,7 +55,8 @@ public interface ParentElement extends Element {
 
 	@Override
 	default boolean mouseScrolled(double mouseX, double mouseY, double amount) {
-		return this.hoveredElement(mouseX, mouseY).filter(element -> element.mouseScrolled(mouseX, mouseY, amount)).isPresent();
+		return this.hoveredElement(mouseX, mouseY).filter(element -> element.mouseScrolled(mouseX, mouseY, amount))
+				.isPresent();
 	}
 
 	@Override
@@ -88,7 +91,7 @@ public interface ParentElement extends Element {
 			Supplier<? extends Element> supplier = lookForwards ? listIterator::next : listIterator::previous;
 
 			while (booleanSupplier.getAsBoolean()) {
-				Element element2 = (Element)supplier.get();
+				Element element2 = (Element) supplier.get();
 				if (element2.changeFocus(lookForwards)) {
 					this.setFocused(element2);
 					return true;

@@ -4,13 +4,14 @@ import net.minecraft.util.ChatComponentTranslation;
 
 public interface ControlValueFormatter {
 	static ControlValueFormatter guiScale() {
-		return v -> v == 0
-				? new ChatComponentTranslation("options.guiScale.auto", new Object[0]).getFormattedText()
+		return v -> v == 0 ? new ChatComponentTranslation("options.guiScale.auto", new Object[0]).getFormattedText()
 				: new ChatComponentTranslation(v + "x", new Object[0]).getFormattedText();
 	}
 
 	static ControlValueFormatter fpsLimit() {
-		return v -> v == 260 ? new ChatComponentTranslation("options.framerateLimit.max", new Object[0]).getFormattedText() : v + " FPS";
+		return v -> v == 260
+				? new ChatComponentTranslation("options.framerateLimit.max", new Object[0]).getFormattedText()
+				: v + " FPS";
 	}
 
 	static ControlValueFormatter chunks() {
@@ -22,7 +23,9 @@ public interface ControlValueFormatter {
 			} else if (v < 16) {
 				return new ChatComponentTranslation("options.renderDistance.normal", new Object[0]).getFormattedText();
 			} else {
-				return v <= 24 ? new ChatComponentTranslation("options.renderDistance.far", new Object[0]).getFormattedText() : v + " chunks";
+				return v <= 24
+						? new ChatComponentTranslation("options.renderDistance.far", new Object[0]).getFormattedText()
+						: v + " chunks";
 			}
 		};
 	}
@@ -32,7 +35,8 @@ public interface ControlValueFormatter {
 			if (v == 0) {
 				return new ChatComponentTranslation("options.gamma.min", new Object[0]).getFormattedText();
 			} else {
-				return v == 100 ? new ChatComponentTranslation("options.gamma.max", new Object[0]).getFormattedText() : v + "%";
+				return v == 100 ? new ChatComponentTranslation("options.gamma.max", new Object[0]).getFormattedText()
+						: v + "%";
 			}
 		};
 	}
@@ -52,11 +56,11 @@ public interface ControlValueFormatter {
 	}
 
 	static ControlValueFormatter quantity(String name) {
-		return v -> new ChatComponentTranslation(name, new Object[]{v}).getFormattedText();
+		return v -> new ChatComponentTranslation(name, new Object[] { v }).getFormattedText();
 	}
 
 	static ControlValueFormatter quantityOrDisabled(String name, String disableText) {
-		return v -> new ChatComponentTranslation(v == 0 ? disableText : name, new Object[]{v}).getFormattedText();
+		return v -> new ChatComponentTranslation(v == 0 ? disableText : name, new Object[] { v }).getFormattedText();
 	}
 
 	static ControlValueFormatter number() {

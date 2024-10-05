@@ -26,27 +26,30 @@ import com.soarclient.libraries.flac.io.BitInputStream;
 
 /**
  * Padding Metadata block.
+ * 
  * @author kc7bfi
  */
 public class Padding extends Metadata {
-   
-    /**
-     * The constructor.
-     * @param is                The InputBitStream
-     * @param length            Length of the record
-     * @param isLast            True if this is the last Metadata block in the chain
-     * @throws IOException      Thrown if error reading from InputBitStream
-     */
-    public Padding(BitInputStream is, int length, boolean isLast) throws IOException {
-        super(isLast, length);
-        is.readByteBlockAlignedNoCRC(null, length);
-    }
-    
-    /**
-     * Convert to string.
-     * @see java.lang.Object#toString()
-     */
-    public String toString() {
-        return "Padding (Length=" + length + ") last ="+isLast;
-    }
+
+	/**
+	 * The constructor.
+	 * 
+	 * @param is     The InputBitStream
+	 * @param length Length of the record
+	 * @param isLast True if this is the last Metadata block in the chain
+	 * @throws IOException Thrown if error reading from InputBitStream
+	 */
+	public Padding(BitInputStream is, int length, boolean isLast) throws IOException {
+		super(isLast, length);
+		is.readByteBlockAlignedNoCRC(null, length);
+	}
+
+	/**
+	 * Convert to string.
+	 * 
+	 * @see java.lang.Object#toString()
+	 */
+	public String toString() {
+		return "Padding (Length=" + length + ") last =" + isLast;
+	}
 }

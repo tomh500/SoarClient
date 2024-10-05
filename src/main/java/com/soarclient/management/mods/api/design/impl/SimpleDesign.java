@@ -17,7 +17,7 @@ public class SimpleDesign extends HUDDesign {
 
 		NanoVGHelper nvg = NanoVGHelper.getInstance();
 
-		//TODO: nvg.drawShadow(x, y, width, height, radius);
+		// TODO: nvg.drawShadow(x, y, width, height, radius);
 		nvg.drawRoundedRect(x, y, width, height, radius, new Color(0, 0, 0, 100));
 	}
 

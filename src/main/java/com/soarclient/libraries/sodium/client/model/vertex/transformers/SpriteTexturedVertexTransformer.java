@@ -42,7 +42,8 @@ public abstract class SpriteTexturedVertexTransformer<T extends VertexSink> exte
 		}
 	}
 
-	public static class Particle extends SpriteTexturedVertexTransformer<ParticleVertexSink> implements ParticleVertexSink {
+	public static class Particle extends SpriteTexturedVertexTransformer<ParticleVertexSink>
+			implements ParticleVertexSink {
 		public Particle(ParticleVertexSink delegate, TextureAtlasSprite sprite) {
 			super(delegate, sprite);
 		}
@@ -61,7 +62,8 @@ public abstract class SpriteTexturedVertexTransformer<T extends VertexSink> exte
 		}
 
 		@Override
-		public void writeQuad(float x, float y, float z, int color, float u, float v, int light, int overlay, int normal) {
+		public void writeQuad(float x, float y, float z, int color, float u, float v, int light, int overlay,
+				int normal) {
 			u = this.transformTextureU(u);
 			v = this.transformTextureV(v);
 			this.delegate.writeQuad(x, y, z, color, u, v, light, overlay, normal);

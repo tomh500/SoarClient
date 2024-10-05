@@ -8,7 +8,7 @@ public class Norm3b {
 	private static final float NORM = 0.007874016F;
 
 	static int pack(Vec3i norm) {
-		return pack((float)norm.getX(), (float)norm.getY(), (float)norm.getZ());
+		return pack((float) norm.getX(), (float) norm.getY(), (float) norm.getZ());
 	}
 
 	public static int pack(float x, float y, float z) {
@@ -19,18 +19,18 @@ public class Norm3b {
 	}
 
 	private static int encode(float comp) {
-		return (int)(MathHelper.clamp_float(comp, -1.0F, 1.0F) * 127.0F) & 0xFF;
+		return (int) (MathHelper.clamp_float(comp, -1.0F, 1.0F) * 127.0F) & 0xFF;
 	}
 
 	public static float unpackX(int norm) {
-		return (float)((byte)(norm & 0xFF)) * 0.007874016F;
+		return (float) ((byte) (norm & 0xFF)) * 0.007874016F;
 	}
 
 	public static float unpackY(int norm) {
-		return (float)((byte)(norm >> 8 & 0xFF)) * 0.007874016F;
+		return (float) ((byte) (norm >> 8 & 0xFF)) * 0.007874016F;
 	}
 
 	public static float unpackZ(int norm) {
-		return (float)((byte)(norm >> 16 & 0xFF)) * 0.007874016F;
+		return (float) ((byte) (norm >> 16 & 0xFF)) * 0.007874016F;
 	}
 }

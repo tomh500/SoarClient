@@ -47,8 +47,8 @@ public class ChunkOneshotGraphicsState extends ChunkGraphicsState {
 		Arrays.fill(this.parts, 0L);
 
 		for (Entry<ModelQuadFacing, BufferSlice> entry : meshData.getSlices()) {
-			ModelQuadFacing facing = (ModelQuadFacing)entry.getKey();
-			BufferSlice slice = (BufferSlice)entry.getValue();
+			ModelQuadFacing facing = (ModelQuadFacing) entry.getKey();
+			BufferSlice slice = (BufferSlice) entry.getValue();
 			this.setModelPart(facing, BufferSlice.pack(slice.start / stride, slice.len / stride));
 		}
 	}
@@ -61,22 +61,19 @@ public class ChunkOneshotGraphicsState extends ChunkGraphicsState {
 	public void upload(CommandList commandList, ChunkMeshData meshData) {
 		VertexData vertexData = meshData.takeVertexData();
 		commandList.uploadData(this.vertexBuffer, vertexData);
-		GlVertexFormat<ChunkMeshAttribute> vertexFormat = (GlVertexFormat<ChunkMeshAttribute>)vertexData.format;
-		this.tessellation = commandList.createTessellation(
-			GlPrimitiveType.QUADS,
-			new TessellationBinding[]{
-				new TessellationBinding(
-					this.vertexBuffer,
-					new GlVertexAttributeBinding[]{
-						new GlVertexAttributeBinding(ChunkShaderBindingPoints.POSITION, vertexFormat.getAttribute(ChunkMeshAttribute.POSITION)),
-						new GlVertexAttributeBinding(ChunkShaderBindingPoints.COLOR, vertexFormat.getAttribute(ChunkMeshAttribute.COLOR)),
-						new GlVertexAttributeBinding(ChunkShaderBindingPoints.TEX_COORD, vertexFormat.getAttribute(ChunkMeshAttribute.TEXTURE)),
-						new GlVertexAttributeBinding(ChunkShaderBindingPoints.LIGHT_COORD, vertexFormat.getAttribute(ChunkMeshAttribute.LIGHT))
-					},
-					false
-				)
-			}
-		);
+		GlVertexFormat<ChunkMeshAttribute> vertexFormat = (GlVertexFormat<ChunkMeshAttribute>) vertexData.format;
+		this.tessellation = commandList.createTessellation(GlPrimitiveType.QUADS,
+				new TessellationBinding[] { new TessellationBinding(this.vertexBuffer,
+						new GlVertexAttributeBinding[] {
+								new GlVertexAttributeBinding(ChunkShaderBindingPoints.POSITION,
+										vertexFormat.getAttribute(ChunkMeshAttribute.POSITION)),
+								new GlVertexAttributeBinding(ChunkShaderBindingPoints.COLOR,
+										vertexFormat.getAttribute(ChunkMeshAttribute.COLOR)),
+								new GlVertexAttributeBinding(ChunkShaderBindingPoints.TEX_COORD,
+										vertexFormat.getAttribute(ChunkMeshAttribute.TEXTURE)),
+								new GlVertexAttributeBinding(ChunkShaderBindingPoints.LIGHT_COORD,
+										vertexFormat.getAttribute(ChunkMeshAttribute.LIGHT)) },
+						false) });
 		this.setupModelParts(meshData, vertexData.format);
 		vertexData.buffer.limit(vertexData.buffer.capacity());
 		vertexData.buffer.position(0);

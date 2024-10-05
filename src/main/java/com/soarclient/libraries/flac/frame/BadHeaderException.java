@@ -22,40 +22,44 @@ package com.soarclient.libraries.flac.frame;
 
 /**
  * BadHeaderException.
+ * 
  * @author kc7bfi
  */
 public class BadHeaderException extends Exception {
 
-    /**
-     * Exception constructor.
-     */
-    public BadHeaderException() {
-        super();
-    }
+	/**
+	 * Exception constructor.
+	 */
+	public BadHeaderException() {
+		super();
+	}
 
-    /**
-     * Exception constructor.
-     * @param msg   The exception message
-     */
-    public BadHeaderException(String msg) {
-        super(msg);
-    }
+	/**
+	 * Exception constructor.
+	 * 
+	 * @param msg The exception message
+	 */
+	public BadHeaderException(String msg) {
+		super(msg);
+	}
 
-    /**
-     * Exception constructor.
-     * @param err   The throwable error
-     */
-    public BadHeaderException(Throwable err) {
-        super(err);
-    }
+	/**
+	 * Exception constructor.
+	 * 
+	 * @param err The throwable error
+	 */
+	public BadHeaderException(Throwable err) {
+		super(err);
+	}
 
-    /**
-     * Exception constructor.
-     * @param msg   The exception message
-     * @param err   The throwable error
-     */
-    public BadHeaderException(String msg, Throwable err) {
-        super(msg, err);
-    }
+	/**
+	 * Exception constructor.
+	 * 
+	 * @param msg The exception message
+	 * @param err The throwable error
+	 */
+	public BadHeaderException(String msg, Throwable err) {
+		super(msg, err);
+	}
 
 }

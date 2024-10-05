@@ -15,7 +15,7 @@ public class LightPipelineProvider {
 	}
 
 	public LightPipeline getLighter(LightMode type) {
-		LightPipeline pipeline = (LightPipeline)this.lighters.get(type);
+		LightPipeline pipeline = (LightPipeline) this.lighters.get(type);
 		if (pipeline == null) {
 			throw new NullPointerException("No lighter exists for mode: " + type.name());
 		} else {

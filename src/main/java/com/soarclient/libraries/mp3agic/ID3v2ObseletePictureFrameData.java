@@ -8,7 +8,8 @@ public class ID3v2ObseletePictureFrameData extends ID3v2PictureFrameData {
 		super(unsynchronisation);
 	}
 
-	public ID3v2ObseletePictureFrameData(boolean unsynchronisation, String mimeType, byte pictureType, EncodedText description, byte[] imageData) {
+	public ID3v2ObseletePictureFrameData(boolean unsynchronisation, String mimeType, byte pictureType,
+			EncodedText description, byte[] imageData) {
 		super(unsynchronisation, mimeType, pictureType, description, imageData);
 	}
 

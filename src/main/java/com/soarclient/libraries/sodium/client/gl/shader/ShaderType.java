@@ -1,8 +1,7 @@
 package com.soarclient.libraries.sodium.client.gl.shader;
 
 public enum ShaderType {
-	VERTEX(35633),
-	FRAGMENT(35632);
+	VERTEX(35633), FRAGMENT(35632);
 
 	public final int id;
 

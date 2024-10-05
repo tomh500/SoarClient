@@ -13,7 +13,8 @@ public class ID3v22Tag extends AbstractID3v2Tag {
 		super(buffer);
 	}
 
-	public ID3v22Tag(byte[] buffer, boolean obseleteFormat) throws NoSuchTagException, UnsupportedTagException, InvalidDataException {
+	public ID3v22Tag(byte[] buffer, boolean obseleteFormat)
+			throws NoSuchTagException, UnsupportedTagException, InvalidDataException {
 		super(buffer, obseleteFormat);
 	}
 
@@ -25,7 +26,8 @@ public class ID3v22Tag extends AbstractID3v2Tag {
 
 	@Override
 	protected void packFlags(byte[] bytes, int offset) {
-		bytes[offset + FLAGS_OFFSET] = BufferTools.setBit(bytes[offset + FLAGS_OFFSET], UNSYNCHRONISATION_BIT, unsynchronisation);
+		bytes[offset + FLAGS_OFFSET] = BufferTools.setBit(bytes[offset + FLAGS_OFFSET], UNSYNCHRONISATION_BIT,
+				unsynchronisation);
 		bytes[offset + FLAGS_OFFSET] = BufferTools.setBit(bytes[offset + FLAGS_OFFSET], COMPRESSION_BIT, compression);
 	}
 }

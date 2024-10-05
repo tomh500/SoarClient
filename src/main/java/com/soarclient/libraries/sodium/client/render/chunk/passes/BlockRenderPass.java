@@ -3,10 +3,8 @@ package com.soarclient.libraries.sodium.client.render.chunk.passes;
 import net.minecraft.util.EnumWorldBlockLayer;
 
 public enum BlockRenderPass {
-	SOLID(EnumWorldBlockLayer.SOLID, false),
-	CUTOUT(EnumWorldBlockLayer.CUTOUT, false),
-	CUTOUT_MIPPED(EnumWorldBlockLayer.CUTOUT_MIPPED, false),
-	TRANSLUCENT(EnumWorldBlockLayer.TRANSLUCENT, true);
+	SOLID(EnumWorldBlockLayer.SOLID, false), CUTOUT(EnumWorldBlockLayer.CUTOUT, false),
+	CUTOUT_MIPPED(EnumWorldBlockLayer.CUTOUT_MIPPED, false), TRANSLUCENT(EnumWorldBlockLayer.TRANSLUCENT, true);
 
 	public static final BlockRenderPass[] VALUES = values();
 	public static final int COUNT = VALUES.length;

@@ -14,44 +14,43 @@ import net.minecraft.world.gen.ChunkProviderServer;
 
 public class LightingEngineHelpers {
 
-    private static final IBlockState DEFAULT_BLOCK_STATE = Blocks.air.getDefaultState();
+	private static final IBlockState DEFAULT_BLOCK_STATE = Blocks.air.getDefaultState();
 
-    // Avoids some additional logic in Chunk#getBlockState... 0 is always air
-    static IBlockState posToState(final BlockPos pos, final Chunk chunk) {
-        return posToState(pos, chunk.getBlockStorageArray()[pos.getY() >> 4]);
-    }
+	// Avoids some additional logic in Chunk#getBlockState... 0 is always air
+	static IBlockState posToState(final BlockPos pos, final Chunk chunk) {
+		return posToState(pos, chunk.getBlockStorageArray()[pos.getY() >> 4]);
+	}
 
-    static IBlockState posToState(final BlockPos pos, final ExtendedBlockStorage section) {
-        final int x = pos.getX();
-        final int y = pos.getY();
-        final int z = pos.getZ();
+	static IBlockState posToState(final BlockPos pos, final ExtendedBlockStorage section) {
+		final int x = pos.getX();
+		final int y = pos.getY();
+		final int z = pos.getZ();
 
-        if (section != null)
-        {
-            IBlockState state = section.getBlockByExtId((x & 15), (y & 15), (z & 15)).getDefaultState();
-            if (state != null) {
-                return state;
-            }
-        }
+		if (section != null) {
+			IBlockState state = section.getBlockByExtId((x & 15), (y & 15), (z & 15)).getDefaultState();
+			if (state != null) {
+				return state;
+			}
+		}
 
-        return DEFAULT_BLOCK_STATE;
-    }
+		return DEFAULT_BLOCK_STATE;
+	}
 
-    static int getLightValueForState(final IBlockState state, final IBlockAccess world, final BlockPos pos) {
-    	return state.getBlock().getLightValue();
-    }
+	static int getLightValueForState(final IBlockState state, final IBlockAccess world, final BlockPos pos) {
+		return state.getBlock().getLightValue();
+	}
 
-    public static Chunk getLoadedChunk(IChunkProvider chunkProvider, int x, int z) {
-        if (chunkProvider instanceof ChunkProviderServer) {
-            LongHashMap<Chunk> chunkStorage = ((ChunkProviderServer) chunkProvider).getId2ChunkMap();
-            return chunkStorage.getValueByKey(ChunkCoordIntPair.chunkXZ2Int(x, z));
-        }
-        if (chunkProvider instanceof ChunkProviderClient) {
-            LongHashMap<Chunk> chunkStorage = ((ChunkProviderClient)chunkProvider).getChunkMapping();
-            return chunkStorage.getValueByKey(ChunkCoordIntPair.chunkXZ2Int(x, z));
-        }
+	public static Chunk getLoadedChunk(IChunkProvider chunkProvider, int x, int z) {
+		if (chunkProvider instanceof ChunkProviderServer) {
+			LongHashMap<Chunk> chunkStorage = ((ChunkProviderServer) chunkProvider).getId2ChunkMap();
+			return chunkStorage.getValueByKey(ChunkCoordIntPair.chunkXZ2Int(x, z));
+		}
+		if (chunkProvider instanceof ChunkProviderClient) {
+			LongHashMap<Chunk> chunkStorage = ((ChunkProviderClient) chunkProvider).getChunkMapping();
+			return chunkStorage.getValueByKey(ChunkCoordIntPair.chunkXZ2Int(x, z));
+		}
 
-        // Fallback for other providers, hopefully this doesn't break...
-        return chunkProvider.provideChunk(x, z);
-    }
+		// Fallback for other providers, hopefully this doesn't break...
+		return chunkProvider.provideChunk(x, z);
+	}
 }

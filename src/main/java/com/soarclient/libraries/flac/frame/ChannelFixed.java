@@ -29,67 +29,72 @@ import com.soarclient.libraries.flac.io.BitInputStream;
 
 /**
  * Fixed FLAC subframe (channel).
+ * 
  * @author kc7bfi
  */
 public class ChannelFixed extends Channel {
-    private static final int MAX_FIXED_ORDER = 4;
+	private static final int MAX_FIXED_ORDER = 4;
 
-    private EntropyCodingMethod entropyCodingMethod; // The residual coding method.
-    private int order; // The polynomial order.
-    private int[] warmup = new int[MAX_FIXED_ORDER]; // Warmup samples to prime the predictor, length == order.
-    private int[] residual; // The residual signal, length == (blocksize minus order) samples.
+	private EntropyCodingMethod entropyCodingMethod; // The residual coding method.
+	private int order; // The polynomial order.
+	private int[] warmup = new int[MAX_FIXED_ORDER]; // Warmup samples to prime the predictor, length == order.
+	private int[] residual; // The residual signal, length == (blocksize minus order) samples.
 
-    /**
-     * The constructor.
-     * @param is            The InputBitStream
-     * @param header        The FLAC Frame Header
-     * @param channelData   The decoded channel data (output)
-     * @param bps           The bits-per-second
-     * @param wastedBits    The bits waisted in the frame
-     * @param order         The predicate order
-     * @throws IOException  Thrown if error reading from the InputBitStream
-     * @throws FrameDecodeException 
-     */
-    public ChannelFixed(BitInputStream is, Header header, ChannelData channelData, int bps, int wastedBits, int order) throws IOException, FrameDecodeException {
-        super(header, wastedBits);
-        
-        this.residual = channelData.getResidual();
-        this.order = order;
+	/**
+	 * The constructor.
+	 * 
+	 * @param is          The InputBitStream
+	 * @param header      The FLAC Frame Header
+	 * @param channelData The decoded channel data (output)
+	 * @param bps         The bits-per-second
+	 * @param wastedBits  The bits waisted in the frame
+	 * @param order       The predicate order
+	 * @throws IOException          Thrown if error reading from the InputBitStream
+	 * @throws FrameDecodeException
+	 */
+	public ChannelFixed(BitInputStream is, Header header, ChannelData channelData, int bps, int wastedBits, int order)
+			throws IOException, FrameDecodeException {
+		super(header, wastedBits);
 
-        // read warm-up samples
-        for (int u = 0; u < order; u++) {
-            warmup[u] = is.readRawInt(bps);
-        }
+		this.residual = channelData.getResidual();
+		this.order = order;
 
-        // read entropy coding method info
-        int type = is.readRawUInt(ENTROPY_CODING_METHOD_TYPE_LEN);
-        EntropyCodingMethod pr;
-        switch (type) {
-            case ENTROPY_CODING_METHOD_PARTITIONED_RICE :
-                pr = new EntropyPartitionedRice();
-                break;
-            case RESIDUAL_CODING_METHOD_PARTITIONED_RICE2 :
-                pr = new EntropyPartitionedRice2();
-                break;
-            default :
-                throw new FrameDecodeException("STREAM_DECODER_UNPARSEABLE_STREAM, type:"+type);
-        }
+		// read warm-up samples
+		for (int u = 0; u < order; u++) {
+			warmup[u] = is.readRawInt(bps);
+		}
+
+		// read entropy coding method info
+		int type = is.readRawUInt(ENTROPY_CODING_METHOD_TYPE_LEN);
+		EntropyCodingMethod pr;
+		switch (type) {
+		case ENTROPY_CODING_METHOD_PARTITIONED_RICE:
+			pr = new EntropyPartitionedRice();
+			break;
+		case RESIDUAL_CODING_METHOD_PARTITIONED_RICE2:
+			pr = new EntropyPartitionedRice2();
+			break;
+		default:
+			throw new FrameDecodeException("STREAM_DECODER_UNPARSEABLE_STREAM, type:" + type);
+		}
 		entropyCodingMethod = pr;
 		pr.order = is.readRawUInt(ENTROPY_CODING_METHOD_PARTITIONED_RICE_ORDER_LEN);
 		pr.contents = channelData.getPartitionedRiceContents();
 		pr.readResidual(is, order, pr.order, header, channelData.getResidual());
 
-        // decode the subframe
-        System.arraycopy(warmup, 0, channelData.getOutput(), 0, order);
-        FixedPredictor.restoreSignal(residual, header.blockSize - order, order, channelData.getOutput(), order);
-    }
-    
-    /**
-     * @see java.lang.Object#toString()
-     */
-    public String toString() {
-        StringBuffer sb = new StringBuffer("FLACSubframe_Fixed: Order=" + order + " PartitionOrder=" + ((EntropyPartitionedRice)entropyCodingMethod).order + " WastedBits=" + wastedBits);
-        for (int i = 0; i < order; i++) sb.append(" warmup[" + i + "]=" + warmup[i]);
-        return sb.toString();
-    }
+		// decode the subframe
+		System.arraycopy(warmup, 0, channelData.getOutput(), 0, order);
+		FixedPredictor.restoreSignal(residual, header.blockSize - order, order, channelData.getOutput(), order);
+	}
+
+	/**
+	 * @see java.lang.Object#toString()
+	 */
+	public String toString() {
+		StringBuffer sb = new StringBuffer("FLACSubframe_Fixed: Order=" + order + " PartitionOrder="
+				+ ((EntropyPartitionedRice) entropyCodingMethod).order + " WastedBits=" + wastedBits);
+		for (int i = 0; i < order; i++)
+			sb.append(" warmup[" + i + "]=" + warmup[i]);
+		return sb.toString();
+	}
 }

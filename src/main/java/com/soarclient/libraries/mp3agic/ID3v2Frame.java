@@ -57,7 +57,9 @@ public class ID3v2Frame {
 	}
 
 	protected void unpackDataLength(byte[] buffer, int offset) {
-		dataLength = BufferTools.unpackInteger(buffer[offset + DATA_LENGTH_OFFSET], buffer[offset + DATA_LENGTH_OFFSET + 1], buffer[offset + DATA_LENGTH_OFFSET + 2], buffer[offset + DATA_LENGTH_OFFSET + 3]);
+		dataLength = BufferTools.unpackInteger(buffer[offset + DATA_LENGTH_OFFSET],
+				buffer[offset + DATA_LENGTH_OFFSET + 1], buffer[offset + DATA_LENGTH_OFFSET + 2],
+				buffer[offset + DATA_LENGTH_OFFSET + 3]);
 	}
 
 	private void unpackFlags(byte[] buffer, int offset) {
@@ -138,8 +140,10 @@ public class ID3v2Frame {
 
 	public void setData(byte[] data) {
 		this.data = data;
-		if (data == null) dataLength = 0;
-		else dataLength = data.length;
+		if (data == null)
+			dataLength = 0;
+		else
+			dataLength = data.length;
 	}
 
 	public boolean hasDataLengthIndicator() {
@@ -176,8 +180,8 @@ public class ID3v2Frame {
 
 	@Override
 	public int hashCode() {
-		return 31 * Objects.hash(compression, dataLength, dataLengthIndicator, encryption, group,
-				id, preserveFile, preserveTag, readOnly, unsynchronisation) + Arrays.hashCode(data);
+		return 31 * Objects.hash(compression, dataLength, dataLengthIndicator, encryption, group, id, preserveFile,
+				preserveTag, readOnly, unsynchronisation) + Arrays.hashCode(data);
 	}
 
 	@Override
@@ -189,17 +193,12 @@ public class ID3v2Frame {
 		if (getClass() != obj.getClass())
 			return false;
 		final ID3v2Frame other = (ID3v2Frame) obj;
-		return
-				Arrays.equals(data, other.data) &&
-				Objects.equals(compression, other.compression) &&
-				Objects.equals(dataLength, other.dataLength) &&
-				Objects.equals(dataLengthIndicator, other.dataLengthIndicator) &&
-				Objects.equals(encryption, other.encryption) &&
-				Objects.equals(group, other.group) &&
-				Objects.equals(id, other.id) &&
-				Objects.equals(preserveFile, other.preserveFile) &&
-				Objects.equals(preserveTag, other.preserveTag) &&
-				Objects.equals(readOnly, other.readOnly) &&
-				Objects.equals(unsynchronisation, other.unsynchronisation);
+		return Arrays.equals(data, other.data) && Objects.equals(compression, other.compression)
+				&& Objects.equals(dataLength, other.dataLength)
+				&& Objects.equals(dataLengthIndicator, other.dataLengthIndicator)
+				&& Objects.equals(encryption, other.encryption) && Objects.equals(group, other.group)
+				&& Objects.equals(id, other.id) && Objects.equals(preserveFile, other.preserveFile)
+				&& Objects.equals(preserveTag, other.preserveTag) && Objects.equals(readOnly, other.readOnly)
+				&& Objects.equals(unsynchronisation, other.unsynchronisation);
 	}
 }

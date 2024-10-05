@@ -27,7 +27,7 @@ public class BasicFrame extends AbstractFrame {
 		this.children.clear();
 		this.drawable.clear();
 		this.controlElements.clear();
-		this.functions.forEach(function -> this.children.add((AbstractWidget)function.apply(this.dim)));
+		this.functions.forEach(function -> this.children.add((AbstractWidget) function.apply(this.dim)));
 		super.buildFrame();
 	}
 

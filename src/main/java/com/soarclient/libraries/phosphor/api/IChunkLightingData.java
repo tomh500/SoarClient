@@ -1,13 +1,13 @@
 package com.soarclient.libraries.phosphor.api;
 
 public interface IChunkLightingData {
-    short[] getNeighborLightChecks();
+	short[] getNeighborLightChecks();
 
-    void setNeighborLightChecks(short[] data);
+	void setNeighborLightChecks(short[] data);
 
-    boolean isLightInitialized();
+	boolean isLightInitialized();
 
-    void setLightInitialized(boolean val);
+	void setLightInitialized(boolean val);
 
-    void setSkylightUpdatedPublic();
+	void setSkylightUpdatedPublic();
 }

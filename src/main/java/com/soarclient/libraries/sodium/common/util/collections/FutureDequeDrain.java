@@ -8,7 +8,7 @@ import java.util.concurrent.CompletableFuture;
 
 public class FutureDequeDrain<T> implements Iterator<T> {
 	private final Deque<CompletableFuture<T>> deque;
-	private T next = (T)null;
+	private T next = (T) null;
 
 	public FutureDequeDrain(Deque<CompletableFuture<T>> deque) {
 		this.deque = deque;
@@ -25,10 +25,10 @@ public class FutureDequeDrain<T> implements Iterator<T> {
 
 	private void findNext() {
 		while (!this.deque.isEmpty()) {
-			CompletableFuture<T> future = (CompletableFuture<T>)this.deque.remove();
+			CompletableFuture<T> future = (CompletableFuture<T>) this.deque.remove();
 
 			try {
-				this.next = (T)future.join();
+				this.next = (T) future.join();
 				return;
 			} catch (CancellationException var3) {
 			}

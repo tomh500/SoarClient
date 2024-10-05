@@ -18,7 +18,8 @@ public class FlatLightPipeline implements LightPipeline {
 	}
 
 	@Override
-	public void calculate(ModelQuadView quad, BlockPos pos, QuadLightData out, EnumFacing cullFace, EnumFacing face, boolean shade) {
+	public void calculate(ModelQuadView quad, BlockPos pos, QuadLightData out, EnumFacing cullFace, EnumFacing face,
+			boolean shade) {
 		int lightmap;
 		if (cullFace != null) {
 			lightmap = this.getOffsetLightmap(pos, cullFace);

@@ -43,11 +43,11 @@ public class OptionPageFrame extends AbstractFrame {
 		this.controlElements.clear();
 		int y = 0;
 		if (!this.page.getGroups().isEmpty()) {
-			OptionGroup lastGroup = (OptionGroup)this.page.getGroups().get(this.page.getGroups().size() - 1);
+			OptionGroup lastGroup = (OptionGroup) this.page.getGroups().get(this.page.getGroups().size() - 1);
 			UnmodifiableIterator var3 = this.page.getGroups().iterator();
 
 			while (var3.hasNext()) {
-				OptionGroup group = (OptionGroup)var3.next();
+				OptionGroup group = (OptionGroup) var3.next();
 				y += group.getOptions().size() * 18;
 				if (group != lastGroup) {
 					y += 4;
@@ -57,10 +57,10 @@ public class OptionPageFrame extends AbstractFrame {
 
 		this.dim.setHeight(y);
 		this.page.getGroups().forEach(groupx -> groupx.getOptions().forEach(option -> {
-				if (option instanceof OptionExtended<?> optionExtended) {
-					optionExtended.setParentDimension(this.dim);
-				}
-			}));
+			if (option instanceof OptionExtended<?> optionExtended) {
+				optionExtended.setParentDimension(this.dim);
+			}
+		}));
 	}
 
 	@Override
@@ -72,12 +72,13 @@ public class OptionPageFrame extends AbstractFrame {
 			int y = 0;
 
 			for (UnmodifiableIterator var2 = this.page.getGroups().iterator(); var2.hasNext(); y += 4) {
-				OptionGroup group = (OptionGroup)var2.next();
+				OptionGroup group = (OptionGroup) var2.next();
 
 				for (UnmodifiableIterator var4 = group.getOptions().iterator(); var4.hasNext(); y += 18) {
-					Option<?> option = (Option<?>)var4.next();
+					Option<?> option = (Option<?>) var4.next();
 					Control<?> control = option.getControl();
-					ControlElement<?> element = control.createElement(new Dim2i(this.dim.getOriginX(), this.dim.getOriginY() + y, this.dim.getWidth(), 18));
+					ControlElement<?> element = control.createElement(
+							new Dim2i(this.dim.getOriginX(), this.dim.getOriginY() + y, this.dim.getWidth(), 18));
 					this.children.add(element);
 				}
 			}
@@ -88,17 +89,12 @@ public class OptionPageFrame extends AbstractFrame {
 
 	@Override
 	public void render(int mouseX, int mouseY, float delta) {
-		ControlElement<?> hoveredElement = (ControlElement<?>)this.controlElements
-			.stream()
-			.filter(controlElement -> controlElement.getDimensions().overlapWith(this.originalDim))
-			.filter(ControlElement::isHovered)
-			.findFirst()
-			.orElse(null);
+		ControlElement<?> hoveredElement = (ControlElement<?>) this.controlElements.stream()
+				.filter(controlElement -> controlElement.getDimensions().overlapWith(this.originalDim))
+				.filter(ControlElement::isHovered).findFirst().orElse(null);
 		super.render(mouseX, mouseY, delta);
-		if (hoveredElement != null
-			&& this.lastHoveredElement == hoveredElement
-			&& this.originalDim.containsCursor((double)mouseX, (double)mouseY)
-			&& hoveredElement.isHovered()) {
+		if (hoveredElement != null && this.lastHoveredElement == hoveredElement
+				&& this.originalDim.containsCursor((double) mouseX, (double) mouseY) && hoveredElement.isHovered()) {
 			if (this.lastTime == 0L) {
 				this.lastTime = System.currentTimeMillis();
 			}
@@ -120,10 +116,12 @@ public class OptionPageFrame extends AbstractFrame {
 			int boxY = dim.getLimitY();
 			int boxX = dim.getOriginX();
 			Option<?> option = element.getOption();
-			List<String> tooltip = new ArrayList(fontRenderer.listFormattedStringToWidth(option.getTooltip().getFormattedText(), boxWidth - 6));
+			List<String> tooltip = new ArrayList(
+					fontRenderer.listFormattedStringToWidth(option.getTooltip().getFormattedText(), boxWidth - 6));
 			OptionImpact impact = option.getImpact();
 			if (impact != null) {
-				tooltip.add(EnumChatFormatting.GRAY + I18n.format("sodium.options.performance_impact_string", new Object[]{impact.toDisplayString()}));
+				tooltip.add(EnumChatFormatting.GRAY + I18n.format("sodium.options.performance_impact_string",
+						new Object[] { impact.toDisplayString() }));
 			}
 
 			int boxHeight = tooltip.size() * 12 + 3;
@@ -137,11 +135,13 @@ public class OptionPageFrame extends AbstractFrame {
 				boxY = dim.getLimitY();
 			}
 
-			this.drawRect((double)boxX, (double)boxY, (double)(boxX + boxWidth), (double)(boxY + boxHeight), -536870912);
-			this.drawRectOutline((double)boxX, (double)boxY, (double)(boxX + boxWidth), (double)(boxY + boxHeight), -7019309);
+			this.drawRect((double) boxX, (double) boxY, (double) (boxX + boxWidth), (double) (boxY + boxHeight),
+					-536870912);
+			this.drawRectOutline((double) boxX, (double) boxY, (double) (boxX + boxWidth), (double) (boxY + boxHeight),
+					-7019309);
 
 			for (int i = 0; i < tooltip.size(); i++) {
-				fontRenderer.drawString((String)tooltip.get(i), boxX + 3, boxY + 3 + i * 12, -1);
+				fontRenderer.drawString((String) tooltip.get(i), boxX + 3, boxY + 3 + i * 12, -1);
 			}
 		}
 	}

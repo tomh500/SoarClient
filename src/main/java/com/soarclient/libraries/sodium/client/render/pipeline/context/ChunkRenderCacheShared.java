@@ -33,7 +33,7 @@ public class ChunkRenderCacheShared extends ChunkRenderCache {
 	}
 
 	public static ChunkRenderCacheShared getInstance(WorldClient world) {
-		ChunkRenderCacheShared instance = (ChunkRenderCacheShared)INSTANCES.get(world);
+		ChunkRenderCacheShared instance = (ChunkRenderCacheShared) INSTANCES.get(world);
 		if (instance == null) {
 			throw new IllegalStateException("No global renderer exists");
 		} else {

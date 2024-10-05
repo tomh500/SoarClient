@@ -2,11 +2,11 @@ package com.soarclient.libraries.sodium.client.render.chunk.format;
 
 public class ModelVertexUtil {
 	public static short denormalizeVertexPositionFloatAsShort(float value) {
-		return (short)((int)(value * 2048.0F));
+		return (short) ((int) (value * 2048.0F));
 	}
 
 	public static short denormalizeVertexTextureFloatAsShort(float value) {
-		return (short)(Math.round(value * 32768.0F) & 65535);
+		return (short) (Math.round(value * 32768.0F) & 65535);
 	}
 
 	public static int encodeLightMapTexCoord(int light) {

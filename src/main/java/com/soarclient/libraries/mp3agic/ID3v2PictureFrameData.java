@@ -14,7 +14,8 @@ public class ID3v2PictureFrameData extends AbstractID3v2FrameData {
 		super(unsynchronisation);
 	}
 
-	public ID3v2PictureFrameData(boolean unsynchronisation, String mimeType, byte pictureType, EncodedText description, byte[] imageData) {
+	public ID3v2PictureFrameData(boolean unsynchronisation, String mimeType, byte pictureType, EncodedText description,
+			byte[] imageData) {
 		super(unsynchronisation);
 		this.mimeType = mimeType;
 		this.pictureType = pictureType;
@@ -55,8 +56,10 @@ public class ID3v2PictureFrameData extends AbstractID3v2FrameData {
 	@Override
 	protected byte[] packFrameData() {
 		byte[] bytes = new byte[getLength()];
-		if (description != null) bytes[0] = description.getTextEncoding();
-		else bytes[0] = 0;
+		if (description != null)
+			bytes[0] = description.getTextEncoding();
+		else
+			bytes[0] = 0;
 		int mimeTypeLength = 0;
 		if (mimeType != null && mimeType.length() > 0) {
 			mimeTypeLength = mimeType.length();
@@ -84,10 +87,14 @@ public class ID3v2PictureFrameData extends AbstractID3v2FrameData {
 	@Override
 	protected int getLength() {
 		int length = 3;
-		if (mimeType != null) length += mimeType.length();
-		if (description != null) length += description.toBytes(true, true).length;
-		else length++;
-		if (imageData != null) length += imageData.length;
+		if (mimeType != null)
+			length += mimeType.length();
+		if (description != null)
+			length += description.toBytes(true, true).length;
+		else
+			length++;
+		if (imageData != null)
+			length += imageData.length;
 		return length;
 	}
 
@@ -127,11 +134,9 @@ public class ID3v2PictureFrameData extends AbstractID3v2FrameData {
 	public int hashCode() {
 		final int prime = 31;
 		int result = super.hashCode();
-		result = prime * result
-				+ ((description == null) ? 0 : description.hashCode());
+		result = prime * result + ((description == null) ? 0 : description.hashCode());
 		result = prime * result + Arrays.hashCode(imageData);
-		result = prime * result
-				+ ((mimeType == null) ? 0 : mimeType.hashCode());
+		result = prime * result + ((mimeType == null) ? 0 : mimeType.hashCode());
 		result = prime * result + pictureType;
 		return result;
 	}

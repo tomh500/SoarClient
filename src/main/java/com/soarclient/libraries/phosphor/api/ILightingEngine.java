@@ -4,9 +4,9 @@ import net.minecraft.util.BlockPos;
 import net.minecraft.world.EnumSkyBlock;
 
 public interface ILightingEngine {
-    void scheduleLightUpdate(EnumSkyBlock lightType, BlockPos pos);
+	void scheduleLightUpdate(EnumSkyBlock lightType, BlockPos pos);
 
-    void processLightUpdates();
+	void processLightUpdates();
 
-    void processLightUpdatesForType(EnumSkyBlock lightType);
+	void processLightUpdatesForType(EnumSkyBlock lightType);
 }

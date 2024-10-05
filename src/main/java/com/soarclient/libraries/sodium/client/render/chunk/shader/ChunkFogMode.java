@@ -9,8 +9,7 @@ import java.util.List;
 import java.util.function.Function;
 
 public enum ChunkFogMode {
-	NONE(None::new, ImmutableList.of()),
-	LINEAR(Linear::new, ImmutableList.of("USE_FOG", "USE_FOG_LINEAR")),
+	NONE(None::new, ImmutableList.of()), LINEAR(Linear::new, ImmutableList.of("USE_FOG", "USE_FOG_LINEAR")),
 	EXP2(Exp2::new, ImmutableList.of("USE_FOG", "USE_FOG_EXP2"));
 
 	private final Function<ChunkProgram, ChunkShaderFogComponent> factory;

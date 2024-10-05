@@ -6,83 +6,70 @@ import java.util.Map;
 import java.util.Set;
 import net.minecraft.server.management.LowerStringMap;
 
-public class ServersideAttributeMap extends BaseAttributeMap
-{
-    private final Set<IAttributeInstance> attributeInstanceSet = Sets.<IAttributeInstance>newHashSet();
-    protected final Map<String, IAttributeInstance> descriptionToAttributeInstanceMap = new LowerStringMap();
+public class ServersideAttributeMap extends BaseAttributeMap {
+	private final Set<IAttributeInstance> attributeInstanceSet = Sets.<IAttributeInstance>newHashSet();
+	protected final Map<String, IAttributeInstance> descriptionToAttributeInstanceMap = new LowerStringMap();
 
-    public ModifiableAttributeInstance getAttributeInstance(IAttribute attribute)
-    {
-        return (ModifiableAttributeInstance)super.getAttributeInstance(attribute);
-    }
+	public ModifiableAttributeInstance getAttributeInstance(IAttribute attribute) {
+		return (ModifiableAttributeInstance) super.getAttributeInstance(attribute);
+	}
 
-    public ModifiableAttributeInstance getAttributeInstanceByName(String attributeName)
-    {
-        IAttributeInstance iattributeinstance = super.getAttributeInstanceByName(attributeName);
+	public ModifiableAttributeInstance getAttributeInstanceByName(String attributeName) {
+		IAttributeInstance iattributeinstance = super.getAttributeInstanceByName(attributeName);
 
-        if (iattributeinstance == null)
-        {
-            iattributeinstance = (IAttributeInstance)this.descriptionToAttributeInstanceMap.get(attributeName);
-        }
+		if (iattributeinstance == null) {
+			iattributeinstance = (IAttributeInstance) this.descriptionToAttributeInstanceMap.get(attributeName);
+		}
 
-        return (ModifiableAttributeInstance)iattributeinstance;
-    }
+		return (ModifiableAttributeInstance) iattributeinstance;
+	}
 
-    /**
-     * Registers an attribute with this AttributeMap, returns a modifiable AttributeInstance associated with this map
-     */
-    public IAttributeInstance registerAttribute(IAttribute attribute)
-    {
-        IAttributeInstance iattributeinstance = super.registerAttribute(attribute);
+	/**
+	 * Registers an attribute with this AttributeMap, returns a modifiable
+	 * AttributeInstance associated with this map
+	 */
+	public IAttributeInstance registerAttribute(IAttribute attribute) {
+		IAttributeInstance iattributeinstance = super.registerAttribute(attribute);
 
-        if (attribute instanceof RangedAttribute && ((RangedAttribute)attribute).getDescription() != null)
-        {
-            this.descriptionToAttributeInstanceMap.put(((RangedAttribute)attribute).getDescription(), iattributeinstance);
-        }
+		if (attribute instanceof RangedAttribute && ((RangedAttribute) attribute).getDescription() != null) {
+			this.descriptionToAttributeInstanceMap.put(((RangedAttribute) attribute).getDescription(),
+					iattributeinstance);
+		}
 
-        return iattributeinstance;
-    }
+		return iattributeinstance;
+	}
 
-    protected IAttributeInstance func_180376_c(IAttribute attribute)
-    {
-        return new ModifiableAttributeInstance(this, attribute);
-    }
+	protected IAttributeInstance func_180376_c(IAttribute attribute) {
+		return new ModifiableAttributeInstance(this, attribute);
+	}
 
-    public void func_180794_a(IAttributeInstance instance)
-    {
-        if (instance.getAttribute().getShouldWatch())
-        {
-            this.attributeInstanceSet.add(instance);
-        }
+	public void func_180794_a(IAttributeInstance instance) {
+		if (instance.getAttribute().getShouldWatch()) {
+			this.attributeInstanceSet.add(instance);
+		}
 
-        for (IAttribute iattribute : this.field_180377_c.get(instance.getAttribute()))
-        {
-            ModifiableAttributeInstance modifiableattributeinstance = this.getAttributeInstance(iattribute);
+		for (IAttribute iattribute : this.field_180377_c.get(instance.getAttribute())) {
+			ModifiableAttributeInstance modifiableattributeinstance = this.getAttributeInstance(iattribute);
 
-            if (modifiableattributeinstance != null)
-            {
-                modifiableattributeinstance.flagForUpdate();
-            }
-        }
-    }
+			if (modifiableattributeinstance != null) {
+				modifiableattributeinstance.flagForUpdate();
+			}
+		}
+	}
 
-    public Set<IAttributeInstance> getAttributeInstanceSet()
-    {
-        return this.attributeInstanceSet;
-    }
+	public Set<IAttributeInstance> getAttributeInstanceSet() {
+		return this.attributeInstanceSet;
+	}
 
-    public Collection<IAttributeInstance> getWatchedAttributes()
-    {
-        Set<IAttributeInstance> set = Sets.<IAttributeInstance>newHashSet();
+	public Collection<IAttributeInstance> getWatchedAttributes() {
+		Set<IAttributeInstance> set = Sets.<IAttributeInstance>newHashSet();
 
-        for (IAttributeInstance iattributeinstance : this.getAllAttributes())
-        {
-            if (iattributeinstance.getAttribute().getShouldWatch())
-            {
-                set.add(iattributeinstance);
-            }
-        }
+		for (IAttributeInstance iattributeinstance : this.getAllAttributes()) {
+			if (iattributeinstance.getAttribute().getShouldWatch()) {
+				set.add(iattributeinstance);
+			}
+		}
 
-        return set;
-    }
+		return set;
+	}
 }

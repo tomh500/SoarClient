@@ -16,7 +16,7 @@ import com.soarclient.libraries.flac.util.ByteData;
 public class MusicPlayer implements Runnable {
 
 	private Runnable runnable;
-	
+
 	private FLACDecoder decoder;
 	private StreamInfo streamInfo;
 

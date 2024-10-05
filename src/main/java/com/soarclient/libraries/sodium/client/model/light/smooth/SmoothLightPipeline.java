@@ -24,7 +24,8 @@ public class SmoothLightPipeline implements LightPipeline {
 	}
 
 	@Override
-	public void calculate(ModelQuadView quad, BlockPos pos, QuadLightData out, EnumFacing cullFace, EnumFacing face, boolean shade) {
+	public void calculate(ModelQuadView quad, BlockPos pos, QuadLightData out, EnumFacing cullFace, EnumFacing face,
+			boolean shade) {
 		this.updateCachedData(pos.toLong());
 		int flags = quad.getFlags();
 		AoNeighborInfo neighborInfo = AoNeighborInfo.get(face);
@@ -48,7 +49,8 @@ public class SmoothLightPipeline implements LightPipeline {
 		neighborInfo.mapCorners(faceData.lm, faceData.ao, out.lm, out.br);
 	}
 
-	private void applyAlignedPartialFace(AoNeighborInfo neighborInfo, ModelQuadView quad, BlockPos pos, EnumFacing dir, QuadLightData out) {
+	private void applyAlignedPartialFace(AoNeighborInfo neighborInfo, ModelQuadView quad, BlockPos pos, EnumFacing dir,
+			QuadLightData out) {
 		for (int i = 0; i < 4; i++) {
 			float cx = clamp(quad.getX(i));
 			float cy = clamp(quad.getY(i));
@@ -59,7 +61,8 @@ public class SmoothLightPipeline implements LightPipeline {
 		}
 	}
 
-	private void applyParallelFace(AoNeighborInfo neighborInfo, ModelQuadView quad, BlockPos pos, EnumFacing dir, QuadLightData out) {
+	private void applyParallelFace(AoNeighborInfo neighborInfo, ModelQuadView quad, BlockPos pos, EnumFacing dir,
+			QuadLightData out) {
 		for (int i = 0; i < 4; i++) {
 			float cx = clamp(quad.getX(i));
 			float cy = clamp(quad.getY(i));
@@ -75,7 +78,8 @@ public class SmoothLightPipeline implements LightPipeline {
 		}
 	}
 
-	private void applyNonParallelFace(AoNeighborInfo neighborInfo, ModelQuadView quad, BlockPos pos, EnumFacing dir, QuadLightData out) {
+	private void applyNonParallelFace(AoNeighborInfo neighborInfo, ModelQuadView quad, BlockPos pos, EnumFacing dir,
+			QuadLightData out) {
 		for (int i = 0; i < 4; i++) {
 			float cx = clamp(quad.getX(i));
 			float cy = clamp(quad.getY(i));
@@ -93,7 +97,8 @@ public class SmoothLightPipeline implements LightPipeline {
 		}
 	}
 
-	private void applyAlignedPartialFaceVertex(BlockPos pos, EnumFacing dir, float[] w, int i, QuadLightData out, boolean offset) {
+	private void applyAlignedPartialFaceVertex(BlockPos pos, EnumFacing dir, float[] w, int i, QuadLightData out,
+			boolean offset) {
 		AoFaceData faceData = this.getCachedFaceData(pos, dir, offset);
 		if (!faceData.hasUnpackedLightData()) {
 			faceData.unpackLightData();
@@ -106,7 +111,8 @@ public class SmoothLightPipeline implements LightPipeline {
 		out.lm[i] = getLightMapCoord(sl, bl);
 	}
 
-	private void applyInsetPartialFaceVertex(BlockPos pos, EnumFacing dir, float n1d, float n2d, float[] w, int i, QuadLightData out) {
+	private void applyInsetPartialFaceVertex(BlockPos pos, EnumFacing dir, float n1d, float n2d, float[] w, int i,
+			QuadLightData out) {
 		AoFaceData n1 = this.getCachedFaceData(pos, dir, false);
 		if (!n1.hasUnpackedLightData()) {
 			n1.unpackLightData();
@@ -161,6 +167,6 @@ public class SmoothLightPipeline implements LightPipeline {
 	}
 
 	private static int getLightMapCoord(float sl, float bl) {
-		return ((int)sl & 0xFF) << 16 | (int)bl & 0xFF;
+		return ((int) sl & 0xFF) << 16 | (int) bl & 0xFF;
 	}
 }

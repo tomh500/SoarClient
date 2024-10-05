@@ -40,362 +40,314 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.server.MinecraftServer;
 import org.apache.commons.io.IOUtils;
 
-public class PlayerProfileCache
-{
-    public static final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss Z");
-    private final Map<String, PlayerProfileCache.ProfileEntry> usernameToProfileEntryMap = Maps.<String, PlayerProfileCache.ProfileEntry>newHashMap();
-    private final Map<UUID, PlayerProfileCache.ProfileEntry> uuidToProfileEntryMap = Maps.<UUID, PlayerProfileCache.ProfileEntry>newHashMap();
-    private final LinkedList<GameProfile> gameProfiles = Lists.<GameProfile>newLinkedList();
-    private final MinecraftServer mcServer;
-    protected final Gson gson;
-    private final File usercacheFile;
-    private static final ParameterizedType TYPE = new ParameterizedType()
-    {
-        public Type[] getActualTypeArguments()
-        {
-            return new Type[] {PlayerProfileCache.ProfileEntry.class};
-        }
-        public Type getRawType()
-        {
-            return List.class;
-        }
-        public Type getOwnerType()
-        {
-            return null;
-        }
-    };
+public class PlayerProfileCache {
+	public static final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss Z");
+	private final Map<String, PlayerProfileCache.ProfileEntry> usernameToProfileEntryMap = Maps.<String, PlayerProfileCache.ProfileEntry>newHashMap();
+	private final Map<UUID, PlayerProfileCache.ProfileEntry> uuidToProfileEntryMap = Maps.<UUID, PlayerProfileCache.ProfileEntry>newHashMap();
+	private final LinkedList<GameProfile> gameProfiles = Lists.<GameProfile>newLinkedList();
+	private final MinecraftServer mcServer;
+	protected final Gson gson;
+	private final File usercacheFile;
+	private static final ParameterizedType TYPE = new ParameterizedType() {
+		public Type[] getActualTypeArguments() {
+			return new Type[] { PlayerProfileCache.ProfileEntry.class };
+		}
 
-    public PlayerProfileCache(MinecraftServer server, File cacheFile)
-    {
-        this.mcServer = server;
-        this.usercacheFile = cacheFile;
-        GsonBuilder gsonbuilder = new GsonBuilder();
-        gsonbuilder.registerTypeHierarchyAdapter(PlayerProfileCache.ProfileEntry.class, new PlayerProfileCache.Serializer());
-        this.gson = gsonbuilder.create();
-        this.load();
-    }
+		public Type getRawType() {
+			return List.class;
+		}
 
-    /**
-     * Get a GameProfile given the MinecraftServer and the player's username.
+		public Type getOwnerType() {
+			return null;
+		}
+	};
 
-     *  The UUID of the GameProfile will <b>not</b> be null. If the server is offline, a UUID based on the hash of the
-     * username will be used.
-     */
-    private static GameProfile getGameProfile(MinecraftServer server, String username)
-    {
-        final GameProfile[] agameprofile = new GameProfile[1];
-        ProfileLookupCallback profilelookupcallback = new ProfileLookupCallback()
-        {
-            public void onProfileLookupSucceeded(GameProfile p_onProfileLookupSucceeded_1_)
-            {
-                agameprofile[0] = p_onProfileLookupSucceeded_1_;
-            }
-            public void onProfileLookupFailed(GameProfile p_onProfileLookupFailed_1_, Exception p_onProfileLookupFailed_2_)
-            {
-                agameprofile[0] = null;
-            }
-        };
-        server.getGameProfileRepository().findProfilesByNames(new String[] {username}, Agent.MINECRAFT, profilelookupcallback);
+	public PlayerProfileCache(MinecraftServer server, File cacheFile) {
+		this.mcServer = server;
+		this.usercacheFile = cacheFile;
+		GsonBuilder gsonbuilder = new GsonBuilder();
+		gsonbuilder.registerTypeHierarchyAdapter(PlayerProfileCache.ProfileEntry.class,
+				new PlayerProfileCache.Serializer());
+		this.gson = gsonbuilder.create();
+		this.load();
+	}
 
-        if (!server.isServerInOnlineMode() && agameprofile[0] == null)
-        {
-            UUID uuid = EntityPlayer.getUUID(new GameProfile((UUID)null, username));
-            GameProfile gameprofile = new GameProfile(uuid, username);
-            profilelookupcallback.onProfileLookupSucceeded(gameprofile);
-        }
+	/**
+	 * Get a GameProfile given the MinecraftServer and the player's username.
+	 * 
+	 * The UUID of the GameProfile will <b>not</b> be null. If the server is
+	 * offline, a UUID based on the hash of the username will be used.
+	 */
+	private static GameProfile getGameProfile(MinecraftServer server, String username) {
+		final GameProfile[] agameprofile = new GameProfile[1];
+		ProfileLookupCallback profilelookupcallback = new ProfileLookupCallback() {
+			public void onProfileLookupSucceeded(GameProfile p_onProfileLookupSucceeded_1_) {
+				agameprofile[0] = p_onProfileLookupSucceeded_1_;
+			}
 
-        return agameprofile[0];
-    }
+			public void onProfileLookupFailed(GameProfile p_onProfileLookupFailed_1_,
+					Exception p_onProfileLookupFailed_2_) {
+				agameprofile[0] = null;
+			}
+		};
+		server.getGameProfileRepository().findProfilesByNames(new String[] { username }, Agent.MINECRAFT,
+				profilelookupcallback);
 
-    /**
-     * Add an entry to this cache
-     */
-    public void addEntry(GameProfile gameProfile)
-    {
-        this.addEntry(gameProfile, (Date)null);
-    }
+		if (!server.isServerInOnlineMode() && agameprofile[0] == null) {
+			UUID uuid = EntityPlayer.getUUID(new GameProfile((UUID) null, username));
+			GameProfile gameprofile = new GameProfile(uuid, username);
+			profilelookupcallback.onProfileLookupSucceeded(gameprofile);
+		}
 
-    /**
-     * Add an entry to this cache
-     */
-    private void addEntry(GameProfile gameProfile, Date expirationDate)
-    {
-        UUID uuid = gameProfile.getId();
+		return agameprofile[0];
+	}
 
-        if (expirationDate == null)
-        {
-            Calendar calendar = Calendar.getInstance();
-            calendar.setTime(new Date());
-            calendar.add(2, 1);
-            expirationDate = calendar.getTime();
-        }
+	/**
+	 * Add an entry to this cache
+	 */
+	public void addEntry(GameProfile gameProfile) {
+		this.addEntry(gameProfile, (Date) null);
+	}
 
-        String s = gameProfile.getName().toLowerCase(Locale.ROOT);
-        PlayerProfileCache.ProfileEntry playerprofilecache$profileentry = new PlayerProfileCache.ProfileEntry(gameProfile, expirationDate);
+	/**
+	 * Add an entry to this cache
+	 */
+	private void addEntry(GameProfile gameProfile, Date expirationDate) {
+		UUID uuid = gameProfile.getId();
 
-        if (this.uuidToProfileEntryMap.containsKey(uuid))
-        {
-            PlayerProfileCache.ProfileEntry playerprofilecache$profileentry1 = (PlayerProfileCache.ProfileEntry)this.uuidToProfileEntryMap.get(uuid);
-            this.usernameToProfileEntryMap.remove(playerprofilecache$profileentry1.getGameProfile().getName().toLowerCase(Locale.ROOT));
-            this.gameProfiles.remove(gameProfile);
-        }
+		if (expirationDate == null) {
+			Calendar calendar = Calendar.getInstance();
+			calendar.setTime(new Date());
+			calendar.add(2, 1);
+			expirationDate = calendar.getTime();
+		}
 
-        this.usernameToProfileEntryMap.put(gameProfile.getName().toLowerCase(Locale.ROOT), playerprofilecache$profileentry);
-        this.uuidToProfileEntryMap.put(uuid, playerprofilecache$profileentry);
-        this.gameProfiles.addFirst(gameProfile);
-        this.save();
-    }
+		String s = gameProfile.getName().toLowerCase(Locale.ROOT);
+		PlayerProfileCache.ProfileEntry playerprofilecache$profileentry = new PlayerProfileCache.ProfileEntry(
+				gameProfile, expirationDate);
 
-    /**
-     * Get a player's GameProfile given their username. Mojang's server's will be contacted if the entry is not cached
-     * locally.
-     */
-    public GameProfile getGameProfileForUsername(String username)
-    {
-        String s = username.toLowerCase(Locale.ROOT);
-        PlayerProfileCache.ProfileEntry playerprofilecache$profileentry = (PlayerProfileCache.ProfileEntry)this.usernameToProfileEntryMap.get(s);
+		if (this.uuidToProfileEntryMap.containsKey(uuid)) {
+			PlayerProfileCache.ProfileEntry playerprofilecache$profileentry1 = (PlayerProfileCache.ProfileEntry) this.uuidToProfileEntryMap
+					.get(uuid);
+			this.usernameToProfileEntryMap
+					.remove(playerprofilecache$profileentry1.getGameProfile().getName().toLowerCase(Locale.ROOT));
+			this.gameProfiles.remove(gameProfile);
+		}
 
-        if (playerprofilecache$profileentry != null && (new Date()).getTime() >= playerprofilecache$profileentry.expirationDate.getTime())
-        {
-            this.uuidToProfileEntryMap.remove(playerprofilecache$profileentry.getGameProfile().getId());
-            this.usernameToProfileEntryMap.remove(playerprofilecache$profileentry.getGameProfile().getName().toLowerCase(Locale.ROOT));
-            this.gameProfiles.remove(playerprofilecache$profileentry.getGameProfile());
-            playerprofilecache$profileentry = null;
-        }
+		this.usernameToProfileEntryMap.put(gameProfile.getName().toLowerCase(Locale.ROOT),
+				playerprofilecache$profileentry);
+		this.uuidToProfileEntryMap.put(uuid, playerprofilecache$profileentry);
+		this.gameProfiles.addFirst(gameProfile);
+		this.save();
+	}
 
-        if (playerprofilecache$profileentry != null)
-        {
-            GameProfile gameprofile = playerprofilecache$profileentry.getGameProfile();
-            this.gameProfiles.remove(gameprofile);
-            this.gameProfiles.addFirst(gameprofile);
-        }
-        else
-        {
-            GameProfile gameprofile1 = getGameProfile(this.mcServer, s);
+	/**
+	 * Get a player's GameProfile given their username. Mojang's server's will be
+	 * contacted if the entry is not cached locally.
+	 */
+	public GameProfile getGameProfileForUsername(String username) {
+		String s = username.toLowerCase(Locale.ROOT);
+		PlayerProfileCache.ProfileEntry playerprofilecache$profileentry = (PlayerProfileCache.ProfileEntry) this.usernameToProfileEntryMap
+				.get(s);
 
-            if (gameprofile1 != null)
-            {
-                this.addEntry(gameprofile1);
-                playerprofilecache$profileentry = (PlayerProfileCache.ProfileEntry)this.usernameToProfileEntryMap.get(s);
-            }
-        }
+		if (playerprofilecache$profileentry != null
+				&& (new Date()).getTime() >= playerprofilecache$profileentry.expirationDate.getTime()) {
+			this.uuidToProfileEntryMap.remove(playerprofilecache$profileentry.getGameProfile().getId());
+			this.usernameToProfileEntryMap
+					.remove(playerprofilecache$profileentry.getGameProfile().getName().toLowerCase(Locale.ROOT));
+			this.gameProfiles.remove(playerprofilecache$profileentry.getGameProfile());
+			playerprofilecache$profileentry = null;
+		}
 
-        this.save();
-        return playerprofilecache$profileentry == null ? null : playerprofilecache$profileentry.getGameProfile();
-    }
+		if (playerprofilecache$profileentry != null) {
+			GameProfile gameprofile = playerprofilecache$profileentry.getGameProfile();
+			this.gameProfiles.remove(gameprofile);
+			this.gameProfiles.addFirst(gameprofile);
+		} else {
+			GameProfile gameprofile1 = getGameProfile(this.mcServer, s);
 
-    /**
-     * Get an array of the usernames that are cached in this cache
-     */
-    public String[] getUsernames()
-    {
-        List<String> list = Lists.newArrayList(this.usernameToProfileEntryMap.keySet());
-        return (String[])list.toArray(new String[list.size()]);
-    }
+			if (gameprofile1 != null) {
+				this.addEntry(gameprofile1);
+				playerprofilecache$profileentry = (PlayerProfileCache.ProfileEntry) this.usernameToProfileEntryMap
+						.get(s);
+			}
+		}
 
-    /**
-     * Get a player's {@link GameProfile} given their UUID
-     */
-    public GameProfile getProfileByUUID(UUID uuid)
-    {
-        PlayerProfileCache.ProfileEntry playerprofilecache$profileentry = (PlayerProfileCache.ProfileEntry)this.uuidToProfileEntryMap.get(uuid);
-        return playerprofilecache$profileentry == null ? null : playerprofilecache$profileentry.getGameProfile();
-    }
+		this.save();
+		return playerprofilecache$profileentry == null ? null : playerprofilecache$profileentry.getGameProfile();
+	}
 
-    /**
-     * Get a {@link ProfileEntry} by UUID
-     */
-    private PlayerProfileCache.ProfileEntry getByUUID(UUID uuid)
-    {
-        PlayerProfileCache.ProfileEntry playerprofilecache$profileentry = (PlayerProfileCache.ProfileEntry)this.uuidToProfileEntryMap.get(uuid);
+	/**
+	 * Get an array of the usernames that are cached in this cache
+	 */
+	public String[] getUsernames() {
+		List<String> list = Lists.newArrayList(this.usernameToProfileEntryMap.keySet());
+		return (String[]) list.toArray(new String[list.size()]);
+	}
 
-        if (playerprofilecache$profileentry != null)
-        {
-            GameProfile gameprofile = playerprofilecache$profileentry.getGameProfile();
-            this.gameProfiles.remove(gameprofile);
-            this.gameProfiles.addFirst(gameprofile);
-        }
+	/**
+	 * Get a player's {@link GameProfile} given their UUID
+	 */
+	public GameProfile getProfileByUUID(UUID uuid) {
+		PlayerProfileCache.ProfileEntry playerprofilecache$profileentry = (PlayerProfileCache.ProfileEntry) this.uuidToProfileEntryMap
+				.get(uuid);
+		return playerprofilecache$profileentry == null ? null : playerprofilecache$profileentry.getGameProfile();
+	}
 
-        return playerprofilecache$profileentry;
-    }
+	/**
+	 * Get a {@link ProfileEntry} by UUID
+	 */
+	private PlayerProfileCache.ProfileEntry getByUUID(UUID uuid) {
+		PlayerProfileCache.ProfileEntry playerprofilecache$profileentry = (PlayerProfileCache.ProfileEntry) this.uuidToProfileEntryMap
+				.get(uuid);
 
-    /**
-     * Load the cached profiles from disk
-     */
-    public void load()
-    {
-        BufferedReader bufferedreader = null;
+		if (playerprofilecache$profileentry != null) {
+			GameProfile gameprofile = playerprofilecache$profileentry.getGameProfile();
+			this.gameProfiles.remove(gameprofile);
+			this.gameProfiles.addFirst(gameprofile);
+		}
 
-        try
-        {
-            bufferedreader = Files.newReader(this.usercacheFile, Charsets.UTF_8);
-            List<PlayerProfileCache.ProfileEntry> list = (List)this.gson.fromJson((Reader)bufferedreader, TYPE);
-            this.usernameToProfileEntryMap.clear();
-            this.uuidToProfileEntryMap.clear();
-            this.gameProfiles.clear();
+		return playerprofilecache$profileentry;
+	}
 
-            for (PlayerProfileCache.ProfileEntry playerprofilecache$profileentry : Lists.reverse(list))
-            {
-                if (playerprofilecache$profileentry != null)
-                {
-                    this.addEntry(playerprofilecache$profileentry.getGameProfile(), playerprofilecache$profileentry.getExpirationDate());
-                }
-            }
-        }
-        catch (FileNotFoundException var9)
-        {
-            ;
-        }
-        catch (JsonParseException var10)
-        {
-            ;
-        }
-        finally
-        {
-            IOUtils.closeQuietly((Reader)bufferedreader);
-        }
-    }
+	/**
+	 * Load the cached profiles from disk
+	 */
+	public void load() {
+		BufferedReader bufferedreader = null;
 
-    /**
-     * Save the cached profiles to disk
-     */
-    public void save()
-    {
-        String s = this.gson.toJson((Object)this.getEntriesWithLimit(1000));
-        BufferedWriter bufferedwriter = null;
+		try {
+			bufferedreader = Files.newReader(this.usercacheFile, Charsets.UTF_8);
+			List<PlayerProfileCache.ProfileEntry> list = (List) this.gson.fromJson((Reader) bufferedreader, TYPE);
+			this.usernameToProfileEntryMap.clear();
+			this.uuidToProfileEntryMap.clear();
+			this.gameProfiles.clear();
 
-        try
-        {
-            bufferedwriter = Files.newWriter(this.usercacheFile, Charsets.UTF_8);
-            bufferedwriter.write(s);
-            return;
-        }
-        catch (FileNotFoundException var8)
-        {
-            ;
-        }
-        catch (IOException var9)
-        {
-            return;
-        }
-        finally
-        {
-            IOUtils.closeQuietly((Writer)bufferedwriter);
-        }
-    }
+			for (PlayerProfileCache.ProfileEntry playerprofilecache$profileentry : Lists.reverse(list)) {
+				if (playerprofilecache$profileentry != null) {
+					this.addEntry(playerprofilecache$profileentry.getGameProfile(),
+							playerprofilecache$profileentry.getExpirationDate());
+				}
+			}
+		} catch (FileNotFoundException var9) {
+			;
+		} catch (JsonParseException var10) {
+			;
+		} finally {
+			IOUtils.closeQuietly((Reader) bufferedreader);
+		}
+	}
 
-    private List<PlayerProfileCache.ProfileEntry> getEntriesWithLimit(int limitSize)
-    {
-        ArrayList<PlayerProfileCache.ProfileEntry> arraylist = Lists.<PlayerProfileCache.ProfileEntry>newArrayList();
+	/**
+	 * Save the cached profiles to disk
+	 */
+	public void save() {
+		String s = this.gson.toJson((Object) this.getEntriesWithLimit(1000));
+		BufferedWriter bufferedwriter = null;
 
-        for (GameProfile gameprofile : Lists.newArrayList(Iterators.limit(this.gameProfiles.iterator(), limitSize)))
-        {
-            PlayerProfileCache.ProfileEntry playerprofilecache$profileentry = this.getByUUID(gameprofile.getId());
+		try {
+			bufferedwriter = Files.newWriter(this.usercacheFile, Charsets.UTF_8);
+			bufferedwriter.write(s);
+			return;
+		} catch (FileNotFoundException var8) {
+			;
+		} catch (IOException var9) {
+			return;
+		} finally {
+			IOUtils.closeQuietly((Writer) bufferedwriter);
+		}
+	}
 
-            if (playerprofilecache$profileentry != null)
-            {
-                arraylist.add(playerprofilecache$profileentry);
-            }
-        }
+	private List<PlayerProfileCache.ProfileEntry> getEntriesWithLimit(int limitSize) {
+		ArrayList<PlayerProfileCache.ProfileEntry> arraylist = Lists.<PlayerProfileCache.ProfileEntry>newArrayList();
 
-        return arraylist;
-    }
+		for (GameProfile gameprofile : Lists.newArrayList(Iterators.limit(this.gameProfiles.iterator(), limitSize))) {
+			PlayerProfileCache.ProfileEntry playerprofilecache$profileentry = this.getByUUID(gameprofile.getId());
 
-    class ProfileEntry
-    {
-        private final GameProfile gameProfile;
-        private final Date expirationDate;
+			if (playerprofilecache$profileentry != null) {
+				arraylist.add(playerprofilecache$profileentry);
+			}
+		}
 
-        private ProfileEntry(GameProfile gameProfileIn, Date expirationDateIn)
-        {
-            this.gameProfile = gameProfileIn;
-            this.expirationDate = expirationDateIn;
-        }
+		return arraylist;
+	}
 
-        public GameProfile getGameProfile()
-        {
-            return this.gameProfile;
-        }
+	class ProfileEntry {
+		private final GameProfile gameProfile;
+		private final Date expirationDate;
 
-        public Date getExpirationDate()
-        {
-            return this.expirationDate;
-        }
-    }
+		private ProfileEntry(GameProfile gameProfileIn, Date expirationDateIn) {
+			this.gameProfile = gameProfileIn;
+			this.expirationDate = expirationDateIn;
+		}
 
-    class Serializer implements JsonDeserializer<PlayerProfileCache.ProfileEntry>, JsonSerializer<PlayerProfileCache.ProfileEntry>
-    {
-        private Serializer()
-        {
-        }
+		public GameProfile getGameProfile() {
+			return this.gameProfile;
+		}
 
-        public JsonElement serialize(PlayerProfileCache.ProfileEntry p_serialize_1_, Type p_serialize_2_, JsonSerializationContext p_serialize_3_)
-        {
-            JsonObject jsonobject = new JsonObject();
-            jsonobject.addProperty("name", p_serialize_1_.getGameProfile().getName());
-            UUID uuid = p_serialize_1_.getGameProfile().getId();
-            jsonobject.addProperty("uuid", uuid == null ? "" : uuid.toString());
-            jsonobject.addProperty("expiresOn", PlayerProfileCache.dateFormat.format(p_serialize_1_.getExpirationDate()));
-            return jsonobject;
-        }
+		public Date getExpirationDate() {
+			return this.expirationDate;
+		}
+	}
 
-        public PlayerProfileCache.ProfileEntry deserialize(JsonElement p_deserialize_1_, Type p_deserialize_2_, JsonDeserializationContext p_deserialize_3_) throws JsonParseException
-        {
-            if (p_deserialize_1_.isJsonObject())
-            {
-                JsonObject jsonobject = p_deserialize_1_.getAsJsonObject();
-                JsonElement jsonelement = jsonobject.get("name");
-                JsonElement jsonelement1 = jsonobject.get("uuid");
-                JsonElement jsonelement2 = jsonobject.get("expiresOn");
+	class Serializer implements JsonDeserializer<PlayerProfileCache.ProfileEntry>,
+			JsonSerializer<PlayerProfileCache.ProfileEntry> {
+		private Serializer() {
+		}
 
-                if (jsonelement != null && jsonelement1 != null)
-                {
-                    String s = jsonelement1.getAsString();
-                    String s1 = jsonelement.getAsString();
-                    Date date = null;
+		public JsonElement serialize(PlayerProfileCache.ProfileEntry p_serialize_1_, Type p_serialize_2_,
+				JsonSerializationContext p_serialize_3_) {
+			JsonObject jsonobject = new JsonObject();
+			jsonobject.addProperty("name", p_serialize_1_.getGameProfile().getName());
+			UUID uuid = p_serialize_1_.getGameProfile().getId();
+			jsonobject.addProperty("uuid", uuid == null ? "" : uuid.toString());
+			jsonobject.addProperty("expiresOn",
+					PlayerProfileCache.dateFormat.format(p_serialize_1_.getExpirationDate()));
+			return jsonobject;
+		}
 
-                    if (jsonelement2 != null)
-                    {
-                        try
-                        {
-                            date = PlayerProfileCache.dateFormat.parse(jsonelement2.getAsString());
-                        }
-                        catch (ParseException var14)
-                        {
-                            date = null;
-                        }
-                    }
+		public PlayerProfileCache.ProfileEntry deserialize(JsonElement p_deserialize_1_, Type p_deserialize_2_,
+				JsonDeserializationContext p_deserialize_3_) throws JsonParseException {
+			if (p_deserialize_1_.isJsonObject()) {
+				JsonObject jsonobject = p_deserialize_1_.getAsJsonObject();
+				JsonElement jsonelement = jsonobject.get("name");
+				JsonElement jsonelement1 = jsonobject.get("uuid");
+				JsonElement jsonelement2 = jsonobject.get("expiresOn");
 
-                    if (s1 != null && s != null)
-                    {
-                        UUID uuid;
+				if (jsonelement != null && jsonelement1 != null) {
+					String s = jsonelement1.getAsString();
+					String s1 = jsonelement.getAsString();
+					Date date = null;
 
-                        try
-                        {
-                            uuid = UUID.fromString(s);
-                        }
-                        catch (Throwable var13)
-                        {
-                            return null;
-                        }
+					if (jsonelement2 != null) {
+						try {
+							date = PlayerProfileCache.dateFormat.parse(jsonelement2.getAsString());
+						} catch (ParseException var14) {
+							date = null;
+						}
+					}
 
-                        PlayerProfileCache.ProfileEntry playerprofilecache$profileentry = PlayerProfileCache.this.new ProfileEntry(new GameProfile(uuid, s1), date);
-                        return playerprofilecache$profileentry;
-                    }
-                    else
-                    {
-                        return null;
-                    }
-                }
-                else
-                {
-                    return null;
-                }
-            }
-            else
-            {
-                return null;
-            }
-        }
-    }
+					if (s1 != null && s != null) {
+						UUID uuid;
+
+						try {
+							uuid = UUID.fromString(s);
+						} catch (Throwable var13) {
+							return null;
+						}
+
+						PlayerProfileCache.ProfileEntry playerprofilecache$profileentry = PlayerProfileCache.this.new ProfileEntry(
+								new GameProfile(uuid, s1), date);
+						return playerprofilecache$profileentry;
+					} else {
+						return null;
+					}
+				} else {
+					return null;
+				}
+			} else {
+				return null;
+			}
+		}
+	}
 }

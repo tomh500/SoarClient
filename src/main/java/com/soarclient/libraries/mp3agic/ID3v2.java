@@ -132,10 +132,9 @@ public interface ID3v2 extends ID3v1 {
 	void setLyrics(String lyrics);
 
 	/**
-	 * Set genre from text.
-	 * This method behaves different depending on the ID3 version.
-	 * Prior to ID3v2.4, the provided text must match a id3v1 genre description.
-	 * With ID3v2.4, the genre is written as free text.
+	 * Set genre from text. This method behaves different depending on the ID3
+	 * version. Prior to ID3v2.4, the provided text must match a id3v1 genre
+	 * description. With ID3v2.4, the genre is written as free text.
 	 *
 	 * @param text genre string
 	 */

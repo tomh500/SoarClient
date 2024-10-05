@@ -13,12 +13,13 @@ public abstract class VertexBufferWriterUnsafe extends VertexBufferWriter {
 
 	@Override
 	protected void onBufferStorageChanged() {
-		this.writePointer = MemoryUtil.memAddress(this.backingBuffer.oldium$getDirectBuffer(), this.backingBuffer.oldium$getWriterPosition());
+		this.writePointer = MemoryUtil.memAddress(this.backingBuffer.oldium$getDirectBuffer(),
+				this.backingBuffer.oldium$getWriterPosition());
 	}
 
 	@Override
 	protected void advance() {
-		this.writePointer = this.writePointer + (long)this.vertexStride;
+		this.writePointer = this.writePointer + (long) this.vertexStride;
 		super.advance();
 	}
 }

@@ -11,9 +11,11 @@ import com.soarclient.libraries.sodium.client.util.math.MatrixStack.Entry;
 public interface QuadVertexSink extends VertexSink {
 	VertexFormat VERTEX_FORMAT = DefaultVertexFormats.PARTICLE_POSITION_TEX_COLOR_LMAP;
 
-	void writeQuad(float float1, float float2, float float3, int integer4, float float5, float float6, int integer7, int integer8, int integer9);
+	void writeQuad(float float1, float float2, float float3, int integer4, float float5, float float6, int integer7,
+			int integer8, int integer9);
 
-	default void writeQuad(Entry matrices, float x, float y, float z, int color, float u, float v, int light, int overlay, int normal) {
+	default void writeQuad(Entry matrices, float x, float y, float z, int color, float u, float v, int light,
+			int overlay, int normal) {
 		Matrix4f matrix = matrices.getModel();
 		float x2 = MatrixUtil.transformVecX(matrix, x, y, z);
 		float y2 = MatrixUtil.transformVecY(matrix, x, y, z);

@@ -1,9 +1,7 @@
 package com.soarclient.libraries.sodium.client.gui.options.named;
 
 public enum ParticleMode implements NamedState {
-	ALL("options.particles.all"),
-	DECREASED("options.particles.decreased"),
-	MINIMAL("options.particles.minimal");
+	ALL("options.particles.all"), DECREASED("options.particles.decreased"), MINIMAL("options.particles.minimal");
 
 	private static final ParticleMode[] VALUES = values();
 	private final String name;

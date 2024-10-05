@@ -18,9 +18,8 @@ import org.apache.logging.log4j.Logger;
 public class SodiumConfig {
 	private static final Logger LOGGER = LogManager.getLogger("OldiumConfig");
 	private static final String JSON_KEY_SODIUM_OPTIONS = "sodium:options";
-	private static final Set<String> SYSTEM_OPTIONS = (Set<String>)Stream.of("core", "features.chunk_rendering")
-		.map(SodiumConfig::getMixinRuleName)
-		.collect(Collectors.toSet());
+	private static final Set<String> SYSTEM_OPTIONS = (Set<String>) Stream.of("core", "features.chunk_rendering")
+			.map(SodiumConfig::getMixinRuleName).collect(Collectors.toSet());
 	private final Map<String, Option> options = new HashMap();
 
 	private SodiumConfig() {
@@ -65,18 +64,19 @@ public class SodiumConfig {
 
 	private void readProperties(Properties props) {
 		for (Entry<Object, Object> entry : props.entrySet()) {
-			String key = (String)entry.getKey();
-			String value = (String)entry.getValue();
-			Option option = (Option)this.options.get(key);
+			String key = (String) entry.getKey();
+			String value = (String) entry.getValue();
+			Option option = (Option) this.options.get(key);
 			if (option == null) {
-				LOGGER.warn("No configuration key exists with name '{}', ignoring", new Object[]{key});
+				LOGGER.warn("No configuration key exists with name '{}', ignoring", new Object[] { key });
 			} else {
 				boolean enabled;
 				if (value.equalsIgnoreCase("true")) {
 					enabled = true;
 				} else {
 					if (!value.equalsIgnoreCase("false")) {
-						LOGGER.warn("Invalid value '{}' encountered for configuration key '{}', ignoring", new Object[]{value, key});
+						LOGGER.warn("Invalid value '{}' encountered for configuration key '{}', ignoring",
+								new Object[] { value, key });
 						continue;
 					}
 
@@ -84,7 +84,8 @@ public class SodiumConfig {
 				}
 
 				if (!enabled && SYSTEM_OPTIONS.contains(key)) {
-					LOGGER.warn("Configuration key '{}' is a required option and cannot be disabled", new Object[]{key});
+					LOGGER.warn("Configuration key '{}' is a required option and cannot be disabled",
+							new Object[] { key });
 				} else {
 					option.setEnabled(enabled, true);
 				}
@@ -99,7 +100,7 @@ public class SodiumConfig {
 		int nextSplit;
 		while ((nextSplit = mixinClassName.indexOf(46, lastSplit)) != -1) {
 			String key = getMixinRuleName(mixinClassName.substring(0, nextSplit));
-			Option candidate = (Option)this.options.get(key);
+			Option candidate = (Option) this.options.get(key);
 			if (candidate != null) {
 				rule = candidate;
 				if (!candidate.isEnabled()) {
@@ -192,6 +193,6 @@ public class SodiumConfig {
 	}
 
 	public int getOptionOverrideCount() {
-		return (int)this.options.values().stream().filter(Option::isOverridden).count();
+		return (int) this.options.values().stream().filter(Option::isOverridden).count();
 	}
 }

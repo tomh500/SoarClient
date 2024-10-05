@@ -6,15 +6,15 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 
 public class Mod {
-	
+
 	protected Minecraft mc = Minecraft.getMinecraft();
 	protected FontRenderer fr = mc.fontRendererObj;
 
 	private String name, description, icon;
 	private boolean enabled, movable, hidden;
-	
+
 	private ModCategory category;
-	
+
 	public Mod(String name, String description, String icon, ModCategory category) {
 		this.name = name;
 		this.description = description;
@@ -22,7 +22,7 @@ public class Mod {
 		this.movable = false;
 		this.hidden = false;
 	}
-	
+
 	public void onEnable() {
 		EventBus.getInstance().register(this);
 	}

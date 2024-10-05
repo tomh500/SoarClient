@@ -13,7 +13,8 @@ import com.soarclient.libraries.sodium.client.render.chunk.lists.ChunkRenderList
 public interface ChunkRenderBackend<T extends ChunkGraphicsState> {
 	void upload(CommandList commandList, Iterator<ChunkBuildResult<T>> iterator);
 
-	void render(CommandList commandList, ChunkRenderListIterator<T> chunkRenderListIterator, ChunkCameraContext chunkCameraContext);
+	void render(CommandList commandList, ChunkRenderListIterator<T> chunkRenderListIterator,
+			ChunkCameraContext chunkCameraContext);
 
 	void createShaders(RenderDevice renderDevice);
 

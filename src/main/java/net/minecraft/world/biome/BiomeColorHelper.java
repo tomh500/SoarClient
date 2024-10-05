@@ -7,34 +7,27 @@ import net.minecraft.util.BlockPos;
 import net.minecraft.util.BlockPos.MutableBlockPos;
 import net.minecraft.world.IBlockAccess;
 
-public class BiomeColorHelper
-{
-    private static final BiomeColorHelper.ColorResolver GRASS_COLOR = new BiomeColorHelper.ColorResolver()
-    {
-        public int getColorAtPos(BiomeGenBase biome, BlockPos blockPosition)
-        {
-            return biome.getGrassColorAtPos(blockPosition);
-        }
-    };
-    private static final BiomeColorHelper.ColorResolver FOLIAGE_COLOR = new BiomeColorHelper.ColorResolver()
-    {
-        public int getColorAtPos(BiomeGenBase biome, BlockPos blockPosition)
-        {
-            return biome.getFoliageColorAtPos(blockPosition);
-        }
-    };
-    private static final BiomeColorHelper.ColorResolver WATER_COLOR_MULTIPLIER = new BiomeColorHelper.ColorResolver()
-    {
-        public int getColorAtPos(BiomeGenBase biome, BlockPos blockPosition)
-        {
-            return biome.waterColorMultiplier;
-        }
-    };
+public class BiomeColorHelper {
+	private static final BiomeColorHelper.ColorResolver GRASS_COLOR = new BiomeColorHelper.ColorResolver() {
+		public int getColorAtPos(BiomeGenBase biome, BlockPos blockPosition) {
+			return biome.getGrassColorAtPos(blockPosition);
+		}
+	};
+	private static final BiomeColorHelper.ColorResolver FOLIAGE_COLOR = new BiomeColorHelper.ColorResolver() {
+		public int getColorAtPos(BiomeGenBase biome, BlockPos blockPosition) {
+			return biome.getFoliageColorAtPos(blockPosition);
+		}
+	};
+	private static final BiomeColorHelper.ColorResolver WATER_COLOR_MULTIPLIER = new BiomeColorHelper.ColorResolver() {
+		public int getColorAtPos(BiomeGenBase biome, BlockPos blockPosition) {
+			return biome.waterColorMultiplier;
+		}
+	};
 
-    private static int getColorAtPos(IBlockAccess blockAccess, BlockPos pos, BiomeColorHelper.ColorResolver colorResolver)
-    {
+	private static int getColorAtPos(IBlockAccess blockAccess, BlockPos pos,
+			BiomeColorHelper.ColorResolver colorResolver) {
 		if (blockAccess instanceof SodiumBlockAccess) {
-			return ((SodiumBlockAccess)blockAccess).getBlockTint(pos, colorResolver);
+			return ((SodiumBlockAccess) blockAccess).getBlockTint(pos, colorResolver);
 		} else {
 			int radius = SodiumClientMod.options().quality.biomeBlendRadius;
 			if (radius == 0) {
@@ -59,25 +52,21 @@ public class BiomeColorHelper
 				return (i / blockCount & 0xFF) << 16 | (j / blockCount & 0xFF) << 8 | k / blockCount & 0xFF;
 			}
 		}
-    }
+	}
 
-    public static int getGrassColorAtPos(IBlockAccess p_180286_0_, BlockPos p_180286_1_)
-    {
-        return getColorAtPos(p_180286_0_, p_180286_1_, GRASS_COLOR);
-    }
+	public static int getGrassColorAtPos(IBlockAccess p_180286_0_, BlockPos p_180286_1_) {
+		return getColorAtPos(p_180286_0_, p_180286_1_, GRASS_COLOR);
+	}
 
-    public static int getFoliageColorAtPos(IBlockAccess p_180287_0_, BlockPos p_180287_1_)
-    {
-        return getColorAtPos(p_180287_0_, p_180287_1_, FOLIAGE_COLOR);
-    }
+	public static int getFoliageColorAtPos(IBlockAccess p_180287_0_, BlockPos p_180287_1_) {
+		return getColorAtPos(p_180287_0_, p_180287_1_, FOLIAGE_COLOR);
+	}
 
-    public static int getWaterColorAtPos(IBlockAccess p_180288_0_, BlockPos p_180288_1_)
-    {
-        return getColorAtPos(p_180288_0_, p_180288_1_, WATER_COLOR_MULTIPLIER);
-    }
+	public static int getWaterColorAtPos(IBlockAccess p_180288_0_, BlockPos p_180288_1_) {
+		return getColorAtPos(p_180288_0_, p_180288_1_, WATER_COLOR_MULTIPLIER);
+	}
 
-    public interface ColorResolver
-    {
-        int getColorAtPos(BiomeGenBase biome, BlockPos blockPosition);
-    }
+	public interface ColorResolver {
+		int getColorAtPos(BiomeGenBase biome, BlockPos blockPosition);
+	}
 }

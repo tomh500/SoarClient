@@ -36,27 +36,27 @@ public class ModelQuadFlags {
 				maxZ = Math.max(maxZ, z);
 			}
 			boolean partial = switch (face.getAxis()) {
-				case X -> minY >= 1.0E-4F || minZ >= 1.0E-4F || maxY <= 0.9999F || maxZ <= 0.9999F;
-				case Y -> minX >= 1.0E-4F || minZ >= 1.0E-4F || maxX <= 0.9999F || maxZ <= 0.9999F;
-				case Z -> minX >= 1.0E-4F || minY >= 1.0E-4F || maxX <= 0.9999F || maxY <= 0.9999F;
-				default -> throw new IncompatibleClassChangeError();
+			case X -> minY >= 1.0E-4F || minZ >= 1.0E-4F || maxY <= 0.9999F || maxZ <= 0.9999F;
+			case Y -> minX >= 1.0E-4F || minZ >= 1.0E-4F || maxX <= 0.9999F || maxZ <= 0.9999F;
+			case Z -> minX >= 1.0E-4F || minY >= 1.0E-4F || maxX <= 0.9999F || maxY <= 0.9999F;
+			default -> throw new IncompatibleClassChangeError();
 			};
 
 			boolean parallel = switch (face.getAxis()) {
-				case X -> minX == maxX;
-				case Y -> minY == maxY;
-				case Z -> minZ == maxZ;
-				default -> throw new IncompatibleClassChangeError();
+			case X -> minX == maxX;
+			case Y -> minY == maxY;
+			case Z -> minZ == maxZ;
+			default -> throw new IncompatibleClassChangeError();
 			};
 
 			boolean flag = switch (face) {
-				case DOWN -> minY < 1.0E-4F;
-				case UP -> maxY > 0.9999F;
-				case NORTH -> minZ < 1.0E-4F;
-				case SOUTH -> maxZ > 0.9999F;
-				case WEST -> minX < 1.0E-4F;
-				case EAST -> maxX > 0.9999F;
-				default -> throw new IncompatibleClassChangeError();
+			case DOWN -> minY < 1.0E-4F;
+			case UP -> maxY > 0.9999F;
+			case NORTH -> minZ < 1.0E-4F;
+			case SOUTH -> maxZ > 0.9999F;
+			case WEST -> minX < 1.0E-4F;
+			case EAST -> maxX > 0.9999F;
+			default -> throw new IncompatibleClassChangeError();
 			};
 			boolean aligned = parallel && flag;
 			int flags = 0;

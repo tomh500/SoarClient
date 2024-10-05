@@ -19,12 +19,13 @@ public class CyclingControl<T extends Enum<T>> implements Control<T> {
 	private final IChatComponent[] names;
 
 	public CyclingControl(Option<T> option, Class<T> enumType) {
-		this(option, enumType, (T[])enumType.getEnumConstants());
+		this(option, enumType, (T[]) enumType.getEnumConstants());
 	}
 
 	public CyclingControl(Option<T> option, Class<T> enumType, IChatComponent[] names) {
-		T[] universe = (T[])enumType.getEnumConstants();
-		Validate.isTrue(universe.length == names.length, "Mismatch between universe length and names array length", new Object[0]);
+		T[] universe = (T[]) enumType.getEnumConstants();
+		Validate.isTrue(universe.length == names.length, "Mismatch between universe length and names array length",
+				new Object[0]);
 		Validate.notEmpty(universe, "The enum universe must contain at least one item", new Object[0]);
 		this.option = option;
 		this.allowedValues = universe;
@@ -33,11 +34,12 @@ public class CyclingControl<T extends Enum<T>> implements Control<T> {
 
 	@Deprecated
 	public CyclingControl(Option<T> option, Class<T> enumType, String[] names) {
-		this(option, enumType, (IChatComponent[])Arrays.stream(names).map(ChatComponentText::new).toArray(IChatComponent[]::new));
+		this(option, enumType,
+				(IChatComponent[]) Arrays.stream(names).map(ChatComponentText::new).toArray(IChatComponent[]::new));
 	}
 
 	public CyclingControl(Option<T> option, Class<T> enumType, T[] allowedValues) {
-		T[] universe = (T[])enumType.getEnumConstants();
+		T[] universe = (T[]) enumType.getEnumConstants();
 		this.option = option;
 		this.allowedValues = allowedValues;
 		this.names = new IChatComponent[universe.length];
@@ -46,13 +48,13 @@ public class CyclingControl<T extends Enum<T>> implements Control<T> {
 			T value = universe[i];
 			IChatComponent name;
 			if (value instanceof TextProvider) {
-				name = new ChatComponentText(((TextProvider)value).getLocalizedName());
+				name = new ChatComponentText(((TextProvider) value).getLocalizedName());
 			} else if (value instanceof FormattedTextProvider) {
-				name = ((FormattedTextProvider)value).getLocalizedName();
+				name = ((FormattedTextProvider) value).getLocalizedName();
 			} else {
-				name = (IChatComponent)(value instanceof NamedState
-					? new ChatComponentTranslation(((NamedState)value).getKey(), new Object[0])
-					: new ChatComponentText(value.name()));
+				name = (IChatComponent) (value instanceof NamedState
+						? new ChatComponentTranslation(((NamedState) value).getKey(), new Object[0])
+						: new ChatComponentText(value.name()));
 			}
 
 			this.names[i] = name;
@@ -99,7 +101,8 @@ public class CyclingControl<T extends Enum<T>> implements Control<T> {
 			Enum<T> value = this.option.getValue();
 			IChatComponent name = this.names[value.ordinal()];
 			int strWidth = this.getTextWidth(name);
-			this.drawString(name.getFormattedText(), this.dim.getLimitX() - strWidth - 6, this.dim.getCenterY() - 4, -1);
+			this.drawString(name.getFormattedText(), this.dim.getLimitX() - strWidth - 6, this.dim.getCenterY() - 4,
+					-1);
 		}
 
 		@Override

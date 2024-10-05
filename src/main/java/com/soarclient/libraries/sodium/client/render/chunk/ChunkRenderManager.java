@@ -47,7 +47,7 @@ import net.minecraft.world.chunk.storage.ExtendedBlockStorage;
 
 public class ChunkRenderManager<T extends ChunkGraphicsState> implements ChunkStatusListener {
 	private static final double NEARBY_CHUNK_DISTANCE = Math.pow(48.0, 2.0);
-	private static final float FOG_PLANE_MIN_DISTANCE = (float)Math.pow(8.0, 2.0);
+	private static final float FOG_PLANE_MIN_DISTANCE = (float) Math.pow(8.0, 2.0);
 	private static final float FOG_PLANE_OFFSET = 12.0F;
 	private final ChunkBuilder<T> builder;
 	private final ChunkRenderBackend<T> backend;
@@ -80,9 +80,8 @@ public class ChunkRenderManager<T extends ChunkGraphicsState> implements ChunkSt
 	private float lastCameraTranslucentZ;
 	private boolean hasCameraMovedTranslucent;
 
-	public ChunkRenderManager(
-		SodiumWorldRenderer renderer, ChunkRenderBackend<T> backend, BlockRenderPassManager renderPassManager, WorldClient world, int renderDistance
-	) {
+	public ChunkRenderManager(SodiumWorldRenderer renderer, ChunkRenderBackend<T> backend,
+			BlockRenderPassManager renderPassManager, WorldClient world, int renderDistance) {
 		this.backend = backend;
 		this.renderer = renderer;
 		this.world = world;
@@ -110,16 +109,16 @@ public class ChunkRenderManager<T extends ChunkGraphicsState> implements ChunkSt
 
 	private void setup(float ticks) {
 		Vec3 pos = this.builder.getCameraPosition();
-		this.cameraX = (float)pos.xCoord;
-		this.cameraY = (float)pos.yCoord;
-		this.cameraZ = (float)pos.zCoord;
+		this.cameraX = (float) pos.xCoord;
+		this.cameraY = (float) pos.yCoord;
+		this.cameraZ = (float) pos.zCoord;
 		this.useFogCulling = false;
 		this.alwaysDeferChunkUpdates = SodiumClientMod.options().performance.alwaysDeferChunkUpdates;
 		if (SodiumClientMod.options().advanced.useFogOcclusion) {
 			float dist = FogHelper.getFogCutoff() + 12.0F;
 			if (dist != 0.0F) {
 				this.useFogCulling = true;
-				this.fogRenderCutoff = (double)Math.max(FOG_PLANE_MIN_DISTANCE, dist * dist);
+				this.fogRenderCutoff = (double) Math.max(FOG_PLANE_MIN_DISTANCE, dist * dist);
 			}
 		}
 	}
@@ -130,12 +129,11 @@ public class ChunkRenderManager<T extends ChunkGraphicsState> implements ChunkSt
 			if (this.hasCameraMovedTranslucent) {
 				for (Object o : this.renders.getElements()) {
 					if (o != null) {
-						ChunkRenderContainer<T> render = (ChunkRenderContainer<T>)o;
-						if (!render.getData().isEmpty()
-							&& !render.needsRebuild()
-							&& render.canRebuild()
-							&& render.shouldRebuildForTranslucents()
-							&& render.getSquaredDistance((double)this.cameraX, (double)this.cameraY, (double)this.cameraZ) < (double)this.translucencyBlockRenderDistance) {
+						ChunkRenderContainer<T> render = (ChunkRenderContainer<T>) o;
+						if (!render.getData().isEmpty() && !render.needsRebuild() && render.canRebuild()
+								&& render.shouldRebuildForTranslucents()
+								&& render.getSquaredDistance((double) this.cameraX, (double) this.cameraY,
+										(double) this.cameraZ) < (double) this.translucencyBlockRenderDistance) {
 							render.scheduleSort(false);
 						}
 					}
@@ -143,7 +141,9 @@ public class ChunkRenderManager<T extends ChunkGraphicsState> implements ChunkSt
 			}
 		}
 
-		IntList list = this.culler.computeVisible(new Vec3((double)this.cameraX, (double)this.cameraY, (double)this.cameraZ), frustum, frame, spectator);
+		IntList list = this.culler.computeVisible(
+				new Vec3((double) this.cameraX, (double) this.cameraY, (double) this.cameraZ), frustum, frame,
+				spectator);
 		IntIterator it = list.iterator();
 
 		while (it.hasNext()) {
@@ -156,7 +156,7 @@ public class ChunkRenderManager<T extends ChunkGraphicsState> implements ChunkSt
 		float dx = this.cameraX - this.lastCameraTranslucentX;
 		float dy = this.cameraY - this.lastCameraTranslucentY;
 		float dz = this.cameraZ - this.lastCameraTranslucentZ;
-		if ((double)(dx * dx + dy * dy + dz * dz) > 1.0) {
+		if ((double) (dx * dx + dy * dy + dz * dz) > 1.0) {
 			this.lastCameraTranslucentX = this.cameraX;
 			this.lastCameraTranslucentY = this.cameraY;
 			this.lastCameraTranslucentZ = this.cameraZ;
@@ -177,7 +177,8 @@ public class ChunkRenderManager<T extends ChunkGraphicsState> implements ChunkSt
 			this.sortQueue.enqueue(render);
 		}
 
-		if (!this.useFogCulling || !(render.getSquaredDistanceXZ((double)this.cameraX, (double)this.cameraZ) >= this.fogRenderCutoff)) {
+		if (!this.useFogCulling || !(render.getSquaredDistanceXZ((double) this.cameraX,
+				(double) this.cameraZ) >= this.fogRenderCutoff)) {
 			if (!render.isEmpty()) {
 				this.addChunkToRenderLists(render);
 				this.addEntitiesToRenderLists(render);
@@ -195,7 +196,10 @@ public class ChunkRenderManager<T extends ChunkGraphicsState> implements ChunkSt
 				T state = states[i];
 				if (state != null) {
 					ChunkRenderList<T> list = this.chunkRenderLists[i];
-					list.add(state, this.translucencySorting && BlockRenderPass.VALUES[i].isTranslucent() ? ChunkFaceFlags.ALL & render.getFacesWithData() : visibleFaces);
+					list.add(state,
+							this.translucencySorting && BlockRenderPass.VALUES[i].isTranslucent()
+									? ChunkFaceFlags.ALL & render.getFacesWithData()
+									: visibleFaces);
 					added = true;
 				}
 			}
@@ -387,7 +391,7 @@ public class ChunkRenderManager<T extends ChunkGraphicsState> implements ChunkSt
 		CommandList commandList = device.createCommandList();
 		this.backend.begin();
 		if (this.backend instanceof MultidrawChunkRenderBackend) {
-			((MultidrawChunkRenderBackend)this.backend).setReverseRegions(pass.isTranslucent());
+			((MultidrawChunkRenderBackend) this.backend).setReverseRegions(pass.isTranslucent());
 		}
 
 		this.backend.render(commandList, iterator, new ChunkCameraContext(x, y, z));
@@ -433,7 +437,8 @@ public class ChunkRenderManager<T extends ChunkGraphicsState> implements ChunkSt
 			submitted++;
 		}
 
-		for (boolean sortedAnything = false; (!sortedAnything || submitted < budget) && !this.sortQueue.isEmpty(); submitted++) {
+		for (boolean sortedAnything = false; (!sortedAnything || submitted < budget)
+				&& !this.sortQueue.isEmpty(); submitted++) {
 			ChunkRenderContainer<T> render = this.sortQueue.dequeue();
 			this.builder.deferSort(render);
 			sortedAnything = true;
@@ -444,7 +449,8 @@ public class ChunkRenderManager<T extends ChunkGraphicsState> implements ChunkSt
 		this.builder.handleFailures();
 		if (!futures.isEmpty()) {
 			this.dirty = true;
-			this.backend.upload(RenderDevice.INSTANCE.createCommandList(), this.builder.filterChunkBuilds(new FutureDequeDrain<>(futures)));
+			this.backend.upload(RenderDevice.INSTANCE.createCommandList(),
+					this.builder.filterChunkBuilds(new FutureDequeDrain<>(futures)));
 		}
 	}
 
@@ -515,7 +521,8 @@ public class ChunkRenderManager<T extends ChunkGraphicsState> implements ChunkSt
 	}
 
 	public boolean isChunkPrioritized(ChunkRenderContainer<T> render) {
-		return render != null && render.getSquaredDistance((double)this.cameraX, (double)this.cameraY, (double)this.cameraZ) <= NEARBY_CHUNK_DISTANCE;
+		return render != null && render.getSquaredDistance((double) this.cameraX, (double) this.cameraY,
+				(double) this.cameraZ) <= NEARBY_CHUNK_DISTANCE;
 	}
 
 	public void onChunkRenderUpdates(int x, int y, int z, ChunkRenderData data) {

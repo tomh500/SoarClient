@@ -27,35 +27,38 @@ import com.soarclient.libraries.flac.io.BitInputStream;
 
 /**
  * An entry into the Vorbis comment.
+ * 
  * @author kc7bfi
  */
 public class VorbisString {
-    //private static final int VORBIS_COMMENT_ENTRY_LENGTH_LEN = 32; // bits
+	// private static final int VORBIS_COMMENT_ENTRY_LENGTH_LEN = 32; // bits
 
-    protected byte[] entry;
+	protected byte[] entry;
 
-    /**
-     * The constructor.
-     * @param is                The InputBitStream
-     * @throws IOException      Thrown if error reading from InputBitStream
-     */
-    public VorbisString(BitInputStream is) throws IOException {
-        int elen = is.readRawIntLittleEndian();
-        if (elen == 0) return;
-        entry = new byte[elen];
-        is.readByteBlockAlignedNoCRC(entry, entry.length);
-    }
-    
-    /**
-     * @see java.lang.Object#toString()
-     */
-    public String toString() {
-        String s;
-        try {
-            s = new String(entry, "UTF-8");
-        } catch (UnsupportedEncodingException e) {
-            s = new String("");
-        }
-        return s;
-    }
+	/**
+	 * The constructor.
+	 * 
+	 * @param is The InputBitStream
+	 * @throws IOException Thrown if error reading from InputBitStream
+	 */
+	public VorbisString(BitInputStream is) throws IOException {
+		int elen = is.readRawIntLittleEndian();
+		if (elen == 0)
+			return;
+		entry = new byte[elen];
+		is.readByteBlockAlignedNoCRC(entry, entry.length);
+	}
+
+	/**
+	 * @see java.lang.Object#toString()
+	 */
+	public String toString() {
+		String s;
+		try {
+			s = new String(entry, "UTF-8");
+		} catch (UnsupportedEncodingException e) {
+			s = new String("");
+		}
+		return s;
+	}
 }

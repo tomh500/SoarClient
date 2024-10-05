@@ -61,8 +61,10 @@ public class MultidrawChunkRenderBackend extends ChunkRenderShaderBackend<Multid
 	private final IndirectCommandBufferVector commandClientBufferBuilder;
 	private boolean reverseRegions = false;
 	private ChunkCameraContext regionCamera;
-	private static final Comparator<ChunkRegion<?>> REGION_REVERSER = Comparator.<ChunkRegion<?>>comparingDouble(r -> r.camDistance).reversed();
-	private static final Pattern INTEL_BUILD_MATCHER = Pattern.compile("(\\d.\\d.\\d) - Build (\\d+).(\\d+).(\\d+).(\\d+)");
+	private static final Comparator<ChunkRegion<?>> REGION_REVERSER = Comparator
+			.<ChunkRegion<?>>comparingDouble(r -> r.camDistance).reversed();
+	private static final Pattern INTEL_BUILD_MATCHER = Pattern
+			.compile("(\\d.\\d.\\d) - Build (\\d+).(\\d+).(\\d+).(\\d+)");
 
 	public MultidrawChunkRenderBackend(RenderDevice device, ChunkVertexType vertexType) {
 		super(vertexType);
@@ -71,7 +73,8 @@ public class MultidrawChunkRenderBackend extends ChunkRenderShaderBackend<Multid
 		try (CommandList commands = device.createCommandList()) {
 			this.uploadBuffer = commands.createMutableBuffer(GlBufferUsage.GL_STREAM_DRAW);
 			this.uniformBuffer = commands.createMutableBuffer(GlBufferUsage.GL_STATIC_DRAW);
-			this.commandBuffer = isWindowsIntelDriver() ? null : commands.createMutableBuffer(GlBufferUsage.GL_STREAM_DRAW);
+			this.commandBuffer = isWindowsIntelDriver() ? null
+					: commands.createMutableBuffer(GlBufferUsage.GL_STREAM_DRAW);
 		}
 
 		this.uniformBufferBuilder = ChunkDrawParamsVector.create(2048);
@@ -107,8 +110,10 @@ public class MultidrawChunkRenderBackend extends ChunkRenderShaderBackend<Multid
 					if (meshData.hasVertexData()) {
 						VertexData upload = meshData.takeVertexData();
 						commandList.uploadData(this.uploadBuffer, upload.buffer);
-						GlBufferSegment segment = arena.uploadBuffer(commandList, this.uploadBuffer, 0, upload.buffer.capacity());
-						MultidrawGraphicsState graphicsState = new MultidrawGraphicsState(render, region, segment, meshData, this.vertexFormat);
+						GlBufferSegment segment = arena.uploadBuffer(commandList, this.uploadBuffer, 0,
+								upload.buffer.capacity());
+						MultidrawGraphicsState graphicsState = new MultidrawGraphicsState(render, region, segment,
+								meshData, this.vertexFormat);
 						if (pass.isTranslucent()) {
 							upload.buffer.limit(upload.buffer.capacity());
 							upload.buffer.position(0);
@@ -139,28 +144,25 @@ public class MultidrawChunkRenderBackend extends ChunkRenderShaderBackend<Multid
 	}
 
 	private GlTessellation createRegionTessellation(CommandList commandList, GlBuffer buffer) {
-		return commandList.createTessellation(
-			GlPrimitiveType.QUADS,
-			new TessellationBinding[]{
-				new TessellationBinding(
-					buffer,
-					new GlVertexAttributeBinding[]{
-						new GlVertexAttributeBinding(ChunkShaderBindingPoints.POSITION, this.vertexFormat.getAttribute(ChunkMeshAttribute.POSITION)),
-						new GlVertexAttributeBinding(ChunkShaderBindingPoints.COLOR, this.vertexFormat.getAttribute(ChunkMeshAttribute.COLOR)),
-						new GlVertexAttributeBinding(ChunkShaderBindingPoints.TEX_COORD, this.vertexFormat.getAttribute(ChunkMeshAttribute.TEXTURE)),
-						new GlVertexAttributeBinding(ChunkShaderBindingPoints.LIGHT_COORD, this.vertexFormat.getAttribute(ChunkMeshAttribute.LIGHT))
-					},
-					false
-				),
-				new TessellationBinding(
-					this.uniformBuffer,
-					new GlVertexAttributeBinding[]{
-						new GlVertexAttributeBinding(ChunkShaderBindingPoints.MODEL_OFFSET, new GlVertexAttribute(GlVertexAttributeFormat.FLOAT, 4, false, 0, 0))
-					},
-					true
-				)
-			}
-		);
+		return commandList
+				.createTessellation(GlPrimitiveType.QUADS,
+						new TessellationBinding[] {
+								new TessellationBinding(buffer,
+										new GlVertexAttributeBinding[] {
+												new GlVertexAttributeBinding(ChunkShaderBindingPoints.POSITION,
+														this.vertexFormat.getAttribute(ChunkMeshAttribute.POSITION)),
+												new GlVertexAttributeBinding(ChunkShaderBindingPoints.COLOR,
+														this.vertexFormat.getAttribute(ChunkMeshAttribute.COLOR)),
+												new GlVertexAttributeBinding(ChunkShaderBindingPoints.TEX_COORD,
+														this.vertexFormat.getAttribute(ChunkMeshAttribute.TEXTURE)),
+												new GlVertexAttributeBinding(ChunkShaderBindingPoints.LIGHT_COORD,
+														this.vertexFormat.getAttribute(ChunkMeshAttribute.LIGHT)) },
+										false),
+								new TessellationBinding(this.uniformBuffer,
+										new GlVertexAttributeBinding[] { new GlVertexAttributeBinding(
+												ChunkShaderBindingPoints.MODEL_OFFSET,
+												new GlVertexAttribute(GlVertexAttributeFormat.FLOAT, 4, false, 0, 0)) },
+										true) });
 	}
 
 	public void setReverseRegions(boolean flag) {
@@ -168,7 +170,8 @@ public class MultidrawChunkRenderBackend extends ChunkRenderShaderBackend<Multid
 	}
 
 	@Override
-	public void render(CommandList commandList, ChunkRenderListIterator<MultidrawGraphicsState> renders, ChunkCameraContext camera) {
+	public void render(CommandList commandList, ChunkRenderListIterator<MultidrawGraphicsState> renders,
+			ChunkCameraContext camera) {
 		this.bufferManager.cleanup();
 		this.setupDrawBatches(commandList, renders, camera);
 		this.buildCommandBuffer();
@@ -200,7 +203,7 @@ public class MultidrawChunkRenderBackend extends ChunkRenderShaderBackend<Multid
 			}
 
 			if (pointerBuffer == null) {
-				pointer += (long)batch.getArrayLength();
+				pointer += (long) batch.getArrayLength();
 			} else {
 				pointerBuffer.position(pointerBuffer.position() + batch.getArrayLength());
 			}
@@ -239,17 +242,19 @@ public class MultidrawChunkRenderBackend extends ChunkRenderShaderBackend<Multid
 
 	private void setupUploadBatches(Iterator<ChunkBuildResult<MultidrawGraphicsState>> renders) {
 		while (renders.hasNext()) {
-			ChunkBuildResult<MultidrawGraphicsState> result = (ChunkBuildResult<MultidrawGraphicsState>)renders.next();
+			ChunkBuildResult<MultidrawGraphicsState> result = (ChunkBuildResult<MultidrawGraphicsState>) renders.next();
 			if (result != null) {
 				ChunkRenderContainer<MultidrawGraphicsState> render = result.render;
-				ChunkRegion<MultidrawGraphicsState> region = this.bufferManager.getRegion(render.getChunkX(), render.getChunkY(), render.getChunkZ());
+				ChunkRegion<MultidrawGraphicsState> region = this.bufferManager.getRegion(render.getChunkX(),
+						render.getChunkY(), render.getChunkZ());
 				if (region == null) {
 					if (result.data.getMeshSize() <= 0) {
 						render.setData(result.data);
 						continue;
 					}
 
-					region = this.bufferManager.getOrCreateRegion(render.getChunkX(), render.getChunkY(), render.getChunkZ());
+					region = this.bufferManager.getOrCreateRegion(render.getChunkX(), render.getChunkY(),
+							render.getChunkZ());
 				}
 
 				ObjectArrayList<ChunkBuildResult<MultidrawGraphicsState>> uploadQueue = region.getUploadQueue();
@@ -262,7 +267,8 @@ public class MultidrawChunkRenderBackend extends ChunkRenderShaderBackend<Multid
 		}
 	}
 
-	private void setupDrawBatches(CommandList commandList, ChunkRenderListIterator<MultidrawGraphicsState> it, ChunkCameraContext camera) {
+	private void setupDrawBatches(CommandList commandList, ChunkRenderListIterator<MultidrawGraphicsState> it,
+			ChunkCameraContext camera) {
 		this.uniformBufferBuilder.reset();
 		this.regionCamera = camera;
 		int drawCount = 0;
@@ -332,12 +338,9 @@ public class MultidrawChunkRenderBackend extends ChunkRenderShaderBackend<Multid
 	}
 
 	public static boolean isSupported(boolean disableDriverBlacklist) {
-		return !disableDriverBlacklist && isKnownBrokenIntelDriver()
-			? false
-			: GlFunctions.isVertexArraySupported()
-				&& GlFunctions.isBufferCopySupported()
-				&& GlFunctions.isIndirectMultiDrawSupported()
-				&& GlFunctions.isInstancedArraySupported();
+		return !disableDriverBlacklist && isKnownBrokenIntelDriver() ? false
+				: GlFunctions.isVertexArraySupported() && GlFunctions.isBufferCopySupported()
+						&& GlFunctions.isIndirectMultiDrawSupported() && GlFunctions.isInstancedArraySupported();
 	}
 
 	private static boolean isWindowsIntelDriver() {
@@ -367,9 +370,8 @@ public class MultidrawChunkRenderBackend extends ChunkRenderShaderBackend<Multid
 	public List<String> getDebugStrings() {
 		List<String> list = new ArrayList();
 		list.add(String.format("Active Buffers: %s", this.bufferManager.getAllocatedRegionCount()));
-		list.add(
-			String.format("Submission Mode: %s", this.commandBuffer != null ? EnumChatFormatting.AQUA + "Buffer" : EnumChatFormatting.LIGHT_PURPLE + "Client Memory")
-		);
+		list.add(String.format("Submission Mode: %s", this.commandBuffer != null ? EnumChatFormatting.AQUA + "Buffer"
+				: EnumChatFormatting.LIGHT_PURPLE + "Client Memory"));
 		return list;
 	}
 }

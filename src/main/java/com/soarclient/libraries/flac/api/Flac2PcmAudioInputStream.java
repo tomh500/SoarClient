@@ -39,8 +39,7 @@ import com.soarclient.libraries.flac.util.ByteData;
  * @author Florian Bomers
  * @version $Revision: 1.6 $
  */
-public class Flac2PcmAudioInputStream extends RingedAudioInputStream implements
-		PCMProcessor {
+public class Flac2PcmAudioInputStream extends RingedAudioInputStream implements PCMProcessor {
 
 	/** Flac Decoder. */
 	private FLACDecoder decoder;
@@ -56,25 +55,23 @@ public class Flac2PcmAudioInputStream extends RingedAudioInputStream implements
 	/**
 	 * Constructor.
 	 * 
-	 * @param in the underlying input stream.
+	 * @param in     the underlying input stream.
 	 * @param format the target format of this stream's audio data.
 	 * @param length the length in sample frames of the data in this stream.
 	 */
-	public Flac2PcmAudioInputStream(InputStream in, AudioFormat format,
-			long length) {
+	public Flac2PcmAudioInputStream(InputStream in, AudioFormat format, long length) {
 		this(in, format, length, DEFAULT_BUFFER_SIZE);
 	}
 
 	/**
 	 * Constructor.
 	 * 
-	 * @param in the underlying input stream.
+	 * @param in     the underlying input stream.
 	 * @param format the target format of this stream's audio data.
 	 * @param length the length in sample frames of the data in this stream.
-	 * @param size the buffer size.
+	 * @param size   the buffer size.
 	 */
-	public Flac2PcmAudioInputStream(InputStream in, AudioFormat format,
-			long length, int size) {
+	public Flac2PcmAudioInputStream(InputStream in, AudioFormat format, long length, int size) {
 		super(in, format, length, size);
 	}
 
@@ -118,8 +115,8 @@ public class Flac2PcmAudioInputStream extends RingedAudioInputStream implements
 	}
 
 	/**
-	 * Process the decoded PCM bytes. This is called synchronously from the
-	 * fill() method.
+	 * Process the decoded PCM bytes. This is called synchronously from the fill()
+	 * method.
 	 * 
 	 * @param pcm The decoded PCM data
 	 * @see com.soarclient.libraries.flac.PCMProcessor#processPCM(ByteData)

@@ -14,7 +14,8 @@ public class ID3v2CommentFrameData extends AbstractID3v2FrameData {
 		super(unsynchronisation);
 	}
 
-	public ID3v2CommentFrameData(boolean unsynchronisation, String language, EncodedText description, EncodedText comment) {
+	public ID3v2CommentFrameData(boolean unsynchronisation, String language, EncodedText description,
+			EncodedText comment) {
 		super(unsynchronisation);
 		if (description != null && comment != null && description.getTextEncoding() != comment.getTextEncoding()) {
 			throw new IllegalArgumentException("description and comment must have same text encoding");
@@ -50,8 +51,10 @@ public class ID3v2CommentFrameData extends AbstractID3v2FrameData {
 	@Override
 	protected byte[] packFrameData() {
 		byte[] bytes = new byte[getLength()];
-		if (comment != null) bytes[0] = comment.getTextEncoding();
-		else bytes[0] = 0;
+		if (comment != null)
+			bytes[0] = comment.getTextEncoding();
+		else
+			bytes[0] = 0;
 		String langPadded;
 		if (language == null) {
 			langPadded = DEFAULT_LANGUAGE;
@@ -70,7 +73,7 @@ public class ID3v2CommentFrameData extends AbstractID3v2FrameData {
 			BufferTools.copyIntoByteBuffer(descriptionBytes, 0, descriptionBytes.length, bytes, marker);
 			marker += descriptionBytes.length;
 		} else {
-			byte[] terminatorBytes = comment != null ? comment.getTerminator() : new byte[]{0};
+			byte[] terminatorBytes = comment != null ? comment.getTerminator() : new byte[] { 0 };
 			BufferTools.copyIntoByteBuffer(terminatorBytes, 0, terminatorBytes.length, bytes, marker);
 			marker += terminatorBytes.length;
 		}
@@ -84,9 +87,12 @@ public class ID3v2CommentFrameData extends AbstractID3v2FrameData {
 	@Override
 	protected int getLength() {
 		int length = 4;
-		if (description != null) length += description.toBytes(true, true).length;
-		else length += comment != null ? comment.getTerminator().length : 1;
-		if (comment != null) length += comment.toBytes(true, false).length;
+		if (description != null)
+			length += description.toBytes(true, true).length;
+		else
+			length += comment != null ? comment.getTerminator().length : 1;
+		if (comment != null)
+			length += comment.toBytes(true, false).length;
 		return length;
 	}
 
@@ -119,10 +125,8 @@ public class ID3v2CommentFrameData extends AbstractID3v2FrameData {
 		final int prime = 31;
 		int result = super.hashCode();
 		result = prime * result + ((comment == null) ? 0 : comment.hashCode());
-		result = prime * result
-				+ ((description == null) ? 0 : description.hashCode());
-		result = prime * result
-				+ ((language == null) ? 0 : language.hashCode());
+		result = prime * result + ((description == null) ? 0 : description.hashCode());
+		result = prime * result + ((language == null) ? 0 : language.hashCode());
 		return result;
 	}
 

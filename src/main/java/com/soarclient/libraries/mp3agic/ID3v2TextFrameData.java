@@ -39,7 +39,8 @@ public class ID3v2TextFrameData extends AbstractID3v2FrameData {
 	@Override
 	protected int getLength() {
 		int length = 1;
-		if (text != null) length += text.toBytes(true, false).length;
+		if (text != null)
+			length += text.toBytes(true, false).length;
 		return length;
 	}
 

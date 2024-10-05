@@ -10,13 +10,15 @@ import com.soarclient.libraries.sodium.client.model.vertex.type.VanillaVertexTyp
 import net.minecraft.client.renderer.WorldRenderer;
 import net.minecraft.client.renderer.vertex.VertexFormat;
 
-public class BasicScreenQuadVertexType implements VanillaVertexType<BasicScreenQuadVertexSink>, BlittableVertexType<BasicScreenQuadVertexSink> {
+public class BasicScreenQuadVertexType
+		implements VanillaVertexType<BasicScreenQuadVertexSink>, BlittableVertexType<BasicScreenQuadVertexSink> {
 	public BasicScreenQuadVertexSink createFallbackWriter(WorldRenderer consumer) {
 		return new BasicScreenQuadVertexWriterFallback(consumer);
 	}
 
 	public BasicScreenQuadVertexSink createBufferWriter(VertexBufferView buffer, boolean direct) {
-		return (BasicScreenQuadVertexSink)(direct ? new BasicScreenQuadVertexBufferWriterUnsafe(buffer) : new BasicScreenQuadVertexBufferWriterNio(buffer));
+		return (BasicScreenQuadVertexSink) (direct ? new BasicScreenQuadVertexBufferWriterUnsafe(buffer)
+				: new BasicScreenQuadVertexBufferWriterNio(buffer));
 	}
 
 	@Override

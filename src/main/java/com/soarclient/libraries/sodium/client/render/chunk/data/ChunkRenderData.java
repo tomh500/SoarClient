@@ -48,7 +48,7 @@ public class ChunkRenderData {
 	}
 
 	public ChunkMeshData getMesh(BlockRenderPass pass) {
-		return (ChunkMeshData)this.meshes.get(pass);
+		return (ChunkMeshData) this.meshes.get(pass);
 	}
 
 	public void setMesh(BlockRenderPass pass, ChunkMeshData data) {
@@ -79,7 +79,7 @@ public class ChunkRenderData {
 			size += meshData.getVertexDataSize();
 
 			for (Entry<ModelQuadFacing, BufferSlice> entry : meshData.getSlices()) {
-				facesWithData |= 1 << ((ModelQuadFacing)entry.getKey()).ordinal();
+				facesWithData |= 1 << ((ModelQuadFacing) entry.getKey()).ordinal();
 			}
 		}
 
@@ -161,7 +161,7 @@ public class ChunkRenderData {
 				size += meshData.getVertexDataSize();
 
 				for (Entry<ModelQuadFacing, BufferSlice> entry : meshData.getSlices()) {
-					facesWithData |= 1 << ((ModelQuadFacing)entry.getKey()).ordinal();
+					facesWithData |= 1 << ((ModelQuadFacing) entry.getKey()).ordinal();
 				}
 			}
 

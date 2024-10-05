@@ -9,7 +9,8 @@ import net.minecraft.util.BlockPos;
 import net.minecraft.world.IBlockAccess;
 
 public interface BiomeColorBlender {
-	int[] getColors(IBlockColor iBlockColor, IBlockAccess iBlockAccess, IBlockState iBlockState, BlockPos blockPos, ModelQuadView modelQuadView);
+	int[] getColors(IBlockColor iBlockColor, IBlockAccess iBlockAccess, IBlockState iBlockState, BlockPos blockPos,
+			ModelQuadView modelQuadView);
 
 	static BiomeColorBlender create(Minecraft client) {
 		return new ConfigurableColorBlender(client);

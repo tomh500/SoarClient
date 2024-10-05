@@ -24,7 +24,8 @@ public class ControlElement<T> extends AbstractWidget {
 	@Override
 	public void render(int mouseX, int mouseY, float delta) {
 		String name = this.option.getName();
-		if (this.hovered && this.font.getStringWidth(name) > this.dim.getWidth() - this.option.getControl().getMaxWidth()) {
+		if (this.hovered
+				&& this.font.getStringWidth(name) > this.dim.getWidth() - this.option.getControl().getMaxWidth()) {
 			name = name.substring(0, Math.min(name.length(), 10)) + "...";
 		}
 
@@ -35,7 +36,8 @@ public class ControlElement<T> extends AbstractWidget {
 			} else {
 				label31: {
 					if (this.option instanceof OptionExtended<?> optionExtended && optionExtended.isHighlight()) {
-						EnumChatFormatting color = optionExtended.isSelected() ? EnumChatFormatting.DARK_GREEN : EnumChatFormatting.YELLOW;
+						EnumChatFormatting color = optionExtended.isSelected() ? EnumChatFormatting.DARK_GREEN
+								: EnumChatFormatting.YELLOW;
 						label = color + name;
 						break label31;
 					}
@@ -47,14 +49,9 @@ public class ControlElement<T> extends AbstractWidget {
 			label = "" + EnumChatFormatting.GRAY + EnumChatFormatting.STRIKETHROUGH + name;
 		}
 
-		this.hovered = this.dim.containsCursor((double)mouseX, (double)mouseY);
-		this.drawRect(
-			(double)this.dim.getOriginX(),
-			(double)this.dim.getOriginY(),
-			(double)this.dim.getLimitX(),
-			(double)this.dim.getLimitY(),
-			this.hovered ? -536870912 : -1879048192
-		);
+		this.hovered = this.dim.containsCursor((double) mouseX, (double) mouseY);
+		this.drawRect((double) this.dim.getOriginX(), (double) this.dim.getOriginY(), (double) this.dim.getLimitX(),
+				(double) this.dim.getLimitY(), this.hovered ? -536870912 : -1879048192);
 		this.drawString(label, this.dim.getOriginX() + 6, this.dim.getCenterY() - 4, -1);
 	}
 

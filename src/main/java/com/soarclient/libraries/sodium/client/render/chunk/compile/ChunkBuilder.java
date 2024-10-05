@@ -81,7 +81,7 @@ public class ChunkBuilder<T extends ChunkGraphicsState> {
 					this.threads.add(thread);
 				}
 
-				LOGGER.info("Started {} worker threads", new Object[]{this.threads.size()});
+				LOGGER.info("Started {} worker threads", new Object[] { this.threads.size() });
 			}
 		}
 	}
@@ -126,7 +126,7 @@ public class ChunkBuilder<T extends ChunkGraphicsState> {
 		Reference2ReferenceLinkedOpenHashMap<ChunkRenderContainer<T>, ChunkBuildResult<T>> map = new Reference2ReferenceLinkedOpenHashMap<>();
 
 		while (uploadIterator.hasNext()) {
-			ChunkBuildResult<T> result = (ChunkBuildResult<T>)uploadIterator.next();
+			ChunkBuildResult<T> result = (ChunkBuildResult<T>) uploadIterator.next();
 			ChunkRenderContainer<T> section = result.render;
 			ChunkBuildResult<T> oldResult = map.get(section);
 			if (oldResult == null || result.passesToUpload.length >= oldResult.passesToUpload.length) {
@@ -141,7 +141,8 @@ public class ChunkBuilder<T extends ChunkGraphicsState> {
 		if (this.uploadQueue.isEmpty()) {
 			return false;
 		} else {
-			this.backend.upload(RenderDevice.INSTANCE.createCommandList(), this.filterChunkBuilds(new DequeDrain<>(this.uploadQueue)));
+			this.backend.upload(RenderDevice.INSTANCE.createCommandList(),
+					this.filterChunkBuilds(new DequeDrain<>(this.uploadQueue)));
 			return true;
 		}
 	}
@@ -149,9 +150,9 @@ public class ChunkBuilder<T extends ChunkGraphicsState> {
 	public void handleFailures() {
 		Iterator<Throwable> errorIterator = new DequeDrain<>(this.failureQueue);
 		if (errorIterator.hasNext()) {
-			Throwable ex = (Throwable)errorIterator.next();
+			Throwable ex = (Throwable) errorIterator.next();
 			if (ex instanceof ReportedException) {
-				throw (ReportedException)ex;
+				throw (ReportedException) ex;
 			} else {
 				throw new RuntimeException("Chunk build failed", ex);
 			}
@@ -242,9 +243,9 @@ public class ChunkBuilder<T extends ChunkGraphicsState> {
 	private ChunkRenderBuildTask<T> createRebuildTask(ChunkRenderContainer<T> render) {
 		render.cancelRebuildTask();
 		ChunkRenderContext context = WorldSlice.prepare(this.world, render.getChunkPos(), this.sectionCache);
-		return (ChunkRenderBuildTask<T>)(context == null
-			? new ChunkRenderEmptyBuildTask<>(render)
-			: new ChunkRenderRebuildTask<>(render, context, render.getRenderOrigin()).withCameraPosition(this.cameraPosition));
+		return (ChunkRenderBuildTask<T>) (context == null ? new ChunkRenderEmptyBuildTask<>(render)
+				: new ChunkRenderRebuildTask<>(render, context, render.getRenderOrigin())
+						.withCameraPosition(this.cameraPosition));
 	}
 
 	private ChunkRenderBuildTask<T> createSortTask(ChunkRenderContainer<T> render) {
@@ -292,7 +293,7 @@ public class ChunkBuilder<T extends ChunkGraphicsState> {
 		}
 
 		private ChunkBuilder.WrappedTask<T> getNextJob() {
-			ChunkBuilder.WrappedTask<T> job = (ChunkBuilder.WrappedTask<T>)ChunkBuilder.this.buildQueue.poll();
+			ChunkBuilder.WrappedTask<T> job = (ChunkBuilder.WrappedTask<T>) ChunkBuilder.this.buildQueue.poll();
 			if (job == null) {
 				synchronized (ChunkBuilder.this.jobNotifier) {
 					try {

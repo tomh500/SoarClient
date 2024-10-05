@@ -22,7 +22,7 @@ import net.minecraft.client.shader.Framebuffer;
 import net.minecraft.util.ResourceLocation;
 
 public class GaussianBlur {
-	
+
 	private Minecraft mc = Minecraft.getMinecraft();
 
 	private Shader blurShader = new Shader(new ResourceLocation("soar/shader/gaussian.frag"));
@@ -74,19 +74,19 @@ public class GaussianBlur {
 	}
 
 	public void draw(float radius) {
-		
-		if(nvgMode) {
+
+		if (nvgMode) {
 			GlStateManager.enableBlend();
 			GlStateManager.color(1, 1, 1, 1);
 			OpenGlHelper.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA, GL11.GL_ONE, GL11.GL_ZERO);
 		}
-		
+
 		framebuffer = ShaderUtils.createFramebuffer(framebuffer);
 		secondFramebuffer = ShaderUtils.createFramebuffer(secondFramebuffer);
 
 		if (updateTimer.delay(16)) {
 
-			if(!nvgMode) {
+			if (!nvgMode) {
 				GlStateManager.enableBlend();
 				GlStateManager.color(1, 1, 1, 1);
 				OpenGlHelper.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA, GL11.GL_ONE, GL11.GL_ZERO);
@@ -116,7 +116,7 @@ public class GaussianBlur {
 
 			updateTimer.reset();
 
-			if(!nvgMode) {
+			if (!nvgMode) {
 				GlStateManager.color(1, 1, 1, 1);
 				GlStateManager.bindTexture(0);
 			}
@@ -124,17 +124,17 @@ public class GaussianBlur {
 
 		mc.getFramebuffer().bindFramebuffer(true);
 
-		if(nvgMode) {
-			
+		if (nvgMode) {
+
 			NanoVGHelper nvg = NanoVGHelper.getInstance();
-			
+
 			nvg.setupAndDraw(() -> {
 
 				NVGPaint paint = NVGPaint.calloc();
 
 				if (texture == -1) {
-					texture = NanoVGGL2.nvglCreateImageFromHandle(nvg.getContext(), secondFramebuffer.framebufferTexture,
-							mc.displayWidth, -mc.displayHeight, 0);
+					texture = NanoVGGL2.nvglCreateImageFromHandle(nvg.getContext(),
+							secondFramebuffer.framebufferTexture, mc.displayWidth, -mc.displayHeight, 0);
 				}
 
 				EventBus.getInstance().post(new RenderBlurEvent(texture, paint));

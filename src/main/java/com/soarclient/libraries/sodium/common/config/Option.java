@@ -56,6 +56,7 @@ public class Option {
 	}
 
 	public Collection<String> getDefiningMods() {
-		return (Collection<String>)(this.modDefined != null ? Collections.unmodifiableCollection(this.modDefined) : Collections.emptyList());
+		return (Collection<String>) (this.modDefined != null ? Collections.unmodifiableCollection(this.modDefined)
+				: Collections.emptyList());
 	}
 }

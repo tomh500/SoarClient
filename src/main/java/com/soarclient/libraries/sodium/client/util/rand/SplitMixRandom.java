@@ -22,7 +22,7 @@ public class SplitMixRandom {
 
 	private static int staffordMix4Upper32(long z) {
 		z = (z ^ z >>> 33) * 7109453100751455733L;
-		return (int)((z ^ z >>> 28) * -3808689974395783757L >>> 32);
+		return (int) ((z ^ z >>> 28) * -3808689974395783757L >>> 32);
 	}
 
 	public long nextLong() {
@@ -34,7 +34,7 @@ public class SplitMixRandom {
 	}
 
 	public int nextInt(int n) {
-		return (int)this.nextLong((long)n);
+		return (int) this.nextLong((long) n);
 	}
 
 	public long nextLong(long n) {
@@ -58,11 +58,11 @@ public class SplitMixRandom {
 	}
 
 	public double nextDouble() {
-		return (double)(staffordMix13(this.x += -7046029254386353131L) >>> 11) * 1.110223E-16F;
+		return (double) (staffordMix13(this.x += -7046029254386353131L) >>> 11) * 1.110223E-16F;
 	}
 
 	public float nextFloat() {
-		return (float)(staffordMix4Upper32(this.x += -7046029254386353131L) >>> 8) * 5.9604645E-8F;
+		return (float) (staffordMix4Upper32(this.x += -7046029254386353131L) >>> 8) * 5.9604645E-8F;
 	}
 
 	public boolean nextBoolean() {
@@ -77,7 +77,7 @@ public class SplitMixRandom {
 
 			for (long bits = staffordMix13(this.x += -7046029254386353131L); n-- != 0; bits >>= 8) {
 				i--;
-				bytes[i] = (byte)((int)bits);
+				bytes[i] = (byte) ((int) bits);
 			}
 		}
 	}

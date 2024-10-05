@@ -9,7 +9,8 @@ public final class Version {
 		VERSION = implementationVersion != null ? implementationVersion : "UNKNOWN-SNAPSHOT";
 	}
 
-	private Version() {}
+	private Version() {
+	}
 
 	public static String asString() {
 		return getVersion() + " - " + getUrl();

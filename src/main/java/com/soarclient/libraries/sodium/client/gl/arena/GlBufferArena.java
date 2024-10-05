@@ -26,7 +26,7 @@ public class GlBufferArena {
 
 		try (CommandList commands = device.createCommandList()) {
 			this.vertexBuffer = commands.createMutableBuffer(BUFFER_USAGE);
-			commands.allocateBuffer(GlBufferTarget.COPY_WRITE_BUFFER, this.vertexBuffer, (long)initialSize);
+			commands.allocateBuffer(GlBufferTarget.COPY_WRITE_BUFFER, this.vertexBuffer, (long) initialSize);
 		}
 
 		this.resizeIncrement = resizeIncrement;
@@ -36,8 +36,8 @@ public class GlBufferArena {
 	private void resize(CommandList commandList, int newCapacity) {
 		GlMutableBuffer src = this.vertexBuffer;
 		GlMutableBuffer dst = commandList.createMutableBuffer(BUFFER_USAGE);
-		commandList.allocateBuffer(GlBufferTarget.COPY_WRITE_BUFFER, dst, (long)newCapacity);
-		commandList.copyBufferSubData(src, dst, 0L, 0L, (long)this.position);
+		commandList.allocateBuffer(GlBufferTarget.COPY_WRITE_BUFFER, dst, (long) newCapacity);
+		commandList.copyBufferSubData(src, dst, 0L, 0L, (long) this.position);
 		commandList.deleteBuffer(src);
 		this.vertexBuffer = dst;
 		this.capacity = newCapacity;
@@ -52,7 +52,8 @@ public class GlBufferArena {
 	public GlBufferSegment uploadBuffer(CommandList commandList, GlBuffer readBuffer, int readOffset, int byteCount) {
 		this.prepareBuffer(commandList, byteCount);
 		GlBufferSegment segment = this.alloc(byteCount);
-		commandList.copyBufferSubData(readBuffer, this.vertexBuffer, (long)readOffset, (long)segment.getStart(), (long)byteCount);
+		commandList.copyBufferSubData(readBuffer, this.vertexBuffer, (long) readOffset, (long) segment.getStart(),
+				(long) byteCount);
 		return segment;
 	}
 

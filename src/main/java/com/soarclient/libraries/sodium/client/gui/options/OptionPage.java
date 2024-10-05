@@ -22,7 +22,7 @@ public class OptionPage {
 		UnmodifiableIterator var4 = groups.iterator();
 
 		while (var4.hasNext()) {
-			OptionGroup group = (OptionGroup)var4.next();
+			OptionGroup group = (OptionGroup) var4.next();
 			builder.addAll(group.getOptions());
 		}
 

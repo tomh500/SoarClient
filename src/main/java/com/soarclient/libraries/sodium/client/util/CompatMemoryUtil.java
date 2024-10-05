@@ -47,7 +47,7 @@ public class CompatMemoryUtil {
 				if (Modifier.isStatic(modifiers) && Modifier.isFinal(modifiers)) {
 					try {
 						field.setAccessible(true);
-						return (Unsafe)field.get(null);
+						return (Unsafe) field.get(null);
 					} catch (Exception var7) {
 						break;
 					}

@@ -13,7 +13,8 @@ import java.nio.ShortBuffer;
 import java.util.BitSet;
 
 public class ChunkBufferSorter {
-	public static void sortStandardFormat(ChunkVertexType vertexType, ByteBuffer buffer, int bufferLen, float x, float y, float z) {
+	public static void sortStandardFormat(ChunkVertexType vertexType, ByteBuffer buffer, int bufferLen, float x,
+			float y, float z) {
 		boolean isCompact;
 		if (vertexType.getClass() == HFPModelVertexType.class) {
 			isCompact = true;
@@ -35,14 +36,16 @@ public class ChunkBufferSorter {
 			int vertexSizeShort = quadStride / 2;
 
 			for (int quadIdx = 0; quadIdx < quadCount; indicesArray[quadIdx] = quadIdx++) {
-				distanceArray[quadIdx] = getDistanceSqHFP(shortBuffer, x, y, z, vertexSizeShort, quadStart + quadIdx * quadStride * 2);
+				distanceArray[quadIdx] = getDistanceSqHFP(shortBuffer, x, y, z, vertexSizeShort,
+						quadStart + quadIdx * quadStride * 2);
 			}
 		} else {
 			FloatBuffer floatBuffer = buffer.asFloatBuffer();
 			int vertexSizeInteger = quadStride / 4;
 
 			for (int quadIdx = 0; quadIdx < quadCount; indicesArray[quadIdx] = quadIdx++) {
-				distanceArray[quadIdx] = getDistanceSqSFP(floatBuffer, x, y, z, vertexSizeInteger, quadStart + quadIdx * quadStride);
+				distanceArray[quadIdx] = getDistanceSqSFP(floatBuffer, x, y, z, vertexSizeInteger,
+						quadStart + quadIdx * quadStride);
 			}
 		}
 
@@ -87,7 +90,8 @@ public class ChunkBufferSorter {
 		floatBuffer.position(base);
 	}
 
-	private static float getDistanceSqSFP(FloatBuffer buffer, float xCenter, float yCenter, float zCenter, int stride, int start) {
+	private static float getDistanceSqSFP(FloatBuffer buffer, float xCenter, float yCenter, float zCenter, int stride,
+			int start) {
 		float x1 = buffer.get(start);
 		float y1 = buffer.get(start + 1);
 		float z1 = buffer.get(start + 2);
@@ -110,10 +114,11 @@ public class ChunkBufferSorter {
 	}
 
 	private static float normalizeShort(short s) {
-		return (float)Short.toUnsignedInt(s) / 2048.0F;
+		return (float) Short.toUnsignedInt(s) / 2048.0F;
 	}
 
-	private static float getDistanceSqHFP(ShortBuffer buffer, float xCenter, float yCenter, float zCenter, int stride, int start) {
+	private static float getDistanceSqHFP(ShortBuffer buffer, float xCenter, float yCenter, float zCenter, int stride,
+			int start) {
 		float x1 = normalizeShort(buffer.get(start));
 		float y1 = normalizeShort(buffer.get(start + 1));
 		float z1 = normalizeShort(buffer.get(start + 2));

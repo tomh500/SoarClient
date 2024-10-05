@@ -1,8 +1,7 @@
 package com.soarclient.libraries.sodium.client.model.quad.properties;
 
 public enum ModelQuadOrientation {
-	NORMAL(new int[]{0, 1, 2, 3}),
-	FLIP(new int[]{1, 2, 3, 0});
+	NORMAL(new int[] { 0, 1, 2, 3 }), FLIP(new int[] { 1, 2, 3, 0 });
 
 	private final int[] indices;
 

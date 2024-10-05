@@ -7,9 +7,8 @@ import com.soarclient.libraries.sodium.client.render.pipeline.context.ChunkRende
 import com.soarclient.libraries.sodium.client.util.task.CancellationSource;
 
 public abstract class ChunkRenderBuildTask<T extends ChunkGraphicsState> {
-	public abstract ChunkBuildResult<T> performBuild(
-		ChunkRenderCacheLocal chunkRenderCacheLocal, ChunkBuildBuffers chunkBuildBuffers, CancellationSource cancellationSource
-	);
+	public abstract ChunkBuildResult<T> performBuild(ChunkRenderCacheLocal chunkRenderCacheLocal,
+			ChunkBuildBuffers chunkBuildBuffers, CancellationSource cancellationSource);
 
 	public abstract void releaseResources();
 }

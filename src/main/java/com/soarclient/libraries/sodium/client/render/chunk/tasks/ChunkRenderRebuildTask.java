@@ -53,11 +53,12 @@ public class ChunkRenderRebuildTask<T extends ChunkGraphicsState> extends ChunkR
 	}
 
 	@Override
-	public ChunkBuildResult<T> performBuild(ChunkRenderCacheLocal cache, ChunkBuildBuffers buffers, CancellationSource cancellationSource) {
+	public ChunkBuildResult<T> performBuild(ChunkRenderCacheLocal cache, ChunkBuildBuffers buffers,
+			CancellationSource cancellationSource) {
 		Builder renderData = new Builder();
 		VisGraph occluder = new VisGraph();
 		com.soarclient.libraries.sodium.client.render.chunk.data.ChunkRenderBounds.Builder bounds = new com.soarclient.libraries.sodium.client.render.chunk.data.ChunkRenderBounds.Builder(
-			
+
 		);
 		buffers.init(renderData);
 		cache.init(this.context);
@@ -80,7 +81,9 @@ public class ChunkRenderRebuildTask<T extends ChunkGraphicsState> extends ChunkR
 						Block block = blockState.getBlock();
 						if (block.getMaterial() != Material.air) {
 							pos.set(baseX + relX, baseY + relY, baseZ + relZ);
-							buffers.setRenderOffset((float)(pos.getX() - renderOffset.getX()), (float)(pos.getY() - renderOffset.getY()), (float)(pos.getZ() - renderOffset.getZ()));
+							buffers.setRenderOffset((float) (pos.getX() - renderOffset.getX()),
+									(float) (pos.getY() - renderOffset.getY()),
+									(float) (pos.getZ() - renderOffset.getZ()));
 							int renderType = block.getRenderType();
 							if (renderType != -1) {
 								if (slice.getWorldType() != WorldType.DEBUG_WORLD) {
@@ -91,10 +94,12 @@ public class ChunkRenderRebuildTask<T extends ChunkGraphicsState> extends ChunkR
 									if (block.getBlockLayer() == layer) {
 										if (renderType == 3 && WorldUtil.toFluidBlock(block) == null) {
 											IBakedModel model = cache.getBlockModels().getModelForState(blockState);
-											if (cache.getBlockRenderer().renderModel(cache.getLocalSlice(), blockState, pos, model, buffers.get(layer), true)) {
+											if (cache.getBlockRenderer().renderModel(cache.getLocalSlice(), blockState,
+													pos, model, buffers.get(layer), true)) {
 												bounds.addBlock(relX, relY, relZ);
 											}
-										} else if (WorldUtil.toFluidBlock(block) != null && cache.getFluidRenderer().render(cache.getLocalSlice(), blockState, pos, buffers.get(layer))) {
+										} else if (WorldUtil.toFluidBlock(block) != null && cache.getFluidRenderer()
+												.render(cache.getLocalSlice(), blockState, pos, buffers.get(layer))) {
 											bounds.addBlock(relX, relY, relZ);
 										}
 									}
@@ -104,7 +109,8 @@ public class ChunkRenderRebuildTask<T extends ChunkGraphicsState> extends ChunkR
 							if (block.hasTileEntity()) {
 								TileEntity entity = slice.getTileEntity(pos);
 								if (entity != null) {
-									TileEntitySpecialRenderer<TileEntity> renderer = TileEntityRendererDispatcher.instance.getSpecialRenderer(entity);
+									TileEntitySpecialRenderer<TileEntity> renderer = TileEntityRendererDispatcher.instance
+											.getSpecialRenderer(entity);
 									if (renderer != null) {
 										renderData.addBlockEntity(entity, !renderer.forceTileEntityRender());
 										bounds.addBlock(relX, relY, relZ);
@@ -122,19 +128,17 @@ public class ChunkRenderRebuildTask<T extends ChunkGraphicsState> extends ChunkR
 		} catch (ReportedException var24) {
 			throw this.fillCrashInfo(var24.getCrashReport(), slice, pos);
 		} catch (Throwable var25) {
-			throw this.fillCrashInfo(CrashReport.makeCrashReport(var25, "Encountered exception while building chunk meshes"), slice, pos);
+			throw this.fillCrashInfo(
+					CrashReport.makeCrashReport(var25, "Encountered exception while building chunk meshes"), slice,
+					pos);
 		}
 
 		this.render.setRebuildForTranslucents(false);
 
 		for (BlockRenderPass pass : BlockRenderPass.VALUES) {
-			ChunkMeshData mesh = buffers.createMesh(
-				pass,
-				(float)this.camera.xCoord - (float)this.offset.getX(),
-				(float)this.camera.yCoord - (float)this.offset.getY(),
-				(float)this.camera.zCoord - (float)this.offset.getZ(),
-				this.translucencySorting
-			);
+			ChunkMeshData mesh = buffers.createMesh(pass, (float) this.camera.xCoord - (float) this.offset.getX(),
+					(float) this.camera.yCoord - (float) this.offset.getY(),
+					(float) this.camera.zCoord - (float) this.offset.getZ(), this.translucencySorting);
 			if (mesh != null) {
 				renderData.setMesh(pass, mesh);
 				if (this.translucencySorting && pass.isTranslucent()) {

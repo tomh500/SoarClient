@@ -7,7 +7,8 @@ import com.soarclient.libraries.sodium.client.gl.func.GlFunctions;
 public class GlVertexArrayTessellation extends GlAbstractTessellation {
 	private final GlVertexArray array;
 
-	public GlVertexArrayTessellation(GlVertexArray array, GlPrimitiveType primitiveType, TessellationBinding[] bindings) {
+	public GlVertexArrayTessellation(GlVertexArray array, GlPrimitiveType primitiveType,
+			TessellationBinding[] bindings) {
 		super(primitiveType, bindings);
 		this.array = array;
 	}

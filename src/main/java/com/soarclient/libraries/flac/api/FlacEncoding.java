@@ -30,16 +30,15 @@ import javax.sound.sampled.AudioFormat;
  */
 public class FlacEncoding extends AudioFormat.Encoding {
 
-    /** Specifies any Flac encoded data. */
-    public static final FlacEncoding FLAC = new FlacEncoding("FLAC");
+	/** Specifies any Flac encoded data. */
+	public static final FlacEncoding FLAC = new FlacEncoding("FLAC");
 
-    /**
-     * Constructs a new encoding.
-     * 
-     * @param name -
-     *            Name of the Flac encoding.
-     */
-    public FlacEncoding(String name) {
-        super(name);
-    }
+	/**
+	 * Constructs a new encoding.
+	 * 
+	 * @param name - Name of the Flac encoding.
+	 */
+	public FlacEncoding(String name) {
+		super(name);
+	}
 }
