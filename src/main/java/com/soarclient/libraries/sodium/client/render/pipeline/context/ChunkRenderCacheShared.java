@@ -1,6 +1,7 @@
 package com.soarclient.libraries.sodium.client.render.pipeline.context;
 
 import it.unimi.dsi.fastutil.objects.Reference2ObjectOpenHashMap;
+
 import java.util.Map;
 
 import com.soarclient.libraries.sodium.client.model.light.LightPipelineProvider;

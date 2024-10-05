@@ -2,6 +2,7 @@ package com.soarclient.libraries.sodium.client.world.cloned;
 
 import it.unimi.dsi.fastutil.shorts.Short2ObjectMap;
 import it.unimi.dsi.fastutil.shorts.Short2ObjectOpenHashMap;
+
 import java.util.Map.Entry;
 import java.util.concurrent.atomic.AtomicInteger;
 

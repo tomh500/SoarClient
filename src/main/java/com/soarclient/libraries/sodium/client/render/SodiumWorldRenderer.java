@@ -3,6 +3,7 @@ package com.soarclient.libraries.sodium.client.render;
 import it.unimi.dsi.fastutil.longs.LongOpenHashSet;
 import it.unimi.dsi.fastutil.longs.LongSet;
 import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
+
 import java.util.Map;
 import java.util.Set;
 

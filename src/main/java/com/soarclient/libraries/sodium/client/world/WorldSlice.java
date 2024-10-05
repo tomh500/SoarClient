@@ -1,6 +1,7 @@
 package com.soarclient.libraries.sodium.client.world;
 
 import it.unimi.dsi.fastutil.objects.Reference2ObjectOpenHashMap;
+
 import java.util.Arrays;
 import java.util.Map;
 

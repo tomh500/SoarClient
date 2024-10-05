@@ -1,6 +1,7 @@
 package com.soarclient.libraries.sodium.client.render.chunk.compile;
 
 import it.unimi.dsi.fastutil.objects.Reference2ReferenceLinkedOpenHashMap;
+
 import java.util.ArrayList;
 import java.util.Deque;
 import java.util.Iterator;

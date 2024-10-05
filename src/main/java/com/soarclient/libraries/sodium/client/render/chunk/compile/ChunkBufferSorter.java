@@ -6,6 +6,7 @@ import com.soarclient.libraries.sodium.client.render.chunk.format.hfp.HFPModelVe
 import com.soarclient.libraries.sodium.client.render.chunk.format.sfp.SFPModelVertexType;
 
 import it.unimi.dsi.fastutil.ints.IntArrays;
+
 import java.nio.ByteBuffer;
 import java.nio.FloatBuffer;
 import java.nio.ShortBuffer;

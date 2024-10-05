@@ -2,6 +2,7 @@ package com.soarclient.libraries.sodium.client.render.chunk.data;
 
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.EnumMap;
