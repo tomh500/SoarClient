@@ -1,7 +1,26 @@
 package net.minecraft.network;
 
+import java.net.InetAddress;
+import java.net.SocketAddress;
+import java.util.Queue;
+import java.util.concurrent.locks.ReentrantReadWriteLock;
+
+import javax.crypto.SecretKey;
+
+import org.apache.commons.lang3.ArrayUtils;
+import org.apache.commons.lang3.Validate;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.Marker;
+import org.apache.logging.log4j.MarkerManager;
+
 import com.google.common.collect.Queues;
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
+import com.soarclient.krypton.compress.MinecraftCompressDecoder;
+import com.soarclient.krypton.compress.MinecraftCompressEncoder;
+import com.velocitypowered.natives.compression.VelocityCompressor;
+import com.velocitypowered.natives.util.Natives;
+
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelException;
@@ -27,11 +46,6 @@ import io.netty.handler.timeout.TimeoutException;
 import io.netty.util.AttributeKey;
 import io.netty.util.concurrent.Future;
 import io.netty.util.concurrent.GenericFutureListener;
-import java.net.InetAddress;
-import java.net.SocketAddress;
-import java.util.Queue;
-import java.util.concurrent.locks.ReentrantReadWriteLock;
-import javax.crypto.SecretKey;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.ChatComponentTranslation;
 import net.minecraft.util.CryptManager;
@@ -42,12 +56,6 @@ import net.minecraft.util.MessageDeserializer;
 import net.minecraft.util.MessageDeserializer2;
 import net.minecraft.util.MessageSerializer;
 import net.minecraft.util.MessageSerializer2;
-import org.apache.commons.lang3.ArrayUtils;
-import org.apache.commons.lang3.Validate;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-import org.apache.logging.log4j.Marker;
-import org.apache.logging.log4j.MarkerManager;
 
 public class NetworkManager extends SimpleChannelInboundHandler<Packet> {
 	private static final Logger logger = LogManager.getLogger();
@@ -405,25 +413,15 @@ public class NetworkManager extends SimpleChannelInboundHandler<Packet> {
 
 	public void setCompressionTreshold(int treshold) {
 		if (treshold >= 0) {
-			if (this.channel.pipeline().get("decompress") instanceof NettyCompressionDecoder) {
-				((NettyCompressionDecoder) this.channel.pipeline().get("decompress")).setCompressionTreshold(treshold);
-			} else {
-				this.channel.pipeline().addBefore("decoder", "decompress", new NettyCompressionDecoder(treshold));
-			}
+			VelocityCompressor compressor = Natives.compress.get().create(4);
+			MinecraftCompressEncoder encoder = new MinecraftCompressEncoder(treshold, compressor);
+			MinecraftCompressDecoder decoder = new MinecraftCompressDecoder(treshold, compressor);
 
-			if (this.channel.pipeline().get("compress") instanceof NettyCompressionEncoder) {
-				((NettyCompressionEncoder) this.channel.pipeline().get("decompress")).setCompressionTreshold(treshold);
-			} else {
-				this.channel.pipeline().addBefore("encoder", "compress", new NettyCompressionEncoder(treshold));
-			}
+			channel.pipeline().addBefore("decoder", "decompress", decoder);
+			channel.pipeline().addBefore("encoder", "compress", encoder);
 		} else {
-			if (this.channel.pipeline().get("decompress") instanceof NettyCompressionDecoder) {
-				this.channel.pipeline().remove("decompress");
-			}
-
-			if (this.channel.pipeline().get("compress") instanceof NettyCompressionEncoder) {
-				this.channel.pipeline().remove("compress");
-			}
+			this.channel.pipeline().remove("decompress");
+			this.channel.pipeline().remove("compress");
 		}
 	}
 

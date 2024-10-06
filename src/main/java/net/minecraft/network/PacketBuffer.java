@@ -1,13 +1,5 @@
 package net.minecraft.network;
 
-import com.google.common.base.Charsets;
-import io.netty.buffer.ByteBuf;
-import io.netty.buffer.ByteBufAllocator;
-import io.netty.buffer.ByteBufInputStream;
-import io.netty.buffer.ByteBufOutputStream;
-import io.netty.buffer.ByteBufProcessor;
-import io.netty.handler.codec.DecoderException;
-import io.netty.handler.codec.EncoderException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -17,6 +9,17 @@ import java.nio.channels.GatheringByteChannel;
 import java.nio.channels.ScatteringByteChannel;
 import java.nio.charset.Charset;
 import java.util.UUID;
+
+import com.google.common.base.Charsets;
+import com.soarclient.krypton.VarIntUtil;
+
+import io.netty.buffer.ByteBuf;
+import io.netty.buffer.ByteBufAllocator;
+import io.netty.buffer.ByteBufInputStream;
+import io.netty.buffer.ByteBufOutputStream;
+import io.netty.buffer.ByteBufProcessor;
+import io.netty.handler.codec.DecoderException;
+import io.netty.handler.codec.EncoderException;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompressedStreamTools;
@@ -37,13 +40,7 @@ public class PacketBuffer extends ByteBuf {
 	 * were to be read/written using readVarIntFromBuffer or writeVarIntToBuffer
 	 */
 	public static int getVarIntSize(int input) {
-		for (int i = 1; i < 5; ++i) {
-			if ((input & -1 << i * 7) == 0) {
-				return i;
-			}
-		}
-
-		return 5;
+		return VarIntUtil.getVarIntLength(input);
 	}
 
 	public void writeByteArray(byte[] array) {
@@ -143,14 +140,37 @@ public class PacketBuffer extends ByteBuf {
 	 * are expected to have values below 128.
 	 */
 	public void writeVarIntToBuffer(int input) {
-		while ((input & -128) != 0) {
-			this.writeByte(input & 127 | 128);
-			input >>>= 7;
-		}
-
-		this.writeByte(input);
+        if ((input & (0xFFFFFFFF << 7)) == 0) {
+        	buf.writeByte(input);
+        } else if ((input & (0xFFFFFFFF << 14)) == 0) {
+            int w = (input & 0x7F | 0x80) << 8 | (input >>> 7);
+            buf.writeShort(w);
+        } else {
+            writeVarIntFull(buf, input);
+        }
 	}
 
+    private static void writeVarIntFull(ByteBuf buf, int value) {
+        if ((value & (0xFFFFFFFF << 7)) == 0) {
+            buf.writeByte(value);
+        } else if ((value & (0xFFFFFFFF << 14)) == 0) {
+            int w = (value & 0x7F | 0x80) << 8 | (value >>> 7);
+            buf.writeShort(w);
+        } else if ((value & (0xFFFFFFFF << 21)) == 0) {
+            int w = (value & 0x7F | 0x80) << 16 | ((value >>> 7) & 0x7F | 0x80) << 8 | (value >>> 14);
+            buf.writeMedium(w);
+        } else if ((value & (0xFFFFFFFF << 28)) == 0) {
+            int w = (value & 0x7F | 0x80) << 24 | (((value >>> 7) & 0x7F | 0x80) << 16)
+                    | ((value >>> 14) & 0x7F | 0x80) << 8 | (value >>> 21);
+            buf.writeInt(w);
+        } else {
+            int w = (value & 0x7F | 0x80) << 24 | ((value >>> 7) & 0x7F | 0x80) << 16
+                    | ((value >>> 14) & 0x7F | 0x80) << 8 | ((value >>> 21) & 0x7F | 0x80);
+            buf.writeInt(w);
+            buf.writeByte(value >>> 28);
+        }
+    }
+    
 	public void writeVarLong(long value) {
 		while ((value & -128L) != 0L) {
 			this.writeByte((int) (value & 127L) | 128);
