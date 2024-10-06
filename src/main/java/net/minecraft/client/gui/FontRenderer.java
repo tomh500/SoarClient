@@ -1,8 +1,5 @@
 package net.minecraft.client.gui;
 
-import com.ibm.icu.text.ArabicShaping;
-import com.ibm.icu.text.ArabicShapingException;
-import com.ibm.icu.text.Bidi;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.InputStream;
@@ -10,6 +7,15 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 import java.util.Random;
+
+import org.apache.commons.io.IOUtils;
+import org.lwjgl.opengl.GL11;
+
+import com.ibm.icu.text.ArabicShaping;
+import com.ibm.icu.text.ArabicShapingException;
+import com.ibm.icu.text.Bidi;
+import com.soarclient.hooks.FontRendererHook;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
@@ -21,8 +27,6 @@ import net.minecraft.client.resources.IResourceManager;
 import net.minecraft.client.resources.IResourceManagerReloadListener;
 import net.minecraft.client.settings.GameSettings;
 import net.minecraft.util.ResourceLocation;
-import org.apache.commons.io.IOUtils;
-import org.lwjgl.opengl.GL11;
 
 public class FontRenderer implements IResourceManagerReloadListener {
 	private static final ResourceLocation[] unicodePageLocations = new ResourceLocation[256];
@@ -102,6 +106,8 @@ public class FontRenderer implements IResourceManagerReloadListener {
 	 */
 	private boolean strikethroughStyle;
 
+	private FontRendererHook hook = new FontRendererHook(this);
+	
 	public FontRenderer(GameSettings gameSettingsIn, ResourceLocation location, TextureManager textureManagerIn,
 			boolean unicode) {
 		this.locationFontTexture = location;
@@ -358,6 +364,11 @@ public class FontRenderer implements IResourceManagerReloadListener {
 	 * Render a single line string at the current (posX,posY) and update posX
 	 */
 	private void renderStringAtPos(String text, boolean shadow) {
+		
+		if (hook.renderStringAtPos(text, shadow)) {
+			return;
+		}
+		
 		for (int i = 0; i < text.length(); ++i) {
 			char c0 = text.charAt(i);
 
@@ -552,40 +563,7 @@ public class FontRenderer implements IResourceManagerReloadListener {
 	 * FontMetrics.stringWidth(String s).
 	 */
 	public int getStringWidth(String text) {
-		if (text == null) {
-			return 0;
-		} else {
-			int i = 0;
-			boolean flag = false;
-
-			for (int j = 0; j < text.length(); ++j) {
-				char c0 = text.charAt(j);
-				int k = this.getCharWidth(c0);
-
-				if (k < 0 && j < text.length() - 1) {
-					++j;
-					c0 = text.charAt(j);
-
-					if (c0 != 108 && c0 != 76) {
-						if (c0 == 114 || c0 == 82) {
-							flag = false;
-						}
-					} else {
-						flag = true;
-					}
-
-					k = 0;
-				}
-
-				i += k;
-
-				if (flag && k > 0) {
-					++i;
-				}
-			}
-
-			return i;
-		}
+		return hook.getStringWidth(text);
 	}
 
 	/**
@@ -861,6 +839,10 @@ public class FontRenderer implements IResourceManagerReloadListener {
 
 		return s;
 	}
+	
+	public int getColorCode(char character) {
+		return this.colorCode["0123456789abcdef".indexOf(character)];
+	}
 
 	/**
 	 * Get bidiFlag that controls if the Unicode Bidirectional Algorithm should be
@@ -869,8 +851,100 @@ public class FontRenderer implements IResourceManagerReloadListener {
 	public boolean getBidiFlag() {
 		return this.bidiFlag;
 	}
+	
+	public ResourceLocation getLocationFontTexture() {
+		return locationFontTexture;
+	}
 
-	public int getColorCode(char character) {
-		return this.colorCode["0123456789abcdef".indexOf(character)];
+	public byte[] getGlyphWidth() {
+		return glyphWidth;
+	}
+
+	public float getPosX() {
+		return posX;
+	}
+
+	public float getPosY() {
+		return posY;
+	}
+
+	public void setPosX(float posX) {
+		this.posX = posX;
+	}
+
+	public void setPosY(float posY) {
+		this.posY = posY;
+	}
+
+	public float getRed() {
+		return red;
+	}
+
+	public float getBlue() {
+		return green;
+	}
+
+	public float getGreen() {
+		return blue;
+	}
+
+	public float getAlpha() {
+		return alpha;
+	}
+
+	public int getTextColor() {
+		return textColor;
+	}
+
+	public void setTextColor(int textColor) {
+		this.textColor = textColor;
+	}
+
+	public boolean isBoldStyle() {
+		return boldStyle;
+	}
+
+	public void setBoldStyle(boolean boldStyle) {
+		this.boldStyle = boldStyle;
+	}
+
+	public boolean isItalicStyle() {
+		return italicStyle;
+	}
+
+	public void setItalicStyle(boolean italicStyle) {
+		this.italicStyle = italicStyle;
+	}
+
+	public boolean isUnderlineStyle() {
+		return underlineStyle;
+	}
+
+	public void setUnderlineStyle(boolean underlineStyle) {
+		this.underlineStyle = underlineStyle;
+	}
+
+	public boolean isStrikethroughStyle() {
+		return strikethroughStyle;
+	}
+
+	public void setStrikethroughStyle(boolean strikethroughStyle) {
+		this.strikethroughStyle = strikethroughStyle;
+	}
+
+	public TextureManager getRenderEngine() {
+		return renderEngine;
+	}
+
+	public boolean isRandomStyle() {
+		return randomStyle;
+	}
+
+	public void setRandomStyle(boolean randomStyle) {
+		this.randomStyle = randomStyle;
+	}
+
+	public int[] getColorCode() {
+		return colorCode;
 	}
 }

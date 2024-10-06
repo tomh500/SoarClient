@@ -55,6 +55,7 @@ import com.soarclient.event.impl.ClientTickEvent;
 import com.soarclient.event.impl.GameLoopEvent;
 import com.soarclient.event.impl.KeyEvent;
 import com.soarclient.event.impl.UpdateFramebufferSizeEvent;
+import com.soarclient.libraries.patcher.reload.PatcherReloadListener;
 import com.soarclient.libraries.phosphor.api.ILightingEngineProvider;
 import com.soarclient.libraries.sodium.SodiumClientMod;
 import com.soarclient.libraries.sodium.client.gui.SodiumGameOptions.LightingQuality;
@@ -506,6 +507,7 @@ public class Minecraft implements IThreadListener {
 		this.mcResourceManager.registerReloadListener(this.standardGalacticFontRenderer);
 		this.mcResourceManager.registerReloadListener(new GrassColorReloadListener());
 		this.mcResourceManager.registerReloadListener(new FoliageColorReloadListener());
+		this.mcResourceManager.registerReloadListener(new PatcherReloadListener());
 		AchievementList.openInventory.setStatStringFormatter(new IStatStringFormat() {
 			public String formatString(String str) {
 				try {
