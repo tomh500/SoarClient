@@ -304,7 +304,6 @@ public class Minecraft implements IThreadListener {
 
 	/** Time in nanoseconds of when the class is loaded */
 	long startNanoTime = System.nanoTime();
-	private final boolean jvm64bit;
 	private final boolean isDemo;
 	private NetworkManager myNetworkManager;
 	private boolean integratedServerIsRunning;
@@ -386,7 +385,6 @@ public class Minecraft implements IThreadListener {
 		this.tempDisplayWidth = gameConfig.displayInfo.width;
 		this.tempDisplayHeight = gameConfig.displayInfo.height;
 		this.fullscreen = gameConfig.displayInfo.fullscreen;
-		this.jvm64bit = isJvm64bit();
 		this.theIntegratedServer = new IntegratedServer(this);
 
 		if (gameConfig.serverInfo.serverName != null) {
@@ -652,20 +650,6 @@ public class Minecraft implements IThreadListener {
 				IOUtils.closeQuietly(inputstream1);
 			}
 		}
-	}
-
-	private static boolean isJvm64bit() {
-		String[] astring = new String[] { "sun.arch.data.model", "com.ibm.vm.bitmode", "os.arch" };
-
-		for (String s : astring) {
-			String s1 = System.getProperty(s);
-
-			if (s1 != null && s1.contains("64")) {
-				return true;
-			}
-		}
-
-		return false;
 	}
 
 	public Framebuffer getFramebuffer() {
@@ -2563,10 +2547,6 @@ public class Minecraft implements IThreadListener {
 
 	public TextureMap getTextureMapBlocks() {
 		return this.textureMapBlocks;
-	}
-
-	public boolean isJava64bit() {
-		return this.jvm64bit;
 	}
 
 	public boolean isGamePaused() {

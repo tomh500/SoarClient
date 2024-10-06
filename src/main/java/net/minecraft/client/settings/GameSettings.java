@@ -190,14 +190,8 @@ public class GameSettings {
 		this.forceUnicodeFont = false;
 		this.mc = mcIn;
 		this.optionsFile = new File(optionsFileIn, "options.txt");
-
-		if (mcIn.isJava64bit() && Runtime.getRuntime().maxMemory() >= 1000000000L) {
-			GameSettings.Options.RENDER_DISTANCE.setValueMax(32.0F);
-		} else {
-			GameSettings.Options.RENDER_DISTANCE.setValueMax(16.0F);
-		}
-
-		this.renderDistanceChunks = mcIn.isJava64bit() ? 12 : 8;
+		GameSettings.Options.RENDER_DISTANCE.setValueMax(32.0F);
+		this.renderDistanceChunks = 12;
 		this.loadOptions();
 		Options.RENDER_DISTANCE.setValueMax(32.0F);
 	}
