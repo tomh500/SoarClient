@@ -96,7 +96,6 @@ public class GuiOverlayDebug extends Gui {
 			return Lists.newArrayList(new String[] {
 					"Minecraft 1.8.9 (" + this.mc.getVersion() + "/" + ClientBrandRetriever.getClientModName() + ")",
 					this.mc.debug, this.mc.renderGlobal.getDebugInfoRenders(),
-					this.mc.renderGlobal.getDebugInfoEntities(),
 					"P: " + this.mc.effectRenderer.getStatistics() + ". T: "
 							+ this.mc.theWorld.getDebugLoadedEntities(),
 					this.mc.theWorld.getProviderName(), "",
@@ -127,8 +126,8 @@ public class GuiOverlayDebug extends Gui {
 			List<String> list = Lists.newArrayList(new String[] {
 					"Minecraft 1.8.9 (" + this.mc.getVersion() + "/" + ClientBrandRetriever.getClientModName() + ")",
 					this.mc.debug, this.mc.renderGlobal.getDebugInfoRenders(),
-					this.mc.renderGlobal.getDebugInfoEntities(), "P: " + this.mc.effectRenderer.getStatistics()
-							+ ". T: " + this.mc.theWorld.getDebugLoadedEntities(),
+					"P: " + this.mc.effectRenderer.getStatistics() + ". T: "
+							+ this.mc.theWorld.getDebugLoadedEntities(),
 					this.mc.theWorld.getProviderName(), "",
 					String.format("XYZ: %.3f / %.5f / %.3f",
 							new Object[] { Double.valueOf(this.mc.getRenderViewEntity().posX),
@@ -190,18 +189,20 @@ public class GuiOverlayDebug extends Gui {
 		long j = Runtime.getRuntime().totalMemory();
 		long k = Runtime.getRuntime().freeMemory();
 		long l = j - k;
-		List<String> list = Lists.newArrayList(
-				new String[] { String.format("Java: %s %dbit", new Object[] { System.getProperty("java.version"), }),
-						String.format("Mem: % 2d%% %03d/%03dMB",
-								new Object[] { Long.valueOf(l * 100L / i), Long.valueOf(bytesToMb(l)),
-										Long.valueOf(bytesToMb(i)) }),
-						String.format("Allocated: % 2d%% %03dMB",
-								new Object[] { Long.valueOf(j * 100L / i), Long.valueOf(bytesToMb(j)) }),
-						"", String.format("CPU: %s", new Object[] { OpenGlHelper.getCpu() }), "",
-						String.format("Display: %dx%d (%s)",
-								new Object[] { Integer.valueOf(Display.getWidth()),
+		List<String> list = Lists
+				.newArrayList(
+						new String[] {
+								String.format("Java: %s %dbit",
+										new Object[] { System.getProperty("java.version"), Integer.valueOf(64) }),
+								String.format("Mem: % 2d%% %03d/%03dMB",
+										new Object[] { Long.valueOf(l * 100L / i), Long.valueOf(bytesToMb(l)),
+												Long.valueOf(bytesToMb(i)) }),
+								String.format("Allocated: % 2d%% %03dMB",
+										new Object[] { Long.valueOf(j * 100L / i), Long.valueOf(bytesToMb(j)) }),
+								"", String.format("CPU: %s", new Object[] { OpenGlHelper.getCpu() }), "",
+								String.format("Display: %dx%d (%s)", new Object[] { Integer.valueOf(Display.getWidth()),
 										Integer.valueOf(Display.getHeight()), GL11.glGetString(GL11.GL_VENDOR) }),
-						GL11.glGetString(GL11.GL_RENDERER), GL11.glGetString(GL11.GL_VERSION) });
+								GL11.glGetString(GL11.GL_RENDERER), GL11.glGetString(GL11.GL_VERSION) });
 
 		if (this.isReducedDebug()) {
 			return list;

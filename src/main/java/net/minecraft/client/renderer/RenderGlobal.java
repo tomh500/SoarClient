@@ -153,14 +153,6 @@ public class RenderGlobal implements IWorldAccess, IResourceManagerReloadListene
 	/** Render entities startup counter (init value=2) */
 	private int renderEntitiesStartupCounter = 2;
 
-	/** Count entities total */
-	private int countEntitiesTotal;
-
-	/** Count entities rendered */
-	private int countEntitiesRendered;
-
-	/** Count entities hidden */
-	private int countEntitiesHidden;
 	private boolean debugFixTerrainFrustum = false;
 	private ClippingHelper debugFixedClippingHelper;
 	private final Vector4f[] debugTerrainMatrix = new Vector4f[8];
@@ -515,7 +507,6 @@ public class RenderGlobal implements IWorldAccess, IResourceManagerReloadListene
 				if (entity != renderView || this.mc.gameSettings.thirdPersonView != 0 || isSleeping) {
 					entityBlockPos.set((int) entity.posX, (int) entity.posY, (int) entity.posZ);
 					if (entity.posY < 0.0 || entity.posY >= 256.0 || this.theWorld.isBlockLoaded(entityBlockPos)) {
-						this.countEntitiesTotal++;
 						this.renderManager.renderEntityStatic(entity, partialTicks, false);
 					}
 				}
@@ -534,14 +525,6 @@ public class RenderGlobal implements IWorldAccess, IResourceManagerReloadListene
 		return String.format("C: %s/%s Q: %s+%si", this.renderer.getVisibleChunkCount(),
 				this.renderer.getTotalSections(), this.renderer.getRebuildQueueSize(),
 				this.renderer.getImportantRebuildQueueSize());
-	}
-
-	/**
-	 * Gets the entities info for use on the Debug screen
-	 */
-	public String getDebugInfoEntities() {
-		return "E: " + this.countEntitiesRendered + "/" + this.countEntitiesTotal + ", B: " + this.countEntitiesHidden
-				+ ", I: " + (this.countEntitiesTotal - this.countEntitiesHidden - this.countEntitiesRendered);
 	}
 
 	public void setupTerrain(Entity viewEntity, double partialTicks, ICamera camera, int frameCount,
