@@ -20,19 +20,23 @@ public class WallpaperEngine {
 
 	private int framerate;
 	private int grabbedFrames;
-	private int lastFrameTexID;
+	private int texture;
+	private int firstTexture;
 
 	private FFmpegFrameGrabber grabber;
 	private Frame currentFrame;
 
 	public void setup(File videoFile, int framerate) {
-		this.framerate = framerate;
+		if(videoFile != null) {
+			this.framerate = framerate;
+			this.firstTexture = -1;
 
-		try {
-			avutil.av_log_set_level(avutil.AV_LOG_ERROR);
-			grabber = FFmpegFrameGrabber.createDefault(videoFile);
-			grabber.start();
-		} catch (FFmpegFrameGrabber.Exception e) {
+			try {
+				avutil.av_log_set_level(avutil.AV_LOG_ERROR);
+				grabber = FFmpegFrameGrabber.createDefault(videoFile);
+				grabber.start();
+			} catch (FFmpegFrameGrabber.Exception e) {
+			}
 		}
 	}
 
@@ -40,14 +44,17 @@ public class WallpaperEngine {
 
 		if (timer.delay(1000 / framerate, true)) {
 			try {
-				if (grabbedFrames == grabber.getLengthInFrames()) {
-					grabber.setFrameNumber(0);
+				
+				if (grabbedFrames >= grabber.getLengthInFrames()) {
+				    grabber.stop();
+				    grabber.start();
 					grabbedFrames = 0;
 				}
 
 				currentFrame = grabber.grabImage();
+				
 				if (currentFrame != null) {
-					GL11.glDeleteTextures(lastFrameTexID);
+					GL11.glDeleteTextures(texture);
 					int texID = GL11.glGenTextures();
 					GL11.glBindTexture(GL11.GL_TEXTURE_2D, texID);
 					GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MIN_FILTER, GL11.GL_LINEAR);
@@ -55,15 +62,21 @@ public class WallpaperEngine {
 					GL11.glTexImage2D(GL11.GL_TEXTURE_2D, 0, GL11.GL_RGBA, currentFrame.imageWidth,
 							currentFrame.imageHeight, 0, GL12.GL_BGR, GL11.GL_UNSIGNED_BYTE,
 							(ByteBuffer) currentFrame.image[0]);
-					lastFrameTexID = texID;
+					texture = texID;
+					
+					if(firstTexture == -1) {
+						firstTexture = texture;
+					}
+					
 					grabbedFrames += 1;
 				}
 			} catch (FFmpegFrameGrabber.Exception e) {
+				e.printStackTrace();
 			}
 		}
 
-		GlStateManager.bindTexture(lastFrameTexID);
-		return lastFrameTexID;
+		GlStateManager.bindTexture(texture);
+		return texture;
 	}
 	
     public void close() {
@@ -74,4 +87,8 @@ public class WallpaperEngine {
             }
         } catch (FrameGrabber.Exception e) {}
     }
+
+	public int getFirstTexture() {
+		return firstTexture;
+	}
 }

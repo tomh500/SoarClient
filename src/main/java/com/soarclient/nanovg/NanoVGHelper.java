@@ -205,6 +205,10 @@ public class NanoVGHelper {
 		NanoVG.nvgRotate(nvg, toRadians ? (float) Math.toRadians(angle) : angle);
 		NanoVG.nvgTranslate(nvg, -(x + (x + width)) / 2, -(y + (y + height)) / 2);
 	}
+	
+	public void save() {
+		NanoVG.nvgSave(nvg);
+	}
 
 	public void restore() {
 		NanoVG.nvgRestore(nvg);
