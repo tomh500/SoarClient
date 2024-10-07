@@ -11,7 +11,7 @@ import java.nio.charset.Charset;
 import java.util.UUID;
 
 import com.google.common.base.Charsets;
-import com.soarclient.krypton.VarIntUtil;
+import com.soarclient.libraries.krypton.VarIntUtil;
 
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.ByteBufAllocator;

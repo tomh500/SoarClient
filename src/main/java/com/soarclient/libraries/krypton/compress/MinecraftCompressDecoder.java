@@ -1,4 +1,4 @@
-package com.soarclient.krypton.compress;
+package com.soarclient.libraries.krypton.compress;
 
 import java.util.List;
 

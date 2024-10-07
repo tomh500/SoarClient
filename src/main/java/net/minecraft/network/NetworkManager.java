@@ -16,8 +16,8 @@ import org.apache.logging.log4j.MarkerManager;
 
 import com.google.common.collect.Queues;
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
-import com.soarclient.krypton.compress.MinecraftCompressDecoder;
-import com.soarclient.krypton.compress.MinecraftCompressEncoder;
+import com.soarclient.libraries.krypton.compress.MinecraftCompressDecoder;
+import com.soarclient.libraries.krypton.compress.MinecraftCompressEncoder;
 import com.velocitypowered.natives.compression.VelocityCompressor;
 import com.velocitypowered.natives.util.Natives;
 

@@ -1,4 +1,4 @@
-package com.soarclient.krypton.copy;
+package com.soarclient.libraries.krypton;
 
 public class VarIntUtil {
 	private static final int[] VARINT_EXACT_BYTE_LENGTHS = new int[33];

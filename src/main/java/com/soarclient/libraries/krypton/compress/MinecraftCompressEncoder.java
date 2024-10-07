@@ -1,4 +1,4 @@
-package com.soarclient.krypton.compress;
+package com.soarclient.libraries.krypton.compress;
 
 import com.velocitypowered.natives.compression.VelocityCompressor;
 import com.velocitypowered.natives.util.MoreByteBufUtils;
