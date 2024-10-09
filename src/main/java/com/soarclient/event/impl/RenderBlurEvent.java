@@ -69,24 +69,6 @@ public class RenderBlurEvent extends Event {
 		NanoVG.nvgFill(nvg.getContext());
 	}
 
-	public void drawRoundedRectVarying(float x, float y, float width, float height, float topLeftRadius,
-			float topRightRadius, float bottomLeftRadius, float bottomRightRadius, float alpha) {
-
-		ScaledResolution sr = new ScaledResolution(Minecraft.getMinecraft());
-		NanoVGHelper nvg = NanoVGHelper.getInstance();
-
-		int scale = sr.getScaleFactor();
-		int mcWidth = mc.displayWidth;
-		int mcHeight = mc.displayHeight;
-
-		NanoVG.nvgBeginPath(nvg.getContext());
-		NanoVG.nvgRoundedRectVarying(nvg.getContext(), x * scale, y * scale, width * scale, height * scale, topLeftRadius * scale,
-				topRightRadius * scale, bottomRightRadius * scale, bottomLeftRadius * scale);
-		NanoVG.nvgFillPaint(nvg.getContext(),
-				NanoVG.nvgImagePattern(nvg.getContext(), 0, mcHeight, mcWidth, -mcHeight, 0, texture, alpha, paint));
-		NanoVG.nvgFill(nvg.getContext());
-	}
-
 	public void drawCircle(float x, float y, float radius, float alpha) {
 
 		ScaledResolution sr = new ScaledResolution(Minecraft.getMinecraft());
