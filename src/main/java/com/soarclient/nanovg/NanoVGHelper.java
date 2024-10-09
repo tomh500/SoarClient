@@ -81,6 +81,21 @@ public class NanoVGHelper {
 		NanoVG.nvgFill(nvg);
 		nvgColor.free();
 	}
+	
+	public void drawRoundedRectVarying(float x, float y, float width, float height, float topLeftRadius,
+			float topRightRadius, float bottomLeftRadius, float bottomRightRadius, Color color) {
+
+		NanoVG.nvgBeginPath(nvg);
+		NanoVG.nvgRoundedRectVarying(nvg, x, y, width, height, topLeftRadius, topRightRadius, bottomRightRadius,
+				bottomLeftRadius);
+
+		NVGColor nvgColor = getColor(color);
+
+		NanoVG.nvgFillColor(nvg, nvgColor);
+		NanoVG.nvgFill(nvg);
+
+		nvgColor.free();
+	}
 
 	public void drawOutline(float x, float y, float width, float height, float radius, float strokeWidth, Color color) {
 
@@ -204,6 +219,12 @@ public class NanoVGHelper {
 		NanoVG.nvgTranslate(nvg, (x + (x + width)) / 2, (y + (y + height)) / 2);
 		NanoVG.nvgRotate(nvg, toRadians ? (float) Math.toRadians(angle) : angle);
 		NanoVG.nvgTranslate(nvg, -(x + (x + width)) / 2, -(y + (y + height)) / 2);
+	}
+	
+	public void translate(float x, float y) {
+		if (x != 0 || y != 0) {
+			NanoVG.nvgTranslate(nvg, x, y);
+		}
 	}
 	
 	public void save() {

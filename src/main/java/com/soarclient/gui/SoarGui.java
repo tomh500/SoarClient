@@ -10,6 +10,7 @@ public class SoarGui {
 
 	protected Minecraft mc = Minecraft.getMinecraft();
 	
+	private static GuiScreen currentScreen;
 	private static SoarGuiHandler handler;
 
 	public void init() {
@@ -42,7 +43,7 @@ public class SoarGui {
 
 		handler.setGui(gui);
 
-		return new GuiScreen() {
+		GuiScreen screen = new GuiScreen() {
 
 			@Override
 			public void initGui() {
@@ -79,5 +80,13 @@ public class SoarGui {
 				return false;
 			}
 		};
+		
+		currentScreen = screen;
+		
+		return screen;
+	}
+
+	public static GuiScreen getCurrentScreen() {
+		return currentScreen;
 	}
 }
