@@ -23,7 +23,7 @@ public class Soar {
 	public void start() {
 
 		FileLocation.init();
-		
+
 		NanoVGHelper.getInstance().start();
 
 		modManager = new ModManager();
@@ -39,7 +39,7 @@ public class Soar {
 	public void stop() {
 
 	}
-	
+
 	@EventHandler
 	public void onKey(KeyEvent event) {
 		if (event.getKeyCode() == Keyboard.KEY_RSHIFT) {

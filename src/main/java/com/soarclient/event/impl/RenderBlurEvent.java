@@ -1,10 +1,14 @@
 package com.soarclient.event.impl;
 
+import java.awt.Color;
+
+import org.lwjgl.nanovg.NVGColor;
 import org.lwjgl.nanovg.NVGPaint;
 import org.lwjgl.nanovg.NanoVG;
 
 import com.soarclient.event.Event;
 import com.soarclient.nanovg.NanoVGHelper;
+import com.soarclient.nanovg.font.Font;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.ScaledResolution;
