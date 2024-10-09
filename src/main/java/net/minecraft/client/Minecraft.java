@@ -55,8 +55,6 @@ import com.soarclient.event.impl.ClientTickEvent;
 import com.soarclient.event.impl.GameLoopEvent;
 import com.soarclient.event.impl.KeyEvent;
 import com.soarclient.event.impl.UpdateFramebufferSizeEvent;
-import com.soarclient.gui.SoarGui;
-import com.soarclient.gui.mainmenu.GuiSoarMainMenu;
 import com.soarclient.libraries.patcher.reload.PatcherReloadListener;
 import com.soarclient.libraries.phosphor.api.ILightingEngineProvider;
 import com.soarclient.libraries.sodium.SodiumClientMod;
@@ -929,10 +927,6 @@ public class Minecraft implements IThreadListener {
 		} else {
 			this.mcSoundHandler.resumeSounds();
 			this.setIngameFocus();
-		}
-		
-		if(guiScreenIn instanceof GuiMainMenu) {
-			displayGuiScreen(SoarGui.create(new GuiSoarMainMenu()));
 		}
 	}
 
