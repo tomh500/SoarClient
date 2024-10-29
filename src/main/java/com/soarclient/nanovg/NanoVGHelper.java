@@ -13,6 +13,7 @@ import com.soarclient.nanovg.asset.AssetFlag;
 import com.soarclient.nanovg.asset.AssetHelper;
 import com.soarclient.nanovg.font.Font;
 import com.soarclient.nanovg.font.FontHelper;
+import com.soarclient.nanovg.font.Fonts;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.ScaledResolution;
@@ -112,7 +113,11 @@ public class NanoVGHelper {
 		if (text == null) {
 			text = "null";
 		}
-
+		
+		if (font == Fonts.ICON || font == Fonts.ICON_FILL) {
+			y = y + size / 12;
+		}
+		
 		y += size / 2;
 
 		NanoVG.nvgBeginPath(nvg);
@@ -131,6 +136,8 @@ public class NanoVGHelper {
 		if (text == null) {
 			text = "null";
 		}
+
+		y = y + size / 12;
 
 		NanoVG.nvgBeginPath(nvg);
 		NanoVG.nvgFontSize(nvg, size);
@@ -205,7 +212,7 @@ public class NanoVGHelper {
 		NanoVG.nvgRotate(nvg, toRadians ? (float) Math.toRadians(angle) : angle);
 		NanoVG.nvgTranslate(nvg, -(x + (x + width)) / 2, -(y + (y + height)) / 2);
 	}
-	
+
 	public void save() {
 		NanoVG.nvgSave(nvg);
 	}
@@ -348,6 +355,46 @@ public class NanoVGHelper {
 		}
 	}
 
+	public void drawRoundedRectVarying(float x, float y, float width, float height, float topLeftRadius,
+			float topRightRadius, float bottomLeftRadius, float bottomRightRadius, Color color) {
+
+		NanoVG.nvgBeginPath(nvg);
+		NanoVG.nvgRoundedRectVarying(nvg, x, y, width, height, topLeftRadius, topRightRadius, bottomRightRadius,
+				bottomLeftRadius);
+
+		NVGColor nvgColor = getColor(color);
+
+		NanoVG.nvgFillColor(nvg, nvgColor);
+		NanoVG.nvgFill(nvg);
+
+		nvgColor.free();
+	}
+	
+	public String getLimitText(String inputText, float fontSize, Font font, float width) {
+		
+		String text = inputText;
+		boolean isInRange = false;
+		boolean isRemoved = false;
+		
+		while(!isInRange) {
+			
+			if(getTextWidth(text, fontSize, font) > width) {
+				text = text.substring(0, text.length() - 1);
+				isRemoved = true;
+			} else {
+				isInRange = true;
+			}
+		}
+		
+		return text + (isRemoved ? "..." : "");
+	}
+
+	public void setAlpha(float alpha) {
+		if (alpha != 1) {
+			NanoVG.nvgGlobalAlpha(nvg, alpha);
+		}
+	}
+	
 	public long getContext() {
 		return nvg;
 	}

@@ -11,48 +11,39 @@ import org.lwjgl.BufferUtils;
 import org.lwjgl.opengl.GL11;
 
 public class ImageUtils {
-
+    
     public static BufferedImage toBufferedImage(int textureID) {
-        // テクスチャの幅と高さを取得するためのバッファ
+    	
         IntBuffer widthBuffer = BufferUtils.createIntBuffer(1);
         IntBuffer heightBuffer = BufferUtils.createIntBuffer(1);
 
-        // テクスチャのバインド
         GL11.glBindTexture(GL11.GL_TEXTURE_2D, textureID);
 
-        // テクスチャの幅と高さを取得
         GL11.glGetTexLevelParameteriv(GL11.GL_TEXTURE_2D, 0, GL11.GL_TEXTURE_WIDTH, widthBuffer);
         GL11.glGetTexLevelParameteriv(GL11.GL_TEXTURE_2D, 0, GL11.GL_TEXTURE_HEIGHT, heightBuffer);
         
         int width = widthBuffer.get(0);
         int height = heightBuffer.get(0);
 
-        // バイトバッファの作成 (RGBAフォーマットなので4バイト/ピクセル)
         ByteBuffer buffer = BufferUtils.createByteBuffer(width * height * 4);
 
-        // テクスチャのピクセルデータを取得 (GL_RGBAフォーマット, GL_UNSIGNED_BYTE型)
         GL11.glGetTexImage(GL11.GL_TEXTURE_2D, 0, GL11.GL_RGBA, GL11.GL_UNSIGNED_BYTE, buffer);
 
-        // BufferedImageの作成 (ARGBフォーマット)
         BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
 
-        // OpenGLのテクスチャデータをBufferedImageに変換
         for (int y = 0; y < height; y++) {
             for (int x = 0; x < width; x++) {
-                // バッファからRGBAデータを取得
                 int i = (x + (width * y)) * 4;
                 int r = buffer.get(i) & 0xFF;
                 int g = buffer.get(i + 1) & 0xFF;
                 int b = buffer.get(i + 2) & 0xFF;
                 int a = buffer.get(i + 3) & 0xFF;
 
-                // ARGBとしてピクセルをセット
                 int argb = (a << 24) | (r << 16) | (g << 8) | b;
-                image.setRGB(x, height - (y + 1), argb);  // OpenGLは画像が上下逆なので修正
+                image.setRGB(x, height - (y + 1), argb);
             }
         }
 
-        // テクスチャのバインド解除
         GL11.glBindTexture(GL11.GL_TEXTURE_2D, 0);
 
         return image;

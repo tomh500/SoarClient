@@ -59,6 +59,7 @@ import com.soarclient.libraries.patcher.reload.PatcherReloadListener;
 import com.soarclient.libraries.phosphor.api.ILightingEngineProvider;
 import com.soarclient.libraries.sodium.SodiumClientMod;
 import com.soarclient.libraries.sodium.client.gui.SodiumGameOptions.LightingQuality;
+import com.soarclient.management.mods.impl.player.HitDelayFixMod;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
@@ -1378,6 +1379,11 @@ public class Minecraft implements IThreadListener {
 	}
 
 	private void clickMouse() {
+		
+		if (HitDelayFixMod.getInstance().isEnabled()) {
+			leftClickCounter = 0;
+		}
+		
 		if (this.leftClickCounter <= 0) {
 			this.thePlayer.swingItem();
 

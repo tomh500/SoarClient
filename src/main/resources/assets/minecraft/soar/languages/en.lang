@@ -14,3 +14,8 @@ text.accountmanager=Account Manager
 text.exit=Exit
 
 design.simple=Simple
+
+mod.hitdelayfix.name=HitDelayFix
+mod.hitdelayfix.description=Fix Hit delays
+mod.nojumpdelay.name=NoJumpDelay
+mod.nojumpdelay.description=Remove jump delays

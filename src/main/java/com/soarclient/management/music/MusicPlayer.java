@@ -36,7 +36,7 @@ public class MusicPlayer implements Runnable {
 
 	@Override
 	public void run() {
-
+		
 		if (currentMusic != null && playing) {
 
 			try {
@@ -54,7 +54,7 @@ public class MusicPlayer implements Runnable {
 				Frame frame;
 
 				while ((frame = decoder.readNextFrame()) != null) {
-
+					
 					while (!playing) {
 						Thread.sleep(10);
 					}
@@ -65,10 +65,14 @@ public class MusicPlayer implements Runnable {
 					sourceDataLine.write(pcm.getData(), 0, pcm.getLen());
 				}
 
+				if((int) getCurrentTime() >= (int) getEndTime()) {
+					runnable.run();
+				}
+				
 				sourceDataLine.drain();
 				sourceDataLine.close();
-				runnable.run();
 			} catch (Exception e) {
+				e.printStackTrace();
 			}
 		}
 	}

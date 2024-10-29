@@ -18,6 +18,7 @@ public class Mod {
 	public Mod(String name, String description, String icon, ModCategory category) {
 		this.name = name;
 		this.description = description;
+		this.icon = icon;
 		this.category = category;
 		this.movable = false;
 		this.hidden = false;

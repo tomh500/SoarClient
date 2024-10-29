@@ -3,8 +3,8 @@ package com.soarclient.management.music;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
-import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 import com.soarclient.libraries.flac.FLACDecoder;
 import com.soarclient.libraries.flac.metadata.Metadata;
@@ -18,7 +18,7 @@ import net.minecraft.client.Minecraft;
 
 public class MusicManager {
 
-	private List<Music> musics = new ArrayList<>();
+	private List<Music> musics = new CopyOnWriteArrayList<>();
 
 	private Music currentMusic;
 	private MusicPlayer musicPlayer;
@@ -26,12 +26,15 @@ public class MusicManager {
 	private boolean repeat;
 
 	public MusicManager() {
+		
 		try {
 			load();
 		} catch (Exception e) {
+			e.printStackTrace();
 		}
 
 		this.musicPlayer = new MusicPlayer(() -> {
+			
 			Music nextMusic;
 
 			if (repeat) {
@@ -42,7 +45,7 @@ public class MusicManager {
 				nextMusic = null;
 			}
 
-			currentMusic = nextMusic;
+			setCurrentMusic(nextMusic);
 
 			if (currentMusic != null) {
 				play();
@@ -85,8 +88,12 @@ public class MusicManager {
 				for (Metadata meta : metadata) {
 					if (meta instanceof VorbisComment) {
 						VorbisComment comment = (VorbisComment) meta;
-						title = comment.getCommentByName("TITLE")[0];
-						artist = comment.getCommentByName("ARTIST")[0];
+						if(comment.getCommentByName("TITLE").length > 0) {
+							title = comment.getCommentByName("TITLE")[0];
+						}
+						if(comment.getCommentByName("ARTIST").length > 0) {
+							artist = comment.getCommentByName("ARTIST")[0];
+						}
 					} else if (meta instanceof Picture) {
 						Picture picture = (Picture) meta;
 						imageData = picture.getImage();
@@ -104,11 +111,8 @@ public class MusicManager {
 					fos.close();
 				}
 
-				try {
-					musics.add(new Music(f, title == null ? f.getName().replace(".flac", "") : title,
-							artist == null ? "" : artist, album));
-				} catch (Exception e) {
-				}
+				musics.add(new Music(f, title == null ? f.getName().replace(".flac", "") : title,
+						artist == null ? "" : artist, album.exists() ? album : null));
 			}
 		}
 	}
