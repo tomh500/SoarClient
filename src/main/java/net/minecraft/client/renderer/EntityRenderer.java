@@ -17,6 +17,8 @@ import org.lwjgl.util.glu.Project;
 import com.google.common.base.Predicate;
 import com.google.common.base.Predicates;
 import com.google.gson.JsonSyntaxException;
+import com.soarclient.event.EventBus;
+import com.soarclient.event.impl.ZoomFovEvent;
 import com.soarclient.libraries.sodium.SodiumClientMod;
 import com.soarclient.libraries.sodium.client.render.pipeline.context.ChunkRenderCacheShared;
 
@@ -504,7 +506,11 @@ public class EntityRenderer implements IResourceManagerReloadListener {
 	 */
 	private float getFOVModifier(float partialTicks, boolean useFOVSetting) {
 		if (this.debugView) {
-			return 90.0F;
+			
+			ZoomFovEvent event = new ZoomFovEvent(90.0F);
+			EventBus.getInstance().post(event);
+
+			return event.getFov();
 		} else {
 			Entity entity = this.mc.getRenderViewEntity();
 			float f = 70.0F;

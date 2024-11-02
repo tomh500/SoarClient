@@ -15,6 +15,10 @@ public class HUDRenderer {
 		this.position = position;
 	}
 
+	public void setupAndDraw(Runnable runnable) {
+		NanoVGHelper.getInstance().setupAndDraw(runnable);
+	}
+	
 	public void drawBackground(float x, float y, float width, float height, float radius) {
 
 		float scale = position.getScale();
@@ -31,27 +35,16 @@ public class HUDRenderer {
 		drawBackground(0, 0, width, height, 6 /* TODO: Radius Setting */);
 	}
 
-	public void drawText(String text, float x, float y, float size, Font font, Color color) {
+	public void drawText(String text, float x, float y, Color color, float size, Font font) {
 
 		float scale = position.getScale();
 
-		getDesign().drawText(text, position.getX() + (x * scale), position.getY() + (y * scale), size * scale, font,
-				color);
+		getDesign().drawText(text, position.getX() + (x * scale), position.getY() + (y * scale), color, size * scale,
+				font);
 	}
 
 	public void drawText(String text, float x, float y, float size, Font font) {
-		drawText(text, x, y, size, font, getTextColor());
-	}
-
-	public void drawCenteredText(String text, float x, float y, float size, Font font, Color color) {
-
-		int textWidth = (int) getTextWidth(text, size, font);
-
-		drawText(text, x - (textWidth / 2), y, size, font, color);
-	}
-
-	public void drawCenteredText(String text, float x, float y, float size, Font font) {
-		drawCenteredText(text, x, y, size, font, getTextColor());
+		drawText(text, x, y, getTextColor(), size, font);
 	}
 
 	public float getTextWidth(String text, float size, Font font) {
@@ -85,7 +78,7 @@ public class HUDRenderer {
 		NanoVGHelper.getInstance().scale(position.getX() + (x * scale), position.getY() + (y * scale), width * scale,
 				height * scale, nvgScale);
 	}
-	
+
 	public void drawArc(float x, float y, float radius, float startAngle, float endAngle, float strokeWidth,
 			Color color) {
 
@@ -94,11 +87,11 @@ public class HUDRenderer {
 		NanoVGHelper.getInstance().drawArc(position.getX() + (x * scale), position.getY() + (y * scale), radius * scale,
 				startAngle, endAngle, strokeWidth * scale, color);
 	}
-	
+
 	public Color getTextColor() {
 		return getDesign().getTextColor();
 	}
-	
+
 	public Color getFocusColor() {
 		return getDesign().getFocusColor();
 	}

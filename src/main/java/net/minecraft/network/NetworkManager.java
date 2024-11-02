@@ -16,6 +16,9 @@ import org.apache.logging.log4j.MarkerManager;
 
 import com.google.common.collect.Queues;
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
+import com.soarclient.event.EventBus;
+import com.soarclient.event.impl.ReceivePacketEvent;
+import com.soarclient.event.impl.SendPacketEvent;
 import com.soarclient.libraries.krypton.compress.MinecraftCompressDecoder;
 import com.soarclient.libraries.krypton.compress.MinecraftCompressEncoder;
 import com.velocitypowered.natives.compression.VelocityCompressor;
@@ -144,6 +147,14 @@ public class NetworkManager extends SimpleChannelInboundHandler<Packet> {
 	}
 
 	protected void channelRead0(ChannelHandlerContext p_channelRead0_1_, Packet p_channelRead0_2_) throws Exception {
+		
+		ReceivePacketEvent event = new ReceivePacketEvent(p_channelRead0_2_);
+		EventBus.getInstance().post(event);
+
+		if (event.isCancelled()) {
+			return;
+		}
+		
 		if (this.channel.isOpen()) {
 			try {
 				p_channelRead0_2_.processPacket(this.packetListener);
@@ -164,6 +175,14 @@ public class NetworkManager extends SimpleChannelInboundHandler<Packet> {
 	}
 
 	public void sendPacket(Packet packetIn) {
+		
+		SendPacketEvent event = new SendPacketEvent(packetIn);
+		EventBus.getInstance().post(event);
+
+		if (event.isCancelled()) {
+			return;
+		}
+		
 		if (this.isChannelOpen()) {
 			this.flushOutboundQueue();
 			this.dispatchPacket(packetIn, (GenericFutureListener<? extends Future<? super Void>>[]) null);

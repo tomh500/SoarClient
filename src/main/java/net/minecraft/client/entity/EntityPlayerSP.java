@@ -1,5 +1,9 @@
 package net.minecraft.client.entity;
 
+import com.soarclient.event.EventBus;
+import com.soarclient.event.impl.PlayerUpdateEvent;
+import com.soarclient.event.impl.SendChatEvent;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.MovingSoundMinecartRiding;
 import net.minecraft.client.audio.PositionedSoundRecord;
@@ -160,6 +164,9 @@ public class EntityPlayerSP extends AbstractClientPlayer {
 	 * Called to update the entity's position/logic.
 	 */
 	public void onUpdate() {
+		
+		EventBus.getInstance().post(new PlayerUpdateEvent());
+
 		if (this.worldObj.isBlockLoaded(new BlockPos(this.posX, 0.0D, this.posZ))) {
 			super.onUpdate();
 
@@ -274,6 +281,11 @@ public class EntityPlayerSP extends AbstractClientPlayer {
 	 * Sends a chat message from the player. Args: chatMessage
 	 */
 	public void sendChatMessage(String message) {
+		
+		if (EventBus.getInstance().post(new SendChatEvent(message)).isCancelled()) {
+			return;
+		}
+		
 		this.sendQueue.addToSendQueue(new C01PacketChatMessage(message));
 	}
 

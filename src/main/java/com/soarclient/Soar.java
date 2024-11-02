@@ -17,11 +17,13 @@ public class Soar {
 	private ModManager modManager;
 	private ColorManager colorManager;
 	private MusicManager musicManager;
+	
+	private long launchTime;
 
 	public void start() {
 
 		FileLocation.init();
-
+		launchTime = System.currentTimeMillis();
 		NanoVGHelper.getInstance().start();
 
 		modManager = new ModManager();
@@ -41,6 +43,10 @@ public class Soar {
 	
 	public static Soar getInstance() {
 		return instance;
+	}
+
+	public long getLaunchTime() {
+		return launchTime;
 	}
 
 	public ModManager getModManager() {

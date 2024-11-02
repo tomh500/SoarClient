@@ -22,7 +22,7 @@ public class SimpleDesign extends HUDDesign {
 	}
 
 	@Override
-	public void drawText(String text, float x, float y, float size, Font font, Color color) {
+	public void drawText(String text, float x, float y, Color color, float size, Font font) {
 
 		NanoVGHelper nvg = NanoVGHelper.getInstance();
 

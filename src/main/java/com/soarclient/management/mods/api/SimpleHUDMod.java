@@ -3,7 +3,6 @@ package com.soarclient.management.mods.api;
 import com.soarclient.event.EventHandler;
 import com.soarclient.event.impl.RenderGameOverlayEvent;
 import com.soarclient.management.mods.settings.impl.BooleanSetting;
-import com.soarclient.nanovg.NanoVGHelper;
 import com.soarclient.nanovg.font.Fonts;
 import com.soarclient.nanovg.font.Icon;
 
@@ -18,25 +17,28 @@ public abstract class SimpleHUDMod extends HUDMod {
 
 	@EventHandler
 	public void onRenderGameOverlay(RenderGameOverlayEvent event) {
-
-		NanoVGHelper nvg = NanoVGHelper.getInstance();
-
+		
+		float padding = 5;
+		float iconPadding = 3;
+		float fontSize = 9;
+		float iconSize = 10.5F;
 		boolean hasIcon = getIcon() != null && iconSetting.isEnabled();
-		float iconWidth = hasIcon ? renderer.getTextWidth(getIcon(), 10.5F, Fonts.ICON) + 3 : 0;
-		float width = renderer.getTextWidth(getText(), 9, Fonts.REGULAR) + 10 + iconWidth;
-
-		nvg.setupAndDraw(() -> {
-
-			renderer.drawBackground(width, 18);
-
-			if (hasIcon) {
-				renderer.drawText(getIcon(), 5.5F, 4F, 10.5F, Fonts.ICON);
+		float addX = hasIcon ? iconSize + iconPadding : 0;
+		float width = renderer.getTextWidth(getText(), fontSize, Fonts.REGULAR) + (padding * 2) + addX;
+		float height = fontSize + (padding * 2) - 1.5F;
+		
+		renderer.setupAndDraw(() -> {
+			
+			renderer.drawBackground(width, height);
+			
+			if(hasIcon) {
+				renderer.drawText(getIcon(), padding, padding - 0.5F, iconSize, Fonts.ICON);
 			}
-
-			renderer.drawText(getText(), 5.5F + iconWidth, 5.5F, 9, Fonts.REGULAR);
+			
+			renderer.drawText(getText(), padding + addX, padding, fontSize, Fonts.REGULAR);
 		});
-
-		position.setSize(width, 18);
+		
+		position.setSize(width, height);
 	}
 
 	public abstract String getText();

@@ -26,20 +26,20 @@ public class MusicControlBar extends Component {
 
 		MusicManager musicManager = Soar.getInstance().getMusicManager();
 		
-		buttons.add(new ControlButton(Icon.REPEAT, 0, y + 10, () -> {
+		buttons.add(new ControlButton(Icon.REPEAT, 0, y + 12, () -> {
 			musicManager.setShuffle(false);
 			musicManager.setRepeat(!musicManager.isRepeat());
 		}));
-		buttons.add(new ControlButton(Icon.SKIP_PREVIOUS, 0, y + 10, () -> {
+		buttons.add(new ControlButton(Icon.SKIP_PREVIOUS, 0, y + 12, () -> {
 			musicManager.back();
 		}));
-		buttons.add(new ControlButton(musicManager.isPlaying() ? Icon.PAUSE : Icon.PLAY_ARROW, 0, y + 10, () -> {
+		buttons.add(new ControlButton(musicManager.isPlaying() ? Icon.PAUSE : Icon.PLAY_ARROW, 0, y + 12, () -> {
 			musicManager.switchPlayBack();
 		}));
-		buttons.add(new ControlButton(Icon.SKIP_NEXT, 0, y + 10, () -> {
+		buttons.add(new ControlButton(Icon.SKIP_NEXT, 0, y + 12, () -> {
 			musicManager.next();
 		}));
-		buttons.add(new ControlButton(Icon.SHUFFLE, 0, y + 10, () -> {
+		buttons.add(new ControlButton(Icon.SHUFFLE, 0, y + 12, () -> {
 			musicManager.setRepeat(false);
 			musicManager.setShuffle(!musicManager.isShuffle());
 		}));

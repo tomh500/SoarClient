@@ -149,17 +149,11 @@ public class NanoVGHelper {
 		if (text == null) {
 			text = "null";
 		}
-
-		if (font == Fonts.ICON || font == Fonts.ICON_FILL) {
-			y = y + size / 12;
-		}
-
-		y += size / 2;
-
+		
 		NanoVG.nvgBeginPath(nvg);
 		NanoVG.nvgFontSize(nvg, size);
 		NanoVG.nvgFontFace(nvg, font.getName());
-		NanoVG.nvgTextAlign(nvg, NanoVG.NVG_ALIGN_LEFT | NanoVG.NVG_ALIGN_MIDDLE);
+		NanoVG.nvgTextAlign(nvg, NanoVG.NVG_ALIGN_LEFT | NanoVG.NVG_ALIGN_TOP);
 
 		NVGColor nvgColor = getColor(color);
 
@@ -188,9 +182,23 @@ public class NanoVGHelper {
 
 	public void drawCenteredText(String text, float x, float y, Color color, float size, Font font) {
 
-		float textWidth = getTextWidth(text, size, font);
+		if (text == null) {
+			text = "null";
+		}
 
-		drawText(text, x - (textWidth / 2F), y, color, size, font);
+		if (font == Fonts.ICON || font == Fonts.ICON_FILL) {
+			y = y + size / 12;
+		}
+
+		NanoVG.nvgBeginPath(nvg);
+		NanoVG.nvgFontSize(nvg, size);
+		NanoVG.nvgFontFace(nvg, font.getName());
+		NanoVG.nvgTextAlign(nvg, NanoVG.NVG_ALIGN_CENTER | NanoVG.NVG_ALIGN_TOP);
+
+		NVGColor nvgColor = getColor(color);
+
+		NanoVG.nvgText(nvg, x, y, text);
+		nvgColor.free();
 	}
 
 	public float getTextWidth(String text, float size, Font font) {
@@ -200,19 +208,8 @@ public class NanoVGHelper {
 		NanoVG.nvgFontSize(nvg, size);
 		NanoVG.nvgFontFace(nvg, font.getName());
 		NanoVG.nvgTextBounds(nvg, 0, 0, text, bounds);
-
-		return bounds[2] - bounds[0];
-	}
-
-	public float getTextHeight(String text, float size, Font font) {
-
-		float[] bounds = new float[4];
-
-		NanoVG.nvgFontSize(nvg, size);
-		NanoVG.nvgFontFace(nvg, font.getName());
-		NanoVG.nvgTextBounds(nvg, 0, 0, text, bounds);
-
-		return bounds[3] - bounds[1];
+		
+		return bounds[2] + (bounds[0] * 2F);
 	}
 
 	public NVGColor getColor(Color color) {

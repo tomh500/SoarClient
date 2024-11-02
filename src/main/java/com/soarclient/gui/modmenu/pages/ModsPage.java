@@ -81,6 +81,7 @@ public class ModsPage extends Page {
 		}
 		
 		nvg.restore();
+		scrollHelper.setMaxScroll(500);
 	}
 
 	@Override

@@ -55,6 +55,7 @@ import com.soarclient.event.impl.ClientTickEvent;
 import com.soarclient.event.impl.GameLoopEvent;
 import com.soarclient.event.impl.KeyEvent;
 import com.soarclient.event.impl.MouseClickEvent;
+import com.soarclient.event.impl.MouseScrollEvent;
 import com.soarclient.event.impl.UpdateFramebufferSizeEvent;
 import com.soarclient.libraries.patcher.reload.PatcherReloadListener;
 import com.soarclient.libraries.phosphor.api.ILightingEngineProvider;
@@ -1667,7 +1668,8 @@ public class Minecraft implements IThreadListener {
 				long i1 = getSystemTime() - this.systemTime;
 
 				if (i1 <= 200L) {
-					int j = Mouse.getEventDWheel();
+					
+					int j = onScroll();
 
 					if (j != 0) {
 						if (this.thePlayer.isSpectator()) {
@@ -2720,6 +2722,22 @@ public class Minecraft implements IThreadListener {
 		}
 
 		return next;
+	}
+	
+	private int onScroll() {
+
+		int dWheel = Mouse.getEventDWheel();
+
+		MouseScrollEvent event = new MouseScrollEvent(dWheel);
+		EventBus.getInstance().post(event);
+
+		if (dWheel != 0) {
+			if (event.isCancelled()) {
+				dWheel = 0;
+			}
+		}
+
+		return dWheel;
 	}
 	
 	/**

@@ -1,11 +1,16 @@
 package com.soarclient.utils;
 
 import java.awt.Color;
+import java.util.regex.Pattern;
 
 import com.soarclient.utils.math.MathUtils;
 
 public class ColorUtils {
 
+	public static String removeColorCode(String text) {
+		return Pattern.compile("\\u00a7[0-9a-fklmnor]").matcher(text).replaceAll("");
+	}
+	
 	public static Color blend(Color color1, Color color2) {
 
 		int r1 = color1.getRed();
