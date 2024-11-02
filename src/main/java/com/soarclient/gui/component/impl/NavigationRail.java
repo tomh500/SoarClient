@@ -26,21 +26,24 @@ import com.soarclient.utils.tuples.Pair;
 
 public class NavigationRail extends Component {
 
+	private static int INDEX = -1;
 	private List<Pair<Page, Animation>> pages = new ArrayList<>();
 	private Pair<Page, Animation> currentPage;
 	private IconButton editButton;
+	private boolean moveEdit;
 
 	public NavigationRail(float x, float y, float width, float height) {
 		super(x, y);
 		this.width = width;
 		this.height = height;
+		this.moveEdit = false;
 		editButton = new IconButton(Icon.EDIT, x, y + 44, Size.NORMAL, Style.TERTIARY);
 		editButton.setX(x + (width / 2) - (editButton.getWidth() / 2));
 		editButton.setHandler(new ButtonHandler() {
 
 			@Override
 			public void onClicked() {
-
+				moveEdit = true;
 			}
 		});
 	}
@@ -75,7 +78,7 @@ public class NavigationRail extends Component {
 			
 			nvg.drawAlignCenteredText(icon, x + (width / 2) - (56 / 2) + (56 / 2), y + offsetY + (32 / 2), c0, 24,
 					font);
-			nvg.drawCenteredText(I18n.get(title), x + (width / 2) + 1, y + offsetY + 36, c1, 12, Fonts.MEDIUM);
+			nvg.drawCenteredText(I18n.get(title), x + (width / 2), y + offsetY + 36, c1, 12, Fonts.MEDIUM);
 
 			offsetY += 68;
 		}
@@ -93,6 +96,7 @@ public class NavigationRail extends Component {
 					&& mouseButton == 0 && !currentPage.equals(pair)) {
 				currentPage.setSecond(new EaseStandard(Duration.MEDIUM_3, 1, 0));
 				currentPage = pair;
+				INDEX = pages.indexOf(currentPage);
 				pair.setSecond(new EaseStandard(Duration.MEDIUM_3, 0, 1));
 			}
 
@@ -113,7 +117,14 @@ public class NavigationRail extends Component {
 	}
 
 	public void initPage() {
-		this.currentPage = pages.get(0);
+		if(INDEX == -1) {
+			INDEX = 0;
+		}
+		this.currentPage = pages.get(INDEX);
 		this.currentPage.setSecond(new EaseStandard(Duration.MEDIUM_3, 0, 1));
+	}
+
+	public boolean isMoveEdit() {
+		return moveEdit;
 	}
 }

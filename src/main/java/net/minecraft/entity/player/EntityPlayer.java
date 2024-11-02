@@ -1,11 +1,15 @@
 package net.minecraft.entity.player;
 
-import com.google.common.base.Charsets;
-import com.google.common.collect.Lists;
-import com.mojang.authlib.GameProfile;
 import java.util.Collection;
 import java.util.List;
 import java.util.UUID;
+
+import com.google.common.base.Charsets;
+import com.google.common.collect.Lists;
+import com.mojang.authlib.GameProfile;
+import com.soarclient.event.EventBus;
+import com.soarclient.event.impl.AttackEntityEvent;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockBed;
 import net.minecraft.block.BlockDirectional;
@@ -1137,6 +1141,11 @@ public abstract class EntityPlayer extends EntityLivingBase {
 	 * The equipped item has hitEntity called on it. Args: targetEntity
 	 */
 	public void attackTargetEntityWithCurrentItem(Entity targetEntity) {
+		
+		if (targetEntity.canAttackWithItem()) {
+			EventBus.getInstance().post(new AttackEntityEvent(targetEntity));
+		}
+		
 		if (targetEntity.canAttackWithItem()) {
 			if (!targetEntity.hitByEntity(this)) {
 				float f = (float) this.getEntityAttribute(SharedMonsterAttributes.attackDamage).getAttributeValue();

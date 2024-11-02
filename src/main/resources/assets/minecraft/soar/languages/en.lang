@@ -17,5 +17,30 @@ design.simple=Simple
 
 mod.hitdelayfix.name=HitDelayFix
 mod.hitdelayfix.description=Fix Hit delays
+
 mod.nojumpdelay.name=NoJumpDelay
 mod.nojumpdelay.description=Remove jump delays
+
+mod.globalsettings.name=Global Settings
+mod.globalsettings.description=Global Settings
+
+mod.liquidfix.name=Liquid Fix
+mod.liquidfix.description=Fix misalignment of magma and water
+
+mod.armorstatus.name=Armor Status
+mod.armorstatus.description=Display the armor you are wearing
+
+setting.keybind=Keybind
+setting.keybind.description=Assigning keys
+setting.darkmode=Dark Mode
+setting.darkmode.description=Enable dark mode
+setting.color=Color
+setting.color.description=Select a color
+setting.direction=Direction
+setting.direction.description=Set the direction
+setting.design=Design
+setting.design.description=Set the design
+setting.vertical=Vertical
+setting.horizontal=Horizontal
+setting.simple=Simple
+setting.fancy=Fancy

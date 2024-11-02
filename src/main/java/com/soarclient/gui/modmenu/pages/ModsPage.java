@@ -17,12 +17,14 @@ import com.soarclient.nanovg.font.Icon;
 import com.soarclient.utils.ColorUtils;
 import com.soarclient.utils.language.I18n;
 import com.soarclient.utils.mouse.MouseUtils;
+import com.soarclient.utils.mouse.ScrollHelper;
 import com.soarclient.utils.tuples.Pair;
 
 public class ModsPage extends Page {
 
 	private List<Pair<Mod, Animation>> items = new ArrayList<>();
-
+	private ScrollHelper scrollHelper = new ScrollHelper();
+	
 	public ModsPage(float x, float y, float width, float height) {
 		super("text.mods", Icon.INVENTORY_2, x, y, width, height);
 
@@ -41,10 +43,19 @@ public class ModsPage extends Page {
 		float offsetX = 32;
 		float offsetY = 0;
 
+		scrollHelper.onScroll();
+
+		nvg.save();
+		nvg.translate(0, scrollHelper.getValue());
+		
 		for (Pair<Mod, Animation> i : items) {
 
 			Mod m = i.getFirst();
 			Animation a = i.getSecond();
+			
+			if(m.isHidden()) {
+				continue;
+			}
 
 			if ((a.getValue() == 0 && m.isEnabled()) || (a.getValue() == 1 && !m.isEnabled())) {
 				i.setSecond(new EaseStandard(Duration.MEDIUM_2, i.getSecond().getValue(), m.isEnabled() ? 1 : 0));
@@ -58,7 +69,7 @@ public class ModsPage extends Page {
 			nvg.drawAlignCenteredText(I18n.get(m.getName()), x + offsetX + (244 / 2), y + 226 + (35 / 2) + offsetY,
 					palette.getOnSurfaceVariant(), 16, Fonts.REGULAR);
 			nvg.drawAlignCenteredText(m.getIcon(), x + offsetX + (244 / 2), y + 110 + (116 / 2) + offsetY,
-					palette.getOnSurfaceVariant(), 68, Fonts.ICON_FILL);
+					palette.getOnSurfaceVariant(), 68, Fonts.ICON);
 
 			index++;
 			offsetX += 32 + 244;
@@ -68,6 +79,8 @@ public class ModsPage extends Page {
 				offsetY += 22 + 151;
 			}
 		}
+		
+		nvg.restore();
 	}
 
 	@Override
@@ -77,10 +90,16 @@ public class ModsPage extends Page {
 		float offsetX = 32;
 		float offsetY = 0;
 
+		mouseY = (int) (mouseY - scrollHelper.getValue());
+		
 		for (Pair<Mod, Animation> i : items) {
 
 			Mod m = i.getFirst();
 
+			if(m.isHidden()) {
+				continue;
+			}
+			
 			if (mouseButton == 0) {
 				if (MouseUtils.isInside(mouseX, mouseY, x + offsetX, y + 226 + offsetY, 244, 35)) {
 					m.toggle();

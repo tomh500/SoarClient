@@ -9,7 +9,6 @@ import com.soarclient.nanovg.NanoVGHelper;
 import com.soarclient.shaders.ShaderUtils;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.shader.Framebuffer;
@@ -21,11 +20,9 @@ public class ScreenWrapper {
 	private int texture = -1;
 
 	public void wrap(Runnable task, float x, float y, float width, float height, float radius, float scale,
-			float alpha, boolean mcScale) {
+			float alpha) {
 
-		ScaledResolution sr = new ScaledResolution(mc);
 		NanoVGHelper nvg = NanoVGHelper.getInstance();
-		int factor = mcScale ? sr.getScaleFactor() : 1;
 
 		GlStateManager.pushMatrix();
 
@@ -37,7 +34,6 @@ public class ScreenWrapper {
 		framebuffer.framebufferClear();
 		framebuffer.bindFramebuffer(true);
 		GL11.glClearColor(0, 0, 0, 0);
-		GL11.glClear(GL11.GL_COLOR_BUFFER_BIT | GL11.GL_STENCIL_BUFFER_BIT);
 		task.run();
 		framebuffer.unbindFramebuffer();
 
@@ -47,7 +43,7 @@ public class ScreenWrapper {
 
 			nvg.save();
 			nvg.setAlpha(Math.min(alpha, 1.0F));
-			nvg.scale(x * factor, y * factor, width * factor, height * factor, scale);
+			nvg.scale(x, y, width, height, scale);
 
 			NVGPaint paint = NVGPaint.calloc();
 
@@ -57,8 +53,7 @@ public class ScreenWrapper {
 			}
 
 			NanoVG.nvgBeginPath(nvg.getContext());
-			NanoVG.nvgRoundedRect(nvg.getContext(), x * factor, y * factor, width * factor, height * factor,
-					radius * factor);
+			NanoVG.nvgRoundedRect(nvg.getContext(), x, y, width, height, radius);
 			NanoVG.nvgFillPaint(nvg.getContext(), NanoVG.nvgImagePattern(nvg.getContext(), 0, mc.displayHeight,
 					mc.displayWidth, -mc.displayHeight, 0, texture, 1, paint));
 			NanoVG.nvgFill(nvg.getContext());

@@ -10,6 +10,8 @@ import com.google.common.collect.Lists;
 import com.soarclient.event.EventBus;
 import com.soarclient.event.impl.RenderGameOverlayEvent;
 import com.soarclient.libraries.sodium.SodiumClientMod;
+import com.soarclient.management.mods.impl.settings.GlobalSettings;
+import com.soarclient.shaders.blur.GaussianBlur;
 
 import net.minecraft.block.material.Material;
 import net.minecraft.client.Minecraft;
@@ -26,7 +28,6 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.attributes.IAttributeInstance;
-import net.minecraft.entity.boss.BossStatus;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.inventory.IInventory;
@@ -106,6 +107,8 @@ public class GuiIngame extends Gui {
 	/** Used with updateCounter to make the heart bar flash */
 	private long healthUpdateCounter = 0L;
 
+	private GaussianBlur gaussianBlur = new GaussianBlur(true);
+	
 	public GuiIngame(Minecraft mcIn) {
 		this.mc = mcIn;
 		this.itemRenderer = mcIn.getRenderItem();
@@ -172,7 +175,6 @@ public class GuiIngame extends Gui {
 
 		GlStateManager.tryBlendFuncSeparate(770, 771, 1, 0);
 		this.mc.mcProfiler.startSection("bossHealth");
-		this.renderBossHealth();
 		this.mc.mcProfiler.endSection();
 
 		if (this.mc.playerController.shouldDrawHUD()) {
@@ -336,6 +338,10 @@ public class GuiIngame extends Gui {
 
 		EventBus event = EventBus.getInstance();
 
+		if (GlobalSettings.getInstance().getBlurSetting().isEnabled()) {
+			gaussianBlur.draw(1 + GlobalSettings.getInstance().getBlurIntensitySetting().getValue());
+		}
+		
 		event.post(new RenderGameOverlayEvent(partialTicks));
 	}
 
@@ -779,34 +785,6 @@ public class GuiIngame extends Gui {
 			}
 
 			this.mc.mcProfiler.endSection();
-		}
-	}
-
-	/**
-	 * Renders dragon's (boss) health on the HUD
-	 */
-	private void renderBossHealth() {
-		if (BossStatus.bossName != null && BossStatus.statusBarTime > 0) {
-			--BossStatus.statusBarTime;
-			FontRenderer fontrenderer = this.mc.fontRendererObj;
-			ScaledResolution scaledresolution = new ScaledResolution(this.mc);
-			int i = scaledresolution.getScaledWidth();
-			int j = 182;
-			int k = i / 2 - j / 2;
-			int l = (int) (BossStatus.healthScale * (float) (j + 1));
-			int i1 = 12;
-			this.drawTexturedModalRect(k, i1, 0, 74, j, 5);
-			this.drawTexturedModalRect(k, i1, 0, 74, j, 5);
-
-			if (l > 0) {
-				this.drawTexturedModalRect(k, i1, 0, 79, l, 5);
-			}
-
-			String s = BossStatus.bossName;
-			this.getFontRenderer().drawStringWithShadow(s,
-					(float) (i / 2 - this.getFontRenderer().getStringWidth(s) / 2), (float) (i1 - 10), 16777215);
-			GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
-			this.mc.getTextureManager().bindTexture(icons);
 		}
 	}
 

@@ -14,6 +14,7 @@ import com.soarclient.nanovg.asset.AssetHelper;
 import com.soarclient.nanovg.font.Font;
 import com.soarclient.nanovg.font.FontHelper;
 import com.soarclient.nanovg.font.Fonts;
+import com.soarclient.utils.ColorUtils;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.ScaledResolution;
@@ -60,7 +61,7 @@ public class NanoVGHelper {
 	public void setupAndDraw(Runnable task) {
 		setupAndDraw(task, true);
 	}
-
+	
 	public void drawRect(float x, float y, float width, float height, Color color) {
 
 		NanoVG.nvgBeginPath(nvg);
@@ -70,6 +71,41 @@ public class NanoVGHelper {
 
 		NanoVG.nvgFill(nvg);
 		nvgColor.free();
+	}
+
+	public void drawOutlineRoundedRect(float x, float y, float width, float height, float radius, float strokeWidth,
+			Color color) {
+
+		NanoVG.nvgBeginPath(nvg);
+		NanoVG.nvgRoundedRect(nvg, x, y, width, height, radius);
+		NanoVG.nvgStrokeWidth(nvg, strokeWidth);
+
+		NVGColor nvgColor = getColor(color);
+
+		NanoVG.nvgStrokeColor(nvg, nvgColor);
+		NanoVG.nvgStroke(nvg);
+
+		nvgColor.free();
+	}
+
+	public void drawShadow(float x, float y, float width, float height, float radius, int strength, Color color) {
+
+		int alpha = 1;
+
+		for (float f = strength; f > 0; f--) {
+			drawOutlineRoundedRect(x - (f / 2), y - (f / 2), width + f, height + f, radius + 2, f,
+					ColorUtils.applyAlpha(color, alpha));
+
+			alpha += 2;
+		}
+	}
+
+	public void drawShadow(float x, float y, float width, float height, float radius, int strength) {
+		drawShadow(x, y, width, height, radius, strength, new Color(0, 0, 0));
+	}
+
+	public void drawShadow(float x, float y, float width, float height, float radius) {
+		drawShadow(x, y, width, height, radius, 7);
 	}
 
 	public void drawRoundedRect(float x, float y, float width, float height, float radius, Color color) {
@@ -113,11 +149,11 @@ public class NanoVGHelper {
 		if (text == null) {
 			text = "null";
 		}
-		
+
 		if (font == Fonts.ICON || font == Fonts.ICON_FILL) {
 			y = y + size / 12;
 		}
-		
+
 		y += size / 2;
 
 		NanoVG.nvgBeginPath(nvg);
@@ -213,6 +249,12 @@ public class NanoVGHelper {
 		NanoVG.nvgTranslate(nvg, -(x + (x + width)) / 2, -(y + (y + height)) / 2);
 	}
 
+	public void translate(float x, float y) {
+		if (x != 0 || y != 0) {
+			NanoVG.nvgTranslate(nvg, x, y);
+		}
+	}
+	
 	public void save() {
 		NanoVG.nvgSave(nvg);
 	}
@@ -370,31 +412,59 @@ public class NanoVGHelper {
 		nvgColor.free();
 	}
 	
+	public void drawLine(float x, float y, float endX, float endY, float width, Color color) {
+
+		NanoVG.nvgBeginPath(nvg);
+		NanoVG.nvgMoveTo(nvg, x, y);
+		NanoVG.nvgLineTo(nvg, endX, endY);
+
+		NVGColor nvgColor = getColor(color);
+
+		NanoVG.nvgStrokeColor(nvg, nvgColor);
+		NanoVG.nvgStrokeWidth(nvg, width);
+		NanoVG.nvgStroke(nvg);
+
+		nvgColor.free();
+	}
+
 	public String getLimitText(String inputText, float fontSize, Font font, float width) {
-		
+
 		String text = inputText;
 		boolean isInRange = false;
 		boolean isRemoved = false;
-		
-		while(!isInRange) {
-			
-			if(getTextWidth(text, fontSize, font) > width) {
+
+		while (!isInRange) {
+
+			if (getTextWidth(text, fontSize, font) > width) {
 				text = text.substring(0, text.length() - 1);
 				isRemoved = true;
 			} else {
 				isInRange = true;
 			}
 		}
-		
+
 		return text + (isRemoved ? "..." : "");
 	}
 
+	public void drawArc(float x, float y, float radius, float startAngle, float endAngle, float strokeWidth,
+			Color color) {
+
+		NVGColor nvgColor = getColor(color);
+
+		NanoVG.nvgBeginPath(nvg);
+		NanoVG.nvgArc(nvg, x, y, radius, (float) Math.toRadians(startAngle), (float) Math.toRadians(endAngle),
+				NanoVG.NVG_CW);
+		NanoVG.nvgStrokeWidth(nvg, strokeWidth);
+		NanoVG.nvgStrokeColor(nvg, nvgColor);
+		NanoVG.nvgStroke(nvg);
+	}
+	
 	public void setAlpha(float alpha) {
 		if (alpha != 1) {
 			NanoVG.nvgGlobalAlpha(nvg, alpha);
 		}
 	}
-	
+
 	public long getContext() {
 		return nvg;
 	}

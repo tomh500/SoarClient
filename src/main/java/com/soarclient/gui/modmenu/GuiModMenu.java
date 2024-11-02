@@ -12,6 +12,7 @@ import com.soarclient.animation.cubicbezier.impl.EaseEmphasizedDecelerate;
 import com.soarclient.gui.SoarGui;
 import com.soarclient.gui.component.Component;
 import com.soarclient.gui.component.impl.NavigationRail;
+import com.soarclient.gui.edithud.GuiEditHUD;
 import com.soarclient.gui.modmenu.pages.HomePage;
 import com.soarclient.gui.modmenu.pages.ModsPage;
 import com.soarclient.gui.modmenu.pages.MusicPage;
@@ -79,10 +80,14 @@ public class GuiModMenu extends SoarGui {
 				
 				navigationRail.getCurrentPage().draw(mouseX * factor, mouseY * factor);
 			}, false);
-		}, x, y, width, height, 45, 2.0F - animation.getValue(), animation.getValue(), false);
+		}, x, y, width, height, 45, 2.0F - animation.getValue(), animation.getValue());
 
+		if(navigationRail.isMoveEdit() && animation.getEnd() == 1) {
+			animation = new EaseEmphasizedDecelerate(Duration.EXTRA_LONG_1, 1, 0);
+		}
+		
 		if (animation.isFinished() && animation.getEnd() == 0) {
-			mc.displayGuiScreen(null);
+			mc.displayGuiScreen(navigationRail.isMoveEdit() ? new GuiEditHUD(mc.currentScreen).create() : null);
 		}
 	}
 

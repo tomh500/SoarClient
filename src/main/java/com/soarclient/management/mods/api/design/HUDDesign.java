@@ -17,6 +17,7 @@ public abstract class HUDDesign {
 	public abstract void drawText(String text, float x, float y, float size, Font font, Color color);
 
 	public abstract Color getTextColor();
+	public abstract Color getFocusColor();
 
 	public String getName() {
 		return name;

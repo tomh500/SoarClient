@@ -54,12 +54,14 @@ import com.soarclient.event.EventBus;
 import com.soarclient.event.impl.ClientTickEvent;
 import com.soarclient.event.impl.GameLoopEvent;
 import com.soarclient.event.impl.KeyEvent;
+import com.soarclient.event.impl.MouseClickEvent;
 import com.soarclient.event.impl.UpdateFramebufferSizeEvent;
 import com.soarclient.libraries.patcher.reload.PatcherReloadListener;
 import com.soarclient.libraries.phosphor.api.ILightingEngineProvider;
 import com.soarclient.libraries.sodium.SodiumClientMod;
 import com.soarclient.libraries.sodium.client.gui.SodiumGameOptions.LightingQuality;
 import com.soarclient.management.mods.impl.player.HitDelayFixMod;
+import com.soarclient.management.mods.settings.impl.KeybindSetting;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
@@ -1635,15 +1637,30 @@ public class Minecraft implements IThreadListener {
 		if (this.currentScreen == null || this.currentScreen.allowUserInput) {
 			this.mcProfiler.endStartSection("mouse");
 
-			while (Mouse.next()) {
+			while (nextMouse()) {
+				
 				int i = Mouse.getEventButton();
-				KeyBinding.setKeyBindState(i - 100, Mouse.getEventButtonState());
+				int mouseCode = i - 100;
+
+				KeyBinding.setKeyBindState(mouseCode, Mouse.getEventButtonState());
+
+				for (KeybindSetting s : Soar.getInstance().getModManager().getKeybindSettings()) {
+					if (s.getKeyCode() == mouseCode) {
+						s.setKeybindState(Mouse.getEventButtonState());
+					}
+				}
 
 				if (Mouse.getEventButtonState()) {
 					if (this.thePlayer.isSpectator() && i == 2) {
 						this.ingameGUI.getSpectatorGui().func_175261_b();
 					} else {
-						KeyBinding.onTick(i - 100);
+						KeyBinding.onTick(mouseCode);
+
+						for (KeybindSetting s : Soar.getInstance().getModManager().getKeybindSettings()) {
+							if (s.getKeyCode() == mouseCode) {
+								s.onTick();
+							}
+						}
 					}
 				}
 
@@ -1688,8 +1705,20 @@ public class Minecraft implements IThreadListener {
 				int k = Keyboard.getEventKey() == 0 ? Keyboard.getEventCharacter() + 256 : Keyboard.getEventKey();
 				KeyBinding.setKeyBindState(k, Keyboard.getEventKeyState());
 
+				for (KeybindSetting s : Soar.getInstance().getModManager().getKeybindSettings()) {
+					if (s.getKeyCode() == k) {
+						s.setKeybindState(Keyboard.getEventKeyState());
+					}
+				}
+
 				if (Keyboard.getEventKeyState()) {
 					KeyBinding.onTick(k);
+
+					for (KeybindSetting s : Soar.getInstance().getModManager().getKeybindSettings()) {
+						if (s.getKeyCode() == k) {
+							s.onTick();
+						}
+					}
 				}
 
 				if (this.debugCrashKeyPressTime > 0L) {
@@ -2673,6 +2702,26 @@ public class Minecraft implements IThreadListener {
 		return map;
 	}
 
+	private boolean nextMouse() {
+
+		boolean next = Mouse.next();
+
+		if (next) {
+
+			int button = Mouse.getEventButton();
+
+			MouseClickEvent event = new MouseClickEvent(button);
+
+			EventBus.getInstance().post(event);
+
+			if (event.isCancelled()) {
+				next = nextMouse();
+			}
+		}
+
+		return next;
+	}
+	
 	/**
 	 * Return true if the player is connected to a realms server
 	 */

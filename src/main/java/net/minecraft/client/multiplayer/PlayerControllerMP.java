@@ -1,5 +1,8 @@
 package net.minecraft.client.multiplayer;
 
+import com.soarclient.hooks.LiquidHook;
+import com.soarclient.management.mods.impl.misc.LiquidFixMod;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
@@ -343,6 +346,11 @@ public class PlayerControllerMP {
 	public boolean onPlayerRightClick(EntityPlayerSP player, WorldClient worldIn, ItemStack heldStack, BlockPos hitPos,
 			EnumFacing side, Vec3 hitVec) {
 		this.syncCurrentPlayItem();
+		
+		if (LiquidFixMod.getInstance().isEnabled()) {
+			LiquidHook.placeClientLiquid(player, worldIn, heldStack, hitPos, side, hitVec);
+		}
+
 		float f = (float) (hitVec.xCoord - (double) hitPos.getX());
 		float f1 = (float) (hitVec.yCoord - (double) hitPos.getY());
 		float f2 = (float) (hitVec.zCoord - (double) hitPos.getZ());

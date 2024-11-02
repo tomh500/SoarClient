@@ -15,10 +15,13 @@ import com.soarclient.nanovg.NanoVGHelper;
 import com.soarclient.nanovg.font.Fonts;
 import com.soarclient.nanovg.font.Icon;
 import com.soarclient.utils.mouse.MouseUtils;
+import com.soarclient.utils.mouse.ScrollHelper;
 import com.soarclient.utils.tuples.Pair;
 
 public class MusicPage extends Page {
 
+	private ScrollHelper scrollHelper = new ScrollHelper();
+	
 	private List<Pair<Music, Animation>> items = new ArrayList<>();
 	private MusicControlBar controlBar;
 	
@@ -41,6 +44,11 @@ public class MusicPage extends Page {
 		int index = 0;
 		float offsetX = 32;
 		float offsetY = 110;
+		
+		scrollHelper.onScroll();
+
+		nvg.save();
+		nvg.translate(0, scrollHelper.getValue());
 		
 		for(Pair<Music, Animation> i : items) {
 			
@@ -67,6 +75,7 @@ public class MusicPage extends Page {
 			}
 		}
 		
+		nvg.restore();
 		controlBar.draw(mouseX, mouseY);
 	}
 	
@@ -78,6 +87,14 @@ public class MusicPage extends Page {
 		int index = 0;
 		float offsetX = 32;
 		float offsetY = 110;
+		
+		controlBar.mouseClicked(mouseX, mouseY, mouseButton);
+		
+		if(MouseUtils.isInside(mouseX, mouseY, controlBar.getX(), controlBar.getY(), controlBar.getWidth(), controlBar.getHeight())) {
+			return;
+		}
+		
+		mouseY = (int) (mouseY - scrollHelper.getValue());
 		
 		for(Pair<Music, Animation> i : items) {
 			
@@ -101,7 +118,5 @@ public class MusicPage extends Page {
 				offsetY += 206 + 22;
 			}
 		}
-		
-		controlBar.mouseClicked(mouseX, mouseY, mouseButton);
 	}
 }

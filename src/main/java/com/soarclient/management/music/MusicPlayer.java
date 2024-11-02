@@ -27,6 +27,8 @@ public class MusicPlayer implements Runnable {
 	private Music currentMusic;
 	private boolean playing;
 	private float volume;
+	
+	private float lastCurrentTime;
 
 	public MusicPlayer(Runnable runnable) {
 		this.runnable = runnable;
@@ -104,8 +106,13 @@ public class MusicPlayer implements Runnable {
 		if (sourceDataLine == null || audioFormat == null) {
 			return 0;
 		}
+		
+		if(!playing) {
+			return lastCurrentTime;
+		}
 
-		return (float) (sourceDataLine.getMicrosecondPosition() / 1000000.0);
+		lastCurrentTime = (float) (sourceDataLine.getMicrosecondPosition() / 1000000.0);
+		return lastCurrentTime;
 	}
 
 	public float getEndTime() {

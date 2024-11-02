@@ -17,7 +17,7 @@ public class SimpleDesign extends HUDDesign {
 
 		NanoVGHelper nvg = NanoVGHelper.getInstance();
 
-		// TODO: nvg.drawShadow(x, y, width, height, radius);
+		nvg.drawShadow(x, y, width, height, radius);
 		nvg.drawRoundedRect(x, y, width, height, radius, new Color(0, 0, 0, 100));
 	}
 
@@ -32,5 +32,10 @@ public class SimpleDesign extends HUDDesign {
 	@Override
 	public Color getTextColor() {
 		return Color.WHITE;
+	}
+	
+	@Override
+	public Color getFocusColor() {
+		return Color.BLACK;
 	}
 }

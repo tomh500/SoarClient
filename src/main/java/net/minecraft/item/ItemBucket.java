@@ -1,5 +1,8 @@
 package net.minecraft.item;
 
+import com.soarclient.hooks.LiquidHook;
+import com.soarclient.management.mods.impl.misc.LiquidFixMod;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockLiquid;
 import net.minecraft.block.material.Material;
@@ -76,6 +79,14 @@ public class ItemBucket extends Item {
 					}
 
 					if (this.tryPlaceContainedLiquid(worldIn, blockpos1) && !playerIn.capabilities.isCreativeMode) {
+						playerIn.triggerAchievement(StatList.objectUseStats[Item.getIdFromItem(this)]);
+						return new ItemStack(Items.bucket);
+					}
+					
+					if ((LiquidFixMod.getInstance().isEnabled()
+							? LiquidHook.cancelOldClientLiquid(isFull, worldIn, blockpos1)
+							: this.tryPlaceContainedLiquid(worldIn, blockpos1))
+							&& !playerIn.capabilities.isCreativeMode) {
 						playerIn.triggerAchievement(StatList.objectUseStats[Item.getIdFromItem(this)]);
 						return new ItemStack(Items.bucket);
 					}
