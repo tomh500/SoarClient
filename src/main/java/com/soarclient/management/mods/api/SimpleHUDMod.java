@@ -3,6 +3,7 @@ package com.soarclient.management.mods.api;
 import com.soarclient.event.EventHandler;
 import com.soarclient.event.impl.RenderGameOverlayEvent;
 import com.soarclient.management.mods.settings.impl.BooleanSetting;
+import com.soarclient.nanovg.NanoVGHelper;
 import com.soarclient.nanovg.font.Fonts;
 import com.soarclient.nanovg.font.Icon;
 
@@ -27,7 +28,7 @@ public abstract class SimpleHUDMod extends HUDMod {
 		float width = renderer.getTextWidth(getText(), fontSize, Fonts.REGULAR) + (padding * 2) + addX;
 		float height = fontSize + (padding * 2) - 1.5F;
 		
-		renderer.setupAndDraw(() -> {
+		NanoVGHelper.getInstance().setupAndDraw(() -> {
 			
 			renderer.drawBackground(width, height);
 			

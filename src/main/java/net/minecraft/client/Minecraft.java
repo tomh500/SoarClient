@@ -2760,4 +2760,8 @@ public class Minecraft implements IThreadListener {
 	public boolean isRunning() {
 		return running;
 	}
+	
+	public Timer getTimer() {
+		return timer;
+	}
 }

@@ -119,6 +119,27 @@ public class NanoVGHelper {
 		nvgColor.free();
 	}
 
+	public void drawGradientRoundedRect(float x, float y, float width, float height, float radius, Color color1,
+			Color color2) {
+
+		NVGPaint bg = NVGPaint.create();
+
+		NanoVG.nvgBeginPath(nvg);
+		NanoVG.nvgRoundedRect(nvg, x, y, width, height, radius);
+
+		NVGColor nvgColor1 = getColor(color1);
+		NVGColor nvgColor2 = getColor(color2);
+
+		NanoVG.nvgFillColor(nvg, nvgColor1);
+		NanoVG.nvgFillColor(nvg, nvgColor2);
+
+		NanoVG.nvgFillPaint(nvg, NanoVG.nvgLinearGradient(nvg, x, y, width, height, nvgColor1, nvgColor2, bg));
+		NanoVG.nvgFill(nvg);
+
+		nvgColor1.free();
+		nvgColor2.free();
+	}
+	
 	public void drawOutline(float x, float y, float width, float height, float radius, float strokeWidth, Color color) {
 
 		NanoVG.nvgBeginPath(nvg);
@@ -209,7 +230,7 @@ public class NanoVGHelper {
 		NanoVG.nvgFontFace(nvg, font.getName());
 		NanoVG.nvgTextBounds(nvg, 0, 0, text, bounds);
 		
-		return bounds[2] + (bounds[0] * 2F);
+		return bounds[2] - bounds[0] - 1;
 	}
 
 	public NVGColor getColor(Color color) {
@@ -397,6 +418,10 @@ public class NanoVGHelper {
 	public void drawRoundedRectVarying(float x, float y, float width, float height, float topLeftRadius,
 			float topRightRadius, float bottomLeftRadius, float bottomRightRadius, Color color) {
 
+		if(width <= 0) {
+			return;
+		}
+		
 		NanoVG.nvgBeginPath(nvg);
 		NanoVG.nvgRoundedRectVarying(nvg, x, y, width, height, topLeftRadius, topRightRadius, bottomRightRadius,
 				bottomLeftRadius);
@@ -424,16 +449,15 @@ public class NanoVGHelper {
 		nvgColor.free();
 	}
 
-	public String getLimitText(String inputText, float fontSize, Font font, float width) {
+	public String getLimitText(String text, float fontSize, Font font, float width) {
 
-		String text = inputText;
 		boolean isInRange = false;
 		boolean isRemoved = false;
 
 		while (!isInRange) {
-
+			
 			if (getTextWidth(text, fontSize, font) > width) {
-				text = text.substring(0, text.length() - 1);
+				text = text.substring(0, text.length() - 1);			
 				isRemoved = true;
 			} else {
 				isInRange = true;

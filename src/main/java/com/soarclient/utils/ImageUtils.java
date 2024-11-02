@@ -9,46 +9,80 @@ import java.nio.IntBuffer;
 
 import org.lwjgl.BufferUtils;
 import org.lwjgl.opengl.GL11;
+import org.lwjgl.opengl.GL12;
 
 public class ImageUtils {
-    
-    public static BufferedImage toBufferedImage(int textureID) {
-    	
-        IntBuffer widthBuffer = BufferUtils.createIntBuffer(1);
-        IntBuffer heightBuffer = BufferUtils.createIntBuffer(1);
 
-        GL11.glBindTexture(GL11.GL_TEXTURE_2D, textureID);
+	public static int toTexture(BufferedImage image) {
 
-        GL11.glGetTexLevelParameteriv(GL11.GL_TEXTURE_2D, 0, GL11.GL_TEXTURE_WIDTH, widthBuffer);
-        GL11.glGetTexLevelParameteriv(GL11.GL_TEXTURE_2D, 0, GL11.GL_TEXTURE_HEIGHT, heightBuffer);
-        
-        int width = widthBuffer.get(0);
-        int height = heightBuffer.get(0);
+		int width = image.getWidth();
+		int height = image.getHeight();
 
-        ByteBuffer buffer = BufferUtils.createByteBuffer(width * height * 4);
+		ByteBuffer buffer = BufferUtils.createByteBuffer(width * height * 4);
 
-        GL11.glGetTexImage(GL11.GL_TEXTURE_2D, 0, GL11.GL_RGBA, GL11.GL_UNSIGNED_BYTE, buffer);
+		for (int y = 0; y < height; y++) {
+			for (int x = 0; x < width; x++) {
+				int pixel = image.getRGB(x, y);
+				buffer.put((byte) ((pixel >> 16) & 0xFF));
+				buffer.put((byte) ((pixel >> 8) & 0xFF));
+				buffer.put((byte) (pixel & 0xFF));
+				buffer.put((byte) ((pixel >> 24) & 0xFF));
+			}
+		}
+		
+		buffer.flip();
 
-        BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
+		int textureId = GL11.glGenTextures();
+		GL11.glBindTexture(GL11.GL_TEXTURE_2D, textureId);
 
-        for (int y = 0; y < height; y++) {
-            for (int x = 0; x < width; x++) {
-                int i = (x + (width * y)) * 4;
-                int r = buffer.get(i) & 0xFF;
-                int g = buffer.get(i + 1) & 0xFF;
-                int b = buffer.get(i + 2) & 0xFF;
-                int a = buffer.get(i + 3) & 0xFF;
+		GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_WRAP_S, GL12.GL_CLAMP_TO_EDGE);
+		GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_WRAP_T, GL12.GL_CLAMP_TO_EDGE);
+		GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MIN_FILTER, GL11.GL_LINEAR);
+		GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MAG_FILTER, GL11.GL_LINEAR);
 
-                int argb = (a << 24) | (r << 16) | (g << 8) | b;
-                image.setRGB(x, height - (y + 1), argb);
-            }
-        }
+		GL11.glTexImage2D(GL11.GL_TEXTURE_2D, 0, GL11.GL_RGBA, width, height, 0, GL11.GL_RGBA, GL11.GL_UNSIGNED_BYTE,
+				buffer);
 
-        GL11.glBindTexture(GL11.GL_TEXTURE_2D, 0);
+		return textureId;
+	}
 
-        return image;
-    }
-    
+	public static BufferedImage toBufferedImage(int textureID) {
+
+		IntBuffer widthBuffer = BufferUtils.createIntBuffer(1);
+		IntBuffer heightBuffer = BufferUtils.createIntBuffer(1);
+
+		GL11.glBindTexture(GL11.GL_TEXTURE_2D, textureID);
+
+		GL11.glGetTexLevelParameteriv(GL11.GL_TEXTURE_2D, 0, GL11.GL_TEXTURE_WIDTH, widthBuffer);
+		GL11.glGetTexLevelParameteriv(GL11.GL_TEXTURE_2D, 0, GL11.GL_TEXTURE_HEIGHT, heightBuffer);
+
+		int width = widthBuffer.get(0);
+		int height = heightBuffer.get(0);
+
+		ByteBuffer buffer = BufferUtils.createByteBuffer(width * height * 4);
+
+		GL11.glGetTexImage(GL11.GL_TEXTURE_2D, 0, GL11.GL_RGBA, GL11.GL_UNSIGNED_BYTE, buffer);
+
+		BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
+
+		for (int y = 0; y < height; y++) {
+			for (int x = 0; x < width; x++) {
+				int i = (x + (width * y)) * 4;
+				int r = buffer.get(i) & 0xFF;
+				int g = buffer.get(i + 1) & 0xFF;
+				int b = buffer.get(i + 2) & 0xFF;
+				int a = buffer.get(i + 3) & 0xFF;
+
+				int argb = (a << 24) | (r << 16) | (g << 8) | b;
+				image.setRGB(x, height - (y + 1), argb);
+			}
+		}
+
+		GL11.glBindTexture(GL11.GL_TEXTURE_2D, 0);
+
+		return image;
+	}
+
 	public static BufferedImage combine(BufferedImage img1, BufferedImage img2) {
 
 		int width = Math.max(img1.getWidth(), img2.getWidth());

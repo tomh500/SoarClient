@@ -14,6 +14,7 @@ import com.soarclient.gui.component.Component;
 import com.soarclient.gui.component.api.Size;
 import com.soarclient.gui.component.api.Style;
 import com.soarclient.gui.component.handler.impl.ButtonHandler;
+import com.soarclient.gui.component.impl.buttons.IconButton;
 import com.soarclient.management.color.api.ColorPalette;
 import com.soarclient.nanovg.NanoVGHelper;
 import com.soarclient.nanovg.font.Font;

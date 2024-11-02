@@ -19,7 +19,7 @@ import net.minecraft.network.play.server.S45PacketTitle;
 public class AutoGGMod extends Mod {
 
 	private NumberSetting delaySetting = new NumberSetting("setting.delay", "setting.delay.description", Icon.TIMER,
-			this, 0, 0, 5, true);
+			this, 0, 0, 5, 1);
 	private StringSetting messageSetting = new StringSetting("setting.message", "setting.message.description",
 			Icon.TEXT_FIELDS, this, "gg");
 	private BooleanSetting hypixelSetting = new BooleanSetting("setting.hypixel", "setting.hypixel.description",

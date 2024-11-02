@@ -41,8 +41,8 @@ public class ModsPage extends Page {
 
 		int index = 0;
 		float offsetX = 32;
-		float offsetY = 0;
-
+		float offsetY = 110;
+		
 		scrollHelper.onScroll();
 
 		nvg.save();
@@ -61,14 +61,14 @@ public class ModsPage extends Page {
 				i.setSecond(new EaseStandard(Duration.MEDIUM_2, i.getSecond().getValue(), m.isEnabled() ? 1 : 0));
 			}
 
-			nvg.drawRoundedRectVarying(x + offsetX, y + 110 + offsetY, 244, 116, 26, 26, 0, 0, palette.getSurface());
-			nvg.drawRoundedRectVarying(x + offsetX, y + 226 + offsetY, 244, 35, 0, 0, 26, 26,
+			nvg.drawRoundedRectVarying(x + offsetX, y + offsetY, 244, 116, 26, 26, 0, 0, palette.getSurface());
+			nvg.drawRoundedRectVarying(x + offsetX, y + 116 + offsetY, 244, 35, 0, 0, 26, 26,
 					palette.getSurfaceContainerHigh());
-			nvg.drawRoundedRectVarying(x + offsetX, y + 226 + offsetY, 244, 35, 0, 0, 26, 26,
+			nvg.drawRoundedRectVarying(x + offsetX, y + 116 + offsetY, 244, 35, 0, 0, 26, 26,
 					ColorUtils.applyAlpha(palette.getPrimaryContainer(), a.getValue()));
-			nvg.drawAlignCenteredText(I18n.get(m.getName()), x + offsetX + (244 / 2), y + 226 + (35 / 2) + offsetY,
+			nvg.drawAlignCenteredText(I18n.get(m.getName()), x + offsetX + (244 / 2), y + 116 + (35 / 2) + offsetY,
 					palette.getOnSurfaceVariant(), 16, Fonts.REGULAR);
-			nvg.drawAlignCenteredText(m.getIcon(), x + offsetX + (244 / 2), y + 110 + (116 / 2) + offsetY,
+			nvg.drawAlignCenteredText(m.getIcon(), x + offsetX + (244 / 2), y + (116 / 2) + offsetY,
 					palette.getOnSurfaceVariant(), 68, Fonts.ICON);
 
 			index++;
@@ -81,7 +81,7 @@ public class ModsPage extends Page {
 		}
 		
 		nvg.restore();
-		scrollHelper.setMaxScroll(500);
+		scrollHelper.setMaxScroll(110 + 26, items.size(), height, 151, 22, 3);
 	}
 
 	@Override

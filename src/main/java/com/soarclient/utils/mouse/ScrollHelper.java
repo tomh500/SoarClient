@@ -30,7 +30,12 @@ public class ScrollHelper {
 		return animation.getValue();
 	}
 
-	public void setMaxScroll(float maxScroll) {
+	public void setMaxScroll(float offsetY, int size, float viewHeight, float rowHeight, float rowSpacing,
+			int rowCount) {
+		int totalRows = (int) Math.ceil((double) size / rowCount);
+		float totalContentHeight = offsetY + (totalRows * rowHeight) + ((totalRows - 1) * rowSpacing);
+		float maxScroll = Math.max(0, totalContentHeight - viewHeight);
+
 		this.maxScroll = MathUtils.clamp(maxScroll, 0, maxScroll);
 	}
 }

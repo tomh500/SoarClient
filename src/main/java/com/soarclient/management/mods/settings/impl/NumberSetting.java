@@ -8,17 +8,17 @@ import com.soarclient.utils.math.MathUtils;
 public class NumberSetting extends Setting {
 
 	private float defaultValue, value, minValue, maxValue;
-	private boolean integer;
+	private float step;
 
 	public NumberSetting(String name, String description, String icon, Mod parent, float defaultValue, float minValue,
-			float maxValue, boolean integer) {
+			float maxValue, float step) {
 		super(name, description, icon, parent);
 
 		this.value = defaultValue;
 		this.defaultValue = defaultValue;
 		this.minValue = minValue;
 		this.maxValue = maxValue;
-		this.integer = integer;
+		this.step = step;
 
 		Soar.getInstance().getModManager().addSetting(this);
 	}
@@ -45,12 +45,12 @@ public class NumberSetting extends Setting {
 		this.value = value;
 	}
 
-	public boolean isInteger() {
-		return integer;
+	public float getStep() {
+		return step;
 	}
 
-	public void setInteger(boolean integer) {
-		this.integer = integer;
+	public void setStep(float step) {
+		this.step = step;
 	}
 
 	public float getDefaultValue() {

@@ -99,6 +99,9 @@ mod.autogg.description=Automatically send with gg when the game is finished
 mod.autonextgame.name=Auto Next Game
 mod.autonextgame.description=Automatically join the next game
 
+mod.musicinfo.name=Music Info
+mod.musicinfo.description=Display the currently playing music
+
 setting.keybind=Keybind
 setting.keybind.description=Assigning keys
 setting.darkmode=Dark Mode
@@ -149,3 +152,8 @@ setting.bow=Bow
 setting.quickswitch.bow.description=Set the key to switch to bow
 mod.quickswitch.name=Quick Switch
 mod.quickswitch.description=Switch items with a single button
+setting.type=Type
+setting.type.description=Set the Type
+setting.cover=Cover
+setting.simple=Simple
+setting.normal=Normal

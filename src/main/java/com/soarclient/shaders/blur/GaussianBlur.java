@@ -86,11 +86,9 @@ public class GaussianBlur {
 
 		if (updateTimer.delay(16)) {
 
-			if (!nvgMode) {
-				GlStateManager.enableBlend();
-				GlStateManager.color(1, 1, 1, 1);
-				OpenGlHelper.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA, GL11.GL_ONE, GL11.GL_ZERO);
-			}
+			GlStateManager.enableBlend();
+			GlStateManager.color(1, 1, 1, 1);
+			OpenGlHelper.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA, GL11.GL_ONE, GL11.GL_ZERO);
 
 			framebuffer.framebufferClear();
 			framebuffer.bindFramebuffer(true);
@@ -116,10 +114,8 @@ public class GaussianBlur {
 
 			updateTimer.reset();
 
-			if (!nvgMode) {
-				GlStateManager.color(1, 1, 1, 1);
-				GlStateManager.bindTexture(0);
-			}
+			GlStateManager.color(1, 1, 1, 1);
+			GlStateManager.bindTexture(0);
 		}
 
 		mc.getFramebuffer().bindFramebuffer(true);

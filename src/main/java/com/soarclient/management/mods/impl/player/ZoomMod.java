@@ -29,9 +29,9 @@ public class ZoomMod extends Mod {
 	private BooleanSetting smoothZoomSetting = new BooleanSetting("setting.smoothzoom",
 			"setting.smoothzoom.description", Icon.MOTION_BLUR, this, false);
 	private NumberSetting zoomSpeedSetting = new NumberSetting("setting.zoomspeed", "setting.zoomspeed.description",
-			Icon.SPEED, this, 0.4F, 0, 1, false);
+			Icon.SPEED, this, 0.4F, 0, 1, 0.1F);
 	private NumberSetting factorSetting = new NumberSetting("setting.zoomfactor", "setting.zoomfactor.description",
-			Icon.ZOOM_OUT, this, 4, 2, 15, true);
+			Icon.ZOOM_OUT, this, 4, 2, 15, 1);
 	private BooleanSetting smoothCameraSetting = new BooleanSetting("setting.smoothcamera",
 			"setting.smoothcamera.description", Icon.MOTION_BLUR, this, true);
 	private KeybindSetting keybindSetting = new KeybindSetting("setting.keybind", "setting.keybind.description",

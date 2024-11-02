@@ -29,7 +29,7 @@ import net.minecraft.scoreboard.Scoreboard;
 public class AutoNextGameMod extends Mod {
 
 	private NumberSetting delaySetting = new NumberSetting("setting.delay", "setting.delay.description", Icon.TIMER,
-			this, 0, 0, 5, true);
+			this, 0, 0, 5, 1);
 	private BooleanSetting hypixelSetting = new BooleanSetting("setting.hypixel", "setting.hypixel.description",
 			Icon.DNS, this, true);
 	private BooleanSetting minemenSetting = new BooleanSetting("setting.minemen", "setting.minemen.description",

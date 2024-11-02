@@ -7,28 +7,29 @@ import com.soarclient.utils.math.MathUtils;
 
 public class ColorUtils {
 
-	public static String removeColorCode(String text) {
-		return Pattern.compile("\\u00a7[0-9a-fklmnor]").matcher(text).replaceAll("");
+	public static Color getColorFromInt(int color) {
+
+		float r = (float) (color >> 16 & 255) / 255.0F;
+		float g = (float) (color >> 8 & 255) / 255.0F;
+		float b = (float) (color & 255) / 255.0F;
+		float a = (float) (color >> 24 & 255) / 255.0F;
+
+		return new Color(r, g, b, a);
 	}
 	
-	public static Color blend(Color color1, Color color2) {
-
-		int r1 = color1.getRed();
-		int g1 = color1.getGreen();
-		int b1 = color1.getBlue();
-		float a1 = color1.getAlpha() / 255.0F;
-
-		int r2 = color2.getRed();
-		int g2 = color2.getGreen();
-		int b2 = color2.getBlue();
-		float a2 = color2.getAlpha() / 255.0F;
-
-		float alpha = a1 + a2 * (1 - a1);
-		int red = (int) ((r1 * a1 + r2 * a2 * (1 - a1)) / alpha);
-		int green = (int) ((g1 * a1 + g2 * a2 * (1 - a1)) / alpha);
-		int blue = (int) ((b1 * a1 + b2 * a2 * (1 - a1)) / alpha);
-
-		return applyAlpha(new Color(red, green, blue), alpha);
+    public static Color blend(Color color1, Color color2, double ratio) {
+        float r = (float)ratio;
+        float ir = 1.0f - r;
+        float[] rgb1 = new float[3];
+        float[] rgb2 = new float[3];
+        color1.getColorComponents(rgb1);
+        color2.getColorComponents(rgb2);
+        Color color = new Color(rgb1[0] * r + rgb2[0] * ir, rgb1[1] * r + rgb2[1] * ir, rgb1[2] * r + rgb2[2] * ir);
+        return color;
+    }
+    
+	public static String removeColorCode(String text) {
+		return Pattern.compile("\\u00a7[0-9a-fklmnor]").matcher(text).replaceAll("");
 	}
 
 	public static Color applyAlpha(Color color, int alpha) {

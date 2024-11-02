@@ -80,7 +80,7 @@ public class GuiModMenu extends SoarGui {
 				
 				navigationRail.getCurrentPage().draw(mouseX * factor, mouseY * factor);
 			}, false);
-		}, x, y, width, height, 45, 2.0F - animation.getValue(), animation.getValue());
+		}, x, y, width, height, 45, 2.0F - animation.getValue(), animation.getValue(), false);
 
 		if(navigationRail.isMoveEdit() && animation.getEnd() == 1) {
 			animation = new EaseEmphasizedDecelerate(Duration.EXTRA_LONG_1, 1, 0);
@@ -103,10 +103,23 @@ public class GuiModMenu extends SoarGui {
 		
 		navigationRail.getCurrentPage().mouseClicked(mouseX * factor, mouseY * factor, mouseButton);
 	}
+	
+	@Override
+	public void mouseReleased(int mouseX, int mouseY, int mouseButton) {
+		
+		ScaledResolution sr = new ScaledResolution(mc);
+		int factor = sr.getScaleFactor();
+
+		for (Component c : components) {
+			c.mouseReleased(mouseX * factor, mouseY * factor, mouseButton);
+		}
+		
+		navigationRail.getCurrentPage().mouseReleased(mouseX * factor, mouseY * factor, mouseButton);
+	}
 
 	@Override
 	public void keyTyped(char typedCHar, int keyCode) {
-		if (keyCode == Keyboard.KEY_ESCAPE) {
+		if (keyCode == Keyboard.KEY_ESCAPE && animation.getEnd() == 1) {
 			animation = new EaseEmphasizedDecelerate(Duration.EXTRA_LONG_1, 1, 0);
 		}
 	}

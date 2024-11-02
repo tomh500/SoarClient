@@ -77,6 +77,7 @@ public class MusicPage extends Page {
 		
 		nvg.restore();
 		controlBar.draw(mouseX, mouseY);
+		scrollHelper.setMaxScroll(110 + 26 + 60 + 8, items.size(), height, 206, 23, 4);
 	}
 	
 	@Override

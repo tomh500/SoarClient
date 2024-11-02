@@ -14,10 +14,6 @@ public class HUDRenderer {
 	public HUDRenderer(Position position) {
 		this.position = position;
 	}
-
-	public void setupAndDraw(Runnable runnable) {
-		NanoVGHelper.getInstance().setupAndDraw(runnable);
-	}
 	
 	public void drawBackground(float x, float y, float width, float height, float radius) {
 

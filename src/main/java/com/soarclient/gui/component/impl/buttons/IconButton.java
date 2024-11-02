@@ -1,4 +1,4 @@
-package com.soarclient.gui.component.impl;
+package com.soarclient.gui.component.impl.buttons;
 
 import java.awt.Color;
 

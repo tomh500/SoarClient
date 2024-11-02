@@ -30,7 +30,7 @@ public class GlobalSettings extends Mod {
 	private BooleanSetting blurSetting = new BooleanSetting("setting.blur", "setting.blur.description", Icon.LENS_BLUR,
 			this, true);
 	private NumberSetting blurIntensitySetting = new NumberSetting("setting.intensity", "setting.intensity.blur",
-			Icon.LENS_BLUR, this, 19, 1, 40, true);
+			Icon.LENS_BLUR, this, 19, 1, 40, 1);
 	
 	public GlobalSettings() {
 		super("mod.globalsettings.name", "mod.globalsettings.description", Icon.SETTINGS, ModCategory.MISC);
