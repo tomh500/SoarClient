@@ -8,6 +8,7 @@ import javax.sound.sampled.DataLine;
 import javax.sound.sampled.FloatControl;
 import javax.sound.sampled.SourceDataLine;
 
+import com.soarclient.animation.SimpleAnimation;
 import com.soarclient.libraries.flac.FLACDecoder;
 import com.soarclient.libraries.flac.frame.Frame;
 import com.soarclient.libraries.flac.metadata.StreamInfo;
@@ -15,6 +16,21 @@ import com.soarclient.libraries.flac.util.ByteData;
 
 public class MusicPlayer implements Runnable {
 
+    public static final int SPECTRUM_BANDS = 100;
+    public static float[] VISUALIZER = new float[SPECTRUM_BANDS];
+    public static SimpleAnimation[] ANIMATIONS = new SimpleAnimation[SPECTRUM_BANDS];
+    
+	static {
+	    for (int i = 0; i < SPECTRUM_BANDS; i++) {
+	    	VISUALIZER[i] = 0.0F;
+	        ANIMATIONS[i] = new SimpleAnimation();
+	    }
+	}
+	
+    private static final int FFT_SIZE = 1024;
+    private float[] fftBuffer = new float[FFT_SIZE];
+    private float[] magnitudes = new float[SPECTRUM_BANDS];
+    
 	private Runnable runnable;
 
 	private FLACDecoder decoder;
@@ -36,48 +52,71 @@ public class MusicPlayer implements Runnable {
 		this.volume = 0.5F;
 	}
 
-	@Override
-	public void run() {
-		
-		if (currentMusic != null && playing) {
+    @Override
+    public void run() {
+        if (currentMusic != null && playing) {
+            try {
+                decoder = new FLACDecoder(new FileInputStream(currentMusic.getAudio()));
+                streamInfo = decoder.readStreamInfo();
+                audioFormat = new AudioFormat(streamInfo.getSampleRate(), streamInfo.getBitsPerSample(),
+                        streamInfo.getChannels(), (streamInfo.getBitsPerSample() <= 8) ? false : true, false);
+                info = new DataLine.Info(SourceDataLine.class, audioFormat);
 
-			try {
-				decoder = new FLACDecoder(new FileInputStream(currentMusic.getAudio()));
-				streamInfo = decoder.readStreamInfo();
-				audioFormat = new AudioFormat(streamInfo.getSampleRate(), streamInfo.getBitsPerSample(),
-						streamInfo.getChannels(), (streamInfo.getBitsPerSample() <= 8) ? false : true, false);
-				info = new DataLine.Info(SourceDataLine.class, audioFormat);
+                sourceDataLine = (SourceDataLine) AudioSystem.getLine(info);
+                sourceDataLine.open(audioFormat);
+                setVolume(volume);
+                sourceDataLine.start();
 
-				sourceDataLine = (SourceDataLine) AudioSystem.getLine(info);
-				sourceDataLine.open(audioFormat);
-				setVolume(volume);
-				sourceDataLine.start();
+                Frame frame;
+                ByteData byteData = new ByteData(FFT_SIZE * 4);
 
-				Frame frame;
+                while ((frame = decoder.readNextFrame()) != null) {
+                	
+                    while (!playing) {
+                        Thread.sleep(10);
+                    }
 
-				while ((frame = decoder.readNextFrame()) != null) {
-					
-					while (!playing) {
-						Thread.sleep(10);
-					}
+                    ByteData pcm = decoder.decodeFrame(frame, byteData);
+                    updateSpectrum(pcm.getData());
+                    sourceDataLine.write(pcm.getData(), 0, pcm.getLen());
+                }
 
-					ByteData byteData = new ByteData(1024);
-					ByteData pcm = decoder.decodeFrame(frame, byteData);
-
-					sourceDataLine.write(pcm.getData(), 0, pcm.getLen());
-				}
-
-				if((int) getCurrentTime() >= (int) getEndTime()) {
-					runnable.run();
-				}
-				
-				sourceDataLine.drain();
-				sourceDataLine.close();
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-		}
-	}
+                if ((int) getCurrentTime() >= (int) getEndTime()) {
+                    runnable.run();
+                }
+                
+                sourceDataLine.drain();
+                sourceDataLine.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
+	
+    private void updateSpectrum(byte[] audioData) {
+    	
+        for (int i = 0; i < Math.min(audioData.length / 2, FFT_SIZE); i++) {
+            int index = i * 2;
+            if (index + 1 < audioData.length) {
+                short sample = (short) ((audioData[index + 1] << 8) | (audioData[index] & 0xFF));
+                fftBuffer[i] = sample / 32768.0f;
+            }
+        }
+        
+        for (int i = 0; i < SPECTRUM_BANDS; i++) {
+            float sum = 0;
+            int startIdx = (i * FFT_SIZE) / SPECTRUM_BANDS;
+            int endIdx = ((i + 1) * FFT_SIZE) / SPECTRUM_BANDS;
+            
+            for (int j = startIdx; j < endIdx; j++) {
+                sum += Math.abs(fftBuffer[j]);
+            }
+            
+            float average = sum / (endIdx - startIdx);
+            magnitudes[i] = average * 60;
+        	VISUALIZER[i] = magnitudes[i] * (-2F);
+        }
+    }
 
 	public void setCurrentMusic(Music currentMusic) {
 

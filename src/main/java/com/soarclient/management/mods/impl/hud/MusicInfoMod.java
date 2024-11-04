@@ -17,6 +17,7 @@ import com.soarclient.management.mods.api.SimpleHUDMod;
 import com.soarclient.management.mods.settings.impl.ComboSetting;
 import com.soarclient.management.music.Music;
 import com.soarclient.management.music.MusicManager;
+import com.soarclient.management.music.MusicPlayer;
 import com.soarclient.nanovg.NanoVGHelper;
 import com.soarclient.nanovg.font.Fonts;
 import com.soarclient.nanovg.font.Icon;
@@ -25,6 +26,8 @@ import com.soarclient.utils.AdaptiveGaussianBlur;
 import com.soarclient.utils.ColorUtils;
 import com.soarclient.utils.ImageUtils;
 import com.soarclient.utils.TimerUtils;
+
+import net.minecraft.client.gui.ScaledResolution;
 
 public class MusicInfoMod extends SimpleHUDMod {
 
@@ -36,15 +39,18 @@ public class MusicInfoMod extends SimpleHUDMod {
 	private final ExecutorService imageProcessingExecutor = Executors.newSingleThreadExecutor();
 	private volatile boolean isProcessingImage = false;
 	private volatile BufferedImage processedImage = null;
+	private volatile Color imageColor;
 
 	private final ComboSetting typeSetting = new ComboSetting("setting.type", "setting.type.description",
-			Icon.FORMAT_LIST_BULLETED, this, Arrays.asList("setting.simple", "setting.normal", "setting.cover"),
-			"setting.simple");
+			Icon.FORMAT_LIST_BULLETED, this,
+			Arrays.asList("setting.simple", "setting.normal", "setting.waveform", "setting.cover"), "setting.simple");
 
 	public MusicInfoMod() {
 		super("mod.musicinfo.name", "mod.musicinfo.description", Icon.MUSIC_NOTE);
 		dx = 1;
 		dy = 1;
+		texture = -1;
+		imageColor = Color.BLACK;
 	}
 
 	@EventHandler
@@ -71,10 +77,18 @@ public class MusicInfoMod extends SimpleHUDMod {
 			position.setSize(width, height);
 			break;
 		case "setting.cover":
+			if (texture == -1) {
+				nvg.setupAndDraw(() -> {
+					renderer.drawBackground(width, height, radius);
+				});
+			}
 			drawCover(position.getX(), position.getY(), position.getWidth(), position.getHeight(),
 					radius * position.getScale());
 			nvg.setupAndDraw(() -> drawInfo(width, height, position.getScale()));
 			position.setSize(width, height);
+			break;
+		case "setting.waveform":
+			nvg.setupAndDraw(() -> drawWaveform(nvg));
 			break;
 		}
 	}
@@ -102,38 +116,66 @@ public class MusicInfoMod extends SimpleHUDMod {
 		}
 	}
 
+	private void drawWaveform(NanoVGHelper nvg) {
+
+		ScaledResolution sr = new ScaledResolution(mc);
+		MusicManager musicManager = Soar.getInstance().getMusicManager();
+		Music m = musicManager.getCurrentMusic();
+		
+		if (m != lastMusic && !isProcessingImage) {
+			processNewImage(m);
+		}
+		
+		int offsetX = 0;
+		
+		if (musicManager.isPlaying()) {
+
+			for (int i = 0; i < MusicPlayer.SPECTRUM_BANDS; i++) {
+
+				MusicPlayer.ANIMATIONS[i].onTick(MusicPlayer.VISUALIZER[i], 10);
+				nvg.drawRect(offsetX, sr.getScaledHeight() + MusicPlayer.ANIMATIONS[i].getValue(), 10,
+						sr.getScaledHeight(), ColorUtils.applyAlpha(imageColor, 80));
+
+				offsetX += 10;
+			}
+		}
+		
+		if (processedImage != null) {
+			imageColor = ImageUtils.calculateAverageColor(processedImage);
+			processedImage = null;
+			isProcessingImage = false;
+		}
+	}
+
 	private void drawInfo(float width, float height, float scale) {
 
 		String type = typeSetting.getOption();
-		
+
 		NanoVGHelper nvg = NanoVGHelper.getInstance();
 		MusicManager musicManager = Soar.getInstance().getMusicManager();
 		Music m = musicManager.getCurrentMusic();
 		float padding = 4.5F;
 		float albumSize = height - (padding * 2);
-		
+
 		Color textColor = type.equals("setting.cover") ? Color.WHITE : renderer.getTextColor();
-		
+
 		if (m != null && m.getAlbum() != null) {
 			nvg.drawRoundedImage(m.getAlbum(), position.getX() + padding * scale, position.getY() + padding * scale,
 					albumSize * scale, albumSize * scale, 6 * scale);
 		} else {
-			nvg.drawRoundedRect(position.getX() + padding * scale, position.getY() + padding * scale,
-					albumSize * scale, albumSize * scale, 6 * scale, ColorUtils.applyAlpha(textColor, 0.2F));
+			nvg.drawRoundedRect(position.getX() + padding * scale, position.getY() + padding * scale, albumSize * scale,
+					albumSize * scale, 6 * scale, ColorUtils.applyAlpha(textColor, 0.2F));
 		}
-		
-		if(m != null) {
-			
-			float current = musicManager.getCurrentTime();
-			float end = musicManager.getEndTime();
-			float cx = (width - (padding * 2) + albumSize) / 2;
 
-			nvg.drawCenteredText(m.getTitle(), position.getX() + (cx * scale),
-					position.getY() + ((padding + 3.5F) * scale), textColor, 10 * scale, Fonts.REGULAR);
-			renderer.drawRoundedRect((padding * 2) + albumSize, 20, width - ((padding * 2) + albumSize) - padding, 2.5F,
-					1, ColorUtils.applyAlpha(textColor, 0.4F));
-			renderer.drawRoundedRect((padding * 2) + albumSize, 20,
-					(current / end) * (width - ((padding * 2) + albumSize) - padding), 2.5F, 1, textColor);
+		if (m != null) {
+
+			float offsetX = (padding * 2) + albumSize;
+			String limitedTitle = nvg.getLimitText(m.getTitle(), 9, Fonts.REGULAR, width - offsetX - 12);
+			String limitedArtist = nvg.getLimitText(m.getArtist(), 6.5F, Fonts.REGULAR, width - offsetX - 10);
+
+			renderer.drawText(limitedTitle, offsetX, padding + 3F, textColor, 9, Fonts.REGULAR);
+			renderer.drawText(limitedArtist, offsetX, padding + 13F, ColorUtils.applyAlpha(textColor, 0.8F), 6.5F,
+					Fonts.REGULAR);
 		}
 	}
 
@@ -156,7 +198,7 @@ public class MusicInfoMod extends SimpleHUDMod {
 			nvg.setupAndDraw(() -> {
 				nvg.save();
 				nvg.scale(x, y, scale);
-				if(texture != -1) {
+				if (texture != -1) {
 					nvg.drawImage(texture, x - mx, y - my, coverSize, coverSize, 1F);
 				}
 				nvg.restore();
@@ -179,6 +221,7 @@ public class MusicInfoMod extends SimpleHUDMod {
 
 		if (isProcessingImage || music == null || music.getAlbum() == null) {
 			texture = -1;
+			imageColor = Color.BLACK;
 			return;
 		}
 
