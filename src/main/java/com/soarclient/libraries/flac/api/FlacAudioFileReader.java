@@ -338,7 +338,6 @@ public class FlacAudioFileReader extends AudioFileReader {
 		ByteArrayOutputStream byteOutStream = new ByteArrayOutputStream();
 		BitOutputStream bitOutStream = new BitOutputStream(byteOutStream);
 		bitOutStream.writeByteBlock(Constants.STREAM_SYNC_STRING, Constants.STREAM_SYNC_STRING.length);
-		/** TODO what if StreamInfo not last? */
 		streamInfo.write(bitOutStream, false);
 
 		// flush bit input stream

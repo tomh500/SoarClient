@@ -32,7 +32,7 @@ public interface IChatComponent extends Iterable<IChatComponent> {
 
 	/**
 	 * Gets the text of this component, without any special formatting codes added,
-	 * for chat. TODO: why is this two different methods?
+	 * for chat.
 	 */
 	String getUnformattedTextForChat();
 

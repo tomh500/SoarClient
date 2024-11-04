@@ -136,9 +136,6 @@ public class BitOutputStream {
 	public BitOutputStream() {
 	}
 
-	/**
-	 * TODO
-	 */
 	// public void clear() {
 	//
 	// }

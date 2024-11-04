@@ -28,7 +28,7 @@ public class HUDRenderer {
 	}
 
 	public void drawBackground(float width, float height) {
-		drawBackground(0, 0, width, height, 6 /* TODO: Radius Setting */);
+		drawBackground(0, 0, width, height, 6 /* TODO: Radiusの設定をここに */);
 	}
 
 	public void drawText(String text, float x, float y, Color color, float size, Font font) {

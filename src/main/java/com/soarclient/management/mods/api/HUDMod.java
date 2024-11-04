@@ -20,7 +20,7 @@ public class HUDMod extends Mod {
 	@EventHandler
 	public void onRenderBlur(RenderBlurEvent event) {
 		event.setupAndDraw(() -> event.drawRoundedRect(position.getX(), position.getY(),
-				position.getWidth(), position.getHeight(), 6 * position.getScale() /* TOOD: Radius Setting */, 1F));
+				position.getWidth(), position.getHeight(), 6 * position.getScale() /* TODO: Radiusの設定をここに */, 1F));
 	}
 
 	public Position getPosition() {
