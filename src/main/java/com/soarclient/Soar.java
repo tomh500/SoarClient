@@ -2,6 +2,7 @@ package com.soarclient;
 
 import com.soarclient.animation.Delta;
 import com.soarclient.event.EventBus;
+import com.soarclient.management.account.AccountManager;
 import com.soarclient.management.color.ColorManager;
 import com.soarclient.management.mods.ModManager;
 import com.soarclient.management.music.MusicManager;
@@ -14,6 +15,7 @@ public class Soar {
 
 	private static Soar instance = new Soar();
 
+	private AccountManager accountManager;
 	private ModManager modManager;
 	private ColorManager colorManager;
 	private MusicManager musicManager;
@@ -26,6 +28,7 @@ public class Soar {
 		launchTime = System.currentTimeMillis();
 		NanoVGHelper.getInstance().start();
 
+		accountManager = new AccountManager();
 		modManager = new ModManager();
 		modManager.init();
 		colorManager = new ColorManager();
@@ -43,6 +46,10 @@ public class Soar {
 	
 	public static Soar getInstance() {
 		return instance;
+	}
+
+	public AccountManager getAccountManager() {
+		return accountManager;
 	}
 
 	public long getLaunchTime() {

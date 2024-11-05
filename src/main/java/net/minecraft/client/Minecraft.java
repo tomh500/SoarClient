@@ -234,7 +234,7 @@ public class Minecraft implements IThreadListener {
 	private Entity renderViewEntity;
 	public Entity pointedEntity;
 	public EffectRenderer effectRenderer;
-	private final Session session;
+	private Session session;
 	private boolean isGamePaused;
 
 	/** The font renderer used for displaying and measuring text */
@@ -2763,5 +2763,9 @@ public class Minecraft implements IThreadListener {
 	
 	public Timer getTimer() {
 		return timer;
+	}
+
+	public void setSession(Session session) {
+		this.session = session;
 	}
 }
