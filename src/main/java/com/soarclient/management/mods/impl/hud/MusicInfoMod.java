@@ -99,7 +99,7 @@ public class MusicInfoMod extends SimpleHUDMod {
 
 		String type = typeSetting.getOption();
 
-		float radius = 10;
+		float radius = 10 * position.getScale();
 
 		switch (type) {
 		case "setting.simple":
@@ -107,11 +107,11 @@ public class MusicInfoMod extends SimpleHUDMod {
 			break;
 		case "setting.normal":
 			event.setupAndDraw(() -> event.drawRoundedRect(position.getX(), position.getY(), position.getWidth(),
-					position.getHeight(), radius * position.getScale(), 1F));
+					position.getHeight(), radius, 1F));
 			break;
 		case "setting.cover":
 			event.setupAndDraw(() -> event.drawRoundedRect(position.getX(), position.getY(), position.getWidth(),
-					position.getHeight(), radius * position.getScale(), 1F));
+					position.getHeight(), radius, 1F));
 			break;
 		}
 	}
