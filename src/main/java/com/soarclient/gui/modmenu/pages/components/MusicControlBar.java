@@ -111,18 +111,9 @@ public class MusicControlBar extends Component {
 
 		float current = musicManager.getCurrentTime();
 		float end = musicManager.getEndTime();
-		String currentS = secondsToTime((int) current);
 
 		nvg.drawRoundedRect(x, y, width, height, 3.5F, palette.getSurfaceContainerHigh());
 		nvg.drawRoundedRect(x, y, (current / end) * width, height, 3.5F, palette.getPrimary());
-	}
-
-	private String secondsToTime(int totalSeconds) {
-
-		int minutes = (totalSeconds % 3600) / 60;
-		int seconds = totalSeconds % 60;
-
-		return String.format("%02d:%02d", minutes, seconds);
 	}
 
 	private class ControlButton extends Component {

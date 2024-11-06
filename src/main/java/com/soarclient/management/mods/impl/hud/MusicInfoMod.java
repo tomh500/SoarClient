@@ -63,8 +63,6 @@ public class MusicInfoMod extends SimpleHUDMod {
 		float height = 45;
 		float radius = 10;
 
-		typeSetting.setOption("setting.cover");
-
 		switch (type) {
 		case "setting.simple":
 			super.onRenderGameOverlay(event);
