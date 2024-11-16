@@ -50,7 +50,6 @@ public class AccountManager {
 			jsonObject.add("Accounts", jsonArray);
 			gson.toJson(jsonObject, writer);
 		} catch (Exception e) {
-
 		}
 	}
 
