@@ -158,3 +158,6 @@ setting.cover=Cover
 setting.simple=Simple
 setting.normal=Normal
 setting.waveform=Waveform
+
+proxy.socks=Socks
+proxy.http=Http

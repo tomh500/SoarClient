@@ -6,6 +6,7 @@ import java.util.List;
 import com.soarclient.gui.Page;
 import com.soarclient.gui.component.handler.impl.ButtonHandler;
 import com.soarclient.gui.mainmenu.component.MainMenuButton;
+import com.soarclient.management.account.AccountAuth;
 import com.soarclient.nanovg.font.Icon;
 
 import net.minecraft.client.Minecraft;
@@ -62,7 +63,7 @@ public class MainPage extends Page {
 
 			@Override
 			public void onClicked() {
-				// parent.setPage(AccountPage.class);
+				AccountAuth.handleMicrosoftLogin();
 			}
 		});
 

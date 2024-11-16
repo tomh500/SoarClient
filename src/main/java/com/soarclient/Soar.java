@@ -6,6 +6,7 @@ import com.soarclient.management.account.AccountManager;
 import com.soarclient.management.color.ColorManager;
 import com.soarclient.management.mods.ModManager;
 import com.soarclient.management.music.MusicManager;
+import com.soarclient.management.proxy.ProxyManager;
 import com.soarclient.nanovg.NanoVGHelper;
 import com.soarclient.utils.file.FileLocation;
 import com.soarclient.utils.language.I18n;
@@ -19,6 +20,7 @@ public class Soar {
 	private ModManager modManager;
 	private ColorManager colorManager;
 	private MusicManager musicManager;
+	private ProxyManager proxyManager;
 	
 	private long launchTime;
 
@@ -33,6 +35,7 @@ public class Soar {
 		modManager.init();
 		colorManager = new ColorManager();
 		musicManager = new MusicManager();
+		proxyManager = new ProxyManager();
 
 		Delta.register();
 		I18n.setLanguage(Language.ENGLISH);
@@ -66,5 +69,9 @@ public class Soar {
 
 	public MusicManager getMusicManager() {
 		return musicManager;
+	}
+
+	public ProxyManager getProxyManager() {
+		return proxyManager;
 	}
 }

@@ -1,6 +1,7 @@
 package net.minecraft.network;
 
 import java.net.InetAddress;
+import java.net.Proxy;
 import java.net.SocketAddress;
 import java.util.Queue;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
@@ -16,11 +17,13 @@ import org.apache.logging.log4j.MarkerManager;
 
 import com.google.common.collect.Queues;
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
+import com.soarclient.Soar;
 import com.soarclient.event.EventBus;
 import com.soarclient.event.impl.ReceivePacketEvent;
 import com.soarclient.event.impl.SendPacketEvent;
 import com.soarclient.libraries.krypton.compress.MinecraftCompressDecoder;
 import com.soarclient.libraries.krypton.compress.MinecraftCompressEncoder;
+import com.soarclient.management.proxy.channel.ProxyOioChannelFactory;
 import com.velocitypowered.natives.compression.VelocityCompressor;
 import com.velocitypowered.natives.util.Natives;
 
@@ -42,6 +45,7 @@ import io.netty.channel.local.LocalChannel;
 import io.netty.channel.local.LocalEventLoopGroup;
 import io.netty.channel.local.LocalServerChannel;
 import io.netty.channel.nio.NioEventLoopGroup;
+import io.netty.channel.oio.OioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioSocketChannel;
 import io.netty.handler.timeout.ReadTimeoutHandler;
@@ -147,14 +151,14 @@ public class NetworkManager extends SimpleChannelInboundHandler<Packet> {
 	}
 
 	protected void channelRead0(ChannelHandlerContext p_channelRead0_1_, Packet p_channelRead0_2_) throws Exception {
-		
+
 		ReceivePacketEvent event = new ReceivePacketEvent(p_channelRead0_2_);
 		EventBus.getInstance().post(event);
 
 		if (event.isCancelled()) {
 			return;
 		}
-		
+
 		if (this.channel.isOpen()) {
 			try {
 				p_channelRead0_2_.processPacket(this.packetListener);
@@ -175,14 +179,14 @@ public class NetworkManager extends SimpleChannelInboundHandler<Packet> {
 	}
 
 	public void sendPacket(Packet packetIn) {
-		
+
 		SendPacketEvent event = new SendPacketEvent(packetIn);
 		EventBus.getInstance().post(event);
 
 		if (event.isCancelled()) {
 			return;
 		}
-		
+
 		if (this.isChannelOpen()) {
 			this.flushOutboundQueue();
 			this.dispatchPacket(packetIn, (GenericFutureListener<? extends Future<? super Void>>[]) null);
@@ -335,6 +339,10 @@ public class NetworkManager extends SimpleChannelInboundHandler<Packet> {
 		Class<? extends SocketChannel> oclass;
 		LazyLoadBase<? extends EventLoopGroup> lazyloadbase;
 
+		boolean isEnabled = Soar.getInstance().getProxyManager().isEnabled();
+		Bootstrap bootstrap = new Bootstrap();
+		EventLoopGroup eventLoopGroup;
+
 		if (Epoll.isAvailable() && useNativeTransport) {
 			oclass = EpollSocketChannel.class;
 			lazyloadbase = CLIENT_EPOLL_EVENTLOOP;
@@ -343,26 +351,33 @@ public class NetworkManager extends SimpleChannelInboundHandler<Packet> {
 			lazyloadbase = CLIENT_NIO_EVENTLOOP;
 		}
 
-		((Bootstrap) ((Bootstrap) ((Bootstrap) (new Bootstrap()).group((EventLoopGroup) lazyloadbase.getValue()))
-				.handler(new ChannelInitializer<Channel>() {
-					protected void initChannel(Channel p_initChannel_1_) throws Exception {
-						try {
-							p_initChannel_1_.config().setOption(ChannelOption.TCP_NODELAY, Boolean.valueOf(true));
-						} catch (ChannelException var3) {
-							;
-						}
+		if (isEnabled) {
+			Proxy proxy = null;
+			eventLoopGroup = new OioEventLoopGroup(0,
+					(new ThreadFactoryBuilder()).setNameFormat("Netty Client IO #%d").setDaemon(true).build());
+			bootstrap.channelFactory(new ProxyOioChannelFactory(proxy));
+		} else {
+			eventLoopGroup = (EventLoopGroup) lazyloadbase.getValue();
+		}
 
-						p_initChannel_1_.pipeline()
-								.addLast((String) "timeout", (ChannelHandler) (new ReadTimeoutHandler(30)))
-								.addLast((String) "splitter", (ChannelHandler) (new MessageDeserializer2()))
-								.addLast((String) "decoder",
-										(ChannelHandler) (new MessageDeserializer(EnumPacketDirection.CLIENTBOUND)))
-								.addLast((String) "prepender", (ChannelHandler) (new MessageSerializer2()))
-								.addLast((String) "encoder",
-										(ChannelHandler) (new MessageSerializer(EnumPacketDirection.SERVERBOUND)))
-								.addLast((String) "packet_handler", (ChannelHandler) networkmanager);
-					}
-				})).channel(oclass)).connect(address, serverPort).syncUninterruptibly();
+		bootstrap.group(eventLoopGroup).handler(new ChannelInitializer<Channel>() {
+			protected void initChannel(Channel p_initChannel_1_) throws Exception {
+				try {
+					p_initChannel_1_.config().setOption(ChannelOption.TCP_NODELAY, Boolean.valueOf(true));
+				} catch (ChannelException var3) {
+					;
+				}
+
+				p_initChannel_1_.pipeline().addLast((String) "timeout", (ChannelHandler) (new ReadTimeoutHandler(30)))
+						.addLast((String) "splitter", (ChannelHandler) (new MessageDeserializer2()))
+						.addLast((String) "decoder",
+								(ChannelHandler) (new MessageDeserializer(EnumPacketDirection.CLIENTBOUND)))
+						.addLast((String) "prepender", (ChannelHandler) (new MessageSerializer2()))
+						.addLast((String) "encoder",
+								(ChannelHandler) (new MessageSerializer(EnumPacketDirection.SERVERBOUND)))
+						.addLast((String) "packet_handler", (ChannelHandler) networkmanager);
+			}
+		}).channel(oclass).connect(address, serverPort).syncUninterruptibly();
 		return networkmanager;
 	}
 
