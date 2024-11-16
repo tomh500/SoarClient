@@ -1,29 +1,37 @@
 package com.soarclient.management.account;
 
-public class Account {
+import com.google.gson.JsonObject;
+import com.mojang.authlib.GameProfile;
 
-	private String name;
-	private String uuid;
-	private String refreshToken;
-	private AccountType type;
-	
-	public Account(String name, String uuid, String refreshToken, AccountType type) {
-		this.name = name;
-		this.uuid = uuid;
-		this.refreshToken = refreshToken;
+import java.util.UUID;
+
+public abstract class Account {
+
+	private final AccountType type;
+	private long lastRefresh = 0L;
+
+	public Account(AccountType type) {
 		this.type = type;
 	}
 
-	public String getName() {
-		return name;
+	public abstract JsonObject toJson();
+
+	public abstract String getName();
+
+	public abstract UUID getUUID();
+
+	public GameProfile getGameProfile() {
+		return new GameProfile(this.getUUID(), this.getName());
 	}
 
-	public String getUuid() {
-		return uuid;
-	}
+	public abstract String getDisplayString();
 
-	public String getRefreshToken() {
-		return refreshToken;
+	public boolean refresh() throws Exception {
+		if (System.currentTimeMillis() - this.lastRefresh < 10_000L) {
+			return false;
+		}
+		this.lastRefresh = System.currentTimeMillis();
+		return true;
 	}
 
 	public AccountType getType() {

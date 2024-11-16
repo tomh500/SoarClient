@@ -57,6 +57,7 @@ import com.soarclient.event.impl.KeyEvent;
 import com.soarclient.event.impl.MouseClickEvent;
 import com.soarclient.event.impl.MouseScrollEvent;
 import com.soarclient.event.impl.UpdateFramebufferSizeEvent;
+import com.soarclient.gui.mainmenu.GuiSoarMainMenu;
 import com.soarclient.libraries.patcher.reload.PatcherReloadListener;
 import com.soarclient.libraries.phosphor.api.ILightingEngineProvider;
 import com.soarclient.libraries.sodium.SodiumClientMod;
@@ -75,7 +76,6 @@ import net.minecraft.client.gui.GuiControls;
 import net.minecraft.client.gui.GuiGameOver;
 import net.minecraft.client.gui.GuiIngame;
 import net.minecraft.client.gui.GuiIngameMenu;
-import net.minecraft.client.gui.GuiMainMenu;
 import net.minecraft.client.gui.GuiMemoryErrorScreen;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.GuiSleepMP;
@@ -560,9 +560,9 @@ public class Minecraft implements IThreadListener {
 		Soar.getInstance().start();
 
 		if (this.serverName != null) {
-			this.displayGuiScreen(new GuiConnecting(new GuiMainMenu(), this, this.serverName, this.serverPort));
+			this.displayGuiScreen(new GuiConnecting(new GuiSoarMainMenu(), this, this.serverName, this.serverPort));
 		} else {
-			this.displayGuiScreen(new GuiMainMenu());
+			this.displayGuiScreen(new GuiSoarMainMenu());
 		}
 
 		this.renderEngine.deleteTexture(this.mojangLogo);
@@ -909,12 +909,12 @@ public class Minecraft implements IThreadListener {
 		}
 
 		if (guiScreenIn == null && this.theWorld == null) {
-			guiScreenIn = new GuiMainMenu();
+			guiScreenIn = new GuiSoarMainMenu();
 		} else if (guiScreenIn == null && this.thePlayer.getHealth() <= 0.0F) {
 			guiScreenIn = new GuiGameOver();
 		}
 
-		if (guiScreenIn instanceof GuiMainMenu) {
+		if (guiScreenIn instanceof GuiSoarMainMenu) {
 			this.gameSettings.showDebugInfo = false;
 			this.ingameGUI.getChatGUI().clearChatMessages();
 		}

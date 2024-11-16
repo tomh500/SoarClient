@@ -1,26 +1,26 @@
 package com.soarclient.management.account;
 
 public enum AccountType {
-	CRACKED(0), PREMIUM(1);
+	BEDROCK("bedrock"), MICROSOFT("microsoft"), OFFLINE("offline"), NULL("null");
 	
-	private int id;
+	private String id;
 	
-	private AccountType(int id) {
+	private AccountType(String id) {
 		this.id = id;
 	}
 
-	public int getId() {
+	public String getId() {
 		return id;
 	}
 	
-	public static AccountType get(int id) {
+	public static AccountType getById(String id) {
 		
-		for(AccountType at : AccountType.values()) {
-			if(id == at.getId()) {
-				return at;
+		for(AccountType t : AccountType.values()) {
+			if(t.getId().equals(id)) {
+				return t;
 			}
 		}
 		
-		return null;
+		return NULL;
 	}
 }
