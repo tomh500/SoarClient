@@ -14,6 +14,7 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import com.soarclient.libraries.phosphor.api.ILightingEngineProvider;
 import com.soarclient.libraries.phosphor.world.lighting.LightingEngine;
+import com.soarclient.management.mods.impl.misc.WeatherChangerMod;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockHopper;
@@ -2872,6 +2873,15 @@ public abstract class World implements IBlockAccess, ILightingEngineProvider {
 	}
 
 	public float getThunderStrength(float delta) {
+
+		WeatherChangerMod mod = WeatherChangerMod.getInstance();
+
+		if (mod.isEnabled() && !mod.isThundering()) {
+			return 0F;
+		} else if (mod.isEnabled()) {
+			return 1F;
+		}
+
 		return (this.prevThunderingStrength + (this.thunderingStrength - this.prevThunderingStrength) * delta)
 				* this.getRainStrength(delta);
 	}

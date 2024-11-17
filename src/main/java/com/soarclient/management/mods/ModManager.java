@@ -27,6 +27,10 @@ import com.soarclient.management.mods.impl.hud.StopwatchMod;
 import com.soarclient.management.mods.impl.hud.WeatherDisplayMod;
 import com.soarclient.management.mods.impl.hud.YawDisplayMod;
 import com.soarclient.management.mods.impl.misc.LiquidFixMod;
+import com.soarclient.management.mods.impl.misc.NameProtectMod;
+import com.soarclient.management.mods.impl.misc.RawInputMod;
+import com.soarclient.management.mods.impl.misc.TimeChangerMod;
+import com.soarclient.management.mods.impl.misc.WeatherChangerMod;
 import com.soarclient.management.mods.impl.player.AutoGGMod;
 import com.soarclient.management.mods.impl.player.AutoNextGameMod;
 import com.soarclient.management.mods.impl.player.HitDelayFixMod;
@@ -78,6 +82,10 @@ public class ModManager {
 
 		// Misc
 		mods.add(new LiquidFixMod());
+		mods.add(new NameProtectMod());
+		mods.add(new RawInputMod());
+		mods.add(new TimeChangerMod());
+		mods.add(new WeatherChangerMod());
 
 		// Player
 		mods.add(new AutoGGMod());

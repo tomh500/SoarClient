@@ -102,6 +102,18 @@ mod.autonextgame.description=Automatically join the next game
 mod.musicinfo.name=Music Info
 mod.musicinfo.description=Display the currently playing music
 
+mod.weatherchanger.name=Weather Changer
+mod.weatherchanger.description=Change the world weather
+
+mod.timechanger.name=Time Changer
+mod.timechanger.description=Change the world time
+
+mod.rawinput.name=Raw Input
+mod.rawinput.description=Enable raw input for the mouse
+
+mod.nameprotect.name=Name Protect
+mod.nameprotect.description=Protect your name
+
 setting.keybind=Keybind
 setting.keybind.description=Assigning keys
 setting.darkmode=Dark Mode
@@ -158,6 +170,16 @@ setting.cover=Cover
 setting.simple=Simple
 setting.normal=Normal
 setting.waveform=Waveform
+setting.weather=Weather
+setting.weather.description=Set the weather
+setting.clear=Clear
+setting.rain=Rain
+setting.snow=Snow
+setting.thunder=Thunder
+setting.time=Time
+setting.time.description=Set the time
+setting.name=Name
+setting.name.description=Set the name
 
 proxy.socks=Socks
 proxy.http=Http

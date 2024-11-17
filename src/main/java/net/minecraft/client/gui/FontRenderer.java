@@ -15,6 +15,7 @@ import com.ibm.icu.text.ArabicShaping;
 import com.ibm.icu.text.ArabicShapingException;
 import com.ibm.icu.text.Bidi;
 import com.soarclient.hooks.FontRendererHook;
+import com.soarclient.management.mods.impl.misc.NameProtectMod;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
@@ -107,7 +108,7 @@ public class FontRenderer implements IResourceManagerReloadListener {
 	private boolean strikethroughStyle;
 
 	private FontRendererHook hook = new FontRendererHook(this);
-	
+
 	public FontRenderer(GameSettings gameSettingsIn, ResourceLocation location, TextureManager textureManagerIn,
 			boolean unicode) {
 		this.locationFontTexture = location;
@@ -364,11 +365,11 @@ public class FontRenderer implements IResourceManagerReloadListener {
 	 * Render a single line string at the current (posX,posY) and update posX
 	 */
 	private void renderStringAtPos(String text, boolean shadow) {
-		
+
 		if (hook.renderStringAtPos(text, shadow)) {
 			return;
 		}
-		
+
 		for (int i = 0; i < text.length(); ++i) {
 			char c0 = text.charAt(i);
 
@@ -531,6 +532,12 @@ public class FontRenderer implements IResourceManagerReloadListener {
 	 * calling renderStringAtPos()
 	 */
 	private int renderString(String text, float x, float y, int color, boolean dropShadow) {
+
+		if (NameProtectMod.getInstance().isEnabled()) {
+			text = text.replace(Minecraft.getMinecraft().getSession().getUsername(),
+					NameProtectMod.getInstance().getNameSetting().getString());
+		}
+
 		if (text == null) {
 			return 0;
 		} else {
@@ -563,6 +570,13 @@ public class FontRenderer implements IResourceManagerReloadListener {
 	 * FontMetrics.stringWidth(String s).
 	 */
 	public int getStringWidth(String text) {
+
+		if (NameProtectMod.getInstance().isEnabled()) {
+			text = text.replace(Minecraft.getMinecraft().getSession().getUsername(),
+					NameProtectMod.getInstance().getNameSetting().getString());
+		}
+
+
 		return hook.getStringWidth(text);
 	}
 
@@ -839,7 +853,7 @@ public class FontRenderer implements IResourceManagerReloadListener {
 
 		return s;
 	}
-	
+
 	public int getColorCode(char character) {
 		return this.colorCode["0123456789abcdef".indexOf(character)];
 	}
@@ -851,7 +865,7 @@ public class FontRenderer implements IResourceManagerReloadListener {
 	public boolean getBidiFlag() {
 		return this.bidiFlag;
 	}
-	
+
 	public ResourceLocation getLocationFontTexture() {
 		return locationFontTexture;
 	}

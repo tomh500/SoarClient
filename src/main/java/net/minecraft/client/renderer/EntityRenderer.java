@@ -21,6 +21,8 @@ import com.soarclient.event.EventBus;
 import com.soarclient.event.impl.ZoomFovEvent;
 import com.soarclient.libraries.sodium.SodiumClientMod;
 import com.soarclient.libraries.sodium.client.render.pipeline.context.ChunkRenderCacheShared;
+import com.soarclient.management.mods.impl.misc.RawInputMod;
+import com.soarclient.management.mods.impl.misc.WeatherChangerMod;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockBed;
@@ -1003,8 +1005,16 @@ public class EntityRenderer implements IResourceManagerReloadListener {
 			this.mc.mouseHelper.mouseXYChange();
 			float f = this.mc.gameSettings.mouseSensitivity * 0.6F + 0.2F;
 			float f1 = f * f * f * 8.0F;
-			float f2 = (float) this.mc.mouseHelper.deltaX * f1;
-			float f3 = (float) this.mc.mouseHelper.deltaY * f1;
+			float deltaX = this.mc.mouseHelper.deltaX;
+			float deltaY = this.mc.mouseHelper.deltaY;
+			
+			if (RawInputMod.getInstance().isEnabled()) {
+				deltaX = (mc.mouseHelper.deltaX / f1 * Minecraft.getMinecraft().gameSettings.mouseSensitivity);
+				deltaY = (mc.mouseHelper.deltaY / f1 * Minecraft.getMinecraft().gameSettings.mouseSensitivity);
+			}
+			
+			float f2 = (float) deltaX * f1;
+			float f3 = (float) deltaY * f1;
 			int i = 1;
 
 			if (this.mc.gameSettings.invertMouse) {
@@ -1382,6 +1392,13 @@ public class EntityRenderer implements IResourceManagerReloadListener {
 	}
 
 	private void addRainParticles() {
+		
+		WeatherChangerMod mod = WeatherChangerMod.getInstance();
+
+		if (mod.isEnabled() && (!mod.isRaining() || mod.isSnowing())) {
+			return;
+		}
+		
 		float f = this.mc.theWorld.getRainStrength(1.0F);
 
 		if (!this.mc.gameSettings.fancyGraphics) {

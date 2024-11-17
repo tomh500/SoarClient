@@ -1,6 +1,10 @@
 package net.minecraft.world.storage;
 
 import java.util.concurrent.Callable;
+
+import com.soarclient.management.mods.impl.misc.TimeChangerMod;
+import com.soarclient.management.mods.impl.misc.WeatherChangerMod;
+
 import net.minecraft.crash.CrashReportCategory;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.server.MinecraftServer;
@@ -365,6 +369,13 @@ public class WorldInfo {
 	 * Get current world time
 	 */
 	public long getWorldTime() {
+
+		TimeChangerMod mod = TimeChangerMod.getInstance();
+
+		if (mod.isEnabled()) {
+			return (long) (mod.getTimeSetting().getValue() * 1000L) + 18000L;
+		}
+
 		return this.worldTime;
 	}
 
@@ -461,6 +472,11 @@ public class WorldInfo {
 	 * Returns true if it is thundering, false otherwise.
 	 */
 	public boolean isThundering() {
+
+		if (WeatherChangerMod.getInstance().isEnabled()) {
+			return WeatherChangerMod.getInstance().isThundering();
+		}
+
 		return this.thundering;
 	}
 
@@ -489,6 +505,11 @@ public class WorldInfo {
 	 * Returns true if it is raining, false otherwise.
 	 */
 	public boolean isRaining() {
+
+		if (WeatherChangerMod.getInstance().isEnabled()) {
+			return WeatherChangerMod.getInstance().isRaining();
+		}
+
 		return this.raining;
 	}
 
