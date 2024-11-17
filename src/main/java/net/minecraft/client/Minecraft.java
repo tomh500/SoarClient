@@ -598,7 +598,8 @@ public class Minecraft implements IThreadListener {
 
 	private void createDisplay() throws LWJGLException {
 		Display.setResizable(true);
-		Display.setTitle("Minecraft 1.8.9");
+		Display.setTitle(
+				Soar.getInstance().getName() + " Client v" + Soar.getInstance().getVersion() + " for Minecraft 1.8.9");
 
 		try {
 			Display.create((new PixelFormat()).withDepthBits(24));
@@ -1382,11 +1383,11 @@ public class Minecraft implements IThreadListener {
 	}
 
 	private void clickMouse() {
-		
+
 		if (HitDelayFixMod.getInstance().isEnabled()) {
 			leftClickCounter = 0;
 		}
-		
+
 		if (this.leftClickCounter <= 0) {
 			this.thePlayer.swingItem();
 
@@ -1639,7 +1640,7 @@ public class Minecraft implements IThreadListener {
 			this.mcProfiler.endStartSection("mouse");
 
 			while (nextMouse()) {
-				
+
 				int i = Mouse.getEventButton();
 				int mouseCode = i - 100;
 
@@ -1668,7 +1669,7 @@ public class Minecraft implements IThreadListener {
 				long i1 = getSystemTime() - this.systemTime;
 
 				if (i1 <= 200L) {
-					
+
 					int j = onScroll();
 
 					if (j != 0) {
@@ -2723,7 +2724,7 @@ public class Minecraft implements IThreadListener {
 
 		return next;
 	}
-	
+
 	private int onScroll() {
 
 		int dWheel = Mouse.getEventDWheel();
@@ -2739,7 +2740,7 @@ public class Minecraft implements IThreadListener {
 
 		return dWheel;
 	}
-	
+
 	/**
 	 * Return true if the player is connected to a realms server
 	 */
@@ -2760,7 +2761,7 @@ public class Minecraft implements IThreadListener {
 	public boolean isRunning() {
 		return running;
 	}
-	
+
 	public Timer getTimer() {
 		return timer;
 	}

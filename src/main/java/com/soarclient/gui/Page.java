@@ -7,6 +7,7 @@ public class Page {
 	protected Minecraft mc = Minecraft.getMinecraft();
 	protected float x, y, width, height;
 	private String title, icon;
+	private boolean cancelEscape;
 
 	public Page(String title, String icon, float x, float y, float width, float height) {
 		this.title = title;
@@ -15,6 +16,7 @@ public class Page {
 		this.y = y;
 		this.width = width;
 		this.height = height;
+		this.cancelEscape = false;
 	}
 
 	public void init() {
@@ -57,5 +59,13 @@ public class Page {
 
 	public float getHeight() {
 		return height;
+	}
+
+	public boolean isCancelEscape() {
+		return cancelEscape;
+	}
+
+	public void setCancelEscape(boolean cancelEscape) {
+		this.cancelEscape = cancelEscape;
 	}
 }

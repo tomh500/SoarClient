@@ -119,7 +119,7 @@ public class GuiModMenu extends SoarGui {
 
 	@Override
 	public void keyTyped(char typedCHar, int keyCode) {
-		if (keyCode == Keyboard.KEY_ESCAPE && animation.getEnd() == 1) {
+		if (keyCode == Keyboard.KEY_ESCAPE && animation.getEnd() == 1 && !navigationRail.getCurrentPage().isCancelEscape()) {
 			animation = new EaseEmphasizedDecelerate(Duration.EXTRA_LONG_1, 1, 0);
 		}
 	}

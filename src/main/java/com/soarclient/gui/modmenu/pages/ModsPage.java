@@ -24,7 +24,7 @@ public class ModsPage extends Page {
 
 	private List<Pair<Mod, Animation>> items = new ArrayList<>();
 	private ScrollHelper scrollHelper = new ScrollHelper();
-	
+
 	public ModsPage(float x, float y, float width, float height) {
 		super("text.mods", Icon.INVENTORY_2, x, y, width, height);
 
@@ -41,19 +41,32 @@ public class ModsPage extends Page {
 
 		int index = 0;
 		float offsetX = 32;
-		float offsetY = 110;
-		
+		float offsetY = 0;
+
 		scrollHelper.onScroll();
 
 		nvg.save();
 		nvg.translate(0, scrollHelper.getValue());
-		
+
 		for (Pair<Mod, Animation> i : items) {
 
 			Mod m = i.getFirst();
 			Animation a = i.getSecond();
-			
-			if(m.isHidden()) {
+
+			if (m.isHidden()) {
+				continue;
+			}
+
+			float itemX = x + offsetX;
+			float itemY = y + 110 + offsetY;
+
+			if (itemY + 151 < y - scrollHelper.getValue() || itemY > y + height - scrollHelper.getValue()) {
+				index++;
+				offsetX += 32 + 244;
+				if (index % 3 == 0) {
+					offsetX = 32;
+					offsetY += 22 + 151;
+				}
 				continue;
 			}
 
@@ -61,15 +74,14 @@ public class ModsPage extends Page {
 				i.setSecond(new EaseStandard(Duration.MEDIUM_2, i.getSecond().getValue(), m.isEnabled() ? 1 : 0));
 			}
 
-			nvg.drawRoundedRectVarying(x + offsetX, y + offsetY, 244, 116, 26, 26, 0, 0, palette.getSurface());
-			nvg.drawRoundedRectVarying(x + offsetX, y + 116 + offsetY, 244, 35, 0, 0, 26, 26,
-					palette.getSurfaceContainerHigh());
-			nvg.drawRoundedRectVarying(x + offsetX, y + 116 + offsetY, 244, 35, 0, 0, 26, 26,
+			nvg.drawRoundedRectVarying(itemX, itemY, 244, 116, 26, 26, 0, 0, palette.getSurface());
+			nvg.drawRoundedRectVarying(itemX, itemY + 116, 244, 35, 0, 0, 26, 26, palette.getSurfaceContainerHigh());
+			nvg.drawRoundedRectVarying(itemX, itemY + 116, 244, 35, 0, 0, 26, 26,
 					ColorUtils.applyAlpha(palette.getPrimaryContainer(), a.getValue()));
-			nvg.drawAlignCenteredText(I18n.get(m.getName()), x + offsetX + (244 / 2), y + 116 + (35 / 2) + offsetY,
+			nvg.drawAlignCenteredText(I18n.get(m.getName()), itemX + (244 / 2), itemY + 116 + (35 / 2),
 					palette.getOnSurfaceVariant(), 16, Fonts.REGULAR);
-			nvg.drawAlignCenteredText(m.getIcon(), x + offsetX + (244 / 2), y + (116 / 2) + offsetY,
-					palette.getOnSurfaceVariant(), 68, Fonts.ICON);
+			nvg.drawAlignCenteredText(m.getIcon(), itemX + (244 / 2), itemY + (116 / 2), palette.getOnSurfaceVariant(),
+					68, Fonts.ICON);
 
 			index++;
 			offsetX += 32 + 244;
@@ -79,7 +91,7 @@ public class ModsPage extends Page {
 				offsetY += 22 + 151;
 			}
 		}
-		
+
 		nvg.restore();
 		scrollHelper.setMaxScroll(110 + 26, items.size(), height, 151, 22, 3);
 	}
@@ -92,17 +104,39 @@ public class ModsPage extends Page {
 		float offsetY = 0;
 
 		mouseY = (int) (mouseY - scrollHelper.getValue());
-		
+
+		if (mouseX < x || mouseX > x + width || mouseY + scrollHelper.getValue() < y
+				|| mouseY + scrollHelper.getValue() > y + height) {
+			return;
+		}
+
 		for (Pair<Mod, Animation> i : items) {
 
 			Mod m = i.getFirst();
 
-			if(m.isHidden()) {
+			if (m.isHidden()) {
 				continue;
 			}
-			
+
+			float itemX = x + offsetX;
+			float itemY = y + 110 + offsetY;
+
+			if (itemY + 151 < y - scrollHelper.getValue() || itemY > y + height - scrollHelper.getValue()) {
+				index++;
+				offsetX += 32 + 244;
+				if (index % 3 == 0) {
+					offsetX = 32;
+					offsetY += 22 + 151;
+				}
+				continue;
+			}
+
 			if (mouseButton == 0) {
-				if (MouseUtils.isInside(mouseX, mouseY, x + offsetX, y + 226 + offsetY, 244, 35)) {
+				if (MouseUtils.isInside(mouseX, mouseY, itemX, itemY, 244, 116)) {
+
+				}
+
+				if (MouseUtils.isInside(mouseX, mouseY, itemX, itemY + 116, 244, 35)) {
 					m.toggle();
 				}
 			}
