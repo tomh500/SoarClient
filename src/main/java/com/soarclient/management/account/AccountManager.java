@@ -29,6 +29,7 @@ public class AccountManager {
 	public AccountManager() {
 		file = new File(FileLocation.SOAR_DIR, "Account.json");
 		FileUtils.createFile(file);
+		load();
 	}
 
 	public void save() {
@@ -47,7 +48,7 @@ public class AccountManager {
 				jsonArray.add(innerJsonObject);
 			}
 
-			jsonObject.add("Accounts", jsonArray);
+			jsonObject.add("accounts", jsonArray);
 			gson.toJson(jsonObject, writer);
 		} catch (Exception e) {
 		}
@@ -64,9 +65,9 @@ public class AccountManager {
 
 			if (jsonObject != null && jsonObject.isJsonObject()) {
 
-				JsonArray jsonArray = JsonUtils.getArrayProperty(jsonObject, "Accounts");
+				JsonArray jsonArray = JsonUtils.getArrayProperty(jsonObject, "accounts");
 
-				currentAccount = JsonUtils.getStringProperty(jsonObject, "Current Account", "null");
+				currentAccount = JsonUtils.getStringProperty(jsonObject, "currentAccount", "null");
 
 				if (jsonArray != null) {
 
@@ -89,7 +90,14 @@ public class AccountManager {
 					}
 				}
 			}
+			
+			Account acc = getByUuid(currentAccount);
+			
+			if(acc != null) {
+				AccountAuth.handleLogin(acc);
+			}
 		} catch (Exception e) {
+			e.printStackTrace();
 		}
 	}
 
@@ -110,5 +118,28 @@ public class AccountManager {
 	public List<BedrockAccount> getBedrockAccounts() {
 		return accounts.stream().filter(a -> a instanceof BedrockAccount).map(a -> (BedrockAccount) a)
 				.collect(Collectors.toList());
+	}
+	
+	public Account getByUuid(String inputUuid) {
+		
+		for(Account acc : accounts) {
+			
+			String pUuid = acc.getUUID().toString().replace("-", "");
+			String uuid = inputUuid.replace("-", "");
+			
+			if(pUuid.equals(uuid)) {
+				return acc;
+			}
+		}
+		
+		return null;
+	}
+
+	public Account getCurrentAccount() {
+		return getByUuid(currentAccount);
+	}
+
+	public void setCurrentAccount(String currentAccount) {
+		this.currentAccount = currentAccount;
 	}
 }

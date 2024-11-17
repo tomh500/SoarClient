@@ -34,6 +34,21 @@ public class AccountAuth {
 		});
 	}
 
+	public static void handleLogin(Account account) {
+		try {
+			if(account instanceof MicrosoftAccount) {
+				MicrosoftAccount msAccount = (MicrosoftAccount) account;
+				MCProfile profile = msAccount.getMcProfile();
+				
+				msAccount.refresh();
+				Minecraft.getMinecraft().setSession(new Session(profile.getName(), profile.getId().toString(),
+						profile.getMcToken().getAccessToken(), "legacy"));
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
 	private static void handleLogin(
 			final TFunction<Consumer<StepMsaDeviceCode.MsaDeviceCode>, Account> requestHandler) {
 
@@ -51,6 +66,7 @@ public class AccountAuth {
 				accountManager.getAccounts().add(msAccount);
 				Minecraft.getMinecraft().setSession(new Session(profile.getName(), profile.getId().toString(),
 						profile.getMcToken().getAccessToken(), "legacy"));
+				accountManager.setCurrentAccount(msAccount.getUUID().toString().replace("-", ""));
 				accountManager.save();
 			}
 		} catch (Throwable e) {

@@ -8,6 +8,7 @@ import com.soarclient.gui.component.handler.impl.ButtonHandler;
 import com.soarclient.gui.mainmenu.component.MainMenuButton;
 import com.soarclient.management.account.AccountAuth;
 import com.soarclient.nanovg.font.Icon;
+import com.soarclient.utils.Multithreading;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiMultiplayer;
@@ -63,7 +64,9 @@ public class MainPage extends Page {
 
 			@Override
 			public void onClicked() {
-				AccountAuth.handleMicrosoftLogin();
+				Multithreading.runAsync(() -> {
+					AccountAuth.handleMicrosoftLogin();
+				});
 			}
 		});
 
