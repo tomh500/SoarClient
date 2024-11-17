@@ -15,6 +15,8 @@ import com.soarclient.utils.language.Language;
 public class Soar {
 
 	private static Soar instance = new Soar();
+	
+	private String name, version;
 
 	private AccountManager accountManager;
 	private ModManager modManager;
@@ -24,6 +26,11 @@ public class Soar {
 	
 	private long launchTime;
 
+	public Soar() {
+		name = "Soar";
+		version = "8.0";
+	}
+	
 	public void start() {
 
 		FileLocation.init();
@@ -49,6 +56,14 @@ public class Soar {
 	
 	public static Soar getInstance() {
 		return instance;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public String getVersion() {
+		return version;
 	}
 
 	public AccountManager getAccountManager() {
