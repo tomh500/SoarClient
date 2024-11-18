@@ -122,6 +122,10 @@ public class ModManager {
 				.collect(Collectors.toList());
 	}
 
+	public List<Setting> getSettingsByMod(Mod m) {
+		return settings.stream().filter(s -> s.getParent().equals(m)).collect(Collectors.toList());
+	}
+
 	public void addSetting(Setting setting) {
 		settings.add(setting);
 	}

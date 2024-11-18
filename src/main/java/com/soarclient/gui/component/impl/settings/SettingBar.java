@@ -1,4 +1,4 @@
-package com.soarclient.gui.component.impl.settingbar;
+package com.soarclient.gui.component.impl.settings;
 
 import com.soarclient.Soar;
 import com.soarclient.gui.component.Component;
@@ -16,14 +16,12 @@ public class SettingBar extends Component {
 
 	private String title, description, icon;
 	private Component component;
-	private Setting setting;
 
-	public SettingBar(String title, String description, String icon, Setting setting, float x, float y, float width) {
+	public SettingBar(Setting setting, float x, float y, float width) {
 		super(x, y);
-		this.title = title;
-		this.description = description;
-		this.icon = icon;
-		this.setting = setting;
+		this.title = setting.getName();
+		this.description = setting.getDescription();
+		this.icon = setting.getIcon();
 		this.width = width;
 		this.height = 64;
 
@@ -79,6 +77,21 @@ public class SettingBar extends Component {
 		ColorPalette palette = Soar.getInstance().getColorManager().getPalette();
 		
 		nvg.drawRoundedRect(x, y, width, height, 18, palette.getSurface());
+	}
+	
+	@Override
+	public void mouseClicked(int mouseX, int mouseY, int mouseButton) {
+		component.mouseClicked(mouseX, mouseY, mouseButton);
+	}
+	
+	@Override
+	public void mouseReleased(int mouseX, int mouseY, int mouseButton) {
+		component.mouseReleased(mouseX, mouseY, mouseButton);
+	}
+	
+	@Override
+	public void keyTyped(char typedChar, int keyCode) {
+		component.keyTyped(typedChar, keyCode);
 	}
 
 	public String getTitle() {

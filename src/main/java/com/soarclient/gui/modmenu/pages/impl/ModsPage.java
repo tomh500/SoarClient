@@ -1,4 +1,4 @@
-package com.soarclient.gui.modmenu.pages;
+package com.soarclient.gui.modmenu.pages.impl;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,6 +9,8 @@ import com.soarclient.animation.Duration;
 import com.soarclient.animation.cubicbezier.impl.EaseStandard;
 import com.soarclient.animation.other.DummyAnimation;
 import com.soarclient.gui.Page;
+import com.soarclient.gui.PageDirection;
+import com.soarclient.gui.modmenu.GuiModMenu;
 import com.soarclient.management.color.api.ColorPalette;
 import com.soarclient.management.mods.Mod;
 import com.soarclient.nanovg.NanoVGHelper;
@@ -24,9 +26,11 @@ public class ModsPage extends Page {
 
 	private List<Pair<Mod, Animation>> items = new ArrayList<>();
 	private ScrollHelper scrollHelper = new ScrollHelper();
+	private GuiModMenu parent;
 
-	public ModsPage(float x, float y, float width, float height) {
-		super("text.mods", Icon.INVENTORY_2, x, y, width, height);
+	public ModsPage(GuiModMenu parent, float x, float y, float width, float height) {
+		super(PageDirection.LEFT, "text.mods", Icon.INVENTORY_2, x, y, width, height);
+		this.parent = parent;
 
 		for (Mod m : Soar.getInstance().getModManager().getMods()) {
 			items.add(Pair.of(m, new DummyAnimation(0, m.isEnabled() ? 1 : 0)));
@@ -93,6 +97,7 @@ public class ModsPage extends Page {
 		}
 
 		nvg.restore();
+		
 		scrollHelper.setMaxScroll(110 + 26, items.size(), height, 151, 22, 3);
 	}
 
@@ -132,10 +137,7 @@ public class ModsPage extends Page {
 			}
 
 			if (mouseButton == 0) {
-				if (MouseUtils.isInside(mouseX, mouseY, itemX, itemY, 244, 116)) {
-
-				}
-
+				
 				if (MouseUtils.isInside(mouseX, mouseY, itemX, itemY + 116, 244, 35)) {
 					m.toggle();
 				}
@@ -149,5 +151,10 @@ public class ModsPage extends Page {
 				offsetY += 22 + 151;
 			}
 		}
+	}
+	
+	@Override
+	public void keyTyped(char typedChar, int keyCode) {
+		
 	}
 }

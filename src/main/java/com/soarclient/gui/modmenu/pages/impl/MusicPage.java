@@ -1,4 +1,4 @@
-package com.soarclient.gui.modmenu.pages;
+package com.soarclient.gui.modmenu.pages.impl;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -7,6 +7,7 @@ import com.soarclient.Soar;
 import com.soarclient.animation.Animation;
 import com.soarclient.animation.other.DummyAnimation;
 import com.soarclient.gui.Page;
+import com.soarclient.gui.PageDirection;
 import com.soarclient.gui.modmenu.pages.components.MusicControlBar;
 import com.soarclient.management.color.api.ColorPalette;
 import com.soarclient.management.music.Music;
@@ -24,9 +25,9 @@ public class MusicPage extends Page {
     
     private List<Pair<Music, Animation>> items = new ArrayList<>();
     private MusicControlBar controlBar;
-    
+	
     public MusicPage(float x, float y, float width, float height) {
-        super("text.music", Icon.MUSIC_NOTE, x, y, width, height);
+        super(PageDirection.LEFT, "text.music", Icon.MUSIC_NOTE, x, y, width, height);
         
         for(Music m : Soar.getInstance().getMusicManager().getMusics()) {
             items.add(Pair.of(m, new DummyAnimation(0)));

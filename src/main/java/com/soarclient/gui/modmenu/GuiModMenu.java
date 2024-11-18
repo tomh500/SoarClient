@@ -9,25 +9,28 @@ import com.soarclient.Soar;
 import com.soarclient.animation.Animation;
 import com.soarclient.animation.Duration;
 import com.soarclient.animation.cubicbezier.impl.EaseEmphasizedDecelerate;
+import com.soarclient.animation.other.DummyAnimation;
+import com.soarclient.gui.Page;
+import com.soarclient.gui.PageDirection;
 import com.soarclient.gui.SoarGui;
-import com.soarclient.gui.component.Component;
-import com.soarclient.gui.component.impl.NavigationRail;
-import com.soarclient.gui.edithud.GuiEditHUD;
-import com.soarclient.gui.modmenu.pages.HomePage;
-import com.soarclient.gui.modmenu.pages.ModsPage;
-import com.soarclient.gui.modmenu.pages.MusicPage;
-import com.soarclient.gui.modmenu.pages.ProfilePage;
-import com.soarclient.gui.modmenu.pages.SettingsPage;
+import com.soarclient.gui.modmenu.pages.impl.HomePage;
+import com.soarclient.gui.modmenu.pages.impl.ModsPage;
+import com.soarclient.gui.modmenu.pages.impl.MusicPage;
+import com.soarclient.gui.modmenu.pages.impl.ProfilePage;
+import com.soarclient.gui.modmenu.pages.impl.SettingsPage;
 import com.soarclient.management.color.api.ColorPalette;
 import com.soarclient.nanovg.NanoVGHelper;
 import com.soarclient.shaders.blur.GaussianBlur;
 import com.soarclient.shaders.screen.ScreenWrapper;
 
+import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.ScaledResolution;
 
 public class GuiModMenu extends SoarGui {
 
-	private List<Component> components = new ArrayList<>();
+	private List<Page> pages = new ArrayList<>();
+	private Animation pageAnimation;
+
 	private NavigationRail navigationRail;
 	private float x, y, width, height;
 
@@ -36,26 +39,36 @@ public class GuiModMenu extends SoarGui {
 
 	private Animation animation;
 
+	private Page currentPage;
+	private Page prevPage;
+
+	private GuiScreen closeScreen;
+
 	@Override
 	public void init() {
 
-		components.clear();
+		pages.clear();
 
 		width = 938;
 		height = 580;
 		x = (mc.displayWidth / 2) - (width / 2);
 		y = (mc.displayHeight / 2) - (height / 2);
 
-		navigationRail = new NavigationRail(x, y, 80, height);
-		navigationRail.add(new HomePage(x + 80, y, width - 80, height));
-		navigationRail.add(new ModsPage(x + 80, y, width - 80, height));
-		navigationRail.add(new MusicPage(x + 80, y, width - 80, height));
-		navigationRail.add(new ProfilePage(x + 80, y, width - 80, height));
-		navigationRail.add(new SettingsPage(x + 80, y, width - 80, height));
-		navigationRail.initPage();
+		pages.add(new HomePage(x + 80, y, width - 80, height));
+		pages.add(new ModsPage(this, x + 80, y, width - 80, height));
+		pages.add(new MusicPage(x + 80, y, width - 80, height));
+		pages.add(new ProfilePage(x + 80, y, width - 80, height));
+		pages.add(new SettingsPage(x + 80, y, width - 80, height));
 
-		components.add(navigationRail);
+		if (currentPage == null) {
+			setPage(HomePage.class);
+		} else {
+			setPage(currentPage.getClass());
+		}
+
+		navigationRail = new NavigationRail(this, x, y, 80, height);
 		animation = new EaseEmphasizedDecelerate(Duration.EXTRA_LONG_1, 0, 1);
+		pageAnimation = new DummyAnimation(0, 1);
 	}
 
 	@Override
@@ -74,20 +87,49 @@ public class GuiModMenu extends SoarGui {
 
 				nvg.drawRoundedRect(x, y, width, height, 45, palette.getSurfaceContainer());
 
-				for (Component c : components) {
-					c.draw(mouseX * factor, mouseY * factor);
+				if (currentPage != null && prevPage == null) {
+					currentPage.draw(mouseX * factor, mouseY * factor);
 				}
-				
-				navigationRail.getCurrentPage().draw(mouseX * factor, mouseY * factor);
+
+				if (prevPage != null) {
+
+					PageDirection d = prevPage.getDirection();
+					float moveValue = pageAnimation.getEnd();
+					float lastValueX = 0;
+					float currentValueX = 0;
+
+					if (d.equals(PageDirection.LEFT)) {
+						lastValueX = -pageAnimation.getValue();
+						currentValueX = moveValue - pageAnimation.getValue();
+					}
+
+					if (d.equals(PageDirection.RIGHT)) {
+						lastValueX = pageAnimation.getValue();
+						currentValueX = -moveValue + pageAnimation.getValue();
+					}
+
+					nvg.save();
+					nvg.translate(lastValueX, 0);
+					prevPage.draw(mouseX * factor, mouseY * factor);
+					nvg.restore();
+
+					nvg.save();
+					nvg.translate(currentValueX, 0);
+					currentPage.draw(mouseX * factor, mouseY * factor);
+					nvg.restore();
+
+					if (pageAnimation.isFinished()) {
+						prevPage = null;
+						pageAnimation = new DummyAnimation(0, 0);
+					}
+				}
+
+				navigationRail.draw(mouseX * factor, mouseY * factor);
 			}, false);
 		}, x, y, width, height, 45, 2.0F - animation.getValue(), animation.getValue(), false);
 
-		if(navigationRail.isMoveEdit() && animation.getEnd() == 1) {
-			animation = new EaseEmphasizedDecelerate(Duration.EXTRA_LONG_1, 1, 0);
-		}
-		
 		if (animation.isFinished() && animation.getEnd() == 0) {
-			mc.displayGuiScreen(navigationRail.isMoveEdit() ? new GuiEditHUD(mc.currentScreen).create() : null);
+			mc.displayGuiScreen(closeScreen);
 		}
 	}
 
@@ -97,30 +139,66 @@ public class GuiModMenu extends SoarGui {
 		ScaledResolution sr = new ScaledResolution(mc);
 		int factor = sr.getScaleFactor();
 
-		for (Component c : components) {
-			c.mouseClicked(mouseX * factor, mouseY * factor, mouseButton);
-		}
-		
-		navigationRail.getCurrentPage().mouseClicked(mouseX * factor, mouseY * factor, mouseButton);
+		navigationRail.mouseClicked(mouseX * factor, mouseY * factor, mouseButton);
+		currentPage.mouseClicked(mouseX * factor, mouseY * factor, mouseButton);
 	}
-	
+
 	@Override
 	public void mouseReleased(int mouseX, int mouseY, int mouseButton) {
-		
+
 		ScaledResolution sr = new ScaledResolution(mc);
 		int factor = sr.getScaleFactor();
 
-		for (Component c : components) {
-			c.mouseReleased(mouseX * factor, mouseY * factor, mouseButton);
-		}
-		
-		navigationRail.getCurrentPage().mouseReleased(mouseX * factor, mouseY * factor, mouseButton);
+		currentPage.mouseReleased(mouseX * factor, mouseY * factor, mouseButton);
 	}
 
 	@Override
 	public void keyTyped(char typedCHar, int keyCode) {
-		if (keyCode == Keyboard.KEY_ESCAPE && animation.getEnd() == 1 && !navigationRail.getCurrentPage().isCancelEscape()) {
-			animation = new EaseEmphasizedDecelerate(Duration.EXTRA_LONG_1, 1, 0);
+		if (keyCode == Keyboard.KEY_ESCAPE && animation.getEnd() != 0 && pageAnimation.isFinished()) {
+			close(null);
 		}
+	}
+
+	public List<Page> getPages() {
+		return pages;
+	}
+
+	public Page getCurrentPage() {
+		return currentPage;
+	}
+
+	public void setPage(Class<? extends Page> clazz) {
+		setPage(getPageByClass(clazz));
+	}
+
+	public void setPage(Page page) {
+
+		if (currentPage != null) {
+			prevPage = currentPage;
+			currentPage.onClosed();
+		}
+
+		currentPage = page;
+		pageAnimation = new EaseEmphasizedDecelerate(Duration.MEDIUM_4, 0, width);
+
+		if (currentPage != null) {
+			currentPage.init();
+		}
+	}
+
+	private Page getPageByClass(Class<? extends Page> clazz) {
+
+		for (Page p : pages) {
+			if (p.getClass().equals(clazz)) {
+				return p;
+			}
+		}
+
+		return null;
+	}
+
+	public void close(GuiScreen screen) {
+		closeScreen = screen;
+		animation = new EaseEmphasizedDecelerate(Duration.EXTRA_LONG_1, 1, 0);
 	}
 }

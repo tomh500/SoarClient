@@ -7,16 +7,20 @@ public class Page {
 	protected Minecraft mc = Minecraft.getMinecraft();
 	protected float x, y, width, height;
 	private String title, icon;
-	private boolean cancelEscape;
+	private PageDirection direction;
 
-	public Page(String title, String icon, float x, float y, float width, float height) {
+	public Page(PageDirection direction, String title, String icon, float x, float y, float width, float height) {
+		this.direction = direction;
 		this.title = title;
 		this.icon = icon;
 		this.x = x;
 		this.y = y;
 		this.width = width;
 		this.height = height;
-		this.cancelEscape = false;
+	}
+	
+	public Page(String title, String icon, float x, float y, float width, float height) {
+		this(PageDirection.NONE, title, icon, x, y, width, height);
 	}
 
 	public void init() {
@@ -61,11 +65,11 @@ public class Page {
 		return height;
 	}
 
-	public boolean isCancelEscape() {
-		return cancelEscape;
+	public PageDirection getDirection() {
+		return direction;
 	}
 
-	public void setCancelEscape(boolean cancelEscape) {
-		this.cancelEscape = cancelEscape;
+	public void setDirection(PageDirection direction) {
+		this.direction = direction;
 	}
 }
