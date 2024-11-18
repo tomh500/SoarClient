@@ -67,6 +67,21 @@ dependencies {
 		exclude group: "com.google.code.gson", module: "gson"
 		exclude group: "org.slf4j", module: "slf4j-api"
     }
-	
+
+	implementation('net.raphimc:ViaLoader:3.0.5-SNAPSHOT') {
+		exclude group: "com.google.guava", module: "guava"
+		exclude group: "org.slf4j", module: "slf4j-api"
+    }
+
+	implementation 'com.viaversion:viaversion-common:5.1.2-SNAPSHOT'
+	implementation 'com.viaversion:viabackwards-common:5.1.2-SNAPSHOT'
+	implementation 'net.raphimc:viaaprilfools-common:3.0.5-SNAPSHOT'
+	implementation 'net.raphimc:ViaLegacy:3.0.6-SNAPSHOT'
+
+	implementation('net.raphimc:ViaBedrock:0.0.13-SNAPSHOT') {
+		exclude group: "io.jsonwebtoken"
+		exclude group: "com.mojang", module: "brigadier"
+    }
+
 	implementation fileTree('libs')
 }
