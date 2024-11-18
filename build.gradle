@@ -78,10 +78,5 @@ dependencies {
 	implementation 'net.raphimc:viaaprilfools-common:3.0.5-SNAPSHOT'
 	implementation 'net.raphimc:ViaLegacy:3.0.6-SNAPSHOT'
 
-	implementation('net.raphimc:ViaBedrock:0.0.13-SNAPSHOT') {
-		exclude group: "io.jsonwebtoken"
-		exclude group: "com.mojang", module: "brigadier"
-    }
-
 	implementation fileTree('libs')
 }
