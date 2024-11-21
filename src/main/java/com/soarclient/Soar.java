@@ -11,6 +11,8 @@ import com.soarclient.nanovg.NanoVGHelper;
 import com.soarclient.utils.file.FileLocation;
 import com.soarclient.utils.language.I18n;
 import com.soarclient.utils.language.Language;
+import com.soarclient.viasoar.ViaSoar;
+import com.soarclient.viasoar.common.ViaSoarCommon;
 
 public class Soar {
 
@@ -37,6 +39,8 @@ public class Soar {
 		launchTime = System.currentTimeMillis();
 		NanoVGHelper.getInstance().start();
 
+		ViaSoarCommon.init(ViaSoar.PLATFORM);
+		
 		accountManager = new AccountManager();
 		modManager = new ModManager();
 		modManager.init();

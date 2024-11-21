@@ -4,6 +4,14 @@ import java.io.IOException;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.concurrent.atomic.AtomicInteger;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+import com.soarclient.viasoar.common.ViaSoarCommon;
+import com.soarclient.viasoar.common.platform.VersionTracker;
+import com.viaversion.viaversion.api.protocol.version.ProtocolVersion;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiDisconnected;
@@ -16,8 +24,6 @@ import net.minecraft.network.handshake.client.C00Handshake;
 import net.minecraft.network.login.client.C00PacketLoginStart;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.ChatComponentTranslation;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 public class GuiConnecting extends GuiScreen {
 	private static final AtomicInteger CONNECTION_ID = new AtomicInteger(0);
@@ -53,7 +59,11 @@ public class GuiConnecting extends GuiScreen {
 						return;
 					}
 
-					inetaddress = InetAddress.getByName(ip);
+                    final InetAddress address = InetAddress.getByName(ip);
+                    ProtocolVersion version = ViaSoarCommon.getManager().getTargetVersion();
+                    VersionTracker.storeServerProtocolVersion(address, version);
+
+                    inetaddress = address;
 					GuiConnecting.this.networkManager = NetworkManager.createNetworkManagerAndConnect(inetaddress, port,
 							GuiConnecting.this.mc.gameSettings.isUsingNativeTransport());
 					GuiConnecting.this.networkManager

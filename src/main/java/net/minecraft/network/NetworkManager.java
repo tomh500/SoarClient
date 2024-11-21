@@ -6,6 +6,7 @@ import java.net.SocketAddress;
 import java.util.Queue;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
+import javax.crypto.Cipher;
 import javax.crypto.SecretKey;
 
 import org.apache.commons.lang3.ArrayUtils;
@@ -24,8 +25,12 @@ import com.soarclient.event.impl.SendPacketEvent;
 import com.soarclient.libraries.krypton.compress.MinecraftCompressDecoder;
 import com.soarclient.libraries.krypton.compress.MinecraftCompressEncoder;
 import com.soarclient.management.proxy.channel.ProxyOioChannelFactory;
+import com.soarclient.viasoar.common.ViaSoarCommon;
+import com.soarclient.viasoar.common.platform.VersionTracker;
+import com.soarclient.viasoar.common.protocoltranslator.netty.VSNetworkManager;
 import com.velocitypowered.natives.compression.VelocityCompressor;
 import com.velocitypowered.natives.util.Natives;
+import com.viaversion.viaversion.api.protocol.version.ProtocolVersion;
 
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.Channel;
@@ -63,8 +68,10 @@ import net.minecraft.util.MessageDeserializer;
 import net.minecraft.util.MessageDeserializer2;
 import net.minecraft.util.MessageSerializer;
 import net.minecraft.util.MessageSerializer2;
+import net.raphimc.vialegacy.api.LegacyProtocolVersion;
+import net.raphimc.vialoader.netty.VLLegacyPipeline;
 
-public class NetworkManager extends SimpleChannelInboundHandler<Packet> {
+public class NetworkManager extends SimpleChannelInboundHandler<Packet> implements VSNetworkManager {
 	private static final Logger logger = LogManager.getLogger();
 	public static final Marker logMarkerNetwork = MarkerManager.getMarker("NETWORK");
 	public static final Marker logMarkerPackets = MarkerManager.getMarker("NETWORK_PACKETS", logMarkerNetwork);
@@ -105,6 +112,9 @@ public class NetworkManager extends SimpleChannelInboundHandler<Packet> {
 	private IChatComponent terminationReason;
 	private boolean isEncrypted;
 	private boolean disconnected;
+
+	private Cipher decryptionCipher;
+	private ProtocolVersion targetVersion;
 
 	public NetworkManager(EnumPacketDirection packetDirection) {
 		this.direction = packetDirection;
@@ -360,6 +370,9 @@ public class NetworkManager extends SimpleChannelInboundHandler<Packet> {
 			eventLoopGroup = (EventLoopGroup) lazyloadbase.getValue();
 		}
 
+		final VSNetworkManager mixinNetworkManager = networkmanager;
+		mixinNetworkManager.setTrackedVersion(VersionTracker.getServerProtocolVersion(address));
+
 		bootstrap.group(eventLoopGroup).handler(new ChannelInitializer<Channel>() {
 			protected void initChannel(Channel p_initChannel_1_) throws Exception {
 				try {
@@ -376,6 +389,8 @@ public class NetworkManager extends SimpleChannelInboundHandler<Packet> {
 						.addLast((String) "encoder",
 								(ChannelHandler) (new MessageSerializer(EnumPacketDirection.SERVERBOUND)))
 						.addLast((String) "packet_handler", (ChannelHandler) networkmanager);
+
+				ViaSoarCommon.getManager().inject(p_initChannel_1_, networkmanager);
 			}
 		}).channel(oclass).connect(address, serverPort).syncUninterruptibly();
 		return networkmanager;
@@ -402,6 +417,15 @@ public class NetworkManager extends SimpleChannelInboundHandler<Packet> {
 	 * key used for encrypted communication
 	 */
 	public void enableEncryption(SecretKey key) {
+
+		if (targetVersion != null && targetVersion.olderThanOrEqualTo(LegacyProtocolVersion.r1_6_4)) {
+			this.decryptionCipher = CryptManager.createNetCipherInstance(2, key);
+			this.isEncrypted = true;
+			this.channel.pipeline().addBefore(VLLegacyPipeline.VIALEGACY_PRE_NETTY_LENGTH_REMOVER_NAME, "encrypt",
+					new NettyEncryptingEncoder(CryptManager.createNetCipherInstance(1, key)));
+			return;
+		}
+
 		this.isEncrypted = true;
 		this.channel.pipeline().addBefore("splitter", "decrypt",
 				new NettyEncryptingDecoder(CryptManager.createNetCipherInstance(2, key)));
@@ -457,6 +481,8 @@ public class NetworkManager extends SimpleChannelInboundHandler<Packet> {
 			this.channel.pipeline().remove("decompress");
 			this.channel.pipeline().remove("compress");
 		}
+
+		ViaSoarCommon.getManager().reorderCompression(channel);
 	}
 
 	public void checkDisconnected() {
@@ -484,5 +510,21 @@ public class NetworkManager extends SimpleChannelInboundHandler<Packet> {
 			this.packet = inPacket;
 			this.futureListeners = inFutureListeners;
 		}
+	}
+
+	@Override
+	public void setupPreNettyDecryption() {
+		this.channel.pipeline().addBefore(VLLegacyPipeline.VIALEGACY_PRE_NETTY_LENGTH_REMOVER_NAME, "decrypt",
+				new NettyEncryptingDecoder(this.decryptionCipher));
+	}
+
+	@Override
+	public ProtocolVersion getTrackedVersion() {
+		return targetVersion;
+	}
+
+	@Override
+	public void setTrackedVersion(ProtocolVersion version) {
+		targetVersion = version;
 	}
 }

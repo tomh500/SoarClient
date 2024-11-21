@@ -1,6 +1,9 @@
 package com.soarclient.viasoar.common;
 
+import java.io.File;
+
 import com.soarclient.utils.file.FileLocation;
+import com.soarclient.viasoar.common.gui.AsyncVersionSlider;
 import com.soarclient.viasoar.common.platform.VSPlatform;
 import com.soarclient.viasoar.common.platform.ViaSoarConfig;
 import com.soarclient.viasoar.common.protocoltranslator.ViaSoarVLInjector;
@@ -16,10 +19,12 @@ import com.viaversion.viaversion.protocol.ProtocolPipelineImpl;
 import io.netty.channel.Channel;
 import io.netty.util.AttributeKey;
 import net.raphimc.vialoader.ViaLoader;
-import net.raphimc.vialoader.impl.platform.*;
+import net.raphimc.vialoader.impl.platform.ViaAprilFoolsPlatformImpl;
+import net.raphimc.vialoader.impl.platform.ViaBackwardsPlatformImpl;
+import net.raphimc.vialoader.impl.platform.ViaLegacyPlatformImpl;
+import net.raphimc.vialoader.impl.platform.ViaRewindPlatformImpl;
+import net.raphimc.vialoader.impl.platform.ViaVersionPlatformImpl;
 import net.raphimc.vialoader.netty.CompressionReorderEvent;
-
-import java.io.File;
 
 public class ViaSoarCommon {
 
@@ -34,6 +39,8 @@ public class ViaSoarCommon {
 
 	private ViaSoarConfig config;
 
+	private static AsyncVersionSlider asyncVersionSlider;
+	
 	public ViaSoarCommon(VSPlatform platform) {
 		this.platform = platform;
 	}
@@ -65,6 +72,9 @@ public class ViaSoarCommon {
 		} else {
 			manager.setTargetVersion(version);
 		}
+		
+		asyncVersionSlider = new AsyncVersionSlider(-1, 5, 5, 110, 20);
+		asyncVersionSlider.setVersion(ViaSoarCommon.getManager().getTargetVersion());
 	}
 
 	public void inject(final Channel channel, final VSNetworkManager networkManager) {
@@ -127,5 +137,9 @@ public class ViaSoarCommon {
 
 	public static ViaSoarCommon getManager() {
 		return manager;
+	}
+
+	public static AsyncVersionSlider getAsyncVersionSlider() {
+		return asyncVersionSlider;
 	}
 }

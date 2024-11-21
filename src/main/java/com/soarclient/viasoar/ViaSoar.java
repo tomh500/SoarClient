@@ -5,9 +5,9 @@ import java.util.function.Supplier;
 
 import com.soarclient.viasoar.common.platform.VSPlatform;
 import com.soarclient.viasoar.provider.ViaSoarGameProfileFetcher;
+import com.viaversion.viaversion.api.protocol.version.ProtocolVersion;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.realms.RealmsSharedConstants;
 import net.minecraft.util.Session;
 import net.raphimc.vialegacy.protocol.release.r1_7_6_10tor1_8.provider.GameProfileFetcher;
 
@@ -17,7 +17,7 @@ public class ViaSoar implements VSPlatform {
 
     @Override
     public int getGameVersion() {
-        return RealmsSharedConstants.NETWORK_PROTOCOL_VERSION;
+        return ProtocolVersion.v1_8.getVersion();
     }
 
     @Override
