@@ -43,6 +43,7 @@ public class GuiModMenu extends SoarGui {
 	private Page prevPage;
 
 	private GuiScreen closeScreen;
+	private boolean closeable;
 
 	@Override
 	public void init() {
@@ -154,9 +155,12 @@ public class GuiModMenu extends SoarGui {
 
 	@Override
 	public void keyTyped(char typedCHar, int keyCode) {
+		
 		if (keyCode == Keyboard.KEY_ESCAPE && animation.getEnd() != 0 && pageAnimation.isFinished()) {
 			close(null);
 		}
+		
+		currentPage.keyTyped(typedCHar, keyCode);
 	}
 
 	public List<Page> getPages() {
@@ -194,11 +198,21 @@ public class GuiModMenu extends SoarGui {
 			}
 		}
 
-		return null;
+		return pages.get(0);
 	}
 
 	public void close(GuiScreen screen) {
-		closeScreen = screen;
-		animation = new EaseEmphasizedDecelerate(Duration.EXTRA_LONG_1, 1, 0);
+		if(closeable) {
+			closeScreen = screen;
+			animation = new EaseEmphasizedDecelerate(Duration.EXTRA_LONG_1, 1, 0);
+		}
+	}
+
+	public boolean isCloseable() {
+		return closeable;
+	}
+
+	public void setCloseable(boolean closeable) {
+		this.closeable = closeable;
 	}
 }

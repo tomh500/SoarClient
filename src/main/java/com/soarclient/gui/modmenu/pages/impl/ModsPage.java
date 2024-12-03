@@ -141,6 +141,10 @@ public class ModsPage extends Page {
 				if (MouseUtils.isInside(mouseX, mouseY, itemX, itemY + 116, 244, 35)) {
 					m.toggle();
 				}
+				
+				if(MouseUtils.isInside(mouseX, mouseY, itemX, itemY, 244, 116)) {
+					parent.setPage(new SettingsImplPage(parent, this.getClass(), x, y, width, height, m));
+				}
 			}
 
 			index++;
