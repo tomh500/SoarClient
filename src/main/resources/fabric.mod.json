@@ -1,0 +1,34 @@
+{
+	"schemaVersion": 1,
+	"id": "soarclient",
+	"version": "${version}",
+	"name": "SoarClient",
+	"description": "This mod adds things that should be in vanilla Minecraft",
+	"authors": [
+		"EldoDebug"
+	],
+	"contact": {
+		"homepage": "https://soarclient.com/",
+		"sources": "https://github.com/Soar-Client"
+	},
+	"icon": "assets/xenovations/icon.png",
+	"license": "MIT",
+	"environment": "*",
+	"entrypoints": {
+		"client": [
+			"com.soarclient.entrypoint.ClientEntrypoint"
+		]
+	},
+	"mixins": [
+		"soar.mixins.json"
+	],
+	"depends": {
+		"fabricloader": ">=0.16.9",
+		"minecraft": "~1.21.3",
+		"java": ">=21",
+		"fabric-api": "*"
+	},
+	"suggests": {
+		"another-mod": "*"
+	}
+}

@@ -1,7 +1,6 @@
 package com.soarclient.nanovg;
 
 import java.awt.Color;
-import java.io.File;
 
 import org.lwjgl.nanovg.NVGColor;
 import org.lwjgl.nanovg.NVGPaint;
@@ -13,17 +12,14 @@ import com.soarclient.nanovg.asset.AssetFlag;
 import com.soarclient.nanovg.asset.AssetHelper;
 import com.soarclient.nanovg.font.Font;
 import com.soarclient.nanovg.font.FontHelper;
-import com.soarclient.nanovg.font.Fonts;
 import com.soarclient.utils.ColorUtils;
 
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.ScaledResolution;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.util.Window;
 
 public class NanoVGHelper {
 
 	private static NanoVGHelper instance = new NanoVGHelper();
-	private Minecraft mc = Minecraft.getMinecraft();
 	private long nvg = -1;
 
 	public void start() {
@@ -42,13 +38,13 @@ public class NanoVGHelper {
 
 	public void setupAndDraw(Runnable task, boolean mcScale) {
 
-		ScaledResolution sr = new ScaledResolution(mc);
-
+		Window window = MinecraftClient.getInstance().getWindow();
+		
 		GL11.glPushAttrib(GL11.GL_ALL_ATTRIB_BITS);
-		NanoVG.nvgBeginFrame(nvg, mc.displayWidth, mc.displayHeight, 1);
+		NanoVG.nvgBeginFrame(nvg, window.getWidth(), window.getHeight(), 1);
 
 		if (mcScale) {
-			NanoVG.nvgScale(nvg, sr.getScaleFactor(), sr.getScaleFactor());
+			NanoVG.nvgScale(nvg, (float) window.getScaleFactor(), (float) window.getScaleFactor());
 		}
 
 		task.run();
@@ -188,8 +184,6 @@ public class NanoVGHelper {
 			text = "null";
 		}
 
-		y = y + size / 12;
-
 		NanoVG.nvgBeginPath(nvg);
 		NanoVG.nvgFontSize(nvg, size);
 		NanoVG.nvgFontFace(nvg, font.getName());
@@ -205,10 +199,6 @@ public class NanoVGHelper {
 
 		if (text == null) {
 			text = "null";
-		}
-
-		if (font == Fonts.ICON || font == Fonts.ICON_FILL) {
-			y = y + size / 12;
 		}
 
 		NanoVG.nvgBeginPath(nvg);
@@ -303,14 +293,14 @@ public class NanoVGHelper {
 		}
 	}
 
-	public void drawImage(File file, float x, float y, float width, float height, AssetFlag assetFlag) {
+	public void drawImage(String filePath, float x, float y, float width, float height, AssetFlag assetFlag) {
 
 		AssetHelper assetHelper = AssetHelper.getInstance();
 
-		if (assetHelper.loadImage(nvg, file, assetFlag)) {
+		if (assetHelper.loadImage(nvg, filePath, assetFlag)) {
 
 			NVGPaint imagePaint = NVGPaint.calloc();
-			int image = assetHelper.getImage(file);
+			int image = assetHelper.getImage(filePath);
 
 			NanoVG.nvgBeginPath(nvg);
 			NanoVG.nvgImagePattern(nvg, x, y, width, height, 0, image, 1, imagePaint);
@@ -321,41 +311,19 @@ public class NanoVGHelper {
 		}
 	}
 
-	public void drawImage(File file, float x, float y, float width, float height) {
-		drawImage(file, x, y, width, height, AssetFlag.DEFAULT);
+	public void drawImage(String filePath, float x, float y, float width, float height) {
+		drawImage(filePath, x, y, width, height, AssetFlag.DEFAULT);
 	}
 
-	public void drawImage(ResourceLocation location, float x, float y, float width, float height, AssetFlag assetFlag) {
-
-		AssetHelper assetHelper = AssetHelper.getInstance();
-
-		if (assetHelper.loadImage(nvg, location, assetFlag)) {
-
-			NVGPaint imagePaint = NVGPaint.calloc();
-			int image = assetHelper.getImage(location);
-
-			NanoVG.nvgBeginPath(nvg);
-			NanoVG.nvgImagePattern(nvg, x, y, width, height, 0, image, 1, imagePaint);
-			NanoVG.nvgRect(nvg, x, y, width, height);
-			NanoVG.nvgFillPaint(nvg, imagePaint);
-			NanoVG.nvgFill(nvg);
-			imagePaint.free();
-		}
-	}
-
-	public void drawImage(ResourceLocation location, float x, float y, float width, float height) {
-		drawImage(location, x, y, width, height, AssetFlag.DEFAULT);
-	}
-
-	public void drawRoundedImage(File file, float x, float y, float width, float height, float radius,
+	public void drawRoundedImage(String filePath, float x, float y, float width, float height, float radius,
 			AssetFlag assetFlag) {
 
 		AssetHelper assetHelper = AssetHelper.getInstance();
 
-		if (assetHelper.loadImage(nvg, file, assetFlag)) {
+		if (assetHelper.loadImage(nvg, filePath, assetFlag)) {
 
 			NVGPaint imagePaint = NVGPaint.calloc();
-			int image = assetHelper.getImage(file);
+			int image = assetHelper.getImage(filePath);
 
 			NanoVG.nvgBeginPath(nvg);
 			NanoVG.nvgImagePattern(nvg, x, y, width, height, 0, image, 1, imagePaint);
@@ -366,31 +334,8 @@ public class NanoVGHelper {
 		}
 	}
 
-	public void drawRoundedImage(File file, float x, float y, float width, float height, float radius) {
-		drawRoundedImage(file, x, y, width, height, radius, AssetFlag.DEFAULT);
-	}
-
-	public void drawRoundedImage(ResourceLocation location, float x, float y, float width, float height, float radius,
-			AssetFlag assetFlag) {
-
-		AssetHelper assetHelper = AssetHelper.getInstance();
-
-		if (assetHelper.loadImage(nvg, location, assetFlag)) {
-
-			NVGPaint imagePaint = NVGPaint.calloc();
-			int image = assetHelper.getImage(location);
-
-			NanoVG.nvgBeginPath(nvg);
-			NanoVG.nvgImagePattern(nvg, x, y, width, height, 0, image, 1, imagePaint);
-			NanoVG.nvgRoundedRect(nvg, x, y, width, height, radius);
-			NanoVG.nvgFillPaint(nvg, imagePaint);
-			NanoVG.nvgFill(nvg);
-			imagePaint.free();
-		}
-	}
-
-	public void drawRoundedImage(ResourceLocation location, float x, float y, float width, float height, float radius) {
-		drawRoundedImage(location, x, y, width, height, radius, AssetFlag.DEFAULT);
+	public void drawRoundedImage(String filePath, float x, float y, float width, float height, float radius) {
+		drawRoundedImage(filePath, x, y, width, height, radius, AssetFlag.DEFAULT);
 	}
 
 	public void drawRoundedImage(int texture, float x, float y, float width, float height, float radius, float alpha) {

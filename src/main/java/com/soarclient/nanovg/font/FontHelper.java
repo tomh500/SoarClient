@@ -25,7 +25,7 @@ public class FontHelper {
 		int loaded = -1;
 
 		try {
-			ByteBuffer buffer = IOUtils.resourceToByteBuffer(font.getResourceLocation());
+			ByteBuffer buffer = IOUtils.resourceToByteBuffer(font.getFilePath());
 			loaded = NanoVG.nvgCreateFontMem(nvg, font.getName(), buffer, false);
 			font.setBuffer(buffer);
 		} catch (Exception e) {

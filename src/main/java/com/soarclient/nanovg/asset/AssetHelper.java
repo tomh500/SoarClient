@@ -11,8 +11,6 @@ import org.lwjgl.stb.STBImage;
 
 import com.soarclient.utils.IOUtils;
 
-import net.minecraft.util.ResourceLocation;
-
 public class AssetHelper {
 
 	private static AssetHelper instance = new AssetHelper();
@@ -33,15 +31,15 @@ public class AssetHelper {
 		return true;
 	}
 
-	public boolean loadImage(long nvg, ResourceLocation location, AssetFlag assetFlag) {
+	public boolean loadImage(long nvg, String filePath, AssetFlag assetFlag) {
 
-		if (!imageCache.containsKey(location.getResourcePath())) {
+		if (!imageCache.containsKey(filePath)) {
 
 			int[] width = { 0 };
 			int[] height = { 0 };
 			int[] channels = { 0 };
 
-			ByteBuffer image = IOUtils.resourceToByteBuffer(location);
+			ByteBuffer image = IOUtils.resourceToByteBuffer(filePath);
 
 			if (image == null) {
 				return false;
@@ -53,37 +51,7 @@ public class AssetHelper {
 				return false;
 			}
 
-			imageCache.put(location.getResourcePath(),
-					new Asset(NanoVG.nvgCreateImageRGBA(nvg, width[0], height[0], assetFlag.getFlags(), buffer),
-							width[0], height[0]));
-
-			return true;
-		}
-
-		return true;
-	}
-
-	public boolean loadImage(long nvg, File file, AssetFlag assetFlag) {
-
-		if (!imageCache.containsKey(file.getName())) {
-
-			int[] width = { 0 };
-			int[] height = { 0 };
-			int[] channels = { 0 };
-
-			ByteBuffer image = IOUtils.resourceToByteBuffer(file);
-
-			if (image == null) {
-				return false;
-			}
-
-			ByteBuffer buffer = STBImage.stbi_load_from_memory(image, width, height, channels, 4);
-
-			if (buffer == null) {
-				return false;
-			}
-
-			imageCache.put(file.getName(),
+			imageCache.put(filePath,
 					new Asset(NanoVG.nvgCreateImageRGBA(nvg, width[0], height[0], assetFlag.getFlags(), buffer),
 							width[0], height[0]));
 
@@ -104,12 +72,10 @@ public class AssetHelper {
 		return 0;
 	}
 
-	public int getImage(ResourceLocation location) {
-
-		String path = location.getResourcePath();
-
-		if (imageCache.containsKey(path)) {
-			return imageCache.get(path).getImage();
+	public int getImage(String filePath) {
+		
+		if (imageCache.containsKey(filePath)) {
+			return imageCache.get(filePath).getImage();
 		}
 
 		return 0;
@@ -134,13 +100,10 @@ public class AssetHelper {
 		}
 	}
 
-	public void removeImage(long nvg, ResourceLocation location) {
-
-		String path = location.getResourcePath();
-
-		if (imageCache.containsKey(path)) {
-			NanoVG.nvgDeleteImage(nvg, imageCache.get(path).getImage());
-			imageCache.remove(path);
+	public void removeImage(long nvg, String filePath) {
+		if (imageCache.containsKey(filePath)) {
+			NanoVG.nvgDeleteImage(nvg, imageCache.get(filePath).getImage());
+			imageCache.remove(filePath);
 		}
 	}
 

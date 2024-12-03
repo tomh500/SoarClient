@@ -1,14 +1,14 @@
 import org.gradle.internal.os.OperatingSystem
 
 plugins {
-    id 'java'
-    id 'eclipse'
+	id 'fabric-loom' version '1.8-SNAPSHOT'
+	id 'maven-publish'
 }
 
-group = 'com.soarclient'
-version = '1.0-SNAPSHOT'
+version = project.mod_version
+group = project.maven_group
 
-project.ext.lwjglVersion = "3.3.4"
+project.ext.lwjglVersion = "3.3.3"
 
 switch (OperatingSystem.current()) {
 	case OperatingSystem.LINUX:
@@ -22,62 +22,73 @@ switch (OperatingSystem.current()) {
 			project.ext.lwjglNatives += "-riscv64"
 		}
 		break
-	case OperatingSystem.MAC_OS:
-		project.ext.lwjglNatives = System.getProperty("os.arch").startsWith("aarch64") ? "natives-macos-arm64" : "natives-macos"
-		break
 	case OperatingSystem.WINDOWS:
-		def osArch = System.getProperty("os.arch")
-		project.ext.lwjglNatives = osArch.contains("64")
-			? "natives-windows${osArch.startsWith("aarch64") ? "-arm64" : ""}"
-			: "natives-windows-x86"
+		project.ext.lwjglNatives = "natives-windows"
 		break
 }
 
+base {
+	archivesName = project.archives_base_name
+}
+
 repositories {
-    maven { url 'https://www.jitpack.io' }
-	maven { url "https://repo.viaversion.com" }
-	maven {
-        name = "Lenni0451"
-        url = "https://maven.lenni0451.net/everything"
-    }
-    mavenCentral()
+	mavenCentral()
+	maven { url 'https://jitpack.io' }
+}
+
+fabricApi {
+	configureDataGeneration()
 }
 
 dependencies {
 
-    implementation platform("org.lwjgl:lwjgl-bom:$lwjglVersion")
+	minecraft "com.mojang:minecraft:${project.minecraft_version}"
+	mappings "net.fabricmc:yarn:${project.yarn_mappings}:v2"
+	modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
 
-    implementation "org.lwjgl:lwjgl-nanovg"
-    implementation "org.lwjgl:lwjgl-nfd"
-    implementation "org.lwjgl:lwjgl-stb"
-    runtimeOnly "org.lwjgl:lwjgl::$lwjglNatives"
-    runtimeOnly "org.lwjgl:lwjgl-glfw::$lwjglNatives"
-    runtimeOnly "org.lwjgl:lwjgl-openal::$lwjglNatives"
-    runtimeOnly "org.lwjgl:lwjgl-opengl::$lwjglNatives"
-    runtimeOnly "org.lwjgl:lwjgl-nanovg::$lwjglNatives"
-    runtimeOnly "org.lwjgl:lwjgl-nfd::$lwjglNatives"
-    runtimeOnly "org.lwjgl:lwjgl-stb::$lwjglNatives"
+	modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
 
-	implementation 'it.unimi.dsi:fastutil:8.5.14'
-	implementation 'org.joml:joml:1.10.8'
-	implementation 'com.github.ben-manes.caffeine:caffeine:3.1.8'
-	implementation 'org.java-websocket:Java-WebSocket:1.5.7'
+	implementation platform("org.lwjgl:lwjgl-bom:$lwjglVersion")
+	implementation "org.lwjgl:lwjgl-nanovg"
+	implementation "org.lwjgl:lwjgl-nfd"
+	runtimeOnly "org.lwjgl:lwjgl::$lwjglNatives"
+	runtimeOnly "org.lwjgl:lwjgl-nanovg::$lwjglNatives"
+	runtimeOnly "org.lwjgl:lwjgl-nfd::$lwjglNatives"
+}
 
-	implementation('net.raphimc:MinecraftAuth:4.1.1') {
-		exclude group: "com.google.code.gson", module: "gson"
-		exclude group: "org.slf4j", module: "slf4j-api"
-    }
+processResources {
+	inputs.property "version", project.version
 
-	implementation('net.raphimc:ViaLoader:3.0.5-SNAPSHOT') {
-		exclude group: "com.google.guava", module: "guava"
-		exclude group: "org.slf4j", module: "slf4j-api"
-    }
+	filesMatching("fabric.mod.json") {
+		expand "version": project.version
+	}
+}
 
-	implementation 'com.viaversion:viaversion-common:5.1.2-SNAPSHOT'
-	implementation 'com.viaversion:viarewind-common:4.0.3'
-	implementation 'com.viaversion:viabackwards-common:5.1.2-SNAPSHOT'
-	implementation 'net.raphimc:viaaprilfools-common:3.0.5-SNAPSHOT'
-	implementation 'net.raphimc:ViaLegacy:3.0.6-SNAPSHOT'
+tasks.withType(JavaCompile).configureEach {
+	it.options.release = 21
+}
 
-	implementation fileTree('libs')
+java {
+	withSourcesJar()
+
+	sourceCompatibility = JavaVersion.VERSION_21
+	targetCompatibility = JavaVersion.VERSION_21
+}
+
+jar {
+	from("LICENSE") {
+		rename { "${it}_${project.base.archivesName.get()}"}
+	}
+}
+
+publishing {
+	publications {
+		create("mavenJava", MavenPublication) {
+			artifactId = project.archives_base_name
+			from components.java
+		}
+	}
+
+	repositories {
+	}
 }

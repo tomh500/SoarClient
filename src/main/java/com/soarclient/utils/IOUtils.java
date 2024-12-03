@@ -1,48 +1,38 @@
 package com.soarclient.utils;
 
 import java.io.File;
-import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.InputStream;
 import java.nio.Buffer;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
-
-import net.minecraft.client.Minecraft;
-import net.minecraft.util.ResourceLocation;
+import java.nio.file.Files;
 
 public class IOUtils {
 
-	private static Minecraft mc = Minecraft.getMinecraft();
-
-	public static ByteBuffer resourceToByteBuffer(ResourceLocation location) {
-
+	public static ByteBuffer resourceToByteBuffer(String path) {
+		
 		try {
-			byte[] bytes = org.apache.commons.io.IOUtils
-					.toByteArray(mc.getResourceManager().getResource(location).getInputStream());
-
+			byte[] bytes;
+			path = path.trim();
+			InputStream stream;
+			File file = new File(path);
+			if (file.exists() && file.isFile()) {
+				stream = Files.newInputStream(file.toPath());
+			} else {
+				stream = IOUtils.class.getResourceAsStream(path);
+			}
+			if (stream == null) {
+				throw new FileNotFoundException(path);
+			}
+			bytes = org.apache.commons.io.IOUtils.toByteArray(stream);
 			ByteBuffer data = ByteBuffer.allocateDirect(bytes.length).order(ByteOrder.nativeOrder()).put(bytes);
 			((Buffer) data).flip();
-
 			return data;
-		} catch (Exception e) {
+		} catch(Exception e) {
 			e.printStackTrace();
 		}
-
-		return null;
-	}
-
-	public static ByteBuffer resourceToByteBuffer(File file) {
-
-		try {
-			byte[] bytes = org.apache.commons.io.IOUtils.toByteArray(new FileInputStream(file));
-
-			ByteBuffer data = ByteBuffer.allocateDirect(bytes.length).order(ByteOrder.nativeOrder()).put(bytes);
-			((Buffer) data).flip();
-
-			return data;
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-
+		
 		return null;
 	}
 }

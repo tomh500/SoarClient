@@ -2,18 +2,16 @@ package com.soarclient.nanovg.font;
 
 import java.nio.ByteBuffer;
 
-import net.minecraft.util.ResourceLocation;
-
 public class Font {
 
 	private String name;
-	private ResourceLocation resourceLocation;
+	private String filePath;
 	private boolean loaded;
 	private ByteBuffer buffer;
 
-	public Font(String name, ResourceLocation resourceLocation) {
+	public Font(String name, String filePath) {
 		this.name = name;
-		this.resourceLocation = resourceLocation;
+		this.filePath = filePath;
 		this.loaded = false;
 		this.buffer = null;
 	}
@@ -34,8 +32,8 @@ public class Font {
 		this.buffer = buffer;
 	}
 
-	public ResourceLocation getResourceLocation() {
-		return resourceLocation;
+	public String getFilePath() {
+		return filePath;
 	}
 
 	public String getName() {
