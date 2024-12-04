@@ -1,38 +1,69 @@
 package com.soarclient.utils;
 
+import java.awt.Toolkit;
+import java.awt.datatransfer.DataFlavor;
+import java.awt.datatransfer.StringSelection;
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.InputStream;
+import java.io.FileInputStream;
 import java.nio.Buffer;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
-import java.nio.file.Files;
+
+import net.minecraft.client.Minecraft;
+import net.minecraft.util.ResourceLocation;
 
 public class IOUtils {
 
-	public static ByteBuffer resourceToByteBuffer(String path) {
-		
+	private static Minecraft mc = Minecraft.getMinecraft();
+
+	public static void copyStringToClipboard(String s) {
+		StringSelection stringSelection = new StringSelection(s);
+		getToolkit().getSystemClipboard().setContents(stringSelection, null);
+	}
+
+	public static String getStringFromClipboard() {
 		try {
-			byte[] bytes;
-			path = path.trim();
-			InputStream stream;
-			File file = new File(path);
-			if (file.exists() && file.isFile()) {
-				stream = Files.newInputStream(file.toPath());
-			} else {
-				stream = IOUtils.class.getResourceAsStream(path);
-			}
-			if (stream == null) {
-				throw new FileNotFoundException(path);
-			}
-			bytes = org.apache.commons.io.IOUtils.toByteArray(stream);
+			return getToolkit().getSystemClipboard().getContents(null).getTransferData(DataFlavor.stringFlavor)
+					.toString();
+		} catch (Exception e) {
+			return null;
+		}
+	}
+
+	private static Toolkit getToolkit() {
+		return Toolkit.getDefaultToolkit();
+	}
+
+	public static ByteBuffer resourceToByteBuffer(ResourceLocation location) {
+
+		try {
+			byte[] bytes = org.apache.commons.io.IOUtils
+					.toByteArray(mc.getResourceManager().getResource(location).getInputStream());
+
 			ByteBuffer data = ByteBuffer.allocateDirect(bytes.length).order(ByteOrder.nativeOrder()).put(bytes);
 			((Buffer) data).flip();
+
 			return data;
-		} catch(Exception e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
+
+		return null;
+	}
+
+	public static ByteBuffer resourceToByteBuffer(File file) {
+
+		try {
+			byte[] bytes = org.apache.commons.io.IOUtils.toByteArray(new FileInputStream(file));
+
+			ByteBuffer data = ByteBuffer.allocateDirect(bytes.length).order(ByteOrder.nativeOrder()).put(bytes);
+			((Buffer) data).flip();
+
+			return data;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
 		return null;
 	}
 }

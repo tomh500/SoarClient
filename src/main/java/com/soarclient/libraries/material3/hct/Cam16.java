@@ -199,6 +199,7 @@ public final class Cam16 {
 	// may differ at runtime due to floating point imprecision, keeping the values
 	// the same, and
 	// accurate, across implementations takes precedence.
+	@SuppressWarnings("FloatingPointLiteralPrecision")
 	static Cam16 fromIntInViewingConditions(int argb, ViewingConditions viewingConditions) {
 		// Transform ARGB int to XYZ
 		int red = (argb & 0x00ff0000) >> 16;

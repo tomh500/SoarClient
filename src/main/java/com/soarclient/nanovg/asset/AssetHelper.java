@@ -6,10 +6,12 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.lwjgl.nanovg.NanoVG;
-import org.lwjgl.nanovg.NanoVGGL2;
+import org.lwjgl.nanovg.NanoVGGL3;
 import org.lwjgl.stb.STBImage;
 
 import com.soarclient.utils.IOUtils;
+
+import net.minecraft.util.ResourceLocation;
 
 public class AssetHelper {
 
@@ -23,7 +25,7 @@ public class AssetHelper {
 		if (!glTextureCache.containsKey(texture)) {
 
 			glTextureCache.put(texture,
-					NanoVGGL2.nvglCreateImageFromHandle(nvg, texture, (int) width, -(int) height, 0));
+					NanoVGGL3.nvglCreateImageFromHandle(nvg, texture, (int) width, -(int) height, 0));
 
 			return true;
 		}
@@ -31,15 +33,15 @@ public class AssetHelper {
 		return true;
 	}
 
-	public boolean loadImage(long nvg, String filePath, AssetFlag assetFlag) {
+	public boolean loadImage(long nvg, ResourceLocation location, AssetFlag assetFlag) {
 
-		if (!imageCache.containsKey(filePath)) {
+		if (!imageCache.containsKey(location.getResourcePath())) {
 
 			int[] width = { 0 };
 			int[] height = { 0 };
 			int[] channels = { 0 };
 
-			ByteBuffer image = IOUtils.resourceToByteBuffer(filePath);
+			ByteBuffer image = IOUtils.resourceToByteBuffer(location);
 
 			if (image == null) {
 				return false;
@@ -51,7 +53,37 @@ public class AssetHelper {
 				return false;
 			}
 
-			imageCache.put(filePath,
+			imageCache.put(location.getResourcePath(),
+					new Asset(NanoVG.nvgCreateImageRGBA(nvg, width[0], height[0], assetFlag.getFlags(), buffer),
+							width[0], height[0]));
+
+			return true;
+		}
+
+		return true;
+	}
+
+	public boolean loadImage(long nvg, File file, AssetFlag assetFlag) {
+
+		if (!imageCache.containsKey(file.getName())) {
+
+			int[] width = { 0 };
+			int[] height = { 0 };
+			int[] channels = { 0 };
+
+			ByteBuffer image = IOUtils.resourceToByteBuffer(file);
+
+			if (image == null) {
+				return false;
+			}
+
+			ByteBuffer buffer = STBImage.stbi_load_from_memory(image, width, height, channels, 4);
+
+			if (buffer == null) {
+				return false;
+			}
+
+			imageCache.put(file.getName(),
 					new Asset(NanoVG.nvgCreateImageRGBA(nvg, width[0], height[0], assetFlag.getFlags(), buffer),
 							width[0], height[0]));
 
@@ -72,10 +104,12 @@ public class AssetHelper {
 		return 0;
 	}
 
-	public int getImage(String filePath) {
-		
-		if (imageCache.containsKey(filePath)) {
-			return imageCache.get(filePath).getImage();
+	public int getImage(ResourceLocation location) {
+
+		String path = location.getResourcePath();
+
+		if (imageCache.containsKey(path)) {
+			return imageCache.get(path).getImage();
 		}
 
 		return 0;
@@ -100,10 +134,13 @@ public class AssetHelper {
 		}
 	}
 
-	public void removeImage(long nvg, String filePath) {
-		if (imageCache.containsKey(filePath)) {
-			NanoVG.nvgDeleteImage(nvg, imageCache.get(filePath).getImage());
-			imageCache.remove(filePath);
+	public void removeImage(long nvg, ResourceLocation location) {
+
+		String path = location.getResourcePath();
+
+		if (imageCache.containsKey(path)) {
+			NanoVG.nvgDeleteImage(nvg, imageCache.get(path).getImage());
+			imageCache.remove(path);
 		}
 	}
 
