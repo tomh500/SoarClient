@@ -3,8 +3,10 @@ package com.soarclient.gui.component.impl.settings;
 import com.soarclient.Soar;
 import com.soarclient.gui.component.Component;
 import com.soarclient.gui.component.handler.impl.ComboButtonHandler;
+import com.soarclient.gui.component.handler.impl.KeybindHandler;
 import com.soarclient.gui.component.handler.impl.SliderHandler;
 import com.soarclient.gui.component.handler.impl.SwitchHandler;
+import com.soarclient.gui.component.impl.Keybind;
 import com.soarclient.gui.component.impl.Switch;
 import com.soarclient.gui.component.impl.buttons.ComboButton;
 import com.soarclient.gui.component.impl.sliders.Slider;
@@ -12,6 +14,7 @@ import com.soarclient.management.color.api.ColorPalette;
 import com.soarclient.management.mods.settings.Setting;
 import com.soarclient.management.mods.settings.impl.BooleanSetting;
 import com.soarclient.management.mods.settings.impl.ComboSetting;
+import com.soarclient.management.mods.settings.impl.KeybindSetting;
 import com.soarclient.management.mods.settings.impl.NumberSetting;
 import com.soarclient.nanovg.NanoVGHelper;
 import com.soarclient.nanovg.font.Fonts;
@@ -90,6 +93,22 @@ public class SettingBar extends Component {
 			});
 			
 			component = button;
+		}
+		
+		if (setting instanceof KeybindSetting) {
+			
+			KeybindSetting kSetting = (KeybindSetting) setting;
+			Keybind bind = new Keybind(0, 0, kSetting.getKeyCode());
+			
+			bind.setHandler(new KeybindHandler() {
+
+				@Override
+				public void onBinded(int keyCode) {
+					kSetting.setKeyCode(keyCode);
+				}
+			});
+			
+			component = bind;
 		}
 	}
 
