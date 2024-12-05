@@ -31,7 +31,7 @@ public class SearchBar extends Component {
 		super(x, y);
 		this.shortcutEvent = shortcutEvent;
 		this.width = width;
-		this.height = 44;
+		this.height = 42;
 		this.hintTextAnimation = new DummyAnimation(0, 1);
 		this.cursorAnimation = new DummyAnimation(0, 1);
 		this.cursorFlashAnimation = new DummyAnimation(0, 0);
@@ -47,14 +47,14 @@ public class SearchBar extends Component {
 		float hintTextValue = hintTextAnimation.getValue();
 
 		nvg.drawRoundedRect(x, y, width, height, 20, palette.getSurface());
-		nvg.drawText(Icon.SEARCH, x + 12, y + 12, palette.getOnSurface(), 24, Fonts.ICON);
+		nvg.drawText(Icon.SEARCH, x + 12, y + 11.5F, palette.getOnSurface(), 24, Fonts.ICON);
 		nvg.drawText(I18n.get(hintText), x + 40 - (25 * (1 - hintTextValue)), y + 15F,
 				ColorUtils.applyAlpha(palette.getOnSurfaceVariant(), (int) (hintTextValue * 255)), 16F, Fonts.REGULAR);
 		
 		drawCursor();
 		
 		if (!getText().isEmpty() || isFocused()) {
-			nvg.drawText(getText(), x + 40, y + 16F, palette.getOnSurfaceVariant(), 16F, Fonts.REGULAR);
+			nvg.drawText(getText(), x + 40, y + 15F, palette.getOnSurfaceVariant(), 16F, Fonts.REGULAR);
 		}
 		
 		if (Keyboard.isKeyDown(Keyboard.KEY_LCONTROL) && Keyboard.isKeyDown(Keyboard.KEY_F) && !isFocused()) {
@@ -95,7 +95,7 @@ public class SearchBar extends Component {
 		cursorAnimation = new EaseStandard(Duration.SHORT_1,
 				(cursorAnimation instanceof DummyAnimation) ? cursorResult : cursorAnimation.getValue(), cursorResult);
 
-		nvg.drawRect(x + 40 + cursorAnimation.getValue(), y + 10F, 1, 24,
+		nvg.drawRect(x + 40 + cursorAnimation.getValue(), y + 9, 1, 24,
 				ColorUtils.applyAlpha(palette.getSurfaceTint(), (int) (cursorFlashAnimation.getValue() * 255)));
 
 		if (cursorPosition != selectionEnd) {
@@ -110,7 +110,7 @@ public class SearchBar extends Component {
 				cursorAnimation = new DummyAnimation();
 			}
 
-			nvg.drawRect(x + 40 + offset, y + 10, selectionWidth, 24, palette.getSurfaceTint());
+			nvg.drawRect(x + 40 + offset, y + 9, selectionWidth, 24, palette.getSurfaceTint());
 		}
 	}
 	

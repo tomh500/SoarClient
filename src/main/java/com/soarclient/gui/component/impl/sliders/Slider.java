@@ -6,12 +6,15 @@ import com.soarclient.gui.component.Component;
 import com.soarclient.gui.component.handler.impl.SliderHandler;
 import com.soarclient.management.color.api.ColorPalette;
 import com.soarclient.nanovg.NanoVGHelper;
+import com.soarclient.nanovg.font.Fonts;
+import com.soarclient.utils.ColorUtils;
 import com.soarclient.utils.math.MathUtils;
 import com.soarclient.utils.mouse.MouseUtils;
 
 public class Slider extends Component {
 
 	private SimpleAnimation slideAnimation = new SimpleAnimation();
+	private SimpleAnimation valueAnimation = new SimpleAnimation();
 
 	private boolean dragging;
 	private float value, minValue, maxValue;
@@ -41,12 +44,25 @@ public class Slider extends Component {
 		float offsetY = (height / 2) - (barHeight / 2);
 
 		float slideValue = Math.abs(slideAnimation.getValue());
+		boolean hover = MouseUtils.isInside(mouseX, mouseY, x, y, width, height);
 
 		nvg.drawRoundedRect(x + slideValue - (selWidth / 2), y, selWidth, 44, 3, palette.getPrimary());
 		nvg.drawRoundedRectVarying(x, y + offsetY, slideValue - (selWidth / 2) - padding, barHeight, 8, 4, 8, 4,
 				palette.getPrimary());
 		nvg.drawRoundedRectVarying(x + padding + (selWidth / 2) + slideValue, y + offsetY, width - slideValue - padding,
 				barHeight, 4, 8, 4, 8, palette.getPrimaryContainer());
+
+		valueAnimation.onTick(hover || dragging ? 1 : 0, 16);
+
+		float centerX = (x + slideValue - (selWidth / 2));
+
+		nvg.save();
+		nvg.translate(0, 10 - (valueAnimation.getValue() * 10));
+		nvg.drawRoundedRect(centerX - (32 / 2) + 1.5F, y - 30, 32, 26, 12,
+				ColorUtils.applyAlpha(palette.getOnSurfaceVariant(), valueAnimation.getValue()));
+		nvg.drawCenteredText(String.valueOf(getValue()), centerX + 2, y - 22,
+				ColorUtils.applyAlpha(palette.getSurface(), valueAnimation.getValue()), 12, Fonts.REGULAR);
+		nvg.restore();
 
 		if (dragging) {
 

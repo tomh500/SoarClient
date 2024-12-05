@@ -155,13 +155,13 @@ public class GuiModMenu extends SoarGui {
 	}
 
 	@Override
-	public void keyTyped(char typedCHar, int keyCode) {
+	public void keyTyped(char typedChar, int keyCode) {
 		
 		if (keyCode == Keyboard.KEY_ESCAPE && animation.getEnd() != 0 && pageAnimation.isFinished()) {
 			close(null);
 		}
 		
-		currentPage.keyTyped(typedCHar, keyCode);
+		currentPage.keyTyped(typedChar, keyCode);
 	}
 
 	public List<Page> getPages() {

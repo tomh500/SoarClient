@@ -17,7 +17,6 @@ import com.soarclient.nanovg.font.Fonts;
 import com.soarclient.nanovg.font.Icon;
 import com.soarclient.utils.ColorUtils;
 import com.soarclient.utils.SearchUtils;
-import com.soarclient.utils.language.I18n;
 import com.soarclient.utils.mouse.MouseUtils;
 import com.soarclient.utils.mouse.ScrollHelper;
 import com.soarclient.utils.tuples.Pair;
@@ -52,7 +51,7 @@ public class MusicPage extends Page {
 
 		int index = 0;
 		float offsetX = 32;
-		float offsetY = 106;
+		float offsetY = 96;
 
 		scrollHelper.onScroll();
 
@@ -124,7 +123,7 @@ public class MusicPage extends Page {
 		nvg.restore();
 
 		controlBar.draw(mouseX, mouseY);
-		scrollHelper.setMaxScroll(106 + 26 + 60 + 8, items.size(), height, 206, 23, 4);
+		scrollHelper.setMaxScroll(96 + 26 + 60 + 8, items.size(), height, 206, 23, 4);
 	}
 
 	@Override
@@ -145,7 +144,7 @@ public class MusicPage extends Page {
 
 		int index = 0;
 		float offsetX = 32;
-		float offsetY = 106;
+		float offsetY = 96;
 
 		mouseY = (int) (mouseY - scrollHelper.getValue());
 

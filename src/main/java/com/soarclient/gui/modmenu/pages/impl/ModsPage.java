@@ -38,7 +38,7 @@ public class ModsPage extends Page {
 		for (Mod m : Soar.getInstance().getModManager().getMods()) {
 			items.add(Pair.of(m, new DummyAnimation(0, m.isEnabled() ? 1 : 0)));
 		}
-		
+
 		searchBar = new SearchBar(x + width - 260 - 32, y + 32, 260, () -> {
 			scrollHelper.reset();
 		});
@@ -57,12 +57,12 @@ public class ModsPage extends Page {
 		scrollHelper.onScroll();
 
 		mouseY = (int) (mouseY - scrollHelper.getValue());
-		
+
 		nvg.save();
 		nvg.translate(0, scrollHelper.getValue());
 
 		searchBar.draw(mouseX, mouseY);
-		
+
 		for (Pair<Mod, Animation> i : items) {
 
 			Mod m = i.getFirst();
@@ -71,13 +71,13 @@ public class ModsPage extends Page {
 			if (m.isHidden()) {
 				continue;
 			}
-			
+
 			if (!searchBar.getText().isEmpty() && !SearchUtils.isSimillar(I18n.get(m.getName()), searchBar.getText())) {
 				continue;
 			}
-			
+
 			float itemX = x + offsetX;
-			float itemY = y + 106 + offsetY;
+			float itemY = y + 96 + offsetY;
 
 			if (itemY + 151 < y - scrollHelper.getValue() || itemY > y + height - scrollHelper.getValue()) {
 				index++;
@@ -112,8 +112,8 @@ public class ModsPage extends Page {
 		}
 
 		nvg.restore();
-		
-		scrollHelper.setMaxScroll(106 + 26, items.size(), height, 151, 22, 3);
+
+		scrollHelper.setMaxScroll(96 + 26, items.size(), height, 151, 22, 3);
 	}
 
 	@Override
@@ -126,7 +126,7 @@ public class ModsPage extends Page {
 		mouseY = (int) (mouseY - scrollHelper.getValue());
 
 		searchBar.mouseClicked(mouseX, mouseY, mouseButton);
-		
+
 		if (mouseX < x || mouseX > x + width || mouseY + scrollHelper.getValue() < y
 				|| mouseY + scrollHelper.getValue() > y + height) {
 			return;
@@ -139,13 +139,13 @@ public class ModsPage extends Page {
 			if (m.isHidden()) {
 				continue;
 			}
-			
+
 			if (!searchBar.getText().isEmpty() && !SearchUtils.isSimillar(I18n.get(m.getName()), searchBar.getText())) {
 				continue;
 			}
 
 			float itemX = x + offsetX;
-			float itemY = y + 106 + offsetY;
+			float itemY = y + 96 + offsetY;
 
 			if (itemY + 151 < y - scrollHelper.getValue() || itemY > y + height - scrollHelper.getValue()) {
 				index++;
@@ -158,12 +158,13 @@ public class ModsPage extends Page {
 			}
 
 			if (mouseButton == 0) {
-				
+
 				if (MouseUtils.isInside(mouseX, mouseY, itemX, itemY + 116, 244, 35)) {
 					m.toggle();
 				}
-				
-				if(MouseUtils.isInside(mouseX, mouseY, itemX, itemY, 244, 116)) {
+
+				if (MouseUtils.isInside(mouseX, mouseY, itemX, itemY, 244, 116)
+						&& !Soar.getInstance().getModManager().getSettingsByMod(m).isEmpty()) {
 					parent.setPage(new SettingsImplPage(parent, this.getClass(), x, y, width, height, m));
 				}
 			}
@@ -177,7 +178,7 @@ public class ModsPage extends Page {
 			}
 		}
 	}
-	
+
 	@Override
 	public void keyTyped(char typedChar, int keyCode) {
 		searchBar.keyTyped(typedChar, keyCode);
