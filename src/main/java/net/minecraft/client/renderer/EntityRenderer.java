@@ -533,7 +533,10 @@ public class EntityRenderer implements IResourceManagerReloadListener {
 				f = f * 60.0F / 70.0F;
 			}
 
-			return f;
+			ZoomFovEvent event = new ZoomFovEvent(f);
+			EventBus.getInstance().post(event);
+
+			return event.getFov();
 		}
 	}
 
