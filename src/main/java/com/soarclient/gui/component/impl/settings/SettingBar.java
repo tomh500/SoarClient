@@ -2,13 +2,16 @@ package com.soarclient.gui.component.impl.settings;
 
 import com.soarclient.Soar;
 import com.soarclient.gui.component.Component;
+import com.soarclient.gui.component.handler.impl.ComboButtonHandler;
 import com.soarclient.gui.component.handler.impl.SliderHandler;
 import com.soarclient.gui.component.handler.impl.SwitchHandler;
 import com.soarclient.gui.component.impl.Switch;
+import com.soarclient.gui.component.impl.buttons.ComboButton;
 import com.soarclient.gui.component.impl.sliders.Slider;
 import com.soarclient.management.color.api.ColorPalette;
 import com.soarclient.management.mods.settings.Setting;
 import com.soarclient.management.mods.settings.impl.BooleanSetting;
+import com.soarclient.management.mods.settings.impl.ComboSetting;
 import com.soarclient.management.mods.settings.impl.NumberSetting;
 import com.soarclient.nanovg.NanoVGHelper;
 import com.soarclient.nanovg.font.Fonts;
@@ -71,6 +74,22 @@ public class SettingBar extends Component {
 			});
 
 			component = slider;
+		}
+		
+		if (setting instanceof ComboSetting) {
+			
+			ComboSetting cSetting = (ComboSetting) setting;
+			ComboButton button = new ComboButton(0, 0, cSetting.getOptions(), cSetting.getOption());
+			
+			button.setHandler(new ComboButtonHandler() {
+
+				@Override
+				public void onChanged(String option) {
+					cSetting.setOption(option);
+				}
+			});
+			
+			component = button;
 		}
 	}
 
