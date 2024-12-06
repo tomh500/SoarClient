@@ -115,6 +115,9 @@ mod.nameprotect.description=Protect your name
 mod.modmenu.name=Mod Menu
 mod.modmenu.description=Customize Mod Menu related settings
 
+mod.motionblur.name=Motion Blur
+mod.motionblur.description=Add the motion blur effect
+
 setting.blur=Blur
 setting.blur.description=Add a blur effect
 setting.intensity=Intensity
@@ -189,6 +192,8 @@ setting.time=Time
 setting.time.description=Set the time
 setting.name=Name
 setting.name.description=Set the name
+setting.amount=Amount
+setting.amount.description=Set the amount
 
 proxy.socks=Socks
 proxy.http=Http

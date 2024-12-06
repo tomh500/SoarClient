@@ -18,6 +18,7 @@ import com.google.common.base.Predicate;
 import com.google.common.base.Predicates;
 import com.google.gson.JsonSyntaxException;
 import com.soarclient.event.EventBus;
+import com.soarclient.event.impl.ShaderEvent;
 import com.soarclient.event.impl.ZoomFovEvent;
 import com.soarclient.libraries.sodium.SodiumClientMod;
 import com.soarclient.libraries.sodium.client.render.pipeline.context.ChunkRenderCacheShared;
@@ -1059,6 +1060,7 @@ public class EntityRenderer implements IResourceManagerReloadListener {
 				this.renderWorld(partialTicks, System.nanoTime() + l);
 
 				if (OpenGlHelper.shadersSupported) {
+					
 					this.mc.renderGlobal.renderEntityOutlineFramebuffer();
 
 					if (this.theShaderGroup != null && this.useShader) {
@@ -1069,6 +1071,17 @@ public class EntityRenderer implements IResourceManagerReloadListener {
 						GlStateManager.popMatrix();
 					}
 
+					ShaderEvent event = new ShaderEvent();
+					EventBus.getInstance().post(event);
+
+					for (ShaderGroup group : event.getGroups()) {
+						GlStateManager.matrixMode(5890);
+						GlStateManager.pushMatrix();
+						GlStateManager.loadIdentity();
+						group.loadShaderGroup(mc.getTimer().renderPartialTicks);
+						GlStateManager.popMatrix();
+					}
+					
 					this.mc.getFramebuffer().bindFramebuffer(true);
 				}
 
