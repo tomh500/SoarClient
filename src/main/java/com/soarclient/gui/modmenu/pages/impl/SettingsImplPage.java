@@ -92,7 +92,11 @@ public class SettingsImplPage extends Page {
 
 		if (keyCode == Keyboard.KEY_ESCAPE) {
 			parent.setPage(prevPage);
-			parent.setCloseable(true);
 		}
+	}
+	
+	@Override
+	public void onClosed() {
+		parent.setCloseable(true);
 	}
 }
