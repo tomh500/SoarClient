@@ -310,7 +310,7 @@ public abstract class World implements IBlockAccess, ILightingEngineProvider {
 		}
 	}
 
-	protected boolean isChunkLoaded(int x, int z, boolean allowEmpty) {
+	public boolean isChunkLoaded(int x, int z, boolean allowEmpty) {
 		return this.chunkProvider.chunkExists(x, z) && (allowEmpty || !this.chunkProvider.provideChunk(x, z).isEmpty());
 	}
 

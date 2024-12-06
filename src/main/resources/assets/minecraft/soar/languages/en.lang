@@ -118,6 +118,9 @@ mod.modmenu.description=Customize Mod Menu related settings
 mod.motionblur.name=Motion Blur
 mod.motionblur.description=Add the motion blur effect
 
+mod.minimap.name=Minimap
+mod.minimap.description=Display map in a smaller size
+
 setting.blur=Blur
 setting.blur.description=Add a blur effect
 setting.intensity=Intensity
@@ -194,6 +197,12 @@ setting.name=Name
 setting.name.description=Set the name
 setting.amount=Amount
 setting.amount.description=Set the amount
+setting.width=Width
+setting.width.description=Set the width
+setting.height=Height
+setting.height.description=Set the height
+setting.alpha=Alpha
+setting.alpha.description=Set the alpha
 
 proxy.socks=Socks
 proxy.http=Http

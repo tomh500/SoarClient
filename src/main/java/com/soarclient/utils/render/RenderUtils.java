@@ -1,5 +1,11 @@
 package com.soarclient.utils.render;
 
+import java.awt.Color;
+
+import org.lwjgl.opengl.GL11;
+
+import com.soarclient.utils.ColorUtils;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.RenderHelper;
@@ -11,6 +17,31 @@ import net.minecraft.item.ItemStack;
 public class RenderUtils {
 
 	private static Minecraft mc = Minecraft.getMinecraft();
+	
+	public static void drawRect(float x, float y, float width, float height, Color color) {
+
+		GL11.glEnable(3042);
+		GL11.glDisable(3553);
+		GL11.glBlendFunc(770, 771);
+		GL11.glEnable(2848);
+
+		GL11.glPushMatrix();
+		ColorUtils.setColor(color);
+		GL11.glBegin(7);
+		GL11.glVertex2d(x + width, y);
+		GL11.glVertex2d(x, y);
+		GL11.glVertex2d(x, y + height);
+		GL11.glVertex2d(x + width, y + height);
+		GL11.glEnd();
+		GL11.glPopMatrix();
+
+		GL11.glEnable(3553);
+		GL11.glDisable(3042);
+		GL11.glDisable(2848);
+		GlStateManager.enableTexture2D();
+		GlStateManager.disableBlend();
+		ColorUtils.setColor(Color.WHITE);
+	}
 	
 	public static void drawItemStack(ItemStack stack, float x, float y) {
 		GlStateManager.pushMatrix();
