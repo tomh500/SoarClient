@@ -56,6 +56,7 @@ import com.soarclient.event.impl.GameLoopEvent;
 import com.soarclient.event.impl.KeyEvent;
 import com.soarclient.event.impl.MouseClickEvent;
 import com.soarclient.event.impl.MouseScrollEvent;
+import com.soarclient.event.impl.PreClientTickEvent;
 import com.soarclient.event.impl.UpdateFramebufferSizeEvent;
 import com.soarclient.gui.mainmenu.GuiSoarMainMenu;
 import com.soarclient.libraries.patcher.reload.PatcherReloadListener;
@@ -1565,6 +1566,9 @@ public class Minecraft implements IThreadListener {
 	 * Runs the current tick.
 	 */
 	public void runTick() throws IOException {
+		
+		EventBus.getInstance().post(new PreClientTickEvent());
+		
 		if (this.rightClickDelayTimer > 0) {
 			--this.rightClickDelayTimer;
 		}

@@ -10,7 +10,7 @@ import com.google.common.collect.Lists;
 import com.soarclient.event.EventBus;
 import com.soarclient.event.impl.RenderGameOverlayEvent;
 import com.soarclient.libraries.sodium.SodiumClientMod;
-import com.soarclient.management.mods.impl.settings.GlobalSettings;
+import com.soarclient.management.mods.impl.settings.ModMenuSetting;
 import com.soarclient.shaders.blur.GaussianBlur;
 
 import net.minecraft.block.material.Material;
@@ -338,8 +338,8 @@ public class GuiIngame extends Gui {
 
 		EventBus event = EventBus.getInstance();
 
-		if (GlobalSettings.getInstance().getBlurSetting().isEnabled()) {
-			gaussianBlur.draw(1 + GlobalSettings.getInstance().getBlurIntensitySetting().getValue());
+		if (ModMenuSetting.getInstance().getBlurSetting().isEnabled()) {
+			gaussianBlur.draw(1 + ModMenuSetting.getInstance().getBlurIntensitySetting().getValue());
 		}
 		
 		event.post(new RenderGameOverlayEvent(partialTicks));

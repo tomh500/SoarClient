@@ -16,9 +16,9 @@ import com.soarclient.nanovg.font.Icon;
 
 import net.minecraft.client.gui.GuiScreen;
 
-public class GlobalSettings extends Mod {
+public class ModMenuSetting extends Mod {
 
-	private static GlobalSettings instance;
+	private static ModMenuSetting instance;
 	private GuiScreen modMenu;
 	
 	private KeybindSetting keybindSetting = new KeybindSetting("setting.keybind", "setting.keybind.description",
@@ -30,10 +30,10 @@ public class GlobalSettings extends Mod {
 	private BooleanSetting blurSetting = new BooleanSetting("setting.blur", "setting.blur.description", Icon.LENS_BLUR,
 			this, true);
 	private NumberSetting blurIntensitySetting = new NumberSetting("setting.intensity", "setting.intensity.blur",
-			Icon.LENS_BLUR, this, 19, 1, 40, 1);
+			Icon.LENS_BLUR, this, 24, 1, 60, 1);
 	
-	public GlobalSettings() {
-		super("mod.globalsettings.name", "mod.globalsettings.description", Icon.SETTINGS, ModCategory.MISC);
+	public ModMenuSetting() {
+		super("mod.modmenu.name", "mod.modmenu.description", Icon.MENU, ModCategory.MISC);
 		
 		instance = this;
 		this.setHidden(true);
@@ -59,7 +59,7 @@ public class GlobalSettings extends Mod {
 		this.setEnabled(true);
 	}
 
-	public static GlobalSettings getInstance() {
+	public static ModMenuSetting getInstance() {
 		return instance;
 	}
 

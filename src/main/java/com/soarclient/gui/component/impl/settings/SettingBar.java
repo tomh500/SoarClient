@@ -3,17 +3,21 @@ package com.soarclient.gui.component.impl.settings;
 import com.soarclient.Soar;
 import com.soarclient.gui.component.Component;
 import com.soarclient.gui.component.handler.impl.ComboButtonHandler;
+import com.soarclient.gui.component.handler.impl.HctColorPickerHandler;
 import com.soarclient.gui.component.handler.impl.KeybindHandler;
 import com.soarclient.gui.component.handler.impl.SliderHandler;
 import com.soarclient.gui.component.handler.impl.SwitchHandler;
+import com.soarclient.gui.component.impl.HctColorPicker;
 import com.soarclient.gui.component.impl.Keybind;
 import com.soarclient.gui.component.impl.Switch;
 import com.soarclient.gui.component.impl.buttons.ComboButton;
 import com.soarclient.gui.component.impl.sliders.Slider;
+import com.soarclient.libraries.material3.hct.Hct;
 import com.soarclient.management.color.api.ColorPalette;
 import com.soarclient.management.mods.settings.Setting;
 import com.soarclient.management.mods.settings.impl.BooleanSetting;
 import com.soarclient.management.mods.settings.impl.ComboSetting;
+import com.soarclient.management.mods.settings.impl.HctColorSetting;
 import com.soarclient.management.mods.settings.impl.KeybindSetting;
 import com.soarclient.management.mods.settings.impl.NumberSetting;
 import com.soarclient.nanovg.NanoVGHelper;
@@ -109,6 +113,22 @@ public class SettingBar extends Component {
 			});
 			
 			component = bind;
+		}
+		
+		if(setting instanceof HctColorSetting) {
+			
+			HctColorSetting hSetting = (HctColorSetting) setting;
+			HctColorPicker picker = new HctColorPicker(0, 0, hSetting.getHct());
+			
+			picker.setHandler(new HctColorPickerHandler() {
+
+				@Override
+				public void onPicking(Hct hct) {
+					hSetting.setHct(hct);
+				}
+			});
+			
+			component = picker;
 		}
 	}
 

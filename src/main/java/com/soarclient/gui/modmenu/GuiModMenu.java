@@ -19,6 +19,7 @@ import com.soarclient.gui.modmenu.pages.impl.MusicPage;
 import com.soarclient.gui.modmenu.pages.impl.ProfilePage;
 import com.soarclient.gui.modmenu.pages.impl.SettingsPage;
 import com.soarclient.management.color.api.ColorPalette;
+import com.soarclient.management.mods.impl.settings.ModMenuSetting;
 import com.soarclient.nanovg.NanoVGHelper;
 import com.soarclient.shaders.blur.GaussianBlur;
 import com.soarclient.shaders.screen.ScreenWrapper;
@@ -59,7 +60,7 @@ public class GuiModMenu extends SoarGui {
 		pages.add(new ModsPage(this, x + 80, y, width - 80, height));
 		pages.add(new MusicPage(x + 80, y, width - 80, height));
 		pages.add(new ProfilePage(x + 80, y, width - 80, height));
-		pages.add(new SettingsPage(x + 80, y, width - 80, height));
+		pages.add(new SettingsPage(this, x + 80, y, width - 80, height));
 
 		if (currentPage == null) {
 			setPage(HomePage.class);
@@ -82,7 +83,10 @@ public class GuiModMenu extends SoarGui {
 
 		int factor = sr.getScaleFactor();
 
-		gaussianBlur.draw(1 + (24 * animation.getValue()));
+		if (ModMenuSetting.getInstance().getBlurSetting().isEnabled()) {
+			gaussianBlur.draw(
+					1 + (ModMenuSetting.getInstance().getBlurIntensitySetting().getValue() * animation.getValue()));
+		}
 
 		screenWrapper.wrap(() -> {
 			nvg.setupAndDraw(() -> {
@@ -156,11 +160,11 @@ public class GuiModMenu extends SoarGui {
 
 	@Override
 	public void keyTyped(char typedChar, int keyCode) {
-		
+
 		if (keyCode == Keyboard.KEY_ESCAPE && animation.getEnd() != 0 && pageAnimation.isFinished()) {
 			close(null);
 		}
-		
+
 		currentPage.keyTyped(typedChar, keyCode);
 	}
 
@@ -203,7 +207,7 @@ public class GuiModMenu extends SoarGui {
 	}
 
 	public void close(GuiScreen screen) {
-		if(closeable) {
+		if (closeable) {
 			closeScreen = screen;
 			animation = new EaseEmphasizedDecelerate(Duration.EXTRA_LONG_1, 1, 0);
 		}

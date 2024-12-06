@@ -7,7 +7,7 @@ import com.soarclient.gui.mainmenu.api.MainMenuAPI;
 import com.soarclient.gui.mainmenu.pages.MainPage;
 import com.soarclient.libraries.material3.hct.Hct;
 import com.soarclient.management.color.api.ColorPalette;
-import com.soarclient.management.mods.impl.settings.GlobalSettings;
+import com.soarclient.management.mods.impl.settings.ModMenuSetting;
 import com.soarclient.nanovg.NanoVGHelper;
 
 import net.minecraft.client.gui.GuiScreen;
@@ -30,7 +30,7 @@ public class GuiSoarMainMenu extends GuiScreen {
 	@Override
 	public void initGui() {
 
-		if (GlobalSettings.getInstance().getDarkModeSetting().isEnabled()) {
+		if (ModMenuSetting.getInstance().getDarkModeSetting().isEnabled()) {
 			titlePanoramaPaths = new ResourceLocation[] { new ResourceLocation("soar/panorama/night/0.png"),
 					new ResourceLocation("soar/panorama/night/1.png"),
 					new ResourceLocation("soar/panorama/night/2.png"),

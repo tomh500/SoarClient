@@ -51,7 +51,7 @@ public class Soar {
 		Delta.register();
 		I18n.setLanguage(Language.ENGLISH);
 		
-		EventBus.getInstance().post(new SoarHandler());
+		EventBus.getInstance().register(new SoarHandler());
 	}
 
 	public void stop() {

@@ -22,9 +22,6 @@ mod.hitdelayfix.description=Fix Hit delays
 mod.nojumpdelay.name=NoJumpDelay
 mod.nojumpdelay.description=Remove jump delays
 
-mod.globalsettings.name=Global Settings
-mod.globalsettings.description=Global Settings
-
 mod.liquidfix.name=Liquid Fix
 mod.liquidfix.description=Fix misalignment of magma and water
 
@@ -115,6 +112,17 @@ mod.rawinput.description=Enable raw input for the mouse
 mod.nameprotect.name=Name Protect
 mod.nameprotect.description=Protect your name
 
+mod.modmenu.name=Mod Menu
+mod.modmenu.description=Customize Mod Menu related settings
+
+setting.blur=Blur
+setting.blur.description=Add a blur effect
+setting.intensity=Intensity
+setting.intensity.description=Set the intensity
+setting.blurintensity=Blur Intensity
+setting.intensity.blur=Set the intensity of the blur
+setting.icon=Icon
+setting.icon.description=Display icon on the HUD
 setting.keybind=Keybind
 setting.keybind.description=Assigning keys
 setting.darkmode=Dark Mode
