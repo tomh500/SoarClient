@@ -23,7 +23,7 @@ public class MotionBlurMod extends Mod {
 	private int prevWidth, prevHeight;
 	
 	private NumberSetting amountSetting = new NumberSetting("setting.amount", "setting.amount.description",
-			Icon.FILTER_5, this, 0.5F, 0.1F, 1.0F, 0.1F);
+			Icon.FILTER_5, this, 0.5F, 0.1F, 1.0F, 0.01F);
 	
 	public MotionBlurMod() {
 		super("mod.motionblur.name", "mod.motionblur.description", Icon.MOTION_BLUR, ModCategory.RENDER);
@@ -58,7 +58,7 @@ public class MotionBlurMod extends Mod {
 			group.getListShaders().forEach((shader) -> {
 				ShaderUniform factor = shader.getShaderManager().getShaderUniform("BlurFactor");
 				if (factor != null) {
-					factor.set(amountSetting.getValue());
+					factor.set(amountSetting.getValue() - 0.01F);
 				}
 			});
 			groupBlur = amountSetting.getValue();
