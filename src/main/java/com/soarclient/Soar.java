@@ -14,6 +14,8 @@ import com.soarclient.utils.language.Language;
 import com.soarclient.viasoar.ViaSoar;
 import com.soarclient.viasoar.common.ViaSoarCommon;
 
+import net.minecraft.client.Minecraft;
+
 public class Soar {
 
 	private static Soar instance = new Soar();
@@ -34,7 +36,7 @@ public class Soar {
 	}
 	
 	public void start() {
-
+		
 		FileLocation.init();
 		launchTime = System.currentTimeMillis();
 		NanoVGHelper.getInstance().start();
@@ -52,6 +54,7 @@ public class Soar {
 		I18n.setLanguage(Language.ENGLISH);
 		
 		EventBus.getInstance().register(new SoarHandler());
+		Minecraft.getMinecraft().fontRendererObj.drawString("", 0, 0, 0);
 	}
 
 	public void stop() {
