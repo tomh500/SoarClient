@@ -15,15 +15,12 @@ import com.soarclient.nanovg.NanoVGHelper;
 import com.soarclient.nanovg.font.Icon;
 import com.soarclient.shaders.screen.ScreenWrapper;
 import com.soarclient.utils.render.GlUtils;
-import com.soarclient.utils.render.RenderUtils;
 
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.WorldRenderer;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.util.BlockPos;
-import net.minecraft.world.chunk.Chunk;
 
 public class MinimapMod extends HUDMod {
 
@@ -45,7 +42,7 @@ public class MinimapMod extends HUDMod {
 
 	@EventHandler
 	public void onRenderGameOverlay(RenderGameOverlayEvent event) {
-
+		
 		NanoVGHelper nvg = NanoVGHelper.getInstance();
 		float posX = position.getX();
 		float posY = position.getY();
