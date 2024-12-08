@@ -20,7 +20,7 @@ import com.soarclient.utils.mouse.MouseUtils;
 public class SearchBar extends Component {
 
 	private Runnable shortcutEvent;
-	
+
 	private SimpleAnimation cursorAnimation = new SimpleAnimation();
 	private Animation cursorFlashAnimation;
 	private Animation hintTextAnimation;
@@ -50,29 +50,45 @@ public class SearchBar extends Component {
 		nvg.drawText(Icon.SEARCH, x + 12, y + 11.5F, palette.getOnSurface(), 24, Fonts.ICON);
 		nvg.drawText(I18n.get(hintText), x + 40 - (25 * (1 - hintTextValue)), y + 15F,
 				ColorUtils.applyAlpha(palette.getOnSurfaceVariant(), (int) (hintTextValue * 255)), 16F, Fonts.REGULAR);
+
+		nvg.save();
+		nvg.scissor(x + 40, y, width, height);
 		
 		drawCursor();
+
+		String text = getText();
 		
-		if (!getText().isEmpty() || isFocused()) {
-			nvg.drawText(getText(), x + 40, y + 15F, palette.getOnSurfaceVariant(), 16F, Fonts.REGULAR);
+		if (!text.isEmpty() || isFocused()) {
+			float availableWidth = width - 50;
+			float textWidth = nvg.getTextWidth(text, 16F, Fonts.REGULAR);
+
+			float xOffset = 0;
+			if (textWidth > availableWidth) {
+				float overflow = textWidth - availableWidth;
+				xOffset = -overflow;
+			}
+
+			nvg.drawText(text, x + 40 + xOffset, y + 15F, palette.getOnSurfaceVariant(), 16F, Fonts.REGULAR);
 		}
 		
+		nvg.restore();
+
 		if (Keyboard.isKeyDown(Keyboard.KEY_LCONTROL) && Keyboard.isKeyDown(Keyboard.KEY_F) && !isFocused()) {
 
 			if (getText().isEmpty()) {
 				hintTextAnimation = new EaseStandard(Duration.MEDIUM_1, hintTextAnimation.getValue(), 0);
 			}
-			
+
 			shortcutEvent.run();
 			input.setFocused(true);
 		}
 	}
 
 	private void drawCursor() {
-
+		
 		NanoVGHelper nvg = NanoVGHelper.getInstance();
-
 		ColorPalette palette = Soar.getInstance().getColorManager().getPalette();
+
 		int selectionEnd = input.getSelectionEnd();
 		int cursorPosition = input.getCursorPosition();
 		String text = getText();
@@ -90,25 +106,32 @@ public class SearchBar extends Component {
 			}
 		}
 
-		float cursorResult = nvg.getTextWidth(text.substring(0, cursorPosition), 16, Fonts.REGULAR);
+		float textWidth = nvg.getTextWidth(text, 16, Fonts.REGULAR);
+		float availableWidth = width - 50;
+		float xOffset = 0;
 
-		cursorAnimation.onTick(cursorResult, 16);
+		if (textWidth > availableWidth) {
+			float overflow = textWidth - availableWidth;
+			xOffset = -overflow;
+		}
 
-		nvg.drawRect(x + 40 + cursorAnimation.getValue(), y + 9, 1, 24,
+		float cursorOffset = nvg.getTextWidth(text.substring(0, cursorPosition), 16, Fonts.REGULAR);
+		float cursorX = x + 40 + cursorOffset + xOffset; // xOffset を追加
+
+		nvg.drawRect(cursorX, y + 9, 1, 24,
 				ColorUtils.applyAlpha(palette.getSurfaceTint(), (int) (cursorFlashAnimation.getValue() * 255)));
 
 		if (cursorPosition != selectionEnd) {
-
-			int start = selectionEnd > cursorPosition ? cursorPosition : selectionEnd;
-			int end = selectionEnd > cursorPosition ? selectionEnd : cursorPosition;
+			int start = Math.min(cursorPosition, selectionEnd);
+			int end = Math.max(cursorPosition, selectionEnd);
 
 			float selectionWidth = nvg.getTextWidth(text.substring(start, end), 16, Fonts.REGULAR);
-			float offset = nvg.getTextWidth(text.substring(0, start), 16, Fonts.REGULAR);
+			float selectionOffset = nvg.getTextWidth(text.substring(0, start), 16, Fonts.REGULAR);
 
-			nvg.drawRect(x + 40 + offset, y + 9, selectionWidth, 24, palette.getSurfaceTint());
+			nvg.drawRect(x + 40 + selectionOffset + xOffset, y + 9, selectionWidth, 24, palette.getSurfaceTint());
 		}
 	}
-	
+
 	@Override
 	public void mouseClicked(int mouseX, int mouseY, int mouseButton) {
 
@@ -117,18 +140,18 @@ public class SearchBar extends Component {
 		if (mouseButton == 0) {
 
 			if (isInside && !isFocused()) {
-				
+
 				if (getText().isEmpty()) {
 					hintTextAnimation = new EaseStandard(Duration.MEDIUM_1, hintTextAnimation.getValue(), 0);
 				}
-				
+
 				input.setFocused(true);
 			} else if (!isInside && isFocused()) {
-				
+
 				if (getText().isEmpty()) {
 					hintTextAnimation = new EaseStandard(Duration.MEDIUM_1, hintTextAnimation.getValue(), 1);
 				}
-				
+
 				input.setFocused(false);
 			}
 		}

@@ -280,6 +280,10 @@ public class NanoVGHelper {
 	public void restore() {
 		NanoVG.nvgRestore(nvg);
 	}
+	
+	public void scissor(float x, float y, float width, float height) {
+		NanoVG.nvgScissor(nvg, x, y, width, height);
+	}
 
 	public void drawImage(int texture, float x, float y, float width, float height, float alpha) {
 
