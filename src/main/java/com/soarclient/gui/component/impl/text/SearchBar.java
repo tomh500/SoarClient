@@ -5,6 +5,7 @@ import org.lwjgl.input.Keyboard;
 import com.soarclient.Soar;
 import com.soarclient.animation.Animation;
 import com.soarclient.animation.Duration;
+import com.soarclient.animation.SimpleAnimation;
 import com.soarclient.animation.cubicbezier.impl.EaseStandard;
 import com.soarclient.animation.other.DummyAnimation;
 import com.soarclient.gui.component.Component;
@@ -20,7 +21,7 @@ public class SearchBar extends Component {
 
 	private Runnable shortcutEvent;
 	
-	private Animation cursorAnimation;
+	private SimpleAnimation cursorAnimation = new SimpleAnimation();
 	private Animation cursorFlashAnimation;
 	private Animation hintTextAnimation;
 
@@ -33,7 +34,6 @@ public class SearchBar extends Component {
 		this.width = width;
 		this.height = 42;
 		this.hintTextAnimation = new DummyAnimation(0, 1);
-		this.cursorAnimation = new DummyAnimation(0, 1);
 		this.cursorFlashAnimation = new DummyAnimation(0, 0);
 		this.hintText = "text.search";
 	}
@@ -92,8 +92,7 @@ public class SearchBar extends Component {
 
 		float cursorResult = nvg.getTextWidth(text.substring(0, cursorPosition), 16, Fonts.REGULAR);
 
-		cursorAnimation = new EaseStandard(Duration.SHORT_1,
-				(cursorAnimation instanceof DummyAnimation) ? cursorResult : cursorAnimation.getValue(), cursorResult);
+		cursorAnimation.onTick(cursorResult, 16);
 
 		nvg.drawRect(x + 40 + cursorAnimation.getValue(), y + 9, 1, 24,
 				ColorUtils.applyAlpha(palette.getSurfaceTint(), (int) (cursorFlashAnimation.getValue() * 255)));
@@ -105,10 +104,6 @@ public class SearchBar extends Component {
 
 			float selectionWidth = nvg.getTextWidth(text.substring(start, end), 16, Fonts.REGULAR);
 			float offset = nvg.getTextWidth(text.substring(0, start), 16, Fonts.REGULAR);
-
-			if (!(cursorAnimation instanceof DummyAnimation)) {
-				cursorAnimation = new DummyAnimation();
-			}
 
 			nvg.drawRect(x + 40 + offset, y + 9, selectionWidth, 24, palette.getSurfaceTint());
 		}
