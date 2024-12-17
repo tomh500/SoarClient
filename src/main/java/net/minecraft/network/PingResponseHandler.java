@@ -20,12 +20,6 @@ public class PingResponseHandler extends ChannelInboundHandlerAdapter {
 	}
 
 	public void channelRead(ChannelHandlerContext p_channelRead_1_, Object p_channelRead_2_) throws Exception {
-		
-        if (!p_channelRead_1_.channel().isActive()) {
-            ((ByteBuf) p_channelRead_2_).clear();
-            return;
-        }
-        
 		ByteBuf bytebuf = (ByteBuf) p_channelRead_2_;
 		bytebuf.markReaderIndex();
 		boolean flag = true;

@@ -7,28 +7,14 @@ public class ChatComponentText extends ChatComponentStyle {
 		this.text = msg;
 	}
 
-	/**
-	 * Gets the text value of this ChatComponentText.
-	 * getUnformattedText and getUnformattedTextForChat missing that made someone
-	 * decide to create a third equivalent method that only ChatComponentText can
-	 * implement?
-	 */
 	public String getChatComponentText_TextValue() {
 		return this.text;
 	}
 
-	/**
-	 * Gets the text of this component, without any special formatting codes added,
-	 * for chat.
-	 */
 	public String getUnformattedTextForChat() {
 		return this.text;
 	}
 
-	/**
-	 * Creates a copy of this component. Almost a deep copy, except the style is
-	 * shallow-copied.
-	 */
 	public ChatComponentText createCopy() {
 		ChatComponentText chatcomponenttext = new ChatComponentText(this.text);
 		chatcomponenttext.setChatStyle(this.getChatStyle().createShallowCopy());

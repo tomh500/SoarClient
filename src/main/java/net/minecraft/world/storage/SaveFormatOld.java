@@ -14,10 +14,6 @@ import org.apache.logging.log4j.Logger;
 
 public class SaveFormatOld implements ISaveFormat {
 	private static final Logger logger = LogManager.getLogger();
-
-	/**
-	 * Reference to the File object representing the directory for the world saves
-	 */
 	protected final File savesDirectory;
 
 	public SaveFormatOld(File savesDirectoryIn) {
@@ -28,9 +24,6 @@ public class SaveFormatOld implements ISaveFormat {
 		this.savesDirectory = savesDirectoryIn;
 	}
 
-	/**
-	 * Returns the name of the save format.
-	 */
 	public String getName() {
 		return "Old Format";
 	}
@@ -55,9 +48,6 @@ public class SaveFormatOld implements ISaveFormat {
 	public void flushCache() {
 	}
 
-	/**
-	 * Returns the world's WorldInfo object
-	 */
 	public WorldInfo getWorldInfo(String saveName) {
 		File file1 = new File(this.savesDirectory, saveName);
 
@@ -92,10 +82,6 @@ public class SaveFormatOld implements ISaveFormat {
 		}
 	}
 
-	/**
-	 * Renames the world by storing the new name in level.dat. It does *not* rename
-	 * the directory containing the world data.
-	 */
 	public void renameWorld(String dirName, String newName) {
 		File file1 = new File(this.savesDirectory, dirName);
 
@@ -132,13 +118,6 @@ public class SaveFormatOld implements ISaveFormat {
 		}
 	}
 
-	/**
-	 * @args: Takes one argument - the name of the directory of the world to
-	 *        delete. @desc: Delete the world by deleting the associated directory
-	 *        recursively.
-	 * 
-	 * @param saveName The current save's name
-	 */
 	public boolean deleteWorldDirectory(String saveName) {
 		File file1 = new File(this.savesDirectory, saveName);
 
@@ -169,11 +148,6 @@ public class SaveFormatOld implements ISaveFormat {
 		}
 	}
 
-	/**
-	 * @args: Takes one argument - the list of files and directories to
-	 *        delete. @desc: Deletes the files and directory listed in the list
-	 *        recursively.
-	 */
 	protected static boolean deleteFiles(File[] files) {
 		for (int i = 0; i < files.length; ++i) {
 			File file1 = files[i];
@@ -193,9 +167,6 @@ public class SaveFormatOld implements ISaveFormat {
 		return true;
 	}
 
-	/**
-	 * Returns back a loader for the specified save directory
-	 */
 	public ISaveHandler getSaveLoader(String saveName, boolean storePlayerdata) {
 		return new SaveHandler(this.savesDirectory, saveName, storePlayerdata);
 	}
@@ -204,25 +175,14 @@ public class SaveFormatOld implements ISaveFormat {
 		return false;
 	}
 
-	/**
-	 * gets if the map is old chunk saving (true) or McRegion (false)
-	 */
 	public boolean isOldMapFormat(String saveName) {
 		return false;
 	}
 
-	/**
-	 * converts the map to mcRegion
-	 */
 	public boolean convertMapFormat(String filename, IProgressUpdate progressCallback) {
 		return false;
 	}
 
-	/**
-	 * Return whether the given world can be loaded.
-	 * 
-	 * @param saveName The current save's name
-	 */
 	public boolean canLoadWorld(String saveName) {
 		File file1 = new File(this.savesDirectory, saveName);
 		return file1.isDirectory();

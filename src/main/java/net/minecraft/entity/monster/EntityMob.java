@@ -18,11 +18,6 @@ public abstract class EntityMob extends EntityCreature implements IMob {
 		this.experienceValue = 5;
 	}
 
-	/**
-	 * Called frequently so the entity can update its state every tick as required.
-	 * For example, zombies and skeletons use this to react to sunlight and start to
-	 * burn.
-	 */
 	public void onLivingUpdate() {
 		this.updateArmSwingProgress();
 		float f = this.getBrightness(1.0F);
@@ -34,9 +29,6 @@ public abstract class EntityMob extends EntityCreature implements IMob {
 		super.onLivingUpdate();
 	}
 
-	/**
-	 * Called to update the entity's position/logic.
-	 */
 	public void onUpdate() {
 		super.onUpdate();
 
@@ -53,9 +45,6 @@ public abstract class EntityMob extends EntityCreature implements IMob {
 		return "game.hostile.swim.splash";
 	}
 
-	/**
-	 * Called when the entity is attacked.
-	 */
 	public boolean attackEntityFrom(DamageSource source, float amount) {
 		if (this.isEntityInvulnerable(source)) {
 			return false;
@@ -67,16 +56,10 @@ public abstract class EntityMob extends EntityCreature implements IMob {
 		}
 	}
 
-	/**
-	 * Returns the sound this mob makes when it is hurt.
-	 */
 	protected String getHurtSound() {
 		return "game.hostile.hurt";
 	}
 
-	/**
-	 * Returns the sound this mob makes on death.
-	 */
 	protected String getDeathSound() {
 		return "game.hostile.die";
 	}
@@ -123,9 +106,6 @@ public abstract class EntityMob extends EntityCreature implements IMob {
 		return 0.5F - this.worldObj.getLightBrightness(pos);
 	}
 
-	/**
-	 * Checks to make sure the light is not too bright where the mob is spawning
-	 */
 	protected boolean isValidLightLevel() {
 		BlockPos blockpos = new BlockPos(this.posX, this.getEntityBoundingBox().minY, this.posZ);
 
@@ -145,10 +125,6 @@ public abstract class EntityMob extends EntityCreature implements IMob {
 		}
 	}
 
-	/**
-	 * Checks if the entity's current position is a valid location to spawn this
-	 * entity.
-	 */
 	public boolean getCanSpawnHere() {
 		return this.worldObj.getDifficulty() != EnumDifficulty.PEACEFUL && this.isValidLightLevel()
 				&& super.getCanSpawnHere();
@@ -159,9 +135,6 @@ public abstract class EntityMob extends EntityCreature implements IMob {
 		this.getAttributeMap().registerAttribute(SharedMonsterAttributes.attackDamage);
 	}
 
-	/**
-	 * Entity won't drop items or experience points if this returns false
-	 */
 	protected boolean canDropLoot() {
 		return true;
 	}

@@ -16,18 +16,10 @@ public class GuiRenameWorld extends GuiScreen {
 		this.saveName = saveNameIn;
 	}
 
-	/**
-	 * Called from the main game loop to update the screen.
-	 */
 	public void updateScreen() {
 		this.field_146583_f.updateCursorCounter();
 	}
 
-	/**
-	 * Adds the buttons (and other controls) to the screen in question. Called when
-	 * the GUI is displayed and when the window resizes, the buttonList is cleared
-	 * beforehand.
-	 */
 	public void initGui() {
 		Keyboard.enableRepeatEvents(true);
 		this.buttonList.clear();
@@ -43,17 +35,10 @@ public class GuiRenameWorld extends GuiScreen {
 		this.field_146583_f.setText(s);
 	}
 
-	/**
-	 * Called when the screen is unloaded. Used to disable keyboard repeat events
-	 */
 	public void onGuiClosed() {
 		Keyboard.enableRepeatEvents(false);
 	}
 
-	/**
-	 * Called by the controls from the buttonList when activated. (Mouse pressed for
-	 * buttons)
-	 */
 	protected void actionPerformed(GuiButton button) throws IOException {
 		if (button.enabled) {
 			if (button.id == 1) {
@@ -66,11 +51,6 @@ public class GuiRenameWorld extends GuiScreen {
 		}
 	}
 
-	/**
-	 * Fired when a key is typed (except F11 which toggles full screen). This is the
-	 * equivalent of KeyListener.keyTyped(KeyEvent e). Args : character (character
-	 * on the key), keyCode (lwjgl Keyboard key code)
-	 */
 	protected void keyTyped(char typedChar, int keyCode) throws IOException {
 		this.field_146583_f.textboxKeyTyped(typedChar, keyCode);
 		((GuiButton) this.buttonList.get(0)).enabled = this.field_146583_f.getText().trim().length() > 0;
@@ -80,18 +60,11 @@ public class GuiRenameWorld extends GuiScreen {
 		}
 	}
 
-	/**
-	 * Called when the mouse is clicked. Args : mouseX, mouseY, clickedButton
-	 */
 	protected void mouseClicked(int mouseX, int mouseY, int mouseButton) throws IOException {
 		super.mouseClicked(mouseX, mouseY, mouseButton);
 		this.field_146583_f.mouseClicked(mouseX, mouseY, mouseButton);
 	}
 
-	/**
-	 * Draws the screen and all the components in it. Args : mouseX, mouseY,
-	 * renderPartialTicks
-	 */
 	public void drawScreen(int mouseX, int mouseY, float partialTicks) {
 		this.drawDefaultBackground();
 		this.drawCenteredString(this.fontRendererObj, I18n.format("selectWorld.renameTitle", new Object[0]),

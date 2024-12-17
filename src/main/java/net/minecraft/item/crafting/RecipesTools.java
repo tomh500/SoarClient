@@ -16,9 +16,6 @@ public class RecipesTools {
 			{ Items.wooden_axe, Items.stone_axe, Items.iron_axe, Items.diamond_axe, Items.golden_axe },
 			{ Items.wooden_hoe, Items.stone_hoe, Items.iron_hoe, Items.diamond_hoe, Items.golden_hoe } };
 
-	/**
-	 * Adds the tool recipes to the CraftingManager.
-	 */
 	public void addRecipes(CraftingManager p_77586_1_) {
 		for (int i = 0; i < this.recipeItems[0].length; ++i) {
 			Object object = this.recipeItems[0][i];

@@ -1,24 +1,10 @@
 package net.minecraft.client.network;
 
-import java.net.InetAddress;
-import java.net.UnknownHostException;
-import java.util.Collections;
-import java.util.Iterator;
-import java.util.List;
-
-import org.apache.commons.lang3.ArrayUtils;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
 import com.google.common.base.Charsets;
 import com.google.common.base.Splitter;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.mojang.authlib.GameProfile;
-import com.soarclient.viasoar.common.ViaSoarCommon;
-import com.soarclient.viasoar.common.platform.VersionTracker;
-import com.viaversion.viaversion.api.protocol.version.ProtocolVersion;
-
 import io.netty.bootstrap.Bootstrap;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
@@ -32,6 +18,11 @@ import io.netty.channel.ChannelOption;
 import io.netty.channel.EventLoopGroup;
 import io.netty.channel.SimpleChannelInboundHandler;
 import io.netty.channel.socket.nio.NioSocketChannel;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
+import java.util.Collections;
+import java.util.Iterator;
+import java.util.List;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ServerAddress;
 import net.minecraft.client.multiplayer.ServerData;
@@ -48,6 +39,9 @@ import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.IChatComponent;
 import net.minecraft.util.MathHelper;
+import org.apache.commons.lang3.ArrayUtils;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class OldServerPinger {
 	private static final Splitter PING_RESPONSE_SPLITTER = Splitter.on('\u0000').limit(6);
@@ -56,11 +50,7 @@ public class OldServerPinger {
 			.<NetworkManager>synchronizedList(Lists.<NetworkManager>newArrayList());
 
 	public void ping(final ServerData server) throws UnknownHostException {
-		
 		ServerAddress serveraddress = ServerAddress.fromString(server.serverIP);
-        ProtocolVersion version = ViaSoarCommon.getManager().getTargetVersion();
-        VersionTracker.storeServerProtocolVersion(InetAddress.getByName(serveraddress.getIP()), version);
-        
 		final NetworkManager networkmanager = NetworkManager.createNetworkManagerAndConnect(
 				InetAddress.getByName(serveraddress.getIP()), serveraddress.getPort(), false);
 		this.pingDestinations.add(networkmanager);

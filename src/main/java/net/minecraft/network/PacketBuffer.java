@@ -1,5 +1,13 @@
 package net.minecraft.network;
 
+import com.google.common.base.Charsets;
+import io.netty.buffer.ByteBuf;
+import io.netty.buffer.ByteBufAllocator;
+import io.netty.buffer.ByteBufInputStream;
+import io.netty.buffer.ByteBufOutputStream;
+import io.netty.buffer.ByteBufProcessor;
+import io.netty.handler.codec.DecoderException;
+import io.netty.handler.codec.EncoderException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -9,17 +17,6 @@ import java.nio.channels.GatheringByteChannel;
 import java.nio.channels.ScatteringByteChannel;
 import java.nio.charset.Charset;
 import java.util.UUID;
-
-import com.google.common.base.Charsets;
-import com.soarclient.libraries.krypton.VarIntUtil;
-
-import io.netty.buffer.ByteBuf;
-import io.netty.buffer.ByteBufAllocator;
-import io.netty.buffer.ByteBufInputStream;
-import io.netty.buffer.ByteBufOutputStream;
-import io.netty.buffer.ByteBufProcessor;
-import io.netty.handler.codec.DecoderException;
-import io.netty.handler.codec.EncoderException;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompressedStreamTools;
@@ -35,12 +32,14 @@ public class PacketBuffer extends ByteBuf {
 		this.buf = wrapped;
 	}
 
-	/**
-	 * Calculates the number of bytes required to fit the supplied int (0-5) if it
-	 * were to be read/written using readVarIntFromBuffer or writeVarIntToBuffer
-	 */
 	public static int getVarIntSize(int input) {
-		return VarIntUtil.getVarIntLength(input);
+		for (int i = 1; i < 5; ++i) {
+			if ((input & -1 << i * 7) == 0) {
+				return i;
+			}
+		}
+
+		return 5;
 	}
 
 	public void writeByteArray(byte[] array) {
@@ -78,11 +77,6 @@ public class PacketBuffer extends ByteBuf {
 		this.writeVarIntToBuffer(value.ordinal());
 	}
 
-	/**
-	 * Reads a compressed int from the buffer. To do so it maximally reads 5
-	 * byte-sized chunks whose most significant bit dictates whether another byte
-	 * should be read.
-	 */
 	public int readVarIntFromBuffer() {
 		int i = 0;
 		int j = 0;
@@ -132,45 +126,15 @@ public class PacketBuffer extends ByteBuf {
 		return new UUID(this.readLong(), this.readLong());
 	}
 
-	/**
-	 * Writes a compressed int to the buffer. The smallest number of bytes to fit
-	 * the passed int will be written. Of each such byte only 7 bits will be used to
-	 * describe the actual value since its most significant bit dictates whether the
-	 * next byte is part of that same int. Micro-optimization for int values that
-	 * are expected to have values below 128.
-	 */
 	public void writeVarIntToBuffer(int input) {
-        if ((input & (0xFFFFFFFF << 7)) == 0) {
-        	buf.writeByte(input);
-        } else if ((input & (0xFFFFFFFF << 14)) == 0) {
-            int w = (input & 0x7F | 0x80) << 8 | (input >>> 7);
-            buf.writeShort(w);
-        } else {
-            writeVarIntFull(buf, input);
-        }
+		while ((input & -128) != 0) {
+			this.writeByte(input & 127 | 128);
+			input >>>= 7;
+		}
+
+		this.writeByte(input);
 	}
 
-    private static void writeVarIntFull(ByteBuf buf, int value) {
-        if ((value & (0xFFFFFFFF << 7)) == 0) {
-            buf.writeByte(value);
-        } else if ((value & (0xFFFFFFFF << 14)) == 0) {
-            int w = (value & 0x7F | 0x80) << 8 | (value >>> 7);
-            buf.writeShort(w);
-        } else if ((value & (0xFFFFFFFF << 21)) == 0) {
-            int w = (value & 0x7F | 0x80) << 16 | ((value >>> 7) & 0x7F | 0x80) << 8 | (value >>> 14);
-            buf.writeMedium(w);
-        } else if ((value & (0xFFFFFFFF << 28)) == 0) {
-            int w = (value & 0x7F | 0x80) << 24 | (((value >>> 7) & 0x7F | 0x80) << 16)
-                    | ((value >>> 14) & 0x7F | 0x80) << 8 | (value >>> 21);
-            buf.writeInt(w);
-        } else {
-            int w = (value & 0x7F | 0x80) << 24 | ((value >>> 7) & 0x7F | 0x80) << 16
-                    | ((value >>> 14) & 0x7F | 0x80) << 8 | ((value >>> 21) & 0x7F | 0x80);
-            buf.writeInt(w);
-            buf.writeByte(value >>> 28);
-        }
-    }
-    
 	public void writeVarLong(long value) {
 		while ((value & -128L) != 0L) {
 			this.writeByte((int) (value & 127L) | 128);
@@ -180,9 +144,6 @@ public class PacketBuffer extends ByteBuf {
 		this.writeByte((int) value);
 	}
 
-	/**
-	 * Writes a compressed NBTTagCompound to this buffer
-	 */
 	public void writeNBTTagCompoundToBuffer(NBTTagCompound nbt) {
 		if (nbt == null) {
 			this.writeByte(0);
@@ -195,9 +156,6 @@ public class PacketBuffer extends ByteBuf {
 		}
 	}
 
-	/**
-	 * Reads a compressed NBTTagCompound from this buffer
-	 */
 	public NBTTagCompound readNBTTagCompoundFromBuffer() throws IOException {
 		int i = this.readerIndex();
 		byte b0 = this.readByte();
@@ -210,9 +168,6 @@ public class PacketBuffer extends ByteBuf {
 		}
 	}
 
-	/**
-	 * Writes the ItemStack's ID (short), then size (byte), then damage. (short)
-	 */
 	public void writeItemStackToBuffer(ItemStack stack) {
 		if (stack == null) {
 			this.writeShort(-1);
@@ -230,9 +185,6 @@ public class PacketBuffer extends ByteBuf {
 		}
 	}
 
-	/**
-	 * Reads an ItemStack from this buffer
-	 */
 	public ItemStack readItemStackFromBuffer() throws IOException {
 		ItemStack itemstack = null;
 		int i = this.readShort();
@@ -247,10 +199,6 @@ public class PacketBuffer extends ByteBuf {
 		return itemstack;
 	}
 
-	/**
-	 * Reads a string from this buffer. Expected parameter is maximum allowed string
-	 * length. Will throw IOException if string length exceeds this value!
-	 */
 	public String readStringFromBuffer(int maxLength) {
 		int i = this.readVarIntFromBuffer();
 

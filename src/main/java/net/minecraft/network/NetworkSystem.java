@@ -65,11 +65,7 @@ public class NetworkSystem {
 					(new ThreadFactoryBuilder()).setNameFormat("Netty Local Server IO #%d").setDaemon(true).build());
 		}
 	};
-
-	/** Reference to the MinecraftServer object. */
 	private final MinecraftServer mcServer;
-
-	/** True if this NetworkSystem has never had his endpoints terminated */
 	public volatile boolean isAlive;
 	private final List<ChannelFuture> endpoints = Collections
 			.<ChannelFuture>synchronizedList(Lists.<ChannelFuture>newArrayList());
@@ -81,9 +77,6 @@ public class NetworkSystem {
 		this.isAlive = true;
 	}
 
-	/**
-	 * Adds a channel that listens on publicly accessible network ports
-	 */
 	public void addLanEndpoint(InetAddress address, int port) throws IOException {
 		synchronized (this.endpoints) {
 			Class<? extends ServerSocketChannel> oclass;
@@ -130,9 +123,6 @@ public class NetworkSystem {
 		}
 	}
 
-	/**
-	 * Adds a channel that listens locally
-	 */
 	public SocketAddress addLocalEndpoint() {
 		ChannelFuture channelfuture;
 
@@ -155,9 +145,6 @@ public class NetworkSystem {
 		return channelfuture.channel().localAddress();
 	}
 
-	/**
-	 * Shuts down all open endpoints (with immediate effect?)
-	 */
 	public void terminateEndpoints() {
 		this.isAlive = false;
 
@@ -170,10 +157,6 @@ public class NetworkSystem {
 		}
 	}
 
-	/**
-	 * Will try to process the packets received by each NetworkManager, gracefully
-	 * manage processing failures and cleans up dead connections
-	 */
 	public void networkTick() {
 		synchronized (this.networkManagers) {
 			Iterator<NetworkManager> iterator = this.networkManagers.iterator();

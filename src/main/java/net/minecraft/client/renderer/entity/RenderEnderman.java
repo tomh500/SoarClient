@@ -11,8 +11,6 @@ import net.minecraft.util.ResourceLocation;
 public class RenderEnderman extends RenderLiving<EntityEnderman> {
 	private static final ResourceLocation endermanTextures = new ResourceLocation(
 			"textures/entity/enderman/enderman.png");
-
-	/** The model of the enderman */
 	private ModelEnderman endermanModel;
 	private Random rnd = new Random();
 
@@ -23,9 +21,6 @@ public class RenderEnderman extends RenderLiving<EntityEnderman> {
 		this.addLayer(new LayerHeldBlock(this));
 	}
 
-	/**
-	 * Renders the desired {@code T} type Entity.
-	 */
 	public void doRender(EntityEnderman entity, double x, double y, double z, float entityYaw, float partialTicks) {
 		this.endermanModel.isCarrying = entity.getHeldBlockState().getBlock().getMaterial() != Material.air;
 		this.endermanModel.isAttacking = entity.isScreaming();
@@ -39,10 +34,6 @@ public class RenderEnderman extends RenderLiving<EntityEnderman> {
 		super.doRender(entity, x, y, z, entityYaw, partialTicks);
 	}
 
-	/**
-	 * Returns the location of an entity's texture. Doesn't seem to be called unless
-	 * you call Render.bindEntityTexture.
-	 */
 	protected ResourceLocation getEntityTexture(EntityEnderman entity) {
 		return endermanTextures;
 	}

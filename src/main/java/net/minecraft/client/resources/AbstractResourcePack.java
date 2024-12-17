@@ -21,7 +21,7 @@ import org.apache.logging.log4j.Logger;
 
 public abstract class AbstractResourcePack implements IResourcePack {
 	private static final Logger resourceLog = LogManager.getLogger();
-	protected final File resourcePackFile;
+	public final File resourcePackFile;
 
 	public AbstractResourcePack(File resourcePackFileIn) {
 		this.resourcePackFile = resourcePackFileIn;
@@ -49,7 +49,7 @@ public abstract class AbstractResourcePack implements IResourcePack {
 	protected abstract boolean hasResourceName(String name);
 
 	protected void logNameNotLowercase(String name) {
-		resourceLog.warn("ResourcePack: ignored non-lowercase namespace: %s in %s",
+		resourceLog.warn("ResourcePack: ignored non-lowercase namespace: {} in {}",
 				new Object[] { name, this.resourcePackFile });
 	}
 

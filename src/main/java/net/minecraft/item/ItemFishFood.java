@@ -11,7 +11,6 @@ import net.minecraft.potion.PotionHelper;
 import net.minecraft.world.World;
 
 public class ItemFishFood extends ItemFood {
-	/** Indicates whether this fish is "cooked" or not. */
 	private final boolean cooked;
 
 	public ItemFishFood(boolean cooked) {
@@ -49,10 +48,6 @@ public class ItemFishFood extends ItemFood {
 		super.onFoodEaten(stack, worldIn, player);
 	}
 
-	/**
-	 * returns a list of items with the same ID, but different meta (eg: dye returns
-	 * 16 items)
-	 */
 	public void getSubItems(Item itemIn, CreativeTabs tab, List<ItemStack> subItems) {
 		for (ItemFishFood.FishType itemfishfood$fishtype : ItemFishFood.FishType.values()) {
 			if (!this.cooked || itemfishfood$fishtype.canCook()) {
@@ -61,10 +56,6 @@ public class ItemFishFood extends ItemFood {
 		}
 	}
 
-	/**
-	 * Returns the unlocalized name of this item. This version accepts an ItemStack
-	 * so different stacks can have different names based on their damage or NBT.
-	 */
 	public String getUnlocalizedName(ItemStack stack) {
 		ItemFishFood.FishType itemfishfood$fishtype = ItemFishFood.FishType.byItemStack(stack);
 		return this.getUnlocalizedName() + "." + itemfishfood$fishtype.getUnlocalizedName() + "."

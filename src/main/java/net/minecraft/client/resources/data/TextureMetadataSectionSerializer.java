@@ -48,9 +48,6 @@ public class TextureMetadataSectionSerializer extends BaseMetadataSectionSeriali
 		return new TextureMetadataSection(flag, flag1, list);
 	}
 
-	/**
-	 * The name of this section type as it appears in JSON.
-	 */
 	public String getSectionName() {
 		return "texture";
 	}

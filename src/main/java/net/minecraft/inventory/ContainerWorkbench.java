@@ -9,12 +9,9 @@ import net.minecraft.util.BlockPos;
 import net.minecraft.world.World;
 
 public class ContainerWorkbench extends Container {
-	/** The crafting matrix inventory (3x3). */
 	public InventoryCrafting craftMatrix = new InventoryCrafting(this, 3, 3);
 	public IInventory craftResult = new InventoryCraftResult();
 	private World worldObj;
-
-	/** Position of the workbench */
 	private BlockPos pos;
 
 	public ContainerWorkbench(InventoryPlayer playerInventory, World worldIn, BlockPos posIn) {
@@ -42,17 +39,11 @@ public class ContainerWorkbench extends Container {
 		this.onCraftMatrixChanged(this.craftMatrix);
 	}
 
-	/**
-	 * Callback for when the crafting matrix is changed.
-	 */
 	public void onCraftMatrixChanged(IInventory inventoryIn) {
 		this.craftResult.setInventorySlotContents(0,
 				CraftingManager.getInstance().findMatchingRecipe(this.craftMatrix, this.worldObj));
 	}
 
-	/**
-	 * Called when the container is closed.
-	 */
 	public void onContainerClosed(EntityPlayer playerIn) {
 		super.onContainerClosed(playerIn);
 
@@ -73,9 +64,6 @@ public class ContainerWorkbench extends Container {
 						(double) this.pos.getZ() + 0.5D) <= 64.0D;
 	}
 
-	/**
-	 * Take a stack from the specified inventory slot.
-	 */
 	public ItemStack transferStackInSlot(EntityPlayer playerIn, int index) {
 		ItemStack itemstack = null;
 		Slot slot = (Slot) this.inventorySlots.get(index);
@@ -118,11 +106,6 @@ public class ContainerWorkbench extends Container {
 		return itemstack;
 	}
 
-	/**
-	 * Called to determine if the current slot is valid for the stack merging
-	 * (double-click) code. The stack passed in is null for the initial slot that
-	 * was double-clicked.
-	 */
 	public boolean canMergeSlot(ItemStack stack, Slot slotIn) {
 		return slotIn.inventory != this.craftResult && super.canMergeSlot(stack, slotIn);
 	}

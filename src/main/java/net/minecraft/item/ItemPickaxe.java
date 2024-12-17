@@ -18,9 +18,6 @@ public class ItemPickaxe extends ItemTool {
 		super(2.0F, material, EFFECTIVE_ON);
 	}
 
-	/**
-	 * Check whether this Item can harvest the given Block
-	 */
 	public boolean canHarvestBlock(Block blockIn) {
 		return blockIn == Blocks.obsidian ? this.toolMaterial.getHarvestLevel() == 3
 				: (blockIn != Blocks.diamond_block && blockIn != Blocks.diamond_ore

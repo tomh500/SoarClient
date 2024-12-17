@@ -64,9 +64,6 @@ public enum EnumParticleTypes {
 		return this.argumentCount > 0;
 	}
 
-	/**
-	 * Gets the relative EnumParticleTypes by id.
-	 */
 	public static EnumParticleTypes getParticleFromId(int particleId) {
 		return (EnumParticleTypes) PARTICLES.get(Integer.valueOf(particleId));
 	}

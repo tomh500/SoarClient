@@ -35,9 +35,6 @@ public class EntitySilverfish extends EntityMob {
 		this.targetTasks.addTask(2, new EntityAINearestAttackableTarget(this, EntityPlayer.class, true));
 	}
 
-	/**
-	 * Returns the Y Offset of this entity.
-	 */
 	public double getYOffset() {
 		return 0.2D;
 	}
@@ -53,38 +50,22 @@ public class EntitySilverfish extends EntityMob {
 		this.getEntityAttribute(SharedMonsterAttributes.attackDamage).setBaseValue(1.0D);
 	}
 
-	/**
-	 * returns if this entity triggers Block.onEntityWalking on the blocks they walk
-	 * on. used for spiders and wolves to prevent them from trampling crops
-	 */
 	protected boolean canTriggerWalking() {
 		return false;
 	}
 
-	/**
-	 * Returns the sound this mob makes while it's alive.
-	 */
 	protected String getLivingSound() {
 		return "mob.silverfish.say";
 	}
 
-	/**
-	 * Returns the sound this mob makes when it is hurt.
-	 */
 	protected String getHurtSound() {
 		return "mob.silverfish.hit";
 	}
 
-	/**
-	 * Returns the sound this mob makes on death.
-	 */
 	protected String getDeathSound() {
 		return "mob.silverfish.kill";
 	}
 
-	/**
-	 * Called when the entity is attacked.
-	 */
 	public boolean attackEntityFrom(DamageSource source, float amount) {
 		if (this.isEntityInvulnerable(source)) {
 			return false;
@@ -105,9 +86,6 @@ public class EntitySilverfish extends EntityMob {
 		return null;
 	}
 
-	/**
-	 * Called to update the entity's position/logic.
-	 */
 	public void onUpdate() {
 		this.renderYawOffset = this.rotationYaw;
 		super.onUpdate();
@@ -118,17 +96,10 @@ public class EntitySilverfish extends EntityMob {
 				: super.getBlockPathWeight(pos);
 	}
 
-	/**
-	 * Checks to make sure the light is not too bright where the mob is spawning
-	 */
 	protected boolean isValidLightLevel() {
 		return true;
 	}
 
-	/**
-	 * Checks if the entity's current position is a valid location to spawn this
-	 * entity.
-	 */
 	public boolean getCanSpawnHere() {
 		if (super.getCanSpawnHere()) {
 			EntityPlayer entityplayer = this.worldObj.getClosestPlayerToEntity(this, 5.0D);
@@ -138,9 +109,6 @@ public class EntitySilverfish extends EntityMob {
 		}
 	}
 
-	/**
-	 * Get this Entity's EnumCreatureAttribute
-	 */
 	public EnumCreatureAttribute getCreatureAttribute() {
 		return EnumCreatureAttribute.ARTHROPOD;
 	}

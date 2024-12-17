@@ -16,9 +16,6 @@ public class RecipesIngots {
 			{ Blocks.coal_block, new ItemStack(Items.coal, 9, 0) }, { Blocks.hay_block, new ItemStack(Items.wheat, 9) },
 			{ Blocks.slime_block, new ItemStack(Items.slime_ball, 9) } };
 
-	/**
-	 * Adds the ingot recipes to the CraftingManager.
-	 */
 	public void addRecipes(CraftingManager p_77590_1_) {
 		for (int i = 0; i < this.recipeItems.length; ++i) {
 			Block block = (Block) this.recipeItems[i][0];

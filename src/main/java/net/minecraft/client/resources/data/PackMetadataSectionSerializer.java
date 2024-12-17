@@ -34,9 +34,6 @@ public class PackMetadataSectionSerializer extends BaseMetadataSectionSerializer
 		return jsonobject;
 	}
 
-	/**
-	 * The name of this section type as it appears in JSON.
-	 */
 	public String getSectionName() {
 		return "pack";
 	}

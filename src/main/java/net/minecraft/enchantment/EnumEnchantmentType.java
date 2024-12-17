@@ -10,10 +10,6 @@ import net.minecraft.item.ItemTool;
 public enum EnumEnchantmentType {
 	ALL, ARMOR, ARMOR_FEET, ARMOR_LEGS, ARMOR_TORSO, ARMOR_HEAD, WEAPON, DIGGER, FISHING_ROD, BREAKABLE, BOW;
 
-	/**
-	 * Return true if the item passed can be enchanted by a enchantment of this
-	 * type.
-	 */
 	public boolean canEnchantItem(Item p_77557_1_) {
 		if (this == ALL) {
 			return true;

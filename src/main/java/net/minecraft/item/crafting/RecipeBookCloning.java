@@ -8,9 +8,6 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 
 public class RecipeBookCloning implements IRecipe {
-	/**
-	 * Used to check if a recipe matches current crafting inventory
-	 */
 	public boolean matches(InventoryCrafting inv, World worldIn) {
 		int i = 0;
 		ItemStack itemstack = null;
@@ -38,9 +35,6 @@ public class RecipeBookCloning implements IRecipe {
 		return itemstack != null && i > 0;
 	}
 
-	/**
-	 * Returns an Item that is the result of this recipe
-	 */
 	public ItemStack getCraftingResult(InventoryCrafting inv) {
 		int i = 0;
 		ItemStack itemstack = null;
@@ -80,9 +74,6 @@ public class RecipeBookCloning implements IRecipe {
 		}
 	}
 
-	/**
-	 * Returns the size of the recipe area
-	 */
 	public int getRecipeSize() {
 		return 9;
 	}

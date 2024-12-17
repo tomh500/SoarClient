@@ -26,9 +26,6 @@ public abstract class EntityTameable extends EntityAnimal implements IEntityOwna
 		this.dataWatcher.addObject(17, "");
 	}
 
-	/**
-	 * (abstract) Protected helper method to write subclass entity data to NBT.
-	 */
 	public void writeEntityToNBT(NBTTagCompound tagCompound) {
 		super.writeEntityToNBT(tagCompound);
 
@@ -41,9 +38,6 @@ public abstract class EntityTameable extends EntityAnimal implements IEntityOwna
 		tagCompound.setBoolean("Sitting", this.isSitting());
 	}
 
-	/**
-	 * (abstract) Protected helper method to read subclass entity data from NBT.
-	 */
 	public void readEntityFromNBT(NBTTagCompound tagCompund) {
 		super.readEntityFromNBT(tagCompund);
 		String s = "";
@@ -64,9 +58,6 @@ public abstract class EntityTameable extends EntityAnimal implements IEntityOwna
 		this.setSitting(tagCompund.getBoolean("Sitting"));
 	}
 
-	/**
-	 * Play the taming effect, will either be hearts or smoke depending on status
-	 */
 	protected void playTameEffect(boolean play) {
 		EnumParticleTypes enumparticletypes = EnumParticleTypes.HEART;
 
@@ -150,9 +141,6 @@ public abstract class EntityTameable extends EntityAnimal implements IEntityOwna
 		return entityIn == this.getOwner();
 	}
 
-	/**
-	 * Returns the AITask responsible of the sit logic
-	 */
 	public EntityAISit getAISit() {
 		return this.aiSit;
 	}
@@ -189,9 +177,6 @@ public abstract class EntityTameable extends EntityAnimal implements IEntityOwna
 		return super.isOnSameTeam(otherEntity);
 	}
 
-	/**
-	 * Called when the mob's health reaches 0.
-	 */
 	public void onDeath(DamageSource cause) {
 		if (!this.worldObj.isRemote && this.worldObj.getGameRules().getBoolean("showDeathMessages")
 				&& this.hasCustomName() && this.getOwner() instanceof EntityPlayerMP) {

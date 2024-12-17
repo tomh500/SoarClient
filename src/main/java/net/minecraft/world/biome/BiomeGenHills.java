@@ -73,9 +73,6 @@ public class BiomeGenHills extends BiomeGenBase {
 		this.generateBiomeTerrain(worldIn, rand, chunkPrimerIn, x, z, noiseVal);
 	}
 
-	/**
-	 * this creates a mutation specific to Hills biomes
-	 */
 	private BiomeGenHills mutateHills(BiomeGenBase p_150633_1_) {
 		this.field_150638_aH = this.field_150637_aG;
 		this.func_150557_a(p_150633_1_.color, true);

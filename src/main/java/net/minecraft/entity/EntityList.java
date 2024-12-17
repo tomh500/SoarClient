@@ -87,10 +87,6 @@ public class EntityList {
 	private static final Map<String, Integer> stringToIDMapping = Maps.<String, Integer>newHashMap();
 	public static final Map<Integer, EntityList.EntityEggInfo> entityEggs = Maps.<Integer, EntityList.EntityEggInfo>newLinkedHashMap();
 
-	/**
-	 * adds a mapping between Entity classes and both a string representation and an
-	 * ID
-	 */
 	private static void addMapping(Class<? extends Entity> entityClass, String entityName, int id) {
 		if (stringToClassMapping.containsKey(entityName)) {
 			throw new IllegalArgumentException("ID is already registered: " + entityName);
@@ -109,18 +105,12 @@ public class EntityList {
 		}
 	}
 
-	/**
-	 * Adds a entity mapping with egg info.
-	 */
 	private static void addMapping(Class<? extends Entity> entityClass, String entityName, int entityID, int baseColor,
 			int spotColor) {
 		addMapping(entityClass, entityName, entityID);
 		entityEggs.put(Integer.valueOf(entityID), new EntityList.EntityEggInfo(entityID, baseColor, spotColor));
 	}
 
-	/**
-	 * Create a new instance of an entity in the world by using the entity name.
-	 */
 	public static Entity createEntityByName(String entityName, World worldIn) {
 		Entity entity = null;
 
@@ -138,9 +128,6 @@ public class EntityList {
 		return entity;
 	}
 
-	/**
-	 * create a new instance of an entity from NBT store
-	 */
 	public static Entity createEntityFromNBT(NBTTagCompound nbt, World worldIn) {
 		Entity entity = null;
 
@@ -169,9 +156,6 @@ public class EntityList {
 		return entity;
 	}
 
-	/**
-	 * Create a new instance of an entity in the world by using an entity ID.
-	 */
 	public static Entity createEntityByID(int entityID, World worldIn) {
 		Entity entity = null;
 
@@ -193,9 +177,6 @@ public class EntityList {
 		return entity;
 	}
 
-	/**
-	 * gets the entityID of a specific entity
-	 */
 	public static int getEntityID(Entity entityIn) {
 		Integer integer = (Integer) classToIDMapping.get(entityIn.getClass());
 		return integer == null ? 0 : integer.intValue();
@@ -205,24 +186,15 @@ public class EntityList {
 		return (Class) idToClassMapping.get(Integer.valueOf(entityID));
 	}
 
-	/**
-	 * Gets the string representation of a specific entity.
-	 */
 	public static String getEntityString(Entity entityIn) {
 		return (String) classToStringMapping.get(entityIn.getClass());
 	}
 
-	/**
-	 * Returns the ID assigned to it's string representation
-	 */
 	public static int getIDFromString(String entityName) {
 		Integer integer = (Integer) stringToIDMapping.get(entityName);
 		return integer == null ? 90 : integer.intValue();
 	}
 
-	/**
-	 * Finds the class using IDtoClassMapping and classToStringMapping
-	 */
 	public static String getStringFromID(int entityID) {
 		return (String) classToStringMapping.get(getClassFromID(entityID));
 	}

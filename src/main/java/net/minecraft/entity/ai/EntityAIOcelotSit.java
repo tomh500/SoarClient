@@ -18,39 +18,24 @@ public class EntityAIOcelotSit extends EntityAIMoveToBlock {
 		this.ocelot = ocelotIn;
 	}
 
-	/**
-	 * Returns whether the EntityAIBase should begin execution.
-	 */
 	public boolean shouldExecute() {
 		return this.ocelot.isTamed() && !this.ocelot.isSitting() && super.shouldExecute();
 	}
 
-	/**
-	 * Returns whether an in-progress EntityAIBase should continue executing
-	 */
 	public boolean continueExecuting() {
 		return super.continueExecuting();
 	}
 
-	/**
-	 * Execute a one shot task or start executing a continuous task
-	 */
 	public void startExecuting() {
 		super.startExecuting();
 		this.ocelot.getAISit().setSitting(false);
 	}
 
-	/**
-	 * Resets the task
-	 */
 	public void resetTask() {
 		super.resetTask();
 		this.ocelot.setSitting(false);
 	}
 
-	/**
-	 * Updates the task
-	 */
 	public void updateTask() {
 		super.updateTask();
 		this.ocelot.getAISit().setSitting(false);
@@ -62,9 +47,6 @@ public class EntityAIOcelotSit extends EntityAIMoveToBlock {
 		}
 	}
 
-	/**
-	 * Return true to set given position as destination
-	 */
 	protected boolean shouldMoveTo(World worldIn, BlockPos pos) {
 		if (!worldIn.isAirBlock(pos.up())) {
 			return false;

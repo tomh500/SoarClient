@@ -16,9 +16,6 @@ public abstract class EntityFlying extends EntityLiving {
 	protected void updateFallState(double y, boolean onGroundIn, Block blockIn, BlockPos pos) {
 	}
 
-	/**
-	 * Moves the entity based on the specified heading. Args: strafe, forward
-	 */
 	public void moveEntityWithHeading(float strafe, float forward) {
 		if (this.isInWater()) {
 			this.moveFlying(strafe, forward, 0.02F);
@@ -70,9 +67,6 @@ public abstract class EntityFlying extends EntityLiving {
 		this.limbSwing += this.limbSwingAmount;
 	}
 
-	/**
-	 * returns true if this entity is by a ladder, false otherwise
-	 */
 	public boolean isOnLadder() {
 		return false;
 	}

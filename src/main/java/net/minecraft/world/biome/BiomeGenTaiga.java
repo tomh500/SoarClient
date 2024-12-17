@@ -47,9 +47,6 @@ public class BiomeGenTaiga extends BiomeGenBase {
 				: (rand.nextInt(3) == 0 ? field_150639_aC : field_150640_aD));
 	}
 
-	/**
-	 * Gets a WorldGen appropriate for this biome.
-	 */
 	public WorldGenerator getRandomWorldGenForGrass(Random rand) {
 		return rand.nextInt(5) > 0 ? new WorldGenTallGrass(BlockTallGrass.EnumType.FERN)
 				: new WorldGenTallGrass(BlockTallGrass.EnumType.GRASS);

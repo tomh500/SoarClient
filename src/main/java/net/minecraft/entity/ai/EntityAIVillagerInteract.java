@@ -9,7 +9,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.MathHelper;
 
 public class EntityAIVillagerInteract extends EntityAIWatchClosest2 {
-	/** The delay before the villager throws an itemstack (in ticks) */
 	private int interactionDelay;
 	private EntityVillager villager;
 
@@ -18,9 +17,6 @@ public class EntityAIVillagerInteract extends EntityAIWatchClosest2 {
 		this.villager = villagerIn;
 	}
 
-	/**
-	 * Execute a one shot task or start executing a continuous task
-	 */
 	public void startExecuting() {
 		super.startExecuting();
 
@@ -32,9 +28,6 @@ public class EntityAIVillagerInteract extends EntityAIWatchClosest2 {
 		}
 	}
 
-	/**
-	 * Updates the task
-	 */
 	public void updateTask() {
 		super.updateTask();
 

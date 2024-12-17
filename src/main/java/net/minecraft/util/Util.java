@@ -21,11 +21,16 @@ public class Util {
 			return task.get();
 		} catch (ExecutionException executionexception) {
 			logger.fatal((String) "Error executing task", (Throwable) executionexception);
+
+			if (executionexception.getCause() instanceof OutOfMemoryError) {
+				OutOfMemoryError outofmemoryerror = (OutOfMemoryError) executionexception.getCause();
+				throw outofmemoryerror;
+			}
 		} catch (InterruptedException interruptedexception) {
 			logger.fatal((String) "Error executing task", (Throwable) interruptedexception);
 		}
 
-		return (V) null;
+		return (V) ((Object) null);
 	}
 
 	public static enum EnumOS {
