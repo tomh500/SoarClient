@@ -15,22 +15,16 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
+import org.apache.commons.io.IOUtils;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import com.google.common.base.Charsets;
 import com.google.common.base.Joiner;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Queues;
 import com.google.common.collect.Sets;
-import net.minecraftforge.client.model.ITransformation;
-import net.minecraftforge.client.model.TRSRTransformation;
-import net.minecraftforge.fml.common.registry.RegistryDelegate;
-import net.optifine.CustomItems;
-import net.optifine.reflect.Reflector;
-import net.optifine.util.StrUtils;
-import net.optifine.util.TextureUtils;
-import org.apache.commons.io.IOUtils;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 import net.minecraft.client.renderer.BlockModelShapes;
 import net.minecraft.client.renderer.block.model.BakedQuad;
@@ -52,6 +46,10 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.IRegistry;
 import net.minecraft.util.RegistrySimple;
 import net.minecraft.util.ResourceLocation;
+import net.optifine.CustomItems;
+import net.optifine.reflect.Reflector;
+import net.optifine.util.StrUtils;
+import net.optifine.util.TextureUtils;
 
 public class ModelBakery {
 	private static final Set<ResourceLocation> LOCATIONS_BUILTIN_TEXTURES = Sets.newHashSet(new ResourceLocation[] {
@@ -93,8 +91,6 @@ public class ModelBakery {
 	private final Map<ResourceLocation, ModelBlockDefinition> blockDefinitions = Maps
 			.<ResourceLocation, ModelBlockDefinition>newHashMap();
 	private Map<Item, List<String>> variantNames = Maps.<Item, List<String>>newIdentityHashMap();
-	private static Map<RegistryDelegate<Item>, Set<String>> customVariantNames = Maps
-			.<RegistryDelegate<Item>, Set<String>>newHashMap();
 
 	public ModelBakery(IResourceManager p_i46085_1_, TextureMap p_i46085_2_, BlockModelShapes p_i46085_3_) {
 		this.resourceManager = p_i46085_1_;
@@ -414,11 +410,6 @@ public class ModelBakery {
 				Lists.newArrayList(new String[] { "oak_fence" }));
 		this.variantNames.put(Items.oak_door, Lists.newArrayList(new String[] { "oak_door" }));
 
-		for (Entry<RegistryDelegate<Item>, Set<String>> entry : customVariantNames.entrySet()) {
-			this.variantNames.put((Item) ((RegistryDelegate) entry.getKey()).get(),
-					Lists.newArrayList(((Set) entry.getValue()).iterator()));
-		}
-
 		CustomItems.update();
 		CustomItems.loadModels(this);
 	}
@@ -528,11 +519,7 @@ public class ModelBakery {
 		return set;
 	}
 
-	public IBakedModel bakeModel(ModelBlock modelBlockIn, ModelRotation modelRotationIn, boolean uvLocked) {
-		return this.bakeModel(modelBlockIn, (ITransformation) modelRotationIn, uvLocked);
-	}
-
-	protected IBakedModel bakeModel(ModelBlock p_bakeModel_1_, ITransformation p_bakeModel_2_, boolean p_bakeModel_3_) {
+	protected IBakedModel bakeModel(ModelBlock p_bakeModel_1_, ModelRotation p_bakeModel_2_, boolean p_bakeModel_3_) {
 		TextureAtlasSprite textureatlassprite = (TextureAtlasSprite) this.sprites
 				.get(new ResourceLocation(p_bakeModel_1_.resolveTextureName("particle")));
 		SimpleBakedModel.Builder simplebakedmodel$builder = (new SimpleBakedModel.Builder(p_bakeModel_1_))
@@ -544,10 +531,6 @@ public class ModelBakery {
 				TextureAtlasSprite textureatlassprite1 = (TextureAtlasSprite) this.sprites
 						.get(new ResourceLocation(p_bakeModel_1_.resolveTextureName(blockpartface.texture)));
 				boolean flag = true;
-
-				if (Reflector.ForgeHooksClient.exists()) {
-					flag = TRSRTransformation.isInteger(p_bakeModel_2_.getMatrix());
-				}
 
 				if (blockpartface.cullFace != null && flag) {
 					simplebakedmodel$builder.addFaceQuad(p_bakeModel_2_.rotate(blockpartface.cullFace),
@@ -563,17 +546,8 @@ public class ModelBakery {
 		return simplebakedmodel$builder.makeBakedModel();
 	}
 
-	private BakedQuad makeBakedQuad(BlockPart p_177589_1_, BlockPartFace p_177589_2_, TextureAtlasSprite p_177589_3_,
-			EnumFacing p_177589_4_, ModelRotation p_177589_5_, boolean p_177589_6_) {
-		return Reflector.ForgeHooksClient.exists()
-				? this.makeBakedQuad(p_177589_1_, p_177589_2_, p_177589_3_, p_177589_4_, p_177589_5_, p_177589_6_)
-				: this.faceBakery.makeBakedQuad(p_177589_1_.positionFrom, p_177589_1_.positionTo, p_177589_2_,
-						p_177589_3_, p_177589_4_, p_177589_5_, p_177589_1_.partRotation, p_177589_6_,
-						p_177589_1_.shade);
-	}
-
 	protected BakedQuad makeBakedQuad(BlockPart p_makeBakedQuad_1_, BlockPartFace p_makeBakedQuad_2_,
-			TextureAtlasSprite p_makeBakedQuad_3_, EnumFacing p_makeBakedQuad_4_, ITransformation p_makeBakedQuad_5_,
+			TextureAtlasSprite p_makeBakedQuad_3_, EnumFacing p_makeBakedQuad_4_, ModelRotation p_makeBakedQuad_5_,
 			boolean p_makeBakedQuad_6_) {
 		return this.faceBakery.makeBakedQuad(p_makeBakedQuad_1_.positionFrom, p_makeBakedQuad_1_.positionTo,
 				p_makeBakedQuad_2_, p_makeBakedQuad_3_, p_makeBakedQuad_4_, p_makeBakedQuad_5_,
@@ -817,32 +791,6 @@ public class ModelBakery {
 		p_fixResourcePath_0_ = StrUtils.removeSuffix(p_fixResourcePath_0_, ".json");
 		p_fixResourcePath_0_ = StrUtils.removeSuffix(p_fixResourcePath_0_, ".png");
 		return p_fixResourcePath_0_;
-	}
-
-	@Deprecated
-	public static void addVariantName(Item p_addVariantName_0_, String... p_addVariantName_1_) {
-		RegistryDelegate registrydelegate = (RegistryDelegate) Reflector.getFieldValue(p_addVariantName_0_,
-				Reflector.ForgeItem_delegate);
-
-		if (customVariantNames.containsKey(registrydelegate)) {
-			((Set) customVariantNames.get(registrydelegate)).addAll(Lists.newArrayList(p_addVariantName_1_));
-		} else {
-			customVariantNames.put(registrydelegate, Sets.newHashSet(p_addVariantName_1_));
-		}
-	}
-
-	public static <T extends ResourceLocation> void registerItemVariants(Item p_registerItemVariants_0_,
-			T... p_registerItemVariants_1_) {
-		RegistryDelegate registrydelegate = (RegistryDelegate) Reflector.getFieldValue(p_registerItemVariants_0_,
-				Reflector.ForgeItem_delegate);
-
-		if (!customVariantNames.containsKey(registrydelegate)) {
-			customVariantNames.put(registrydelegate, Sets.<String>newHashSet());
-		}
-
-		for (ResourceLocation resourcelocation : p_registerItemVariants_1_) {
-			((Set) customVariantNames.get(registrydelegate)).add(resourcelocation.toString());
-		}
 	}
 
 	static {

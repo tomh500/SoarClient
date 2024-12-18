@@ -1,14 +1,19 @@
 package net.optifine.reflect;
 
-import com.google.common.base.Optional;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Map;
+
 import javax.vecmath.Matrix4f;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+import com.google.common.base.Optional;
+
 import net.minecraft.block.Block;
-import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiEnchantment;
@@ -93,11 +98,8 @@ import net.minecraft.world.IWorldNameable;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldProvider;
 import net.minecraft.world.biome.BiomeGenBase;
-import net.minecraftforge.common.property.IUnlistedProperty;
 import net.optifine.Log;
 import net.optifine.util.ArrayUtils;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 public class Reflector {
 	private static final Logger LOGGER = LogManager.getLogger();
@@ -160,8 +162,6 @@ public class Reflector {
 	public static ReflectorField Event_Result_DEFAULT = new ReflectorField(Event_Result, "DEFAULT");
 	public static ReflectorClass ExtendedBlockState = new ReflectorClass(
 			"net.minecraftforge.common.property.ExtendedBlockState");
-	public static ReflectorConstructor ExtendedBlockState_Constructor = new ReflectorConstructor(ExtendedBlockState,
-			new Class[] { Block.class, IProperty[].class, IUnlistedProperty[].class });
 	public static ReflectorClass FMLClientHandler = new ReflectorClass(
 			"net.minecraftforge.fml.client.FMLClientHandler");
 	public static ReflectorMethod FMLClientHandler_instance = new ReflectorMethod(FMLClientHandler, "instance");
