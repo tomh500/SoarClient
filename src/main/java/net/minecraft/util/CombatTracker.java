@@ -11,6 +11,8 @@ import net.minecraft.item.ItemStack;
 
 public class CombatTracker {
 	private final List<CombatEntry> combatEntries = Lists.<CombatEntry>newArrayList();
+
+	/** The entity tracked. */
 	private final EntityLivingBase fighter;
 	private int field_94555_c;
 	private int field_152775_d;
@@ -41,6 +43,9 @@ public class CombatTracker {
 		}
 	}
 
+	/**
+	 * Adds an entry for the combat tracker
+	 */
 	public void trackDamage(DamageSource damageSrc, float healthIn, float damageAmount) {
 		this.reset();
 		this.func_94545_a();
@@ -193,6 +198,9 @@ public class CombatTracker {
 		this.field_94551_f = null;
 	}
 
+	/**
+	 * Resets this trackers list of combat entries
+	 */
 	public void reset() {
 		int i = this.field_94552_d ? 300 : 100;
 
@@ -211,6 +219,9 @@ public class CombatTracker {
 		}
 	}
 
+	/**
+	 * Returns EntityLivingBase assigned for this CombatTracker
+	 */
 	public EntityLivingBase getFighter() {
 		return this.fighter;
 	}

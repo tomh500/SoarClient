@@ -13,7 +13,6 @@ import net.minecraft.client.renderer.texture.TextureUtil;
 import net.minecraft.client.resources.data.IMetadataSection;
 import net.minecraft.client.resources.data.IMetadataSerializer;
 import net.minecraft.util.ResourceLocation;
-import net.optifine.reflect.ReflectorForge;
 
 public class DefaultResourcePack implements IResourcePack {
 	public static final Set<String> defaultResourceDomains = ImmutableSet.<String>of("minecraft", "realms");
@@ -45,9 +44,8 @@ public class DefaultResourcePack implements IResourcePack {
 	}
 
 	private InputStream getResourceStream(ResourceLocation location) {
-		String s = "/assets/" + location.getResourceDomain() + "/" + location.getResourcePath();
-		InputStream inputstream = ReflectorForge.getOptiFineResourceStream(s);
-		return inputstream != null ? inputstream : DefaultResourcePack.class.getResourceAsStream(s);
+		return DefaultResourcePack.class
+				.getResourceAsStream("/assets/" + location.getResourceDomain() + "/" + location.getResourcePath());
 	}
 
 	public boolean resourceExists(ResourceLocation location) {
@@ -64,9 +62,9 @@ public class DefaultResourcePack implements IResourcePack {
 			InputStream inputstream = new FileInputStream((File) this.mapAssets.get("pack.mcmeta"));
 			return AbstractResourcePack.readMetadata(metadataSerializer, inputstream, metadataSectionName);
 		} catch (RuntimeException var4) {
-			return (T) ((IMetadataSection) null);
+			return (T) null;
 		} catch (FileNotFoundException var5) {
-			return (T) ((IMetadataSection) null);
+			return (T) null;
 		}
 	}
 

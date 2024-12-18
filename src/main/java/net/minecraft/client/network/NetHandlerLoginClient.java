@@ -93,6 +93,10 @@ public class NetHandlerLoginClient implements INetHandlerLoginClient {
 				new NetHandlerPlayClient(this.mc, this.previousGuiScreen, this.networkManager, this.gameProfile));
 	}
 
+	/**
+	 * Invoked when disconnecting, the parameter is a ChatComponent describing the
+	 * reason for termination
+	 */
 	public void onDisconnect(IChatComponent reason) {
 		this.mc.displayGuiScreen(new GuiDisconnected(this.previousGuiScreen, "connect.failed", reason));
 	}

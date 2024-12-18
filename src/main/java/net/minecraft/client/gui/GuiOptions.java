@@ -2,6 +2,8 @@ package net.minecraft.client.gui;
 
 import java.io.IOException;
 
+import com.soarclient.libraries.sodium.client.gui.ReeseSodiumVideoOptionsScreen;
+
 import net.minecraft.client.audio.PositionedSoundRecord;
 import net.minecraft.client.audio.SoundCategory;
 import net.minecraft.client.audio.SoundEventAccessorComposite;
@@ -17,6 +19,8 @@ public class GuiOptions extends GuiScreen implements GuiYesNoCallback {
 	private static final GameSettings.Options[] field_146440_f = new GameSettings.Options[] {
 			GameSettings.Options.FOV };
 	private final GuiScreen field_146441_g;
+
+	/** Reference to the GameSettings object. */
 	private final GameSettings game_settings_1;
 	private GuiButton field_175357_i;
 	private GuiLockIconButton field_175356_r;
@@ -27,6 +31,11 @@ public class GuiOptions extends GuiScreen implements GuiYesNoCallback {
 		this.game_settings_1 = p_i1046_2_;
 	}
 
+	/**
+	 * Adds the buttons (and other controls) to the screen in question. Called when
+	 * the GUI is displayed and when the window resizes, the buttonList is cleared
+	 * beforehand.
+	 */
 	public void initGui() {
 		int i = 0;
 		this.field_146442_a = I18n.format("options.title", new Object[0]);
@@ -89,8 +98,6 @@ public class GuiOptions extends GuiScreen implements GuiYesNoCallback {
 		});
 		this.buttonList.add(new GuiButton(106, this.width / 2 - 155, this.height / 6 + 72 - 6, 150, 20,
 				I18n.format("options.sounds", new Object[0])));
-		this.buttonList.add(new GuiButton(107, this.width / 2 + 5, this.height / 6 + 72 - 6, 150, 20,
-				I18n.format("options.stream", new Object[0])));
 		this.buttonList.add(new GuiButton(101, this.width / 2 - 155, this.height / 6 + 96 - 6, 150, 20,
 				I18n.format("options.video", new Object[0])));
 		this.buttonList.add(new GuiButton(100, this.width / 2 + 5, this.height / 6 + 96 - 6, 150, 20,
@@ -101,8 +108,6 @@ public class GuiOptions extends GuiScreen implements GuiYesNoCallback {
 				I18n.format("options.chat.title", new Object[0])));
 		this.buttonList.add(new GuiButton(105, this.width / 2 - 155, this.height / 6 + 144 - 6, 150, 20,
 				I18n.format("options.resourcepack", new Object[0])));
-		this.buttonList.add(new GuiButton(104, this.width / 2 + 5, this.height / 6 + 144 - 6, 150, 20,
-				I18n.format("options.snooper.view", new Object[0])));
 		this.buttonList.add(new GuiButton(200, this.width / 2 - 100, this.height / 6 + 168,
 				I18n.format("gui.done", new Object[0])));
 	}
@@ -127,7 +132,12 @@ public class GuiOptions extends GuiScreen implements GuiYesNoCallback {
 		}
 	}
 
+	/**
+	 * Called by the controls from the buttonList when activated. (Mouse pressed for
+	 * buttons)
+	 */
 	protected void actionPerformed(GuiButton button) throws IOException {
+
 		if (button.enabled) {
 			if (button.id < 100 && button instanceof GuiOptionButton) {
 				GameSettings.Options gamesettings$options = ((GuiOptionButton) button).returnEnumOptions();
@@ -164,8 +174,7 @@ public class GuiOptions extends GuiScreen implements GuiYesNoCallback {
 			}
 
 			if (button.id == 101) {
-				this.mc.gameSettings.saveOptions();
-				this.mc.displayGuiScreen(new GuiVideoSettings(this, this.game_settings_1));
+				this.mc.displayGuiScreen(new ReeseSodiumVideoOptionsScreen(this));
 			}
 
 			if (button.id == 100) {
@@ -181,11 +190,6 @@ public class GuiOptions extends GuiScreen implements GuiYesNoCallback {
 			if (button.id == 103) {
 				this.mc.gameSettings.saveOptions();
 				this.mc.displayGuiScreen(new ScreenChatOptions(this, this.game_settings_1));
-			}
-
-			if (button.id == 104) {
-				this.mc.gameSettings.saveOptions();
-				this.mc.displayGuiScreen(new GuiSnooper(this, this.game_settings_1));
 			}
 
 			if (button.id == 200) {
@@ -205,6 +209,10 @@ public class GuiOptions extends GuiScreen implements GuiYesNoCallback {
 		}
 	}
 
+	/**
+	 * Draws the screen and all the components in it. Args : mouseX, mouseY,
+	 * renderPartialTicks
+	 */
 	public void drawScreen(int mouseX, int mouseY, float partialTicks) {
 		this.drawDefaultBackground();
 		this.drawCenteredString(this.fontRendererObj, this.field_146442_a, this.width / 2, 15, 16777215);

@@ -52,6 +52,9 @@ public class S12PacketEntityVelocity implements Packet<INetHandlerPlayClient> {
 		this.motionZ = (int) (motionZIn * 8000.0D);
 	}
 
+	/**
+	 * Reads the raw packet data from the data stream.
+	 */
 	public void readPacketData(PacketBuffer buf) throws IOException {
 		this.entityID = buf.readVarIntFromBuffer();
 		this.motionX = buf.readShort();
@@ -59,6 +62,9 @@ public class S12PacketEntityVelocity implements Packet<INetHandlerPlayClient> {
 		this.motionZ = buf.readShort();
 	}
 
+	/**
+	 * Writes the raw packet data to the data stream.
+	 */
 	public void writePacketData(PacketBuffer buf) throws IOException {
 		buf.writeVarIntToBuffer(this.entityID);
 		buf.writeShort(this.motionX);
@@ -66,6 +72,9 @@ public class S12PacketEntityVelocity implements Packet<INetHandlerPlayClient> {
 		buf.writeShort(this.motionZ);
 	}
 
+	/**
+	 * Passes this Packet on to the NetHandler for processing.
+	 */
 	public void processPacket(INetHandlerPlayClient handler) {
 		handler.handleEntityVelocity(this);
 	}

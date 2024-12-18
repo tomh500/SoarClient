@@ -43,6 +43,9 @@ public class BiomeGenMutated extends BiomeGenBase {
 		this.baseBiome.genTerrainBlocks(worldIn, rand, chunkPrimerIn, x, z, noiseVal);
 	}
 
+	/**
+	 * returns the chance a creature has to spawn.
+	 */
 	public float getSpawningChance() {
 		return this.baseBiome.getSpawningChance();
 	}
@@ -63,6 +66,9 @@ public class BiomeGenMutated extends BiomeGenBase {
 		return this.baseBiome.getBiomeClass();
 	}
 
+	/**
+	 * returns true if the biome specified is equal to this biome
+	 */
 	public boolean isEqualTo(BiomeGenBase biome) {
 		return this.baseBiome.isEqualTo(biome);
 	}

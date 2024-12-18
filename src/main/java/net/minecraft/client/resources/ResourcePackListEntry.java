@@ -140,6 +140,9 @@ public abstract class ResourcePackListEntry implements GuiListExtended.IGuiListE
 		return i >= 0 && i < list.size() - 1 && ((ResourcePackListEntry) list.get(i + 1)).func_148310_d();
 	}
 
+	/**
+	 * Returns true if the mouse has been pressed on this control.
+	 */
 	public boolean mousePressed(int slotIndex, int p_148278_2_, int p_148278_3_, int p_148278_4_, int p_148278_5_,
 			int p_148278_6_) {
 		if (this.func_148310_d() && p_148278_5_ <= 32) {
@@ -204,6 +207,10 @@ public abstract class ResourcePackListEntry implements GuiListExtended.IGuiListE
 	public void setSelected(int p_178011_1_, int p_178011_2_, int p_178011_3_) {
 	}
 
+	/**
+	 * Fired when the mouse button is released. Arguments: index, x, y, mouseEvent,
+	 * relativeX, relativeY
+	 */
 	public void mouseReleased(int slotIndex, int x, int y, int mouseEvent, int relativeX, int relativeY) {
 	}
 }

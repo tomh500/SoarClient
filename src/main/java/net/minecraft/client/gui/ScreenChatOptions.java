@@ -19,6 +19,11 @@ public class ScreenChatOptions extends GuiScreen {
 		this.game_settings = gameSettingsIn;
 	}
 
+	/**
+	 * Adds the buttons (and other controls) to the screen in question. Called when
+	 * the GUI is displayed and when the window resizes, the buttonList is cleared
+	 * beforehand.
+	 */
 	public void initGui() {
 		int i = 0;
 		this.field_146401_i = I18n.format("options.chat.title", new Object[0]);
@@ -40,6 +45,10 @@ public class ScreenChatOptions extends GuiScreen {
 				I18n.format("gui.done", new Object[0])));
 	}
 
+	/**
+	 * Called by the controls from the buttonList when activated. (Mouse pressed for
+	 * buttons)
+	 */
 	protected void actionPerformed(GuiButton button) throws IOException {
 		if (button.enabled) {
 			if (button.id < 100 && button instanceof GuiOptionButton) {
@@ -54,6 +63,10 @@ public class ScreenChatOptions extends GuiScreen {
 		}
 	}
 
+	/**
+	 * Draws the screen and all the components in it. Args : mouseX, mouseY,
+	 * renderPartialTicks
+	 */
 	public void drawScreen(int mouseX, int mouseY, float partialTicks) {
 		this.drawDefaultBackground();
 		this.drawCenteredString(this.fontRendererObj, this.field_146401_i, this.width / 2, 20, 16777215);

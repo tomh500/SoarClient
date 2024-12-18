@@ -22,6 +22,9 @@ import net.minecraft.util.ResourceLocation;
 public abstract class CommandBase implements ICommand {
 	private static IAdminCommand theAdmin;
 
+	/**
+	 * Return the required permission level for this command.
+	 */
 	public int getRequiredPermissionLevel() {
 		return 4;
 	}
@@ -30,6 +33,9 @@ public abstract class CommandBase implements ICommand {
 		return Collections.<String>emptyList();
 	}
 
+	/**
+	 * Returns true if the given command sender is allowed to use this command.
+	 */
 	public boolean canCommandSenderUseCommand(ICommandSender sender) {
 		return sender.canCommandSenderUseCommand(this.getRequiredPermissionLevel(), this.getCommandName());
 	}
@@ -138,6 +144,9 @@ public abstract class CommandBase implements ICommand {
 		}
 	}
 
+	/**
+	 * Returns the given ICommandSender as a EntityPlayer or throw an exception.
+	 */
 	public static EntityPlayerMP getCommandSenderAsPlayer(ICommandSender sender) throws PlayerNotFoundException {
 		if (sender instanceof EntityPlayerMP) {
 			return (EntityPlayerMP) sender;
@@ -222,6 +231,10 @@ public abstract class CommandBase implements ICommand {
 		}
 	}
 
+	/**
+	 * Attempts to retrieve an entity's name, first assuming that the entity is a
+	 * player, and then exhausting all other possibilities.
+	 */
 	public static String getEntityName(ICommandSender p_175758_0_, String p_175758_1_) throws EntityNotFoundException {
 		try {
 			return getPlayer(p_175758_0_, p_175758_1_).getName();
@@ -272,6 +285,9 @@ public abstract class CommandBase implements ICommand {
 		return ichatcomponent;
 	}
 
+	/**
+	 * Builds a string starting at startPos
+	 */
 	public static String buildString(String[] args, int startPos) {
 		StringBuilder stringbuilder = new StringBuilder();
 
@@ -375,6 +391,12 @@ public abstract class CommandBase implements ICommand {
 		}
 	}
 
+	/**
+	 * Gets the Item specified by the given text string. First checks the item
+	 * registry, then tries by parsing the string as an integer ID (deprecated).
+	 * Warns the sender if we matched by parsing the ID. Throws if the item wasn't
+	 * found. Returns the item if it was found.
+	 */
 	public static Item getItemByText(ICommandSender sender, String id) throws NumberInvalidException {
 		ResourceLocation resourcelocation = new ResourceLocation(id);
 		Item item = (Item) Item.itemRegistry.getObject(resourcelocation);
@@ -386,6 +408,12 @@ public abstract class CommandBase implements ICommand {
 		}
 	}
 
+	/**
+	 * Gets the Block specified by the given text string. First checks the block
+	 * registry, then tries by parsing the string as an integer ID (deprecated).
+	 * Warns the sender if we matched by parsing the ID. Throws if the block wasn't
+	 * found. Returns the block if it was found.
+	 */
 	public static Block getBlockByText(ICommandSender sender, String id) throws NumberInvalidException {
 		ResourceLocation resourcelocation = new ResourceLocation(id);
 
@@ -402,6 +430,11 @@ public abstract class CommandBase implements ICommand {
 		}
 	}
 
+	/**
+	 * Creates a linguistic series joining the input objects together. Examples: 1)
+	 * {} --> "", 2) {"Steve"} --> "Steve", 3) {"Steve", "Phil"} --> "Steve and
+	 * Phil", 4) {"Steve", "Phil", "Mark"} --> "Steve, Phil and Mark"
+	 */
 	public static String joinNiceString(Object[] elements) {
 		StringBuilder stringbuilder = new StringBuilder();
 
@@ -440,6 +473,12 @@ public abstract class CommandBase implements ICommand {
 		return ichatcomponent;
 	}
 
+	/**
+	 * Creates a linguistic series joining together the elements of the given
+	 * collection. Examples: 1) {} --> "", 2) {"Steve"} --> "Steve", 3) {"Steve",
+	 * "Phil"} --> "Steve and Phil", 4) {"Steve", "Phil", "Mark"} --> "Steve, Phil
+	 * and Mark"
+	 */
 	public static String joinNiceStringFromCollection(Collection<String> strings) {
 		return joinNiceString(strings.toArray(new String[strings.size()]));
 	}
@@ -488,6 +527,10 @@ public abstract class CommandBase implements ICommand {
 		}
 	}
 
+	/**
+	 * Returns true if the given substring is exactly equal to the start of the
+	 * given string (case insensitive).
+	 */
 	public static boolean doesStringStartWith(String original, String region) {
 		return region.regionMatches(true, 0, original, 0, original.length());
 	}
@@ -520,6 +563,9 @@ public abstract class CommandBase implements ICommand {
 		return list;
 	}
 
+	/**
+	 * Return whether the specified command parameter index is a username parameter.
+	 */
 	public boolean isUsernameIndex(String[] args, int index) {
 		return false;
 	}
@@ -535,6 +581,9 @@ public abstract class CommandBase implements ICommand {
 		}
 	}
 
+	/**
+	 * Sets the static IAdminCommander.
+	 */
 	public static void setAdminCommander(IAdminCommand command) {
 		theAdmin = command;
 	}

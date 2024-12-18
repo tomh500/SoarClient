@@ -29,6 +29,9 @@ public class EntityPortalFX extends EntityFX {
 		this.setParticleTextureIndex((int) (Math.random() * 8.0D));
 	}
 
+	/**
+	 * Renders the particle
+	 */
 	public void renderParticle(WorldRenderer worldRendererIn, Entity entityIn, float partialTicks, float rotationX,
 			float rotationZ, float rotationYZ, float rotationXY, float rotationXZ) {
 		float f = ((float) this.particleAge + partialTicks) / (float) this.particleMaxAge;
@@ -56,6 +59,9 @@ public class EntityPortalFX extends EntityFX {
 		return j | k << 16;
 	}
 
+	/**
+	 * Gets how bright this entity is.
+	 */
 	public float getBrightness(float partialTicks) {
 		float f = super.getBrightness(partialTicks);
 		float f1 = (float) this.particleAge / (float) this.particleMaxAge;
@@ -63,6 +69,9 @@ public class EntityPortalFX extends EntityFX {
 		return f * (1.0F - f1) + f1;
 	}
 
+	/**
+	 * Called to update the entity's position/logic.
+	 */
 	public void onUpdate() {
 		this.prevPosX = this.posX;
 		this.prevPosY = this.posY;

@@ -7,18 +7,30 @@ import net.minecraft.util.ChatComponentTranslation;
 import net.minecraft.world.EnumDifficulty;
 
 public class CommandDifficulty extends CommandBase {
+	/**
+	 * Gets the name of the command
+	 */
 	public String getCommandName() {
 		return "difficulty";
 	}
 
+	/**
+	 * Return the required permission level for this command.
+	 */
 	public int getRequiredPermissionLevel() {
 		return 2;
 	}
 
+	/**
+	 * Gets the usage string for the command.
+	 */
 	public String getCommandUsage(ICommandSender sender) {
 		return "commands.difficulty.usage";
 	}
 
+	/**
+	 * Callback when the command is invoked
+	 */
 	public void processCommand(ICommandSender sender, String[] args) throws CommandException {
 		if (args.length <= 0) {
 			throw new WrongUsageException("commands.difficulty.usage", new Object[0]);

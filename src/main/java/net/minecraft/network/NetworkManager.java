@@ -1,7 +1,37 @@
 package net.minecraft.network;
 
+import java.net.InetAddress;
+import java.net.Proxy;
+import java.net.SocketAddress;
+import java.util.Queue;
+import java.util.concurrent.locks.ReentrantReadWriteLock;
+
+import javax.crypto.Cipher;
+import javax.crypto.SecretKey;
+
+import org.apache.commons.lang3.ArrayUtils;
+import org.apache.commons.lang3.Validate;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.Marker;
+import org.apache.logging.log4j.MarkerManager;
+
 import com.google.common.collect.Queues;
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
+import com.soarclient.Soar;
+import com.soarclient.event.EventBus;
+import com.soarclient.event.impl.ReceivePacketEvent;
+import com.soarclient.event.impl.SendPacketEvent;
+import com.soarclient.libraries.krypton.compress.MinecraftCompressDecoder;
+import com.soarclient.libraries.krypton.compress.MinecraftCompressEncoder;
+import com.soarclient.management.proxy.channel.ProxyOioChannelFactory;
+import com.soarclient.viasoar.common.ViaSoarCommon;
+import com.soarclient.viasoar.common.platform.VersionTracker;
+import com.soarclient.viasoar.common.protocoltranslator.netty.VSNetworkManager;
+import com.velocitypowered.natives.compression.VelocityCompressor;
+import com.velocitypowered.natives.util.Natives;
+import com.viaversion.viaversion.api.protocol.version.ProtocolVersion;
+
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelException;
@@ -20,6 +50,7 @@ import io.netty.channel.local.LocalChannel;
 import io.netty.channel.local.LocalEventLoopGroup;
 import io.netty.channel.local.LocalServerChannel;
 import io.netty.channel.nio.NioEventLoopGroup;
+import io.netty.channel.oio.OioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioSocketChannel;
 import io.netty.handler.timeout.ReadTimeoutHandler;
@@ -27,11 +58,6 @@ import io.netty.handler.timeout.TimeoutException;
 import io.netty.util.AttributeKey;
 import io.netty.util.concurrent.Future;
 import io.netty.util.concurrent.GenericFutureListener;
-import java.net.InetAddress;
-import java.net.SocketAddress;
-import java.util.Queue;
-import java.util.concurrent.locks.ReentrantReadWriteLock;
-import javax.crypto.SecretKey;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.ChatComponentTranslation;
 import net.minecraft.util.CryptManager;
@@ -42,14 +68,10 @@ import net.minecraft.util.MessageDeserializer;
 import net.minecraft.util.MessageDeserializer2;
 import net.minecraft.util.MessageSerializer;
 import net.minecraft.util.MessageSerializer2;
-import org.apache.commons.lang3.ArrayUtils;
-import org.apache.commons.lang3.Validate;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-import org.apache.logging.log4j.Marker;
-import org.apache.logging.log4j.MarkerManager;
+import net.raphimc.vialegacy.api.LegacyProtocolVersion;
+import net.raphimc.vialoader.netty.VLLegacyPipeline;
 
-public class NetworkManager extends SimpleChannelInboundHandler<Packet> {
+public class NetworkManager extends SimpleChannelInboundHandler<Packet> implements VSNetworkManager {
 	private static final Logger logger = LogManager.getLogger();
 	public static final Marker logMarkerNetwork = MarkerManager.getMarker("NETWORK");
 	public static final Marker logMarkerPackets = MarkerManager.getMarker("NETWORK_PACKETS", logMarkerNetwork);
@@ -76,12 +98,23 @@ public class NetworkManager extends SimpleChannelInboundHandler<Packet> {
 	private final EnumPacketDirection direction;
 	private final Queue<NetworkManager.InboundHandlerTuplePacketListener> outboundPacketsQueue = Queues.<NetworkManager.InboundHandlerTuplePacketListener>newConcurrentLinkedQueue();
 	private final ReentrantReadWriteLock readWriteLock = new ReentrantReadWriteLock();
+
+	/** The active channel */
 	private Channel channel;
+
+	/** The address of the remote party */
 	private SocketAddress socketAddress;
+
+	/** The INetHandler instance responsible for processing received packets */
 	private INetHandler packetListener;
+
+	/** A String indicating why the network has shutdown. */
 	private IChatComponent terminationReason;
 	private boolean isEncrypted;
 	private boolean disconnected;
+
+	private Cipher decryptionCipher;
+	private ProtocolVersion targetVersion;
 
 	public NetworkManager(EnumPacketDirection packetDirection) {
 		this.direction = packetDirection;
@@ -99,6 +132,10 @@ public class NetworkManager extends SimpleChannelInboundHandler<Packet> {
 		}
 	}
 
+	/**
+	 * Sets the new connection state and registers which packets this channel may
+	 * send and receive
+	 */
 	public void setConnectionState(EnumConnectionState newState) {
 		this.channel.attr(attrKeyConnectionState).set(newState);
 		this.channel.config().setAutoRead(true);
@@ -124,6 +161,14 @@ public class NetworkManager extends SimpleChannelInboundHandler<Packet> {
 	}
 
 	protected void channelRead0(ChannelHandlerContext p_channelRead0_1_, Packet p_channelRead0_2_) throws Exception {
+
+		ReceivePacketEvent event = new ReceivePacketEvent(p_channelRead0_2_);
+		EventBus.getInstance().post(event);
+
+		if (event.isCancelled()) {
+			return;
+		}
+
 		if (this.channel.isOpen()) {
 			try {
 				p_channelRead0_2_.processPacket(this.packetListener);
@@ -133,6 +178,10 @@ public class NetworkManager extends SimpleChannelInboundHandler<Packet> {
 		}
 	}
 
+	/**
+	 * Sets the NetHandler for this NetworkManager, no checks are made if this
+	 * handler is suitable for the particular connection state (protocol)
+	 */
 	public void setNetHandler(INetHandler handler) {
 		Validate.notNull(handler, "packetListener", new Object[0]);
 		logger.debug("Set listener of {} to {}", new Object[] { this, handler });
@@ -140,6 +189,14 @@ public class NetworkManager extends SimpleChannelInboundHandler<Packet> {
 	}
 
 	public void sendPacket(Packet packetIn) {
+
+		SendPacketEvent event = new SendPacketEvent(packetIn);
+		EventBus.getInstance().post(event);
+
+		if (event.isCancelled()) {
+			return;
+		}
+
 		if (this.isChannelOpen()) {
 			this.flushOutboundQueue();
 			this.dispatchPacket(packetIn, (GenericFutureListener<? extends Future<? super Void>>[]) null);
@@ -172,6 +229,11 @@ public class NetworkManager extends SimpleChannelInboundHandler<Packet> {
 		}
 	}
 
+	/**
+	 * Will commit the packet to the channel. If the current thread 'owns' the
+	 * channel it will write and flush the packet, otherwise it will add a task for
+	 * the channel eventloop thread to do that.
+	 */
 	private void dispatchPacket(final Packet inPacket,
 			final GenericFutureListener<? extends Future<? super Void>>[] futureListeners) {
 		final EnumConnectionState enumconnectionstate = EnumConnectionState.getFromPacket(inPacket);
@@ -214,6 +276,9 @@ public class NetworkManager extends SimpleChannelInboundHandler<Packet> {
 		}
 	}
 
+	/**
+	 * Will iterate through the outboundPacketQueue and dispatch all Packets
+	 */
 	private void flushOutboundQueue() {
 		if (this.channel != null && this.channel.isOpen()) {
 			this.readWriteLock.readLock().lock();
@@ -231,6 +296,9 @@ public class NetworkManager extends SimpleChannelInboundHandler<Packet> {
 		}
 	}
 
+	/**
+	 * Checks timeouts and processes all packets received
+	 */
 	public void processReceivedPackets() {
 		this.flushOutboundQueue();
 
@@ -241,10 +309,17 @@ public class NetworkManager extends SimpleChannelInboundHandler<Packet> {
 		this.channel.flush();
 	}
 
+	/**
+	 * Returns the socket address of the remote side. Server-only.
+	 */
 	public SocketAddress getRemoteAddress() {
 		return this.socketAddress;
 	}
 
+	/**
+	 * Closes the channel, the parameter can be used for an exit message (not
+	 * certain how it gets sent)
+	 */
 	public void closeChannel(IChatComponent message) {
 		if (this.channel.isOpen()) {
 			this.channel.close().awaitUninterruptibly();
@@ -252,15 +327,31 @@ public class NetworkManager extends SimpleChannelInboundHandler<Packet> {
 		}
 	}
 
+	/**
+	 * True if this NetworkManager uses a memory connection (single player game).
+	 * False may imply both an active TCP connection or simply no active connection
+	 * at all
+	 */
 	public boolean isLocalChannel() {
 		return this.channel instanceof LocalChannel || this.channel instanceof LocalServerChannel;
 	}
 
+	/**
+	 * Create a new NetworkManager from the server host and connect it to the server
+	 * 
+	 * @param address            The address of the server
+	 * @param serverPort         The server port
+	 * @param useNativeTransport True if the client use the native transport system
+	 */
 	public static NetworkManager createNetworkManagerAndConnect(InetAddress address, int serverPort,
 			boolean useNativeTransport) {
 		final NetworkManager networkmanager = new NetworkManager(EnumPacketDirection.CLIENTBOUND);
 		Class<? extends SocketChannel> oclass;
 		LazyLoadBase<? extends EventLoopGroup> lazyloadbase;
+
+		boolean isEnabled = Soar.getInstance().getProxyManager().isEnabled();
+		Bootstrap bootstrap = new Bootstrap();
+		EventLoopGroup eventLoopGroup;
 
 		if (Epoll.isAvailable() && useNativeTransport) {
 			oclass = EpollSocketChannel.class;
@@ -270,29 +361,46 @@ public class NetworkManager extends SimpleChannelInboundHandler<Packet> {
 			lazyloadbase = CLIENT_NIO_EVENTLOOP;
 		}
 
-		((Bootstrap) ((Bootstrap) ((Bootstrap) (new Bootstrap()).group((EventLoopGroup) lazyloadbase.getValue()))
-				.handler(new ChannelInitializer<Channel>() {
-					protected void initChannel(Channel p_initChannel_1_) throws Exception {
-						try {
-							p_initChannel_1_.config().setOption(ChannelOption.TCP_NODELAY, Boolean.valueOf(true));
-						} catch (ChannelException var3) {
-							;
-						}
+		if (isEnabled) {
+			Proxy proxy = null;
+			eventLoopGroup = new OioEventLoopGroup(0,
+					(new ThreadFactoryBuilder()).setNameFormat("Netty Client IO #%d").setDaemon(true).build());
+			bootstrap.channelFactory(new ProxyOioChannelFactory(proxy));
+		} else {
+			eventLoopGroup = (EventLoopGroup) lazyloadbase.getValue();
+		}
 
-						p_initChannel_1_.pipeline()
-								.addLast((String) "timeout", (ChannelHandler) (new ReadTimeoutHandler(30)))
-								.addLast((String) "splitter", (ChannelHandler) (new MessageDeserializer2()))
-								.addLast((String) "decoder",
-										(ChannelHandler) (new MessageDeserializer(EnumPacketDirection.CLIENTBOUND)))
-								.addLast((String) "prepender", (ChannelHandler) (new MessageSerializer2()))
-								.addLast((String) "encoder",
-										(ChannelHandler) (new MessageSerializer(EnumPacketDirection.SERVERBOUND)))
-								.addLast((String) "packet_handler", (ChannelHandler) networkmanager);
-					}
-				})).channel(oclass)).connect(address, serverPort).syncUninterruptibly();
+		final VSNetworkManager mixinNetworkManager = networkmanager;
+		mixinNetworkManager.setTrackedVersion(VersionTracker.getServerProtocolVersion(address));
+
+		bootstrap.group(eventLoopGroup).handler(new ChannelInitializer<Channel>() {
+			protected void initChannel(Channel p_initChannel_1_) throws Exception {
+				try {
+					p_initChannel_1_.config().setOption(ChannelOption.TCP_NODELAY, Boolean.valueOf(true));
+				} catch (ChannelException var3) {
+					;
+				}
+
+				p_initChannel_1_.pipeline().addLast((String) "timeout", (ChannelHandler) (new ReadTimeoutHandler(30)))
+						.addLast((String) "splitter", (ChannelHandler) (new MessageDeserializer2()))
+						.addLast((String) "decoder",
+								(ChannelHandler) (new MessageDeserializer(EnumPacketDirection.CLIENTBOUND)))
+						.addLast((String) "prepender", (ChannelHandler) (new MessageSerializer2()))
+						.addLast((String) "encoder",
+								(ChannelHandler) (new MessageSerializer(EnumPacketDirection.SERVERBOUND)))
+						.addLast((String) "packet_handler", (ChannelHandler) networkmanager);
+
+				ViaSoarCommon.getManager().inject(p_initChannel_1_, networkmanager);
+			}
+		}).channel(oclass).connect(address, serverPort).syncUninterruptibly();
 		return networkmanager;
 	}
 
+	/**
+	 * Prepares a clientside NetworkManager: establishes a connection to the socket
+	 * supplied and configures the channel pipeline. Returns the newly created
+	 * instance.
+	 */
 	public static NetworkManager provideLocalClient(SocketAddress address) {
 		final NetworkManager networkmanager = new NetworkManager(EnumPacketDirection.CLIENTBOUND);
 		((Bootstrap) ((Bootstrap) ((Bootstrap) (new Bootstrap())
@@ -304,7 +412,20 @@ public class NetworkManager extends SimpleChannelInboundHandler<Packet> {
 		return networkmanager;
 	}
 
+	/**
+	 * Adds an encoder+decoder to the channel pipeline. The parameter is the secret
+	 * key used for encrypted communication
+	 */
 	public void enableEncryption(SecretKey key) {
+
+		if (targetVersion != null && targetVersion.olderThanOrEqualTo(LegacyProtocolVersion.r1_6_4)) {
+			this.decryptionCipher = CryptManager.createNetCipherInstance(2, key);
+			this.isEncrypted = true;
+			this.channel.pipeline().addBefore(VLLegacyPipeline.VIALEGACY_PRE_NETTY_LENGTH_REMOVER_NAME, "encrypt",
+					new NettyEncryptingEncoder(CryptManager.createNetCipherInstance(1, key)));
+			return;
+		}
+
 		this.isEncrypted = true;
 		this.channel.pipeline().addBefore("splitter", "decrypt",
 				new NettyEncryptingDecoder(CryptManager.createNetCipherInstance(2, key)));
@@ -316,6 +437,9 @@ public class NetworkManager extends SimpleChannelInboundHandler<Packet> {
 		return this.isEncrypted;
 	}
 
+	/**
+	 * Returns true if this NetworkManager has an active channel, false otherwise
+	 */
 	public boolean isChannelOpen() {
 		return this.channel != null && this.channel.isOpen();
 	}
@@ -324,40 +448,41 @@ public class NetworkManager extends SimpleChannelInboundHandler<Packet> {
 		return this.channel == null;
 	}
 
+	/**
+	 * Gets the current handler for processing packets
+	 */
 	public INetHandler getNetHandler() {
 		return this.packetListener;
 	}
 
+	/**
+	 * If this channel is closed, returns the exit message, null otherwise.
+	 */
 	public IChatComponent getExitMessage() {
 		return this.terminationReason;
 	}
 
+	/**
+	 * Switches the channel to manual reading modus
+	 */
 	public void disableAutoRead() {
 		this.channel.config().setAutoRead(false);
 	}
 
 	public void setCompressionTreshold(int treshold) {
 		if (treshold >= 0) {
-			if (this.channel.pipeline().get("decompress") instanceof NettyCompressionDecoder) {
-				((NettyCompressionDecoder) this.channel.pipeline().get("decompress")).setCompressionTreshold(treshold);
-			} else {
-				this.channel.pipeline().addBefore("decoder", "decompress", new NettyCompressionDecoder(treshold));
-			}
+			VelocityCompressor compressor = Natives.compress.get().create(4);
+			MinecraftCompressEncoder encoder = new MinecraftCompressEncoder(treshold, compressor);
+			MinecraftCompressDecoder decoder = new MinecraftCompressDecoder(treshold, compressor);
 
-			if (this.channel.pipeline().get("compress") instanceof NettyCompressionEncoder) {
-				((NettyCompressionEncoder) this.channel.pipeline().get("decompress")).setCompressionTreshold(treshold);
-			} else {
-				this.channel.pipeline().addBefore("encoder", "compress", new NettyCompressionEncoder(treshold));
-			}
+			channel.pipeline().addBefore("decoder", "decompress", decoder);
+			channel.pipeline().addBefore("encoder", "compress", encoder);
 		} else {
-			if (this.channel.pipeline().get("decompress") instanceof NettyCompressionDecoder) {
-				this.channel.pipeline().remove("decompress");
-			}
-
-			if (this.channel.pipeline().get("compress") instanceof NettyCompressionEncoder) {
-				this.channel.pipeline().remove("compress");
-			}
+			this.channel.pipeline().remove("decompress");
+			this.channel.pipeline().remove("compress");
 		}
+
+		ViaSoarCommon.getManager().reorderCompression(channel);
 	}
 
 	public void checkDisconnected() {
@@ -385,5 +510,21 @@ public class NetworkManager extends SimpleChannelInboundHandler<Packet> {
 			this.packet = inPacket;
 			this.futureListeners = inFutureListeners;
 		}
+	}
+
+	@Override
+	public void setupPreNettyDecryption() {
+		this.channel.pipeline().addBefore(VLLegacyPipeline.VIALEGACY_PRE_NETTY_LENGTH_REMOVER_NAME, "decrypt",
+				new NettyEncryptingDecoder(this.decryptionCipher));
+	}
+
+	@Override
+	public ProtocolVersion getTrackedVersion() {
+		return targetVersion;
+	}
+
+	@Override
+	public void setTrackedVersion(ProtocolVersion version) {
+		targetVersion = version;
 	}
 }

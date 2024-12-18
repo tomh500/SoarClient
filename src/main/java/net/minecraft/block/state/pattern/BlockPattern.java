@@ -42,6 +42,9 @@ public class BlockPattern {
 		return this.palmLength;
 	}
 
+	/**
+	 * checks that the given pattern & rotation is at the block co-ordinates.
+	 */
 	private BlockPattern.PatternHelper checkPatternAt(BlockPos pos, EnumFacing finger, EnumFacing thumb,
 			LoadingCache<BlockPos, BlockWorldState> lcache) {
 		for (int i = 0; i < this.palmLength; ++i) {
@@ -59,6 +62,11 @@ public class BlockPattern {
 				this.fingerLength);
 	}
 
+	/**
+	 * Calculates whether the given world position matches the pattern. Warning,
+	 * fairly heavy function. @return a BlockPattern.PatternHelper if found, null
+	 * otherwise.
+	 */
 	public BlockPattern.PatternHelper match(World worldIn, BlockPos pos) {
 		LoadingCache<BlockPos, BlockWorldState> loadingcache = func_181627_a(worldIn, false);
 		int i = Math.max(Math.max(this.palmLength, this.thumbLength), this.fingerLength);
@@ -86,6 +94,11 @@ public class BlockPattern {
 				.<BlockPos, BlockWorldState>build(new BlockPattern.CacheLoader(p_181627_0_, p_181627_1_));
 	}
 
+	/**
+	 * Offsets the position of pos in the direction of finger and thumb facing by
+	 * offset amounts, follows the right-hand rule for cross products (finger,
+	 * thumb, palm) @return A new BlockPos offset in the facing directions
+	 */
 	protected static BlockPos translateOffset(BlockPos pos, EnumFacing finger, EnumFacing thumb, int palmOffset,
 			int thumbOffset, int fingerOffset) {
 		if (finger != thumb && finger != thumb.getOpposite()) {

@@ -1,5 +1,9 @@
 package net.minecraft.client.renderer.entity;
 
+import com.soarclient.libraries.sodium.SodiumClientMod;
+import com.soarclient.libraries.sodium.client.gui.SodiumGameOptions.LightingQuality;
+import com.soarclient.libraries.sodium.client.model.light.EntityLighter;
+
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.Tessellator;
@@ -15,11 +19,19 @@ public class RenderPainting extends Render<EntityPainting> {
 	private static final ResourceLocation KRISTOFFER_PAINTING_TEXTURE = new ResourceLocation(
 			"textures/painting/paintings_kristoffer_zetterstrand.png");
 
+	private EntityPainting entity;
+	private float tickDelta;
+
 	public RenderPainting(RenderManager renderManagerIn) {
 		super(renderManagerIn);
 	}
 
+	/**
+	 * Renders the desired {@code T} type Entity.
+	 */
 	public void doRender(EntityPainting entity, double x, double y, double z, float entityYaw, float partialTicks) {
+		this.entity = entity;
+		this.tickDelta = partialTicks;
 		GlStateManager.pushMatrix();
 		GlStateManager.translate(x, y, z);
 		GlStateManager.rotate(180.0F - entityYaw, 0.0F, 1.0F, 0.0F);
@@ -35,6 +47,10 @@ public class RenderPainting extends Render<EntityPainting> {
 		super.doRender(entity, x, y, z, entityYaw, partialTicks);
 	}
 
+	/**
+	 * Returns the location of an entity's texture. Doesn't seem to be called unless
+	 * you call Render.bindEntityTexture.
+	 */
 	protected ResourceLocation getEntityTexture(EntityPainting entity) {
 		return KRISTOFFER_PAINTING_TEXTURE;
 	}
@@ -145,7 +161,9 @@ public class RenderPainting extends Render<EntityPainting> {
 			k = MathHelper.floor_double(painting.posZ + (double) (p_77008_2_ / 16.0F));
 		}
 
-		int l = this.renderManager.worldObj.getCombinedLight(new BlockPos(i, j, k), 0);
+		int l = SodiumClientMod.options().quality.smoothLighting == LightingQuality.HIGH && this.entity != null
+				? EntityLighter.getBlendedLight(this.entity, this.tickDelta)
+				: this.renderManager.worldObj.getCombinedLight(new BlockPos(i, j, k), 0);
 		int i1 = l % 65536;
 		int j1 = l / 65536;
 		OpenGlHelper.setLightmapTextureCoords(OpenGlHelper.lightmapTexUnit, (float) i1, (float) j1);

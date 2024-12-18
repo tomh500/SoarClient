@@ -34,12 +34,21 @@ import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.World;
 
 public class EntitySheep extends EntityAnimal {
+	/**
+	 * Internal crafting inventory used to check the result of mixing dyes
+	 * corresponding to the fleece color when breeding sheep.
+	 */
 	private final InventoryCrafting inventoryCrafting = new InventoryCrafting(new Container() {
 		public boolean canInteractWith(EntityPlayer playerIn) {
 			return false;
 		}
 	}, 2, 1);
 	private static final Map<EnumDyeColor, float[]> DYE_TO_RGB = Maps.newEnumMap(EnumDyeColor.class);
+
+	/**
+	 * Used to control movement as well as wool regrowth. Set to 40 on
+	 * handleHealthUpdate and counts down with each tick.
+	 */
 	private int sheepTimer;
 	private EntityAIEatGrass entityAIEatGrass = new EntityAIEatGrass(this);
 
@@ -69,6 +78,11 @@ public class EntitySheep extends EntityAnimal {
 		super.updateAITasks();
 	}
 
+	/**
+	 * Called frequently so the entity can update its state every tick as required.
+	 * For example, zombies and skeletons use this to react to sunlight and start to
+	 * burn.
+	 */
 	public void onLivingUpdate() {
 		if (this.worldObj.isRemote) {
 			this.sheepTimer = Math.max(0, this.sheepTimer - 1);
@@ -88,6 +102,14 @@ public class EntitySheep extends EntityAnimal {
 		this.dataWatcher.addObject(16, new Byte((byte) 0));
 	}
 
+	/**
+	 * Drop 0-2 items of this living's type
+	 * 
+	 * @param wasRecentlyHit  true if this this entity was recently hit by
+	 *                        appropriate entity (generally only if player or
+	 *                        tameable)
+	 * @param lootingModifier level of enchanment to be applied to this drop
+	 */
 	protected void dropFewItems(boolean wasRecentlyHit, int lootingModifier) {
 		if (!this.getSheared()) {
 			this.entityDropItem(
@@ -133,6 +155,10 @@ public class EntitySheep extends EntityAnimal {
 		}
 	}
 
+	/**
+	 * Called when a player interacts with a mob. e.g. gets milk from a cow, gets
+	 * into the saddle on a pig.
+	 */
 	public boolean interact(EntityPlayer player) {
 		ItemStack itemstack = player.inventory.getCurrentItem();
 
@@ -158,26 +184,41 @@ public class EntitySheep extends EntityAnimal {
 		return super.interact(player);
 	}
 
+	/**
+	 * (abstract) Protected helper method to write subclass entity data to NBT.
+	 */
 	public void writeEntityToNBT(NBTTagCompound tagCompound) {
 		super.writeEntityToNBT(tagCompound);
 		tagCompound.setBoolean("Sheared", this.getSheared());
 		tagCompound.setByte("Color", (byte) this.getFleeceColor().getMetadata());
 	}
 
+	/**
+	 * (abstract) Protected helper method to read subclass entity data from NBT.
+	 */
 	public void readEntityFromNBT(NBTTagCompound tagCompund) {
 		super.readEntityFromNBT(tagCompund);
 		this.setSheared(tagCompund.getBoolean("Sheared"));
 		this.setFleeceColor(EnumDyeColor.byMetadata(tagCompund.getByte("Color")));
 	}
 
+	/**
+	 * Returns the sound this mob makes while it's alive.
+	 */
 	protected String getLivingSound() {
 		return "mob.sheep.say";
 	}
 
+	/**
+	 * Returns the sound this mob makes when it is hurt.
+	 */
 	protected String getHurtSound() {
 		return "mob.sheep.say";
 	}
 
+	/**
+	 * Returns the sound this mob makes on death.
+	 */
 	protected String getDeathSound() {
 		return "mob.sheep.say";
 	}
@@ -186,19 +227,31 @@ public class EntitySheep extends EntityAnimal {
 		this.playSound("mob.sheep.step", 0.15F, 1.0F);
 	}
 
+	/**
+	 * Gets the wool color of this sheep.
+	 */
 	public EnumDyeColor getFleeceColor() {
 		return EnumDyeColor.byMetadata(this.dataWatcher.getWatchableObjectByte(16) & 15);
 	}
 
+	/**
+	 * Sets the wool color of this sheep
+	 */
 	public void setFleeceColor(EnumDyeColor color) {
 		byte b0 = this.dataWatcher.getWatchableObjectByte(16);
 		this.dataWatcher.updateObject(16, Byte.valueOf((byte) (b0 & 240 | color.getMetadata() & 15)));
 	}
 
+	/**
+	 * returns true if a sheeps wool has been sheared
+	 */
 	public boolean getSheared() {
 		return (this.dataWatcher.getWatchableObjectByte(16) & 16) != 0;
 	}
 
+	/**
+	 * make a sheep sheared if set to true
+	 */
 	public void setSheared(boolean sheared) {
 		byte b0 = this.dataWatcher.getWatchableObjectByte(16);
 
@@ -209,6 +262,9 @@ public class EntitySheep extends EntityAnimal {
 		}
 	}
 
+	/**
+	 * Chooses a "vanilla" sheep color based on the provided random.
+	 */
 	public static EnumDyeColor getRandomSheepColor(Random random) {
 		int i = random.nextInt(100);
 		return i < 5 ? EnumDyeColor.BLACK
@@ -225,6 +281,10 @@ public class EntitySheep extends EntityAnimal {
 		return entitysheep1;
 	}
 
+	/**
+	 * This function applies the benefits of growing back wool and faster growing up
+	 * to the acting entity. (This function is used in the AIEatGrass)
+	 */
 	public void eatGrassBonus() {
 		this.setSheared(false);
 
@@ -233,12 +293,20 @@ public class EntitySheep extends EntityAnimal {
 		}
 	}
 
+	/**
+	 * Called only once on an entity when first time spawned, via egg, mob spawner,
+	 * natural spawning etc, but not called when entity is reloaded from nbt. Mainly
+	 * used for initializing attributes and inventory
+	 */
 	public IEntityLivingData onInitialSpawn(DifficultyInstance difficulty, IEntityLivingData livingdata) {
 		livingdata = super.onInitialSpawn(difficulty, livingdata);
 		this.setFleeceColor(getRandomSheepColor(this.worldObj.rand));
 		return livingdata;
 	}
 
+	/**
+	 * Attempts to mix both parent sheep to come up with a mixed dye color.
+	 */
 	private EnumDyeColor getDyeColorMixFromParents(EntityAnimal father, EntityAnimal mother) {
 		int i = ((EntitySheep) father).getFleeceColor().getDyeDamage();
 		int j = ((EntitySheep) mother).getFleeceColor().getDyeDamage();

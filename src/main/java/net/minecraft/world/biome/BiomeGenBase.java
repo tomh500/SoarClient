@@ -63,6 +63,8 @@ public abstract class BiomeGenBase {
 	protected static final BiomeGenBase.Height height_RockyWaters = new BiomeGenBase.Height(0.1F, 0.8F);
 	protected static final BiomeGenBase.Height height_LowIslands = new BiomeGenBase.Height(0.2F, 0.3F);
 	protected static final BiomeGenBase.Height height_PartiallySubmerged = new BiomeGenBase.Height(-0.2F, 0.1F);
+
+	/** An array of all the biomes, indexed by biome id. */
 	private static final BiomeGenBase[] biomeList = new BiomeGenBase[256];
 	public static final Set<BiomeGenBase> explorationBiomesList = Sets.<BiomeGenBase>newHashSet();
 	public static final Map<String, BiomeGenBase> BIOME_ID_MAP = Maps.<String, BiomeGenBase>newHashMap();
@@ -82,6 +84,8 @@ public abstract class BiomeGenBase {
 			.setHeight(height_ShallowWaters);
 	public static final BiomeGenBase hell = (new BiomeGenHell(8)).setColor(16711680).setBiomeName("Hell")
 			.setDisableRain().setTemperatureRainfall(2.0F, 0.0F);
+
+	/** Is the biome used for sky world. */
 	public static final BiomeGenBase sky = (new BiomeGenEnd(9)).setColor(8421631).setBiomeName("The End")
 			.setDisableRain();
 	public static final BiomeGenBase frozenOcean = (new BiomeGenOcean(10)).setColor(9474208).setBiomeName("FrozenOcean")
@@ -98,18 +102,30 @@ public abstract class BiomeGenBase {
 			.setBiomeName("MushroomIsland").setTemperatureRainfall(0.9F, 1.0F).setHeight(height_LowIslands);
 	public static final BiomeGenBase mushroomIslandShore = (new BiomeGenMushroomIsland(15)).setColor(10486015)
 			.setBiomeName("MushroomIslandShore").setTemperatureRainfall(0.9F, 1.0F).setHeight(height_Shores);
+
+	/** Beach biome. */
 	public static final BiomeGenBase beach = (new BiomeGenBeach(16)).setColor(16440917).setBiomeName("Beach")
 			.setTemperatureRainfall(0.8F, 0.4F).setHeight(height_Shores);
+
+	/** Desert Hills biome. */
 	public static final BiomeGenBase desertHills = (new BiomeGenDesert(17)).setColor(13786898)
 			.setBiomeName("DesertHills").setDisableRain().setTemperatureRainfall(2.0F, 0.0F).setHeight(height_LowHills);
+
+	/** Forest Hills biome. */
 	public static final BiomeGenBase forestHills = (new BiomeGenForest(18, 0)).setColor(2250012)
 			.setBiomeName("ForestHills").setHeight(height_LowHills);
+
+	/** Taiga Hills biome. */
 	public static final BiomeGenBase taigaHills = (new BiomeGenTaiga(19, 0)).setColor(1456435)
 			.setBiomeName("TaigaHills").setFillerBlockMetadata(5159473).setTemperatureRainfall(0.25F, 0.8F)
 			.setHeight(height_LowHills);
+
+	/** Extreme Hills Edge biome. */
 	public static final BiomeGenBase extremeHillsEdge = (new BiomeGenHills(20, true)).setColor(7501978)
 			.setBiomeName("Extreme Hills Edge").setHeight(height_MidHills.attenuate())
 			.setTemperatureRainfall(0.2F, 0.3F);
+
+	/** Jungle biome identifier */
 	public static final BiomeGenBase jungle = (new BiomeGenJungle(21, false)).setColor(5470985).setBiomeName("Jungle")
 			.setFillerBlockMetadata(5470985).setTemperatureRainfall(0.95F, 0.9F);
 	public static final BiomeGenBase jungleHills = (new BiomeGenJungle(22, false)).setColor(2900485)
@@ -160,24 +176,55 @@ public abstract class BiomeGenBase {
 	public String biomeName;
 	public int color;
 	public int field_150609_ah;
+
+	/** The block expected to be on the top of this biome */
 	public IBlockState topBlock = Blocks.grass.getDefaultState();
+
+	/** The block to fill spots in when not on the top */
 	public IBlockState fillerBlock = Blocks.dirt.getDefaultState();
 	public int fillerBlockMetadata = 5169201;
+
+	/** The minimum height of this biome. Default 0.1. */
 	public float minHeight;
+
+	/** The maximum height of this biome. Default 0.3. */
 	public float maxHeight;
+
+	/** The temperature of this biome. */
 	public float temperature;
+
+	/** The rainfall in this biome. */
 	public float rainfall;
+
+	/** Color tint applied to water depending on biome */
 	public int waterColorMultiplier;
+
+	/** The biome decorator. */
 	public BiomeDecorator theBiomeDecorator;
 	protected List<BiomeGenBase.SpawnListEntry> spawnableMonsterList;
 	protected List<BiomeGenBase.SpawnListEntry> spawnableCreatureList;
 	protected List<BiomeGenBase.SpawnListEntry> spawnableWaterCreatureList;
 	protected List<BiomeGenBase.SpawnListEntry> spawnableCaveCreatureList;
+
+	/** Set to true if snow is enabled for this biome. */
 	protected boolean enableSnow;
+
+	/**
+	 * Is true (default) if the biome support rain (desert and nether can't have
+	 * rain)
+	 */
 	protected boolean enableRain;
+
+	/** The id number to this biome, and its index in the biomeList array. */
 	public final int biomeID;
+
+	/** The tree generator. */
 	protected WorldGenTrees worldGeneratorTrees;
+
+	/** The big tree generator. */
 	protected WorldGenBigTree worldGeneratorBigTree;
+
+	/** The swamp tree generator. */
 	protected WorldGenSwamp worldGeneratorSwamp;
 
 	protected BiomeGenBase(int id) {
@@ -213,10 +260,16 @@ public abstract class BiomeGenBase {
 		this.spawnableCaveCreatureList.add(new BiomeGenBase.SpawnListEntry(EntityBat.class, 10, 8, 8));
 	}
 
+	/**
+	 * Allocate a new BiomeDecorator for this BiomeGenBase
+	 */
 	protected BiomeDecorator createBiomeDecorator() {
 		return new BiomeDecorator();
 	}
 
+	/**
+	 * Sets the temperature and rainfall of this biome.
+	 */
 	protected BiomeGenBase setTemperatureRainfall(float temperatureIn, float rainfallIn) {
 		if (temperatureIn > 0.1F && temperatureIn < 0.2F) {
 			throw new IllegalArgumentException("Please avoid temperatures in the range 0.1 - 0.2 because of snow");
@@ -233,6 +286,9 @@ public abstract class BiomeGenBase {
 		return this;
 	}
 
+	/**
+	 * Disable the rain for the biome.
+	 */
 	protected BiomeGenBase setDisableRain() {
 		this.enableRain = false;
 		return this;
@@ -242,6 +298,9 @@ public abstract class BiomeGenBase {
 		return (WorldGenAbstractTree) (rand.nextInt(10) == 0 ? this.worldGeneratorBigTree : this.worldGeneratorTrees);
 	}
 
+	/**
+	 * Gets a WorldGen appropriate for this biome.
+	 */
 	public WorldGenerator getRandomWorldGenForGrass(Random rand) {
 		return new WorldGenTallGrass(BlockTallGrass.EnumType.GRASS);
 	}
@@ -250,6 +309,9 @@ public abstract class BiomeGenBase {
 		return rand.nextInt(3) > 0 ? BlockFlower.EnumFlowerType.DANDELION : BlockFlower.EnumFlowerType.POPPY;
 	}
 
+	/**
+	 * sets enableSnow to true during biome initialization. returns BiomeGenBase.
+	 */
 	protected BiomeGenBase setEnableSnow() {
 		this.enableSnow = true;
 		return this;
@@ -287,6 +349,9 @@ public abstract class BiomeGenBase {
 		return this;
 	}
 
+	/**
+	 * takes temperature, returns color
+	 */
 	public int getSkyColorByTemp(float p_76731_1_) {
 		p_76731_1_ = p_76731_1_ / 3.0F;
 		p_76731_1_ = MathHelper.clamp_float(p_76731_1_, -1.0F, 1.0F);
@@ -312,30 +377,51 @@ public abstract class BiomeGenBase {
 		}
 	}
 
+	/**
+	 * Returns true if the biome have snowfall instead a normal rain.
+	 */
 	public boolean getEnableSnow() {
 		return this.isSnowyBiome();
 	}
 
+	/**
+	 * Check if rain can occur in biome
+	 */
 	public boolean canRain() {
 		return this.isSnowyBiome() ? false : this.enableRain;
 	}
 
+	/**
+	 * Checks to see if the rainfall level of the biome is extremely high
+	 */
 	public boolean isHighHumidity() {
 		return this.rainfall > 0.85F;
 	}
 
+	/**
+	 * returns the chance a creature has to spawn.
+	 */
 	public float getSpawningChance() {
 		return 0.1F;
 	}
 
+	/**
+	 * Gets an integer representation of this biome's rainfall
+	 */
 	public final int getIntRainfall() {
 		return (int) (this.rainfall * 65536.0F);
 	}
 
+	/**
+	 * Gets a floating point representation of this biome's rainfall
+	 */
 	public final float getFloatRainfall() {
 		return this.rainfall;
 	}
 
+	/**
+	 * Gets a floating point representation of this biome's temperature
+	 */
 	public final float getFloatTemperature(BlockPos pos) {
 		if (pos.getY() > 64) {
 			float f = (float) (temperatureNoise.func_151601_a((double) pos.getX() * 1.0D / 8.0D,
@@ -370,6 +456,19 @@ public abstract class BiomeGenBase {
 		this.generateBiomeTerrain(worldIn, rand, chunkPrimerIn, x, z, noiseVal);
 	}
 
+	/**
+	 * Given x, z coordinates, we count down all the y positions starting at 255 and
+	 * working our way down. When we hit a non-air block, we replace it with
+	 * this.topBlock (default grass, descendants may set otherwise), and then a
+	 * relatively shallow layer of blocks of type this.fillerBlock (default dirt). A
+	 * random set of blocks below y == 5 (but always including y == 0) is replaced
+	 * with bedrock.
+	 * 
+	 * If we don't hit non-air until somewhat below sea level, we top with gravel
+	 * and fill down with stone.
+	 * 
+	 * If this.fillerBlock is red sand, we replace some of that with red sandstone.
+	 */
 	public final void generateBiomeTerrain(World worldIn, Random rand, ChunkPrimer chunkPrimerIn, int x, int z,
 			double noiseVal) {
 		int i = worldIn.getSeaLevel();
@@ -434,6 +533,10 @@ public abstract class BiomeGenBase {
 		}
 	}
 
+	/**
+	 * Creates a mutated version of the biome and places it into the biomeList with
+	 * an index equal to the original plus 128
+	 */
 	protected BiomeGenBase createMutation() {
 		return this.createMutatedBiome(this.biomeID + 128);
 	}
@@ -446,6 +549,9 @@ public abstract class BiomeGenBase {
 		return this.getClass();
 	}
 
+	/**
+	 * returns true if the biome specified is equal to this biome
+	 */
 	public boolean isEqualTo(BiomeGenBase biome) {
 		return biome == this ? true : (biome == null ? false : this.getBiomeClass() == biome.getBiomeClass());
 	}
@@ -460,6 +566,9 @@ public abstract class BiomeGenBase {
 		return biomeList;
 	}
 
+	/**
+	 * return the biome specified by biomeID, or 0 (ocean) if out of bounds
+	 */
 	public static BiomeGenBase getBiome(int id) {
 		return getBiomeFromBiomeList(id, (BiomeGenBase) null);
 	}

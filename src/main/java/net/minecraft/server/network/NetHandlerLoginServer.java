@@ -39,6 +39,8 @@ public class NetHandlerLoginServer implements INetHandlerLoginServer, ITickable 
 	private final MinecraftServer server;
 	public final NetworkManager networkManager;
 	private NetHandlerLoginServer.LoginState currentLoginState = NetHandlerLoginServer.LoginState.HELLO;
+
+	/** How long has player been trying to login into the server. */
 	private int connectionTimer;
 	private GameProfile loginGameProfile;
 	private String serverId = "";
@@ -51,6 +53,9 @@ public class NetHandlerLoginServer implements INetHandlerLoginServer, ITickable 
 		RANDOM.nextBytes(this.verifyToken);
 	}
 
+	/**
+	 * Like the old updateEntity(), except more generic.
+	 */
 	public void update() {
 		if (this.currentLoginState == NetHandlerLoginServer.LoginState.READY_TO_ACCEPT) {
 			this.tryAcceptPlayer();
@@ -119,6 +124,10 @@ public class NetHandlerLoginServer implements INetHandlerLoginServer, ITickable 
 		}
 	}
 
+	/**
+	 * Invoked when disconnecting, the parameter is a ChatComponent describing the
+	 * reason for termination
+	 */
 	public void onDisconnect(IChatComponent reason) {
 		logger.info(this.getConnectionInfo() + " lost connection: " + reason.getUnformattedText());
 	}

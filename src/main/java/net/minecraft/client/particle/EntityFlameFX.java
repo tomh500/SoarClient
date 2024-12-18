@@ -6,6 +6,7 @@ import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 
 public class EntityFlameFX extends EntityFX {
+	/** the scale of the flame FX */
 	private float flameScale;
 
 	protected EntityFlameFX(World worldIn, double xCoordIn, double yCoordIn, double zCoordIn, double xSpeedIn,
@@ -24,6 +25,9 @@ public class EntityFlameFX extends EntityFX {
 		this.setParticleTextureIndex(48);
 	}
 
+	/**
+	 * Renders the particle
+	 */
 	public void renderParticle(WorldRenderer worldRendererIn, Entity entityIn, float partialTicks, float rotationX,
 			float rotationZ, float rotationYZ, float rotationXY, float rotationXZ) {
 		float f = ((float) this.particleAge + partialTicks) / (float) this.particleMaxAge;
@@ -47,6 +51,9 @@ public class EntityFlameFX extends EntityFX {
 		return j | k << 16;
 	}
 
+	/**
+	 * Gets how bright this entity is.
+	 */
 	public float getBrightness(float partialTicks) {
 		float f = ((float) this.particleAge + partialTicks) / (float) this.particleMaxAge;
 		f = MathHelper.clamp_float(f, 0.0F, 1.0F);
@@ -54,6 +61,9 @@ public class EntityFlameFX extends EntityFX {
 		return f1 * f + (1.0F - f);
 	}
 
+	/**
+	 * Called to update the entity's position/logic.
+	 */
 	public void onUpdate() {
 		this.prevPosX = this.posX;
 		this.prevPosY = this.posY;

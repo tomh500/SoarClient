@@ -35,15 +35,27 @@ public class BlockNewLeaf extends BlockLeaves {
 		}
 	}
 
+	/**
+	 * Gets the metadata of the item this Block can drop. This method is called when
+	 * the block gets destroyed. It returns the metadata of the dropped item based
+	 * on the old metadata of the block.
+	 */
 	public int damageDropped(IBlockState state) {
 		return ((BlockPlanks.EnumType) state.getValue(VARIANT)).getMetadata();
 	}
 
+	/**
+	 * Gets the meta to use for the Pick Block ItemStack result
+	 */
 	public int getDamageValue(World worldIn, BlockPos pos) {
 		IBlockState iblockstate = worldIn.getBlockState(pos);
 		return iblockstate.getBlock().getMetaFromState(iblockstate) & 3;
 	}
 
+	/**
+	 * returns a list of blocks with the same ID, but different meta (eg: wood
+	 * returns 4 blocks)
+	 */
 	public void getSubBlocks(Item itemIn, CreativeTabs tab, List<ItemStack> list) {
 		list.add(new ItemStack(itemIn, 1, 0));
 		list.add(new ItemStack(itemIn, 1, 1));
@@ -54,12 +66,18 @@ public class BlockNewLeaf extends BlockLeaves {
 				((BlockPlanks.EnumType) state.getValue(VARIANT)).getMetadata() - 4);
 	}
 
+	/**
+	 * Convert the given metadata into a BlockState for this Block
+	 */
 	public IBlockState getStateFromMeta(int meta) {
 		return this.getDefaultState().withProperty(VARIANT, this.getWoodType(meta))
 				.withProperty(DECAYABLE, Boolean.valueOf((meta & 4) == 0))
 				.withProperty(CHECK_DECAY, Boolean.valueOf((meta & 8) > 0));
 	}
 
+	/**
+	 * Convert the BlockState into the correct metadata value
+	 */
 	public int getMetaFromState(IBlockState state) {
 		int i = 0;
 		i = i | ((BlockPlanks.EnumType) state.getValue(VARIANT)).getMetadata() - 4;

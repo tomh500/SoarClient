@@ -28,6 +28,9 @@ public class BlockCrops extends BlockBush implements IGrowable {
 		this.disableStats();
 	}
 
+	/**
+	 * is the block grass, dirt or farmland
+	 */
 	protected boolean canPlaceBlockOn(Block ground) {
 		return ground == Blocks.farmland;
 	}
@@ -121,6 +124,9 @@ public class BlockCrops extends BlockBush implements IGrowable {
 		return Items.wheat;
 	}
 
+	/**
+	 * Spawns this Block's drops into the World as EntityItems.
+	 */
 	public void dropBlockAsItemWithChance(World worldIn, BlockPos pos, IBlockState state, float chance, int fortune) {
 		super.dropBlockAsItemWithChance(worldIn, pos, state, chance, 0);
 
@@ -139,6 +145,9 @@ public class BlockCrops extends BlockBush implements IGrowable {
 		}
 	}
 
+	/**
+	 * Get the Item that this Block should drop when harvested.
+	 */
 	public Item getItemDropped(IBlockState state, Random rand, int fortune) {
 		return ((Integer) state.getValue(AGE)).intValue() == 7 ? this.getCrop() : this.getSeed();
 	}
@@ -147,6 +156,9 @@ public class BlockCrops extends BlockBush implements IGrowable {
 		return this.getSeed();
 	}
 
+	/**
+	 * Whether this IGrowable can grow
+	 */
 	public boolean canGrow(World worldIn, BlockPos pos, IBlockState state, boolean isClient) {
 		return ((Integer) state.getValue(AGE)).intValue() < 7;
 	}
@@ -159,10 +171,16 @@ public class BlockCrops extends BlockBush implements IGrowable {
 		this.grow(worldIn, pos, state);
 	}
 
+	/**
+	 * Convert the given metadata into a BlockState for this Block
+	 */
 	public IBlockState getStateFromMeta(int meta) {
 		return this.getDefaultState().withProperty(AGE, Integer.valueOf(meta));
 	}
 
+	/**
+	 * Convert the BlockState into the correct metadata value
+	 */
 	public int getMetaFromState(IBlockState state) {
 		return ((Integer) state.getValue(AGE)).intValue();
 	}

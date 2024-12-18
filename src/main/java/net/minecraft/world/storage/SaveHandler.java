@@ -18,10 +18,21 @@ import org.apache.logging.log4j.Logger;
 
 public class SaveHandler implements ISaveHandler, IPlayerFileData {
 	private static final Logger logger = LogManager.getLogger();
+
+	/** The directory in which to save world data. */
 	private final File worldDirectory;
+
+	/** The directory in which to save player data. */
 	private final File playersDirectory;
 	private final File mapDataDir;
+
+	/**
+	 * The time in milliseconds when this field was initialized. Stored in the
+	 * session lock file.
+	 */
 	private final long initializationTime = MinecraftServer.getCurrentTimeMillis();
+
+	/** The directory name of the world */
 	private final String saveDirectoryName;
 
 	public SaveHandler(File savesDirectory, String directoryName, boolean playersDirectoryIn) {
@@ -39,6 +50,9 @@ public class SaveHandler implements ISaveHandler, IPlayerFileData {
 		this.setSessionLock();
 	}
 
+	/**
+	 * Creates a session lock file for this process
+	 */
 	private void setSessionLock() {
 		try {
 			File file1 = new File(this.worldDirectory, "session.lock");
@@ -55,10 +69,16 @@ public class SaveHandler implements ISaveHandler, IPlayerFileData {
 		}
 	}
 
+	/**
+	 * Gets the File object corresponding to the base directory of this world.
+	 */
 	public File getWorldDirectory() {
 		return this.worldDirectory;
 	}
 
+	/**
+	 * Checks the session lock to prevent save collisions
+	 */
 	public void checkSessionLock() throws MinecraftException {
 		try {
 			File file1 = new File(this.worldDirectory, "session.lock");
@@ -76,10 +96,16 @@ public class SaveHandler implements ISaveHandler, IPlayerFileData {
 		}
 	}
 
+	/**
+	 * initializes and returns the chunk loader for the specified world provider
+	 */
 	public IChunkLoader getChunkLoader(WorldProvider provider) {
 		throw new RuntimeException("Old Chunk Storage is no longer supported.");
 	}
 
+	/**
+	 * Loads and returns the world info
+	 */
 	public WorldInfo loadWorldInfo() {
 		File file1 = new File(this.worldDirectory, "level.dat");
 
@@ -108,6 +134,9 @@ public class SaveHandler implements ISaveHandler, IPlayerFileData {
 		return null;
 	}
 
+	/**
+	 * Saves the given World Info with the given NBTTagCompound as the Player.
+	 */
 	public void saveWorldInfoWithPlayer(WorldInfo worldInformation, NBTTagCompound tagCompound) {
 		NBTTagCompound nbttagcompound = worldInformation.cloneNBTCompound(tagCompound);
 		NBTTagCompound nbttagcompound1 = new NBTTagCompound();
@@ -139,6 +168,9 @@ public class SaveHandler implements ISaveHandler, IPlayerFileData {
 		}
 	}
 
+	/**
+	 * used to update level.dat from old format to MCRegion format
+	 */
 	public void saveWorldInfo(WorldInfo worldInformation) {
 		NBTTagCompound nbttagcompound = worldInformation.getNBTTagCompound();
 		NBTTagCompound nbttagcompound1 = new NBTTagCompound();
@@ -170,6 +202,9 @@ public class SaveHandler implements ISaveHandler, IPlayerFileData {
 		}
 	}
 
+	/**
+	 * Writes the player data to disk from the specified PlayerEntityMP.
+	 */
 	public void writePlayerData(EntityPlayer player) {
 		try {
 			NBTTagCompound nbttagcompound = new NBTTagCompound();
@@ -188,6 +223,9 @@ public class SaveHandler implements ISaveHandler, IPlayerFileData {
 		}
 	}
 
+	/**
+	 * Reads the player data from disk into the specified PlayerEntityMP.
+	 */
 	public NBTTagCompound readPlayerData(EntityPlayer player) {
 		NBTTagCompound nbttagcompound = null;
 
@@ -212,6 +250,9 @@ public class SaveHandler implements ISaveHandler, IPlayerFileData {
 		return this;
 	}
 
+	/**
+	 * Returns an array of usernames for which player.dat exists for.
+	 */
 	public String[] getAvailablePlayerDat() {
 		String[] astring = this.playersDirectory.list();
 
@@ -228,13 +269,22 @@ public class SaveHandler implements ISaveHandler, IPlayerFileData {
 		return astring;
 	}
 
+	/**
+	 * Called to flush all changes to disk, waiting for them to complete.
+	 */
 	public void flush() {
 	}
 
+	/**
+	 * Gets the file location of the given map
+	 */
 	public File getMapFileFromName(String mapName) {
 		return new File(this.mapDataDir, mapName + ".dat");
 	}
 
+	/**
+	 * Returns the name of the directory where world information is saved.
+	 */
 	public String getWorldDirectoryName() {
 		return this.saveDirectoryName;
 	}

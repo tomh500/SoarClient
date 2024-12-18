@@ -19,6 +19,9 @@ import net.minecraft.crash.CrashReportCategory;
 import net.minecraft.util.ReportedException;
 
 public class CompressedStreamTools {
+	/**
+	 * Load the gzipped compound from the inputstream.
+	 */
 	public static NBTTagCompound readCompressed(InputStream is) throws IOException {
 		DataInputStream datainputstream = new DataInputStream(new BufferedInputStream(new GZIPInputStream(is)));
 		NBTTagCompound nbttagcompound;
@@ -32,6 +35,9 @@ public class CompressedStreamTools {
 		return nbttagcompound;
 	}
 
+	/**
+	 * Write the compound, gzipped, to the outputstream.
+	 */
 	public static void writeCompressed(NBTTagCompound p_74799_0_, OutputStream outputStream) throws IOException {
 		DataOutputStream dataoutputstream = new DataOutputStream(
 				new BufferedOutputStream(new GZIPOutputStream(outputStream)));
@@ -90,10 +96,17 @@ public class CompressedStreamTools {
 		}
 	}
 
+	/**
+	 * Reads from a CompressedStream.
+	 */
 	public static NBTTagCompound read(DataInputStream inputStream) throws IOException {
 		return read(inputStream, NBTSizeTracker.INFINITE);
 	}
 
+	/**
+	 * Reads the given DataInput, constructs, and returns an NBTTagCompound with the
+	 * data from the DataInput
+	 */
 	public static NBTTagCompound read(DataInput p_152456_0_, NBTSizeTracker p_152456_1_) throws IOException {
 		NBTBase nbtbase = func_152455_a(p_152456_0_, 0, p_152456_1_);
 

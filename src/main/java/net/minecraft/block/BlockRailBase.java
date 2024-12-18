@@ -41,10 +41,18 @@ public abstract class BlockRailBase extends Block {
 		return null;
 	}
 
+	/**
+	 * Used to determine ambient occlusion and culling when rebuilding chunks for
+	 * render
+	 */
 	public boolean isOpaqueCube() {
 		return false;
 	}
 
+	/**
+	 * Ray traces through the blocks collision from start vector to end vector
+	 * returning a ray trace hit.
+	 */
 	public MovingObjectPosition collisionRayTrace(World worldIn, BlockPos pos, Vec3 start, Vec3 end) {
 		this.setBlockBoundsBasedOnState(worldIn, pos);
 		return super.collisionRayTrace(worldIn, pos, start, end);
@@ -81,6 +89,9 @@ public abstract class BlockRailBase extends Block {
 		}
 	}
 
+	/**
+	 * Called when a neighboring block changes.
+	 */
 	public void onNeighborBlockChange(World worldIn, BlockPos pos, IBlockState state, Block neighborBlock) {
 		if (!worldIn.isRemote) {
 			BlockRailBase.EnumRailDirection blockrailbase$enumraildirection = (BlockRailBase.EnumRailDirection) state

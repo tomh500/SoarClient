@@ -22,6 +22,12 @@ import net.minecraft.world.World;
 public class TileEntitySign extends TileEntity {
 	public final IChatComponent[] signText = new IChatComponent[] { new ChatComponentText(""),
 			new ChatComponentText(""), new ChatComponentText(""), new ChatComponentText("") };
+
+	/**
+	 * The index of the line currently being edited. Only used on client side, but
+	 * defined on both. Note this is only really used when the > < are going to be
+	 * visible.
+	 */
 	public int lineBeingEdited = -1;
 	private boolean isEditable = true;
 	private EntityPlayer player;
@@ -102,6 +108,11 @@ public class TileEntitySign extends TileEntity {
 		this.stats.readStatsFromNBT(compound);
 	}
 
+	/**
+	 * Allows for a specialized description packet to be created. This is often used
+	 * to sync tile entity data from the server to the client easily. For example
+	 * this is used by signs to synchronise the text to be displayed.
+	 */
 	public Packet getDescriptionPacket() {
 		IChatComponent[] aichatcomponent = new IChatComponent[4];
 		System.arraycopy(this.signText, 0, aichatcomponent, 0, 4);
@@ -116,6 +127,9 @@ public class TileEntitySign extends TileEntity {
 		return this.isEditable;
 	}
 
+	/**
+	 * Sets the sign's isEditable flag to the specified parameter.
+	 */
 	public void setEditable(boolean isEditableIn) {
 		this.isEditable = isEditableIn;
 

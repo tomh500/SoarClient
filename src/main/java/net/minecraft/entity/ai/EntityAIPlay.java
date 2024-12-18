@@ -17,6 +17,9 @@ public class EntityAIPlay extends EntityAIBase {
 		this.setMutexBits(1);
 	}
 
+	/**
+	 * Returns whether the EntityAIBase should begin execution.
+	 */
 	public boolean shouldExecute() {
 		if (this.villagerObj.getGrowingAge() >= 0) {
 			return false;
@@ -51,10 +54,16 @@ public class EntityAIPlay extends EntityAIBase {
 		}
 	}
 
+	/**
+	 * Returns whether an in-progress EntityAIBase should continue executing
+	 */
 	public boolean continueExecuting() {
 		return this.playTime > 0;
 	}
 
+	/**
+	 * Execute a one shot task or start executing a continuous task
+	 */
 	public void startExecuting() {
 		if (this.targetVillager != null) {
 			this.villagerObj.setPlaying(true);
@@ -63,11 +72,17 @@ public class EntityAIPlay extends EntityAIBase {
 		this.playTime = 1000;
 	}
 
+	/**
+	 * Resets the task
+	 */
 	public void resetTask() {
 		this.villagerObj.setPlaying(false);
 		this.targetVillager = null;
 	}
 
+	/**
+	 * Updates the task
+	 */
 	public void updateTask() {
 		--this.playTime;
 

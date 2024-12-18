@@ -14,6 +14,8 @@ import net.minecraft.util.EntitySelectors;
 public class EntityAINearestAttackableTarget<T extends EntityLivingBase> extends EntityAITarget {
 	protected final Class<T> targetClass;
 	private final int targetChance;
+
+	/** Instance of EntityAINearestAttackableTargetSorter. */
 	protected final EntityAINearestAttackableTarget.Sorter theNearestAttackableTargetSorter;
 	protected Predicate<? super T> targetEntitySelector;
 	protected EntityLivingBase targetEntity;
@@ -68,6 +70,9 @@ public class EntityAINearestAttackableTarget<T extends EntityLivingBase> extends
 		};
 	}
 
+	/**
+	 * Returns whether the EntityAIBase should begin execution.
+	 */
 	public boolean shouldExecute() {
 		if (this.targetChance > 0 && this.taskOwner.getRNG().nextInt(this.targetChance) != 0) {
 			return false;
@@ -87,6 +92,9 @@ public class EntityAINearestAttackableTarget<T extends EntityLivingBase> extends
 		}
 	}
 
+	/**
+	 * Execute a one shot task or start executing a continuous task
+	 */
 	public void startExecuting() {
 		this.taskOwner.setAttackTarget(this.targetEntity);
 		super.startExecuting();

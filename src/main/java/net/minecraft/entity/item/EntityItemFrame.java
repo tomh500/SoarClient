@@ -15,6 +15,7 @@ import net.minecraft.world.World;
 import net.minecraft.world.storage.MapData;
 
 public class EntityItemFrame extends EntityHanging {
+	/** Chance for this item frame's item to drop from the frame. */
 	private float itemDropChance = 1.0F;
 
 	public EntityItemFrame(World worldIn) {
@@ -35,6 +36,9 @@ public class EntityItemFrame extends EntityHanging {
 		return 0.0F;
 	}
 
+	/**
+	 * Called when the entity is attacked.
+	 */
 	public boolean attackEntityFrom(DamageSource source, float amount) {
 		if (this.isEntityInvulnerable(source)) {
 			return false;
@@ -58,12 +62,20 @@ public class EntityItemFrame extends EntityHanging {
 		return 12;
 	}
 
+	/**
+	 * Checks if the entity is in range to render by using the past in distance and
+	 * comparing it to its average edge length * 64 * renderDistanceWeight Args:
+	 * distance
+	 */
 	public boolean isInRangeToRenderDist(double distance) {
 		double d0 = 16.0D;
 		d0 = d0 * 64.0D * this.renderDistanceWeight;
 		return distance < d0 * d0;
 	}
 
+	/**
+	 * Called when this entity is broken. Entity parameter may be null.
+	 */
 	public void onBroken(Entity brokenEntity) {
 		this.dropItemOrSelf(brokenEntity, true);
 	}
@@ -93,6 +105,10 @@ public class EntityItemFrame extends EntityHanging {
 		}
 	}
 
+	/**
+	 * Removes the dot representing this frame's position from the map when the item
+	 * frame is broken.
+	 */
 	private void removeFrameFromMap(ItemStack p_110131_1_) {
 		if (p_110131_1_ != null) {
 			if (p_110131_1_.getItem() == Items.filled_map) {
@@ -127,6 +143,9 @@ public class EntityItemFrame extends EntityHanging {
 		}
 	}
 
+	/**
+	 * Return the rotation of the item currently on this frame.
+	 */
 	public int getRotation() {
 		return this.getDataWatcher().getWatchableObjectByte(9);
 	}
@@ -143,6 +162,9 @@ public class EntityItemFrame extends EntityHanging {
 		}
 	}
 
+	/**
+	 * (abstract) Protected helper method to write subclass entity data to NBT.
+	 */
 	public void writeEntityToNBT(NBTTagCompound tagCompound) {
 		if (this.getDisplayedItem() != null) {
 			tagCompound.setTag("Item", this.getDisplayedItem().writeToNBT(new NBTTagCompound()));
@@ -153,6 +175,9 @@ public class EntityItemFrame extends EntityHanging {
 		super.writeEntityToNBT(tagCompound);
 	}
 
+	/**
+	 * (abstract) Protected helper method to read subclass entity data from NBT.
+	 */
 	public void readEntityFromNBT(NBTTagCompound tagCompund) {
 		NBTTagCompound nbttagcompound = tagCompund.getCompoundTag("Item");
 
@@ -172,6 +197,9 @@ public class EntityItemFrame extends EntityHanging {
 		super.readEntityFromNBT(tagCompund);
 	}
 
+	/**
+	 * First layer of player interaction
+	 */
 	public boolean interactFirst(EntityPlayer playerIn) {
 		if (this.getDisplayedItem() == null) {
 			ItemStack itemstack = playerIn.getHeldItem();

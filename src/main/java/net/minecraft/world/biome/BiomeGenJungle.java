@@ -61,6 +61,9 @@ public class BiomeGenJungle extends BiomeGenBase {
 										true))));
 	}
 
+	/**
+	 * Gets a WorldGen appropriate for this biome.
+	 */
 	public WorldGenerator getRandomWorldGenForGrass(Random rand) {
 		return rand.nextInt(4) == 0 ? new WorldGenTallGrass(BlockTallGrass.EnumType.FERN)
 				: new WorldGenTallGrass(BlockTallGrass.EnumType.GRASS);

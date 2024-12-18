@@ -9,6 +9,8 @@ import net.minecraft.util.BlockPos;
 
 public class S35PacketUpdateTileEntity implements Packet<INetHandlerPlayClient> {
 	private BlockPos blockPos;
+
+	/** Used only for vanilla tile entities */
 	private int metadata;
 	private NBTTagCompound nbt;
 
@@ -21,18 +23,27 @@ public class S35PacketUpdateTileEntity implements Packet<INetHandlerPlayClient> 
 		this.nbt = nbtIn;
 	}
 
+	/**
+	 * Reads the raw packet data from the data stream.
+	 */
 	public void readPacketData(PacketBuffer buf) throws IOException {
 		this.blockPos = buf.readBlockPos();
 		this.metadata = buf.readUnsignedByte();
 		this.nbt = buf.readNBTTagCompoundFromBuffer();
 	}
 
+	/**
+	 * Writes the raw packet data to the data stream.
+	 */
 	public void writePacketData(PacketBuffer buf) throws IOException {
 		buf.writeBlockPos(this.blockPos);
 		buf.writeByte((byte) this.metadata);
 		buf.writeNBTTagCompoundToBuffer(this.nbt);
 	}
 
+	/**
+	 * Passes this Packet on to the NetHandler for processing.
+	 */
 	public void processPacket(INetHandlerPlayClient handler) {
 		handler.handleUpdateTileEntity(this);
 	}

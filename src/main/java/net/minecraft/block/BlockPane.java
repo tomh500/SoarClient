@@ -34,6 +34,10 @@ public class BlockPane extends Block {
 		this.setCreativeTab(CreativeTabs.tabDecorations);
 	}
 
+	/**
+	 * Get the actual Block state of this Block at the given position. This applies
+	 * properties not visible in the metadata, such as fence connections.
+	 */
 	public IBlockState getActualState(IBlockState state, IBlockAccess worldIn, BlockPos pos) {
 		return state
 				.withProperty(NORTH,
@@ -46,10 +50,17 @@ public class BlockPane extends Block {
 						Boolean.valueOf(this.canPaneConnectToBlock(worldIn.getBlockState(pos.east()).getBlock())));
 	}
 
+	/**
+	 * Get the Item that this Block should drop when harvested.
+	 */
 	public Item getItemDropped(IBlockState state, Random rand, int fortune) {
 		return !this.canDrop ? null : super.getItemDropped(state, rand, fortune);
 	}
 
+	/**
+	 * Used to determine ambient occlusion and culling when rebuilding chunks for
+	 * render
+	 */
 	public boolean isOpaqueCube() {
 		return false;
 	}
@@ -62,6 +73,10 @@ public class BlockPane extends Block {
 		return worldIn.getBlockState(pos).getBlock() == this ? false : super.shouldSideBeRendered(worldIn, pos, side);
 	}
 
+	/**
+	 * Add all collision boxes of this Block to the list that intersect with the
+	 * given mask.
+	 */
 	public void addCollisionBoxesToList(World worldIn, BlockPos pos, IBlockState state, AxisAlignedBB mask,
 			List<AxisAlignedBB> list, Entity collidingEntity) {
 		boolean flag = this.canPaneConnectToBlock(worldIn.getBlockState(pos.north()).getBlock());
@@ -96,6 +111,9 @@ public class BlockPane extends Block {
 		}
 	}
 
+	/**
+	 * Sets the block's bounds for rendering it as an item
+	 */
 	public void setBlockBoundsForItemRender() {
 		this.setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 1.0F, 1.0F);
 	}
@@ -148,6 +166,9 @@ public class BlockPane extends Block {
 		return EnumWorldBlockLayer.CUTOUT_MIPPED;
 	}
 
+	/**
+	 * Convert the BlockState into the correct metadata value
+	 */
 	public int getMetaFromState(IBlockState state) {
 		return 0;
 	}

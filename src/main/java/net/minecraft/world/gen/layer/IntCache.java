@@ -39,6 +39,10 @@ public class IntCache {
 		}
 	}
 
+	/**
+	 * Mark all pre-allocated arrays as available for re-use by moving them to the
+	 * appropriate free lists.
+	 */
 	public static synchronized void resetIntCache() {
 		if (!freeLargeArrays.isEmpty()) {
 			freeLargeArrays.remove(freeLargeArrays.size() - 1);
@@ -54,6 +58,10 @@ public class IntCache {
 		inUseSmallArrays.clear();
 	}
 
+	/**
+	 * Gets a human-readable string that indicates the sizes of all the cache
+	 * fields. Basically a synchronized static toString.
+	 */
 	public static synchronized String getCacheSizes() {
 		return "cache: " + freeLargeArrays.size() + ", tcache: " + freeSmallArrays.size() + ", allocated: "
 				+ inUseLargeArrays.size() + ", tallocated: " + inUseSmallArrays.size();

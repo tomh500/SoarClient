@@ -66,18 +66,33 @@ public class EntityVillager extends EntityAgeable implements IMerchant, INpc {
 	private boolean isMating;
 	private boolean isPlaying;
 	Village villageObj;
+
+	/** This villager's current customer. */
 	private EntityPlayer buyingPlayer;
+
+	/** Initialises the MerchantRecipeList.java */
 	private MerchantRecipeList buyingList;
 	private int timeUntilReset;
+
+	/** addDefaultEquipmentAndRecipies is called if this is true */
 	private boolean needsInitilization;
 	private boolean isWillingToMate;
 	private int wealth;
+
+	/** Last player to trade with this villager, used for aggressivity. */
 	private String lastBuyingPlayer;
 	private int careerId;
+
+	/** This is the EntityVillager's career level value */
 	private int careerLevel;
 	private boolean isLookingForHome;
 	private boolean areAdditionalTasksSet;
 	private InventoryBasic villagerInventory;
+
+	/**
+	 * A multi-dimensional array mapping the various professions, careers and career
+	 * levels that a Villager may offer
+	 */
 	private static final EntityVillager.ITradeList[][][][] DEFAULT_TRADE_LIST_MAP = new EntityVillager.ITradeList[][][][] {
 			{ { { new EntityVillager.EmeraldForItems(Items.wheat, new EntityVillager.PriceInfo(18, 22)),
 					new EntityVillager.EmeraldForItems(Items.potato, new EntityVillager.PriceInfo(15, 19)),
@@ -271,6 +286,10 @@ public class EntityVillager extends EntityAgeable implements IMerchant, INpc {
 		}
 	}
 
+	/**
+	 * This is called when Entity's growing age timer reaches 0 (negative values are
+	 * considered as a child, positive as an adult)
+	 */
 	protected void onGrowingAdult() {
 		if (this.getProfession() == 0) {
 			this.tasks.addTask(8, new EntityAIHarvestFarmland(this, 0.6D));
@@ -331,6 +350,10 @@ public class EntityVillager extends EntityAgeable implements IMerchant, INpc {
 		super.updateAITasks();
 	}
 
+	/**
+	 * Called when a player interacts with a mob. e.g. gets milk from a cow, gets
+	 * into the saddle on a pig.
+	 */
 	public boolean interact(EntityPlayer player) {
 		ItemStack itemstack = player.inventory.getCurrentItem();
 		boolean flag = itemstack != null && itemstack.getItem() == Items.spawn_egg;
@@ -353,6 +376,9 @@ public class EntityVillager extends EntityAgeable implements IMerchant, INpc {
 		this.dataWatcher.addObject(16, Integer.valueOf(0));
 	}
 
+	/**
+	 * (abstract) Protected helper method to write subclass entity data to NBT.
+	 */
 	public void writeEntityToNBT(NBTTagCompound tagCompound) {
 		super.writeEntityToNBT(tagCompound);
 		tagCompound.setInteger("Profession", this.getProfession());
@@ -378,6 +404,9 @@ public class EntityVillager extends EntityAgeable implements IMerchant, INpc {
 		tagCompound.setTag("Inventory", nbttaglist);
 	}
 
+	/**
+	 * (abstract) Protected helper method to read subclass entity data from NBT.
+	 */
 	public void readEntityFromNBT(NBTTagCompound tagCompund) {
 		super.readEntityFromNBT(tagCompund);
 		this.setProfession(tagCompund.getInteger("Profession"));
@@ -405,18 +434,30 @@ public class EntityVillager extends EntityAgeable implements IMerchant, INpc {
 		this.setAdditionalAItasks();
 	}
 
+	/**
+	 * Determines if an entity can be despawned, used on idle far away entities
+	 */
 	protected boolean canDespawn() {
 		return false;
 	}
 
+	/**
+	 * Returns the sound this mob makes while it's alive.
+	 */
 	protected String getLivingSound() {
 		return this.isTrading() ? "mob.villager.haggle" : "mob.villager.idle";
 	}
 
+	/**
+	 * Returns the sound this mob makes when it is hurt.
+	 */
 	protected String getHurtSound() {
 		return "mob.villager.hit";
 	}
 
+	/**
+	 * Returns the sound this mob makes on death.
+	 */
 	protected String getDeathSound() {
 		return "mob.villager.death";
 	}
@@ -467,6 +508,9 @@ public class EntityVillager extends EntityAgeable implements IMerchant, INpc {
 		}
 	}
 
+	/**
+	 * Called when the mob's health reaches 0.
+	 */
 	public void onDeath(DamageSource cause) {
 		if (this.villageObj != null) {
 			Entity entity = cause.getEntity();
@@ -501,6 +545,9 @@ public class EntityVillager extends EntityAgeable implements IMerchant, INpc {
 		return this.buyingPlayer != null;
 	}
 
+	/**
+	 * Returns current or updated value of {@link #isWillingToMate}
+	 */
 	public boolean getIsWillingToMate(boolean updateFirst) {
 		if (!this.isWillingToMate && updateFirst && this.func_175553_cp()) {
 			boolean flag = false;
@@ -563,6 +610,11 @@ public class EntityVillager extends EntityAgeable implements IMerchant, INpc {
 		}
 	}
 
+	/**
+	 * Notifies the merchant of a possible merchantrecipe being fulfilled or not.
+	 * Usually, this is just a sound byte being played depending if the suggested
+	 * itemstack is not null.
+	 */
 	public void verifySellingItem(ItemStack stack) {
 		if (!this.worldObj.isRemote && this.livingSoundTime > -this.getTalkInterval() + 20) {
 			this.livingSoundTime = -this.getTalkInterval();
@@ -613,6 +665,10 @@ public class EntityVillager extends EntityAgeable implements IMerchant, INpc {
 	public void setRecipes(MerchantRecipeList recipeList) {
 	}
 
+	/**
+	 * Get the formatted ChatComponent that will be used for the sender's username
+	 * in chat
+	 */
 	public IChatComponent getDisplayName() {
 		String s = this.getCustomNameTag();
 
@@ -716,6 +772,11 @@ public class EntityVillager extends EntityAgeable implements IMerchant, INpc {
 		}
 	}
 
+	/**
+	 * Called only once on an entity when first time spawned, via egg, mob spawner,
+	 * natural spawning etc, but not called when entity is reloaded from nbt. Mainly
+	 * used for initializing attributes and inventory
+	 */
 	public IEntityLivingData onInitialSpawn(DifficultyInstance difficulty, IEntityLivingData livingdata) {
 		livingdata = super.onInitialSpawn(difficulty, livingdata);
 		this.setProfession(this.worldObj.rand.nextInt(5));
@@ -738,6 +799,9 @@ public class EntityVillager extends EntityAgeable implements IMerchant, INpc {
 		return false;
 	}
 
+	/**
+	 * Called when a lightning bolt hits the entity.
+	 */
 	public void onStruckByLightning(EntityLightningBolt lightningBolt) {
 		if (!this.worldObj.isRemote && !this.isDead) {
 			EntityWitch entitywitch = new EntityWitch(this.worldObj);
@@ -760,6 +824,10 @@ public class EntityVillager extends EntityAgeable implements IMerchant, INpc {
 		return this.villagerInventory;
 	}
 
+	/**
+	 * Tests if this entity should pickup a weapon or an armor. Entity drops current
+	 * weapon or armor if the new one is better.
+	 */
 	protected void updateEquipmentIfNeeded(EntityItem itemEntity) {
 		ItemStack itemstack = itemEntity.getEntityItem();
 		Item item = itemstack.getItem();
@@ -784,6 +852,11 @@ public class EntityVillager extends EntityAgeable implements IMerchant, INpc {
 		return this.hasEnoughItems(1);
 	}
 
+	/**
+	 * Used by {@link net.minecraft.entity.ai.EntityAIVillagerInteract
+	 * EntityAIVillagerInteract} to check if the villager can give some items from
+	 * an inventory to another villager.
+	 */
 	public boolean canAbondonItems() {
 		return this.hasEnoughItems(2);
 	}
@@ -793,6 +866,9 @@ public class EntityVillager extends EntityAgeable implements IMerchant, INpc {
 		return flag ? !this.hasEnoughItems(5) : !this.hasEnoughItems(1);
 	}
 
+	/**
+	 * Returns true if villager has enough items in inventory
+	 */
 	private boolean hasEnoughItems(int multiplier) {
 		boolean flag = this.getProfession() == 0;
 
@@ -815,6 +891,9 @@ public class EntityVillager extends EntityAgeable implements IMerchant, INpc {
 		return false;
 	}
 
+	/**
+	 * Returns true if villager has seeds, potatoes or carrots in inventory
+	 */
 	public boolean isFarmItemInInventory() {
 		for (int i = 0; i < this.villagerInventory.getSizeInventory(); ++i) {
 			ItemStack itemstack = this.villagerInventory.getStackInSlot(i);

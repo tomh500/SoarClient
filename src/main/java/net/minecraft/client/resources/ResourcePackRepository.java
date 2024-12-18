@@ -54,7 +54,7 @@ public class ResourcePackRepository {
 	private final ReentrantLock lock = new ReentrantLock();
 	private ListenableFuture<Object> downloadingPacks;
 	private List<ResourcePackRepository.Entry> repositoryEntriesAll = Lists.<ResourcePackRepository.Entry>newArrayList();
-	public List<ResourcePackRepository.Entry> repositoryEntries = Lists.<ResourcePackRepository.Entry>newArrayList();
+	private List<ResourcePackRepository.Entry> repositoryEntries = Lists.<ResourcePackRepository.Entry>newArrayList();
 
 	public ResourcePackRepository(File dirResourcepacksIn, File dirServerResourcepacksIn,
 			IResourcePack rprDefaultResourcePackIn, IMetadataSerializer rprMetadataSerializerIn,
@@ -113,7 +113,7 @@ public class ResourcePackRepository {
 				try {
 					resourcepackrepository$entry.updateResourcePack();
 					list.add(resourcepackrepository$entry);
-				} catch (Exception var61) {
+				} catch (Exception var6) {
 					list.remove(resourcepackrepository$entry);
 				}
 			} else {
@@ -171,9 +171,8 @@ public class ResourcePackRepository {
 					String s1 = Hashing.sha1().hashBytes(Files.toByteArray(file1)).toString();
 
 					if (s1.equals(hash)) {
-						ListenableFuture listenablefuture2 = this.setResourcePackInstance(file1);
-						ListenableFuture listenablefuture3 = listenablefuture2;
-						return listenablefuture3;
+						ListenableFuture listenablefuture1 = this.setResourcePackInstance(file1);
+						return listenablefuture1;
 					}
 
 					logger.warn("File " + file1 + " had wrong hash (expected " + hash + ", found " + s1
@@ -209,13 +208,15 @@ public class ResourcePackRepository {
 				}
 			});
 			ListenableFuture listenablefuture = this.downloadingPacks;
-			ListenableFuture listenablefuture11 = listenablefuture;
-			return listenablefuture11;
+			return listenablefuture;
 		} finally {
 			this.lock.unlock();
 		}
 	}
 
+	/**
+	 * Keep only the 10 most recent resources packs, delete the others
+	 */
 	private void deleteOldServerResourcesPacks() {
 		List<File> list = Lists.newArrayList(
 				FileUtils.listFiles(this.dirServerResourcepacks, TrueFileFilter.TRUE, (IOFileFilter) null));
@@ -235,6 +236,10 @@ public class ResourcePackRepository {
 		return Minecraft.getMinecraft().scheduleResourcesRefresh();
 	}
 
+	/**
+	 * Getter for the IResourcePack instance associated with this
+	 * ResourcePackRepository
+	 */
 	public IResourcePack getResourcePackInstance() {
 		return this.resourcePackInstance;
 	}

@@ -23,6 +23,9 @@ public class C14PacketTabComplete implements Packet<INetHandlerPlayServer> {
 		this.targetBlock = target;
 	}
 
+	/**
+	 * Reads the raw packet data from the data stream.
+	 */
 	public void readPacketData(PacketBuffer buf) throws IOException {
 		this.message = buf.readStringFromBuffer(32767);
 		boolean flag = buf.readBoolean();
@@ -32,6 +35,9 @@ public class C14PacketTabComplete implements Packet<INetHandlerPlayServer> {
 		}
 	}
 
+	/**
+	 * Writes the raw packet data to the data stream.
+	 */
 	public void writePacketData(PacketBuffer buf) throws IOException {
 		buf.writeString(StringUtils.substring(this.message, 0, 32767));
 		boolean flag = this.targetBlock != null;
@@ -42,6 +48,9 @@ public class C14PacketTabComplete implements Packet<INetHandlerPlayServer> {
 		}
 	}
 
+	/**
+	 * Passes this Packet on to the NetHandler for processing.
+	 */
 	public void processPacket(INetHandlerPlayServer handler) {
 		handler.processTabComplete(this);
 	}

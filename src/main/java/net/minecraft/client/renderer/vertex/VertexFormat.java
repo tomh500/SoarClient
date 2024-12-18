@@ -1,14 +1,19 @@
 package net.minecraft.client.renderer.vertex;
 
-import com.google.common.collect.Lists;
 import java.util.List;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-public class VertexFormat {
+import com.google.common.collect.Lists;
+import com.soarclient.libraries.sodium.client.gl.attribute.BufferVertexFormat;
+
+public class VertexFormat implements BufferVertexFormat {
 	private static final Logger LOGGER = LogManager.getLogger();
 	private final List<VertexFormatElement> elements;
 	private final List<Integer> offsets;
+
+	/** The next available offset in this vertex format */
 	private int nextOffset;
 	private int colorElementOffset;
 	private List<Integer> uvOffsetsById;
@@ -164,5 +169,10 @@ public class VertexFormat {
 		i = 31 * i + this.offsets.hashCode();
 		i = 31 * i + this.nextOffset;
 		return i;
+	}
+
+	@Override
+	public int getStride() {
+		return this.getIntegerSize();
 	}
 }

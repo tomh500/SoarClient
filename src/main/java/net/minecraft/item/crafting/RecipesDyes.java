@@ -9,6 +9,9 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 
 public class RecipesDyes {
+	/**
+	 * Adds the dye recipes to the CraftingManager.
+	 */
 	public void addRecipes(CraftingManager p_77607_1_) {
 		for (int i = 0; i < 16; ++i) {
 			p_77607_1_.addShapelessRecipe(new ItemStack(Blocks.wool, 1, i), new Object[] {
