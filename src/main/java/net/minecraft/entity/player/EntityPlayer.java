@@ -1141,11 +1141,11 @@ public abstract class EntityPlayer extends EntityLivingBase {
 	 * The equipped item has hitEntity called on it. Args: targetEntity
 	 */
 	public void attackTargetEntityWithCurrentItem(Entity targetEntity) {
-		
+
 		if (targetEntity.canAttackWithItem()) {
 			EventBus.getInstance().post(new AttackEntityEvent(targetEntity));
 		}
-		
+
 		if (targetEntity.canAttackWithItem()) {
 			if (!targetEntity.hitByEntity(this)) {
 				float f = (float) this.getEntityAttribute(SharedMonsterAttributes.attackDamage).getAttributeValue();

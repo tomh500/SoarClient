@@ -33,7 +33,7 @@ public class SimpleDesign extends HUDDesign {
 	public Color getTextColor() {
 		return Color.WHITE;
 	}
-	
+
 	@Override
 	public Color getFocusColor() {
 		return Color.BLACK;

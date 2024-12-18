@@ -26,18 +26,18 @@ import com.soarclient.utils.language.I18n;
 import com.soarclient.utils.mouse.MouseUtils;
 
 public class NavigationRail extends Component {
-    
+
 	private List<Navigation> navigations = new ArrayList<>();
 	private GuiModMenu parent;
 	private Navigation currentNavigation;
-    private IconButton editButton;
+	private IconButton editButton;
 
-    public NavigationRail(GuiModMenu parent, float x, float y, float width, float height) {
-        super(x, y);
-        this.parent = parent;
-        this.width = width;
-        this.height = height;
-        
+	public NavigationRail(GuiModMenu parent, float x, float y, float width, float height) {
+		super(x, y);
+		this.parent = parent;
+		this.width = width;
+		this.height = height;
+
 		for (Page p : parent.getPages()) {
 
 			Navigation n = new Navigation(p);
@@ -49,20 +49,20 @@ public class NavigationRail extends Component {
 
 			navigations.add(n);
 		}
-        
-        editButton = new IconButton(Icon.EDIT, x, y + 44, Size.NORMAL, Style.TERTIARY);
-        editButton.setX(x + (width / 2) - (editButton.getWidth() / 2));
-        editButton.setHandler(new ButtonHandler() {
-            @Override
-            public void onClicked() {
-            	parent.close(new GuiEditHUD(mc.currentScreen).create());
-            }
-        });
-    }
 
-    @Override
-    public void draw(int mouseX, int mouseY) {
-    	
+		editButton = new IconButton(Icon.EDIT, x, y + 44, Size.NORMAL, Style.TERTIARY);
+		editButton.setX(x + (width / 2) - (editButton.getWidth() / 2));
+		editButton.setHandler(new ButtonHandler() {
+			@Override
+			public void onClicked() {
+				parent.close(new GuiEditHUD(mc.currentScreen).create());
+			}
+		});
+	}
+
+	@Override
+	public void draw(int mouseX, int mouseY) {
+
 		NanoVGHelper nvg = NanoVGHelper.getInstance();
 		ColorPalette palette = Soar.getInstance().getColorManager().getPalette();
 
@@ -71,8 +71,8 @@ public class NavigationRail extends Component {
 
 		float offsetY = 140;
 
-		for(Navigation n : navigations) {
-			
+		for (Navigation n : navigations) {
+
 			Page p = n.page;
 			String title = p.getTitle();
 			String icon = p.getIcon();
@@ -87,26 +87,26 @@ public class NavigationRail extends Component {
 						56 * animation.getValue(), 32, 16,
 						ColorUtils.applyAlpha(palette.getSecondaryContainer(), animation.getValue()));
 			}
-			
+
 			nvg.drawAlignCenteredText(icon, x + (width / 2) - (56 / 2) + (56 / 2), y + offsetY + (32 / 2), c0, 24,
 					font);
 			nvg.drawCenteredText(I18n.get(title), x + (width / 2), y + offsetY + 36, c1, 12, Fonts.MEDIUM);
 
 			offsetY += 68;
 		}
-    }
+	}
 
-    @Override
-    public void mouseClicked(int mouseX, int mouseY, int mouseButton) {
-    	
+	@Override
+	public void mouseClicked(int mouseX, int mouseY, int mouseButton) {
+
 		editButton.mouseClicked(mouseX, mouseY, mouseButton);
 
 		float offsetY = 140;
 
-		for(Navigation n : navigations) {
-			if (MouseUtils.isInside(mouseX, mouseY, x + (width / 2) - (56 / 2), y + offsetY, 56, 32)
-					&& mouseButton == 0 && !currentNavigation.equals(n)) {
-				
+		for (Navigation n : navigations) {
+			if (MouseUtils.isInside(mouseX, mouseY, x + (width / 2) - (56 / 2), y + offsetY, 56, 32) && mouseButton == 0
+					&& !currentNavigation.equals(n)) {
+
 				currentNavigation.animation = new EaseStandard(Duration.MEDIUM_3, 1, 0);
 				currentNavigation = n;
 				parent.setPage(n.page);
@@ -115,7 +115,7 @@ public class NavigationRail extends Component {
 
 			offsetY += 68;
 		}
-    }
+	}
 
 	private class Navigation {
 

@@ -949,7 +949,7 @@ public class NetHandlerPlayClient implements INetHandlerPlayClient {
 				entity.handleStatusUpdate(packetIn.getOpCode());
 			}
 		}
-		
+
 		if (packetIn.getOpCode() == 2) {
 			EventBus.getInstance().post(new DamageEntityEvent(packetIn.getEntity(clientWorldController)));
 		}

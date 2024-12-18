@@ -17,7 +17,7 @@ import net.minecraft.item.ItemStack;
 public class RenderUtils {
 
 	private static Minecraft mc = Minecraft.getMinecraft();
-	
+
 	public static void drawRect(float x, float y, float width, float height, Color color) {
 
 		GL11.glEnable(3042);
@@ -42,7 +42,7 @@ public class RenderUtils {
 		GlStateManager.disableBlend();
 		ColorUtils.setColor(Color.WHITE);
 	}
-	
+
 	public static void drawItemStack(ItemStack stack, float x, float y) {
 		GlStateManager.pushMatrix();
 		RenderHelper.enableGUIStandardItemLighting();
@@ -71,7 +71,7 @@ public class RenderUtils {
 		RenderHelper.disableStandardItemLighting();
 		GlStateManager.popMatrix();
 	}
-	
+
 	public static void drawTexturedModalRect(float x, float y, float textureX, float textureY, float width,
 			float height, float zLevel) {
 		float f = 0.00390625F;

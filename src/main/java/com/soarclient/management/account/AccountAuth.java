@@ -36,10 +36,10 @@ public class AccountAuth {
 
 	public static void handleLogin(Account account) {
 		try {
-			if(account instanceof MicrosoftAccount) {
+			if (account instanceof MicrosoftAccount) {
 				MicrosoftAccount msAccount = (MicrosoftAccount) account;
 				MCProfile profile = msAccount.getMcProfile();
-				
+
 				msAccount.refresh();
 				Minecraft.getMinecraft().setSession(new Session(profile.getName(), profile.getId().toString(),
 						profile.getMcToken().getAccessToken(), "legacy"));
@@ -48,12 +48,12 @@ public class AccountAuth {
 			e.printStackTrace();
 		}
 	}
-	
+
 	private static void handleLogin(
 			final TFunction<Consumer<StepMsaDeviceCode.MsaDeviceCode>, Account> requestHandler) {
 
 		AccountManager accountManager = Soar.getInstance().getAccountManager();
-		
+
 		try {
 			final Account account = requestHandler
 					.apply(msaDeviceCode -> SwingUtilities.invokeLater(() -> login(msaDeviceCode)));

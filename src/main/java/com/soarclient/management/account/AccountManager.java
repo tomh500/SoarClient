@@ -90,10 +90,10 @@ public class AccountManager {
 					}
 				}
 			}
-			
+
 			Account acc = getByUuid(currentAccount);
-			
-			if(acc != null) {
+
+			if (acc != null) {
 				AccountAuth.handleLogin(acc);
 			}
 		} catch (Exception e) {
@@ -119,19 +119,19 @@ public class AccountManager {
 		return accounts.stream().filter(a -> a instanceof BedrockAccount).map(a -> (BedrockAccount) a)
 				.collect(Collectors.toList());
 	}
-	
+
 	public Account getByUuid(String inputUuid) {
-		
-		for(Account acc : accounts) {
-			
+
+		for (Account acc : accounts) {
+
 			String pUuid = acc.getUUID().toString().replace("-", "");
 			String uuid = inputUuid.replace("-", "");
-			
-			if(pUuid.equals(uuid)) {
+
+			if (pUuid.equals(uuid)) {
 				return acc;
 			}
 		}
-		
+
 		return null;
 	}
 

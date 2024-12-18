@@ -576,7 +576,6 @@ public class FontRenderer implements IResourceManagerReloadListener {
 					NameProtectMod.getInstance().getNameSetting().getString());
 		}
 
-
 		return hook.getStringWidth(text);
 	}
 

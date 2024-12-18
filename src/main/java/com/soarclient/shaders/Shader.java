@@ -80,13 +80,13 @@ public class Shader {
 	public void finish() {
 		GL20.glUseProgram(0);
 	}
-	
-    public void delete() {
-        if (program > 0) {
-            GL20.glDeleteProgram(program);
-        }
-    }
-    
+
+	public void delete() {
+		if (program > 0) {
+			GL20.glDeleteProgram(program);
+		}
+	}
+
 	public void setupUniform(final String uniform) {
 		this.uniformLocationMap.put(uniform, GL20.glGetUniformLocation(this.program, uniform));
 	}

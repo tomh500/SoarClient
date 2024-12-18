@@ -5,7 +5,7 @@ import net.minecraft.util.ChatComponentTranslation;
 import net.minecraft.util.IChatComponent;
 
 public class ServerData {
-	
+
 	public String serverName;
 	public String serverIP;
 
@@ -35,7 +35,7 @@ public class ServerData {
 
 	/** True if the server is a LAN server */
 	private boolean lanServer;
-	
+
 	public ServerData(String name, String ip, boolean isLan) {
 		this.serverName = name;
 		this.serverIP = ip;
@@ -48,7 +48,7 @@ public class ServerData {
 	 */
 	public NBTTagCompound getNBTCompound() {
 		NBTTagCompound nbttagcompound = new NBTTagCompound();
-        
+
 		nbttagcompound.setString("name", this.serverName);
 		nbttagcompound.setString("ip", this.serverIP);
 
@@ -93,7 +93,7 @@ public class ServerData {
 		} else {
 			serverdata.setResourceMode(ServerData.ServerResourceMode.PROMPT);
 		}
-        
+
 		return serverdata;
 	}
 
@@ -123,7 +123,7 @@ public class ServerData {
 		this.serverIcon = serverDataIn.serverIcon;
 		this.lanServer = serverDataIn.lanServer;
 	}
-    
+
 	public static enum ServerResourceMode {
 		ENABLED("enabled"), DISABLED("disabled"), PROMPT("prompt");
 

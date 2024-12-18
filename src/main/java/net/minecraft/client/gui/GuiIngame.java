@@ -108,7 +108,7 @@ public class GuiIngame extends Gui {
 	private long healthUpdateCounter = 0L;
 
 	private GaussianBlur gaussianBlur = new GaussianBlur(true);
-	
+
 	public GuiIngame(Minecraft mcIn) {
 		this.mc = mcIn;
 		this.itemRenderer = mcIn.getRenderItem();
@@ -341,7 +341,7 @@ public class GuiIngame extends Gui {
 		if (ModMenuSetting.getInstance().getBlurSetting().isEnabled()) {
 			gaussianBlur.draw(1 + ModMenuSetting.getInstance().getBlurIntensitySetting().getValue());
 		}
-		
+
 		event.post(new RenderGameOverlayEvent(partialTicks));
 	}
 

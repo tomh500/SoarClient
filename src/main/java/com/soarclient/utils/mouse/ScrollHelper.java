@@ -29,7 +29,7 @@ public class ScrollHelper {
 	public float getValue() {
 		return animation.getValue();
 	}
-	
+
 	public void reset() {
 		this.scroll = 0;
 	}

@@ -509,7 +509,7 @@ public class EntityRenderer implements IResourceManagerReloadListener {
 	 */
 	private float getFOVModifier(float partialTicks, boolean useFOVSetting) {
 		if (this.debugView) {
-			
+
 			ZoomFovEvent event = new ZoomFovEvent(90.0F);
 			EventBus.getInstance().post(event);
 
@@ -1011,12 +1011,12 @@ public class EntityRenderer implements IResourceManagerReloadListener {
 			float f1 = f * f * f * 8.0F;
 			float deltaX = this.mc.mouseHelper.deltaX;
 			float deltaY = this.mc.mouseHelper.deltaY;
-			
+
 			if (RawInputMod.getInstance().isEnabled()) {
 				deltaX = (mc.mouseHelper.deltaX / f1 * Minecraft.getMinecraft().gameSettings.mouseSensitivity);
 				deltaY = (mc.mouseHelper.deltaY / f1 * Minecraft.getMinecraft().gameSettings.mouseSensitivity);
 			}
-			
+
 			float f2 = (float) deltaX * f1;
 			float f3 = (float) deltaY * f1;
 			int i = 1;
@@ -1060,7 +1060,7 @@ public class EntityRenderer implements IResourceManagerReloadListener {
 				this.renderWorld(partialTicks, System.nanoTime() + l);
 
 				if (OpenGlHelper.shadersSupported) {
-					
+
 					this.mc.renderGlobal.renderEntityOutlineFramebuffer();
 
 					if (this.theShaderGroup != null && this.useShader) {
@@ -1081,7 +1081,7 @@ public class EntityRenderer implements IResourceManagerReloadListener {
 						group.loadShaderGroup(mc.getTimer().renderPartialTicks);
 						GlStateManager.popMatrix();
 					}
-					
+
 					this.mc.getFramebuffer().bindFramebuffer(true);
 				}
 
@@ -1408,13 +1408,13 @@ public class EntityRenderer implements IResourceManagerReloadListener {
 	}
 
 	private void addRainParticles() {
-		
+
 		WeatherChangerMod mod = WeatherChangerMod.getInstance();
 
 		if (mod.isEnabled() && (!mod.isRaining() || mod.isSnowing())) {
 			return;
 		}
-		
+
 		float f = this.mc.theWorld.getRainStrength(1.0F);
 
 		if (!this.mc.gameSettings.fancyGraphics) {

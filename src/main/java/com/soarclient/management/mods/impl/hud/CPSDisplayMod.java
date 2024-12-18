@@ -37,7 +37,7 @@ public class CPSDisplayMod extends SimpleHUDMod {
 			}
 		}
 	}
-	
+
 	@EventHandler
 	public void onClientTick(ClientTickEvent event) {
 		leftPresses.removeIf(t -> System.currentTimeMillis() - t > 1000);

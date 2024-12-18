@@ -82,7 +82,7 @@ public class ItemBucket extends Item {
 						playerIn.triggerAchievement(StatList.objectUseStats[Item.getIdFromItem(this)]);
 						return new ItemStack(Items.bucket);
 					}
-					
+
 					if ((LiquidFixMod.getInstance().isEnabled()
 							? LiquidHook.cancelOldClientLiquid(isFull, worldIn, blockpos1)
 							: this.tryPlaceContainedLiquid(worldIn, blockpos1))

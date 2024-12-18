@@ -140,37 +140,37 @@ public class PacketBuffer extends ByteBuf {
 	 * are expected to have values below 128.
 	 */
 	public void writeVarIntToBuffer(int input) {
-        if ((input & (0xFFFFFFFF << 7)) == 0) {
-        	buf.writeByte(input);
-        } else if ((input & (0xFFFFFFFF << 14)) == 0) {
-            int w = (input & 0x7F | 0x80) << 8 | (input >>> 7);
-            buf.writeShort(w);
-        } else {
-            writeVarIntFull(buf, input);
-        }
+		if ((input & (0xFFFFFFFF << 7)) == 0) {
+			buf.writeByte(input);
+		} else if ((input & (0xFFFFFFFF << 14)) == 0) {
+			int w = (input & 0x7F | 0x80) << 8 | (input >>> 7);
+			buf.writeShort(w);
+		} else {
+			writeVarIntFull(buf, input);
+		}
 	}
 
-    private static void writeVarIntFull(ByteBuf buf, int value) {
-        if ((value & (0xFFFFFFFF << 7)) == 0) {
-            buf.writeByte(value);
-        } else if ((value & (0xFFFFFFFF << 14)) == 0) {
-            int w = (value & 0x7F | 0x80) << 8 | (value >>> 7);
-            buf.writeShort(w);
-        } else if ((value & (0xFFFFFFFF << 21)) == 0) {
-            int w = (value & 0x7F | 0x80) << 16 | ((value >>> 7) & 0x7F | 0x80) << 8 | (value >>> 14);
-            buf.writeMedium(w);
-        } else if ((value & (0xFFFFFFFF << 28)) == 0) {
-            int w = (value & 0x7F | 0x80) << 24 | (((value >>> 7) & 0x7F | 0x80) << 16)
-                    | ((value >>> 14) & 0x7F | 0x80) << 8 | (value >>> 21);
-            buf.writeInt(w);
-        } else {
-            int w = (value & 0x7F | 0x80) << 24 | ((value >>> 7) & 0x7F | 0x80) << 16
-                    | ((value >>> 14) & 0x7F | 0x80) << 8 | ((value >>> 21) & 0x7F | 0x80);
-            buf.writeInt(w);
-            buf.writeByte(value >>> 28);
-        }
-    }
-    
+	private static void writeVarIntFull(ByteBuf buf, int value) {
+		if ((value & (0xFFFFFFFF << 7)) == 0) {
+			buf.writeByte(value);
+		} else if ((value & (0xFFFFFFFF << 14)) == 0) {
+			int w = (value & 0x7F | 0x80) << 8 | (value >>> 7);
+			buf.writeShort(w);
+		} else if ((value & (0xFFFFFFFF << 21)) == 0) {
+			int w = (value & 0x7F | 0x80) << 16 | ((value >>> 7) & 0x7F | 0x80) << 8 | (value >>> 14);
+			buf.writeMedium(w);
+		} else if ((value & (0xFFFFFFFF << 28)) == 0) {
+			int w = (value & 0x7F | 0x80) << 24 | (((value >>> 7) & 0x7F | 0x80) << 16)
+					| ((value >>> 14) & 0x7F | 0x80) << 8 | (value >>> 21);
+			buf.writeInt(w);
+		} else {
+			int w = (value & 0x7F | 0x80) << 24 | ((value >>> 7) & 0x7F | 0x80) << 16
+					| ((value >>> 14) & 0x7F | 0x80) << 8 | ((value >>> 21) & 0x7F | 0x80);
+			buf.writeInt(w);
+			buf.writeByte(value >>> 28);
+		}
+	}
+
 	public void writeVarLong(long value) {
 		while ((value & -128L) != 0L) {
 			this.writeByte((int) (value & 127L) | 128);

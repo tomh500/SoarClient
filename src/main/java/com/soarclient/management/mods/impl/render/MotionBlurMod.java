@@ -15,16 +15,16 @@ import net.minecraft.util.ResourceLocation;
 public class MotionBlurMod extends Mod {
 
 	private static MotionBlurMod instance;
-	
+
 	private ResourceLocation motion_blur = new ResourceLocation("minecraft:shaders/post/motion_blur.json");
 	private ShaderGroup group;
 	private float groupBlur;
 	private boolean loaded;
 	private int prevWidth, prevHeight;
-	
+
 	private NumberSetting amountSetting = new NumberSetting("setting.amount", "setting.amount.description",
 			Icon.FILTER_5, this, 0.5F, 0.1F, 1.0F, 0.01F);
-	
+
 	public MotionBlurMod() {
 		super("mod.motionblur.name", "mod.motionblur.description", Icon.MOTION_BLUR, ModCategory.RENDER);
 

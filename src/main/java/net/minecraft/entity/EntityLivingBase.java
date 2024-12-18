@@ -1573,11 +1573,11 @@ public abstract class EntityLivingBase extends Entity {
 	 * Called to update the entity's position/logic.
 	 */
 	public void onUpdate() {
-		
+
 		if (NoJumpDelayMod.getInstance().isEnabled()) {
 			jumpTicks = 0;
 		}
-		
+
 		super.onUpdate();
 
 		if (!this.worldObj.isRemote) {

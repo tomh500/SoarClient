@@ -9,26 +9,26 @@ public class Component {
 	protected Minecraft mc = Minecraft.getMinecraft();
 	protected ComponentHandler handler;
 	protected float x, y, width, height;
-	
+
 	public Component(float x, float y) {
 		this.x = x;
 		this.y = y;
 		this.handler = new ComponentHandler() {
 		};
 	}
-	
+
 	public void draw(int mouseX, int mouseY) {
 	}
 
 	public void mouseClicked(int mouseX, int mouseY, int mouseButton) {
 	}
-	
+
 	public void mouseReleased(int mouseX, int mouseY, int mouseButton) {
 	}
 
 	public void keyTyped(char typedChar, int keyCode) {
 	}
-	
+
 	public float getX() {
 		return x;
 	}

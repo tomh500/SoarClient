@@ -40,7 +40,7 @@ public class ViaSoarCommon {
 	private ViaSoarConfig config;
 
 	private static AsyncVersionSlider asyncVersionSlider;
-	
+
 	public ViaSoarCommon(VSPlatform platform) {
 		this.platform = platform;
 	}
@@ -72,7 +72,7 @@ public class ViaSoarCommon {
 		} else {
 			manager.setTargetVersion(version);
 		}
-		
+
 		asyncVersionSlider = new AsyncVersionSlider(-1, 5, 5, 110, 20);
 		asyncVersionSlider.setVersion(ViaSoarCommon.getManager().getTargetVersion());
 	}

@@ -14,7 +14,7 @@ public class HUDRenderer {
 	public HUDRenderer(Position position) {
 		this.position = position;
 	}
-	
+
 	public void drawBackground(float x, float y, float width, float height, float radius) {
 
 		float scale = position.getScale();

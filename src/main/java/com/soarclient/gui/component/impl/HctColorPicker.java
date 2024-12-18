@@ -16,7 +16,7 @@ import net.minecraft.util.ResourceLocation;
 public class HctColorPicker extends Component {
 
 	private SimpleAnimation slideAnimation = new SimpleAnimation();
-	
+
 	private Hct hct;
 	private float minValue, maxValue, value;
 	private boolean dragging;
@@ -38,14 +38,14 @@ public class HctColorPicker extends Component {
 		ColorPalette palette = Soar.getInstance().getColorManager().getPalette();
 
 		slideAnimation.onTick(width * value, 20);
-		
+
 		nvg.drawRoundedImage(new ResourceLocation("soar/hue-h.png"), x, y, width, height, 12);
 		nvg.drawCircle(x + slideAnimation.getValue(), y + (height / 2), 9.8F,
 				Color.getHSBColor((float) (hct.getHue() / 360), 1, 1));
 		nvg.drawArc(x + slideAnimation.getValue(), y + (height / 2), 10, 0, 360, 2F, palette.getSurface());
-		
+
 		if (dragging) {
-			
+
 			value = Math.min(1, Math.max(0, (mouseX - x) / width));
 			hct = Hct.from((value * (maxValue - minValue) + minValue), hct.getChroma(), hct.getTone());
 

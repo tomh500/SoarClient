@@ -18,7 +18,7 @@ public class Page {
 		this.width = width;
 		this.height = height;
 	}
-	
+
 	public Page(String title, String icon, float x, float y, float width, float height) {
 		this(PageDirection.NONE, title, icon, x, y, width, height);
 	}

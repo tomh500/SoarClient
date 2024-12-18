@@ -8,10 +8,9 @@ public class ChatComponentText extends ChatComponentStyle {
 	}
 
 	/**
-	 * Gets the text value of this ChatComponentText.
-	 * getUnformattedText and getUnformattedTextForChat missing that made someone
-	 * decide to create a third equivalent method that only ChatComponentText can
-	 * implement?
+	 * Gets the text value of this ChatComponentText. getUnformattedText and
+	 * getUnformattedTextForChat missing that made someone decide to create a third
+	 * equivalent method that only ChatComponentText can implement?
 	 */
 	public String getChatComponentText_TextValue() {
 		return this.text;

@@ -42,7 +42,7 @@ public class MinimapMod extends HUDMod {
 
 	@EventHandler
 	public void onRenderGameOverlay(RenderGameOverlayEvent event) {
-		
+
 		NanoVGHelper nvg = NanoVGHelper.getInstance();
 		float posX = position.getX();
 		float posY = position.getY();

@@ -59,11 +59,11 @@ public class GuiConnecting extends GuiScreen {
 						return;
 					}
 
-                    final InetAddress address = InetAddress.getByName(ip);
-                    ProtocolVersion version = ViaSoarCommon.getManager().getTargetVersion();
-                    VersionTracker.storeServerProtocolVersion(address, version);
+					final InetAddress address = InetAddress.getByName(ip);
+					ProtocolVersion version = ViaSoarCommon.getManager().getTargetVersion();
+					VersionTracker.storeServerProtocolVersion(address, version);
 
-                    inetaddress = address;
+					inetaddress = address;
 					GuiConnecting.this.networkManager = NetworkManager.createNetworkManagerAndConnect(inetaddress, port,
 							GuiConnecting.this.mc.gameSettings.isUsingNativeTransport());
 					GuiConnecting.this.networkManager

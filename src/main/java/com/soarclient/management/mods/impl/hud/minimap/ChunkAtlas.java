@@ -38,7 +38,7 @@ public class ChunkAtlas implements Iterable<ChunkTile> {
 		int texHeight = 16;
 
 		int texLimit = Minecraft.getGLMaximumTextureSize();
-		
+
 		while (texWidth > texLimit) {
 			texWidth >>= 1;
 			texHeight <<= 1;
@@ -278,21 +278,21 @@ public class ChunkAtlas implements Iterable<ChunkTile> {
 		}
 	}
 
-    public BlockPos getTopColoredBlockState(Chunk src, int x, int z) {
-    	
-        BlockPos.MutableBlockPos pos = new BlockPos.MutableBlockPos();
+	public BlockPos getTopColoredBlockState(Chunk src, int x, int z) {
 
-        for (int y = src.getTopFilledSegment() + 15; y >= 0; y--) {
-            IBlockState state = src.getBlockState(pos.set(x, y, z));
+		BlockPos.MutableBlockPos pos = new BlockPos.MutableBlockPos();
 
-            if (state.getBlock().getMapColor(state) != MapColor.airColor) {
-                break;
-            }
-        }
+		for (int y = src.getTopFilledSegment() + 15; y >= 0; y--) {
+			IBlockState state = src.getBlockState(pos.set(x, y, z));
 
-        return pos;
-    }
-    
+			if (state.getBlock().getMapColor(state) != MapColor.airColor) {
+				break;
+			}
+		}
+
+		return pos;
+	}
+
 	private int searchChunkAtlas(ChunkCoordIntPair c) {
 
 		for (int offs = 0; offs < this.chunkCoords.length; offs++) {

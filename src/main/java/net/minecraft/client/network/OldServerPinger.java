@@ -56,11 +56,11 @@ public class OldServerPinger {
 			.<NetworkManager>synchronizedList(Lists.<NetworkManager>newArrayList());
 
 	public void ping(final ServerData server) throws UnknownHostException {
-		
+
 		ServerAddress serveraddress = ServerAddress.fromString(server.serverIP);
-        ProtocolVersion version = ViaSoarCommon.getManager().getTargetVersion();
-        VersionTracker.storeServerProtocolVersion(InetAddress.getByName(serveraddress.getIP()), version);
-        
+		ProtocolVersion version = ViaSoarCommon.getManager().getTargetVersion();
+		VersionTracker.storeServerProtocolVersion(InetAddress.getByName(serveraddress.getIP()), version);
+
 		final NetworkManager networkmanager = NetworkManager.createNetworkManagerAndConnect(
 				InetAddress.getByName(serveraddress.getIP()), serveraddress.getPort(), false);
 		this.pingDestinations.add(networkmanager);

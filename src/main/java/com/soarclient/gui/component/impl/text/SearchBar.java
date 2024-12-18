@@ -53,11 +53,11 @@ public class SearchBar extends Component {
 
 		nvg.save();
 		nvg.scissor(x + 40, y, width, height);
-		
+
 		drawCursor();
 
 		String text = getText();
-		
+
 		if (!text.isEmpty() || isFocused()) {
 			float availableWidth = width - 50;
 			float textWidth = nvg.getTextWidth(text, 16F, Fonts.REGULAR);
@@ -70,7 +70,7 @@ public class SearchBar extends Component {
 
 			nvg.drawText(text, x + 40 + xOffset, y + 15F, palette.getOnSurfaceVariant(), 16F, Fonts.REGULAR);
 		}
-		
+
 		nvg.restore();
 
 		if (Keyboard.isKeyDown(Keyboard.KEY_LCONTROL) && Keyboard.isKeyDown(Keyboard.KEY_F) && !isFocused()) {
@@ -85,7 +85,7 @@ public class SearchBar extends Component {
 	}
 
 	private void drawCursor() {
-		
+
 		NanoVGHelper nvg = NanoVGHelper.getInstance();
 		ColorPalette palette = Soar.getInstance().getColorManager().getPalette();
 

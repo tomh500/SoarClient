@@ -20,8 +20,8 @@ public class ScreenWrapper {
 	private Framebuffer framebuffer = new Framebuffer(1, 1, true);
 	private int texture = -1;
 
-	public void wrap(Runnable task, float x, float y, float width, float height, float radius, float scale,
-			float alpha, boolean mcScale) {
+	public void wrap(Runnable task, float x, float y, float width, float height, float radius, float scale, float alpha,
+			boolean mcScale) {
 
 		ScaledResolution sr = new ScaledResolution(mc);
 		NanoVGHelper nvg = NanoVGHelper.getInstance();

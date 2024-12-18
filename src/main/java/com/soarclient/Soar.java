@@ -19,7 +19,7 @@ import net.minecraft.client.Minecraft;
 public class Soar {
 
 	private static Soar instance = new Soar();
-	
+
 	private String name, version;
 
 	private AccountManager accountManager;
@@ -27,22 +27,22 @@ public class Soar {
 	private ColorManager colorManager;
 	private MusicManager musicManager;
 	private ProxyManager proxyManager;
-	
+
 	private long launchTime;
 
 	public Soar() {
 		name = "Soar";
 		version = "8.0";
 	}
-	
+
 	public void start() {
-		
+
 		FileLocation.init();
 		launchTime = System.currentTimeMillis();
 		NanoVGHelper.getInstance().start();
 
 		ViaSoarCommon.init(ViaSoar.PLATFORM);
-		
+
 		accountManager = new AccountManager();
 		modManager = new ModManager();
 		modManager.init();
@@ -52,7 +52,7 @@ public class Soar {
 
 		Delta.register();
 		I18n.setLanguage(Language.ENGLISH);
-		
+
 		EventBus.getInstance().register(new SoarHandler());
 		Minecraft.getMinecraft().fontRendererObj.drawString("", 0, 0, 0);
 	}
@@ -60,7 +60,7 @@ public class Soar {
 	public void stop() {
 
 	}
-	
+
 	public static Soar getInstance() {
 		return instance;
 	}

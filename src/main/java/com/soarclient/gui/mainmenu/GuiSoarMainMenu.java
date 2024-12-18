@@ -49,7 +49,7 @@ public class GuiSoarMainMenu extends GuiScreen {
 		this.viewportTexture = new DynamicTexture(256, 256);
 		this.backgroundTexture = this.mc.getTextureManager().getDynamicTextureLocation("background",
 				this.viewportTexture);
-		
+
 		MainMenuAPI.setCurrentPage(new MainPage());
 	}
 

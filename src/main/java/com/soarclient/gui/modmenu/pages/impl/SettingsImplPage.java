@@ -48,19 +48,19 @@ public class SettingsImplPage extends Page {
 	public void draw(int mouseX, int mouseY) {
 
 		float offsetY = 96;
-		
+
 		searchBar.draw(mouseX, mouseY);
 
 		for (SettingBar b : bars) {
 
-			if (!searchBar.getText().isEmpty() && !SearchUtils
-					.isSimillar(I18n.get(b.getTitle()), searchBar.getText())) {
+			if (!searchBar.getText().isEmpty()
+					&& !SearchUtils.isSimillar(I18n.get(b.getTitle()), searchBar.getText())) {
 				continue;
 			}
 
 			b.setY(y + offsetY);
 			b.draw(mouseX, mouseY);
-			
+
 			offsetY += b.getHeight() + 22;
 		}
 	}
@@ -94,7 +94,7 @@ public class SettingsImplPage extends Page {
 			parent.setPage(prevPage);
 		}
 	}
-	
+
 	@Override
 	public void onClosed() {
 		parent.setCloseable(true);

@@ -9,15 +9,15 @@ import java.util.Map;
 
 public class VersionTracker {
 
-    public static final Map<InetAddress, ProtocolVersion> SERVER_PROTOCOL_VERSIONS = new HashMap<>();
+	public static final Map<InetAddress, ProtocolVersion> SERVER_PROTOCOL_VERSIONS = new HashMap<>();
 
-    public static void storeServerProtocolVersion(InetAddress address, ProtocolVersion version) {
-        SERVER_PROTOCOL_VERSIONS.put(address, version);
-        ViaSoarCommon.getManager().setTargetVersionSilent(version);
-    }
+	public static void storeServerProtocolVersion(InetAddress address, ProtocolVersion version) {
+		SERVER_PROTOCOL_VERSIONS.put(address, version);
+		ViaSoarCommon.getManager().setTargetVersionSilent(version);
+	}
 
-    public static ProtocolVersion getServerProtocolVersion(InetAddress address) {
-        return SERVER_PROTOCOL_VERSIONS.remove(address);
-    }
+	public static ProtocolVersion getServerProtocolVersion(InetAddress address) {
+		return SERVER_PROTOCOL_VERSIONS.remove(address);
+	}
 
 }

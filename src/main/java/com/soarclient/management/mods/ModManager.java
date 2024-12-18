@@ -105,10 +105,10 @@ public class ModManager {
 
 		// Render
 		mods.add(new MotionBlurMod());
-		
+
 		// Settings
 		mods.add(new ModMenuSetting());
-		
+
 		sort();
 	}
 
@@ -158,7 +158,7 @@ public class ModManager {
 
 		return getDesignByName("design.simple");
 	}
-	
+
 	private void sort() {
 
 		Comparator<Mod> nameComparator = new Comparator<Mod>() {

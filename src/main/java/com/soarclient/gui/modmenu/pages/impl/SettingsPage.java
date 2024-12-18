@@ -77,7 +77,7 @@ public class SettingsPage extends Page {
 		float offsetY = 96;
 
 		searchBar.mouseClicked(mouseX, mouseY, mouseButton);
-		
+
 		for (Mod m : mods) {
 
 			if (MouseUtils.isInside(mouseX, mouseY, x + offsetX + barWidth - 60, y + offsetY, 60, barHeight)

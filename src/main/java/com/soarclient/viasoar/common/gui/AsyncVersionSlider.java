@@ -13,8 +13,7 @@ import net.minecraft.util.MathHelper;
 
 public class AsyncVersionSlider extends GuiButton {
 
-	private float dragValue = (float) getProtocols()
-			.indexOf(ViaSoarCommon.getManager().getTargetVersion())
+	private float dragValue = (float) getProtocols().indexOf(ViaSoarCommon.getManager().getTargetVersion())
 			/ (getProtocols().size() - 1);
 
 	private final List<ProtocolVersion> values;
@@ -79,17 +78,15 @@ public class AsyncVersionSlider extends GuiButton {
 	}
 
 	public void setVersion(ProtocolVersion version) {
-		this.dragValue = (float) getProtocols()
-				.indexOf(version)
-				/ (getProtocols().size() - 1);
+		this.dragValue = (float) getProtocols().indexOf(version) / (getProtocols().size() - 1);
 		this.sliderValue = this.dragValue;
 
 		int selectedProtocolIndex = (int) Math.ceil(this.sliderValue * (values.size() - 1));
 		this.displayString = values.get(selectedProtocolIndex).getName();
 	}
-	
-    private static List<ProtocolVersion> getProtocols() {
-        final List<ProtocolVersion> protocolVersions = new ArrayList<>(ProtocolVersion.getProtocols());
-        return protocolVersions;
-    }
+
+	private static List<ProtocolVersion> getProtocols() {
+		final List<ProtocolVersion> protocolVersions = new ArrayList<>(ProtocolVersion.getProtocols());
+		return protocolVersions;
+	}
 }

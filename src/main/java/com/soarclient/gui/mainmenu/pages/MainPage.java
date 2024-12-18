@@ -39,8 +39,8 @@ public class MainPage extends Page {
 				(sr.getScaledWidth() / 2) - 100, y + space, 200);
 		MainMenuButton accountManager = new MainMenuButton("text.accountmanager", Icon.ACCOUNT_CIRCLE,
 				(sr.getScaledWidth() / 2) - 100, y + (space * 2), 200);
-		MainMenuButton settings = new MainMenuButton("text.settings", Icon.SETTINGS,
-				(sr.getScaledWidth() / 2) - 100, y + (space * 3), 98);
+		MainMenuButton settings = new MainMenuButton("text.settings", Icon.SETTINGS, (sr.getScaledWidth() / 2) - 100,
+				y + (space * 3), 98);
 		MainMenuButton exit = new MainMenuButton("text.exit", Icon.EXIT_TO_APP, (sr.getScaledWidth() / 2) + 2,
 				y + (space * 3), 98);
 

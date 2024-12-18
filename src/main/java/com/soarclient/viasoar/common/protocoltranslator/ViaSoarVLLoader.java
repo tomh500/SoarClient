@@ -19,23 +19,23 @@ import net.raphimc.vialoader.impl.viaversion.VLLoader;
 
 public class ViaSoarVLLoader extends VLLoader {
 
-    private final VSPlatform platform;
+	private final VSPlatform platform;
 
-    public ViaSoarVLLoader(VSPlatform platform) {
-        this.platform = platform;
-    }
+	public ViaSoarVLLoader(VSPlatform platform) {
+		this.platform = platform;
+	}
 
-    @Override
-    public void load() {
-        super.load();
+	@Override
+	public void load() {
+		super.load();
 
-        final ViaProviders providers = Via.getManager().getProviders();
+		final ViaProviders providers = Via.getManager().getProviders();
 
-        providers.use(VersionProvider.class, new ViaSoarVersionProvider());
-        providers.use(MovementTransmitterProvider.class, new ViaSoarMovementTransmitterProvider());
-        providers.use(OldAuthProvider.class, new ViaSoarOldAuthProvider());
-        providers.use(GameProfileFetcher.class, platform.getGameProfileFetcher());
-        providers.use(EncryptionProvider.class, new ViaSoarEncryptionProvider());
-        providers.use(ClassicMPPassProvider.class, new ViaSoarClassicMPPassProvider());
-    }
+		providers.use(VersionProvider.class, new ViaSoarVersionProvider());
+		providers.use(MovementTransmitterProvider.class, new ViaSoarMovementTransmitterProvider());
+		providers.use(OldAuthProvider.class, new ViaSoarOldAuthProvider());
+		providers.use(GameProfileFetcher.class, platform.getGameProfileFetcher());
+		providers.use(EncryptionProvider.class, new ViaSoarEncryptionProvider());
+		providers.use(ClassicMPPassProvider.class, new ViaSoarClassicMPPassProvider());
+	}
 }

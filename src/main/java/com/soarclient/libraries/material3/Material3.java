@@ -20,7 +20,7 @@ public class Material3 {
 	public static DynamicScheme getDynamicScheme(Hct hct, boolean dark, double contrast) {
 		return new SchemeTonalSpot(hct, dark, contrast);
 	}
-	
+
 	public static Hct getImageHct(BufferedImage image) {
 
 		if (image == null) {
@@ -34,7 +34,7 @@ public class Material3 {
 	}
 
 	public static Hct getImageHct(File imageFile) {
-		
+
 		try {
 			return getImageHct(ImageIO.read(imageFile));
 		} catch (IOException e) {

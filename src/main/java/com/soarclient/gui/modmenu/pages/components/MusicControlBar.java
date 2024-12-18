@@ -25,7 +25,7 @@ public class MusicControlBar extends Component {
 		this.height = 60;
 
 		MusicManager musicManager = Soar.getInstance().getMusicManager();
-		
+
 		buttons.add(new ControlButton(Icon.REPEAT, 0, y + 12, () -> {
 			musicManager.setShuffle(false);
 			musicManager.setRepeat(!musicManager.isRepeat());
@@ -74,10 +74,10 @@ public class MusicControlBar extends Component {
 		}
 
 		if (music != null) {
-			
+
 			String limitedTitle = nvg.getLimitText(music.getTitle(), 15, Fonts.REGULAR, 170);
 			String limitedArtist = nvg.getLimitText(music.getArtist(), 12, Fonts.REGULAR, 170);
-			
+
 			nvg.drawText(limitedTitle, x + 66, y + 16, palette.getOnSurface(), 15, Fonts.REGULAR);
 			nvg.drawText(limitedArtist, x + 66, y + 34, palette.getOnSurfaceVariant(), 12, Fonts.REGULAR);
 		}
@@ -89,12 +89,12 @@ public class MusicControlBar extends Component {
 		buttons.get(2).icon = musicManager.isPlaying() ? Icon.PAUSE : Icon.PLAY_ARROW;
 		buttons.get(0).color = musicManager.isRepeat() ? palette.getPrimary() : palette.getOnSurface();
 		buttons.get(4).color = musicManager.isShuffle() ? palette.getPrimary() : palette.getOnSurface();
-		
+
 		for (ControlButton b : buttons) {
 			b.draw(mouseX, mouseY);
 		}
 	}
-	
+
 	@Override
 	public void mouseClicked(int mouseX, int mouseY, int mouseButton) {
 		for (ControlButton b : buttons) {
@@ -128,9 +128,9 @@ public class MusicControlBar extends Component {
 			this.width = 26;
 			this.height = 26;
 			this.task = task;
-			
+
 			ColorPalette palette = Soar.getInstance().getColorManager().getPalette();
-			
+
 			this.color = palette.getOnSurface();
 		}
 
@@ -144,7 +144,8 @@ public class MusicControlBar extends Component {
 
 		@Override
 		public void mouseClicked(int mouseX, int mouseY, int mouseButton) {
-			if(MouseUtils.isInside(mouseX, mouseY, ControlButton.this.x, ControlButton.this.y, 26, 26) && mouseButton == 0) {
+			if (MouseUtils.isInside(mouseX, mouseY, ControlButton.this.x, ControlButton.this.y, 26, 26)
+					&& mouseButton == 0) {
 				task.run();
 			}
 		}

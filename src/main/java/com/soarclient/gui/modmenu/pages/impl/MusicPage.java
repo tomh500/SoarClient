@@ -151,14 +151,14 @@ public class MusicPage extends Page {
 		searchBar.mouseClicked(mouseX, mouseY, mouseButton);
 
 		for (Pair<Music, SimpleAnimation> i : items) {
-			
+
 			Music m = i.getFirst();
 
 			if (!searchBar.getText().isEmpty()
 					&& !SearchUtils.isSimillar(m.getTitle() + " " + m.getArtist(), searchBar.getText())) {
 				continue;
 			}
-			
+
 			float itemX = x + offsetX;
 			float itemY = y + offsetY;
 

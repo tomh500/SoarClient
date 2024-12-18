@@ -346,7 +346,7 @@ public class PlayerControllerMP {
 	public boolean onPlayerRightClick(EntityPlayerSP player, WorldClient worldIn, ItemStack heldStack, BlockPos hitPos,
 			EnumFacing side, Vec3 hitVec) {
 		this.syncCurrentPlayItem();
-		
+
 		if (LiquidFixMod.getInstance().isEnabled()) {
 			LiquidHook.placeClientLiquid(player, worldIn, heldStack, hitPos, side, hitVec);
 		}

@@ -26,7 +26,7 @@ public class MusicManager {
 	private boolean repeat;
 
 	public MusicManager() {
-		
+
 		try {
 			load();
 		} catch (Exception e) {
@@ -34,7 +34,7 @@ public class MusicManager {
 		}
 
 		this.musicPlayer = new MusicPlayer(() -> {
-			
+
 			Music nextMusic;
 
 			if (repeat) {
@@ -88,10 +88,10 @@ public class MusicManager {
 				for (Metadata meta : metadata) {
 					if (meta instanceof VorbisComment) {
 						VorbisComment comment = (VorbisComment) meta;
-						if(comment.getCommentByName("TITLE").length > 0) {
+						if (comment.getCommentByName("TITLE").length > 0) {
 							title = comment.getCommentByName("TITLE")[0];
 						}
-						if(comment.getCommentByName("ARTIST").length > 0) {
+						if (comment.getCommentByName("ARTIST").length > 0) {
 							artist = comment.getCommentByName("ARTIST")[0];
 						}
 					} else if (meta instanceof Picture) {

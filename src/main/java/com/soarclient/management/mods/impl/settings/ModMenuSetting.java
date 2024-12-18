@@ -20,7 +20,7 @@ public class ModMenuSetting extends Mod {
 
 	private static ModMenuSetting instance;
 	private GuiScreen modMenu;
-	
+
 	private KeybindSetting keybindSetting = new KeybindSetting("setting.keybind", "setting.keybind.description",
 			Icon.KEYBOARD, this, Keyboard.KEY_RSHIFT);
 	private BooleanSetting darkModeSetting = new BooleanSetting("setting.darkmode", "setting.darkmode.description",
@@ -31,15 +31,15 @@ public class ModMenuSetting extends Mod {
 			this, true);
 	private NumberSetting blurIntensitySetting = new NumberSetting("setting.intensity", "setting.intensity.blur",
 			Icon.LENS_BLUR, this, 24, 1, 60, 1);
-	
+
 	public ModMenuSetting() {
 		super("mod.modmenu.name", "mod.modmenu.description", Icon.MENU, ModCategory.MISC);
-		
+
 		instance = this;
 		this.setHidden(true);
 		this.setEnabled(true);
 	}
-	
+
 	@EventHandler
 	public void onClientTick(ClientTickEvent event) {
 
@@ -52,7 +52,7 @@ public class ModMenuSetting extends Mod {
 			mc.displayGuiScreen(modMenu);
 		}
 	}
-	
+
 	@Override
 	public void onDisable() {
 		super.onDisable();

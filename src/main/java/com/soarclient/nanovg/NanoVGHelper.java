@@ -61,7 +61,7 @@ public class NanoVGHelper {
 	public void setupAndDraw(Runnable task) {
 		setupAndDraw(task, true);
 	}
-	
+
 	public void drawRect(float x, float y, float width, float height, Color color) {
 
 		NanoVG.nvgBeginPath(nvg);
@@ -139,7 +139,7 @@ public class NanoVGHelper {
 		nvgColor1.free();
 		nvgColor2.free();
 	}
-	
+
 	public void drawOutline(float x, float y, float width, float height, float radius, float strokeWidth, Color color) {
 
 		NanoVG.nvgBeginPath(nvg);
@@ -170,7 +170,7 @@ public class NanoVGHelper {
 		if (text == null) {
 			text = "null";
 		}
-		
+
 		NanoVG.nvgBeginPath(nvg);
 		NanoVG.nvgFontSize(nvg, size);
 		NanoVG.nvgFontFace(nvg, font.getName());
@@ -229,7 +229,7 @@ public class NanoVGHelper {
 		NanoVG.nvgFontSize(nvg, size);
 		NanoVG.nvgFontFace(nvg, font.getName());
 		NanoVG.nvgTextBounds(nvg, 0, 0, text, bounds);
-		
+
 		return bounds[2] - bounds[0] - 1;
 	}
 
@@ -272,7 +272,7 @@ public class NanoVGHelper {
 			NanoVG.nvgTranslate(nvg, x, y);
 		}
 	}
-	
+
 	public void save() {
 		NanoVG.nvgSave(nvg);
 	}
@@ -280,7 +280,7 @@ public class NanoVGHelper {
 	public void restore() {
 		NanoVG.nvgRestore(nvg);
 	}
-	
+
 	public void scissor(float x, float y, float width, float height) {
 		NanoVG.nvgScissor(nvg, x, y, width, height);
 	}
@@ -422,10 +422,10 @@ public class NanoVGHelper {
 	public void drawRoundedRectVarying(float x, float y, float width, float height, float topLeftRadius,
 			float topRightRadius, float bottomLeftRadius, float bottomRightRadius, Color color) {
 
-		if(width <= 0) {
+		if (width <= 0) {
 			return;
 		}
-		
+
 		NanoVG.nvgBeginPath(nvg);
 		NanoVG.nvgRoundedRectVarying(nvg, x, y, width, height, topLeftRadius, topRightRadius, bottomRightRadius,
 				bottomLeftRadius);
@@ -437,7 +437,7 @@ public class NanoVGHelper {
 
 		nvgColor.free();
 	}
-	
+
 	public void drawLine(float x, float y, float endX, float endY, float width, Color color) {
 
 		NanoVG.nvgBeginPath(nvg);
@@ -459,9 +459,9 @@ public class NanoVGHelper {
 		boolean isRemoved = false;
 
 		while (!isInRange) {
-			
+
 			if (getTextWidth(text, fontSize, font) > width) {
-				text = text.substring(0, text.length() - 1);			
+				text = text.substring(0, text.length() - 1);
 				isRemoved = true;
 			} else {
 				isInRange = true;
@@ -483,7 +483,7 @@ public class NanoVGHelper {
 		NanoVG.nvgStrokeColor(nvg, nvgColor);
 		NanoVG.nvgStroke(nvg);
 	}
-	
+
 	public void setAlpha(float alpha) {
 		if (alpha != 1) {
 			NanoVG.nvgGlobalAlpha(nvg, alpha);

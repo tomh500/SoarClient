@@ -57,7 +57,7 @@ public class ViaSoarClassicMPPassProvider extends ClassicMPPassProvider {
 			final InputStream connection = new URI(
 					"https://api.betacraft.uk/getmppass.jsp?user=" + username + "&server=" + server).toURL()
 					.openStream();
-			
+
 			try (Scanner scanner = new Scanner(connection)) {
 				StringBuilder response = new StringBuilder();
 				while (scanner.hasNext()) {

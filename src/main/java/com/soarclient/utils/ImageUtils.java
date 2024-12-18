@@ -14,30 +14,30 @@ import org.lwjgl.opengl.GL12;
 
 public class ImageUtils {
 
-    public static Color calculateAverageColor(BufferedImage image) {
-        long totalRed = 0;
-        long totalGreen = 0;
-        long totalBlue = 0;
-        int width = image.getWidth();
-        int height = image.getHeight();
-        int totalPixels = width * height;
+	public static Color calculateAverageColor(BufferedImage image) {
+		long totalRed = 0;
+		long totalGreen = 0;
+		long totalBlue = 0;
+		int width = image.getWidth();
+		int height = image.getHeight();
+		int totalPixels = width * height;
 
-        for (int y = 0; y < height; y++) {
-            for (int x = 0; x < width; x++) {
-                Color pixelColor = new Color(image.getRGB(x, y));
-                totalRed += pixelColor.getRed();
-                totalGreen += pixelColor.getGreen();
-                totalBlue += pixelColor.getBlue();
-            }
-        }
+		for (int y = 0; y < height; y++) {
+			for (int x = 0; x < width; x++) {
+				Color pixelColor = new Color(image.getRGB(x, y));
+				totalRed += pixelColor.getRed();
+				totalGreen += pixelColor.getGreen();
+				totalBlue += pixelColor.getBlue();
+			}
+		}
 
-        int averageRed = (int) (totalRed / totalPixels);
-        int averageGreen = (int) (totalGreen / totalPixels);
-        int averageBlue = (int) (totalBlue / totalPixels);
+		int averageRed = (int) (totalRed / totalPixels);
+		int averageGreen = (int) (totalGreen / totalPixels);
+		int averageBlue = (int) (totalBlue / totalPixels);
 
-        return new Color(averageRed, averageGreen, averageBlue);
-    }
-    
+		return new Color(averageRed, averageGreen, averageBlue);
+	}
+
 	public static int toTexture(BufferedImage image) {
 
 		int width = image.getWidth();
@@ -54,7 +54,7 @@ public class ImageUtils {
 				buffer.put((byte) ((pixel >> 24) & 0xFF));
 			}
 		}
-		
+
 		buffer.flip();
 
 		int textureId = GL11.glGenTextures();

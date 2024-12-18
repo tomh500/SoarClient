@@ -5,7 +5,8 @@ import com.viaversion.viaversion.protocols.v1_8to1_9.provider.MovementTransmitte
 
 public class ViaSoarMovementTransmitterProvider extends MovementTransmitterProvider {
 
-    @Override
-    public void sendPlayer(UserConnection userConnection) {}
+	@Override
+	public void sendPlayer(UserConnection userConnection) {
+	}
 
 }

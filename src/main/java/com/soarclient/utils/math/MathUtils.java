@@ -15,7 +15,7 @@ public class MathUtils {
 		bd = bd.setScale(places, RoundingMode.HALF_UP);
 		return bd.floatValue();
 	}
-	
+
 	public static int clamp(int number, int min, int max) {
 		return number < min ? min : Math.min(number, max);
 	}

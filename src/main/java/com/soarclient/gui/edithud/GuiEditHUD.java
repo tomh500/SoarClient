@@ -23,224 +23,200 @@ import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.ScaledResolution;
 
 public class GuiEditHUD extends SoarGui {
-	
-    private static final float SCALE_CHANGE_AMOUNT = 0.1F;
-    private static final float DEFAULT_LINE_WIDTH = 0.5F;
-    private static final int MIDDLE_MOUSE_BUTTON = 2;
-    
-    private final GuiScreen prevScreen;
-    private final List<HUDMod> mods;
-    private final int snappingDistance;
-    
-    private Optional<Pair<HUDMod, GrabOffset>> selectedMod;
-    private boolean snapping;
 
-    public GuiEditHUD(GuiScreen prevScreen) {
-        this.prevScreen = prevScreen;
-        this.snappingDistance = 6;
-        this.mods = initializeMods();
-        this.selectedMod = Optional.empty();
-        HUDCore.isEditing = true;
-    }
+	private static final float SCALE_CHANGE_AMOUNT = 0.1F;
+	private static final float DEFAULT_LINE_WIDTH = 0.5F;
+	private static final int MIDDLE_MOUSE_BUTTON = 2;
 
-    private List<HUDMod> initializeMods() {
-        List<HUDMod> modsList = Soar.getInstance().getModManager().getHUDMods();
-        Collections.reverse(modsList);
-        return modsList;
-    }
+	private final GuiScreen prevScreen;
+	private final List<HUDMod> mods;
+	private final int snappingDistance;
 
-    @Override
-    public void draw(int mouseX, int mouseY) {
-    	
-        NanoVGHelper nvg = NanoVGHelper.getInstance();
-        
-        selectedMod.ifPresent(mod -> 
-            nvg.setupAndDraw(() -> updateModPosition(mod, mouseX, mouseY))
-        );
+	private Optional<Pair<HUDMod, GrabOffset>> selectedMod;
+	private boolean snapping;
 
-        if (selectedMod.isEmpty()) {
-            handleMouseWheel(mouseX, mouseY);
-        }
-    }
+	public GuiEditHUD(GuiScreen prevScreen) {
+		this.prevScreen = prevScreen;
+		this.snappingDistance = 6;
+		this.mods = initializeMods();
+		this.selectedMod = Optional.empty();
+		HUDCore.isEditing = true;
+	}
 
-    private void updateModPosition(Pair<HUDMod, GrabOffset> mod, int mouseX, int mouseY) {
-        setHudPositions(mod, mouseX, mouseY, snapping, DEFAULT_LINE_WIDTH);
-    }
+	private List<HUDMod> initializeMods() {
+		List<HUDMod> modsList = Soar.getInstance().getModManager().getHUDMods();
+		Collections.reverse(modsList);
+		return modsList;
+	}
 
-    private void handleMouseWheel(int mouseX, int mouseY) {
-        int dWheel = Mouse.getDWheel();
-        if (dWheel == 0) return;
+	@Override
+	public void draw(int mouseX, int mouseY) {
 
-        getHoveredMod(mouseX, mouseY).ifPresent(mod -> {
-            Position position = mod.getPosition();
-            float newScale = calculateNewScale(position.getScale(), dWheel);
-            position.setScale(newScale);
-        });
-    }
+		NanoVGHelper nvg = NanoVGHelper.getInstance();
 
-    private float calculateNewScale(float currentScale, int wheelDelta) {
-        float change = wheelDelta > 0 ? SCALE_CHANGE_AMOUNT : -SCALE_CHANGE_AMOUNT;
-        float newScale = currentScale + change;
-        return Math.round(newScale * 10.0F) / 10.0F;
-    }
+		selectedMod.ifPresent(mod -> nvg.setupAndDraw(() -> updateModPosition(mod, mouseX, mouseY)));
 
-    @Override
-    public void mouseClicked(int mouseX, int mouseY, int mouseButton) {
-        if (mouseButton > MIDDLE_MOUSE_BUTTON) return;
+		if (selectedMod.isEmpty()) {
+			handleMouseWheel(mouseX, mouseY);
+		}
+	}
 
-        getHoveredMod(mouseX, mouseY).ifPresent(mod -> {
-            if (mouseButton == MIDDLE_MOUSE_BUTTON) {
-                mod.getPosition().setScale(1.0F);
-                return;
-            }
+	private void updateModPosition(Pair<HUDMod, GrabOffset> mod, int mouseX, int mouseY) {
+		setHudPositions(mod, mouseX, mouseY, snapping, DEFAULT_LINE_WIDTH);
+	}
 
-            GrabOffset offset = new GrabOffset(
-                mouseX - mod.getPosition().getX(),
-                mouseY - mod.getPosition().getY()
-            );
-            selectedMod = Optional.of(Pair.of(mod, offset));
-            snapping = mouseButton == 0;
-        });
-    }
+	private void handleMouseWheel(int mouseX, int mouseY) {
+		int dWheel = Mouse.getDWheel();
+		if (dWheel == 0)
+			return;
 
-    @Override
-    public void mouseReleased(int mouseX, int mouseY, int mouseButton) {
-        selectedMod = Optional.empty();
-    }
+		getHoveredMod(mouseX, mouseY).ifPresent(mod -> {
+			Position position = mod.getPosition();
+			float newScale = calculateNewScale(position.getScale(), dWheel);
+			position.setScale(newScale);
+		});
+	}
 
-    @Override
-    public void keyTyped(char typedChar, int keyCode) {
-        if (keyCode == Keyboard.KEY_ESCAPE) {
-            mc.displayGuiScreen(prevScreen);
-        }
-    }
+	private float calculateNewScale(float currentScale, int wheelDelta) {
+		float change = wheelDelta > 0 ? SCALE_CHANGE_AMOUNT : -SCALE_CHANGE_AMOUNT;
+		float newScale = currentScale + change;
+		return Math.round(newScale * 10.0F) / 10.0F;
+	}
 
-    @Override
-    public void onClosed() {
-        HUDCore.isEditing = false;
-    }
+	@Override
+	public void mouseClicked(int mouseX, int mouseY, int mouseButton) {
+		if (mouseButton > MIDDLE_MOUSE_BUTTON)
+			return;
 
-    private Optional<HUDMod> getHoveredMod(int mouseX, int mouseY) {
-        return mods.stream()
-            .filter(mod -> isModInteractable(mod) && isInside(mod, mouseX, mouseY))
-            .findFirst();
-    }
+		getHoveredMod(mouseX, mouseY).ifPresent(mod -> {
+			if (mouseButton == MIDDLE_MOUSE_BUTTON) {
+				mod.getPosition().setScale(1.0F);
+				return;
+			}
 
-    private boolean isModInteractable(HUDMod mod) {
-        return mod.isEnabled() && !mod.isHidden() && mod.isMovable();
-    }
+			GrabOffset offset = new GrabOffset(mouseX - mod.getPosition().getX(), mouseY - mod.getPosition().getY());
+			selectedMod = Optional.of(Pair.of(mod, offset));
+			snapping = mouseButton == 0;
+		});
+	}
 
-    private boolean isInside(HUDMod mod, int mouseX, int mouseY) {
-        Position pos = mod.getPosition();
-        return mouseX >= pos.getX() && mouseX <= pos.getRightX() &&
-               mouseY >= pos.getY() && mouseY <= pos.getBottomY();
-    }
+	@Override
+	public void mouseReleased(int mouseX, int mouseY, int mouseButton) {
+		selectedMod = Optional.empty();
+	}
 
-    private void setHudPositions(Pair<HUDMod, GrabOffset> modPair, int mouseX, int mouseY, boolean snap, float lineWidth) {
-        GrabOffset offset = modPair.getSecond();
-        Position position = modPair.getFirst().getPosition();
-        
-        float x = mouseX - offset.getX();
-        float y = mouseY - offset.getY();
+	@Override
+	public void keyTyped(char typedChar, int keyCode) {
+		if (keyCode == Keyboard.KEY_ESCAPE) {
+			mc.displayGuiScreen(prevScreen);
+		}
+	}
 
-        if (snap) {
-            x = getXSnapping(lineWidth, x, position.getWidth(), true);
-            y = getYSnapping(lineWidth, y, position.getHeight(), true);
-        }
+	@Override
+	public void onClosed() {
+		HUDCore.isEditing = false;
+	}
 
-        position.setPosition(x, y);
-    }
+	private Optional<HUDMod> getHoveredMod(int mouseX, int mouseY) {
+		return mods.stream().filter(mod -> isModInteractable(mod) && isInside(mod, mouseX, mouseY)).findFirst();
+	}
 
-    private float getXSnapping(float lineWidth, float x, float width, boolean multipleSides) {
-        return getSnappingPosition(
-            getXSnappingLines(),
-            x,
-            width,
-            multipleSides,
-            lineWidth,
-            true
-        );
-    }
+	private boolean isModInteractable(HUDMod mod) {
+		return mod.isEnabled() && !mod.isHidden() && mod.isMovable();
+	}
 
-    private float getYSnapping(float lineWidth, float y, float height, boolean multipleSides) {
-        return getSnappingPosition(
-            getYSnappingLines(),
-            y,
-            height,
-            multipleSides,
-            lineWidth,
-            false
-        );
-    }
+	private boolean isInside(HUDMod mod, int mouseX, int mouseY) {
+		Position pos = mod.getPosition();
+		return mouseX >= pos.getX() && mouseX <= pos.getRightX() && mouseY >= pos.getY() && mouseY <= pos.getBottomY();
+	}
 
-    private float getSnappingPosition(FloatArrayList lines, float position, float size, 
-                                    boolean multipleSides, float lineWidth, boolean isHorizontal) {
-        List<SnappingLine> snappingLines = findClosestSnappingLines(lines, position, size, multipleSides);
-        
-        if (snappingLines.isEmpty()) {
-            return position;
-        }
+	private void setHudPositions(Pair<HUDMod, GrabOffset> modPair, int mouseX, int mouseY, boolean snap,
+			float lineWidth) {
+		GrabOffset offset = modPair.getSecond();
+		Position position = modPair.getFirst().getPosition();
 
-        snappingLines.forEach(line -> line.drawLine(lineWidth, isHorizontal));
-        return snappingLines.get(0).getPosition();
-    }
+		float x = mouseX - offset.getX();
+		float y = mouseY - offset.getY();
 
-    private List<SnappingLine> findClosestSnappingLines(FloatArrayList lines, float position, 
-                                                       float size, boolean multipleSides) {
-        List<SnappingLine> snappingLines = new ArrayList<>();
-        float closest = snappingDistance;
+		if (snap) {
+			x = getXSnapping(lineWidth, x, position.getWidth(), true);
+			y = getYSnapping(lineWidth, y, position.getHeight(), true);
+		}
 
-        for (Float line : lines) {
-            SnappingLine snappingLine = new SnappingLine(line, position, size, multipleSides);
-            float distance = snappingLine.getDistance();
+		position.setPosition(x, y);
+	}
 
-            if (Math.round(distance) == Math.round(closest)) {
-                snappingLines.add(snappingLine);
-            } else if (distance < closest) {
-                closest = distance;
-                snappingLines.clear();
-                snappingLines.add(snappingLine);
-            }
-        }
+	private float getXSnapping(float lineWidth, float x, float width, boolean multipleSides) {
+		return getSnappingPosition(getXSnappingLines(), x, width, multipleSides, lineWidth, true);
+	}
 
-        return snappingLines;
-    }
+	private float getYSnapping(float lineWidth, float y, float height, boolean multipleSides) {
+		return getSnappingPosition(getYSnappingLines(), y, height, multipleSides, lineWidth, false);
+	}
 
-    private FloatArrayList getXSnappingLines() {
-        return getSnappingLines(true);
-    }
+	private float getSnappingPosition(FloatArrayList lines, float position, float size, boolean multipleSides,
+			float lineWidth, boolean isHorizontal) {
+		List<SnappingLine> snappingLines = findClosestSnappingLines(lines, position, size, multipleSides);
 
-    private FloatArrayList getYSnappingLines() {
-        return getSnappingLines(false);
-    }
+		if (snappingLines.isEmpty()) {
+			return position;
+		}
 
-    private FloatArrayList getSnappingLines(boolean isHorizontal) {
-    	
-        FloatArrayList lines = new FloatArrayList();
-        ScaledResolution resolution = new ScaledResolution(mc);
-        
-        lines.add(isHorizontal ? 
-            resolution.getScaledWidth() / 2F : 
-            resolution.getScaledHeight() / 2F
-        );
+		snappingLines.forEach(line -> line.drawLine(lineWidth, isHorizontal));
+		return snappingLines.get(0).getPosition();
+	}
 
-        mods.stream()
-            .filter(mod -> isModInteractable(mod) && 
-                          !selectedMod.map(pair -> pair.getFirst().equals(mod))
-                                    .orElse(false))
-            .forEach(mod -> {
-                Position p = mod.getPosition();
-                if (isHorizontal) {
-                    lines.add(p.getX());
-                    lines.add(p.getCenterX());
-                    lines.add(p.getRightX());
-                } else {
-                    lines.add(p.getY());
-                    lines.add(p.getCenterY());
-                    lines.add(p.getBottomY());
-                }
-            });
+	private List<SnappingLine> findClosestSnappingLines(FloatArrayList lines, float position, float size,
+			boolean multipleSides) {
+		List<SnappingLine> snappingLines = new ArrayList<>();
+		float closest = snappingDistance;
 
-        return lines;
-    }
+		for (Float line : lines) {
+			SnappingLine snappingLine = new SnappingLine(line, position, size, multipleSides);
+			float distance = snappingLine.getDistance();
+
+			if (Math.round(distance) == Math.round(closest)) {
+				snappingLines.add(snappingLine);
+			} else if (distance < closest) {
+				closest = distance;
+				snappingLines.clear();
+				snappingLines.add(snappingLine);
+			}
+		}
+
+		return snappingLines;
+	}
+
+	private FloatArrayList getXSnappingLines() {
+		return getSnappingLines(true);
+	}
+
+	private FloatArrayList getYSnappingLines() {
+		return getSnappingLines(false);
+	}
+
+	private FloatArrayList getSnappingLines(boolean isHorizontal) {
+
+		FloatArrayList lines = new FloatArrayList();
+		ScaledResolution resolution = new ScaledResolution(mc);
+
+		lines.add(isHorizontal ? resolution.getScaledWidth() / 2F : resolution.getScaledHeight() / 2F);
+
+		mods.stream().filter(
+				mod -> isModInteractable(mod) && !selectedMod.map(pair -> pair.getFirst().equals(mod)).orElse(false))
+				.forEach(mod -> {
+					Position p = mod.getPosition();
+					if (isHorizontal) {
+						lines.add(p.getX());
+						lines.add(p.getCenterX());
+						lines.add(p.getRightX());
+					} else {
+						lines.add(p.getY());
+						lines.add(p.getCenterY());
+						lines.add(p.getBottomY());
+					}
+				});
+
+		return lines;
+	}
 }

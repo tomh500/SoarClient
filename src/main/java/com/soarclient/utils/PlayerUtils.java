@@ -26,7 +26,7 @@ import net.minecraft.world.WorldSettings;
 public class PlayerUtils {
 
 	private static Minecraft mc = Minecraft.getMinecraft();
-	
+
 	public static Int2FloatMap MODIFIER_BY_TICK = new Int2FloatOpenHashMap();
 
 	static {
@@ -276,7 +276,7 @@ public class PlayerUtils {
 
 		return 0;
 	}
-	
+
 	public static int getPotionsFromInventory(Potion inputPotion) {
 
 		int count = 0;
@@ -307,7 +307,7 @@ public class PlayerUtils {
 
 		return count;
 	}
-	
+
 	public static boolean isSpectator() {
 		NetworkPlayerInfo networkplayerinfo = mc.getNetHandler().getPlayerInfo(mc.thePlayer.getGameProfile().getId());
 		return networkplayerinfo != null && networkplayerinfo.getGameType() == WorldSettings.GameType.SPECTATOR;

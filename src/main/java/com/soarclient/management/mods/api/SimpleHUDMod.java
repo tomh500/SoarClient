@@ -18,7 +18,7 @@ public abstract class SimpleHUDMod extends HUDMod {
 
 	@EventHandler
 	public void onRenderGameOverlay(RenderGameOverlayEvent event) {
-		
+
 		float padding = 5;
 		float iconPadding = 3;
 		float fontSize = 9;
@@ -27,18 +27,18 @@ public abstract class SimpleHUDMod extends HUDMod {
 		float addX = hasIcon ? iconSize + iconPadding : 0;
 		float width = renderer.getTextWidth(getText(), fontSize, Fonts.REGULAR) + (padding * 2) + addX;
 		float height = fontSize + (padding * 2) - 1.5F;
-		
+
 		NanoVGHelper.getInstance().setupAndDraw(() -> {
-			
+
 			renderer.drawBackground(width, height);
-			
-			if(hasIcon) {
+
+			if (hasIcon) {
 				renderer.drawText(getIcon(), padding, padding - 0.5F, iconSize, Fonts.ICON);
 			}
-			
+
 			renderer.drawText(getText(), padding + addX, padding, fontSize, Fonts.REGULAR);
 		});
-		
+
 		position.setSize(width, height);
 	}
 

@@ -1421,6 +1421,7 @@ public class Minecraft implements IThreadListener {
 			}
 		}
 	}
+
 	/**
 	 * Called when user clicked he's mouse right button (place)
 	 */
@@ -1566,9 +1567,9 @@ public class Minecraft implements IThreadListener {
 	 * Runs the current tick.
 	 */
 	public void runTick() throws IOException {
-		
+
 		EventBus.getInstance().post(new PreClientTickEvent());
-		
+
 		if (this.rightClickDelayTimer > 0) {
 			--this.rightClickDelayTimer;
 		}

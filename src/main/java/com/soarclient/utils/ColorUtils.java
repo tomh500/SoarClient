@@ -22,7 +22,7 @@ public class ColorUtils {
 	public static void setColor(Color color) {
 		setColor(color, color.getAlpha() / 255F);
 	}
-	
+
 	public static Color getColorFromInt(int color) {
 
 		float r = (float) (color >> 16 & 255) / 255.0F;
@@ -32,18 +32,18 @@ public class ColorUtils {
 
 		return new Color(r, g, b, a);
 	}
-	
-    public static Color blend(Color color1, Color color2, double ratio) {
-        float r = (float)ratio;
-        float ir = 1.0f - r;
-        float[] rgb1 = new float[3];
-        float[] rgb2 = new float[3];
-        color1.getColorComponents(rgb1);
-        color2.getColorComponents(rgb2);
-        Color color = new Color(rgb1[0] * r + rgb2[0] * ir, rgb1[1] * r + rgb2[1] * ir, rgb1[2] * r + rgb2[2] * ir);
-        return color;
-    }
-    
+
+	public static Color blend(Color color1, Color color2, double ratio) {
+		float r = (float) ratio;
+		float ir = 1.0f - r;
+		float[] rgb1 = new float[3];
+		float[] rgb2 = new float[3];
+		color1.getColorComponents(rgb1);
+		color2.getColorComponents(rgb2);
+		Color color = new Color(rgb1[0] * r + rgb2[0] * ir, rgb1[1] * r + rgb2[1] * ir, rgb1[2] * r + rgb2[2] * ir);
+		return color;
+	}
+
 	public static String removeColorCode(String text) {
 		return Pattern.compile("\\u00a7[0-9a-fklmnor]").matcher(text).replaceAll("");
 	}

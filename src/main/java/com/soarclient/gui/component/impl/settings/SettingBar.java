@@ -82,12 +82,12 @@ public class SettingBar extends Component {
 
 			component = slider;
 		}
-		
+
 		if (setting instanceof ComboSetting) {
-			
+
 			ComboSetting cSetting = (ComboSetting) setting;
 			ComboButton button = new ComboButton(0, 0, cSetting.getOptions(), cSetting.getOption());
-			
+
 			button.setHandler(new ComboButtonHandler() {
 
 				@Override
@@ -95,15 +95,15 @@ public class SettingBar extends Component {
 					cSetting.setOption(option);
 				}
 			});
-			
+
 			component = button;
 		}
-		
+
 		if (setting instanceof KeybindSetting) {
-			
+
 			KeybindSetting kSetting = (KeybindSetting) setting;
 			Keybind bind = new Keybind(0, 0, kSetting.getKeyCode());
-			
+
 			bind.setHandler(new KeybindHandler() {
 
 				@Override
@@ -111,15 +111,15 @@ public class SettingBar extends Component {
 					kSetting.setKeyCode(keyCode);
 				}
 			});
-			
+
 			component = bind;
 		}
-		
-		if(setting instanceof HctColorSetting) {
-			
+
+		if (setting instanceof HctColorSetting) {
+
 			HctColorSetting hSetting = (HctColorSetting) setting;
 			HctColorPicker picker = new HctColorPicker(0, 0, hSetting.getHct());
-			
+
 			picker.setHandler(new HctColorPickerHandler() {
 
 				@Override
@@ -127,7 +127,7 @@ public class SettingBar extends Component {
 					hSetting.setHct(hct);
 				}
 			});
-			
+
 			component = picker;
 		}
 	}
@@ -138,11 +138,11 @@ public class SettingBar extends Component {
 		NanoVGHelper nvg = NanoVGHelper.getInstance();
 		ColorPalette palette = Soar.getInstance().getColorManager().getPalette();
 
-		if(component != null) {
+		if (component != null) {
 			component.setX(x + width - component.getWidth() - 22);
 			component.setY(y + (height - component.getHeight()) / 2);
 		}
-		
+
 		nvg.drawRoundedRect(x, y, width, height, 18, palette.getSurface());
 		nvg.drawText(icon, x + 20, y + 21, palette.getOnSurface(), 32, Fonts.ICON);
 		nvg.drawText(I18n.get(title), x + 58, y + 19, palette.getOnSurface(), 18, Fonts.REGULAR);

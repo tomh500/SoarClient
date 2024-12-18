@@ -56,4 +56,3 @@ public class ComboSetting extends Setting {
 		return false;
 	}
 }
-

@@ -11,7 +11,7 @@ import net.minecraft.client.Minecraft;
 public class SoarHandler {
 
 	private Minecraft mc = Minecraft.getMinecraft();
-	
+
 	@EventHandler
 	public void onClickMouse(MouseClickEvent event) {
 		if (mc.gameSettings.keyBindTogglePerspective.isPressed()) {
@@ -19,7 +19,7 @@ public class SoarHandler {
 			mc.renderGlobal.setDisplayListEntitiesDirty();
 		}
 	}
-	
+
 	@EventHandler
 	public void onClientTick(ClientTickEvent event) {
 		Soar.getInstance().getColorManager().onTick();

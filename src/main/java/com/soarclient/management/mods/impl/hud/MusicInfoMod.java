@@ -119,13 +119,13 @@ public class MusicInfoMod extends SimpleHUDMod {
 		ScaledResolution sr = new ScaledResolution(mc);
 		MusicManager musicManager = Soar.getInstance().getMusicManager();
 		Music m = musicManager.getCurrentMusic();
-		
+
 		if (m != lastMusic && !isProcessingImage) {
 			processNewImage(m);
 		}
-		
+
 		int offsetX = 0;
-		
+
 		if (musicManager.isPlaying()) {
 
 			for (int i = 0; i < MusicPlayer.SPECTRUM_BANDS; i++) {
@@ -137,7 +137,7 @@ public class MusicInfoMod extends SimpleHUDMod {
 				offsetX += 10;
 			}
 		}
-		
+
 		if (processedImage != null) {
 			imageColor = ImageUtils.calculateAverageColor(processedImage);
 			processedImage = null;
