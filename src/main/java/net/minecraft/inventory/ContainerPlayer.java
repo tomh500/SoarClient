@@ -10,11 +10,8 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.CraftingManager;
 
 public class ContainerPlayer extends Container {
-	/** The crafting matrix inventory. */
 	public InventoryCrafting craftMatrix = new InventoryCrafting(this, 2, 2);
 	public IInventory craftResult = new InventoryCraftResult();
-
-	/** Determines if inventory manipulation should be handled. */
 	public boolean isLocalWorld;
 	private final EntityPlayer thePlayer;
 
@@ -65,17 +62,11 @@ public class ContainerPlayer extends Container {
 		this.onCraftMatrixChanged(this.craftMatrix);
 	}
 
-	/**
-	 * Callback for when the crafting matrix is changed.
-	 */
 	public void onCraftMatrixChanged(IInventory inventoryIn) {
 		this.craftResult.setInventorySlotContents(0,
 				CraftingManager.getInstance().findMatchingRecipe(this.craftMatrix, this.thePlayer.worldObj));
 	}
 
-	/**
-	 * Called when the container is closed.
-	 */
 	public void onContainerClosed(EntityPlayer playerIn) {
 		super.onContainerClosed(playerIn);
 
@@ -94,9 +85,6 @@ public class ContainerPlayer extends Container {
 		return true;
 	}
 
-	/**
-	 * Take a stack from the specified inventory slot.
-	 */
 	public ItemStack transferStackInSlot(EntityPlayer playerIn, int index) {
 		ItemStack itemstack = null;
 		Slot slot = (Slot) this.inventorySlots.get(index);
@@ -155,11 +143,6 @@ public class ContainerPlayer extends Container {
 		return itemstack;
 	}
 
-	/**
-	 * Called to determine if the current slot is valid for the stack merging
-	 * (double-click) code. The stack passed in is null for the initial slot that
-	 * was double-clicked.
-	 */
 	public boolean canMergeSlot(ItemStack stack, Slot slotIn) {
 		return slotIn.inventory != this.craftResult && super.canMergeSlot(stack, slotIn);
 	}

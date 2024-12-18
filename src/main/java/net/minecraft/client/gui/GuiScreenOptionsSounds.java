@@ -13,8 +13,6 @@ import net.minecraft.util.ResourceLocation;
 
 public class GuiScreenOptionsSounds extends GuiScreen {
 	private final GuiScreen field_146505_f;
-
-	/** Reference to the GameSettings object. */
 	private final GameSettings game_settings_4;
 	protected String field_146507_a = "Options";
 	private String field_146508_h;
@@ -24,11 +22,6 @@ public class GuiScreenOptionsSounds extends GuiScreen {
 		this.game_settings_4 = p_i45025_2_;
 	}
 
-	/**
-	 * Adds the buttons (and other controls) to the screen in question. Called when
-	 * the GUI is displayed and when the window resizes, the buttonList is cleared
-	 * beforehand.
-	 */
 	public void initGui() {
 		int i = 0;
 		this.field_146507_a = I18n.format("options.sounds.title", new Object[0]);
@@ -50,10 +43,6 @@ public class GuiScreenOptionsSounds extends GuiScreen {
 				I18n.format("gui.done", new Object[0])));
 	}
 
-	/**
-	 * Called by the controls from the buttonList when activated. (Mouse pressed for
-	 * buttons)
-	 */
 	protected void actionPerformed(GuiButton button) throws IOException {
 		if (button.enabled) {
 			if (button.id == 200) {
@@ -63,10 +52,6 @@ public class GuiScreenOptionsSounds extends GuiScreen {
 		}
 	}
 
-	/**
-	 * Draws the screen and all the components in it. Args : mouseX, mouseY,
-	 * renderPartialTicks
-	 */
 	public void drawScreen(int mouseX, int mouseY, float partialTicks) {
 		this.drawDefaultBackground();
 		this.drawCenteredString(this.fontRendererObj, this.field_146507_a, this.width / 2, 15, 16777215);

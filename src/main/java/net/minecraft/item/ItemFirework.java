@@ -12,9 +12,6 @@ import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
 
 public class ItemFirework extends Item {
-	/**
-	 * Called when a Block is right-clicked with this Item
-	 */
 	public boolean onItemUse(ItemStack stack, EntityPlayer playerIn, World worldIn, BlockPos pos, EnumFacing side,
 			float hitX, float hitY, float hitZ) {
 		if (!worldIn.isRemote) {
@@ -33,9 +30,6 @@ public class ItemFirework extends Item {
 		}
 	}
 
-	/**
-	 * allows items to add custom lines of information to the mouseover description
-	 */
 	public void addInformation(ItemStack stack, EntityPlayer playerIn, List<String> tooltip, boolean advanced) {
 		if (stack.hasTagCompound()) {
 			NBTTagCompound nbttagcompound = stack.getTagCompound().getCompoundTag("Fireworks");

@@ -46,9 +46,6 @@ public class GuiKeyBindingList extends GuiListExtended {
 		return this.listEntries.length;
 	}
 
-	/**
-	 * Gets the IGuiListEntry object for the given index
-	 */
 	public GuiListExtended.IGuiListEntry getListEntry(int index) {
 		return this.listEntries[index];
 	}
@@ -57,9 +54,6 @@ public class GuiKeyBindingList extends GuiListExtended {
 		return super.getScrollBarX() + 15;
 	}
 
-	/**
-	 * Gets the width of the list
-	 */
 	public int getListWidth() {
 		return super.getListWidth() + 32;
 	}

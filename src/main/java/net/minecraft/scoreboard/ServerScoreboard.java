@@ -46,9 +46,6 @@ public class ServerScoreboard extends Scoreboard {
 		this.markSaveDataDirty();
 	}
 
-	/**
-	 * 0 is tab menu, 1 is sidebar, 2 is below name
-	 */
 	public void setObjectiveInDisplaySlot(int p_96530_1_, ScoreObjective p_96530_2_) {
 		ScoreObjective scoreobjective = this.getObjectiveInDisplaySlot(p_96530_1_);
 		super.setObjectiveInDisplaySlot(p_96530_1_, p_96530_2_);
@@ -74,9 +71,6 @@ public class ServerScoreboard extends Scoreboard {
 		this.markSaveDataDirty();
 	}
 
-	/**
-	 * Adds a player to the given team
-	 */
 	public boolean addPlayerToTeam(String player, String newTeam) {
 		if (super.addPlayerToTeam(player, newTeam)) {
 			ScorePlayerTeam scoreplayerteam = this.getTeam(newTeam);
@@ -89,10 +83,6 @@ public class ServerScoreboard extends Scoreboard {
 		}
 	}
 
-	/**
-	 * Removes the given username from the given ScorePlayerTeam. If the player is
-	 * not on the team then an IllegalStateException is thrown.
-	 */
 	public void removePlayerFromTeam(String p_96512_1_, ScorePlayerTeam p_96512_2_) {
 		super.removePlayerFromTeam(p_96512_1_, p_96512_2_);
 		this.scoreboardMCServer.getConfigurationManager()
@@ -100,9 +90,6 @@ public class ServerScoreboard extends Scoreboard {
 		this.markSaveDataDirty();
 	}
 
-	/**
-	 * Called when a score objective is added
-	 */
 	public void onScoreObjectiveAdded(ScoreObjective scoreObjectiveIn) {
 		super.onScoreObjectiveAdded(scoreObjectiveIn);
 		this.markSaveDataDirty();
@@ -129,19 +116,12 @@ public class ServerScoreboard extends Scoreboard {
 		this.markSaveDataDirty();
 	}
 
-	/**
-	 * This packet will notify the players that this team is created, and that will
-	 * register it on the client
-	 */
 	public void broadcastTeamCreated(ScorePlayerTeam playerTeam) {
 		super.broadcastTeamCreated(playerTeam);
 		this.scoreboardMCServer.getConfigurationManager().sendPacketToAllPlayers(new S3EPacketTeams(playerTeam, 0));
 		this.markSaveDataDirty();
 	}
 
-	/**
-	 * This packet will notify the players that this team is updated
-	 */
 	public void sendTeamUpdate(ScorePlayerTeam playerTeam) {
 		super.sendTeamUpdate(playerTeam);
 		this.scoreboardMCServer.getConfigurationManager().sendPacketToAllPlayers(new S3EPacketTeams(playerTeam, 2));

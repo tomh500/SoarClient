@@ -39,17 +39,11 @@ public class GameRules {
 		}
 	}
 
-	/**
-	 * Gets the string Game Rule value.
-	 */
 	public String getString(String name) {
 		GameRules.Value gamerules$value = (GameRules.Value) this.theGameRules.get(name);
 		return gamerules$value != null ? gamerules$value.getString() : "";
 	}
 
-	/**
-	 * Gets the boolean Game Rule value.
-	 */
 	public boolean getBoolean(String name) {
 		GameRules.Value gamerules$value = (GameRules.Value) this.theGameRules.get(name);
 		return gamerules$value != null ? gamerules$value.getBoolean() : false;
@@ -60,9 +54,6 @@ public class GameRules {
 		return gamerules$value != null ? gamerules$value.getInt() : 0;
 	}
 
-	/**
-	 * Return the defined game rules as NBT.
-	 */
 	public NBTTagCompound writeToNBT() {
 		NBTTagCompound nbttagcompound = new NBTTagCompound();
 
@@ -74,9 +65,6 @@ public class GameRules {
 		return nbttagcompound;
 	}
 
-	/**
-	 * Set defined game rules from NBT.
-	 */
 	public void readFromNBT(NBTTagCompound nbt) {
 		for (String s : nbt.getKeySet()) {
 			String s1 = nbt.getString(s);
@@ -84,17 +72,11 @@ public class GameRules {
 		}
 	}
 
-	/**
-	 * Return the defined game rules.
-	 */
 	public String[] getRules() {
 		Set<String> set = this.theGameRules.keySet();
-		return (String[]) set.toArray(new String[set.size()]);
+		return (String[]) ((String[]) set.toArray(new String[set.size()]));
 	}
 
-	/**
-	 * Return whether the specified game rule is defined.
-	 */
 	public boolean hasRule(String name) {
 		return this.theGameRules.containsKey(name);
 	}
@@ -119,6 +101,19 @@ public class GameRules {
 
 		public void setValue(String value) {
 			this.valueString = value;
+
+			if (value != null) {
+				if (value.equals("false")) {
+					this.valueBoolean = false;
+					return;
+				}
+
+				if (value.equals("true")) {
+					this.valueBoolean = true;
+					return;
+				}
+			}
+
 			this.valueBoolean = Boolean.parseBoolean(value);
 			this.valueInteger = this.valueBoolean ? 1 : 0;
 

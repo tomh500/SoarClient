@@ -23,9 +23,6 @@ public class S24PacketBlockAction implements Packet<INetHandlerPlayClient> {
 		this.block = blockIn;
 	}
 
-	/**
-	 * Reads the raw packet data from the data stream.
-	 */
 	public void readPacketData(PacketBuffer buf) throws IOException {
 		this.blockPosition = buf.readBlockPos();
 		this.instrument = buf.readUnsignedByte();
@@ -33,9 +30,6 @@ public class S24PacketBlockAction implements Packet<INetHandlerPlayClient> {
 		this.block = Block.getBlockById(buf.readVarIntFromBuffer() & 4095);
 	}
 
-	/**
-	 * Writes the raw packet data to the data stream.
-	 */
 	public void writePacketData(PacketBuffer buf) throws IOException {
 		buf.writeBlockPos(this.blockPosition);
 		buf.writeByte(this.instrument);
@@ -43,9 +37,6 @@ public class S24PacketBlockAction implements Packet<INetHandlerPlayClient> {
 		buf.writeVarIntToBuffer(Block.getIdFromBlock(this.block) & 4095);
 	}
 
-	/**
-	 * Passes this Packet on to the NetHandler for processing.
-	 */
 	public void processPacket(INetHandlerPlayClient handler) {
 		handler.handleBlockAction(this);
 	}
@@ -54,16 +45,10 @@ public class S24PacketBlockAction implements Packet<INetHandlerPlayClient> {
 		return this.blockPosition;
 	}
 
-	/**
-	 * instrument data for noteblocks
-	 */
 	public int getData1() {
 		return this.instrument;
 	}
 
-	/**
-	 * pitch data for noteblocks
-	 */
 	public int getData2() {
 		return this.pitch;
 	}

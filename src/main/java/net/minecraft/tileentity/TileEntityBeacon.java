@@ -28,30 +28,18 @@ import net.minecraft.util.BlockPos;
 import net.minecraft.util.ITickable;
 
 public class TileEntityBeacon extends TileEntityLockable implements ITickable, IInventory {
-	/** List of effects that Beacon can apply */
 	public static final Potion[][] effectsList = new Potion[][] { { Potion.moveSpeed, Potion.digSpeed },
 			{ Potion.resistance, Potion.jump }, { Potion.damageBoost }, { Potion.regeneration } };
 	private final List<TileEntityBeacon.BeamSegment> beamSegments = Lists.<TileEntityBeacon.BeamSegment>newArrayList();
 	private long beamRenderCounter;
 	private float field_146014_j;
 	private boolean isComplete;
-
-	/** Level of this beacon's pyramid. */
 	private int levels = -1;
-
-	/** Primary potion effect given by this beacon. */
 	private int primaryEffect;
-
-	/** Secondary potion effect given by this beacon. */
 	private int secondaryEffect;
-
-	/** Item given to this beacon as payment. */
 	private ItemStack payment;
 	private String customName;
 
-	/**
-	 * Like the old updateEntity(), except more generic.
-	 */
 	public void update() {
 		if (this.worldObj.getTotalWorldTime() % 80L == 0L) {
 			this.updateBeacon();
@@ -214,11 +202,6 @@ public class TileEntityBeacon extends TileEntityLockable implements ITickable, I
 		}
 	}
 
-	/**
-	 * Allows for a specialized description packet to be created. This is often used
-	 * to sync tile entity data from the server to the client easily. For example
-	 * this is used by signs to synchronise the text to be displayed.
-	 */
 	public Packet getDescriptionPacket() {
 		NBTTagCompound nbttagcompound = new NBTTagCompound();
 		this.writeToNBT(nbttagcompound);
@@ -254,24 +237,14 @@ public class TileEntityBeacon extends TileEntityLockable implements ITickable, I
 		compound.setInteger("Levels", this.levels);
 	}
 
-	/**
-	 * Returns the number of slots in the inventory.
-	 */
 	public int getSizeInventory() {
 		return 1;
 	}
 
-	/**
-	 * Returns the stack in the given slot.
-	 */
 	public ItemStack getStackInSlot(int index) {
 		return index == 0 ? this.payment : null;
 	}
 
-	/**
-	 * Removes up to a specified number of items from an inventory slot and returns
-	 * them in a new stack.
-	 */
 	public ItemStack decrStackSize(int index, int count) {
 		if (index == 0 && this.payment != null) {
 			if (count >= this.payment.stackSize) {
@@ -287,9 +260,6 @@ public class TileEntityBeacon extends TileEntityLockable implements ITickable, I
 		}
 	}
 
-	/**
-	 * Removes a stack from the given slot and returns it.
-	 */
 	public ItemStack removeStackFromSlot(int index) {
 		if (index == 0 && this.payment != null) {
 			ItemStack itemstack = this.payment;
@@ -300,26 +270,16 @@ public class TileEntityBeacon extends TileEntityLockable implements ITickable, I
 		}
 	}
 
-	/**
-	 * Sets the given item stack to the specified slot in the inventory (can be
-	 * crafting or armor sections).
-	 */
 	public void setInventorySlotContents(int index, ItemStack stack) {
 		if (index == 0) {
 			this.payment = stack;
 		}
 	}
 
-	/**
-	 * Get the name of this object. For players this returns their username
-	 */
 	public String getName() {
 		return this.hasCustomName() ? this.customName : "container.beacon";
 	}
 
-	/**
-	 * Returns true if this thing is named
-	 */
 	public boolean hasCustomName() {
 		return this.customName != null && this.customName.length() > 0;
 	}
@@ -328,18 +288,10 @@ public class TileEntityBeacon extends TileEntityLockable implements ITickable, I
 		this.customName = name;
 	}
 
-	/**
-	 * Returns the maximum stack size for a inventory slot. Seems to always be 64,
-	 * possibly will be extended.
-	 */
 	public int getInventoryStackLimit() {
 		return 1;
 	}
 
-	/**
-	 * Do not make give this method the name canInteractWith because it clashes with
-	 * Container
-	 */
 	public boolean isUseableByPlayer(EntityPlayer player) {
 		return this.worldObj.getTileEntity(this.pos) != this ? false
 				: player.getDistanceSq((double) this.pos.getX() + 0.5D, (double) this.pos.getY() + 0.5D,
@@ -352,10 +304,6 @@ public class TileEntityBeacon extends TileEntityLockable implements ITickable, I
 	public void closeInventory(EntityPlayer player) {
 	}
 
-	/**
-	 * Returns true if automation is allowed to insert the given stack (ignoring
-	 * stack size) into the given slot.
-	 */
 	public boolean isItemValidForSlot(int index, ItemStack stack) {
 		return stack.getItem() == Items.emerald || stack.getItem() == Items.diamond
 				|| stack.getItem() == Items.gold_ingot || stack.getItem() == Items.iron_ingot;

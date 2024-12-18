@@ -5,7 +5,6 @@ import java.io.DataOutput;
 import java.io.IOException;
 
 public class NBTTagInt extends NBTBase.NBTPrimitive {
-	/** The integer value for the tag. */
 	private int data;
 
 	NBTTagInt() {
@@ -15,10 +14,6 @@ public class NBTTagInt extends NBTBase.NBTPrimitive {
 		this.data = data;
 	}
 
-	/**
-	 * Write the actual data contents of the tag, implemented in NBT extension
-	 * classes
-	 */
 	void write(DataOutput output) throws IOException {
 		output.writeInt(this.data);
 	}
@@ -28,9 +23,6 @@ public class NBTTagInt extends NBTBase.NBTPrimitive {
 		this.data = input.readInt();
 	}
 
-	/**
-	 * Gets the type byte for the tag.
-	 */
 	public byte getId() {
 		return (byte) 3;
 	}
@@ -39,9 +31,6 @@ public class NBTTagInt extends NBTBase.NBTPrimitive {
 		return "" + this.data;
 	}
 
-	/**
-	 * Creates a clone of the tag.
-	 */
 	public NBTBase copy() {
 		return new NBTTagInt(this.data);
 	}

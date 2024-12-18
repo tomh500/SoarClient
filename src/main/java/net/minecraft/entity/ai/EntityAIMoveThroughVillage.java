@@ -14,8 +14,6 @@ import net.minecraft.village.VillageDoorInfo;
 public class EntityAIMoveThroughVillage extends EntityAIBase {
 	private EntityCreature theEntity;
 	private double movementSpeed;
-
-	/** The PathNavigate of our entity. */
 	private PathEntity entityPathNavigate;
 	private VillageDoorInfo doorInfo;
 	private boolean isNocturnal;
@@ -32,9 +30,6 @@ public class EntityAIMoveThroughVillage extends EntityAIBase {
 		}
 	}
 
-	/**
-	 * Returns whether the EntityAIBase should begin execution.
-	 */
 	public boolean shouldExecute() {
 		this.resizeDoorList();
 
@@ -81,9 +76,6 @@ public class EntityAIMoveThroughVillage extends EntityAIBase {
 		}
 	}
 
-	/**
-	 * Returns whether an in-progress EntityAIBase should continue executing
-	 */
 	public boolean continueExecuting() {
 		if (this.theEntity.getNavigator().noPath()) {
 			return false;
@@ -93,16 +85,10 @@ public class EntityAIMoveThroughVillage extends EntityAIBase {
 		}
 	}
 
-	/**
-	 * Execute a one shot task or start executing a continuous task
-	 */
 	public void startExecuting() {
 		this.theEntity.getNavigator().setPath(this.entityPathNavigate, this.movementSpeed);
 	}
 
-	/**
-	 * Resets the task
-	 */
 	public void resetTask() {
 		if (this.theEntity.getNavigator().noPath()
 				|| this.theEntity.getDistanceSq(this.doorInfo.getDoorBlockPos()) < 16.0D) {

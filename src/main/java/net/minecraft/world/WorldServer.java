@@ -80,17 +80,9 @@ public class WorldServer extends World implements IThreadListener {
 	private final TreeSet<NextTickListEntry> pendingTickListEntriesTreeSet = new TreeSet();
 	private final Map<UUID, Entity> entitiesByUuid = Maps.<UUID, Entity>newHashMap();
 	public ChunkProviderServer theChunkProviderServer;
-
-	/** Whether level saving is disabled or not */
 	public boolean disableLevelSaving;
-
-	/** is false if there are no players */
 	private boolean allPlayersSleeping;
 	private int updateEntityTick;
-
-	/**
-	 * the teleporter to use when the entity is being transferred into the dimension
-	 */
 	private final Teleporter worldTeleporter;
 	private final SpawnerAnimals mobSpawner = new SpawnerAnimals();
 	protected final VillageSiege villageSiege = new VillageSiege(this);
@@ -164,9 +156,6 @@ public class WorldServer extends World implements IThreadListener {
 		return this;
 	}
 
-	/**
-	 * Runs a single tick for the world
-	 */
 	public void tick() {
 		super.tick();
 
@@ -235,10 +224,6 @@ public class WorldServer extends World implements IThreadListener {
 		return list != null && !list.isEmpty() ? list.contains(spawnListEntry) : false;
 	}
 
-	/**
-	 * Updates the flag that indicates whether or not all players in the world are
-	 * sleeping.
-	 */
 	public void updateAllPlayersSleepingFlag() {
 		this.allPlayersSleeping = false;
 
@@ -291,10 +276,6 @@ public class WorldServer extends World implements IThreadListener {
 		}
 	}
 
-	/**
-	 * Sets a new spawn location by finding an uncovered block at a random (x,z)
-	 * location in the chunk.
-	 */
 	public void setInitialSpawnLocation() {
 		if (this.worldInfo.getSpawnY() <= 0) {
 			this.worldInfo.setSpawnY(this.getSeaLevel() + 1);
@@ -480,9 +461,6 @@ public class WorldServer extends World implements IThreadListener {
 		}
 	}
 
-	/**
-	 * Updates (and cleans up) entities and tile entities
-	 */
 	public void updateEntities() {
 		if (this.playerEntities.isEmpty()) {
 			if (this.updateEntityTick++ >= 1200) {
@@ -495,16 +473,10 @@ public class WorldServer extends World implements IThreadListener {
 		super.updateEntities();
 	}
 
-	/**
-	 * Resets the updateEntityTick field to 0
-	 */
 	public void resetUpdateEntityTick() {
 		this.updateEntityTick = 0;
 	}
 
-	/**
-	 * Runs through the list of updates to run and ticks them
-	 */
 	public boolean tickUpdates(boolean p_72955_1_) {
 		if (this.worldInfo.getTerrainType() == WorldType.DEBUG_WORLD) {
 			return false;
@@ -617,10 +589,6 @@ public class WorldServer extends World implements IThreadListener {
 		return list;
 	}
 
-	/**
-	 * Will update the entity in the world if the chunk the entity is in is
-	 * currently loaded or its forced to update. Args: entity, forceUpdate
-	 */
 	public void updateEntityWithOptionalForce(Entity entityIn, boolean forceUpdate) {
 		if (!this.canSpawnAnimals() && (entityIn instanceof EntityAnimal || entityIn instanceof EntityWaterMob)) {
 			entityIn.setDead();
@@ -641,10 +609,6 @@ public class WorldServer extends World implements IThreadListener {
 		return this.mcServer.getCanSpawnAnimals();
 	}
 
-	/**
-	 * Creates the chunk provider for this world. Called in the constructor.
-	 * Retrieves provider from worldProvider?
-	 */
 	protected IChunkProvider createChunkProvider() {
 		IChunkLoader ichunkloader = this.saveHandler.getChunkLoader(this.provider);
 		this.theChunkProviderServer = new ChunkProviderServer(this, ichunkloader, this.provider.createChunkGenerator());
@@ -711,9 +675,6 @@ public class WorldServer extends World implements IThreadListener {
 		this.getGameRules().setOrCreateGameRule("doDaylightCycle", "false");
 	}
 
-	/**
-	 * creates a spawn position at random within 256 blocks of 0,0
-	 */
 	private void createSpawnPosition(WorldSettings settings) {
 		if (!this.provider.canRespawnHere()) {
 			this.worldInfo.setSpawn(BlockPos.ORIGIN.up(this.provider.getAverageGroundLevel()));
@@ -757,9 +718,6 @@ public class WorldServer extends World implements IThreadListener {
 		}
 	}
 
-	/**
-	 * Creates the bonus chest in the world.
-	 */
 	protected void createBonusChest() {
 		WorldGeneratorBonusChest worldgeneratorbonuschest = new WorldGeneratorBonusChest(bonusChestContent, 10);
 
@@ -774,16 +732,10 @@ public class WorldServer extends World implements IThreadListener {
 		}
 	}
 
-	/**
-	 * Returns null for anything other than the End
-	 */
 	public BlockPos getSpawnCoordinate() {
 		return this.provider.getSpawnCoordinate();
 	}
 
-	/**
-	 * Saves all chunks to disk while updating progress bar.
-	 */
 	public void saveAllChunks(boolean p_73044_1_, IProgressUpdate progressCallback) throws MinecraftException {
 		if (this.chunkProvider.canSave()) {
 			if (progressCallback != null) {
@@ -806,19 +758,12 @@ public class WorldServer extends World implements IThreadListener {
 		}
 	}
 
-	/**
-	 * saves chunk data - currently only called during execution of the Save All
-	 * command
-	 */
 	public void saveChunkData() {
 		if (this.chunkProvider.canSave()) {
 			this.chunkProvider.saveExtraData();
 		}
 	}
 
-	/**
-	 * Saves the chunks to disk.
-	 */
 	protected void saveLevel() throws MinecraftException {
 		this.checkSessionLock();
 		this.worldInfo.setBorderSize(this.getWorldBorder().getDiameter());
@@ -861,9 +806,6 @@ public class WorldServer extends World implements IThreadListener {
 		}
 	}
 
-	/**
-	 * adds a lightning bolt to the list of lightning bolts in this world.
-	 */
 	public boolean addWeatherEffect(Entity entityIn) {
 		if (super.addWeatherEffect(entityIn)) {
 			this.mcServer.getConfigurationManager().sendToAllNear(entityIn.posX, entityIn.posY, entityIn.posZ, 512.0D,
@@ -874,17 +816,10 @@ public class WorldServer extends World implements IThreadListener {
 		}
 	}
 
-	/**
-	 * sends a Packet 38 (Entity Status) to all tracked players of that entity
-	 */
 	public void setEntityState(Entity entityIn, byte state) {
 		this.getEntityTracker().func_151248_b(entityIn, new S19PacketEntityStatus(entityIn, state));
 	}
 
-	/**
-	 * returns a new explosion. Does initiation (at time of writing Explosion is not
-	 * finished)
-	 */
 	public Explosion newExplosion(Entity entityIn, double x, double y, double z, float strength, boolean isFlaming,
 			boolean isSmoking) {
 		Explosion explosion = new Explosion(this, entityIn, x, y, z, strength, isFlaming, isSmoking);
@@ -943,16 +878,10 @@ public class WorldServer extends World implements IThreadListener {
 				event.getPosition(), iblockstate, event.getEventID(), event.getEventParameter()) : false;
 	}
 
-	/**
-	 * Syncs all changes to disk and wait for completion.
-	 */
 	public void flush() {
 		this.saveHandler.flush();
 	}
 
-	/**
-	 * Updates all weather states.
-	 */
 	protected void updateWeather() {
 		boolean flag = this.isRaining();
 		super.updateWeather();
@@ -989,9 +918,6 @@ public class WorldServer extends World implements IThreadListener {
 		return this.mcServer;
 	}
 
-	/**
-	 * Gets the EntityTracker
-	 */
 	public EntityTracker getEntityTracker() {
 		return this.theEntityTracker;
 	}
@@ -1004,10 +930,6 @@ public class WorldServer extends World implements IThreadListener {
 		return this.worldTeleporter;
 	}
 
-	/**
-	 * Spawns the desired particle and sends the necessary packets to the relevant
-	 * connected players.
-	 */
 	public void spawnParticle(EnumParticleTypes particleType, double xCoord, double yCoord, double zCoord,
 			int numberOfParticles, double xOffset, double yOffset, double zOffset, double particleSpeed,
 			int... particleArguments) {
@@ -1015,10 +937,6 @@ public class WorldServer extends World implements IThreadListener {
 				particleSpeed, particleArguments);
 	}
 
-	/**
-	 * Spawns the desired particle and sends the necessary packets to the relevant
-	 * connected players.
-	 */
 	public void spawnParticle(EnumParticleTypes particleType, boolean longDistance, double xCoord, double yCoord,
 			double zCoord, int numberOfParticles, double xOffset, double yOffset, double zOffset, double particleSpeed,
 			int... particleArguments) {

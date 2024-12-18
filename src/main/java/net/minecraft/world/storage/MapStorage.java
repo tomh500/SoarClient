@@ -26,11 +26,6 @@ public class MapStorage {
 		this.loadIdCounts();
 	}
 
-	/**
-	 * Loads an existing MapDataBase corresponding to the given String id from disk,
-	 * instantiating the given Class, or returns null if none such file exists.
-	 * args: Class to instantiate, String dataid
-	 */
 	public WorldSavedData loadData(Class<? extends WorldSavedData> clazz, String dataIdentifier) {
 		WorldSavedData worldsaveddata = (WorldSavedData) this.loadedDataMap.get(dataIdentifier);
 
@@ -68,10 +63,6 @@ public class MapStorage {
 		}
 	}
 
-	/**
-	 * Assigns the given String id to the given MapDataBase, removing any existing
-	 * ones of the same id.
-	 */
 	public void setData(String dataIdentifier, WorldSavedData data) {
 		if (this.loadedDataMap.containsKey(dataIdentifier)) {
 			this.loadedDataList.remove(this.loadedDataMap.remove(dataIdentifier));
@@ -81,9 +72,6 @@ public class MapStorage {
 		this.loadedDataList.add(data);
 	}
 
-	/**
-	 * Saves all dirty loaded MapDataBases to disk.
-	 */
 	public void saveAllData() {
 		for (int i = 0; i < this.loadedDataList.size(); ++i) {
 			WorldSavedData worldsaveddata = (WorldSavedData) this.loadedDataList.get(i);
@@ -95,9 +83,6 @@ public class MapStorage {
 		}
 	}
 
-	/**
-	 * Saves the given MapDataBase to disk.
-	 */
 	private void saveData(WorldSavedData p_75747_1_) {
 		if (this.saveHandler != null) {
 			try {
@@ -118,9 +103,6 @@ public class MapStorage {
 		}
 	}
 
-	/**
-	 * Loads the idCounts Map from the 'idcounts' file.
-	 */
 	private void loadIdCounts() {
 		try {
 			this.idCounts.clear();
@@ -151,10 +133,6 @@ public class MapStorage {
 		}
 	}
 
-	/**
-	 * Returns an unique new data id for the given prefix and saves the idCounts map
-	 * to the 'idcounts' file.
-	 */
 	public int getUniqueDataId(String key) {
 		Short oshort = (Short) this.idCounts.get(key);
 

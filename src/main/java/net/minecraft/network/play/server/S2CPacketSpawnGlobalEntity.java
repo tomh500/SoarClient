@@ -29,9 +29,6 @@ public class S2CPacketSpawnGlobalEntity implements Packet<INetHandlerPlayClient>
 		}
 	}
 
-	/**
-	 * Reads the raw packet data from the data stream.
-	 */
 	public void readPacketData(PacketBuffer buf) throws IOException {
 		this.entityId = buf.readVarIntFromBuffer();
 		this.type = buf.readByte();
@@ -40,9 +37,6 @@ public class S2CPacketSpawnGlobalEntity implements Packet<INetHandlerPlayClient>
 		this.z = buf.readInt();
 	}
 
-	/**
-	 * Writes the raw packet data to the data stream.
-	 */
 	public void writePacketData(PacketBuffer buf) throws IOException {
 		buf.writeVarIntToBuffer(this.entityId);
 		buf.writeByte(this.type);
@@ -51,9 +45,6 @@ public class S2CPacketSpawnGlobalEntity implements Packet<INetHandlerPlayClient>
 		buf.writeInt(this.z);
 	}
 
-	/**
-	 * Passes this Packet on to the NetHandler for processing.
-	 */
 	public void processPacket(INetHandlerPlayClient handler) {
 		handler.handleSpawnGlobalEntity(this);
 	}

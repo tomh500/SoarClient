@@ -19,9 +19,6 @@ public class BlockSlime extends BlockBreakable {
 		return EnumWorldBlockLayer.TRANSLUCENT;
 	}
 
-	/**
-	 * Block's chance to react to a living entity falling on it.
-	 */
 	public void onFallenUpon(World worldIn, BlockPos pos, Entity entityIn, float fallDistance) {
 		if (entityIn.isSneaking()) {
 			super.onFallenUpon(worldIn, pos, entityIn, fallDistance);
@@ -30,10 +27,6 @@ public class BlockSlime extends BlockBreakable {
 		}
 	}
 
-	/**
-	 * Called when an Entity lands on this Block. This method *must* update motionY
-	 * because the entity will not do that on its own
-	 */
 	public void onLanded(World worldIn, Entity entityIn) {
 		if (entityIn.isSneaking()) {
 			super.onLanded(worldIn, entityIn);
@@ -42,9 +35,6 @@ public class BlockSlime extends BlockBreakable {
 		}
 	}
 
-	/**
-	 * Triggered whenever an entity collides with this block (enters into the block)
-	 */
 	public void onEntityCollidedWithBlock(World worldIn, BlockPos pos, Entity entityIn) {
 		if (Math.abs(entityIn.motionY) < 0.1D && !entityIn.isSneaking()) {
 			double d0 = 0.4D + Math.abs(entityIn.motionY) * 0.2D;

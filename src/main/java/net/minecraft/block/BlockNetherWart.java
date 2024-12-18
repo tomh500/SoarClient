@@ -27,9 +27,6 @@ public class BlockNetherWart extends BlockBush {
 		this.setCreativeTab((CreativeTabs) null);
 	}
 
-	/**
-	 * is the block grass, dirt or farmland
-	 */
 	protected boolean canPlaceBlockOn(Block ground) {
 		return ground == Blocks.soul_sand;
 	}
@@ -49,9 +46,6 @@ public class BlockNetherWart extends BlockBush {
 		super.updateTick(worldIn, pos, state, rand);
 	}
 
-	/**
-	 * Spawns this Block's drops into the World as EntityItems.
-	 */
 	public void dropBlockAsItemWithChance(World worldIn, BlockPos pos, IBlockState state, float chance, int fortune) {
 		if (!worldIn.isRemote) {
 			int i = 1;
@@ -70,16 +64,10 @@ public class BlockNetherWart extends BlockBush {
 		}
 	}
 
-	/**
-	 * Get the Item that this Block should drop when harvested.
-	 */
 	public Item getItemDropped(IBlockState state, Random rand, int fortune) {
 		return null;
 	}
 
-	/**
-	 * Returns the quantity of items to drop on block destruction.
-	 */
 	public int quantityDropped(Random random) {
 		return 0;
 	}
@@ -88,16 +76,10 @@ public class BlockNetherWart extends BlockBush {
 		return Items.nether_wart;
 	}
 
-	/**
-	 * Convert the given metadata into a BlockState for this Block
-	 */
 	public IBlockState getStateFromMeta(int meta) {
 		return this.getDefaultState().withProperty(AGE, Integer.valueOf(meta));
 	}
 
-	/**
-	 * Convert the BlockState into the correct metadata value
-	 */
 	public int getMetaFromState(IBlockState state) {
 		return ((Integer) state.getValue(AGE)).intValue();
 	}

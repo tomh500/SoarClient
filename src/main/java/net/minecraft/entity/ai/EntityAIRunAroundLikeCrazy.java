@@ -18,9 +18,6 @@ public class EntityAIRunAroundLikeCrazy extends EntityAIBase {
 		this.setMutexBits(1);
 	}
 
-	/**
-	 * Returns whether the EntityAIBase should begin execution.
-	 */
 	public boolean shouldExecute() {
 		if (!this.horseHost.isTame() && this.horseHost.riddenByEntity != null) {
 			Vec3 vec3 = RandomPositionGenerator.findRandomTarget(this.horseHost, 5, 4);
@@ -38,23 +35,14 @@ public class EntityAIRunAroundLikeCrazy extends EntityAIBase {
 		}
 	}
 
-	/**
-	 * Execute a one shot task or start executing a continuous task
-	 */
 	public void startExecuting() {
 		this.horseHost.getNavigator().tryMoveToXYZ(this.targetX, this.targetY, this.targetZ, this.speed);
 	}
 
-	/**
-	 * Returns whether an in-progress EntityAIBase should continue executing
-	 */
 	public boolean continueExecuting() {
 		return !this.horseHost.getNavigator().noPath() && this.horseHost.riddenByEntity != null;
 	}
 
-	/**
-	 * Updates the task
-	 */
 	public void updateTask() {
 		if (this.horseHost.getRNG().nextInt(50) == 0) {
 			if (this.horseHost.riddenByEntity instanceof EntityPlayer) {

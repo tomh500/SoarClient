@@ -16,9 +16,6 @@ import net.minecraft.item.EnumDyeColor;
 import net.minecraft.item.ItemStack;
 
 public class RecipesCrafting {
-	/**
-	 * Adds the crafting recipes to the CraftingManager.
-	 */
 	public void addRecipes(CraftingManager p_77589_1_) {
 		p_77589_1_.addRecipe(new ItemStack(Blocks.chest), new Object[] { "###", "# #", "###", '#', Blocks.planks });
 		p_77589_1_.addRecipe(new ItemStack(Blocks.trapped_chest),

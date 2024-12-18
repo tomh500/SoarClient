@@ -47,6 +47,14 @@ public class LayerCape implements LayerRenderer<AbstractClientPlayer> {
 				f2 = 0.0F;
 			}
 
+			if (f2 > 165.0F) {
+				f2 = 165.0F;
+			}
+
+			if (f1 < -5.0F) {
+				f1 = -5.0F;
+			}
+
 			float f4 = entitylivingbaseIn.prevCameraYaw
 					+ (entitylivingbaseIn.cameraYaw - entitylivingbaseIn.prevCameraYaw) * partialTicks;
 			f1 = f1 + MathHelper.sin((entitylivingbaseIn.prevDistanceWalkedModified
@@ -56,6 +64,7 @@ public class LayerCape implements LayerRenderer<AbstractClientPlayer> {
 
 			if (entitylivingbaseIn.isSneaking()) {
 				f1 += 25.0F;
+				GlStateManager.translate(0.0F, 0.142F, -0.0178F);
 			}
 
 			GlStateManager.rotate(6.0F + f2 / 2.0F + f1, 1.0F, 0.0F, 0.0F);

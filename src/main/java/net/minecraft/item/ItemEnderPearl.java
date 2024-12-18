@@ -12,10 +12,6 @@ public class ItemEnderPearl extends Item {
 		this.setCreativeTab(CreativeTabs.tabMisc);
 	}
 
-	/**
-	 * Called whenever this item is equipped and the right mouse button is pressed.
-	 * Args: itemStack, world, entityPlayer
-	 */
 	public ItemStack onItemRightClick(ItemStack itemStackIn, World worldIn, EntityPlayer playerIn) {
 		if (playerIn.capabilities.isCreativeMode) {
 			return itemStackIn;

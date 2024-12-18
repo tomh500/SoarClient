@@ -3,8 +3,6 @@ package net.minecraft.scoreboard;
 public class ScoreObjective {
 	private final Scoreboard theScoreboard;
 	private final String name;
-
-	/** The ScoreObjectiveCriteria for this objetive */
 	private final IScoreObjectiveCriteria objectiveCriteria;
 	private IScoreObjectiveCriteria.EnumRenderType renderType;
 	private String displayName;

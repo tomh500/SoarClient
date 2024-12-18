@@ -52,10 +52,6 @@ public class BlockCocoa extends BlockDirectional implements IGrowable {
 		return false;
 	}
 
-	/**
-	 * Used to determine ambient occlusion and culling when rebuilding chunks for
-	 * render
-	 */
 	public boolean isOpaqueCube() {
 		return false;
 	}
@@ -101,20 +97,12 @@ public class BlockCocoa extends BlockDirectional implements IGrowable {
 		}
 	}
 
-	/**
-	 * Called by ItemBlocks after a block is set in the world, to allow post-place
-	 * logic
-	 */
 	public void onBlockPlacedBy(World worldIn, BlockPos pos, IBlockState state, EntityLivingBase placer,
 			ItemStack stack) {
 		EnumFacing enumfacing = EnumFacing.fromAngle((double) placer.rotationYaw);
 		worldIn.setBlockState(pos, state.withProperty(FACING, enumfacing), 2);
 	}
 
-	/**
-	 * Called by ItemBlocks just before a block is actually set in the world, to
-	 * allow for adjustments to the IBlockstate
-	 */
 	public IBlockState onBlockPlaced(World worldIn, BlockPos pos, EnumFacing facing, float hitX, float hitY, float hitZ,
 			int meta, EntityLivingBase placer) {
 		if (!facing.getAxis().isHorizontal()) {
@@ -124,9 +112,6 @@ public class BlockCocoa extends BlockDirectional implements IGrowable {
 		return this.getDefaultState().withProperty(FACING, facing.getOpposite()).withProperty(AGE, Integer.valueOf(0));
 	}
 
-	/**
-	 * Called when a neighboring block changes.
-	 */
 	public void onNeighborBlockChange(World worldIn, BlockPos pos, IBlockState state, Block neighborBlock) {
 		if (!this.canBlockStay(worldIn, pos, state)) {
 			this.dropBlock(worldIn, pos, state);
@@ -138,9 +123,6 @@ public class BlockCocoa extends BlockDirectional implements IGrowable {
 		this.dropBlockAsItem(worldIn, pos, state, 0);
 	}
 
-	/**
-	 * Spawns this Block's drops into the World as EntityItems.
-	 */
 	public void dropBlockAsItemWithChance(World worldIn, BlockPos pos, IBlockState state, float chance, int fortune) {
 		int i = ((Integer) state.getValue(AGE)).intValue();
 		int j = 1;
@@ -158,16 +140,10 @@ public class BlockCocoa extends BlockDirectional implements IGrowable {
 		return Items.dye;
 	}
 
-	/**
-	 * Gets the meta to use for the Pick Block ItemStack result
-	 */
 	public int getDamageValue(World worldIn, BlockPos pos) {
 		return EnumDyeColor.BROWN.getDyeDamage();
 	}
 
-	/**
-	 * Whether this IGrowable can grow
-	 */
 	public boolean canGrow(World worldIn, BlockPos pos, IBlockState state, boolean isClient) {
 		return ((Integer) state.getValue(AGE)).intValue() < 2;
 	}
@@ -185,17 +161,11 @@ public class BlockCocoa extends BlockDirectional implements IGrowable {
 		return EnumWorldBlockLayer.CUTOUT;
 	}
 
-	/**
-	 * Convert the given metadata into a BlockState for this Block
-	 */
 	public IBlockState getStateFromMeta(int meta) {
 		return this.getDefaultState().withProperty(FACING, EnumFacing.getHorizontal(meta)).withProperty(AGE,
 				Integer.valueOf((meta & 15) >> 2));
 	}
 
-	/**
-	 * Convert the BlockState into the correct metadata value
-	 */
 	public int getMetaFromState(IBlockState state) {
 		int i = 0;
 		i = i | ((EnumFacing) state.getValue(FACING)).getHorizontalIndex();

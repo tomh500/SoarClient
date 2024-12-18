@@ -15,9 +15,6 @@ public class RenderTNTPrimed extends Render<EntityTNTPrimed> {
 		this.shadowSize = 0.5F;
 	}
 
-	/**
-	 * Renders the desired {@code T} type Entity.
-	 */
 	public void doRender(EntityTNTPrimed entity, double x, double y, double z, float entityYaw, float partialTicks) {
 		BlockRendererDispatcher blockrendererdispatcher = Minecraft.getMinecraft().getBlockRendererDispatcher();
 		GlStateManager.pushMatrix();
@@ -59,10 +56,6 @@ public class RenderTNTPrimed extends Render<EntityTNTPrimed> {
 		super.doRender(entity, x, y, z, entityYaw, partialTicks);
 	}
 
-	/**
-	 * Returns the location of an entity's texture. Doesn't seem to be called unless
-	 * you call Render.bindEntityTexture.
-	 */
 	protected ResourceLocation getEntityTexture(EntityTNTPrimed entity) {
 		return TextureMap.locationBlocksTexture;
 	}

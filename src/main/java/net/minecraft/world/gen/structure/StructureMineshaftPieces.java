@@ -623,9 +623,9 @@ public class StructureMineshaftPieces {
 				j = 1;
 			}
 
-			int k;
+			int k = 0;
 
-			for (k = 0; k < this.boundingBox.getXSize(); k = k + 4) {
+			for (int lvt_5_1_ = 0; k < this.boundingBox.getXSize(); k = k + 4) {
 				k = k + rand.nextInt(this.boundingBox.getXSize());
 
 				if (k + 3 > this.boundingBox.getXSize()) {

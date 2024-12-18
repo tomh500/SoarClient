@@ -18,30 +18,18 @@ import net.minecraft.util.BlockPos;
 import net.minecraft.world.World;
 
 public class CommandSetBlock extends CommandBase {
-	/**
-	 * Gets the name of the command
-	 */
 	public String getCommandName() {
 		return "setblock";
 	}
 
-	/**
-	 * Return the required permission level for this command.
-	 */
 	public int getRequiredPermissionLevel() {
 		return 2;
 	}
 
-	/**
-	 * Gets the usage string for the command.
-	 */
 	public String getCommandUsage(ICommandSender sender) {
 		return "commands.setblock.usage";
 	}
 
-	/**
-	 * Callback when the command is invoked
-	 */
 	public void processCommand(ICommandSender sender, String[] args) throws CommandException {
 		if (args.length < 4) {
 			throw new WrongUsageException("commands.setblock.usage", new Object[0]);

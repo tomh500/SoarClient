@@ -15,37 +15,11 @@ import net.minecraft.util.MathHelper;
 import org.apache.commons.lang3.StringUtils;
 
 public abstract class EntityAITarget extends EntityAIBase {
-	/** The entity that this task belongs to */
 	protected final EntityCreature taskOwner;
-
-	/**
-	 * If true, EntityAI targets must be able to be seen (cannot be blocked by
-	 * walls) to be suitable targets.
-	 */
 	protected boolean shouldCheckSight;
-
-	/**
-	 * When true, only entities that can be reached with minimal effort will be
-	 * targetted.
-	 */
 	private boolean nearbyOnly;
-
-	/**
-	 * When nearbyOnly is true: 0 -> No target, but OK to search; 1 -> Nearby target
-	 * found; 2 -> Target too far.
-	 */
 	private int targetSearchStatus;
-
-	/**
-	 * When nearbyOnly is true, this throttles target searching to avoid excessive
-	 * pathfinding.
-	 */
 	private int targetSearchDelay;
-
-	/**
-	 * If @shouldCheckSight is true, the number of ticks before the interuption of
-	 * this AITastk when the entity does't see the target
-	 */
 	private int targetUnseenTicks;
 
 	public EntityAITarget(EntityCreature creature, boolean checkSight) {
@@ -58,9 +32,6 @@ public abstract class EntityAITarget extends EntityAIBase {
 		this.nearbyOnly = onlyNearby;
 	}
 
-	/**
-	 * Returns whether an in-progress EntityAIBase should continue executing
-	 */
 	public boolean continueExecuting() {
 		EntityLivingBase entitylivingbase = this.taskOwner.getAttackTarget();
 
@@ -100,26 +71,16 @@ public abstract class EntityAITarget extends EntityAIBase {
 		return iattributeinstance == null ? 16.0D : iattributeinstance.getAttributeValue();
 	}
 
-	/**
-	 * Execute a one shot task or start executing a continuous task
-	 */
 	public void startExecuting() {
 		this.targetSearchStatus = 0;
 		this.targetSearchDelay = 0;
 		this.targetUnseenTicks = 0;
 	}
 
-	/**
-	 * Resets the task
-	 */
 	public void resetTask() {
 		this.taskOwner.setAttackTarget((EntityLivingBase) null);
 	}
 
-	/**
-	 * A static method used to see if an entity is a suitable target through a
-	 * number of checks.
-	 */
 	public static boolean isSuitableTarget(EntityLiving attacker, EntityLivingBase target, boolean includeInvincibles,
 			boolean checkSight) {
 		if (target == null) {
@@ -157,10 +118,6 @@ public abstract class EntityAITarget extends EntityAIBase {
 		}
 	}
 
-	/**
-	 * A method used to see if an entity is a suitable target through a number of
-	 * checks. Args : entity, canTargetInvinciblePlayer
-	 */
 	protected boolean isSuitableTarget(EntityLivingBase target, boolean includeInvincibles) {
 		if (!isSuitableTarget(this.taskOwner, target, includeInvincibles, this.shouldCheckSight)) {
 			return false;
@@ -185,11 +142,6 @@ public abstract class EntityAITarget extends EntityAIBase {
 		}
 	}
 
-	/**
-	 * Checks to see if this entity can find a short path to the given target.
-	 * 
-	 * @param target the entity to find a path to
-	 */
 	private boolean canEasilyReach(EntityLivingBase target) {
 		this.targetSearchDelay = 10 + this.taskOwner.getRNG().nextInt(5);
 		PathEntity pathentity = this.taskOwner.getNavigator().getPathToEntityLiving(target);

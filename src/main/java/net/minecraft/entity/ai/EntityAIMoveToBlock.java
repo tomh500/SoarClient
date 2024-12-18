@@ -7,13 +7,9 @@ import net.minecraft.world.World;
 public abstract class EntityAIMoveToBlock extends EntityAIBase {
 	private final EntityCreature theEntity;
 	private final double movementSpeed;
-
-	/** Controls task execution delay */
 	protected int runDelay;
 	private int timeoutCounter;
 	private int field_179490_f;
-
-	/** Block to move to */
 	protected BlockPos destinationBlock = BlockPos.ORIGIN;
 	private boolean isAboveDestination;
 	private int searchLength;
@@ -25,9 +21,6 @@ public abstract class EntityAIMoveToBlock extends EntityAIBase {
 		this.setMutexBits(5);
 	}
 
-	/**
-	 * Returns whether the EntityAIBase should begin execution.
-	 */
 	public boolean shouldExecute() {
 		if (this.runDelay > 0) {
 			--this.runDelay;
@@ -38,17 +31,11 @@ public abstract class EntityAIMoveToBlock extends EntityAIBase {
 		}
 	}
 
-	/**
-	 * Returns whether an in-progress EntityAIBase should continue executing
-	 */
 	public boolean continueExecuting() {
 		return this.timeoutCounter >= -this.field_179490_f && this.timeoutCounter <= 1200
 				&& this.shouldMoveTo(this.theEntity.worldObj, this.destinationBlock);
 	}
 
-	/**
-	 * Execute a one shot task or start executing a continuous task
-	 */
 	public void startExecuting() {
 		this.theEntity.getNavigator().tryMoveToXYZ((double) ((float) this.destinationBlock.getX()) + 0.5D,
 				(double) (this.destinationBlock.getY() + 1), (double) ((float) this.destinationBlock.getZ()) + 0.5D,
@@ -57,15 +44,9 @@ public abstract class EntityAIMoveToBlock extends EntityAIBase {
 		this.field_179490_f = this.theEntity.getRNG().nextInt(this.theEntity.getRNG().nextInt(1200) + 1200) + 1200;
 	}
 
-	/**
-	 * Resets the task
-	 */
 	public void resetTask() {
 	}
 
-	/**
-	 * Updates the task
-	 */
 	public void updateTask() {
 		if (this.theEntity.getDistanceSqToCenter(this.destinationBlock.up()) > 1.0D) {
 			this.isAboveDestination = false;
@@ -86,12 +67,6 @@ public abstract class EntityAIMoveToBlock extends EntityAIBase {
 		return this.isAboveDestination;
 	}
 
-	/**
-	 * Searches and sets new destination block and returns true if a suitable block
-	 * (specified in
-	 * {@link net.minecraft.entity.ai.EntityAIMoveToBlock#shouldMoveTo(World, BlockPos)
-	 * EntityAIMoveToBlock#shouldMoveTo(World, BlockPos)}) can be found.
-	 */
 	private boolean searchForDestination() {
 		int i = this.searchLength;
 		int j = 1;
@@ -116,8 +91,5 @@ public abstract class EntityAIMoveToBlock extends EntityAIBase {
 		return false;
 	}
 
-	/**
-	 * Return true to set given position as destination
-	 */
 	protected abstract boolean shouldMoveTo(World worldIn, BlockPos pos);
 }

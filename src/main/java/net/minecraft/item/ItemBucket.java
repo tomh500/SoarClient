@@ -1,8 +1,5 @@
 package net.minecraft.item;
 
-import com.soarclient.hooks.LiquidHook;
-import com.soarclient.management.mods.impl.misc.LiquidFixMod;
-
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockLiquid;
 import net.minecraft.block.material.Material;
@@ -18,7 +15,6 @@ import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
 
 public class ItemBucket extends Item {
-	/** field for checking if the bucket has been filled. */
 	private Block isFull;
 
 	public ItemBucket(Block containedBlock) {
@@ -27,10 +23,6 @@ public class ItemBucket extends Item {
 		this.setCreativeTab(CreativeTabs.tabMisc);
 	}
 
-	/**
-	 * Called whenever this item is equipped and the right mouse button is pressed.
-	 * Args: itemStack, world, entityPlayer
-	 */
 	public ItemStack onItemRightClick(ItemStack itemStackIn, World worldIn, EntityPlayer playerIn) {
 		boolean flag = this.isFull == Blocks.air;
 		MovingObjectPosition movingobjectposition = this.getMovingObjectPositionFromPlayer(worldIn, playerIn, flag);
@@ -79,14 +71,6 @@ public class ItemBucket extends Item {
 					}
 
 					if (this.tryPlaceContainedLiquid(worldIn, blockpos1) && !playerIn.capabilities.isCreativeMode) {
-						playerIn.triggerAchievement(StatList.objectUseStats[Item.getIdFromItem(this)]);
-						return new ItemStack(Items.bucket);
-					}
-
-					if ((LiquidFixMod.getInstance().isEnabled()
-							? LiquidHook.cancelOldClientLiquid(isFull, worldIn, blockpos1)
-							: this.tryPlaceContainedLiquid(worldIn, blockpos1))
-							&& !playerIn.capabilities.isCreativeMode) {
 						playerIn.triggerAchievement(StatList.objectUseStats[Item.getIdFromItem(this)]);
 						return new ItemStack(Items.bucket);
 					}

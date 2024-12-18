@@ -18,30 +18,18 @@ import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 
 public class CommandSpreadPlayers extends CommandBase {
-	/**
-	 * Gets the name of the command
-	 */
 	public String getCommandName() {
 		return "spreadplayers";
 	}
 
-	/**
-	 * Return the required permission level for this command.
-	 */
 	public int getRequiredPermissionLevel() {
 		return 2;
 	}
 
-	/**
-	 * Gets the usage string for the command.
-	 */
 	public String getCommandUsage(ICommandSender sender) {
 		return "commands.spreadplayers.usage";
 	}
 
-	/**
-	 * Callback when the command is invoked
-	 */
 	public void processCommand(ICommandSender sender, String[] args) throws CommandException {
 		if (args.length < 6) {
 			throw new WrongUsageException("commands.spreadplayers.usage", new Object[0]);

@@ -15,10 +15,6 @@ public class ItemShears extends Item {
 		this.setCreativeTab(CreativeTabs.tabTools);
 	}
 
-	/**
-	 * Called when a Block is destroyed using this Item. Return true to trigger the
-	 * "Use Item" statistic.
-	 */
 	public boolean onBlockDestroyed(ItemStack stack, World worldIn, Block blockIn, BlockPos pos,
 			EntityLivingBase playerIn) {
 		if (blockIn.getMaterial() != Material.leaves && blockIn != Blocks.web && blockIn != Blocks.tallgrass
@@ -30,9 +26,6 @@ public class ItemShears extends Item {
 		}
 	}
 
-	/**
-	 * Check whether this Item can harvest the given Block
-	 */
 	public boolean canHarvestBlock(Block blockIn) {
 		return blockIn == Blocks.web || blockIn == Blocks.redstone_wire || blockIn == Blocks.tripwire;
 	}
