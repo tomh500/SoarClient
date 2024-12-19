@@ -20,6 +20,10 @@ public class ItemBoat extends Item {
 		this.setCreativeTab(CreativeTabs.tabTransport);
 	}
 
+	/**
+	 * Called whenever this item is equipped and the right mouse button is pressed.
+	 * Args: itemStack, world, entityPlayer
+	 */
 	public ItemStack onItemRightClick(ItemStack itemStackIn, World worldIn, EntityPlayer playerIn) {
 		float f = 1.0F;
 		float f1 = playerIn.prevRotationPitch + (playerIn.rotationPitch - playerIn.prevRotationPitch) * f;

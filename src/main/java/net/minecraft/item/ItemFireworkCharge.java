@@ -54,6 +54,9 @@ public class ItemFireworkCharge extends Item {
 		return null;
 	}
 
+	/**
+	 * allows items to add custom lines of information to the mouseover description
+	 */
 	public void addInformation(ItemStack stack, EntityPlayer playerIn, List<String> tooltip, boolean advanced) {
 		if (stack.hasTagCompound()) {
 			NBTTagCompound nbttagcompound = stack.getTagCompound().getCompoundTag("Explosion");

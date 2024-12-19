@@ -29,6 +29,9 @@ public class EntityMinecartChest extends EntityMinecartContainer {
 		}
 	}
 
+	/**
+	 * Returns the number of slots in the inventory.
+	 */
 	public int getSizeInventory() {
 		return 27;
 	}

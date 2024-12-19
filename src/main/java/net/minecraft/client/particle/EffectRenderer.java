@@ -1,6 +1,5 @@
 package net.minecraft.client.particle;
 
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
@@ -8,6 +7,8 @@ import java.util.concurrent.Callable;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+import com.soarclient.libraries.sodium.SodiumClientMod;
+import com.soarclient.libraries.sodium.client.render.SodiumWorldRenderer;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
@@ -16,30 +17,36 @@ import net.minecraft.client.renderer.ActiveRenderInfo;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.WorldRenderer;
+import net.minecraft.client.renderer.culling.Frustum;
 import net.minecraft.client.renderer.texture.TextureManager;
 import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.crash.CrashReport;
 import net.minecraft.crash.CrashReportCategory;
 import net.minecraft.entity.Entity;
-import net.minecraft.src.Config;
+import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.MathHelper;
-import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.ReportedException;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 
 public class EffectRenderer {
 	private static final ResourceLocation particleTextures = new ResourceLocation("textures/particle/particles.png");
+
+	/** Reference to the World object. */
 	protected World worldObj;
 	private List<EntityFX>[][] fxLayers = new List[4][];
 	private List<EntityParticleEmitter> particleEmitters = Lists.<EntityParticleEmitter>newArrayList();
 	private TextureManager renderer;
+
+	/** RNG. */
 	private Random rand = new Random();
 	private Map<Integer, IParticleFactory> particleTypes = Maps.<Integer, IParticleFactory>newHashMap();
+
+	private Frustum cullingFrustum;
 
 	public EffectRenderer(World worldIn, TextureManager rendererIn) {
 		this.worldObj = worldIn;
@@ -113,6 +120,17 @@ public class EffectRenderer {
 		this.particleEmitters.add(new EntityParticleEmitter(this.worldObj, entityIn, particleTypes));
 	}
 
+	/**
+	 * Spawns the relevant particle according to the particle id.
+	 * 
+	 * @param xCoord     X position of the particle
+	 * @param yCoord     Y position of the particle
+	 * @param zCoord     Z position of the particle
+	 * @param xSpeed     X speed of the particle
+	 * @param ySpeed     Y speed of the particle
+	 * @param zSpeed     Z speed of the particle
+	 * @param parameters Parameters for the particle (color for redstone, ...)
+	 */
 	public EntityFX spawnEffectParticle(int particleId, double xCoord, double yCoord, double zCoord, double xSpeed,
 			double ySpeed, double zSpeed, int... parameters) {
 		IParticleFactory iparticlefactory = (IParticleFactory) this.particleTypes.get(Integer.valueOf(particleId));
@@ -131,18 +149,14 @@ public class EffectRenderer {
 	}
 
 	public void addEffect(EntityFX effect) {
-		if (effect != null) {
-			if (!(effect instanceof EntityFirework.SparkFX) || Config.isFireworkParticles()) {
-				int i = effect.getFXLayer();
-				int j = effect.getAlpha() != 1.0F ? 0 : 1;
+		int i = effect.getFXLayer();
+		int j = effect.getAlpha() != 1.0F ? 0 : 1;
 
-				if (this.fxLayers[i][j].size() >= 4000) {
-					this.fxLayers[i][j].remove(0);
-				}
-
-				this.fxLayers[i][j].add(effect);
-			}
+		if (this.fxLayers[i][j].size() >= 4000) {
+			this.fxLayers[i][j].remove(0);
 		}
+
+		this.fxLayers[i][j].add(effect);
 	}
 
 	public void updateEffects() {
@@ -170,32 +184,14 @@ public class EffectRenderer {
 	}
 
 	private void updateEffectAlphaLayer(List<EntityFX> entitiesFX) {
-		List<EntityFX> list = Lists.newArrayList();
-		long i = System.currentTimeMillis();
-		int j = entitiesFX.size();
+		List<EntityFX> list = Lists.<EntityFX>newArrayList();
 
-		for (int k = 0; k < entitiesFX.size(); ++k) {
-			EntityFX entityfx = entitiesFX.get(k);
+		for (int i = 0; i < entitiesFX.size(); ++i) {
+			EntityFX entityfx = (EntityFX) entitiesFX.get(i);
 			this.tickParticle(entityfx);
 
 			if (entityfx.isDead) {
 				list.add(entityfx);
-			}
-
-			--j;
-
-			if (System.currentTimeMillis() > i + 20L) {
-				break;
-			}
-		}
-
-		if (j > 0) {
-			int l = j;
-
-			for (Iterator iterator = entitiesFX.iterator(); iterator.hasNext() && l > 0; --l) {
-				EntityFX entityfx1 = (EntityFX) iterator.next();
-				entityfx1.setDead();
-				iterator.remove();
 			}
 		}
 
@@ -224,7 +220,19 @@ public class EffectRenderer {
 		}
 	}
 
+	/**
+	 * Renders all current particles. Args player, partialTickTime
+	 */
 	public void renderParticles(Entity entityIn, float partialTicks) {
+		Frustum frustum = SodiumWorldRenderer.getInstance().getFrustum();
+		boolean useCulling = SodiumClientMod.options().advanced.useParticleCulling;
+
+		if (useCulling && frustum != null) {
+			this.cullingFrustum = frustum;
+		} else {
+			this.cullingFrustum = null;
+		}
+
 		float f = ActiveRenderInfo.getRotationX();
 		float f1 = ActiveRenderInfo.getRotationZ();
 		float f2 = ActiveRenderInfo.getRotationYZ();
@@ -236,8 +244,6 @@ public class EffectRenderer {
 		GlStateManager.enableBlend();
 		GlStateManager.blendFunc(770, 771);
 		GlStateManager.alphaFunc(516, 0.003921569F);
-		Block block = ActiveRenderInfo.getBlockAtEntityViewpoint(this.worldObj, entityIn, partialTicks);
-		boolean flag = block.getMaterial() == Material.water;
 
 		for (int i = 0; i < 3; ++i) {
 			for (int j = 0; j < 2; ++j) {
@@ -272,7 +278,7 @@ public class EffectRenderer {
 						final EntityFX entityfx = (EntityFX) this.fxLayers[i][j].get(k);
 
 						try {
-							if (flag || !(entityfx instanceof EntitySuspendFX)) {
+							if (this.filterParticleList(entityfx)) {
 								entityfx.renderParticle(worldrenderer, entityIn, partialTicks, f, f4, f1, f2, f3);
 							}
 						} catch (Throwable throwable) {
@@ -341,20 +347,16 @@ public class EffectRenderer {
 	}
 
 	public void addBlockDestroyEffects(BlockPos pos, IBlockState state) {
-		boolean flag;
-
-		flag = state.getBlock().getMaterial() != Material.air;
-
-		if (flag) {
+		if (state.getBlock().getMaterial() != Material.air) {
 			state = state.getBlock().getActualState(state, this.worldObj, pos);
-			int l = 4;
+			int i = 4;
 
-			for (int i = 0; i < l; ++i) {
-				for (int j = 0; j < l; ++j) {
-					for (int k = 0; k < l; ++k) {
-						double d0 = (double) pos.getX() + ((double) i + 0.5D) / (double) l;
-						double d1 = (double) pos.getY() + ((double) j + 0.5D) / (double) l;
-						double d2 = (double) pos.getZ() + ((double) k + 0.5D) / (double) l;
+			for (int j = 0; j < i; ++j) {
+				for (int k = 0; k < i; ++k) {
+					for (int l = 0; l < i; ++l) {
+						double d0 = (double) pos.getX() + ((double) j + 0.5D) / (double) i;
+						double d1 = (double) pos.getY() + ((double) k + 0.5D) / (double) i;
+						double d2 = (double) pos.getZ() + ((double) l + 0.5D) / (double) i;
 						this.addEffect((new EntityDiggingFX(this.worldObj, d0, d1, d2, d0 - (double) pos.getX() - 0.5D,
 								d1 - (double) pos.getY() - 0.5D, d2 - (double) pos.getZ() - 0.5D, state))
 								.setBlockPos(pos));
@@ -364,6 +366,9 @@ public class EffectRenderer {
 		}
 	}
 
+	/**
+	 * Adds block hit particles for the specified block
+	 */
 	public void addBlockHitEffects(BlockPos pos, EnumFacing side) {
 		IBlockState iblockstate = this.worldObj.getBlockState(pos);
 		Block block = iblockstate.getBlock();
@@ -444,11 +449,13 @@ public class EffectRenderer {
 		return "" + i;
 	}
 
-	public void addBlockHitEffects(BlockPos p_addBlockHitEffects_1_, MovingObjectPosition p_addBlockHitEffects_2_) {
-		IBlockState iblockstate = this.worldObj.getBlockState(p_addBlockHitEffects_1_);
-
-		if (iblockstate != null) {
-			this.addBlockHitEffects(p_addBlockHitEffects_1_, p_addBlockHitEffects_2_.sideHit);
+	private boolean filterParticleList(EntityFX particle) {
+		if (this.cullingFrustum == null) {
+			return true;
+		} else {
+			AxisAlignedBB box = particle.getEntityBoundingBox();
+			return this.cullingFrustum.isBoxInFrustum(box.minX - 1.0, box.minY - 1.0, box.minZ - 1.0, box.maxX + 1.0,
+					box.maxY + 1.0, box.maxZ + 1.0);
 		}
 	}
 }

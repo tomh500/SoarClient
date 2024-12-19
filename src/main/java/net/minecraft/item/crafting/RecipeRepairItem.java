@@ -8,6 +8,9 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 
 public class RecipeRepairItem implements IRecipe {
+	/**
+	 * Used to check if a recipe matches current crafting inventory
+	 */
 	public boolean matches(InventoryCrafting inv, World worldIn) {
 		List<ItemStack> list = Lists.<ItemStack>newArrayList();
 
@@ -31,6 +34,9 @@ public class RecipeRepairItem implements IRecipe {
 		return list.size() == 2;
 	}
 
+	/**
+	 * Returns an Item that is the result of this recipe
+	 */
 	public ItemStack getCraftingResult(InventoryCrafting inv) {
 		List<ItemStack> list = Lists.<ItemStack>newArrayList();
 
@@ -74,6 +80,9 @@ public class RecipeRepairItem implements IRecipe {
 		return null;
 	}
 
+	/**
+	 * Returns the size of the recipe area
+	 */
 	public int getRecipeSize() {
 		return 4;
 	}

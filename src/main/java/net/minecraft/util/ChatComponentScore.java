@@ -8,6 +8,8 @@ import net.minecraft.server.MinecraftServer;
 public class ChatComponentScore extends ChatComponentStyle {
 	private final String name;
 	private final String objective;
+
+	/** The value displayed instead of the real score (may be null) */
 	private String value = "";
 
 	public ChatComponentScore(String nameIn, String objectiveIn) {
@@ -23,10 +25,17 @@ public class ChatComponentScore extends ChatComponentStyle {
 		return this.objective;
 	}
 
+	/**
+	 * Sets the value displayed instead of the real score.
+	 */
 	public void setValue(String valueIn) {
 		this.value = valueIn;
 	}
 
+	/**
+	 * Gets the text of this component, without any special formatting codes added,
+	 * for chat.
+	 */
 	public String getUnformattedTextForChat() {
 		MinecraftServer minecraftserver = MinecraftServer.getServer();
 
@@ -45,6 +54,10 @@ public class ChatComponentScore extends ChatComponentStyle {
 		return this.value;
 	}
 
+	/**
+	 * Creates a copy of this component. Almost a deep copy, except the style is
+	 * shallow-copied.
+	 */
 	public ChatComponentScore createCopy() {
 		ChatComponentScore chatcomponentscore = new ChatComponentScore(this.name, this.objective);
 		chatcomponentscore.setValue(this.value);

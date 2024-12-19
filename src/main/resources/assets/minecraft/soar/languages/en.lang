@@ -1,0 +1,208 @@
+text.all=All
+text.hud=HUD
+text.render=Render
+text.player=Player
+text.misc=Misc
+text.home=Home
+text.mods=Mods
+text.music=Music
+text.profile=Profile
+text.settings=Settings
+text.singleplayer=Singleplayer
+text.multiplayer=Multiplayer
+text.accountmanager=Account Manager
+text.exit=Exit
+text.search=Search
+
+design.simple=Simple
+
+mod.hitdelayfix.name=HitDelayFix
+mod.hitdelayfix.description=Fix Hit delays
+
+mod.nojumpdelay.name=NoJumpDelay
+mod.nojumpdelay.description=Remove jump delays
+
+mod.liquidfix.name=Liquid Fix
+mod.liquidfix.description=Fix misalignment of magma and water
+
+mod.fpsdisplay.name=FPS Display
+mod.fpsdisplay.description=Display Minecraft FPS
+
+mod.combocounter.name=Combo Counter
+mod.combocounter.description=Display Combo
+
+mod.daycounter.name=Day Counter
+mod.daycounter.description=Count Minecraft day
+
+mod.gamemodedisplay.name=Game Mode Display
+mod.gamemodedisplay.description=Display your game mode
+
+mod.healthdisplay.name=Health Display
+mod.healthdisplay.description=Display your health
+
+mod.namedisplay.name=Name Display
+mod.namedisplay.description=Display your name
+
+mod.pingdisplay.name=Ping Display
+mod.pingdisplay.description=Display your ping
+
+mod.pitchdisplay.name=Pitch Display
+mod.pitchdisplay.description=Display pitch of you
+
+mod.playercounter.name=Player Counter
+mod.playercounter.description=Display the number of players
+
+mod.playtimedisplay.name=Play Time Display
+mod.playtimedisplay.description=Display playing time
+
+mod.potioncounter.name=Potion Counter
+mod.potioncounter.description=Display the number of potions
+
+mod.reachdisplay.name=Reach Display
+mod.reachdisplay.description=Display reach
+
+mod.serveripdisplay.name=Server IP Display
+mod.serveripdisplay.description=Display the IP of the server you are joining
+
+mod.stopwatch.name=Stopwatch
+mod.stopwatch.description=Measure the time
+
+mod.weatherdisplay.name=Weather Display
+mod.weatherdisplay.description=Display world weather
+
+mod.yawdisplay.name=Yaw Display
+mod.yawdisplay.description=Display yaw of you
+
+mod.coords.name=Coords
+mod.coords.description=Display your coordnates
+
+mod.cpsdisplay.name=CPS Display
+mod.cpsdisplay.description=Display click per seconds
+
+mod.togglesprint.name=Toggle Sprint
+mod.togglesprint.description=Sprint with a single key press
+
+mod.zoom.name=Zoom
+mod.zoom.description=Zoom in on the player point of view
+
+mod.taplook.name=Taplook
+mod.taplook.description=Switch viewing orientation at the touch of a button
+
+mod.togglesneak.name=Toggle Sneak
+mod.togglesneak.description=Sneak with a single key press
+
+mod.autogg.name=Auto GG
+mod.autogg.description=Automatically send with gg when the game is finished
+
+mod.autonextgame.name=Auto Next Game
+mod.autonextgame.description=Automatically join the next game
+
+mod.musicinfo.name=Music Info
+mod.musicinfo.description=Display the currently playing music
+
+mod.weatherchanger.name=Weather Changer
+mod.weatherchanger.description=Change the world weather
+
+mod.timechanger.name=Time Changer
+mod.timechanger.description=Change the world time
+
+mod.rawinput.name=Raw Input
+mod.rawinput.description=Enable raw input for the mouse
+
+mod.nameprotect.name=Name Protect
+mod.nameprotect.description=Protect your name
+
+mod.modmenu.name=Mod Menu
+mod.modmenu.description=Customize Mod Menu related settings
+
+mod.motionblur.name=Motion Blur
+mod.motionblur.description=Add the motion blur effect
+
+mod.minimap.name=Minimap
+mod.minimap.description=Display map in a smaller size
+
+setting.blur=Blur
+setting.blur.description=Add a blur effect
+setting.intensity=Intensity
+setting.intensity.description=Set the intensity
+setting.blurintensity=Blur Intensity
+setting.intensity.blur=Set the intensity of the blur
+setting.icon=Icon
+setting.icon.description=Display icon on the HUD
+setting.keybind=Keybind
+setting.keybind.description=Assigning keys
+setting.darkmode=Dark Mode
+setting.darkmode.description=Enable dark mode
+setting.color=Color
+setting.color.description=Select a color
+setting.rightclick=Right Click
+setting.cps.rightclick.description=Display right click cps
+setting.keybind=Keybind
+setting.keybind.description=Set the key
+setting.hud=HUD
+setting.hud.description=Display HUD
+setting.always=Always
+setting.always.description=Always sprint
+setting.scroll=Scroll
+setting.zoom.scroll.description=Make the zoom scrollable
+setting.smoothzoom=Smooth Zoom
+setting.smoothzoom.description=Make zoom smooth
+setting.zoomspeed=Zoom Speed
+setting.zoomspeed.description=Changing the zoom animation speed
+setting.zoomfactor=Zoom Factor
+setting.zoomfactor.description=Change the factor of zoom
+setting.smoothcamera=Smooth Camera
+setting.smoothcamera.description=Smoothly move the camera
+setting.perspective=Perspective
+setting.perspective.description=Set the Perspective orientation
+setting.front=Front
+setting.behind=Behind
+setting.delay=Delay
+setting.delay.description=Set the delay
+setting.message=Message
+setting.message.description=Set the message
+setting.hypixel=Hypixel
+setting.hypixel.description=Enable in Hypixel
+setting.minemen=Minemen
+setting.minemen.description=Enable in Minemen
+setting.sowrd=Sowrd
+setting.quickswitch.sword.description=Set the key to switch to sowrd
+setting.block=Block
+setting.quickswitch.block.description=Set the key to switch to block
+setting.rod=Rod
+setting.quickswitch.rod.description=Set the key to switch to rod
+setting.axe=Axe
+setting.quickswitch.axe.description=Set the key to switch to axe
+setting.pickaxe=Pickaxe
+setting.quickswitch.pickaxe.description=Set the key to switch to pickaxe
+setting.bow=Bow
+setting.quickswitch.bow.description=Set the key to switch to bow
+mod.quickswitch.name=Quick Switch
+mod.quickswitch.description=Switch items with a single button
+setting.type=Type
+setting.type.description=Set the Type
+setting.cover=Cover
+setting.simple=Simple
+setting.normal=Normal
+setting.waveform=Waveform
+setting.weather=Weather
+setting.weather.description=Set the weather
+setting.clear=Clear
+setting.rain=Rain
+setting.snow=Snow
+setting.thunder=Thunder
+setting.time=Time
+setting.time.description=Set the time
+setting.name=Name
+setting.name.description=Set the name
+setting.amount=Amount
+setting.amount.description=Set the amount
+setting.width=Width
+setting.width.description=Set the width
+setting.height=Height
+setting.height.description=Set the height
+setting.alpha=Alpha
+setting.alpha.description=Set the alpha
+
+proxy.socks=Socks
+proxy.http=Http

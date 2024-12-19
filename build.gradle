@@ -2,7 +2,6 @@ import org.gradle.internal.os.OperatingSystem
 
 plugins {
     id 'java'
-    id "com.github.johnrengelman.shadow" version '8.1.1'
     id 'eclipse'
 }
 
@@ -35,12 +34,16 @@ switch (OperatingSystem.current()) {
 }
 
 repositories {
+    maven { url 'https://www.jitpack.io' }
+	maven { url "https://repo.viaversion.com" }
+	maven {
+        name = "Lenni0451"
+        url = "https://maven.lenni0451.net/everything"
+    }
     mavenCentral()
 }
 
 dependencies {
-    implementation fileTree(dir: 'libs/minecraft', includes: ['*.jar'])
-    implementation fileTree(dir: 'libs', includes: ['*.jar'])
 
     implementation platform("org.lwjgl:lwjgl-bom:$lwjglVersion")
 
@@ -54,22 +57,27 @@ dependencies {
     runtimeOnly "org.lwjgl:lwjgl-nanovg::$lwjglNatives"
     runtimeOnly "org.lwjgl:lwjgl-nfd::$lwjglNatives"
     runtimeOnly "org.lwjgl:lwjgl-stb::$lwjglNatives"
-}
 
-shadowJar {
-    archiveClassifier.set('all')
+	implementation 'it.unimi.dsi:fastutil:8.5.14'
+	implementation 'org.joml:joml:1.10.8'
+	implementation 'com.github.ben-manes.caffeine:caffeine:3.1.8'
+	implementation 'org.java-websocket:Java-WebSocket:1.5.7'
 
-    configurations = [project.configurations.runtimeClasspath]
-}
+	implementation('net.raphimc:MinecraftAuth:4.1.1') {
+		exclude group: "com.google.code.gson", module: "gson"
+		exclude group: "org.slf4j", module: "slf4j-api"
+    }
 
-tasks.build {
-    dependsOn shadowJar
-}
+	implementation('net.raphimc:ViaLoader:3.0.5-SNAPSHOT') {
+		exclude group: "com.google.guava", module: "guava"
+		exclude group: "org.slf4j", module: "slf4j-api"
+    }
 
-tasks.register('runClient', JavaExec) {
-    mainClass = 'Start'
-    classpath = sourceSets.test.runtimeClasspath
-    jvmArgs = ['-Djava.library.path=natives/']
+	implementation 'com.viaversion:viaversion-common:5.1.2-SNAPSHOT'
+	implementation 'com.viaversion:viarewind-common:4.0.3'
+	implementation 'com.viaversion:viabackwards-common:5.1.2-SNAPSHOT'
+	implementation 'net.raphimc:viaaprilfools-common:3.0.5-SNAPSHOT'
+	implementation 'net.raphimc:ViaLegacy:3.0.6-SNAPSHOT'
 
-    workingDir = file('run/')
+	implementation fileTree('libs')
 }

@@ -32,6 +32,9 @@ public class AnvilSaveConverter extends SaveFormatOld {
 		super(savesDirectoryIn);
 	}
 
+	/**
+	 * Returns the name of the save format.
+	 */
 	public String getName() {
 		return "Anvil";
 	}
@@ -77,6 +80,9 @@ public class AnvilSaveConverter extends SaveFormatOld {
 		RegionFileCache.clearRegionFileReferences();
 	}
 
+	/**
+	 * Returns back a loader for the specified save directory
+	 */
 	public ISaveHandler getSaveLoader(String saveName, boolean storePlayerdata) {
 		return new AnvilSaveHandler(this.savesDirectory, saveName, storePlayerdata);
 	}
@@ -86,11 +92,17 @@ public class AnvilSaveConverter extends SaveFormatOld {
 		return worldinfo != null && worldinfo.getSaveVersion() == 19132;
 	}
 
+	/**
+	 * gets if the map is old chunk saving (true) or McRegion (false)
+	 */
 	public boolean isOldMapFormat(String saveName) {
 		WorldInfo worldinfo = this.getWorldInfo(saveName);
 		return worldinfo != null && worldinfo.getSaveVersion() != this.getSaveVersion();
 	}
 
+	/**
+	 * converts the map to mcRegion
+	 */
 	public boolean convertMapFormat(String filename, IProgressUpdate progressCallback) {
 		progressCallback.setLoadingProgress(0);
 		List<File> list = Lists.<File>newArrayList();
@@ -139,6 +151,9 @@ public class AnvilSaveConverter extends SaveFormatOld {
 		return true;
 	}
 
+	/**
+	 * par: filename for the level.dat_mcr backup
+	 */
 	private void createFile(String filename) {
 		File file1 = new File(this.savesDirectory, filename);
 
@@ -169,6 +184,9 @@ public class AnvilSaveConverter extends SaveFormatOld {
 		}
 	}
 
+	/**
+	 * copies a 32x32 chunk set from par2File to par1File, via AnvilConverterData
+	 */
 	private void convertChunks(File p_75811_1_, File p_75811_2_, WorldChunkManager p_75811_3_, int p_75811_4_,
 			int p_75811_5_, IProgressUpdate progressCallback) {
 		try {
@@ -218,6 +236,10 @@ public class AnvilSaveConverter extends SaveFormatOld {
 		}
 	}
 
+	/**
+	 * filters the files in the par1 directory, and adds them to the par2
+	 * collections
+	 */
 	private void addRegionFilesToCollection(File worldDir, Collection<File> collection) {
 		File file1 = new File(worldDir, "region");
 		File[] afile = file1.listFiles(new FilenameFilter() {

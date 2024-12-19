@@ -18,6 +18,9 @@ public class BlockStaticLiquid extends BlockLiquid {
 		}
 	}
 
+	/**
+	 * Called when a neighboring block changes.
+	 */
 	public void onNeighborBlockChange(World worldIn, BlockPos pos, IBlockState state, Block neighborBlock) {
 		if (!this.checkForMixing(worldIn, pos, state)) {
 			this.updateLiquid(worldIn, pos, state);

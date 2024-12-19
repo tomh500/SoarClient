@@ -11,6 +11,8 @@ import net.minecraft.world.World;
 
 public class WorldGenMinable extends WorldGenerator {
 	private final IBlockState oreBlock;
+
+	/** The number of blocks to generate. */
 	private final int numberOfBlocks;
 	private final Predicate<IBlockState> predicate;
 

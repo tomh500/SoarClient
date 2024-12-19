@@ -14,6 +14,9 @@ public class BlockStandingSign extends BlockSign {
 		this.setDefaultState(this.blockState.getBaseState().withProperty(ROTATION, Integer.valueOf(0)));
 	}
 
+	/**
+	 * Called when a neighboring block changes.
+	 */
 	public void onNeighborBlockChange(World worldIn, BlockPos pos, IBlockState state, Block neighborBlock) {
 		if (!worldIn.getBlockState(pos.down()).getBlock().getMaterial().isSolid()) {
 			this.dropBlockAsItem(worldIn, pos, state, 0);
@@ -23,10 +26,16 @@ public class BlockStandingSign extends BlockSign {
 		super.onNeighborBlockChange(worldIn, pos, state, neighborBlock);
 	}
 
+	/**
+	 * Convert the given metadata into a BlockState for this Block
+	 */
 	public IBlockState getStateFromMeta(int meta) {
 		return this.getDefaultState().withProperty(ROTATION, Integer.valueOf(meta));
 	}
 
+	/**
+	 * Convert the BlockState into the correct metadata value
+	 */
 	public int getMetaFromState(IBlockState state) {
 		return ((Integer) state.getValue(ROTATION)).intValue();
 	}

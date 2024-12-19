@@ -1,5 +1,6 @@
 package net.minecraft.client.resources;
 
+import com.google.common.collect.ImmutableSet;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileInputStream;
@@ -8,9 +9,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Map;
 import java.util.Set;
-
-import com.google.common.collect.ImmutableSet;
-
 import net.minecraft.client.renderer.texture.TextureUtil;
 import net.minecraft.client.resources.data.IMetadataSection;
 import net.minecraft.client.resources.data.IMetadataSerializer;
@@ -46,8 +44,8 @@ public class DefaultResourcePack implements IResourcePack {
 	}
 
 	private InputStream getResourceStream(ResourceLocation location) {
-		String s = "/assets/" + location.getResourceDomain() + "/" + location.getResourcePath();
-		return DefaultResourcePack.class.getResourceAsStream(s);
+		return DefaultResourcePack.class
+				.getResourceAsStream("/assets/" + location.getResourceDomain() + "/" + location.getResourcePath());
 	}
 
 	public boolean resourceExists(ResourceLocation location) {
@@ -64,9 +62,9 @@ public class DefaultResourcePack implements IResourcePack {
 			InputStream inputstream = new FileInputStream((File) this.mapAssets.get("pack.mcmeta"));
 			return AbstractResourcePack.readMetadata(metadataSerializer, inputstream, metadataSectionName);
 		} catch (RuntimeException var4) {
-			return (T) ((IMetadataSection) null);
+			return (T) null;
 		} catch (FileNotFoundException var5) {
-			return (T) ((IMetadataSection) null);
+			return (T) null;
 		}
 	}
 

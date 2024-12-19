@@ -50,6 +50,10 @@ public class EntityFallingBlock extends Entity {
 		this.prevPosZ = z;
 	}
 
+	/**
+	 * returns if this entity triggers Block.onEntityWalking on the blocks they walk
+	 * on. used for spiders and wolves to prevent them from trampling crops
+	 */
 	protected boolean canTriggerWalking() {
 		return false;
 	}
@@ -57,10 +61,17 @@ public class EntityFallingBlock extends Entity {
 	protected void entityInit() {
 	}
 
+	/**
+	 * Returns true if other Entities should be prevented from moving through this
+	 * Entity.
+	 */
 	public boolean canBeCollidedWith() {
 		return !this.isDead;
 	}
 
+	/**
+	 * Called to update the entity's position/logic.
+	 */
 	public void onUpdate() {
 		Block block = this.fallTile.getBlock();
 
@@ -175,6 +186,9 @@ public class EntityFallingBlock extends Entity {
 		}
 	}
 
+	/**
+	 * (abstract) Protected helper method to write subclass entity data to NBT.
+	 */
 	protected void writeEntityToNBT(NBTTagCompound tagCompound) {
 		Block block = this.fallTile != null ? this.fallTile.getBlock() : Blocks.air;
 		ResourceLocation resourcelocation = (ResourceLocation) Block.blockRegistry.getNameForObject(block);
@@ -191,6 +205,9 @@ public class EntityFallingBlock extends Entity {
 		}
 	}
 
+	/**
+	 * (abstract) Protected helper method to read subclass entity data from NBT.
+	 */
 	protected void readEntityFromNBT(NBTTagCompound tagCompund) {
 		int i = tagCompund.getByte("Data") & 255;
 
@@ -234,6 +251,9 @@ public class EntityFallingBlock extends Entity {
 		this.hurtEntities = p_145806_1_;
 	}
 
+	/**
+	 * Return whether this entity should be rendered as on fire.
+	 */
 	public boolean canRenderOnFire() {
 		return false;
 	}

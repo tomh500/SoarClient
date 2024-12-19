@@ -8,6 +8,8 @@ import net.minecraft.world.World;
 
 public class EntitySpellParticleFX extends EntityFX {
 	private static final Random RANDOM = new Random();
+
+	/** Base spell texture index */
 	private int baseSpellTextureIndex = 128;
 
 	protected EntitySpellParticleFX(World worldIn, double xCoordIn, double yCoordIn, double zCoordIn, double p_i1229_8_,
@@ -26,6 +28,9 @@ public class EntitySpellParticleFX extends EntityFX {
 		this.noClip = false;
 	}
 
+	/**
+	 * Renders the particle
+	 */
 	public void renderParticle(WorldRenderer worldRendererIn, Entity entityIn, float partialTicks, float rotationX,
 			float rotationZ, float rotationYZ, float rotationXY, float rotationXZ) {
 		float f = ((float) this.particleAge + partialTicks) / (float) this.particleMaxAge * 32.0F;
@@ -34,6 +39,9 @@ public class EntitySpellParticleFX extends EntityFX {
 				rotationXZ);
 	}
 
+	/**
+	 * Called to update the entity's position/logic.
+	 */
 	public void onUpdate() {
 		this.prevPosX = this.posX;
 		this.prevPosY = this.posY;
@@ -62,6 +70,9 @@ public class EntitySpellParticleFX extends EntityFX {
 		}
 	}
 
+	/**
+	 * Sets the base spell texture index
+	 */
 	public void setBaseSpellTextureIndex(int baseSpellTextureIndexIn) {
 		this.baseSpellTextureIndex = baseSpellTextureIndexIn;
 	}

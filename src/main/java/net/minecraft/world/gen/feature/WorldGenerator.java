@@ -6,6 +6,11 @@ import net.minecraft.util.BlockPos;
 import net.minecraft.world.World;
 
 public abstract class WorldGenerator {
+	/**
+	 * Sets wither or not the generator should notify blocks of blocks it changes.
+	 * When the world is first generated, this is false, when saplings grow, this is
+	 * true.
+	 */
 	private final boolean doBlockNotify;
 
 	public WorldGenerator() {

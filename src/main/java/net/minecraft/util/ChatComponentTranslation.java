@@ -28,6 +28,10 @@ public class ChatComponentTranslation extends ChatComponentStyle {
 		}
 	}
 
+	/**
+	 * ensures that our children are initialized from the most recent string
+	 * translation mapping.
+	 */
 	synchronized void ensureInitialized() {
 		synchronized (this.syncLock) {
 			long i = StatCollector.getLastTranslationUpdateTimeInMilliseconds();
@@ -53,6 +57,10 @@ public class ChatComponentTranslation extends ChatComponentStyle {
 		}
 	}
 
+	/**
+	 * initializes our children from a format string, using the format args to fill
+	 * in the placeholder variables.
+	 */
 	protected void initializeFromFormat(String format) {
 		boolean flag = false;
 		Matcher matcher = stringVariablePattern.matcher(format);
@@ -147,6 +155,10 @@ public class ChatComponentTranslation extends ChatComponentStyle {
 				createDeepCopyIterator(this.siblings));
 	}
 
+	/**
+	 * Gets the text of this component, without any special formatting codes added,
+	 * for chat.
+	 */
 	public String getUnformattedTextForChat() {
 		this.ensureInitialized();
 		StringBuilder stringbuilder = new StringBuilder();
@@ -158,6 +170,10 @@ public class ChatComponentTranslation extends ChatComponentStyle {
 		return stringbuilder.toString();
 	}
 
+	/**
+	 * Creates a copy of this component. Almost a deep copy, except the style is
+	 * shallow-copied.
+	 */
 	public ChatComponentTranslation createCopy() {
 		Object[] aobject = new Object[this.formatArgs.length];
 

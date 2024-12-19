@@ -6,6 +6,7 @@ import java.io.IOException;
 import net.minecraft.util.MathHelper;
 
 public class NBTTagFloat extends NBTBase.NBTPrimitive {
+	/** The float value for the tag. */
 	private float data;
 
 	NBTTagFloat() {
@@ -15,6 +16,10 @@ public class NBTTagFloat extends NBTBase.NBTPrimitive {
 		this.data = data;
 	}
 
+	/**
+	 * Write the actual data contents of the tag, implemented in NBT extension
+	 * classes
+	 */
 	void write(DataOutput output) throws IOException {
 		output.writeFloat(this.data);
 	}
@@ -24,6 +29,9 @@ public class NBTTagFloat extends NBTBase.NBTPrimitive {
 		this.data = input.readFloat();
 	}
 
+	/**
+	 * Gets the type byte for the tag.
+	 */
 	public byte getId() {
 		return (byte) 5;
 	}
@@ -32,6 +40,9 @@ public class NBTTagFloat extends NBTBase.NBTPrimitive {
 		return "" + this.data + "f";
 	}
 
+	/**
+	 * Creates a clone of the tag.
+	 */
 	public NBTBase copy() {
 		return new NBTTagFloat(this.data);
 	}

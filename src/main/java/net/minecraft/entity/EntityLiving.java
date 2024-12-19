@@ -1,7 +1,6 @@
 package net.minecraft.entity;
 
 import java.util.UUID;
-
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.ai.EntityAITasks;
 import net.minecraft.entity.ai.EntityJumpHelper;
@@ -11,7 +10,6 @@ import net.minecraft.entity.ai.EntitySenses;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.monster.EntityGhast;
-import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.entity.monster.IMob;
 import net.minecraft.entity.passive.EntityTameable;
 import net.minecraft.entity.player.EntityPlayer;
@@ -29,8 +27,6 @@ import net.minecraft.nbt.NBTTagList;
 import net.minecraft.network.play.server.S1BPacketEntityAttach;
 import net.minecraft.pathfinding.PathNavigate;
 import net.minecraft.pathfinding.PathNavigateGround;
-import net.minecraft.scoreboard.Team;
-import net.minecraft.src.Config;
 import net.minecraft.stats.AchievementList;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumParticleTypes;
@@ -41,26 +37,43 @@ import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
 
 public abstract class EntityLiving extends EntityLivingBase {
+	/** Number of ticks since this EntityLiving last produced its sound */
 	public int livingSoundTime;
+
+	/** The experience points the Entity gives. */
 	protected int experienceValue;
 	private EntityLookHelper lookHelper;
 	protected EntityMoveHelper moveHelper;
+
+	/** Entity jumping helper */
 	protected EntityJumpHelper jumpHelper;
 	private EntityBodyHelper bodyHelper;
 	protected PathNavigate navigator;
+
+	/** Passive tasks (wandering, look, idle, ...) */
 	protected final EntityAITasks tasks;
+
+	/** Fighting tasks (used by monsters, wolves, ocelots) */
 	protected final EntityAITasks targetTasks;
+
+	/** The active target the Task system uses for tracking */
 	private EntityLivingBase attackTarget;
 	private EntitySenses senses;
+
+	/** Equipment (armor and held item) for this entity. */
 	private ItemStack[] equipment = new ItemStack[5];
+
+	/** Chances for each equipment piece from dropping when this entity dies. */
 	protected float[] equipmentDropChances = new float[5];
+
+	/** Whether this entity can pick up items from the ground. */
 	private boolean canPickUpLoot;
+
+	/** Whether this entity should NOT despawn. */
 	private boolean persistenceRequired;
 	private boolean isLeashed;
 	private Entity leashedToEntity;
 	private NBTTagCompound leashNBTTag;
-	private UUID teamUuid = null;
-	private String teamUuidString = null;
 
 	public EntityLiving(World worldIn) {
 		super(worldIn);
@@ -84,6 +97,9 @@ public abstract class EntityLiving extends EntityLivingBase {
 		this.getAttributeMap().registerAttribute(SharedMonsterAttributes.followRange).setBaseValue(16.0D);
 	}
 
+	/**
+	 * Returns new PathNavigateGround instance
+	 */
 	protected PathNavigate getNewNavigator(World worldIn) {
 		return new PathNavigateGround(this, worldIn);
 	}
@@ -104,22 +120,38 @@ public abstract class EntityLiving extends EntityLivingBase {
 		return this.navigator;
 	}
 
+	/**
+	 * returns the EntitySenses Object for the EntityLiving
+	 */
 	public EntitySenses getEntitySenses() {
 		return this.senses;
 	}
 
+	/**
+	 * Gets the active target the Task system uses for tracking
+	 */
 	public EntityLivingBase getAttackTarget() {
 		return this.attackTarget;
 	}
 
+	/**
+	 * Sets the active target the Task system uses for tracking
+	 */
 	public void setAttackTarget(EntityLivingBase entitylivingbaseIn) {
 		this.attackTarget = entitylivingbaseIn;
 	}
 
+	/**
+	 * Returns true if this entity can attack entities of the specified class.
+	 */
 	public boolean canAttackClass(Class<? extends EntityLivingBase> cls) {
 		return cls != EntityGhast.class;
 	}
 
+	/**
+	 * This function applies the benefits of growing back wool and faster growing up
+	 * to the acting entity. (This function is used in the AIEatGrass)
+	 */
 	public void eatGrassBonus() {
 	}
 
@@ -128,10 +160,16 @@ public abstract class EntityLiving extends EntityLivingBase {
 		this.dataWatcher.addObject(15, Byte.valueOf((byte) 0));
 	}
 
+	/**
+	 * Get number of ticks, at least during which the living entity will be silent.
+	 */
 	public int getTalkInterval() {
 		return 80;
 	}
 
+	/**
+	 * Plays living's sound at its position
+	 */
 	public void playLivingSound() {
 		String s = this.getLivingSound();
 
@@ -140,6 +178,9 @@ public abstract class EntityLiving extends EntityLivingBase {
 		}
 	}
 
+	/**
+	 * Gets called every tick from main Entity class
+	 */
 	public void onEntityUpdate() {
 		super.onEntityUpdate();
 		this.worldObj.theProfiler.startSection("mobBaseTick");
@@ -152,6 +193,9 @@ public abstract class EntityLiving extends EntityLivingBase {
 		this.worldObj.theProfiler.endSection();
 	}
 
+	/**
+	 * Get the experience points the entity currently has.
+	 */
 	protected int getExperiencePoints(EntityPlayer player) {
 		if (this.experienceValue > 0) {
 			int i = this.experienceValue;
@@ -169,6 +213,9 @@ public abstract class EntityLiving extends EntityLivingBase {
 		}
 	}
 
+	/**
+	 * Spawns an explosion particle around the Entity's location
+	 */
 	public void spawnExplosionParticle() {
 		if (this.worldObj.isRemote) {
 			for (int i = 0; i < 20; ++i) {
@@ -196,15 +243,14 @@ public abstract class EntityLiving extends EntityLivingBase {
 		}
 	}
 
+	/**
+	 * Called to update the entity's position/logic.
+	 */
 	public void onUpdate() {
-		if (Config.isSmoothWorld() && this.canSkipUpdate()) {
-			this.onUpdateMinimal();
-		} else {
-			super.onUpdate();
+		super.onUpdate();
 
-			if (!this.worldObj.isRemote) {
-				this.updateLeashedState();
-			}
+		if (!this.worldObj.isRemote) {
+			this.updateLeashedState();
 		}
 	}
 
@@ -213,6 +259,9 @@ public abstract class EntityLiving extends EntityLivingBase {
 		return p_110146_2_;
 	}
 
+	/**
+	 * Returns the sound this mob makes while it's alive.
+	 */
 	protected String getLivingSound() {
 		return null;
 	}
@@ -221,6 +270,14 @@ public abstract class EntityLiving extends EntityLivingBase {
 		return null;
 	}
 
+	/**
+	 * Drop 0-2 items of this living's type
+	 * 
+	 * @param wasRecentlyHit  true if this this entity was recently hit by
+	 *                        appropriate entity (generally only if player or
+	 *                        tameable)
+	 * @param lootingModifier level of enchanment to be applied to this drop
+	 */
 	protected void dropFewItems(boolean wasRecentlyHit, int lootingModifier) {
 		Item item = this.getDropItem();
 
@@ -237,6 +294,9 @@ public abstract class EntityLiving extends EntityLivingBase {
 		}
 	}
 
+	/**
+	 * (abstract) Protected helper method to write subclass entity data to NBT.
+	 */
 	public void writeEntityToNBT(NBTTagCompound tagCompound) {
 		super.writeEntityToNBT(tagCompound);
 		tagCompound.setBoolean("CanPickUpLoot", this.canPickUpLoot());
@@ -284,6 +344,9 @@ public abstract class EntityLiving extends EntityLivingBase {
 		}
 	}
 
+	/**
+	 * (abstract) Protected helper method to read subclass entity data from NBT.
+	 */
 	public void readEntityFromNBT(NBTTagCompound tagCompund) {
 		super.readEntityFromNBT(tagCompund);
 
@@ -322,11 +385,19 @@ public abstract class EntityLiving extends EntityLivingBase {
 		this.moveForward = p_70657_1_;
 	}
 
+	/**
+	 * set the movespeed used for the new AI system
+	 */
 	public void setAIMoveSpeed(float speedIn) {
 		super.setAIMoveSpeed(speedIn);
 		this.setMoveForward(speedIn);
 	}
 
+	/**
+	 * Called frequently so the entity can update its state every tick as required.
+	 * For example, zombies and skeletons use this to react to sunlight and start to
+	 * burn.
+	 */
 	public void onLivingUpdate() {
 		super.onLivingUpdate();
 		this.worldObj.theProfiler.startSection("looting");
@@ -344,6 +415,10 @@ public abstract class EntityLiving extends EntityLivingBase {
 		this.worldObj.theProfiler.endSection();
 	}
 
+	/**
+	 * Tests if this entity should pickup a weapon or an armor. Entity drops current
+	 * weapon or armor if the new one is better.
+	 */
 	protected void updateEquipmentIfNeeded(EntityItem itemEntity) {
 		ItemStack itemstack = itemEntity.getEntityItem();
 		int i = getArmorPosition(itemstack);
@@ -414,10 +489,16 @@ public abstract class EntityLiving extends EntityLivingBase {
 		return true;
 	}
 
+	/**
+	 * Determines if an entity can be despawned, used on idle far away entities
+	 */
 	protected boolean canDespawn() {
 		return true;
 	}
 
+	/**
+	 * Makes the entity despawn if requirements are reached
+	 */
 	protected void despawnEntity() {
 		if (this.persistenceRequired) {
 			this.entityAge = 0;
@@ -477,31 +558,42 @@ public abstract class EntityLiving extends EntityLivingBase {
 	protected void updateAITasks() {
 	}
 
+	/**
+	 * The speed it takes to move the entityliving's rotationPitch through the
+	 * faceEntity method. This is only currently use in wolves.
+	 */
 	public int getVerticalFaceSpeed() {
 		return 40;
 	}
 
+	/**
+	 * Changes pitch and yaw so that the entity calling the function is facing the
+	 * entity provided as an argument.
+	 */
 	public void faceEntity(Entity entityIn, float p_70625_2_, float p_70625_3_) {
 		double d0 = entityIn.posX - this.posX;
-		double d1 = entityIn.posZ - this.posZ;
-		double d2;
+		double d2 = entityIn.posZ - this.posZ;
+		double d1;
 
 		if (entityIn instanceof EntityLivingBase) {
 			EntityLivingBase entitylivingbase = (EntityLivingBase) entityIn;
-			d2 = entitylivingbase.posY + (double) entitylivingbase.getEyeHeight()
+			d1 = entitylivingbase.posY + (double) entitylivingbase.getEyeHeight()
 					- (this.posY + (double) this.getEyeHeight());
 		} else {
-			d2 = (entityIn.getEntityBoundingBox().minY + entityIn.getEntityBoundingBox().maxY) / 2.0D
+			d1 = (entityIn.getEntityBoundingBox().minY + entityIn.getEntityBoundingBox().maxY) / 2.0D
 					- (this.posY + (double) this.getEyeHeight());
 		}
 
-		double d3 = (double) MathHelper.sqrt_double(d0 * d0 + d1 * d1);
-		float f = (float) (MathHelper.atan2(d1, d0) * 180.0D / Math.PI) - 90.0F;
-		float f1 = (float) (-(MathHelper.atan2(d2, d3) * 180.0D / Math.PI));
+		double d3 = (double) MathHelper.sqrt_double(d0 * d0 + d2 * d2);
+		float f = (float) (MathHelper.atan2(d2, d0) * 180.0D / Math.PI) - 90.0F;
+		float f1 = (float) (-(MathHelper.atan2(d1, d3) * 180.0D / Math.PI));
 		this.rotationPitch = this.updateRotation(this.rotationPitch, f1, p_70625_3_);
 		this.rotationYaw = this.updateRotation(this.rotationYaw, f, p_70625_2_);
 	}
 
+	/**
+	 * Arguments: current rotation, intended rotation, max increment.
+	 */
 	private float updateRotation(float p_70663_1_, float p_70663_2_, float p_70663_3_) {
 		float f = MathHelper.wrapAngleTo180_float(p_70663_2_ - p_70663_1_);
 
@@ -516,24 +608,41 @@ public abstract class EntityLiving extends EntityLivingBase {
 		return p_70663_1_ + f;
 	}
 
+	/**
+	 * Checks if the entity's current position is a valid location to spawn this
+	 * entity.
+	 */
 	public boolean getCanSpawnHere() {
 		return true;
 	}
 
+	/**
+	 * Checks that the entity is not colliding with any blocks / liquids
+	 */
 	public boolean isNotColliding() {
 		return this.worldObj.checkNoEntityCollision(this.getEntityBoundingBox(), this)
 				&& this.worldObj.getCollidingBoundingBoxes(this, this.getEntityBoundingBox()).isEmpty()
 				&& !this.worldObj.isAnyLiquid(this.getEntityBoundingBox());
 	}
 
+	/**
+	 * Returns render size modifier
+	 */
 	public float getRenderSizeModifier() {
 		return 1.0F;
 	}
 
+	/**
+	 * Will return how many at most can spawn in a chunk at once.
+	 */
 	public int getMaxSpawnedInChunk() {
 		return 4;
 	}
 
+	/**
+	 * The maximum height from where the entity is alowed to jump (used in
+	 * pathfinder)
+	 */
 	public int getMaxFallHeight() {
 		if (this.getAttackTarget() == null) {
 			return 3;
@@ -549,10 +658,16 @@ public abstract class EntityLiving extends EntityLivingBase {
 		}
 	}
 
+	/**
+	 * Returns the item that this EntityLiving is holding, if any.
+	 */
 	public ItemStack getHeldItem() {
 		return this.equipment[0];
 	}
 
+	/**
+	 * 0: Tool in Hand; 1-4: Armor
+	 */
 	public ItemStack getEquipmentInSlot(int slotIn) {
 		return this.equipment[slotIn];
 	}
@@ -561,14 +676,29 @@ public abstract class EntityLiving extends EntityLivingBase {
 		return this.equipment[slotIn + 1];
 	}
 
+	/**
+	 * Sets the held item, or an armor slot. Slot 0 is held item. Slot 1-4 is armor.
+	 * Params: Item, slot
+	 */
 	public void setCurrentItemOrArmor(int slotIn, ItemStack stack) {
 		this.equipment[slotIn] = stack;
 	}
 
+	/**
+	 * returns the inventory of this entity (only used in EntityPlayerMP it seems)
+	 */
 	public ItemStack[] getInventory() {
 		return this.equipment;
 	}
 
+	/**
+	 * Drop the equipment for this entity.
+	 * 
+	 * @param wasRecentlyHit  true if this this entity was recently hit by
+	 *                        appropriate entity (generally only if player or
+	 *                        tameable)
+	 * @param lootingModifier level of enchanment to be applied to this drop
+	 */
 	protected void dropEquipment(boolean wasRecentlyHit, int lootingModifier) {
 		for (int i = 0; i < this.getInventory().length; ++i) {
 			ItemStack itemstack = this.getEquipmentInSlot(i);
@@ -596,6 +726,9 @@ public abstract class EntityLiving extends EntityLivingBase {
 		}
 	}
 
+	/**
+	 * Gives armor or weapon for entity based on given DifficultyInstance
+	 */
 	protected void setEquipmentBasedOnDifficulty(DifficultyInstance difficulty) {
 		if (this.rand.nextFloat() < 0.15F * difficulty.getClampedAdditionalDifficulty()) {
 			int i = this.rand.nextInt(2);
@@ -655,6 +788,10 @@ public abstract class EntityLiving extends EntityLivingBase {
 		}
 	}
 
+	/**
+	 * Gets the vanilla armor Item that can go in the slot specified for the given
+	 * tier.
+	 */
 	public static Item getArmorItemForSlot(int armorSlot, int itemTier) {
 		switch (armorSlot) {
 		case 4:
@@ -714,6 +851,9 @@ public abstract class EntityLiving extends EntityLivingBase {
 		}
 	}
 
+	/**
+	 * Enchants Entity's current equipments based on given DifficultyInstance
+	 */
 	protected void setEnchantmentBasedOnDifficulty(DifficultyInstance difficulty) {
 		float f = difficulty.getClampedAdditionalDifficulty();
 
@@ -732,16 +872,29 @@ public abstract class EntityLiving extends EntityLivingBase {
 		}
 	}
 
+	/**
+	 * Called only once on an entity when first time spawned, via egg, mob spawner,
+	 * natural spawning etc, but not called when entity is reloaded from nbt. Mainly
+	 * used for initializing attributes and inventory
+	 */
 	public IEntityLivingData onInitialSpawn(DifficultyInstance difficulty, IEntityLivingData livingdata) {
 		this.getEntityAttribute(SharedMonsterAttributes.followRange)
 				.applyModifier(new AttributeModifier("Random spawn bonus", this.rand.nextGaussian() * 0.05D, 1));
 		return livingdata;
 	}
 
+	/**
+	 * returns true if all the conditions for steering the entity are met. For pigs,
+	 * this is true if it is being ridden by a player and the player is holding a
+	 * carrot-on-a-stick
+	 */
 	public boolean canBeSteered() {
 		return false;
 	}
 
+	/**
+	 * Enable the Entity persistence
+	 */
 	public void enablePersistence() {
 		this.persistenceRequired = true;
 	}
@@ -762,6 +915,9 @@ public abstract class EntityLiving extends EntityLivingBase {
 		return this.persistenceRequired;
 	}
 
+	/**
+	 * First layer of player interaction
+	 */
 	public final boolean interactFirst(EntityPlayer playerIn) {
 		if (this.getLeashed() && this.getLeashedToEntity() == playerIn) {
 			this.clearLeashed(true, !playerIn.capabilities.isCreativeMode);
@@ -791,10 +947,18 @@ public abstract class EntityLiving extends EntityLivingBase {
 		}
 	}
 
+	/**
+	 * Called when a player interacts with a mob. e.g. gets milk from a cow, gets
+	 * into the saddle on a pig.
+	 */
 	protected boolean interact(EntityPlayer player) {
 		return false;
 	}
 
+	/**
+	 * Applies logic related to leashes, for example dragging the entity or breaking
+	 * the leash.
+	 */
 	protected void updateLeashedState() {
 		if (this.leashNBTTag != null) {
 			this.recreateLeash();
@@ -811,6 +975,9 @@ public abstract class EntityLiving extends EntityLivingBase {
 		}
 	}
 
+	/**
+	 * Removes the leash from this entity
+	 */
 	public void clearLeashed(boolean sendPacket, boolean dropLead) {
 		if (this.isLeashed) {
 			this.isLeashed = false;
@@ -839,6 +1006,9 @@ public abstract class EntityLiving extends EntityLivingBase {
 		return this.leashedToEntity;
 	}
 
+	/**
+	 * Sets the entity to be leashed to.
+	 */
 	public void setLeashedToEntity(Entity entityIn, boolean sendAttachNotification) {
 		this.isLeashed = true;
 		this.leashedToEntity = entityIn;
@@ -893,74 +1063,34 @@ public abstract class EntityLiving extends EntityLivingBase {
 			}
 		}
 
-		if (itemStackIn == null || getArmorPosition(itemStackIn) == i
-				|| i == 4 && itemStackIn.getItem() instanceof ItemBlock) {
+		if (itemStackIn != null && getArmorPosition(itemStackIn) != i
+				&& (i != 4 || !(itemStackIn.getItem() instanceof ItemBlock))) {
+			return false;
+		} else {
 			this.setCurrentItemOrArmor(i, itemStackIn);
 			return true;
-		} else {
-			return false;
 		}
 	}
 
+	/**
+	 * Returns whether the entity is in a server world
+	 */
 	public boolean isServerWorld() {
 		return super.isServerWorld() && !this.isAIDisabled();
 	}
 
+	/**
+	 * Set whether this Entity's AI is disabled
+	 */
 	public void setNoAI(boolean disable) {
 		this.dataWatcher.updateObject(15, Byte.valueOf((byte) (disable ? 1 : 0)));
 	}
 
+	/**
+	 * Get whether this Entity's AI is disabled
+	 */
 	public boolean isAIDisabled() {
 		return this.dataWatcher.getWatchableObjectByte(15) != 0;
-	}
-
-	private boolean canSkipUpdate() {
-		if (this.isChild()) {
-			return false;
-		} else if (this.hurtTime > 0) {
-			return false;
-		} else if (this.ticksExisted < 20) {
-			return false;
-		} else {
-			World world = this.getEntityWorld();
-
-			if (world == null) {
-				return false;
-			} else if (world.playerEntities.size() != 1) {
-				return false;
-			} else {
-				Entity entity = (Entity) world.playerEntities.get(0);
-				double d0 = Math.max(Math.abs(this.posX - entity.posX) - 16.0D, 0.0D);
-				double d1 = Math.max(Math.abs(this.posZ - entity.posZ) - 16.0D, 0.0D);
-				double d2 = d0 * d0 + d1 * d1;
-				return !this.isInRangeToRenderDist(d2);
-			}
-		}
-	}
-
-	private void onUpdateMinimal() {
-		++this.entityAge;
-
-		if (this instanceof EntityMob) {
-			float f = this.getBrightness(1.0F);
-
-			if (f > 0.5F) {
-				this.entityAge += 2;
-			}
-		}
-
-		this.despawnEntity();
-	}
-
-	public Team getTeam() {
-		UUID uuid = this.getUniqueID();
-
-		if (this.teamUuid != uuid) {
-			this.teamUuid = uuid;
-			this.teamUuidString = uuid.toString();
-		}
-
-		return this.worldObj.getScoreboard().getPlayersTeam(this.teamUuidString);
 	}
 
 	public static enum SpawnPlacementType {

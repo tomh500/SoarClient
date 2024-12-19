@@ -12,6 +12,9 @@ public class NBTSizeTracker {
 		this.max = max;
 	}
 
+	/**
+	 * Tracks the reading of the given amount of bits(!)
+	 */
 	public void read(long bits) {
 		this.read += bits / 8L;
 

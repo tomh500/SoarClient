@@ -1,8 +1,10 @@
 package net.minecraft.client.renderer.culling;
 
+import com.soarclient.libraries.sodium.client.util.math.FrustumExtended;
+
 import net.minecraft.util.AxisAlignedBB;
 
-public class Frustum implements ICamera {
+public class Frustum implements ICamera, FrustumExtended {
 	private ClippingHelper clippingHelper;
 	private double xPosition;
 	private double yPosition;
@@ -22,6 +24,10 @@ public class Frustum implements ICamera {
 		this.zPosition = p_78547_5_;
 	}
 
+	/**
+	 * Calls the clipping helper. Returns true if the box is inside all 6 clipping
+	 * planes, otherwise returns false.
+	 */
 	public boolean isBoxInFrustum(double p_78548_1_, double p_78548_3_, double p_78548_5_, double p_78548_7_,
 			double p_78548_9_, double p_78548_11_) {
 		return this.clippingHelper.isBoxInFrustum(p_78548_1_ - this.xPosition, p_78548_3_ - this.yPosition,
@@ -29,17 +35,18 @@ public class Frustum implements ICamera {
 				p_78548_11_ - this.zPosition);
 	}
 
+	/**
+	 * Returns true if the bounding box is inside all 6 clipping planes, otherwise
+	 * returns false.
+	 */
 	public boolean isBoundingBoxInFrustum(AxisAlignedBB p_78546_1_) {
 		return this.isBoxInFrustum(p_78546_1_.minX, p_78546_1_.minY, p_78546_1_.minZ, p_78546_1_.maxX, p_78546_1_.maxY,
 				p_78546_1_.maxZ);
 	}
 
-	public boolean isBoxInFrustumFully(double p_isBoxInFrustumFully_1_, double p_isBoxInFrustumFully_3_,
-			double p_isBoxInFrustumFully_5_, double p_isBoxInFrustumFully_7_, double p_isBoxInFrustumFully_9_,
-			double p_isBoxInFrustumFully_11_) {
-		return this.clippingHelper.isBoxInFrustumFully(p_isBoxInFrustumFully_1_ - this.xPosition,
-				p_isBoxInFrustumFully_3_ - this.yPosition, p_isBoxInFrustumFully_5_ - this.zPosition,
-				p_isBoxInFrustumFully_7_ - this.xPosition, p_isBoxInFrustumFully_9_ - this.yPosition,
-				p_isBoxInFrustumFully_11_ - this.zPosition);
+	@Override
+	public boolean fastAabbTest(float minX, float minY, float minZ, float maxX, float maxY, float maxZ) {
+		return this.isBoxInFrustum((double) minX, (double) minY, (double) minZ, (double) maxX, (double) maxY,
+				(double) maxZ);
 	}
 }

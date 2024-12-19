@@ -14,6 +14,9 @@ public class EntityAIOwnerHurtByTarget extends EntityAITarget {
 		this.setMutexBits(1);
 	}
 
+	/**
+	 * Returns whether the EntityAIBase should begin execution.
+	 */
 	public boolean shouldExecute() {
 		if (!this.theDefendingTameable.isTamed()) {
 			return false;
@@ -31,6 +34,9 @@ public class EntityAIOwnerHurtByTarget extends EntityAITarget {
 		}
 	}
 
+	/**
+	 * Execute a one shot task or start executing a continuous task
+	 */
 	public void startExecuting() {
 		this.taskOwner.setAttackTarget(this.theOwnerAttacker);
 		EntityLivingBase entitylivingbase = this.theDefendingTameable.getOwner();

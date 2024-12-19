@@ -40,6 +40,9 @@ public class S38PacketPlayerListItem implements Packet<INetHandlerPlayClient> {
 		}
 	}
 
+	/**
+	 * Reads the raw packet data from the data stream.
+	 */
 	public void readPacketData(PacketBuffer buf) throws IOException {
 		this.action = (S38PacketPlayerListItem.Action) buf.readEnumValue(S38PacketPlayerListItem.Action.class);
 		int i = buf.readVarIntFromBuffer();
@@ -104,6 +107,9 @@ public class S38PacketPlayerListItem implements Packet<INetHandlerPlayClient> {
 		}
 	}
 
+	/**
+	 * Writes the raw packet data to the data stream.
+	 */
 	public void writePacketData(PacketBuffer buf) throws IOException {
 		buf.writeEnumValue(this.action);
 		buf.writeVarIntToBuffer(this.players.size());
@@ -167,6 +173,9 @@ public class S38PacketPlayerListItem implements Packet<INetHandlerPlayClient> {
 		}
 	}
 
+	/**
+	 * Passes this Packet on to the NetHandler for processing.
+	 */
 	public void processPacket(INetHandlerPlayClient handler) {
 		handler.handlePlayerListItem(this);
 	}

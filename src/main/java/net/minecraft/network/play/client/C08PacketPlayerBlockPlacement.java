@@ -33,6 +33,9 @@ public class C08PacketPlayerBlockPlacement implements Packet<INetHandlerPlayServ
 		this.facingZ = facingZIn;
 	}
 
+	/**
+	 * Reads the raw packet data from the data stream.
+	 */
 	public void readPacketData(PacketBuffer buf) throws IOException {
 		this.position = buf.readBlockPos();
 		this.placedBlockDirection = buf.readUnsignedByte();
@@ -42,6 +45,9 @@ public class C08PacketPlayerBlockPlacement implements Packet<INetHandlerPlayServ
 		this.facingZ = (float) buf.readUnsignedByte() / 16.0F;
 	}
 
+	/**
+	 * Writes the raw packet data to the data stream.
+	 */
 	public void writePacketData(PacketBuffer buf) throws IOException {
 		buf.writeBlockPos(this.position);
 		buf.writeByte(this.placedBlockDirection);
@@ -51,6 +57,9 @@ public class C08PacketPlayerBlockPlacement implements Packet<INetHandlerPlayServ
 		buf.writeByte((int) (this.facingZ * 16.0F));
 	}
 
+	/**
+	 * Passes this Packet on to the NetHandler for processing.
+	 */
 	public void processPacket(INetHandlerPlayServer handler) {
 		handler.processPlayerBlockPlacement(this);
 	}
@@ -67,14 +76,23 @@ public class C08PacketPlayerBlockPlacement implements Packet<INetHandlerPlayServ
 		return this.stack;
 	}
 
+	/**
+	 * Returns the offset from xPosition where the actual click took place.
+	 */
 	public float getPlacedBlockOffsetX() {
 		return this.facingX;
 	}
 
+	/**
+	 * Returns the offset from yPosition where the actual click took place.
+	 */
 	public float getPlacedBlockOffsetY() {
 		return this.facingY;
 	}
 
+	/**
+	 * Returns the offset from zPosition where the actual click took place.
+	 */
 	public float getPlacedBlockOffsetZ() {
 		return this.facingZ;
 	}

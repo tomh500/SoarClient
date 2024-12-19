@@ -33,10 +33,16 @@ public class BlockBush extends Block {
 				&& this.canPlaceBlockOn(worldIn.getBlockState(pos.down()).getBlock());
 	}
 
+	/**
+	 * is the block grass, dirt or farmland
+	 */
 	protected boolean canPlaceBlockOn(Block ground) {
 		return ground == Blocks.grass || ground == Blocks.dirt || ground == Blocks.farmland;
 	}
 
+	/**
+	 * Called when a neighboring block changes.
+	 */
 	public void onNeighborBlockChange(World worldIn, BlockPos pos, IBlockState state, Block neighborBlock) {
 		super.onNeighborBlockChange(worldIn, pos, state, neighborBlock);
 		this.checkAndDropBlock(worldIn, pos, state);
@@ -61,6 +67,10 @@ public class BlockBush extends Block {
 		return null;
 	}
 
+	/**
+	 * Used to determine ambient occlusion and culling when rebuilding chunks for
+	 * render
+	 */
 	public boolean isOpaqueCube() {
 		return false;
 	}

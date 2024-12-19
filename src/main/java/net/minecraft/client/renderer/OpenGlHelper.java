@@ -3,12 +3,8 @@ package net.minecraft.client.renderer;
 import java.nio.ByteBuffer;
 import java.nio.FloatBuffer;
 import java.nio.IntBuffer;
-import java.util.ArrayList;
-import java.util.List;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.settings.GameSettings;
-import net.minecraft.src.Config;
-import org.lwjgl.opengl.ARBCopyBuffer;
 import org.lwjgl.opengl.ARBFramebufferObject;
 import org.lwjgl.opengl.ARBMultitexture;
 import org.lwjgl.opengl.ARBShaderObjects;
@@ -23,7 +19,6 @@ import org.lwjgl.opengl.GL14;
 import org.lwjgl.opengl.GL15;
 import org.lwjgl.opengl.GL20;
 import org.lwjgl.opengl.GL30;
-import org.lwjgl.opengl.GL31;
 import org.lwjgl.opengl.GLContext;
 import oshi.SystemInfo;
 import oshi.hardware.Processor;
@@ -49,7 +44,17 @@ public class OpenGlHelper {
 	public static int GL_VERTEX_SHADER;
 	public static int GL_FRAGMENT_SHADER;
 	private static boolean arbMultitexture;
+
+	/**
+	 * An OpenGL constant corresponding to GL_TEXTURE0, used when setting data
+	 * pertaining to auxiliary OpenGL texture units.
+	 */
 	public static int defaultTexUnit;
+
+	/**
+	 * An OpenGL constant corresponding to GL_TEXTURE1, used when setting data
+	 * pertaining to auxiliary OpenGL texture units.
+	 */
 	public static int lightmapTexUnit;
 	public static int GL_TEXTURE2;
 	private static boolean arbTextureEnvCombine;
@@ -83,49 +88,14 @@ public class OpenGlHelper {
 	private static boolean arbVbo;
 	public static int GL_ARRAY_BUFFER;
 	public static int GL_STATIC_DRAW;
-	public static float lastBrightnessX = 0.0F;
-	public static float lastBrightnessY = 0.0F;
-	public static boolean openGL31;
-	public static boolean vboRegions;
-	public static int GL_COPY_READ_BUFFER;
-	public static int GL_COPY_WRITE_BUFFER;
-	public static final int GL_QUADS = 7;
-	public static final int GL_TRIANGLES = 4;
 
+	/**
+	 * Initializes the texture constants to be used when rendering lightmap values
+	 */
 	public static void initializeTextures() {
-		Config.initDisplay();
 		ContextCapabilities contextcapabilities = GLContext.getCapabilities();
 		arbMultitexture = contextcapabilities.GL_ARB_multitexture && !contextcapabilities.OpenGL13;
 		arbTextureEnvCombine = contextcapabilities.GL_ARB_texture_env_combine && !contextcapabilities.OpenGL13;
-		openGL31 = contextcapabilities.OpenGL31;
-
-		if (openGL31) {
-			GL_COPY_READ_BUFFER = 36662;
-			GL_COPY_WRITE_BUFFER = 36663;
-		} else {
-			GL_COPY_READ_BUFFER = 36662;
-			GL_COPY_WRITE_BUFFER = 36663;
-		}
-
-		boolean flag = openGL31 || contextcapabilities.GL_ARB_copy_buffer;
-		boolean flag1 = contextcapabilities.OpenGL14;
-		vboRegions = flag && flag1;
-
-		if (!vboRegions) {
-			List<String> list = new ArrayList();
-
-			if (!flag) {
-				list.add("OpenGL 1.3, ARB_copy_buffer");
-			}
-
-			if (!flag1) {
-				list.add("OpenGL 1.4");
-			}
-
-			String s = "VboRegions not supported, missing: " + Config.listToString(list);
-			Config.dbg(s);
-			logText = logText + s + "\n";
-		}
 
 		if (arbMultitexture) {
 			logText = logText + "Using ARB_multitexture.\n";
@@ -272,8 +242,8 @@ public class OpenGlHelper {
 		}
 
 		shadersSupported = framebufferSupported && shadersAvailable;
-		String s1 = GL11.glGetString(GL11.GL_VENDOR).toLowerCase();
-		nvidia = s1.contains("nvidia");
+		String s = GL11.glGetString(GL11.GL_VENDOR).toLowerCase();
+		nvidia = s.contains("nvidia");
 		arbVbo = !contextcapabilities.OpenGL15 && contextcapabilities.GL_ARB_vertex_buffer_object;
 		vboSupported = contextcapabilities.OpenGL15 || arbVbo;
 		logText = logText + "VBOs are " + (vboSupported ? "" : "not ") + "available because ";
@@ -290,7 +260,7 @@ public class OpenGlHelper {
 			}
 		}
 
-		ati = s1.contains("ati");
+		ati = s.contains("ati");
 
 		if (ati) {
 			if (vboSupported) {
@@ -304,7 +274,7 @@ public class OpenGlHelper {
 			Processor[] aprocessor = (new SystemInfo()).getHardware().getProcessors();
 			cpu = String.format("%dx %s", new Object[] { Integer.valueOf(aprocessor.length), aprocessor[0] })
 					.replaceAll("\\s+", " ");
-		} catch (Throwable var5) {
+		} catch (Throwable var3) {
 			;
 		}
 	}
@@ -338,6 +308,9 @@ public class OpenGlHelper {
 		}
 	}
 
+	/**
+	 * creates a shader with the given mode and returns the GL id. params: mode
+	 */
 	public static int glCreateShader(int type) {
 		return arbShaders ? ARBShaderObjects.glCreateShaderObjectARB(type) : GL20.glCreateShader(type);
 	}
@@ -536,9 +509,7 @@ public class OpenGlHelper {
 	}
 
 	public static boolean useVbo() {
-		return Config.isMultiTexture() ? false
-				: (Config.isRenderRegions() && !vboRegions ? false
-						: vboSupported && Minecraft.getMinecraft().gameSettings.useVbo);
+		return vboSupported && Minecraft.getMinecraft().gameSettings.useVbo;
 	}
 
 	public static void glBindFramebuffer(int target, int framebufferIn) {
@@ -609,6 +580,10 @@ public class OpenGlHelper {
 		}
 	}
 
+	/**
+	 * Calls the appropriate glGenFramebuffers method and returns the newly created
+	 * fbo, or returns -1 if not supported.
+	 */
 	public static int glGenFramebuffers() {
 		if (!framebufferSupported) {
 			return -1;
@@ -720,6 +695,9 @@ public class OpenGlHelper {
 		}
 	}
 
+	/**
+	 * Sets the current lightmap texture to the specified OpenGL constant
+	 */
 	public static void setActiveTexture(int texture) {
 		if (arbMultitexture) {
 			ARBMultitexture.glActiveTextureARB(texture);
@@ -728,6 +706,9 @@ public class OpenGlHelper {
 		}
 	}
 
+	/**
+	 * Sets the current lightmap texture to the specified OpenGL constant
+	 */
 	public static void setClientActiveTexture(int texture) {
 		if (arbMultitexture) {
 			ARBMultitexture.glClientActiveTextureARB(texture);
@@ -736,16 +717,14 @@ public class OpenGlHelper {
 		}
 	}
 
+	/**
+	 * Sets the current coordinates of the given lightmap texture
+	 */
 	public static void setLightmapTextureCoords(int target, float p_77475_1_, float p_77475_2_) {
 		if (arbMultitexture) {
 			ARBMultitexture.glMultiTexCoord2fARB(target, p_77475_1_, p_77475_2_);
 		} else {
 			GL13.glMultiTexCoord2f(target, p_77475_1_, p_77475_2_);
-		}
-
-		if (target == lightmapTexUnit) {
-			lastBrightnessX = p_77475_1_;
-			lastBrightnessY = p_77475_2_;
 		}
 	}
 
@@ -762,37 +741,7 @@ public class OpenGlHelper {
 	}
 
 	public static boolean isFramebufferEnabled() {
-		return Config.isFastRender() ? false
-				: (Config.isAntialiasing() ? false
-						: framebufferSupported && Minecraft.getMinecraft().gameSettings.fboEnable);
-	}
-
-	public static void glBufferData(int p_glBufferData_0_, long p_glBufferData_1_, int p_glBufferData_3_) {
-		if (arbVbo) {
-			ARBVertexBufferObject.glBufferDataARB(p_glBufferData_0_, p_glBufferData_1_, p_glBufferData_3_);
-		} else {
-			GL15.glBufferData(p_glBufferData_0_, p_glBufferData_1_, p_glBufferData_3_);
-		}
-	}
-
-	public static void glBufferSubData(int p_glBufferSubData_0_, long p_glBufferSubData_1_,
-			ByteBuffer p_glBufferSubData_3_) {
-		if (arbVbo) {
-			ARBVertexBufferObject.glBufferSubDataARB(p_glBufferSubData_0_, p_glBufferSubData_1_, p_glBufferSubData_3_);
-		} else {
-			GL15.glBufferSubData(p_glBufferSubData_0_, p_glBufferSubData_1_, p_glBufferSubData_3_);
-		}
-	}
-
-	public static void glCopyBufferSubData(int p_glCopyBufferSubData_0_, int p_glCopyBufferSubData_1_,
-			long p_glCopyBufferSubData_2_, long p_glCopyBufferSubData_4_, long p_glCopyBufferSubData_6_) {
-		if (openGL31) {
-			GL31.glCopyBufferSubData(p_glCopyBufferSubData_0_, p_glCopyBufferSubData_1_, p_glCopyBufferSubData_2_,
-					p_glCopyBufferSubData_4_, p_glCopyBufferSubData_6_);
-		} else {
-			ARBCopyBuffer.glCopyBufferSubData(p_glCopyBufferSubData_0_, p_glCopyBufferSubData_1_,
-					p_glCopyBufferSubData_2_, p_glCopyBufferSubData_4_, p_glCopyBufferSubData_6_);
-		}
+		return framebufferSupported && Minecraft.getMinecraft().gameSettings.fboEnable;
 	}
 
 	public static String getCpu() {

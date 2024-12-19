@@ -1,13 +1,8 @@
 package net.minecraft.client.renderer.vertex;
 
-import net.minecraft.src.Config;
-import net.optifine.shaders.SVertexFormat;
-
 public class DefaultVertexFormats {
-	public static VertexFormat BLOCK = new VertexFormat();
-	public static VertexFormat ITEM = new VertexFormat();
-	private static final VertexFormat BLOCK_VANILLA = BLOCK;
-	private static final VertexFormat ITEM_VANILLA = ITEM;
+	public static final VertexFormat BLOCK = new VertexFormat();
+	public static final VertexFormat ITEM = new VertexFormat();
 	public static final VertexFormat OLDMODEL_POSITION_TEX_NORMAL = new VertexFormat();
 	public static final VertexFormat PARTICLE_POSITION_TEX_COLOR_LMAP = new VertexFormat();
 	public static final VertexFormat POSITION = new VertexFormat();
@@ -30,16 +25,6 @@ public class DefaultVertexFormats {
 			VertexFormatElement.EnumUsage.NORMAL, 3);
 	public static final VertexFormatElement PADDING_1B = new VertexFormatElement(0, VertexFormatElement.EnumType.BYTE,
 			VertexFormatElement.EnumUsage.PADDING, 1);
-
-	public static void updateVertexFormats() {
-		if (Config.isShaders()) {
-			BLOCK = SVertexFormat.makeDefVertexFormatBlock();
-			ITEM = SVertexFormat.makeDefVertexFormatItem();
-		} else {
-			BLOCK = BLOCK_VANILLA;
-			ITEM = ITEM_VANILLA;
-		}
-	}
 
 	static {
 		BLOCK.addElement(POSITION_3F);

@@ -12,6 +12,7 @@ import net.minecraft.util.BlockPos;
 import net.minecraft.world.World;
 
 public class EntityAIHarvestFarmland extends EntityAIMoveToBlock {
+	/** Villager that is harvesting */
 	private final EntityVillager theVillager;
 	private boolean hasFarmItem;
 	private boolean field_179503_e;
@@ -22,6 +23,9 @@ public class EntityAIHarvestFarmland extends EntityAIMoveToBlock {
 		this.theVillager = theVillagerIn;
 	}
 
+	/**
+	 * Returns whether the EntityAIBase should begin execution.
+	 */
 	public boolean shouldExecute() {
 		if (this.runDelay <= 0) {
 			if (!this.theVillager.worldObj.getGameRules().getBoolean("mobGriefing")) {
@@ -36,18 +40,30 @@ public class EntityAIHarvestFarmland extends EntityAIMoveToBlock {
 		return super.shouldExecute();
 	}
 
+	/**
+	 * Returns whether an in-progress EntityAIBase should continue executing
+	 */
 	public boolean continueExecuting() {
 		return this.field_179501_f >= 0 && super.continueExecuting();
 	}
 
+	/**
+	 * Execute a one shot task or start executing a continuous task
+	 */
 	public void startExecuting() {
 		super.startExecuting();
 	}
 
+	/**
+	 * Resets the task
+	 */
 	public void resetTask() {
 		super.resetTask();
 	}
 
+	/**
+	 * Updates the task
+	 */
 	public void updateTask() {
 		super.updateTask();
 		this.theVillager.getLookHelper().setLookPosition((double) this.destinationBlock.getX() + 0.5D,
@@ -100,6 +116,9 @@ public class EntityAIHarvestFarmland extends EntityAIMoveToBlock {
 		}
 	}
 
+	/**
+	 * Return true to set given position as destination
+	 */
 	protected boolean shouldMoveTo(World worldIn, BlockPos pos) {
 		Block block = worldIn.getBlockState(pos).getBlock();
 

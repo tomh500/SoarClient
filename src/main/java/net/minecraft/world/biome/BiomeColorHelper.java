@@ -1,6 +1,10 @@
 package net.minecraft.world.biome;
 
+import com.soarclient.libraries.sodium.SodiumClientMod;
+import com.soarclient.libraries.sodium.client.world.SodiumBlockAccess;
+
 import net.minecraft.util.BlockPos;
+import net.minecraft.util.BlockPos.MutableBlockPos;
 import net.minecraft.world.IBlockAccess;
 
 public class BiomeColorHelper {
@@ -22,20 +26,32 @@ public class BiomeColorHelper {
 
 	private static int getColorAtPos(IBlockAccess blockAccess, BlockPos pos,
 			BiomeColorHelper.ColorResolver colorResolver) {
-		int i = 0;
-		int j = 0;
-		int k = 0;
+		if (blockAccess instanceof SodiumBlockAccess) {
+			return ((SodiumBlockAccess) blockAccess).getBlockTint(pos, colorResolver);
+		} else {
+			int radius = SodiumClientMod.options().quality.biomeBlendRadius;
+			if (radius == 0) {
+				return colorResolver.getColorAtPos(blockAccess.getBiomeGenForCoords(pos), pos);
+			} else {
+				int blockCount = (radius * 2 + 1) * (radius * 2 + 1);
+				int i = 0;
+				int j = 0;
+				int k = 0;
+				MutableBlockPos mutablePos = new MutableBlockPos();
 
-		for (BlockPos.MutableBlockPos blockpos$mutableblockpos : BlockPos.getAllInBoxMutable(pos.add(-1, 0, -1),
-				pos.add(1, 0, 1))) {
-			int l = colorResolver.getColorAtPos(blockAccess.getBiomeGenForCoords(blockpos$mutableblockpos),
-					blockpos$mutableblockpos);
-			i += (l & 16711680) >> 16;
-			j += (l & 65280) >> 8;
-			k += l & 255;
+				for (int z = -radius; z <= radius; z++) {
+					for (int x = -radius; x <= radius; x++) {
+						mutablePos.set(pos.getX() + x, pos.getY(), pos.getZ() + z);
+						int l = colorResolver.getColorAtPos(blockAccess.getBiomeGenForCoords(mutablePos), mutablePos);
+						i += (l & 0xFF0000) >> 16;
+						j += (l & 0xFF00) >> 8;
+						k += l & 0xFF;
+					}
+				}
+
+				return (i / blockCount & 0xFF) << 16 | (j / blockCount & 0xFF) << 8 | k / blockCount & 0xFF;
+			}
 		}
-
-		return (i / 9 & 255) << 16 | (j / 9 & 255) << 8 | k / 9 & 255;
 	}
 
 	public static int getGrassColorAtPos(IBlockAccess p_180286_0_, BlockPos p_180286_1_) {
@@ -50,7 +66,7 @@ public class BiomeColorHelper {
 		return getColorAtPos(p_180288_0_, p_180288_1_, WATER_COLOR_MULTIPLIER);
 	}
 
-	interface ColorResolver {
+	public interface ColorResolver {
 		int getColorAtPos(BiomeGenBase biome, BlockPos blockPosition);
 	}
 }

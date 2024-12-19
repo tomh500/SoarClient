@@ -58,6 +58,9 @@ public class StatisticsFile extends StatFileWriter {
 		}
 	}
 
+	/**
+	 * Triggers the logging of an achievement and attempts to announce to server
+	 */
 	public void unlockAchievement(EntityPlayer playerIn, StatBase statIn, int p_150873_3_) {
 		int i = statIn.isAchievement() ? this.readStat(statIn) : 0;
 		super.unlockAchievement(playerIn, statIn, p_150873_3_);

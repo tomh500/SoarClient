@@ -15,14 +15,24 @@ public class TileEntityDispenser extends TileEntityLockable implements IInventor
 	private ItemStack[] stacks = new ItemStack[9];
 	protected String customName;
 
+	/**
+	 * Returns the number of slots in the inventory.
+	 */
 	public int getSizeInventory() {
 		return 9;
 	}
 
+	/**
+	 * Returns the stack in the given slot.
+	 */
 	public ItemStack getStackInSlot(int index) {
 		return this.stacks[index];
 	}
 
+	/**
+	 * Removes up to a specified number of items from an inventory slot and returns
+	 * them in a new stack.
+	 */
 	public ItemStack decrStackSize(int index, int count) {
 		if (this.stacks[index] != null) {
 			if (this.stacks[index].stackSize <= count) {
@@ -45,6 +55,9 @@ public class TileEntityDispenser extends TileEntityLockable implements IInventor
 		}
 	}
 
+	/**
+	 * Removes a stack from the given slot and returns it.
+	 */
 	public ItemStack removeStackFromSlot(int index) {
 		if (this.stacks[index] != null) {
 			ItemStack itemstack = this.stacks[index];
@@ -68,6 +81,10 @@ public class TileEntityDispenser extends TileEntityLockable implements IInventor
 		return i;
 	}
 
+	/**
+	 * Sets the given item stack to the specified slot in the inventory (can be
+	 * crafting or armor sections).
+	 */
 	public void setInventorySlotContents(int index, ItemStack stack) {
 		this.stacks[index] = stack;
 
@@ -78,6 +95,10 @@ public class TileEntityDispenser extends TileEntityLockable implements IInventor
 		this.markDirty();
 	}
 
+	/**
+	 * Add the given ItemStack to this Dispenser. Return the Slot the Item was
+	 * placed in or -1 if no free slot is available.
+	 */
 	public int addItemStack(ItemStack stack) {
 		for (int i = 0; i < this.stacks.length; ++i) {
 			if (this.stacks[i] == null || this.stacks[i].getItem() == null) {
@@ -89,6 +110,9 @@ public class TileEntityDispenser extends TileEntityLockable implements IInventor
 		return -1;
 	}
 
+	/**
+	 * Get the name of this object. For players this returns their username
+	 */
 	public String getName() {
 		return this.hasCustomName() ? this.customName : "container.dispenser";
 	}
@@ -97,6 +121,9 @@ public class TileEntityDispenser extends TileEntityLockable implements IInventor
 		this.customName = customName;
 	}
 
+	/**
+	 * Returns true if this thing is named
+	 */
 	public boolean hasCustomName() {
 		return this.customName != null;
 	}
@@ -140,10 +167,18 @@ public class TileEntityDispenser extends TileEntityLockable implements IInventor
 		}
 	}
 
+	/**
+	 * Returns the maximum stack size for a inventory slot. Seems to always be 64,
+	 * possibly will be extended.
+	 */
 	public int getInventoryStackLimit() {
 		return 64;
 	}
 
+	/**
+	 * Do not make give this method the name canInteractWith because it clashes with
+	 * Container
+	 */
 	public boolean isUseableByPlayer(EntityPlayer player) {
 		return this.worldObj.getTileEntity(this.pos) != this ? false
 				: player.getDistanceSq((double) this.pos.getX() + 0.5D, (double) this.pos.getY() + 0.5D,
@@ -156,6 +191,10 @@ public class TileEntityDispenser extends TileEntityLockable implements IInventor
 	public void closeInventory(EntityPlayer player) {
 	}
 
+	/**
+	 * Returns true if automation is allowed to insert the given stack (ignoring
+	 * stack size) into the given slot.
+	 */
 	public boolean isItemValidForSlot(int index, ItemStack stack) {
 		return true;
 	}

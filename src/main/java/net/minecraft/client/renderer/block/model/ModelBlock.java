@@ -145,14 +145,6 @@ public class ModelBlock {
 		return this.hasParent() ? this.parent.getRootModel() : this;
 	}
 
-	public void setParentLocation(ResourceLocation parentLocation) {
-		this.parentLocation = parentLocation;
-	}
-
-	public Map<String, String> getTextures() {
-		return textures;
-	}
-
 	public ItemCameraTransforms getAllTransforms() {
 		ItemTransformVec3f itemtransformvec3f = this.getTransform(ItemCameraTransforms.TransformType.THIRD_PERSON);
 		ItemTransformVec3f itemtransformvec3f1 = this.getTransform(ItemCameraTransforms.TransformType.FIRST_PERSON);

@@ -11,6 +11,9 @@ import net.minecraft.tileentity.TileEntityBanner;
 import net.minecraft.world.World;
 
 public class RecipesBanners {
+	/**
+	 * Adds the banner recipes to the CraftingManager.
+	 */
 	void addRecipes(CraftingManager p_179534_1_) {
 		for (EnumDyeColor enumdyecolor : EnumDyeColor.values()) {
 			p_179534_1_.addRecipe(new ItemStack(Items.banner, 1, enumdyecolor.getDyeDamage()), new Object[] { "###",

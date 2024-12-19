@@ -9,6 +9,7 @@ import net.minecraft.util.BlockPos;
 import net.minecraft.world.World;
 
 public class WorldGenBigMushroom extends WorldGenerator {
+	/** The mushroom type. 0 for brown, 1 for red. */
 	private Block mushroomType;
 
 	public WorldGenBigMushroom(Block p_i46449_1_) {

@@ -25,6 +25,9 @@ public class ItemBanner extends ItemBlock {
 		this.setMaxDamage(0);
 	}
 
+	/**
+	 * Called when a Block is right-clicked with this Item
+	 */
 	public boolean onItemUse(ItemStack stack, EntityPlayer playerIn, World worldIn, BlockPos pos, EnumFacing side,
 			float hitX, float hitY, float hitZ) {
 		if (side == EnumFacing.DOWN) {
@@ -70,6 +73,9 @@ public class ItemBanner extends ItemBlock {
 		return StatCollector.translateToLocal(s);
 	}
 
+	/**
+	 * allows items to add custom lines of information to the mouseover description
+	 */
 	public void addInformation(ItemStack stack, EntityPlayer playerIn, List<String> tooltip, boolean advanced) {
 		NBTTagCompound nbttagcompound = stack.getSubCompound("BlockEntityTag", false);
 
@@ -100,6 +106,10 @@ public class ItemBanner extends ItemBlock {
 		}
 	}
 
+	/**
+	 * returns a list of items with the same ID, but different meta (eg: dye returns
+	 * 16 items)
+	 */
 	public void getSubItems(Item itemIn, CreativeTabs tab, List<ItemStack> subItems) {
 		for (EnumDyeColor enumdyecolor : EnumDyeColor.values()) {
 			NBTTagCompound nbttagcompound = new NBTTagCompound();
@@ -112,6 +122,9 @@ public class ItemBanner extends ItemBlock {
 		}
 	}
 
+	/**
+	 * gets the CreativeTab this item is displayed on
+	 */
 	public CreativeTabs getCreativeTab() {
 		return CreativeTabs.tabDecorations;
 	}

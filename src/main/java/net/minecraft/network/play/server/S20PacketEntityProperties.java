@@ -28,6 +28,9 @@ public class S20PacketEntityProperties implements Packet<INetHandlerPlayClient> 
 		}
 	}
 
+	/**
+	 * Reads the raw packet data from the data stream.
+	 */
 	public void readPacketData(PacketBuffer buf) throws IOException {
 		this.entityId = buf.readVarIntFromBuffer();
 		int i = buf.readInt();
@@ -48,6 +51,9 @@ public class S20PacketEntityProperties implements Packet<INetHandlerPlayClient> 
 		}
 	}
 
+	/**
+	 * Writes the raw packet data to the data stream.
+	 */
 	public void writePacketData(PacketBuffer buf) throws IOException {
 		buf.writeVarIntToBuffer(this.entityId);
 		buf.writeInt(this.field_149444_b.size());
@@ -65,6 +71,9 @@ public class S20PacketEntityProperties implements Packet<INetHandlerPlayClient> 
 		}
 	}
 
+	/**
+	 * Passes this Packet on to the NetHandler for processing.
+	 */
 	public void processPacket(INetHandlerPlayClient handler) {
 		handler.handleEntityProperties(this);
 	}

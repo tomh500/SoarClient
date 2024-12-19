@@ -221,6 +221,9 @@ public class MapGenCaves extends MapGenBase {
 																								.getMaterial() != Material.water))))))));
 	}
 
+	/**
+	 * Recursively called by generate()
+	 */
 	protected void recursiveGenerate(World worldIn, int chunkX, int chunkZ, int p_180701_4_, int p_180701_5_,
 			ChunkPrimer chunkPrimerIn) {
 		int i = this.rand.nextInt(this.rand.nextInt(this.rand.nextInt(15) + 1) + 1);

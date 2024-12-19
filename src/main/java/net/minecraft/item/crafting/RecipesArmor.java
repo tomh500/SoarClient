@@ -13,6 +13,9 @@ public class RecipesArmor {
 			{ Items.leather_leggings, Items.iron_leggings, Items.diamond_leggings, Items.golden_leggings },
 			{ Items.leather_boots, Items.iron_boots, Items.diamond_boots, Items.golden_boots } };
 
+	/**
+	 * Adds the armor recipes to the CraftingManager.
+	 */
 	public void addRecipes(CraftingManager craftManager) {
 		for (int i = 0; i < this.recipeItems[0].length; ++i) {
 			Item item = this.recipeItems[0][i];

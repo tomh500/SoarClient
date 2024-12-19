@@ -1,14 +1,11 @@
 package net.minecraft.client.resources.model;
 
-import java.util.Map;
-
-import org.lwjgl.util.vector.Matrix4f;
-import org.lwjgl.util.vector.Vector3f;
-
 import com.google.common.collect.Maps;
-
+import java.util.Map;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.MathHelper;
+import org.lwjgl.util.vector.Matrix4f;
+import org.lwjgl.util.vector.Vector3f;
 
 public enum ModelRotation {
 	X0_Y0(0, 0), X0_Y90(0, 90), X0_Y180(0, 180), X0_Y270(0, 270), X90_Y0(90, 0), X90_Y90(90, 90), X90_Y180(90, 180),
@@ -82,18 +79,6 @@ public enum ModelRotation {
 	public static ModelRotation getModelRotation(int p_177524_0_, int p_177524_1_) {
 		return (ModelRotation) mapRotations.get(Integer.valueOf(
 				combineXY(MathHelper.normalizeAngle(p_177524_0_, 360), MathHelper.normalizeAngle(p_177524_1_, 360))));
-	}
-
-	public javax.vecmath.Matrix4f getMatrix() {
-		return new javax.vecmath.Matrix4f(this.getMatrix4d());
-	}
-
-	public EnumFacing rotate(EnumFacing p_rotate_1_) {
-		return this.rotateFace(p_rotate_1_);
-	}
-
-	public int rotate(EnumFacing p_rotate_1_, int p_rotate_2_) {
-		return this.rotateVertex(p_rotate_1_, p_rotate_2_);
 	}
 
 	static {

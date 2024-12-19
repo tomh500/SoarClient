@@ -19,6 +19,8 @@ import net.minecraft.world.gen.FlatLayerInfo;
 public class GuiCreateFlatWorld extends GuiScreen {
 	private final GuiCreateWorld createWorldGui;
 	private FlatGeneratorInfo theFlatGeneratorInfo = FlatGeneratorInfo.getDefaultFlatGenerator();
+
+	/** The title given to the flat world currently in creation */
 	private String flatWorldTitle;
 	private String field_146394_i;
 	private String field_146391_r;
@@ -40,6 +42,11 @@ public class GuiCreateFlatWorld extends GuiScreen {
 		this.theFlatGeneratorInfo = FlatGeneratorInfo.createFlatGeneratorFromString(p_146383_1_);
 	}
 
+	/**
+	 * Adds the buttons (and other controls) to the screen in question. Called when
+	 * the GUI is displayed and when the window resizes, the buttonList is cleared
+	 * beforehand.
+	 */
 	public void initGui() {
 		this.buttonList.clear();
 		this.flatWorldTitle = I18n.format("createWorld.customize.flat.title", new Object[0]);
@@ -63,11 +70,18 @@ public class GuiCreateFlatWorld extends GuiScreen {
 		this.func_146375_g();
 	}
 
+	/**
+	 * Handles mouse input.
+	 */
 	public void handleMouseInput() throws IOException {
 		super.handleMouseInput();
 		this.createFlatWorldListSlotGui.handleMouseInput();
 	}
 
+	/**
+	 * Called by the controls from the buttonList when activated. (Mouse pressed for
+	 * buttons)
+	 */
 	protected void actionPerformed(GuiButton button) throws IOException {
 		int i = this.theFlatGeneratorInfo.getFlatLayers().size() - this.createFlatWorldListSlotGui.field_148228_k - 1;
 
@@ -101,6 +115,10 @@ public class GuiCreateFlatWorld extends GuiScreen {
 				&& this.createFlatWorldListSlotGui.field_148228_k < this.theFlatGeneratorInfo.getFlatLayers().size();
 	}
 
+	/**
+	 * Draws the screen and all the components in it. Args : mouseX, mouseY,
+	 * renderPartialTicks
+	 */
 	public void drawScreen(int mouseX, int mouseY, float partialTicks) {
 		this.drawDefaultBackground();
 		this.createFlatWorldListSlotGui.drawScreen(mouseX, mouseY, partialTicks);

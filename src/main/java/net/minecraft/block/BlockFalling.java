@@ -25,6 +25,9 @@ public class BlockFalling extends Block {
 		worldIn.scheduleUpdate(pos, this, this.tickRate(worldIn));
 	}
 
+	/**
+	 * Called when a neighboring block changes.
+	 */
 	public void onNeighborBlockChange(World worldIn, BlockPos pos, IBlockState state, Block neighborBlock) {
 		worldIn.scheduleUpdate(pos, this, this.tickRate(worldIn));
 	}
@@ -65,6 +68,9 @@ public class BlockFalling extends Block {
 	protected void onStartFalling(EntityFallingBlock fallingEntity) {
 	}
 
+	/**
+	 * How many world ticks before ticking
+	 */
 	public int tickRate(World worldIn) {
 		return 2;
 	}

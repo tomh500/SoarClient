@@ -37,6 +37,9 @@ public class BlockSapling extends BlockBush implements IGrowable {
 		this.setCreativeTab(CreativeTabs.tabDecorations);
 	}
 
+	/**
+	 * Gets the localized name of this block. Used for the statistics page.
+	 */
 	public String getLocalizedName() {
 		return StatCollector.translateToLocal(
 				this.getUnlocalizedName() + "." + BlockPlanks.EnumType.OAK.getUnlocalizedName() + ".name");
@@ -170,21 +173,36 @@ public class BlockSapling extends BlockBush implements IGrowable {
 				&& this.isTypeAt(p_181624_1_, p_181624_2_.add(p_181624_3_ + 1, 0, p_181624_4_ + 1), p_181624_5_);
 	}
 
+	/**
+	 * Check whether the given BlockPos has a Sapling of the given type
+	 */
 	public boolean isTypeAt(World worldIn, BlockPos pos, BlockPlanks.EnumType type) {
 		IBlockState iblockstate = worldIn.getBlockState(pos);
 		return iblockstate.getBlock() == this && iblockstate.getValue(TYPE) == type;
 	}
 
+	/**
+	 * Gets the metadata of the item this Block can drop. This method is called when
+	 * the block gets destroyed. It returns the metadata of the dropped item based
+	 * on the old metadata of the block.
+	 */
 	public int damageDropped(IBlockState state) {
 		return ((BlockPlanks.EnumType) state.getValue(TYPE)).getMetadata();
 	}
 
+	/**
+	 * returns a list of blocks with the same ID, but different meta (eg: wood
+	 * returns 4 blocks)
+	 */
 	public void getSubBlocks(Item itemIn, CreativeTabs tab, List<ItemStack> list) {
 		for (BlockPlanks.EnumType blockplanks$enumtype : BlockPlanks.EnumType.values()) {
 			list.add(new ItemStack(itemIn, 1, blockplanks$enumtype.getMetadata()));
 		}
 	}
 
+	/**
+	 * Whether this IGrowable can grow
+	 */
 	public boolean canGrow(World worldIn, BlockPos pos, IBlockState state, boolean isClient) {
 		return true;
 	}
@@ -197,11 +215,17 @@ public class BlockSapling extends BlockBush implements IGrowable {
 		this.grow(worldIn, pos, state, rand);
 	}
 
+	/**
+	 * Convert the given metadata into a BlockState for this Block
+	 */
 	public IBlockState getStateFromMeta(int meta) {
 		return this.getDefaultState().withProperty(TYPE, BlockPlanks.EnumType.byMetadata(meta & 7)).withProperty(STAGE,
 				Integer.valueOf((meta & 8) >> 3));
 	}
 
+	/**
+	 * Convert the BlockState into the correct metadata value
+	 */
 	public int getMetaFromState(IBlockState state) {
 		int i = 0;
 		i = i | ((BlockPlanks.EnumType) state.getValue(TYPE)).getMetadata();

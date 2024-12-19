@@ -27,7 +27,7 @@ public class TileEntitySkullRenderer extends TileEntitySpecialRenderer<TileEntit
 			"textures/entity/creeper/creeper.png");
 	public static TileEntitySkullRenderer instance;
 	private final ModelSkeletonHead skeletonHead = new ModelSkeletonHead(0, 0, 64, 32);
-	public ModelSkeletonHead humanoidHead = new ModelHumanoidHead();
+	private final ModelSkeletonHead humanoidHead = new ModelHumanoidHead();
 
 	public void renderTileEntityAt(TileEntitySkull te, double x, double y, double z, float partialTicks,
 			int destroyStage) {

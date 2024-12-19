@@ -39,14 +39,24 @@ public class BlockRailDetector extends BlockRailBase {
 		this.setTickRandomly(true);
 	}
 
+	/**
+	 * How many world ticks before ticking
+	 */
 	public int tickRate(World worldIn) {
 		return 20;
 	}
 
+	/**
+	 * Can this block provide power. Only wire currently seems to have this change
+	 * based on its state.
+	 */
 	public boolean canProvidePower() {
 		return true;
 	}
 
+	/**
+	 * Called When an Entity Collided with the Block
+	 */
 	public void onEntityCollidedWithBlock(World worldIn, BlockPos pos, IBlockState state, Entity entityIn) {
 		if (!worldIn.isRemote) {
 			if (!((Boolean) state.getValue(POWERED)).booleanValue()) {
@@ -55,6 +65,10 @@ public class BlockRailDetector extends BlockRailBase {
 		}
 	}
 
+	/**
+	 * Called randomly when setTickRandomly is set to true (used by e.g. crops to
+	 * grow, etc.)
+	 */
 	public void randomTick(World worldIn, BlockPos pos, IBlockState state, Random random) {
 	}
 
@@ -150,11 +164,17 @@ public class BlockRailDetector extends BlockRailBase {
 				(double) ((float) (pos.getY() + 1) - 0.2F), (double) ((float) (pos.getZ() + 1) - 0.2F));
 	}
 
+	/**
+	 * Convert the given metadata into a BlockState for this Block
+	 */
 	public IBlockState getStateFromMeta(int meta) {
 		return this.getDefaultState().withProperty(SHAPE, BlockRailBase.EnumRailDirection.byMetadata(meta & 7))
 				.withProperty(POWERED, Boolean.valueOf((meta & 8) > 0));
 	}
 
+	/**
+	 * Convert the BlockState into the correct metadata value
+	 */
 	public int getMetaFromState(IBlockState state) {
 		int i = 0;
 		i = i | ((BlockRailBase.EnumRailDirection) state.getValue(SHAPE)).getMetadata();
