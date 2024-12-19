@@ -12,7 +12,12 @@ import java.util.Map;
 import java.util.Properties;
 import java.util.Random;
 import java.util.Set;
+
 import javax.imageio.ImageIO;
+
+import org.apache.commons.lang3.tuple.ImmutablePair;
+import org.apache.commons.lang3.tuple.Pair;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockRedstoneWire;
 import net.minecraft.block.BlockStem;
@@ -41,15 +46,12 @@ import net.minecraft.world.World;
 import net.minecraft.world.biome.BiomeGenBase;
 import net.optifine.config.ConnectedParser;
 import net.optifine.config.MatchBlock;
-import net.optifine.reflect.Reflector;
 import net.optifine.render.RenderEnv;
 import net.optifine.util.EntityUtils;
 import net.optifine.util.PropertiesOrdered;
 import net.optifine.util.ResUtils;
 import net.optifine.util.StrUtils;
 import net.optifine.util.TextureUtils;
-import org.apache.commons.lang3.tuple.ImmutablePair;
-import org.apache.commons.lang3.tuple.Pair;
 
 public class CustomColors {
 	private static String paletteFormatDefault = "vanilla";
@@ -148,10 +150,7 @@ public class CustomColors {
 		public int getColor(IBlockState blockState, IBlockAccess blockAccess, BlockPos blockPos) {
 			BiomeGenBase biomegenbase = CustomColors.getColorBiome(blockAccess, blockPos);
 			return CustomColors.waterColors != null ? CustomColors.waterColors.getColor(biomegenbase, blockPos)
-					: (Reflector.ForgeBiome_getWaterColorMultiplier.exists()
-							? Reflector.callInt(biomegenbase, Reflector.ForgeBiome_getWaterColorMultiplier,
-									new Object[0])
-							: biomegenbase.waterColorMultiplier);
+					: biomegenbase.waterColorMultiplier;
 		}
 
 		public boolean isColorConstant() {

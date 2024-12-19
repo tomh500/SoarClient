@@ -11,7 +11,7 @@ public class GuiFurnace extends GuiContainer {
 	private static final ResourceLocation furnaceGuiTextures = new ResourceLocation(
 			"textures/gui/container/furnace.png");
 	private final InventoryPlayer playerInventory;
-	private IInventory tileFurnace;
+	public IInventory tileFurnace;
 
 	public GuiFurnace(InventoryPlayer playerInv, IInventory furnaceInv) {
 		super(new ContainerFurnace(playerInv, furnaceInv));

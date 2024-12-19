@@ -13,8 +13,8 @@ public class ModelWolf extends ModelBase {
 	public ModelRenderer wolfLeg2;
 	public ModelRenderer wolfLeg3;
 	public ModelRenderer wolfLeg4;
-	ModelRenderer wolfTail;
-	ModelRenderer wolfMane;
+	public ModelRenderer wolfTail;
+	public ModelRenderer wolfMane;
 
 	public ModelWolf() {
 		float f = 0.0F;

@@ -1,10 +1,14 @@
 package net.minecraft.client.gui;
 
-import com.google.common.base.Strings;
-import com.google.common.collect.Lists;
-import java.util.Collection;
 import java.util.List;
 import java.util.Map.Entry;
+
+import org.lwjgl.opengl.Display;
+import org.lwjgl.opengl.GL11;
+
+import com.google.common.base.Strings;
+import com.google.common.collect.Lists;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.state.IBlockState;
@@ -27,11 +31,8 @@ import net.minecraft.world.WorldType;
 import net.minecraft.world.chunk.Chunk;
 import net.optifine.SmartAnimations;
 import net.optifine.TextureAnimations;
-import net.optifine.reflect.Reflector;
 import net.optifine.util.MemoryMonitor;
 import net.optifine.util.NativeMemory;
-import org.lwjgl.opengl.Display;
-import org.lwjgl.opengl.GL11;
 
 public class GuiOverlayDebug extends Gui {
 	private final Minecraft mc;
@@ -286,13 +287,6 @@ public class GuiOverlayDebug extends Gui {
 		String s = "Native: " + bytesToMb(i1) + "/" + bytesToMb(j1) + "MB";
 		list.add(4, s);
 		list.set(5, "GC: " + MemoryMonitor.getAllocationRateMb() + "MB/s");
-
-		if (Reflector.FMLCommonHandler_getBrandings.exists()) {
-			Object object = Reflector.call(Reflector.FMLCommonHandler_instance, new Object[0]);
-			list.add("");
-			list.addAll((Collection) Reflector.call(object, Reflector.FMLCommonHandler_getBrandings,
-					new Object[] { Boolean.valueOf(false) }));
-		}
 
 		if (this.isReducedDebug()) {
 			return list;

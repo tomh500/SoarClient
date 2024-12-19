@@ -3,10 +3,10 @@ package net.minecraft.client.model;
 import net.minecraft.entity.Entity;
 
 public class ModelSlime extends ModelBase {
-	ModelRenderer slimeBodies;
-	ModelRenderer slimeRightEye;
-	ModelRenderer slimeLeftEye;
-	ModelRenderer slimeMouth;
+	public ModelRenderer slimeBodies;
+	public ModelRenderer slimeRightEye;
+	public ModelRenderer slimeLeftEye;
+	public ModelRenderer slimeMouth;
 
 	public ModelSlime(int p_i1157_1_) {
 		this.slimeBodies = new ModelRenderer(this, 0, p_i1157_1_);

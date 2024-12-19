@@ -1,7 +1,5 @@
 package net.minecraft.client.renderer.texture;
 
-import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
 import java.awt.Dimension;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
@@ -10,10 +8,17 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 import java.util.TreeSet;
-import java.util.Map.Entry;
 import java.util.concurrent.Callable;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
+
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.StitcherException;
 import net.minecraft.client.resources.IResource;
@@ -31,13 +36,9 @@ import net.optifine.ConnectedTextures;
 import net.optifine.CustomItems;
 import net.optifine.EmissiveTextures;
 import net.optifine.SmartAnimations;
-import net.optifine.reflect.Reflector;
-import net.optifine.reflect.ReflectorForge;
 import net.optifine.shaders.ShadersTex;
 import net.optifine.util.CounterInt;
 import net.optifine.util.TextureUtils;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 public class TextureMap extends AbstractTexture implements ITickableTextureObject {
 	private static final boolean ENABLE_SKIP = Boolean
@@ -146,7 +147,6 @@ public class TextureMap extends AbstractTexture implements ITickableTextureObjec
 		this.mapUploadedSprites.clear();
 		this.listAnimatedSprites.clear();
 		int i = Integer.MAX_VALUE;
-		Reflector.callVoid(Reflector.ForgeHooksClient_onTextureStitchedPre, new Object[] { this });
 		int j = this.getMinSpriteSize();
 		this.iconGridSize = j;
 		int k = 1 << this.mipmapLevels;
@@ -251,13 +251,10 @@ public class TextureMap extends AbstractTexture implements ITickableTextureObjec
 					} catch (RuntimeException runtimeexception) {
 						logger.error((String) ("Unable to parse metadata from " + resourcelocation2),
 								(Throwable) runtimeexception);
-						ReflectorForge.FMLClientHandler_trackBrokenTexture(resourcelocation2,
-								runtimeexception.getMessage());
 						continue;
 					} catch (IOException ioexception1) {
 						logger.error("Using missing texture, unable to load " + resourcelocation2 + ", "
 								+ ioexception1.getClass().getName());
-						ReflectorForge.FMLClientHandler_trackMissingTexture(resourcelocation2);
 						continue;
 					}
 
@@ -436,7 +433,6 @@ public class TextureMap extends AbstractTexture implements ITickableTextureObjec
 				Config.getMinecraft().getTextureManager().bindTexture(locationBlocksTexture);
 			}
 
-			Reflector.callVoid(Reflector.ForgeHooksClient_onTextureStitchedPost, new Object[] { this });
 			this.updateIconGrid(stitcher.getCurrentWidth(), stitcher.getCurrentHeight());
 
 			if (Config.equals(System.getProperty("saveTextureMap"), "true")) {

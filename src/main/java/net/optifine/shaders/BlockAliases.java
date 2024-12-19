@@ -5,13 +5,10 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
-import net.minecraft.client.Minecraft;
+
 import net.minecraft.src.Config;
-import net.minecraft.util.ResourceLocation;
 import net.optifine.config.ConnectedParser;
 import net.optifine.config.MatchBlock;
-import net.optifine.reflect.Reflector;
-import net.optifine.reflect.ReflectorForge;
 import net.optifine.shaders.config.MacroProcessor;
 import net.optifine.util.PropertiesOrdered;
 import net.optifine.util.StrUtils;
@@ -56,41 +53,17 @@ public class BlockAliases {
 		reset();
 
 		if (shaderPack != null) {
-			if (Reflector.Loader_getActiveModList.exists()
-					&& Minecraft.getMinecraft().getResourcePackRepository() == null) {
-				Config.dbg("[Shaders] Delayed loading of block mappings after resources are loaded");
-				updateOnResourcesReloaded = true;
-			} else {
-				List<List<BlockAlias>> list = new ArrayList();
-				String s = "/shaders/block.properties";
-				InputStream inputstream = shaderPack.getResourceAsStream(s);
+			List<List<BlockAlias>> list = new ArrayList();
+			String s = "/shaders/block.properties";
+			InputStream inputstream = shaderPack.getResourceAsStream(s);
 
-				if (inputstream != null) {
-					loadBlockAliases(inputstream, s, list);
-				}
-
-				loadModBlockAliases(list);
-
-				if (((List) list).size() > 0) {
-					blockAliases = toArrays(list);
-				}
+			if (inputstream != null) {
+				loadBlockAliases(inputstream, s, list);
 			}
-		}
-	}
 
-	private static void loadModBlockAliases(List<List<BlockAlias>> listBlockAliases) {
-		String[] astring = ReflectorForge.getForgeModIds();
-
-		for (int i = 0; i < astring.length; ++i) {
-			String s = astring[i];
-
-			try {
-				ResourceLocation resourcelocation = new ResourceLocation(s, "shaders/block.properties");
-				InputStream inputstream = Config.getResourceStream(resourcelocation);
-				loadBlockAliases(inputstream, resourcelocation.toString(), listBlockAliases);
-			} catch (IOException var6) {
-				;
-			}
+			if (((List) list).size() > 0) {
+				blockAliases = toArrays(list);
+			}	
 		}
 	}
 

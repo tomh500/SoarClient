@@ -12,7 +12,7 @@ public class GuiHopper extends GuiContainer {
 	private static final ResourceLocation HOPPER_GUI_TEXTURE = new ResourceLocation(
 			"textures/gui/container/hopper.png");
 	private IInventory playerInventory;
-	private IInventory hopperInventory;
+	public IInventory hopperInventory;
 
 	public GuiHopper(InventoryPlayer playerInv, IInventory hopperInv) {
 		super(new ContainerHopper(playerInv, hopperInv, Minecraft.getMinecraft().thePlayer));

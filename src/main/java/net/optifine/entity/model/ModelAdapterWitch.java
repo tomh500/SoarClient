@@ -7,7 +7,6 @@ import net.minecraft.client.model.ModelWitch;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.client.renderer.entity.RenderWitch;
 import net.minecraft.entity.monster.EntityWitch;
-import net.optifine.reflect.Reflector;
 
 public class ModelAdapterWitch extends ModelAdapter {
 	public ModelAdapterWitch() {
@@ -24,9 +23,9 @@ public class ModelAdapterWitch extends ModelAdapter {
 		} else {
 			ModelWitch modelwitch = (ModelWitch) model;
 			return modelPart.equals("mole")
-					? (ModelRenderer) Reflector.getFieldValue(modelwitch, Reflector.ModelWitch_mole)
+					? modelwitch.field_82901_h
 					: (modelPart.equals("hat")
-							? (ModelRenderer) Reflector.getFieldValue(modelwitch, Reflector.ModelWitch_hat)
+							? modelwitch.witchHat
 							: (modelPart.equals("head") ? modelwitch.villagerHead
 									: (modelPart.equals("body") ? modelwitch.villagerBody
 											: (modelPart.equals("arms") ? modelwitch.villagerArms

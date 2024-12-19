@@ -1,9 +1,11 @@
 package net.minecraft.client.multiplayer;
 
-import com.google.common.collect.Sets;
 import java.util.Random;
 import java.util.Set;
 import java.util.concurrent.Callable;
+
+import com.google.common.collect.Sets;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
@@ -38,7 +40,6 @@ import net.minecraft.world.storage.WorldInfo;
 import net.optifine.CustomGuis;
 import net.optifine.DynamicLights;
 import net.optifine.override.PlayerControllerOF;
-import net.optifine.reflect.Reflector;
 
 public class WorldClient extends World {
 	private NetHandlerPlayClient sendQueue;
@@ -61,7 +62,6 @@ public class WorldClient extends World {
 		this.mapStorage = new SaveDataMemoryStorage();
 		this.calculateInitialSkylight();
 		this.calculateInitialWeather();
-		Reflector.postForgeBusEvent(Reflector.WorldEvent_Load_Constructor, new Object[] { this });
 
 		if (this.mc.playerController != null && this.mc.playerController.getClass() == PlayerControllerMP.class) {
 			this.mc.playerController = new PlayerControllerOF(this.mc, netHandler);

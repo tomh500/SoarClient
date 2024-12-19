@@ -6,9 +6,7 @@ import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.client.renderer.tileentity.TileEntityChestRenderer;
 import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
-import net.minecraft.src.Config;
 import net.minecraft.tileentity.TileEntityChest;
-import net.optifine.reflect.Reflector;
 
 public class ModelAdapterChest extends ModelAdapter {
 	public ModelAdapterChest() {
@@ -47,14 +45,8 @@ public class ModelAdapterChest extends ModelAdapter {
 				tileentityspecialrenderer.setRendererDispatcher(tileentityrendererdispatcher);
 			}
 
-			if (!Reflector.TileEntityChestRenderer_simpleChest.exists()) {
-				Config.warn("Field not found: TileEntityChestRenderer.simpleChest");
-				return null;
-			} else {
-				Reflector.setFieldValue(tileentityspecialrenderer, Reflector.TileEntityChestRenderer_simpleChest,
-						modelBase);
-				return tileentityspecialrenderer;
-			}
+			((TileEntityChestRenderer)tileentityspecialrenderer).simpleChest = (ModelChest) modelBase;
+			return tileentityspecialrenderer;
 		}
 	}
 }

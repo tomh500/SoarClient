@@ -4,8 +4,8 @@ import net.minecraft.entity.Entity;
 import net.minecraft.util.MathHelper;
 
 public class ModelSilverfish extends ModelBase {
-	private ModelRenderer[] silverfishBodyParts = new ModelRenderer[7];
-	private ModelRenderer[] silverfishWings;
+	public ModelRenderer[] silverfishBodyParts = new ModelRenderer[7];
+	public ModelRenderer[] silverfishWings;
 	private float[] field_78170_c = new float[7];
 	private static final int[][] silverfishBoxLength = new int[][] { { 3, 2, 2 }, { 4, 3, 2 }, { 6, 4, 3 }, { 3, 3, 3 },
 			{ 2, 2, 3 }, { 2, 1, 2 }, { 1, 1, 2 } };

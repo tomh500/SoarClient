@@ -1,6 +1,7 @@
 package net.optifine.override;
 
 import java.util.Arrays;
+
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.src.Config;
 import net.minecraft.tileentity.TileEntity;
@@ -11,7 +12,6 @@ import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.WorldType;
 import net.minecraft.world.biome.BiomeGenBase;
 import net.optifine.DynamicLights;
-import net.optifine.reflect.Reflector;
 import net.optifine.util.ArrayCache;
 
 public class ChunkCacheOF implements IBlockAccess {
@@ -155,7 +155,6 @@ public class ChunkCacheOF implements IBlockAccess {
 	}
 
 	public boolean isSideSolid(BlockPos pos, EnumFacing side, boolean _default) {
-		return Reflector.callBoolean(this.chunkCache, Reflector.ForgeChunkCache_isSideSolid,
-				new Object[] { pos, side, Boolean.valueOf(_default) });
+		return _default;
 	}
 }

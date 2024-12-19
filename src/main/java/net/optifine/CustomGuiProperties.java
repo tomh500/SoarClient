@@ -3,6 +3,7 @@ package net.optifine;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
+
 import net.minecraft.client.gui.GuiEnchantment;
 import net.minecraft.client.gui.GuiHopper;
 import net.minecraft.client.gui.GuiScreen;
@@ -33,8 +34,6 @@ import net.optifine.config.Matches;
 import net.optifine.config.NbtTagValue;
 import net.optifine.config.RangeListInt;
 import net.optifine.config.VillagerProfession;
-import net.optifine.reflect.Reflector;
-import net.optifine.reflect.ReflectorField;
 import net.optifine.util.StrUtils;
 import net.optifine.util.TextureUtils;
 
@@ -346,24 +345,18 @@ public class CustomGuiProperties {
 	}
 
 	private static IWorldNameable getWorldNameable(GuiScreen screen) {
-		return (IWorldNameable) (screen instanceof GuiBeacon ? getWorldNameable(screen, Reflector.GuiBeacon_tileBeacon)
+		return (IWorldNameable) (screen instanceof GuiBeacon ? ((GuiBeacon)screen).tileBeacon
 				: (screen instanceof GuiBrewingStand
-						? getWorldNameable(screen, Reflector.GuiBrewingStand_tileBrewingStand)
-						: (screen instanceof GuiChest ? getWorldNameable(screen, Reflector.GuiChest_lowerChestInventory)
+						? ((GuiBrewingStand) screen).tileBrewingStand
+						: (screen instanceof GuiChest ? ((GuiChest)screen).lowerChestInventory
 								: (screen instanceof GuiDispenser ? ((GuiDispenser) screen).dispenserInventory
 										: (screen instanceof GuiEnchantment
-												? getWorldNameable(screen, Reflector.GuiEnchantment_nameable)
+												? ((GuiEnchantment)screen).worldNameable
 												: (screen instanceof GuiFurnace
-														? getWorldNameable(screen, Reflector.GuiFurnace_tileFurnace)
+														? ((GuiFurnace)screen).tileFurnace
 														: (screen instanceof GuiHopper
-																? getWorldNameable(screen,
-																		Reflector.GuiHopper_hopperInventory)
+																? ((GuiHopper)screen).hopperInventory
 																: null)))))));
-	}
-
-	private static IWorldNameable getWorldNameable(GuiScreen screen, ReflectorField fieldInventory) {
-		Object object = Reflector.getFieldValue(screen, fieldInventory);
-		return !(object instanceof IWorldNameable) ? null : (IWorldNameable) object;
 	}
 
 	private boolean matchesBeacon(BlockPos pos, IBlockAccess blockAccess) {
@@ -481,7 +474,7 @@ public class CustomGuiProperties {
 
 			if (this.professions != null) {
 				int i = entityvillager.getProfession();
-				int j = Reflector.getFieldValueInt(entityvillager, Reflector.EntityVillager_careerId, -1);
+				int j = entityvillager.getCareerId();
 
 				if (j < 0) {
 					return false;

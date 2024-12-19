@@ -1,7 +1,7 @@
 package net.optifine.entity.model;
 
-import java.util.HashMap;
 import java.util.Map;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.model.ModelHorse;
@@ -9,7 +9,6 @@ import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.client.renderer.entity.RenderHorse;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.entity.passive.EntityHorse;
-import net.optifine.reflect.Reflector;
 
 public class ModelAdapterHorse extends ModelAdapter {
 	private static Map<String, Integer> mapPartFields = null;
@@ -31,14 +30,107 @@ public class ModelAdapterHorse extends ModelAdapter {
 			return null;
 		} else {
 			ModelHorse modelhorse = (ModelHorse) model;
-			Map<String, Integer> map = getMapPartFields();
 
-			if (map.containsKey(modelPart)) {
-				int i = ((Integer) map.get(modelPart)).intValue();
-				return (ModelRenderer) Reflector.getFieldValue(modelhorse, Reflector.ModelHorse_ModelRenderers, i);
-			} else {
-				return null;
-			}
+			return modelPart.equals("head") ? modelhorse.head
+					: (modelPart.equals("upper_mouth") ? modelhorse.field_178711_b
+							: (modelPart.equals("lower_mouth") ? modelhorse.field_178712_c
+									: (modelPart.equals("horse_left_ear") ? modelhorse.horseLeftEar
+											: (modelPart.equals("horse_right_ear") ? modelhorse.horseRightEar
+													: (modelPart.equals("mule_left_ear") ? modelhorse.muleLeftEar
+															: (modelPart.equals("mule_right_ear")
+																	? modelhorse.muleRightEar
+																	: (modelPart.equals("neck") ? modelhorse.neck
+																			: (modelPart.equals("horse_face_ropes")
+																					? modelhorse.horseFaceRopes
+																					: (modelPart.equals("mane")
+																							? modelhorse.mane
+																							: (modelPart.equals("body")
+																									? modelhorse.body
+																									: (modelPart.equals(
+																											"tail_base")
+																													? modelhorse.tailBase
+																													: (modelPart
+																															.equals("tail_middle")
+																																	? modelhorse.tailMiddle
+																																	: (modelPart
+																																			.equals("tail_tip")
+																																					? modelhorse.tailTip
+																																					: (modelPart
+																																							.equals("back_left_leg")
+																																									? modelhorse.backLeftLeg
+																																									: (modelPart
+																																											.equals("back_left_shin")
+																																													? modelhorse.backLeftShin
+																																													: (modelPart
+																																															.equals("back_left_hoof")
+																																																	? modelhorse.backLeftHoof
+																																																	: (modelPart
+																																																			.equals("back_right_leg")
+																																																					? modelhorse.backRightLeg
+																																																					: (modelPart
+																																																							.equals("back_right_shin")
+																																																									? modelhorse.backRightShin
+																																																									: (modelPart
+																																																											.equals("back_right_hoof")
+																																																													? modelhorse.backRightHoof
+																																																													: (modelPart
+																																																															.equals("front_left_leg")
+																																																																	? modelhorse.frontLeftLeg
+																																																																	: (modelPart
+																																																																			.equals("front_left_shin")
+																																																																					? modelhorse.frontLeftShin
+																																																																					: (modelPart
+																																																																							.equals("front_left_hoof")
+																																																																									? modelhorse.frontLeftHoof
+																																																																									: (modelPart
+																																																																											.equals("front_right_leg")
+																																																																													? modelhorse.frontRightLeg
+																																																																													: (modelPart
+																																																																															.equals("front_right_shin")
+																																																																																	? modelhorse.frontRightShin
+																																																																																	: (modelPart
+																																																																																			.equals("front_right_hoof")
+																																																																																					? modelhorse.frontRightHoof
+																																																																																					: (modelPart
+																																																																																							.equals("mule_left_chest")
+																																																																																									? modelhorse.muleLeftChest
+																																																																																									: (modelPart
+																																																																																											.equals("mule_right_chest")
+																																																																																													? modelhorse.muleRightChest
+																																																																																													: (modelPart
+																																																																																															.equals("horse_saddle_bottom")
+																																																																																																	? modelhorse.horseSaddleBottom
+																																																																																																	: (modelPart
+																																																																																																			.equals("horse_saddle_front")
+																																																																																																					? modelhorse.horseSaddleFront
+																																																																																																					: (modelPart
+																																																																																																							.equals("horse_saddle_back")
+																																																																																																									? modelhorse.horseSaddleBack
+																																																																																																									: (modelPart
+																																																																																																											.equals("horse_left_saddle_rope")
+																																																																																																													? modelhorse.horseLeftSaddleRope
+																																																																																																													: (modelPart
+																																																																																																															.equals("horse_left_saddle_metal")
+																																																																																																																	? modelhorse.horseLeftSaddleMetal
+																																																																																																																	: (modelPart
+																																																																																																																			.equals("horse_right_saddle_rope")
+																																																																																																																					? modelhorse.horseRightSaddleRope
+																																																																																																																					: (modelPart
+																																																																																																																							.equals("horse_right_saddle_metal")
+																																																																																																																									? modelhorse.horseRightSaddleMetal
+																																																																																																																									: (modelPart
+																																																																																																																											.equals("horse_left_face_metal")
+																																																																																																																													? modelhorse.horseLeftFaceMetal
+																																																																																																																													: (modelPart
+																																																																																																																															.equals("horse_right_face_metal")
+																																																																																																																																	? modelhorse.horseRightFaceMetal
+																																																																																																																																	: (modelPart
+																																																																																																																																			.equals("horse_left_rein")
+																																																																																																																																					? modelhorse.horseLeftRein
+																																																																																																																																					: (modelPart
+																																																																																																																																							.equals("horse_right_rein")
+																																																																																																																																									? modelhorse.horseRightRein
+																																																																																																																																									: null))))))))))))))))))))))))))))))))))))));
 		}
 	}
 
@@ -51,54 +143,6 @@ public class ModelAdapterHorse extends ModelAdapter {
 				"horse_saddle_bottom", "horse_saddle_front", "horse_saddle_back", "horse_left_saddle_rope",
 				"horse_left_saddle_metal", "horse_right_saddle_rope", "horse_right_saddle_metal",
 				"horse_left_face_metal", "horse_right_face_metal", "horse_left_rein", "horse_right_rein" };
-	}
-
-	private static Map<String, Integer> getMapPartFields() {
-		if (mapPartFields != null) {
-			return mapPartFields;
-		} else {
-			mapPartFields = new HashMap();
-			mapPartFields.put("head", Integer.valueOf(0));
-			mapPartFields.put("upper_mouth", Integer.valueOf(1));
-			mapPartFields.put("lower_mouth", Integer.valueOf(2));
-			mapPartFields.put("horse_left_ear", Integer.valueOf(3));
-			mapPartFields.put("horse_right_ear", Integer.valueOf(4));
-			mapPartFields.put("mule_left_ear", Integer.valueOf(5));
-			mapPartFields.put("mule_right_ear", Integer.valueOf(6));
-			mapPartFields.put("neck", Integer.valueOf(7));
-			mapPartFields.put("horse_face_ropes", Integer.valueOf(8));
-			mapPartFields.put("mane", Integer.valueOf(9));
-			mapPartFields.put("body", Integer.valueOf(10));
-			mapPartFields.put("tail_base", Integer.valueOf(11));
-			mapPartFields.put("tail_middle", Integer.valueOf(12));
-			mapPartFields.put("tail_tip", Integer.valueOf(13));
-			mapPartFields.put("back_left_leg", Integer.valueOf(14));
-			mapPartFields.put("back_left_shin", Integer.valueOf(15));
-			mapPartFields.put("back_left_hoof", Integer.valueOf(16));
-			mapPartFields.put("back_right_leg", Integer.valueOf(17));
-			mapPartFields.put("back_right_shin", Integer.valueOf(18));
-			mapPartFields.put("back_right_hoof", Integer.valueOf(19));
-			mapPartFields.put("front_left_leg", Integer.valueOf(20));
-			mapPartFields.put("front_left_shin", Integer.valueOf(21));
-			mapPartFields.put("front_left_hoof", Integer.valueOf(22));
-			mapPartFields.put("front_right_leg", Integer.valueOf(23));
-			mapPartFields.put("front_right_shin", Integer.valueOf(24));
-			mapPartFields.put("front_right_hoof", Integer.valueOf(25));
-			mapPartFields.put("mule_left_chest", Integer.valueOf(26));
-			mapPartFields.put("mule_right_chest", Integer.valueOf(27));
-			mapPartFields.put("horse_saddle_bottom", Integer.valueOf(28));
-			mapPartFields.put("horse_saddle_front", Integer.valueOf(29));
-			mapPartFields.put("horse_saddle_back", Integer.valueOf(30));
-			mapPartFields.put("horse_left_saddle_rope", Integer.valueOf(31));
-			mapPartFields.put("horse_left_saddle_metal", Integer.valueOf(32));
-			mapPartFields.put("horse_right_saddle_rope", Integer.valueOf(33));
-			mapPartFields.put("horse_right_saddle_metal", Integer.valueOf(34));
-			mapPartFields.put("horse_left_face_metal", Integer.valueOf(35));
-			mapPartFields.put("horse_right_face_metal", Integer.valueOf(36));
-			mapPartFields.put("horse_left_rein", Integer.valueOf(37));
-			mapPartFields.put("horse_right_rein", Integer.valueOf(38));
-			return mapPartFields;
-		}
 	}
 
 	public IEntityRenderer makeEntityRender(ModelBase modelBase, float shadowSize) {

@@ -1,6 +1,5 @@
 package net.optifine.shaders;
 
-import com.google.common.base.Charsets;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
@@ -30,6 +29,26 @@ import java.util.Properties;
 import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import org.apache.commons.io.IOUtils;
+import org.lwjgl.BufferUtils;
+import org.lwjgl.opengl.ARBFragmentShader;
+import org.lwjgl.opengl.ARBGeometryShader4;
+import org.lwjgl.opengl.ARBShaderObjects;
+import org.lwjgl.opengl.ARBVertexShader;
+import org.lwjgl.opengl.ContextCapabilities;
+import org.lwjgl.opengl.EXTFramebufferObject;
+import org.lwjgl.opengl.GL11;
+import org.lwjgl.opengl.GL12;
+import org.lwjgl.opengl.GL14;
+import org.lwjgl.opengl.GL20;
+import org.lwjgl.opengl.GL30;
+import org.lwjgl.opengl.GLContext;
+import org.lwjgl.util.glu.GLU;
+import org.lwjgl.util.vector.Vector4f;
+
+import com.google.common.base.Charsets;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.Minecraft;
@@ -67,7 +86,6 @@ import net.optifine.GlErrors;
 import net.optifine.Lang;
 import net.optifine.config.ConnectedParser;
 import net.optifine.expr.IExpressionBool;
-import net.optifine.reflect.Reflector;
 import net.optifine.render.GlAlphaState;
 import net.optifine.render.GlBlendState;
 import net.optifine.shaders.config.EnumShaderOption;
@@ -102,22 +120,6 @@ import net.optifine.util.EntityUtils;
 import net.optifine.util.PropertiesOrdered;
 import net.optifine.util.StrUtils;
 import net.optifine.util.TimedEvent;
-import org.apache.commons.io.IOUtils;
-import org.lwjgl.BufferUtils;
-import org.lwjgl.opengl.ARBFragmentShader;
-import org.lwjgl.opengl.ARBGeometryShader4;
-import org.lwjgl.opengl.ARBShaderObjects;
-import org.lwjgl.opengl.ARBVertexShader;
-import org.lwjgl.opengl.ContextCapabilities;
-import org.lwjgl.opengl.EXTFramebufferObject;
-import org.lwjgl.opengl.GL11;
-import org.lwjgl.opengl.GL14;
-import org.lwjgl.opengl.GL12;
-import org.lwjgl.opengl.GL20;
-import org.lwjgl.opengl.GL30;
-import org.lwjgl.opengl.GLContext;
-import org.lwjgl.util.glu.GLU;
-import org.lwjgl.util.vector.Vector4f;
 
 public class Shaders {
 	static Minecraft mc = Minecraft.getMinecraft();
@@ -865,12 +867,6 @@ public class Shaders {
 
 		if (flag3 || flag4) {
 			DefaultVertexFormats.updateVertexFormats();
-
-			if (Reflector.LightUtil.exists()) {
-				Reflector.LightUtil_itemConsumer.setValue((Object) null);
-				Reflector.LightUtil_tessellator.setValue((Object) null);
-			}
-
 			updateBlockLightLevel();
 		}
 

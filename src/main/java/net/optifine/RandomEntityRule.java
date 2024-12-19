@@ -1,6 +1,7 @@
 package net.optifine;
 
 import java.util.Properties;
+
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.passive.EntityVillager;
@@ -18,7 +19,6 @@ import net.optifine.config.RangeInt;
 import net.optifine.config.RangeListInt;
 import net.optifine.config.VillagerProfession;
 import net.optifine.config.Weather;
-import net.optifine.reflect.Reflector;
 import net.optifine.util.ArrayUtils;
 import net.optifine.util.MathUtils;
 
@@ -252,7 +252,7 @@ public class RandomEntityRule {
 				if (entity instanceof EntityVillager) {
 					EntityVillager entityvillager = (EntityVillager) entity;
 					int j = entityvillager.getProfession();
-					int k = Reflector.getFieldValueInt(entityvillager, Reflector.EntityVillager_careerId, -1);
+					int k = entityvillager.getCareerId();
 
 					if (j < 0 || k < 0) {
 						return false;

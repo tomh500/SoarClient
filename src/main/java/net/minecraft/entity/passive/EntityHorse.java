@@ -53,11 +53,11 @@ public class EntityHorse extends EntityAnimal implements IInvBasic {
 			"textures/entity/horse/armor/horse_armor_diamond.png" };
 	private static final String[] HORSE_ARMOR_TEXTURES_ABBR = new String[] { "", "meo", "goo", "dio" };
 	private static final int[] armorValues = new int[] { 0, 5, 7, 11 };
-	private static final String[] horseTextures = new String[] { "textures/entity/horse/horse_white.png",
+	public static final String[] HORSE_TEXTURES = new String[] { "textures/entity/horse/horse_white.png",
 			"textures/entity/horse/horse_creamy.png", "textures/entity/horse/horse_chestnut.png",
 			"textures/entity/horse/horse_brown.png", "textures/entity/horse/horse_black.png",
 			"textures/entity/horse/horse_gray.png", "textures/entity/horse/horse_darkbrown.png" };
-	private static final String[] HORSE_TEXTURES_ABBR = new String[] { "hwh", "hcr", "hch", "hbr", "hbl", "hgr",
+	public static final String[] HORSE_TEXTURES_ABBR = new String[] { "hwh", "hcr", "hch", "hbr", "hbl", "hgr",
 			"hdb" };
 	private static final String[] horseMarkingTextures = new String[] { null,
 			"textures/entity/horse/horse_markings_white.png", "textures/entity/horse/horse_markings_whitefield.png",
@@ -567,12 +567,12 @@ public class EntityHorse extends EntityAnimal implements IInvBasic {
 			int k = j & 255;
 			int l = (j & 65280) >> 8;
 
-			if (k >= horseTextures.length) {
+			if (k >= HORSE_TEXTURES.length) {
 				this.field_175508_bO = false;
 				return;
 			}
 
-			this.horseTexturesArray[0] = horseTextures[k];
+			this.horseTexturesArray[0] = HORSE_TEXTURES[k];
 			this.texturePrefix = this.texturePrefix + HORSE_TEXTURES_ABBR[k];
 
 			if (l >= horseMarkingTextures.length) {

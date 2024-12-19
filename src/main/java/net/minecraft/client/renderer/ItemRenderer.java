@@ -1,5 +1,7 @@
 package net.minecraft.client.renderer;
 
+import org.lwjgl.opengl.GL11;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
@@ -28,9 +30,7 @@ import net.minecraft.util.MathHelper;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.storage.MapData;
 import net.optifine.DynamicLights;
-import net.optifine.reflect.Reflector;
 import net.optifine.shaders.Shaders;
-import org.lwjgl.opengl.GL11;
 
 public class ItemRenderer {
 	private static final ResourceLocation RES_MAP_BACKGROUND = new ResourceLocation("textures/map/map_background.png");
@@ -367,25 +367,17 @@ public class ItemRenderer {
 			}
 
 			if (iblockstate.getBlock().getRenderType() != -1) {
-				Object object = Reflector.getFieldValue(Reflector.RenderBlockOverlayEvent_OverlayType_BLOCK);
-
-				if (!Reflector.callBoolean(Reflector.ForgeEventFactory_renderBlockOverlay, new Object[] {
-						this.mc.thePlayer, Float.valueOf(partialTicks), object, iblockstate, blockpos })) {
-					this.renderBlockInHand(partialTicks,
-							this.mc.getBlockRendererDispatcher().getBlockModelShapes().getTexture(iblockstate));
-				}
+				this.renderBlockInHand(partialTicks,
+						this.mc.getBlockRendererDispatcher().getBlockModelShapes().getTexture(iblockstate));
 			}
 		}
 
 		if (!this.mc.thePlayer.isSpectator()) {
-			if (this.mc.thePlayer.isInsideOfMaterial(Material.water)
-					&& !Reflector.callBoolean(Reflector.ForgeEventFactory_renderWaterOverlay,
-							new Object[] { this.mc.thePlayer, Float.valueOf(partialTicks) })) {
+			if (this.mc.thePlayer.isInsideOfMaterial(Material.water)) {
 				this.renderWaterOverlayTexture(partialTicks);
 			}
 
-			if (this.mc.thePlayer.isBurning() && !Reflector.callBoolean(Reflector.ForgeEventFactory_renderFireOverlay,
-					new Object[] { this.mc.thePlayer, Float.valueOf(partialTicks) })) {
+			if (this.mc.thePlayer.isBurning()) {
 				this.renderFireInFirstPerson(partialTicks);
 			}
 		}
@@ -499,19 +491,6 @@ public class ItemRenderer {
 
 		if (this.itemToRender != null && itemstack != null) {
 			if (!this.itemToRender.getIsItemStackEqual(itemstack)) {
-				if (Reflector.ForgeItem_shouldCauseReequipAnimation.exists()) {
-					boolean flag1 = Reflector.callBoolean(this.itemToRender.getItem(),
-							Reflector.ForgeItem_shouldCauseReequipAnimation,
-							new Object[] { this.itemToRender, itemstack,
-									Boolean.valueOf(this.equippedItemSlot != entityplayer.inventory.currentItem) });
-
-					if (!flag1) {
-						this.itemToRender = itemstack;
-						this.equippedItemSlot = entityplayer.inventory.currentItem;
-						return;
-					}
-				}
-
 				flag = true;
 			}
 		} else if (this.itemToRender == null && itemstack == null) {

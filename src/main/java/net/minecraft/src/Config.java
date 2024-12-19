@@ -25,7 +25,22 @@ import java.util.Set;
 import java.util.StringTokenizer;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
 import javax.imageio.ImageIO;
+
+import org.apache.commons.io.IOUtils;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.lwjgl.LWJGLException;
+import org.lwjgl.Sys;
+import org.lwjgl.opengl.Display;
+import org.lwjgl.opengl.DisplayMode;
+import org.lwjgl.opengl.GL11;
+import org.lwjgl.opengl.GL20;
+import org.lwjgl.opengl.GL30;
+import org.lwjgl.opengl.GLContext;
+import org.lwjgl.opengl.PixelFormat;
+
 import net.minecraft.client.LoadingScreenRenderer;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.ScaledResolution;
@@ -55,26 +70,11 @@ import net.optifine.GlErrors;
 import net.optifine.VersionCheckThread;
 import net.optifine.config.GlVersion;
 import net.optifine.gui.GuiMessage;
-import net.optifine.reflect.Reflector;
-import net.optifine.reflect.ReflectorForge;
 import net.optifine.shaders.Shaders;
 import net.optifine.util.DisplayModeComparator;
 import net.optifine.util.PropertiesOrdered;
 import net.optifine.util.TextureUtils;
 import net.optifine.util.TimedEvent;
-import org.apache.commons.io.IOUtils;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-import org.lwjgl.LWJGLException;
-import org.lwjgl.Sys;
-import org.lwjgl.opengl.Display;
-import org.lwjgl.opengl.DisplayMode;
-import org.lwjgl.opengl.GL11;
-import org.lwjgl.opengl.GL20;
-import org.lwjgl.opengl.GL12;
-import org.lwjgl.opengl.GL30;
-import org.lwjgl.opengl.GLContext;
-import org.lwjgl.opengl.PixelFormat;
 
 public class Config {
 	public static final String OF_NAME = "OptiFine";
@@ -145,7 +145,6 @@ public class Config {
 			gameSettings = p_initGameSettings_0_;
 			desktopDisplayMode = Display.getDesktopDisplayMode();
 			updateAvailableProcessors();
-			ReflectorForge.putLaunchBlackboard("optifine.ForgeSplashCompatible", Boolean.TRUE);
 		}
 	}
 
@@ -896,8 +895,7 @@ public class Config {
 	public static DefaultResourcePack getDefaultResourcePack() {
 		if (defaultResourcePackLazy == null) {
 			Minecraft minecraft = Minecraft.getMinecraft();
-			defaultResourcePackLazy = (DefaultResourcePack) Reflector.getFieldValue(minecraft,
-					Reflector.Minecraft_defaultResourcePack);
+			defaultResourcePackLazy = minecraft.getMcDefaultResourcePack();
 
 			if (defaultResourcePackLazy == null) {
 				ResourcePackRepository resourcepackrepository = minecraft.getResourcePackRepository();

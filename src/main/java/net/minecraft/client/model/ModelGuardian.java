@@ -7,10 +7,10 @@ import net.minecraft.util.MathHelper;
 import net.minecraft.util.Vec3;
 
 public class ModelGuardian extends ModelBase {
-	private ModelRenderer guardianBody;
-	private ModelRenderer guardianEye;
-	private ModelRenderer[] guardianSpines;
-	private ModelRenderer[] guardianTail;
+	public ModelRenderer guardianBody;
+	public ModelRenderer guardianEye;
+	public ModelRenderer[] guardianSpines;
+	public ModelRenderer[] guardianTail;
 
 	public ModelGuardian() {
 		this.textureWidth = 64;

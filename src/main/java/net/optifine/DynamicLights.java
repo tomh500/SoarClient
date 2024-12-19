@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
+
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.RenderGlobal;
 import net.minecraft.entity.Entity;
@@ -30,7 +31,6 @@ import net.optifine.config.ConnectedParser;
 import net.optifine.config.EntityClassLocator;
 import net.optifine.config.IObjectLocator;
 import net.optifine.config.ItemLocator;
-import net.optifine.reflect.ReflectorForge;
 import net.optifine.util.PropertiesOrdered;
 
 public class DynamicLights {
@@ -91,19 +91,6 @@ public class DynamicLights {
 		initialized = true;
 		mapEntityLightLevels.clear();
 		mapItemLightLevels.clear();
-		String[] astring = ReflectorForge.getForgeModIds();
-
-		for (int i = 0; i < astring.length; ++i) {
-			String s = astring[i];
-
-			try {
-				ResourceLocation resourcelocation = new ResourceLocation(s, "optifine/dynamic_lights.properties");
-				InputStream inputstream = Config.getResourceStream(resourcelocation);
-				loadModConfiguration(inputstream, resourcelocation.toString(), s);
-			} catch (IOException var5) {
-				;
-			}
-		}
 
 		if (mapEntityLightLevels.size() > 0) {
 			Config.dbg("DynamicLights entities: " + mapEntityLightLevels.size());

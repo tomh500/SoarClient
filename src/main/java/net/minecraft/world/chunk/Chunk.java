@@ -1261,6 +1261,10 @@ public class Chunk {
 		this.isModified = modified;
 	}
 
+	public boolean isHasEntities() {
+		return hasEntities;
+	}
+
 	public void setHasEntities(boolean hasEntitiesIn) {
 		this.hasEntities = hasEntitiesIn;
 	}

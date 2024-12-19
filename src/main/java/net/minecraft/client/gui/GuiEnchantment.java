@@ -39,17 +39,17 @@ public class GuiEnchantment extends GuiContainer {
 	public float field_147080_z;
 	public float field_147076_A;
 	ItemStack field_147077_B;
-	private final IWorldNameable field_175380_I;
+	public final IWorldNameable worldNameable;
 
 	public GuiEnchantment(InventoryPlayer inventory, World worldIn, IWorldNameable p_i45502_3_) {
 		super(new ContainerEnchantment(inventory, worldIn));
 		this.playerInventory = inventory;
 		this.container = (ContainerEnchantment) this.inventorySlots;
-		this.field_175380_I = p_i45502_3_;
+		this.worldNameable = p_i45502_3_;
 	}
 
 	protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
-		this.fontRendererObj.drawString(this.field_175380_I.getDisplayName().getUnformattedText(), 12, 5, 4210752);
+		this.fontRendererObj.drawString(this.worldNameable.getDisplayName().getUnformattedText(), 12, 5, 4210752);
 		this.fontRendererObj.drawString(this.playerInventory.getDisplayName().getUnformattedText(), 8,
 				this.ySize - 96 + 2, 4210752);
 	}
@@ -283,5 +283,9 @@ public class GuiEnchantment extends GuiContainer {
 		f1 = MathHelper.clamp_float(f1, -f, f);
 		this.field_147081_y += (f1 - this.field_147081_y) * 0.9F;
 		this.field_147071_v += this.field_147081_y;
+	}
+
+	public IWorldNameable getWorldNameable() {
+		return worldNameable;
 	}
 }

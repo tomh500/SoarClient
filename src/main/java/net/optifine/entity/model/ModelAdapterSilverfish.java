@@ -8,7 +8,6 @@ import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.client.renderer.entity.RenderSilverfish;
 import net.minecraft.entity.monster.EntitySilverfish;
 import net.minecraft.src.Config;
-import net.optifine.reflect.Reflector;
 
 public class ModelAdapterSilverfish extends ModelAdapter {
 	public ModelAdapterSilverfish() {
@@ -27,8 +26,7 @@ public class ModelAdapterSilverfish extends ModelAdapter {
 			String s = "body";
 
 			if (modelPart.startsWith(s)) {
-				ModelRenderer[] amodelrenderer1 = (ModelRenderer[]) ((ModelRenderer[]) Reflector
-						.getFieldValue(modelsilverfish, Reflector.ModelSilverfish_bodyParts));
+				ModelRenderer[] amodelrenderer1 = modelsilverfish.silverfishBodyParts;
 
 				if (amodelrenderer1 == null) {
 					return null;
@@ -42,8 +40,7 @@ public class ModelAdapterSilverfish extends ModelAdapter {
 				String s1 = "wing";
 
 				if (modelPart.startsWith(s1)) {
-					ModelRenderer[] amodelrenderer = (ModelRenderer[]) ((ModelRenderer[]) Reflector
-							.getFieldValue(modelsilverfish, Reflector.ModelSilverfish_wingParts));
+					ModelRenderer[] amodelrenderer = modelsilverfish.silverfishWings;
 
 					if (amodelrenderer == null) {
 						return null;

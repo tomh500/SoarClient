@@ -4,9 +4,9 @@ import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.entity.Entity;
 
 public class ModelEnderCrystal extends ModelBase {
-	private ModelRenderer cube;
-	private ModelRenderer glass = new ModelRenderer(this, "glass");
-	private ModelRenderer base;
+	public ModelRenderer cube;
+	public ModelRenderer glass = new ModelRenderer(this, "glass");
+	public ModelRenderer base;
 
 	public ModelEnderCrystal(float p_i1170_1_, boolean p_i1170_2_) {
 		this.glass.setTextureOffset(0, 0).addBox(-4.0F, -4.0F, -4.0F, 8, 8, 8);

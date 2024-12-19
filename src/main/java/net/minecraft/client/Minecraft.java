@@ -2681,4 +2681,12 @@ public class Minecraft implements IThreadListener, IPlayerUsage {
 	public void setConnectedToRealms(boolean isConnected) {
 		this.connectedToRealms = isConnected;
 	}
+
+	public List<IResourcePack> getDefaultResourcePacks() {
+		return defaultResourcePacks;
+	}
+
+	public DefaultResourcePack getMcDefaultResourcePack() {
+		return mcDefaultResourcePack;
+	}
 }

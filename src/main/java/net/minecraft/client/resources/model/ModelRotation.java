@@ -9,7 +9,6 @@ import com.google.common.collect.Maps;
 
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.MathHelper;
-import net.optifine.reflect.Reflector;
 
 public enum ModelRotation {
 	X0_Y0(0, 0), X0_Y90(0, 90), X0_Y180(0, 180), X0_Y270(0, 270), X90_Y0(90, 0), X90_Y90(90, 90), X90_Y180(90, 180),
@@ -86,9 +85,7 @@ public enum ModelRotation {
 	}
 
 	public javax.vecmath.Matrix4f getMatrix() {
-		return Reflector.ForgeHooksClient_getMatrix.exists()
-				? (javax.vecmath.Matrix4f) Reflector.call(Reflector.ForgeHooksClient_getMatrix, new Object[] { this })
-				: new javax.vecmath.Matrix4f(this.getMatrix4d());
+		return new javax.vecmath.Matrix4f(this.getMatrix4d());
 	}
 
 	public EnumFacing rotate(EnumFacing p_rotate_1_) {

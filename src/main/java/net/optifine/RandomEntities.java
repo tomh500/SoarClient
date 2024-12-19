@@ -11,6 +11,7 @@ import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
 import java.util.UUID;
+
 import net.minecraft.client.renderer.RenderGlobal;
 import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
 import net.minecraft.entity.DataWatcher;
@@ -21,8 +22,6 @@ import net.minecraft.src.Config;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
-import net.optifine.reflect.Reflector;
-import net.optifine.reflect.ReflectorRaw;
 import net.optifine.util.IntegratedServerUtils;
 import net.optifine.util.PropertiesOrdered;
 import net.optifine.util.ResUtils;
@@ -45,11 +44,6 @@ public class RandomEntities {
 	public static final String PREFIX_MCPATCHER_MOB = "mcpatcher/mob/";
 	private static final String[] DEPENDANT_SUFFIXES = new String[] { "_armor", "_eyes", "_exploding", "_shooting",
 			"_fur", "_eyes", "_invulnerable", "_angry", "_tame", "_collar" };
-	private static final String PREFIX_DYNAMIC_TEXTURE_HORSE = "horse/";
-	private static final String[] HORSE_TEXTURES = (String[]) ((String[]) ReflectorRaw.getFieldValue((Object) null,
-			EntityHorse.class, String[].class, 2));
-	private static final String[] HORSE_TEXTURES_ABBR = (String[]) ((String[]) ReflectorRaw.getFieldValue((Object) null,
-			EntityHorse.class, String[].class, 3));
 
 	public static void entityLoaded(Entity entity, World world) {
 		if (world != null) {
@@ -74,10 +68,10 @@ public class RandomEntities {
 			EntityVillager entityvillager = (EntityVillager) entity;
 			int i = entityvillager.getProfession();
 			ev.setProfession(i);
-			int j = Reflector.getFieldValueInt(entityvillager, Reflector.EntityVillager_careerId, 0);
-			Reflector.setFieldValueInt(ev, Reflector.EntityVillager_careerId, j);
-			int k = Reflector.getFieldValueInt(entityvillager, Reflector.EntityVillager_careerLevel, 0);
-			Reflector.setFieldValueInt(ev, Reflector.EntityVillager_careerLevel, k);
+			int j = entityvillager.getCareerId();
+			ev.setCareerId(j);
+			int k = entityvillager.getCareerLevel();
+			ev.setCareerLevel(k);
 		}
 	}
 
@@ -140,12 +134,12 @@ public class RandomEntities {
 	}
 
 	private static String getHorseTexturePath(String path, int pos) {
-		if (HORSE_TEXTURES != null && HORSE_TEXTURES_ABBR != null) {
-			for (int i = 0; i < HORSE_TEXTURES_ABBR.length; ++i) {
-				String s = HORSE_TEXTURES_ABBR[i];
+		if (EntityHorse.HORSE_TEXTURES != null && EntityHorse.HORSE_TEXTURES_ABBR != null) {
+			for (int i = 0; i < EntityHorse.HORSE_TEXTURES_ABBR.length; ++i) {
+				String s = EntityHorse.HORSE_TEXTURES_ABBR[i];
 
 				if (path.startsWith(s, pos)) {
-					return HORSE_TEXTURES[i];
+					return EntityHorse.HORSE_TEXTURES[i];
 				}
 			}
 

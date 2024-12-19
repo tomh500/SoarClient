@@ -1,7 +1,9 @@
 package net.minecraft.client.renderer.tileentity;
 
-import com.google.common.collect.Maps;
 import java.util.Map;
+
+import com.google.common.collect.Maps;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.renderer.GlStateManager;
@@ -29,7 +31,6 @@ import net.minecraft.util.BlockPos;
 import net.minecraft.util.ReportedException;
 import net.minecraft.world.World;
 import net.optifine.EmissiveTextures;
-import net.optifine.reflect.Reflector;
 
 public class TileEntityRendererDispatcher {
 	public Map<Class, TileEntitySpecialRenderer> mapSpecialRenderers = Maps.newHashMap();
@@ -48,7 +49,6 @@ public class TileEntityRendererDispatcher {
 	public double entityZ;
 	public TileEntity tileEntityRendered;
 	private Tessellator batchBuffer = new Tessellator(2097152);
-	private boolean drawingBatch = false;
 
 	private TileEntityRendererDispatcher() {
 		this.mapSpecialRenderers.put(TileEntitySign.class, new TileEntitySignRenderer());
@@ -107,21 +107,13 @@ public class TileEntityRendererDispatcher {
 	public void renderTileEntity(TileEntity tileentityIn, float partialTicks, int destroyStage) {
 		if (tileentityIn.getDistanceSq(this.entityX, this.entityY, this.entityZ) < tileentityIn
 				.getMaxRenderDistanceSquared()) {
-			boolean flag = true;
 
-			if (Reflector.ForgeTileEntity_hasFastRenderer.exists()) {
-				flag = !this.drawingBatch || !Reflector.callBoolean(tileentityIn,
-						Reflector.ForgeTileEntity_hasFastRenderer, new Object[0]);
-			}
-
-			if (flag) {
-				RenderHelper.enableStandardItemLighting();
-				int i = this.worldObj.getCombinedLight(tileentityIn.getPos(), 0);
-				int j = i % 65536;
-				int k = i / 65536;
-				OpenGlHelper.setLightmapTextureCoords(OpenGlHelper.lightmapTexUnit, (float) j / 1.0F, (float) k / 1.0F);
-				GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
-			}
+			RenderHelper.enableStandardItemLighting();
+			int i = this.worldObj.getCombinedLight(tileentityIn.getPos(), 0);
+			int j = i % 65536;
+			int k = i / 65536;
+			OpenGlHelper.setLightmapTextureCoords(OpenGlHelper.lightmapTexUnit, (float) j / 1.0F, (float) k / 1.0F);
+			GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
 
 			BlockPos blockpos = tileentityIn.getPos();
 
@@ -163,15 +155,7 @@ public class TileEntityRendererDispatcher {
 		if (tileentityspecialrenderer != null) {
 			try {
 				this.tileEntityRendered = tileEntityIn;
-
-				if (this.drawingBatch && Reflector.callBoolean(tileEntityIn, Reflector.ForgeTileEntity_hasFastRenderer,
-						new Object[0])) {
-					tileentityspecialrenderer.renderTileEntityFast(tileEntityIn, x, y, z, partialTicks, destroyStage,
-							this.batchBuffer.getWorldRenderer());
-				} else {
-					tileentityspecialrenderer.renderTileEntityAt(tileEntityIn, x, y, z, partialTicks, destroyStage);
-				}
-
+				tileentityspecialrenderer.renderTileEntityAt(tileEntityIn, x, y, z, partialTicks, destroyStage);
 				this.tileEntityRendered = null;
 			} catch (Throwable throwable) {
 				CrashReport crashreport = CrashReport.makeCrashReport(throwable, "Rendering Block Entity");
@@ -192,7 +176,6 @@ public class TileEntityRendererDispatcher {
 
 	public void preDrawBatch() {
 		this.batchBuffer.getWorldRenderer().begin(7, DefaultVertexFormats.BLOCK);
-		this.drawingBatch = true;
 	}
 
 	public void drawBatch(int p_drawBatch_1_) {
@@ -215,6 +198,5 @@ public class TileEntityRendererDispatcher {
 
 		this.batchBuffer.draw();
 		RenderHelper.enableStandardItemLighting();
-		this.drawingBatch = false;
 	}
 }

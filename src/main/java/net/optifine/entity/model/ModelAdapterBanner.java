@@ -6,9 +6,7 @@ import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.client.renderer.tileentity.TileEntityBannerRenderer;
 import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
-import net.minecraft.src.Config;
 import net.minecraft.tileentity.TileEntityBanner;
-import net.optifine.reflect.Reflector;
 
 public class ModelAdapterBanner extends ModelAdapter {
 	public ModelAdapterBanner() {
@@ -42,19 +40,14 @@ public class ModelAdapterBanner extends ModelAdapter {
 		if (!(tileentityspecialrenderer instanceof TileEntityBannerRenderer)) {
 			return null;
 		} else {
+			
 			if (tileentityspecialrenderer.getEntityClass() == null) {
 				tileentityspecialrenderer = new TileEntityBannerRenderer();
 				tileentityspecialrenderer.setRendererDispatcher(tileentityrendererdispatcher);
 			}
-
-			if (!Reflector.TileEntityBannerRenderer_bannerModel.exists()) {
-				Config.warn("Field not found: TileEntityBannerRenderer.bannerModel");
-				return null;
-			} else {
-				Reflector.setFieldValue(tileentityspecialrenderer, Reflector.TileEntityBannerRenderer_bannerModel,
-						modelBase);
-				return tileentityspecialrenderer;
-			}
+			
+			((TileEntityBannerRenderer)tileentityspecialrenderer).bannerModel = (ModelBanner) modelBase;
+			return tileentityspecialrenderer;
 		}
 	}
 }

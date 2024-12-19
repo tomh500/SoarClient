@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockGlass;
 import net.minecraft.block.BlockPane;
@@ -36,7 +37,6 @@ import net.minecraft.world.biome.BiomeGenBase;
 import net.optifine.config.Matches;
 import net.optifine.model.BlockModelUtils;
 import net.optifine.model.ListQuadsOverlay;
-import net.optifine.reflect.Reflector;
 import net.optifine.render.RenderEnv;
 import net.optifine.util.PropertiesOrdered;
 import net.optifine.util.ResUtils;
@@ -1587,11 +1587,7 @@ public class ConnectedTextures {
 		if (ibakedmodel == null) {
 			return null;
 		} else {
-			if (Reflector.ForgeBlock_getExtendedState.exists()) {
-				neighbourState = (IBlockState) Reflector.call(neighbourState.getBlock(),
-						Reflector.ForgeBlock_getExtendedState, new Object[] { neighbourState, iblockaccess, blockPos });
-			}
-
+			
 			EnumFacing enumfacing = getFacing(side);
 			List list = ibakedmodel.getFaceQuads(enumfacing);
 

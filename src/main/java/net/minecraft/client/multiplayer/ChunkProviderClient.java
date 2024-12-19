@@ -110,4 +110,8 @@ public class ChunkProviderClient implements IChunkProvider {
 	public Chunk provideChunk(BlockPos blockPosIn) {
 		return this.provideChunk(blockPosIn.getX() >> 4, blockPosIn.getZ() >> 4);
 	}
+
+	public LongHashMap<Chunk> getChunkMapping() {
+		return chunkMapping;
+	}
 }

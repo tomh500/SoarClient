@@ -2,6 +2,7 @@ package net.minecraft.client.renderer;
 
 import java.util.BitSet;
 import java.util.List;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
@@ -23,7 +24,6 @@ import net.optifine.BetterSnow;
 import net.optifine.CustomColors;
 import net.optifine.model.BlockModelCustomizer;
 import net.optifine.model.ListQuadsOverlay;
-import net.optifine.reflect.Reflector;
 import net.optifine.render.RenderEnv;
 import net.optifine.shaders.SVertexBuilder;
 import net.optifine.shaders.Shaders;
@@ -34,11 +34,7 @@ public class BlockModelRenderer {
 	private static final EnumWorldBlockLayer[] OVERLAY_LAYERS = new EnumWorldBlockLayer[] { EnumWorldBlockLayer.CUTOUT,
 			EnumWorldBlockLayer.CUTOUT_MIPPED, EnumWorldBlockLayer.TRANSLUCENT };
 
-	public BlockModelRenderer() {
-		if (Reflector.ForgeModContainer_forgeLightPipelineEnabled.exists()) {
-			Reflector.setFieldValue(Reflector.ForgeModContainer_forgeLightPipelineEnabled, Boolean.valueOf(false));
-		}
-	}
+	public BlockModelRenderer() {}
 
 	public boolean renderModel(IBlockAccess blockAccessIn, IBakedModel modelIn, IBlockState blockStateIn,
 			BlockPos blockPosIn, WorldRenderer worldRendererIn) {
