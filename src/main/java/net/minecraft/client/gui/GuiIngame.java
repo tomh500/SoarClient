@@ -10,8 +10,6 @@ import com.google.common.collect.Lists;
 import com.soarclient.event.EventBus;
 import com.soarclient.event.impl.RenderGameOverlayEvent;
 import com.soarclient.libraries.sodium.SodiumClientMod;
-import com.soarclient.management.mods.impl.settings.ModMenuSetting;
-import com.soarclient.shaders.blur.GaussianBlur;
 
 import net.minecraft.block.material.Material;
 import net.minecraft.client.Minecraft;
@@ -107,8 +105,6 @@ public class GuiIngame extends Gui {
 	/** Used with updateCounter to make the heart bar flash */
 	private long healthUpdateCounter = 0L;
 
-	private GaussianBlur gaussianBlur = new GaussianBlur(true);
-	
 	public GuiIngame(Minecraft mcIn) {
 		this.mc = mcIn;
 		this.itemRenderer = mcIn.getRenderItem();
@@ -338,10 +334,6 @@ public class GuiIngame extends Gui {
 
 		EventBus event = EventBus.getInstance();
 
-		if (ModMenuSetting.getInstance().getBlurSetting().isEnabled()) {
-			gaussianBlur.draw(1 + ModMenuSetting.getInstance().getBlurIntensitySetting().getValue());
-		}
-		
 		event.post(new RenderGameOverlayEvent(partialTicks));
 	}
 

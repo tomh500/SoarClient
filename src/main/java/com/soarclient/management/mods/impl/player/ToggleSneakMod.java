@@ -5,7 +5,7 @@ import com.soarclient.event.impl.KeyEvent;
 import com.soarclient.event.impl.PlayerUpdateEvent;
 import com.soarclient.management.mods.Mod;
 import com.soarclient.management.mods.ModCategory;
-import com.soarclient.nanovg.font.Icon;
+import com.soarclient.utils.Icon;
 
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.settings.KeyBinding;

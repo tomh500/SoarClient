@@ -12,7 +12,7 @@ import com.soarclient.management.mods.ModCategory;
 import com.soarclient.management.mods.settings.impl.BooleanSetting;
 import com.soarclient.management.mods.settings.impl.KeybindSetting;
 import com.soarclient.management.mods.settings.impl.NumberSetting;
-import com.soarclient.nanovg.font.Icon;
+import com.soarclient.utils.Icon;
 
 public class ZoomMod extends Mod {
 

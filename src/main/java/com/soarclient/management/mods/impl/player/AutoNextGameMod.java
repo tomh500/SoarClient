@@ -12,8 +12,8 @@ import com.soarclient.management.mods.ModCategory;
 import com.soarclient.management.mods.api.HypixelGameMode;
 import com.soarclient.management.mods.settings.impl.BooleanSetting;
 import com.soarclient.management.mods.settings.impl.NumberSetting;
-import com.soarclient.nanovg.font.Icon;
 import com.soarclient.utils.ColorUtils;
+import com.soarclient.utils.Icon;
 import com.soarclient.utils.Multithreading;
 import com.soarclient.utils.network.ServerUtils;
 

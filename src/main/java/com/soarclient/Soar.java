@@ -7,7 +7,6 @@ import com.soarclient.management.color.ColorManager;
 import com.soarclient.management.mods.ModManager;
 import com.soarclient.management.music.MusicManager;
 import com.soarclient.management.proxy.ProxyManager;
-import com.soarclient.nanovg.NanoVGHelper;
 import com.soarclient.utils.file.FileLocation;
 import com.soarclient.utils.language.I18n;
 import com.soarclient.utils.language.Language;
@@ -39,7 +38,6 @@ public class Soar {
 		
 		FileLocation.init();
 		launchTime = System.currentTimeMillis();
-		NanoVGHelper.getInstance().start();
 
 		ViaSoarCommon.init(ViaSoar.PLATFORM);
 		

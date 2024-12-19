@@ -5,7 +5,7 @@ import java.util.Arrays;
 import com.soarclient.management.mods.Mod;
 import com.soarclient.management.mods.ModCategory;
 import com.soarclient.management.mods.settings.impl.ComboSetting;
-import com.soarclient.nanovg.font.Icon;
+import com.soarclient.utils.Icon;
 
 public class WeatherChangerMod extends Mod {
 

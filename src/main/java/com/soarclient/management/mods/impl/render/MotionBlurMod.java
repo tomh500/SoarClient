@@ -5,7 +5,7 @@ import com.soarclient.event.impl.ShaderEvent;
 import com.soarclient.management.mods.Mod;
 import com.soarclient.management.mods.ModCategory;
 import com.soarclient.management.mods.settings.impl.NumberSetting;
-import com.soarclient.nanovg.font.Icon;
+import com.soarclient.utils.Icon;
 
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.shader.ShaderGroup;

@@ -2,7 +2,7 @@ package com.soarclient.management.mods.impl.player;
 
 import com.soarclient.management.mods.Mod;
 import com.soarclient.management.mods.ModCategory;
-import com.soarclient.nanovg.font.Icon;
+import com.soarclient.utils.Icon;
 
 public class HitDelayFixMod extends Mod {
 

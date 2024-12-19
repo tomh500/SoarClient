@@ -2,8 +2,6 @@ package net.minecraft.client.gui;
 
 import java.io.IOException;
 
-import com.soarclient.gui.mainmenu.GuiSoarMainMenu;
-
 import net.minecraft.client.resources.I18n;
 
 public class GuiMemoryErrorScreen extends GuiScreen {
@@ -26,7 +24,7 @@ public class GuiMemoryErrorScreen extends GuiScreen {
 	 */
 	protected void actionPerformed(GuiButton button) throws IOException {
 		if (button.id == 0) {
-			this.mc.displayGuiScreen(new GuiSoarMainMenu());
+			this.mc.displayGuiScreen(new GuiMainMenu());
 		} else if (button.id == 1) {
 			this.mc.shutdown();
 		}

@@ -1,4 +1,4 @@
-package com.soarclient.nanovg.font;
+package com.soarclient.utils;
 
 public class Icon {
 	public static final String _10K = "\ue951";

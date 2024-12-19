@@ -4,7 +4,6 @@ import org.lwjgl.input.Keyboard;
 
 import com.soarclient.event.EventHandler;
 import com.soarclient.event.impl.ClientTickEvent;
-import com.soarclient.gui.modmenu.GuiModMenu;
 import com.soarclient.libraries.material3.hct.Hct;
 import com.soarclient.management.mods.Mod;
 import com.soarclient.management.mods.ModCategory;
@@ -12,14 +11,11 @@ import com.soarclient.management.mods.settings.impl.BooleanSetting;
 import com.soarclient.management.mods.settings.impl.HctColorSetting;
 import com.soarclient.management.mods.settings.impl.KeybindSetting;
 import com.soarclient.management.mods.settings.impl.NumberSetting;
-import com.soarclient.nanovg.font.Icon;
-
-import net.minecraft.client.gui.GuiScreen;
+import com.soarclient.utils.Icon;
 
 public class ModMenuSetting extends Mod {
 
 	private static ModMenuSetting instance;
-	private GuiScreen modMenu;
 	
 	private KeybindSetting keybindSetting = new KeybindSetting("setting.keybind", "setting.keybind.description",
 			Icon.KEYBOARD, this, Keyboard.KEY_RSHIFT);
@@ -45,11 +41,6 @@ public class ModMenuSetting extends Mod {
 
 		if (keybindSetting.isPressed()) {
 
-			if (modMenu == null) {
-				modMenu = new GuiModMenu().create();
-			}
-
-			mc.displayGuiScreen(modMenu);
 		}
 	}
 	
