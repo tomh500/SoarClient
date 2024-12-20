@@ -49,12 +49,14 @@ dependencies {
 
     implementation "org.lwjgl:lwjgl-nfd"
     implementation "org.lwjgl:lwjgl-stb"
+	implementation "org.lwjgl:lwjgl-yoga"
     runtimeOnly "org.lwjgl:lwjgl::$lwjglNatives"
     runtimeOnly "org.lwjgl:lwjgl-glfw::$lwjglNatives"
     runtimeOnly "org.lwjgl:lwjgl-openal::$lwjglNatives"
     runtimeOnly "org.lwjgl:lwjgl-opengl::$lwjglNatives"
     runtimeOnly "org.lwjgl:lwjgl-nfd::$lwjglNatives"
     runtimeOnly "org.lwjgl:lwjgl-stb::$lwjglNatives"
+	runtimeOnly "org.lwjgl:lwjgl-yoga::$lwjglNatives"
 
 	implementation 'it.unimi.dsi:fastutil:8.5.14'
 	implementation 'org.joml:joml:1.10.8'
@@ -76,6 +78,7 @@ dependencies {
 	implementation 'com.viaversion:viabackwards-common:5.1.2-SNAPSHOT'
 	implementation 'net.raphimc:viaaprilfools-common:3.0.5-SNAPSHOT'
 	implementation 'net.raphimc:ViaLegacy:3.0.6-SNAPSHOT'
-
+	implementation 'io.github.humbleui:types:0.2.0'
+	
 	implementation fileTree('libs')
 }

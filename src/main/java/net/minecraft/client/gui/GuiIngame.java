@@ -9,7 +9,10 @@ import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.soarclient.event.EventBus;
 import com.soarclient.event.impl.RenderGameOverlayEvent;
+import com.soarclient.event.impl.RenderSkiaEvent;
 import com.soarclient.libraries.sodium.SodiumClientMod;
+import com.soarclient.skia.Skia;
+import com.soarclient.skia.context.SkiaContext;
 
 import net.minecraft.block.material.Material;
 import net.minecraft.client.Minecraft;
@@ -334,6 +337,13 @@ public class GuiIngame extends Gui {
 
 		EventBus event = EventBus.getInstance();
 
+		SkiaContext.draw((context) -> {
+			Skia.save();
+			Skia.scale(scaledresolution.getScaleFactor());
+			event.post(new RenderSkiaEvent());
+			Skia.restore();
+		});
+		
 		event.post(new RenderGameOverlayEvent(partialTicks));
 	}
 

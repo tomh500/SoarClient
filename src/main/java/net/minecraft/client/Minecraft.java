@@ -64,6 +64,7 @@ import com.soarclient.libraries.sodium.SodiumClientMod;
 import com.soarclient.libraries.sodium.client.gui.SodiumGameOptions.LightingQuality;
 import com.soarclient.management.mods.impl.player.HitDelayFixMod;
 import com.soarclient.management.mods.settings.impl.KeybindSetting;
+import com.soarclient.skia.context.SkiaContext;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
@@ -582,6 +583,9 @@ public class Minecraft implements IThreadListener {
 		}
 
 		this.renderGlobal.makeEntityOutlineShader();
+		
+		SkiaContext.initialize();
+		SkiaContext.createSurface();
 	}
 
 	private void registerMetadataSerializers() {
@@ -1544,6 +1548,7 @@ public class Minecraft implements IThreadListener {
 
 		this.loadingScreen = new LoadingScreenRenderer(this);
 		this.updateFramebufferSize();
+		SkiaContext.onResize(width, height);
 	}
 
 	private void updateFramebufferSize() {

@@ -92,7 +92,7 @@ public final class FontRendererHook {
 						null);
 				if (i == 0x0d) {
 					try (final InputStream sustream = FontRendererHook.class
-							.getResourceAsStream("/assets/minecraft/soar/font_glyph_data.bin")) {
+							.getResourceAsStream("/assets/soar/font_glyph_data.bin")) {
 						Graphics2D graphics = bufferedImage.createGraphics();
 						graphics.setComposite(AlphaComposite.Src);
 						graphics.drawImage(ImageIO.read(Objects.requireNonNull(sustream)), 0x9DE % 16 * 16,

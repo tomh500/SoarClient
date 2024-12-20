@@ -4,6 +4,7 @@ import org.lwjgl.input.Keyboard;
 
 import com.soarclient.event.EventHandler;
 import com.soarclient.event.impl.ClientTickEvent;
+import com.soarclient.gui.GuiTest;
 import com.soarclient.libraries.material3.hct.Hct;
 import com.soarclient.management.mods.Mod;
 import com.soarclient.management.mods.ModCategory;
@@ -40,7 +41,7 @@ public class ModMenuSetting extends Mod {
 	public void onClientTick(ClientTickEvent event) {
 
 		if (keybindSetting.isPressed()) {
-
+			mc.displayGuiScreen(new GuiTest().build());
 		}
 	}
 	
