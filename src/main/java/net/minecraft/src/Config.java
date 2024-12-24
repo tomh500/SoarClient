@@ -531,14 +531,6 @@ public class Config {
 		dbg(p_log_0_);
 	}
 
-	public static int getUpdatesPerFrame() {
-		return gameSettings.ofChunkUpdates;
-	}
-
-	public static boolean isDynamicUpdates() {
-		return gameSettings.ofChunkUpdatesDynamic;
-	}
-
 	public static boolean isRainFancy() {
 		return gameSettings.ofRain == 0 ? gameSettings.fancyGraphics : gameSettings.ofRain == 2;
 	}
@@ -1313,10 +1305,6 @@ public class Config {
 		return gameSettings.ofConnectedTextures == 2;
 	}
 
-	public static boolean isFastRender() {
-		return gameSettings.ofFastRender;
-	}
-
 	public static boolean isTranslucentBlocksFancy() {
 		return gameSettings.ofTranslucentBlocks == 0 ? gameSettings.fancyGraphics
 				: gameSettings.ofTranslucentBlocks == 2;
@@ -1991,10 +1979,6 @@ public class Config {
 
 	public static boolean isVbo() {
 		return OpenGlHelper.useVbo();
-	}
-
-	public static boolean isSmoothFps() {
-		return gameSettings.ofSmoothFps;
 	}
 
 	public static boolean openWebLink(URI p_openWebLink_0_) {

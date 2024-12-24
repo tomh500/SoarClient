@@ -6,17 +6,11 @@ import net.optifine.util.MathUtils;
 
 public class MathHelper {
 	public static final float SQRT_2 = sqrt_float(2.0F);
-	private static final int SIN_BITS = 12;
-	private static final int SIN_MASK = 4095;
-	private static final int SIN_COUNT = 4096;
-	private static final int SIN_COUNT_D4 = 1024;
 	public static final float PI = MathUtils.roundToFloat(Math.PI);
 	public static final float PI2 = MathUtils.roundToFloat((Math.PI * 2D));
 	public static final float PId2 = MathUtils.roundToFloat((Math.PI / 2D));
-	private static final float radToIndex = MathUtils.roundToFloat(651.8986469044033D);
 	public static final float deg2Rad = MathUtils.roundToFloat(0.017453292519943295D);
 	private static final float[] SIN_TABLE_FAST = new float[4096];
-	public static boolean fastMath = false;
 	private static final float[] SIN_TABLE = new float[65536];
 	private static final int[] multiplyDeBruijnBitPosition;
 	private static final double field_181163_d;
@@ -24,13 +18,11 @@ public class MathHelper {
 	private static final double[] field_181165_f;
 
 	public static float sin(float p_76126_0_) {
-		return fastMath ? SIN_TABLE_FAST[(int) (p_76126_0_ * radToIndex) & 4095]
-				: SIN_TABLE[(int) (p_76126_0_ * 10430.378F) & 65535];
+		return SIN_TABLE[(int) (p_76126_0_ * 10430.378F) & 65535];
 	}
 
 	public static float cos(float value) {
-		return fastMath ? SIN_TABLE_FAST[(int) (value * radToIndex + 1024.0F) & 4095]
-				: SIN_TABLE[(int) (value * 10430.378F + 16384.0F) & 65535];
+		return SIN_TABLE[(int) (value * 10430.378F + 16384.0F) & 65535];
 	}
 
 	public static float sqrt_float(float value) {

@@ -280,7 +280,7 @@ public class RenderGlobal implements IWorldAccess, IResourceManagerReloadListene
 	}
 
 	protected boolean isRenderEntityOutlines() {
-		return !Config.isFastRender() && !Config.isShaders() && !Config.isAntialiasing()
+		return !Config.isShaders() && !Config.isAntialiasing()
 				? this.entityOutlineFramebuffer != null && this.entityOutlineShader != null && this.mc.thePlayer != null
 						&& this.mc.thePlayer.isSpectator() && this.mc.gameSettings.keyBindSpectatorOutlines.isKeyDown()
 				: false;
@@ -2080,9 +2080,6 @@ public class RenderGlobal implements IWorldAccess, IResourceManagerReloadListene
 			}
 		}
 
-		double d1 = 0.0D;
-		int i = Config.getUpdatesPerFrame();
-
 		if (!this.chunksToUpdate.isEmpty()) {
 			Iterator<RenderChunk> iterator1 = this.chunksToUpdate.iterator();
 
@@ -2104,13 +2101,10 @@ public class RenderGlobal implements IWorldAccess, IResourceManagerReloadListene
 				renderchunk1.setNeedsUpdate(false);
 				iterator1.remove();
 
-				if (!flag) {
-					double d0 = 2.0D * RenderChunkUtils.getRelativeBufferSize(renderchunk1);
-					d1 += d0;
+				long i = finishTimeNano - System.nanoTime();
 
-					if (d1 > (double) i) {
-						break;
-					}
+				if (i < 0L) {
+					break;
 				}
 			}
 		}

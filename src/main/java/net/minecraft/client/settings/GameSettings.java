@@ -119,7 +119,6 @@ public class GameSettings {
 	private Map<SoundCategory, Float> mapSoundLevels = Maps.newEnumMap(SoundCategory.class);
 	public boolean useNativeTransport = true;
 	public boolean entityShadows = true;
-	public boolean realmsNotifications = true;
 	public KeyBinding keyBindForward = new KeyBinding("key.forward", 17, "key.categories.movement");
 	public KeyBinding keyBindLeft = new KeyBinding("key.left", 30, "key.categories.movement");
 	public KeyBinding keyBindBack = new KeyBinding("key.back", 31, "key.categories.movement");
@@ -173,7 +172,6 @@ public class GameSettings {
 	public float ofFogStart = 0.8F;
 	public int ofMipmapType = 0;
 	public boolean ofOcclusionFancy = false;
-	public boolean ofSmoothFps = false;
 	public boolean ofSmoothWorld = Config.isSingleProcessor();
 	public boolean ofLazyChunkLoading = Config.isSingleProcessor();
 	public boolean ofRenderRegions = false;
@@ -196,8 +194,6 @@ public class GameSettings {
 	public boolean ofStars = true;
 	public boolean ofSunMoon = true;
 	public int ofVignette = 0;
-	public int ofChunkUpdates = 1;
-	public boolean ofChunkUpdatesDynamic = false;
 	public int ofTime = 0;
 	public boolean ofClearWater = false;
 	public boolean ofBetterSnow = false;
@@ -213,8 +209,6 @@ public class GameSettings {
 	public boolean ofCustomItems = true;
 	public boolean ofNaturalTextures = false;
 	public boolean ofEmissiveTextures = true;
-	public boolean ofFastMath = false;
-	public boolean ofFastRender = false;
 	public int ofTranslucentBlocks = 0;
 	public boolean ofDynamicFov = true;
 	public boolean ofAlternateBlocks = true;
@@ -534,10 +528,6 @@ public class GameSettings {
 			this.entityShadows = !this.entityShadows;
 		}
 
-		if (settingsOption == GameSettings.Options.REALMS_NOTIFICATIONS) {
-			this.realmsNotifications = !this.realmsNotifications;
-		}
-
 		this.saveOptions();
 	}
 
@@ -615,9 +605,6 @@ public class GameSettings {
 
 		case ENTITY_SHADOWS:
 			return this.entityShadows;
-
-		case REALMS_NOTIFICATIONS:
-			return this.realmsNotifications;
 
 		default:
 			return false;
@@ -973,10 +960,6 @@ public class GameSettings {
 								this.entityShadows = astring[1].equals("true");
 							}
 
-							if (astring[0].equals("realmsNotifications")) {
-								this.realmsNotifications = astring[1].equals("true");
-							}
-
 							for (KeyBinding keybinding : this.keyBindings) {
 								if (astring[0].equals("key_" + keybinding.getKeyDescription())) {
 									keybinding.setKeyCode(Integer.parseInt(astring[1]));
@@ -1084,7 +1067,6 @@ public class GameSettings {
 			printwriter.println("reducedDebugInfo:" + this.reducedDebugInfo);
 			printwriter.println("useNativeTransport:" + this.useNativeTransport);
 			printwriter.println("entityShadows:" + this.entityShadows);
-			printwriter.println("realmsNotifications:" + this.realmsNotifications);
 
 			for (KeyBinding keybinding : this.keyBindings) {
 				printwriter.println("key_" + keybinding.getKeyDescription() + ":" + keybinding.getKeyCode());
@@ -1293,10 +1275,6 @@ public class GameSettings {
 			}
 		}
 
-		if (p_setOptionValueOF_1_ == GameSettings.Options.SMOOTH_FPS) {
-			this.ofSmoothFps = !this.ofSmoothFps;
-		}
-
 		if (p_setOptionValueOF_1_ == GameSettings.Options.SMOOTH_WORLD) {
 			this.ofSmoothWorld = !this.ofSmoothWorld;
 			Config.updateThreadPriorities();
@@ -1484,18 +1462,6 @@ public class GameSettings {
 			}
 		}
 
-		if (p_setOptionValueOF_1_ == GameSettings.Options.CHUNK_UPDATES) {
-			++this.ofChunkUpdates;
-
-			if (this.ofChunkUpdates > 5) {
-				this.ofChunkUpdates = 1;
-			}
-		}
-
-		if (p_setOptionValueOF_1_ == GameSettings.Options.CHUNK_UPDATES_DYNAMIC) {
-			this.ofChunkUpdatesDynamic = !this.ofChunkUpdatesDynamic;
-		}
-
 		if (p_setOptionValueOF_1_ == GameSettings.Options.TIME) {
 			++this.ofTime;
 
@@ -1570,26 +1536,6 @@ public class GameSettings {
 		if (p_setOptionValueOF_1_ == GameSettings.Options.EMISSIVE_TEXTURES) {
 			this.ofEmissiveTextures = !this.ofEmissiveTextures;
 			this.mc.refreshResources();
-		}
-
-		if (p_setOptionValueOF_1_ == GameSettings.Options.FAST_MATH) {
-			this.ofFastMath = !this.ofFastMath;
-			MathHelper.fastMath = this.ofFastMath;
-		}
-
-		if (p_setOptionValueOF_1_ == GameSettings.Options.FAST_RENDER) {
-			if (!this.ofFastRender && Config.isShaders()) {
-				Config.showGuiMessage(Lang.get("of.message.fr.shaders1"), Lang.get("of.message.fr.shaders2"));
-				return;
-			}
-
-			this.ofFastRender = !this.ofFastRender;
-
-			if (this.ofFastRender) {
-				this.mc.entityRenderer.stopUseShader();
-			}
-
-			Config.updateFramebufferSize();
 		}
 
 		if (p_setOptionValueOF_1_ == GameSettings.Options.TRANSLUCENT_BLOCKS) {
@@ -1752,8 +1698,6 @@ public class GameSettings {
 			default:
 				return s + "of.options.mipmap.nearest";
 			}
-		} else if (p_getKeyBindingOF_1_ == GameSettings.Options.SMOOTH_FPS) {
-			return this.ofSmoothFps ? s + Lang.getOn() : s + Lang.getOff();
 		} else if (p_getKeyBindingOF_1_ == GameSettings.Options.SMOOTH_WORLD) {
 			return this.ofSmoothWorld ? s + Lang.getOn() : s + Lang.getOff();
 		} else if (p_getKeyBindingOF_1_ == GameSettings.Options.CLOUDS) {
@@ -1915,10 +1859,6 @@ public class GameSettings {
 			default:
 				return s + Lang.getDefault();
 			}
-		} else if (p_getKeyBindingOF_1_ == GameSettings.Options.CHUNK_UPDATES) {
-			return s + this.ofChunkUpdates;
-		} else if (p_getKeyBindingOF_1_ == GameSettings.Options.CHUNK_UPDATES_DYNAMIC) {
-			return this.ofChunkUpdatesDynamic ? s + Lang.getOn() : s + Lang.getOff();
 		} else if (p_getKeyBindingOF_1_ == GameSettings.Options.TIME) {
 			return this.ofTime == 1 ? s + Lang.get("of.options.time.dayOnly")
 					: (this.ofTime == 2 ? s + Lang.get("of.options.time.nightOnly") : s + Lang.getDefault());
@@ -1958,10 +1898,6 @@ public class GameSettings {
 			return this.ofNaturalTextures ? s + Lang.getOn() : s + Lang.getOff();
 		} else if (p_getKeyBindingOF_1_ == GameSettings.Options.EMISSIVE_TEXTURES) {
 			return this.ofEmissiveTextures ? s + Lang.getOn() : s + Lang.getOff();
-		} else if (p_getKeyBindingOF_1_ == GameSettings.Options.FAST_MATH) {
-			return this.ofFastMath ? s + Lang.getOn() : s + Lang.getOff();
-		} else if (p_getKeyBindingOF_1_ == GameSettings.Options.FAST_RENDER) {
-			return this.ofFastRender ? s + Lang.getOn() : s + Lang.getOff();
 		} else if (p_getKeyBindingOF_1_ == GameSettings.Options.TRANSLUCENT_BLOCKS) {
 			return this.ofTranslucentBlocks == 1 ? s + Lang.getFast()
 					: (this.ofTranslucentBlocks == 2 ? s + Lang.getFancy() : s + Lang.getDefault());
@@ -2051,10 +1987,6 @@ public class GameSettings {
 
 					if (astring[0].equals("ofOcclusionFancy") && astring.length >= 2) {
 						this.ofOcclusionFancy = Boolean.valueOf(astring[1]).booleanValue();
-					}
-
-					if (astring[0].equals("ofSmoothFps") && astring.length >= 2) {
-						this.ofSmoothFps = Boolean.valueOf(astring[1]).booleanValue();
 					}
 
 					if (astring[0].equals("ofSmoothWorld") && astring.length >= 2) {
@@ -2206,15 +2138,6 @@ public class GameSettings {
 						this.ofVignette = Config.limit(this.ofVignette, 0, 2);
 					}
 
-					if (astring[0].equals("ofChunkUpdates") && astring.length >= 2) {
-						this.ofChunkUpdates = Integer.valueOf(astring[1]).intValue();
-						this.ofChunkUpdates = Config.limit(this.ofChunkUpdates, 1, 5);
-					}
-
-					if (astring[0].equals("ofChunkUpdatesDynamic") && astring.length >= 2) {
-						this.ofChunkUpdatesDynamic = Boolean.valueOf(astring[1]).booleanValue();
-					}
-
 					if (astring[0].equals("ofTime") && astring.length >= 2) {
 						this.ofTime = Integer.valueOf(astring[1]).intValue();
 						this.ofTime = Config.limit(this.ofTime, 0, 2);
@@ -2329,15 +2252,6 @@ public class GameSettings {
 						this.ofFullscreenMode = astring[1];
 					}
 
-					if (astring[0].equals("ofFastMath") && astring.length >= 2) {
-						this.ofFastMath = Boolean.valueOf(astring[1]).booleanValue();
-						MathHelper.fastMath = this.ofFastMath;
-					}
-
-					if (astring[0].equals("ofFastRender") && astring.length >= 2) {
-						this.ofFastRender = Boolean.valueOf(astring[1]).booleanValue();
-					}
-
 					if (astring[0].equals("ofTranslucentBlocks") && astring.length >= 2) {
 						this.ofTranslucentBlocks = Integer.valueOf(astring[1]).intValue();
 						this.ofTranslucentBlocks = Config.limit(this.ofTranslucentBlocks, 0, 2);
@@ -2369,7 +2283,6 @@ public class GameSettings {
 			printwriter.println("ofFogStart:" + this.ofFogStart);
 			printwriter.println("ofMipmapType:" + this.ofMipmapType);
 			printwriter.println("ofOcclusionFancy:" + this.ofOcclusionFancy);
-			printwriter.println("ofSmoothFps:" + this.ofSmoothFps);
 			printwriter.println("ofSmoothWorld:" + this.ofSmoothWorld);
 			printwriter.println("ofAoLevel:" + this.ofAoLevel);
 			printwriter.println("ofClouds:" + this.ofClouds);
@@ -2404,8 +2317,6 @@ public class GameSettings {
 			printwriter.println("ofStars:" + this.ofStars);
 			printwriter.println("ofSunMoon:" + this.ofSunMoon);
 			printwriter.println("ofVignette:" + this.ofVignette);
-			printwriter.println("ofChunkUpdates:" + this.ofChunkUpdates);
-			printwriter.println("ofChunkUpdatesDynamic:" + this.ofChunkUpdatesDynamic);
 			printwriter.println("ofTime:" + this.ofTime);
 			printwriter.println("ofClearWater:" + this.ofClearWater);
 			printwriter.println("ofAaLevel:" + this.ofAaLevel);
@@ -2433,8 +2344,6 @@ public class GameSettings {
 			printwriter.println("ofCustomGuis:" + this.ofCustomGuis);
 			printwriter.println("ofShowGlErrors:" + this.ofShowGlErrors);
 			printwriter.println("ofFullscreenMode:" + this.ofFullscreenMode);
-			printwriter.println("ofFastMath:" + this.ofFastMath);
-			printwriter.println("ofFastRender:" + this.ofFastRender);
 			printwriter.println("ofTranslucentBlocks:" + this.ofTranslucentBlocks);
 			printwriter
 					.println("key_" + this.ofKeyBindZoom.getKeyDescription() + ":" + this.ofKeyBindZoom.getKeyCode());
@@ -2491,13 +2400,10 @@ public class GameSettings {
 		this.ofMipmapType = 0;
 		this.ofOcclusionFancy = false;
 		this.ofSmartAnimations = false;
-		this.ofSmoothFps = false;
 		Config.updateAvailableProcessors();
 		this.ofSmoothWorld = Config.isSingleProcessor();
 		this.ofLazyChunkLoading = false;
 		this.ofRenderRegions = false;
-		this.ofFastMath = false;
-		this.ofFastRender = false;
 		this.ofTranslucentBlocks = 0;
 		this.ofDynamicFov = true;
 		this.ofAlternateBlocks = true;
@@ -2523,8 +2429,6 @@ public class GameSettings {
 		this.ofStars = true;
 		this.ofSunMoon = true;
 		this.ofVignette = 0;
-		this.ofChunkUpdates = 1;
-		this.ofChunkUpdatesDynamic = false;
 		this.ofTime = 0;
 		this.ofClearWater = false;
 		this.ofBetterSnow = false;
@@ -2653,11 +2557,9 @@ public class GameSettings {
 		FORCE_UNICODE_FONT("options.forceUnicodeFont", false, true),
 		BLOCK_ALTERNATIVES("options.blockAlternatives", false, true),
 		REDUCED_DEBUG_INFO("options.reducedDebugInfo", false, true),
-		ENTITY_SHADOWS("options.entityShadows", false, true),
-		REALMS_NOTIFICATIONS("options.realmsNotifications", false, true),
-		FOG_FANCY("of.options.FOG_FANCY", false, false), FOG_START("of.options.FOG_START", false, false),
-		MIPMAP_TYPE("of.options.MIPMAP_TYPE", true, false, 0.0F, 3.0F, 1.0F),
-		SMOOTH_FPS("of.options.SMOOTH_FPS", false, false), CLOUDS("of.options.CLOUDS", false, false),
+		ENTITY_SHADOWS("options.entityShadows", false, true), FOG_FANCY("of.options.FOG_FANCY", false, false),
+		FOG_START("of.options.FOG_START", false, false),
+		MIPMAP_TYPE("of.options.MIPMAP_TYPE", true, false, 0.0F, 3.0F, 1.0F), CLOUDS("of.options.CLOUDS", false, false),
 		CLOUD_HEIGHT("of.options.CLOUD_HEIGHT", true, false), TREES("of.options.TREES", false, false),
 		RAIN("of.options.RAIN", false, false), ANIMATED_WATER("of.options.ANIMATED_WATER", false, false),
 		ANIMATED_LAVA("of.options.ANIMATED_LAVA", false, false),
@@ -2672,8 +2574,7 @@ public class GameSettings {
 		ANIMATED_SMOKE("of.options.ANIMATED_SMOKE", false, false), WEATHER("of.options.WEATHER", false, false),
 		SKY("of.options.SKY", false, false), STARS("of.options.STARS", false, false),
 		SUN_MOON("of.options.SUN_MOON", false, false), VIGNETTE("of.options.VIGNETTE", false, false),
-		CHUNK_UPDATES("of.options.CHUNK_UPDATES", false, false),
-		CHUNK_UPDATES_DYNAMIC("of.options.CHUNK_UPDATES_DYNAMIC", false, false), TIME("of.options.TIME", false, false),
+		TIME("of.options.TIME", false, false),
 		CLEAR_WATER("of.options.CLEAR_WATER", false, false), SMOOTH_WORLD("of.options.SMOOTH_WORLD", false, false),
 		VOID_PARTICLES("of.options.VOID_PARTICLES", false, false),
 		WATER_PARTICLES("of.options.WATER_PARTICLES", false, false),
@@ -2700,8 +2601,7 @@ public class GameSettings {
 		HELD_ITEM_TOOLTIPS("of.options.HELD_ITEM_TOOLTIPS", false, false),
 		DROPPED_ITEMS("of.options.DROPPED_ITEMS", false, false),
 		LAZY_CHUNK_LOADING("of.options.LAZY_CHUNK_LOADING", false, false),
-		CUSTOM_SKY("of.options.CUSTOM_SKY", false, false), FAST_MATH("of.options.FAST_MATH", false, false),
-		FAST_RENDER("of.options.FAST_RENDER", false, false),
+		CUSTOM_SKY("of.options.CUSTOM_SKY", false, false),
 		TRANSLUCENT_BLOCKS("of.options.TRANSLUCENT_BLOCKS", false, false),
 		DYNAMIC_FOV("of.options.DYNAMIC_FOV", false, false), DYNAMIC_LIGHTS("of.options.DYNAMIC_LIGHTS", false, false),
 		ALTERNATE_BLOCKS("of.options.ALTERNATE_BLOCKS", false, false),

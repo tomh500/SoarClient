@@ -126,14 +126,6 @@ public class GuiOverlayDebug extends Gui {
 				stringbuffer.insert(j, "/" + i);
 			}
 
-			if (Config.isSmoothFps()) {
-				stringbuffer.append(" sf");
-			}
-
-			if (Config.isFastRender()) {
-				stringbuffer.append(" fr");
-			}
-
 			if (Config.isAnisotropicFiltering()) {
 				stringbuffer.append(" af");
 			}

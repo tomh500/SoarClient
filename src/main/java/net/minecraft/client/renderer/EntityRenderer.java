@@ -1365,12 +1365,6 @@ public class EntityRenderer implements IResourceManagerReloadListener {
 		this.mc.mcProfiler.endStartSection("terrain");
 		Lagometer.timerTerrain.start();
 
-		if (this.mc.gameSettings.ofSmoothFps && pass > 0) {
-			this.mc.mcProfiler.endStartSection("finish");
-			GL11.glFinish();
-			this.mc.mcProfiler.endStartSection("terrain");
-		}
-
 		GlStateManager.matrixMode(5888);
 		GlStateManager.pushMatrix();
 		GlStateManager.disableAlpha();
@@ -2293,11 +2287,10 @@ public class EntityRenderer implements IResourceManagerReloadListener {
 
 	private void loadAllVisibleChunks(Entity p_loadAllVisibleChunks_1_, double p_loadAllVisibleChunks_2_,
 			ICamera p_loadAllVisibleChunks_4_, boolean p_loadAllVisibleChunks_5_) {
-		int i = this.mc.gameSettings.ofChunkUpdates;
+		
 		boolean flag = this.mc.gameSettings.ofLazyChunkLoading;
 
 		try {
-			this.mc.gameSettings.ofChunkUpdates = 1000;
 			this.mc.gameSettings.ofLazyChunkLoading = false;
 			RenderGlobal renderglobal = Config.getRenderGlobal();
 			int j = renderglobal.getCountLoadedChunks();
@@ -2351,7 +2344,6 @@ public class EntityRenderer implements IResourceManagerReloadListener {
 			Config.log("Finished loading visible chunks");
 			RenderChunk.renderChunksUpdated = 0;
 		} finally {
-			this.mc.gameSettings.ofChunkUpdates = i;
 			this.mc.gameSettings.ofLazyChunkLoading = flag;
 		}
 	}
