@@ -3,15 +3,16 @@ package net.minecraft.client.renderer;
 import java.nio.ByteBuffer;
 import java.nio.FloatBuffer;
 import java.nio.IntBuffer;
+
+import org.lwjgl.opengl.GL11;
+import org.lwjgl.opengl.GL13;
+import org.lwjgl.opengl.GL14;
+
 import net.minecraft.src.Config;
-import net.optifine.SmartAnimations;
 import net.optifine.render.GlAlphaState;
 import net.optifine.render.GlBlendState;
 import net.optifine.shaders.Shaders;
 import net.optifine.util.LockCounter;
-import org.lwjgl.opengl.GL11;
-import org.lwjgl.opengl.GL13;
-import org.lwjgl.opengl.GL14;
 
 public class GlStateManager {
 	private static GlStateManager.AlphaState alphaState = new GlStateManager.AlphaState();
@@ -364,10 +365,6 @@ public class GlStateManager {
 		if (texture != textureState[activeTextureUnit].textureName) {
 			textureState[activeTextureUnit].textureName = texture;
 			GL11.glBindTexture(GL11.GL_TEXTURE_2D, texture);
-
-			if (SmartAnimations.isActive()) {
-				SmartAnimations.textureRendered(texture);
-			}
 		}
 	}
 

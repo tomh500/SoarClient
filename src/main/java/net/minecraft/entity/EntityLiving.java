@@ -11,7 +11,6 @@ import net.minecraft.entity.ai.EntitySenses;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.monster.EntityGhast;
-import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.entity.monster.IMob;
 import net.minecraft.entity.passive.EntityTameable;
 import net.minecraft.entity.player.EntityPlayer;
@@ -30,7 +29,6 @@ import net.minecraft.network.play.server.S1BPacketEntityAttach;
 import net.minecraft.pathfinding.PathNavigate;
 import net.minecraft.pathfinding.PathNavigateGround;
 import net.minecraft.scoreboard.Team;
-import net.minecraft.src.Config;
 import net.minecraft.stats.AchievementList;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumParticleTypes;
@@ -197,14 +195,10 @@ public abstract class EntityLiving extends EntityLivingBase {
 	}
 
 	public void onUpdate() {
-		if (Config.isSmoothWorld() && this.canSkipUpdate()) {
-			this.onUpdateMinimal();
-		} else {
-			super.onUpdate();
+		super.onUpdate();
 
-			if (!this.worldObj.isRemote) {
-				this.updateLeashedState();
-			}
+		if (!this.worldObj.isRemote) {
+			this.updateLeashedState();
 		}
 	}
 
@@ -912,44 +906,6 @@ public abstract class EntityLiving extends EntityLivingBase {
 
 	public boolean isAIDisabled() {
 		return this.dataWatcher.getWatchableObjectByte(15) != 0;
-	}
-
-	private boolean canSkipUpdate() {
-		if (this.isChild()) {
-			return false;
-		} else if (this.hurtTime > 0) {
-			return false;
-		} else if (this.ticksExisted < 20) {
-			return false;
-		} else {
-			World world = this.getEntityWorld();
-
-			if (world == null) {
-				return false;
-			} else if (world.playerEntities.size() != 1) {
-				return false;
-			} else {
-				Entity entity = (Entity) world.playerEntities.get(0);
-				double d0 = Math.max(Math.abs(this.posX - entity.posX) - 16.0D, 0.0D);
-				double d1 = Math.max(Math.abs(this.posZ - entity.posZ) - 16.0D, 0.0D);
-				double d2 = d0 * d0 + d1 * d1;
-				return !this.isInRangeToRenderDist(d2);
-			}
-		}
-	}
-
-	private void onUpdateMinimal() {
-		++this.entityAge;
-
-		if (this instanceof EntityMob) {
-			float f = this.getBrightness(1.0F);
-
-			if (f > 0.5F) {
-				this.entityAge += 2;
-			}
-		}
-
-		this.despawnEntity();
 	}
 
 	public Team getTeam() {

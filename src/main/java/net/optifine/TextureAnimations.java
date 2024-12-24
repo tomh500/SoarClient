@@ -56,10 +56,6 @@ public class TextureAnimations {
 				countAnimationsActive = i;
 				frameCountAnimations = k;
 			}
-
-			if (SmartAnimations.isActive()) {
-				SmartAnimations.resetTexturesRendered();
-			}
 		} else {
 			countAnimationsActive = 0;
 		}

@@ -172,10 +172,6 @@ public class GameSettings {
 	public float ofFogStart = 0.8F;
 	public int ofMipmapType = 0;
 	public boolean ofOcclusionFancy = false;
-	public boolean ofSmoothWorld = Config.isSingleProcessor();
-	public boolean ofLazyChunkLoading = Config.isSingleProcessor();
-	public boolean ofRenderRegions = false;
-	public boolean ofSmartAnimations = false;
 	public float ofAoLevel = 1.0F;
 	public int ofAaLevel = 0;
 	public int ofAfLevel = 1;
@@ -1275,11 +1271,6 @@ public class GameSettings {
 			}
 		}
 
-		if (p_setOptionValueOF_1_ == GameSettings.Options.SMOOTH_WORLD) {
-			this.ofSmoothWorld = !this.ofSmoothWorld;
-			Config.updateThreadPriorities();
-		}
-
 		if (p_setOptionValueOF_1_ == GameSettings.Options.CLOUDS) {
 			++this.ofClouds;
 
@@ -1552,20 +1543,6 @@ public class GameSettings {
 			this.mc.renderGlobal.loadRenderers();
 		}
 
-		if (p_setOptionValueOF_1_ == GameSettings.Options.LAZY_CHUNK_LOADING) {
-			this.ofLazyChunkLoading = !this.ofLazyChunkLoading;
-		}
-
-		if (p_setOptionValueOF_1_ == GameSettings.Options.RENDER_REGIONS) {
-			this.ofRenderRegions = !this.ofRenderRegions;
-			this.mc.renderGlobal.loadRenderers();
-		}
-
-		if (p_setOptionValueOF_1_ == GameSettings.Options.SMART_ANIMATIONS) {
-			this.ofSmartAnimations = !this.ofSmartAnimations;
-			this.mc.renderGlobal.loadRenderers();
-		}
-
 		if (p_setOptionValueOF_1_ == GameSettings.Options.DYNAMIC_FOV) {
 			this.ofDynamicFov = !this.ofDynamicFov;
 		}
@@ -1698,8 +1675,6 @@ public class GameSettings {
 			default:
 				return s + "of.options.mipmap.nearest";
 			}
-		} else if (p_getKeyBindingOF_1_ == GameSettings.Options.SMOOTH_WORLD) {
-			return this.ofSmoothWorld ? s + Lang.getOn() : s + Lang.getOff();
 		} else if (p_getKeyBindingOF_1_ == GameSettings.Options.CLOUDS) {
 			switch (this.ofClouds) {
 			case 1:
@@ -1901,12 +1876,6 @@ public class GameSettings {
 		} else if (p_getKeyBindingOF_1_ == GameSettings.Options.TRANSLUCENT_BLOCKS) {
 			return this.ofTranslucentBlocks == 1 ? s + Lang.getFast()
 					: (this.ofTranslucentBlocks == 2 ? s + Lang.getFancy() : s + Lang.getDefault());
-		} else if (p_getKeyBindingOF_1_ == GameSettings.Options.LAZY_CHUNK_LOADING) {
-			return this.ofLazyChunkLoading ? s + Lang.getOn() : s + Lang.getOff();
-		} else if (p_getKeyBindingOF_1_ == GameSettings.Options.RENDER_REGIONS) {
-			return this.ofRenderRegions ? s + Lang.getOn() : s + Lang.getOff();
-		} else if (p_getKeyBindingOF_1_ == GameSettings.Options.SMART_ANIMATIONS) {
-			return this.ofSmartAnimations ? s + Lang.getOn() : s + Lang.getOff();
 		} else if (p_getKeyBindingOF_1_ == GameSettings.Options.DYNAMIC_FOV) {
 			return this.ofDynamicFov ? s + Lang.getOn() : s + Lang.getOff();
 		} else if (p_getKeyBindingOF_1_ == GameSettings.Options.ALTERNATE_BLOCKS) {
@@ -1987,10 +1956,6 @@ public class GameSettings {
 
 					if (astring[0].equals("ofOcclusionFancy") && astring.length >= 2) {
 						this.ofOcclusionFancy = Boolean.valueOf(astring[1]).booleanValue();
-					}
-
-					if (astring[0].equals("ofSmoothWorld") && astring.length >= 2) {
-						this.ofSmoothWorld = Boolean.valueOf(astring[1]).booleanValue();
 					}
 
 					if (astring[0].equals("ofAoLevel") && astring.length >= 2) {
@@ -2206,18 +2171,6 @@ public class GameSettings {
 						this.ofEmissiveTextures = Boolean.valueOf(astring[1]).booleanValue();
 					}
 
-					if (astring[0].equals("ofLazyChunkLoading") && astring.length >= 2) {
-						this.ofLazyChunkLoading = Boolean.valueOf(astring[1]).booleanValue();
-					}
-
-					if (astring[0].equals("ofRenderRegions") && astring.length >= 2) {
-						this.ofRenderRegions = Boolean.valueOf(astring[1]).booleanValue();
-					}
-
-					if (astring[0].equals("ofSmartAnimations") && astring.length >= 2) {
-						this.ofSmartAnimations = Boolean.valueOf(astring[1]).booleanValue();
-					}
-
 					if (astring[0].equals("ofDynamicFov") && astring.length >= 2) {
 						this.ofDynamicFov = Boolean.valueOf(astring[1]).booleanValue();
 					}
@@ -2283,7 +2236,6 @@ public class GameSettings {
 			printwriter.println("ofFogStart:" + this.ofFogStart);
 			printwriter.println("ofMipmapType:" + this.ofMipmapType);
 			printwriter.println("ofOcclusionFancy:" + this.ofOcclusionFancy);
-			printwriter.println("ofSmoothWorld:" + this.ofSmoothWorld);
 			printwriter.println("ofAoLevel:" + this.ofAoLevel);
 			printwriter.println("ofClouds:" + this.ofClouds);
 			printwriter.println("ofCloudsHeight:" + this.ofCloudsHeight);
@@ -2333,9 +2285,6 @@ public class GameSettings {
 			printwriter.println("ofShowCapes:" + this.ofShowCapes);
 			printwriter.println("ofNaturalTextures:" + this.ofNaturalTextures);
 			printwriter.println("ofEmissiveTextures:" + this.ofEmissiveTextures);
-			printwriter.println("ofLazyChunkLoading:" + this.ofLazyChunkLoading);
-			printwriter.println("ofRenderRegions:" + this.ofRenderRegions);
-			printwriter.println("ofSmartAnimations:" + this.ofSmartAnimations);
 			printwriter.println("ofDynamicFov:" + this.ofDynamicFov);
 			printwriter.println("ofAlternateBlocks:" + this.ofAlternateBlocks);
 			printwriter.println("ofDynamicLights:" + this.ofDynamicLights);
@@ -2399,11 +2348,7 @@ public class GameSettings {
 		this.ofFogStart = 0.8F;
 		this.ofMipmapType = 0;
 		this.ofOcclusionFancy = false;
-		this.ofSmartAnimations = false;
 		Config.updateAvailableProcessors();
-		this.ofSmoothWorld = Config.isSingleProcessor();
-		this.ofLazyChunkLoading = false;
-		this.ofRenderRegions = false;
 		this.ofTranslucentBlocks = 0;
 		this.ofDynamicFov = true;
 		this.ofAlternateBlocks = true;
@@ -2575,7 +2520,7 @@ public class GameSettings {
 		SKY("of.options.SKY", false, false), STARS("of.options.STARS", false, false),
 		SUN_MOON("of.options.SUN_MOON", false, false), VIGNETTE("of.options.VIGNETTE", false, false),
 		TIME("of.options.TIME", false, false),
-		CLEAR_WATER("of.options.CLEAR_WATER", false, false), SMOOTH_WORLD("of.options.SMOOTH_WORLD", false, false),
+		CLEAR_WATER("of.options.CLEAR_WATER", false, false),
 		VOID_PARTICLES("of.options.VOID_PARTICLES", false, false),
 		WATER_PARTICLES("of.options.WATER_PARTICLES", false, false),
 		RAIN_SPLASH("of.options.RAIN_SPLASH", false, false),
@@ -2600,7 +2545,6 @@ public class GameSettings {
 		EMISSIVE_TEXTURES("of.options.EMISSIVE_TEXTURES", false, false),
 		HELD_ITEM_TOOLTIPS("of.options.HELD_ITEM_TOOLTIPS", false, false),
 		DROPPED_ITEMS("of.options.DROPPED_ITEMS", false, false),
-		LAZY_CHUNK_LOADING("of.options.LAZY_CHUNK_LOADING", false, false),
 		CUSTOM_SKY("of.options.CUSTOM_SKY", false, false),
 		TRANSLUCENT_BLOCKS("of.options.TRANSLUCENT_BLOCKS", false, false),
 		DYNAMIC_FOV("of.options.DYNAMIC_FOV", false, false), DYNAMIC_LIGHTS("of.options.DYNAMIC_LIGHTS", false, false),
@@ -2608,9 +2552,8 @@ public class GameSettings {
 		CUSTOM_ENTITY_MODELS("of.options.CUSTOM_ENTITY_MODELS", false, false),
 		ADVANCED_TOOLTIPS("of.options.ADVANCED_TOOLTIPS", false, false),
 		SCREENSHOT_SIZE("of.options.SCREENSHOT_SIZE", false, false),
-		CUSTOM_GUIS("of.options.CUSTOM_GUIS", false, false), RENDER_REGIONS("of.options.RENDER_REGIONS", false, false),
-		SHOW_GL_ERRORS("of.options.SHOW_GL_ERRORS", false, false),
-		SMART_ANIMATIONS("of.options.SMART_ANIMATIONS", false, false);
+		CUSTOM_GUIS("of.options.CUSTOM_GUIS", false, false),
+		SHOW_GL_ERRORS("of.options.SHOW_GL_ERRORS", false, false);
 
 		private final boolean enumFloat;
 		private final boolean enumBoolean;

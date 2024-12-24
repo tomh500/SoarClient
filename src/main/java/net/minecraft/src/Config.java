@@ -401,20 +401,9 @@ public class Config {
 
 	public static void updateThreadPriorities() {
 		updateAvailableProcessors();
-		int i = 8;
 
-		if (isSingleProcessor()) {
-			if (isSmoothWorld()) {
-				minecraftThread.setPriority(10);
-				setThreadPriority("Server thread", 1);
-			} else {
-				minecraftThread.setPriority(5);
-				setThreadPriority("Server thread", 5);
-			}
-		} else {
-			minecraftThread.setPriority(10);
-			setThreadPriority("Server thread", 5);
-		}
+		minecraftThread.setPriority(10);
+		setThreadPriority("Server thread", 5);
 	}
 
 	private static void setThreadPriority(String p_setThreadPriority_0_, int p_setThreadPriority_1_) {
@@ -1468,18 +1457,6 @@ public class Config {
 		availableProcessors = Runtime.getRuntime().availableProcessors();
 	}
 
-	public static boolean isSingleProcessor() {
-		return getAvailableProcessors() <= 1;
-	}
-
-	public static boolean isSmoothWorld() {
-		return gameSettings.ofSmoothWorld;
-	}
-
-	public static boolean isLazyChunkLoading() {
-		return gameSettings.ofLazyChunkLoading;
-	}
-
 	public static boolean isDynamicFov() {
 		return gameSettings.ofDynamicFov;
 	}
@@ -1971,10 +1948,6 @@ public class Config {
 
 			return aint;
 		}
-	}
-
-	public static boolean isRenderRegions() {
-		return gameSettings.ofRenderRegions;
 	}
 
 	public static boolean isVbo() {

@@ -64,11 +64,7 @@ public class PlayerManager {
 				if (entityplayermp.worldObj != this.theWorldServer) {
 					iterator.remove();
 				} else {
-					int i = this.playerViewRadius / 3 + 1;
-
-					if (!Config.isLazyChunkLoading()) {
-						i = this.playerViewRadius * 2 + 1;
-					}
+					int i = this.playerViewRadius * 2 + 1;
 
 					for (ChunkCoordIntPair chunkcoordintpair : this.getNearest(set1, entityplayermp, i)) {
 						PlayerManager.PlayerInstance playermanager$playerinstance = this
@@ -253,11 +249,7 @@ public class PlayerManager {
 				for (int l1 = i - i1; l1 <= i + i1; ++l1) {
 					for (int i2 = j - i1; i2 <= j + i1; ++i2) {
 						if (!this.overlaps(l1, i2, k, l, i1)) {
-							if (Config.isLazyChunkLoading()) {
-								set.add(new ChunkCoordIntPair(l1, i2));
-							} else {
-								this.getPlayerInstance(l1, i2, true).addPlayer(player);
-							}
+							this.getPlayerInstance(l1, i2, true).addPlayer(player);
 						}
 
 						if (!this.overlaps(l1 - j1, i2 - k1, i, j, i1)) {
@@ -300,15 +292,11 @@ public class PlayerManager {
 				if (i > 0) {
 					for (int j1 = j - radius; j1 <= j + radius; ++j1) {
 						for (int k1 = k - radius; k1 <= k + radius; ++k1) {
-							if (Config.isLazyChunkLoading()) {
-								set.add(new ChunkCoordIntPair(j1, k1));
-							} else {
-								PlayerManager.PlayerInstance playermanager$playerinstance1 = this.getPlayerInstance(j1,
-										k1, true);
+							PlayerManager.PlayerInstance playermanager$playerinstance1 = this.getPlayerInstance(j1,
+									k1, true);
 
-								if (!playermanager$playerinstance1.playersWatchingChunk.contains(entityplayermp)) {
-									playermanager$playerinstance1.addPlayer(entityplayermp);
-								}
+							if (!playermanager$playerinstance1.playersWatchingChunk.contains(entityplayermp)) {
+								playermanager$playerinstance1.addPlayer(entityplayermp);
 							}
 						}
 					}

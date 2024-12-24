@@ -35,7 +35,6 @@ import net.optifine.BetterGrass;
 import net.optifine.ConnectedTextures;
 import net.optifine.CustomItems;
 import net.optifine.EmissiveTextures;
-import net.optifine.SmartAnimations;
 import net.optifine.shaders.ShadersTex;
 import net.optifine.util.CounterInt;
 import net.optifine.util.TextureUtils;
@@ -570,11 +569,7 @@ public class TextureMap extends AbstractTexture implements ITickableTextureObjec
 		if (j != this.frameCountAnimations) {
 			this.countAnimationsActive = i;
 			this.frameCountAnimations = j;
-		}
-
-		if (SmartAnimations.isActive()) {
-			SmartAnimations.resetSpritesRendered();
-		}
+		}	
 	}
 
 	public TextureAtlasSprite registerSprite(ResourceLocation location) {

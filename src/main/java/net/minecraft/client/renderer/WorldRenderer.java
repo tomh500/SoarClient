@@ -1,6 +1,5 @@
 package net.minecraft.client.renderer;
 
-import com.google.common.primitives.Floats;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.FloatBuffer;
@@ -9,6 +8,12 @@ import java.nio.ShortBuffer;
 import java.util.Arrays;
 import java.util.BitSet;
 import java.util.Comparator;
+
+import org.apache.logging.log4j.LogManager;
+import org.lwjgl.opengl.GL11;
+
+import com.google.common.primitives.Floats;
+
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.renderer.vertex.VertexFormat;
@@ -17,12 +22,9 @@ import net.minecraft.src.Config;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumWorldBlockLayer;
 import net.minecraft.util.MathHelper;
-import net.optifine.SmartAnimations;
 import net.optifine.render.RenderEnv;
 import net.optifine.shaders.SVertexBuilder;
 import net.optifine.util.TextureUtils;
-import org.apache.logging.log4j.LogManager;
-import org.lwjgl.opengl.GL11;
 
 public class WorldRenderer {
 	private ByteBuffer byteBuffer;
@@ -234,13 +236,7 @@ public class WorldRenderer {
 		this.vertexFormatIndex = 0;
 		this.quadSprite = null;
 
-		if (SmartAnimations.isActive()) {
-			if (this.animatedSprites == null) {
-				this.animatedSprites = this.animatedSpritesCached;
-			}
-
-			this.animatedSprites.clear();
-		} else if (this.animatedSprites != null) {
+		if (this.animatedSprites != null) {
 			this.animatedSprites = null;
 		}
 

@@ -15,42 +15,15 @@ public class VboRenderList extends ChunkRenderContainer {
 
 	public void renderChunkLayer(EnumWorldBlockLayer layer) {
 		if (this.initialized) {
-			if (!Config.isRenderRegions()) {
-				for (RenderChunk renderchunk1 : this.renderChunks) {
-					VertexBuffer vertexbuffer1 = renderchunk1.getVertexBufferByLayer(layer.ordinal());
-					GlStateManager.pushMatrix();
-					this.preRenderChunk(renderchunk1);
-					renderchunk1.multModelviewMatrix();
-					vertexbuffer1.bindBuffer();
-					this.setupArrayPointers();
-					vertexbuffer1.drawArrays(7);
-					GlStateManager.popMatrix();
-				}
-			} else {
-				int i = Integer.MIN_VALUE;
-				int j = Integer.MIN_VALUE;
-				VboRegion vboregion = null;
-
-				for (RenderChunk renderchunk : this.renderChunks) {
-					VertexBuffer vertexbuffer = renderchunk.getVertexBufferByLayer(layer.ordinal());
-					VboRegion vboregion1 = vertexbuffer.getVboRegion();
-
-					if (vboregion1 != vboregion || i != renderchunk.regionX || j != renderchunk.regionZ) {
-						if (vboregion != null) {
-							this.drawRegion(i, j, vboregion);
-						}
-
-						i = renderchunk.regionX;
-						j = renderchunk.regionZ;
-						vboregion = vboregion1;
-					}
-
-					vertexbuffer.drawArrays(7);
-				}
-
-				if (vboregion != null) {
-					this.drawRegion(i, j, vboregion);
-				}
+			for (RenderChunk renderchunk1 : this.renderChunks) {
+				VertexBuffer vertexbuffer1 = renderchunk1.getVertexBufferByLayer(layer.ordinal());
+				GlStateManager.pushMatrix();
+				this.preRenderChunk(renderchunk1);
+				renderchunk1.multModelviewMatrix();
+				vertexbuffer1.bindBuffer();
+				this.setupArrayPointers();
+				vertexbuffer1.drawArrays(7);
+				GlStateManager.popMatrix();
 			}
 
 			OpenGlHelper.glBindBuffer(OpenGlHelper.GL_ARRAY_BUFFER, 0);

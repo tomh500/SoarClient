@@ -106,7 +106,6 @@ import net.optifine.CustomSky;
 import net.optifine.DynamicLights;
 import net.optifine.Lagometer;
 import net.optifine.RandomEntities;
-import net.optifine.SmartAnimations;
 import net.optifine.model.BlockModelUtils;
 import net.optifine.render.ChunkVisibility;
 import net.optifine.render.CloudRenderer;
@@ -115,7 +114,6 @@ import net.optifine.shaders.Shaders;
 import net.optifine.shaders.ShadersRender;
 import net.optifine.shaders.ShadowUtils;
 import net.optifine.shaders.gui.GuiShaderOptions;
-import net.optifine.util.RenderChunkUtils;
 
 public class RenderGlobal implements IWorldAccess, IResourceManagerReloadListener {
 	private static final Logger logger = LogManager.getLogger();
@@ -492,7 +490,6 @@ public class RenderGlobal implements IWorldAccess, IResourceManagerReloadListene
 				DynamicLights.clear();
 			}
 
-			SmartAnimations.update();
 			this.renderDistanceChunks = this.mc.gameSettings.renderDistanceChunks;
 			this.renderDistance = this.renderDistanceChunks * 16;
 			this.renderDistanceSq = this.renderDistance * this.renderDistance;

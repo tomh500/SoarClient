@@ -29,7 +29,6 @@ import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.EnumSkyBlock;
 import net.minecraft.world.WorldType;
 import net.minecraft.world.chunk.Chunk;
-import net.optifine.SmartAnimations;
 import net.optifine.TextureAnimations;
 import net.optifine.util.MemoryMonitor;
 import net.optifine.util.NativeMemory;
@@ -134,10 +133,6 @@ public class GuiOverlayDebug extends Gui {
 				stringbuffer.append(" aa");
 			}
 
-			if (Config.isRenderRegions()) {
-				stringbuffer.append(" reg");
-			}
-
 			if (Config.isShaders()) {
 				stringbuffer.append(" sh");
 			}
@@ -149,11 +144,6 @@ public class GuiOverlayDebug extends Gui {
 		StringBuilder stringbuilder = new StringBuilder();
 		TextureMap texturemap = Config.getTextureMap();
 		stringbuilder.append(", A: ");
-
-		if (SmartAnimations.isActive()) {
-			stringbuilder.append(texturemap.getCountAnimationsActive() + TextureAnimations.getCountAnimationsActive());
-			stringbuilder.append("/");
-		}
 
 		stringbuilder.append(texturemap.getCountAnimations() + TextureAnimations.getCountAnimations());
 		String s1 = stringbuilder.toString();

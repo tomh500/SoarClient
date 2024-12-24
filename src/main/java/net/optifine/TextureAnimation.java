@@ -2,13 +2,15 @@ package net.optifine;
 
 import java.nio.ByteBuffer;
 import java.util.Properties;
+
+import org.lwjgl.opengl.GL11;
+
 import net.minecraft.client.renderer.GLAllocation;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.texture.ITextureObject;
 import net.minecraft.src.Config;
 import net.minecraft.util.ResourceLocation;
 import net.optifine.util.TextureUtils;
-import org.lwjgl.opengl.GL11;
 
 public class TextureAnimation {
 	private String srcTex = null;
@@ -139,7 +141,7 @@ public class TextureAnimation {
 				this.srcData = null;
 			}
 
-			this.active = SmartAnimations.isActive() ? SmartAnimations.isTextureRendered(this.dstTextId) : true;
+			this.active = false;
 
 			if (this.nextFrame()) {
 				if (this.active) {

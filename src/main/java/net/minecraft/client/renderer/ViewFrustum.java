@@ -42,10 +42,6 @@ public class ViewFrustum {
 					BlockPos blockpos = new BlockPos(k * 16, l * 16, i1 * 16);
 					this.renderChunks[j1] = renderChunkFactory.makeRenderChunk(this.world, this.renderGlobal, blockpos,
 							j++);
-
-					if (Config.isVbo() && Config.isRenderRegions()) {
-						this.updateVboRegion(this.renderChunks[j1]);
-					}
 				}
 			}
 		}

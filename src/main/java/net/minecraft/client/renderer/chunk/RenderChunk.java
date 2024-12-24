@@ -336,17 +336,7 @@ public class RenderChunk {
 	private void preRenderBlocks(WorldRenderer worldRendererIn, BlockPos pos) {
 		worldRendererIn.begin(7, DefaultVertexFormats.BLOCK);
 
-		if (Config.isRenderRegions()) {
-			int i = 8;
-			int j = pos.getX() >> i << i;
-			int k = pos.getY() >> i << i;
-			int l = pos.getZ() >> i << i;
-			j = this.regionX;
-			l = this.regionZ;
-			worldRendererIn.setTranslation((double) (-j), (double) (-k), (double) (-l));
-		} else {
-			worldRendererIn.setTranslation((double) (-pos.getX()), (double) (-pos.getY()), (double) (-pos.getZ()));
-		}
+		worldRendererIn.setTranslation((double) (-pos.getX()), (double) (-pos.getY()), (double) (-pos.getZ()));
 	}
 
 	private void postRenderBlocks(EnumWorldBlockLayer layer, float x, float y, float z, WorldRenderer worldRendererIn,

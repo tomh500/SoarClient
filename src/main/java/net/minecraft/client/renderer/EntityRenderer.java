@@ -2102,72 +2102,8 @@ public class EntityRenderer implements IResourceManagerReloadListener {
 
 	private void waitForServerThread() {
 		this.serverWaitTimeCurrent = 0;
-
-		if (Config.isSmoothWorld() && Config.isSingleProcessor()) {
-			if (this.mc.isIntegratedServerRunning()) {
-				IntegratedServer integratedserver = this.mc.getIntegratedServer();
-
-				if (integratedserver != null) {
-					boolean flag = this.mc.isGamePaused();
-
-					if (!flag && !(this.mc.currentScreen instanceof GuiDownloadTerrain)) {
-						if (this.serverWaitTime > 0) {
-							Lagometer.timerServer.start();
-							Config.sleep((long) this.serverWaitTime);
-							Lagometer.timerServer.end();
-							this.serverWaitTimeCurrent = this.serverWaitTime;
-						}
-
-						long i = System.nanoTime() / 1000000L;
-
-						if (this.lastServerTime != 0L && this.lastServerTicks != 0) {
-							long j = i - this.lastServerTime;
-
-							if (j < 0L) {
-								this.lastServerTime = i;
-								j = 0L;
-							}
-
-							if (j >= 50L) {
-								this.lastServerTime = i;
-								int k = integratedserver.getTickCounter();
-								int l = k - this.lastServerTicks;
-
-								if (l < 0) {
-									this.lastServerTicks = k;
-									l = 0;
-								}
-
-								if (l < 1 && this.serverWaitTime < 100) {
-									this.serverWaitTime += 2;
-								}
-
-								if (l > 1 && this.serverWaitTime > 0) {
-									--this.serverWaitTime;
-								}
-
-								this.lastServerTicks = k;
-							}
-						} else {
-							this.lastServerTime = i;
-							this.lastServerTicks = integratedserver.getTickCounter();
-							this.avgServerTickDiff = 1.0F;
-							this.avgServerTimeDiff = 50.0F;
-						}
-					} else {
-						if (this.mc.currentScreen instanceof GuiDownloadTerrain) {
-							Config.sleep(20L);
-						}
-
-						this.lastServerTime = 0L;
-						this.lastServerTicks = 0;
-					}
-				}
-			}
-		} else {
-			this.lastServerTime = 0L;
-			this.lastServerTicks = 0;
-		}
+		this.lastServerTime = 0L;
+		this.lastServerTicks = 0;
 	}
 
 	private void frameInit() {
@@ -2287,11 +2223,8 @@ public class EntityRenderer implements IResourceManagerReloadListener {
 
 	private void loadAllVisibleChunks(Entity p_loadAllVisibleChunks_1_, double p_loadAllVisibleChunks_2_,
 			ICamera p_loadAllVisibleChunks_4_, boolean p_loadAllVisibleChunks_5_) {
-		
-		boolean flag = this.mc.gameSettings.ofLazyChunkLoading;
 
 		try {
-			this.mc.gameSettings.ofLazyChunkLoading = false;
 			RenderGlobal renderglobal = Config.getRenderGlobal();
 			int j = renderglobal.getCountLoadedChunks();
 			long k = System.currentTimeMillis();
@@ -2344,7 +2277,6 @@ public class EntityRenderer implements IResourceManagerReloadListener {
 			Config.log("Finished loading visible chunks");
 			RenderChunk.renderChunksUpdated = 0;
 		} finally {
-			this.mc.gameSettings.ofLazyChunkLoading = flag;
 		}
 	}
 }

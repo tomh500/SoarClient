@@ -15,43 +15,12 @@ public class RenderList extends ChunkRenderContainer {
 
 	public void renderChunkLayer(EnumWorldBlockLayer layer) {
 		if (this.initialized) {
-			if (!Config.isRenderRegions()) {
-				for (RenderChunk renderchunk1 : this.renderChunks) {
-					ListedRenderChunk listedrenderchunk1 = (ListedRenderChunk) renderchunk1;
-					GlStateManager.pushMatrix();
-					this.preRenderChunk(renderchunk1);
-					GL11.glCallList(listedrenderchunk1.getDisplayList(layer, listedrenderchunk1.getCompiledChunk()));
-					GlStateManager.popMatrix();
-				}
-			} else {
-				int i = Integer.MIN_VALUE;
-				int j = Integer.MIN_VALUE;
-
-				for (RenderChunk renderchunk : this.renderChunks) {
-					ListedRenderChunk listedrenderchunk = (ListedRenderChunk) renderchunk;
-
-					if (i != renderchunk.regionX || j != renderchunk.regionZ) {
-						if (this.bufferLists.position() > 0) {
-							this.drawRegion(i, j, this.bufferLists);
-						}
-
-						i = renderchunk.regionX;
-						j = renderchunk.regionZ;
-					}
-
-					if (this.bufferLists.position() >= this.bufferLists.capacity()) {
-						IntBuffer intbuffer = GLAllocation.createDirectIntBuffer(this.bufferLists.capacity() * 2);
-						this.bufferLists.flip();
-						intbuffer.put(this.bufferLists);
-						this.bufferLists = intbuffer;
-					}
-
-					this.bufferLists.put(listedrenderchunk.getDisplayList(layer, listedrenderchunk.getCompiledChunk()));
-				}
-
-				if (this.bufferLists.position() > 0) {
-					this.drawRegion(i, j, this.bufferLists);
-				}
+			for (RenderChunk renderchunk1 : this.renderChunks) {
+				ListedRenderChunk listedrenderchunk1 = (ListedRenderChunk) renderchunk1;
+				GlStateManager.pushMatrix();
+				this.preRenderChunk(renderchunk1);
+				GL11.glCallList(listedrenderchunk1.getDisplayList(layer, listedrenderchunk1.getCompiledChunk()));
+				GlStateManager.popMatrix();
 			}
 
 			if (Config.isMultiTexture()) {

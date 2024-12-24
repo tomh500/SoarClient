@@ -10,9 +10,7 @@ public class GuiPerformanceSettingsOF extends GuiScreen {
 	private GuiScreen prevScreen;
 	protected String title;
 	private GameSettings settings;
-	private static GameSettings.Options[] enumOptions = new GameSettings.Options[] { GameSettings.Options.SMOOTH_WORLD,
-			GameSettings.Options.RENDER_REGIONS, GameSettings.Options.LAZY_CHUNK_LOADING,
-			GameSettings.Options.SMART_ANIMATIONS };
+	private static GameSettings.Options[] enumOptions = new GameSettings.Options[] {};
 	private TooltipManager tooltipManager = new TooltipManager(this, new TooltipProviderOptions());
 
 	public GuiPerformanceSettingsOF(GuiScreen guiscreen, GameSettings gamesettings) {
