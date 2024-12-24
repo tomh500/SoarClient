@@ -67,7 +67,6 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.Util;
 import net.optifine.DynamicLights;
 import net.optifine.GlErrors;
-import net.optifine.VersionCheckThread;
 import net.optifine.config.GlVersion;
 import net.optifine.gui.GuiMessage;
 import net.optifine.shaders.Shaders;
@@ -163,7 +162,6 @@ public class Config {
 			if (Display.isCreated()) {
 				initialized = true;
 				checkOpenGlCaps();
-				startVersionCheckThread();
 			}
 		}
 	}
@@ -445,11 +443,6 @@ public class Config {
 
 	public static boolean isMinecraftThread() {
 		return Thread.currentThread() == minecraftThread;
-	}
-
-	private static void startVersionCheckThread() {
-		VersionCheckThread versioncheckthread = new VersionCheckThread();
-		versioncheckthread.start();
 	}
 
 	public static boolean isMipmaps() {
