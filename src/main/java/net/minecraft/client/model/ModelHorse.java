@@ -7,59 +7,45 @@ import net.minecraft.entity.passive.EntityHorse;
 import net.minecraft.util.MathHelper;
 
 public class ModelHorse extends ModelBase {
-	private ModelRenderer head;
-	private ModelRenderer field_178711_b;
-	private ModelRenderer field_178712_c;
-	private ModelRenderer horseLeftEar;
-	private ModelRenderer horseRightEar;
-
-	/** The left ear box for the mule model. */
-	private ModelRenderer muleLeftEar;
-
-	/** The right ear box for the mule model. */
-	private ModelRenderer muleRightEar;
-	private ModelRenderer neck;
-
-	/** The box for the horse's ropes on its face. */
-	private ModelRenderer horseFaceRopes;
-	private ModelRenderer mane;
-	private ModelRenderer body;
-	private ModelRenderer tailBase;
-	private ModelRenderer tailMiddle;
-	private ModelRenderer tailTip;
-	private ModelRenderer backLeftLeg;
-	private ModelRenderer backLeftShin;
-	private ModelRenderer backLeftHoof;
-	private ModelRenderer backRightLeg;
-	private ModelRenderer backRightShin;
-	private ModelRenderer backRightHoof;
-	private ModelRenderer frontLeftLeg;
-	private ModelRenderer frontLeftShin;
-	private ModelRenderer frontLeftHoof;
-	private ModelRenderer frontRightLeg;
-	private ModelRenderer frontRightShin;
-	private ModelRenderer frontRightHoof;
-
-	/** The left chest box on the mule model. */
-	private ModelRenderer muleLeftChest;
-
-	/** The right chest box on the mule model. */
-	private ModelRenderer muleRightChest;
-	private ModelRenderer horseSaddleBottom;
-	private ModelRenderer horseSaddleFront;
-	private ModelRenderer horseSaddleBack;
-	private ModelRenderer horseLeftSaddleRope;
-	private ModelRenderer horseLeftSaddleMetal;
-	private ModelRenderer horseRightSaddleRope;
-	private ModelRenderer horseRightSaddleMetal;
-
-	/** The left metal connected to the horse's face ropes. */
-	private ModelRenderer horseLeftFaceMetal;
-
-	/** The right metal connected to the horse's face ropes. */
-	private ModelRenderer horseRightFaceMetal;
-	private ModelRenderer horseLeftRein;
-	private ModelRenderer horseRightRein;
+	public ModelRenderer head;
+	public ModelRenderer field_178711_b;
+	public ModelRenderer field_178712_c;
+	public ModelRenderer horseLeftEar;
+	public ModelRenderer horseRightEar;
+	public ModelRenderer muleLeftEar;
+	public ModelRenderer muleRightEar;
+	public ModelRenderer neck;
+	public ModelRenderer horseFaceRopes;
+	public ModelRenderer mane;
+	public ModelRenderer body;
+	public ModelRenderer tailBase;
+	public ModelRenderer tailMiddle;
+	public ModelRenderer tailTip;
+	public ModelRenderer backLeftLeg;
+	public ModelRenderer backLeftShin;
+	public ModelRenderer backLeftHoof;
+	public ModelRenderer backRightLeg;
+	public ModelRenderer backRightShin;
+	public ModelRenderer backRightHoof;
+	public ModelRenderer frontLeftLeg;
+	public ModelRenderer frontLeftShin;
+	public ModelRenderer frontLeftHoof;
+	public ModelRenderer frontRightLeg;
+	public ModelRenderer frontRightShin;
+	public ModelRenderer frontRightHoof;
+	public ModelRenderer muleLeftChest;
+	public ModelRenderer muleRightChest;
+	public ModelRenderer horseSaddleBottom;
+	public ModelRenderer horseSaddleFront;
+	public ModelRenderer horseSaddleBack;
+	public ModelRenderer horseLeftSaddleRope;
+	public ModelRenderer horseLeftSaddleMetal;
+	public ModelRenderer horseRightSaddleRope;
+	public ModelRenderer horseRightSaddleMetal;
+	public ModelRenderer horseLeftFaceMetal;
+	public ModelRenderer horseRightFaceMetal;
+	public ModelRenderer horseLeftRein;
+	public ModelRenderer horseRightRein;
 
 	public ModelHorse() {
 		this.textureWidth = 128;
@@ -202,9 +188,6 @@ public class ModelHorse extends ModelBase {
 		this.setBoxRotation(this.horseFaceRopes, 0.5235988F, 0.0F, 0.0F);
 	}
 
-	/**
-	 * Sets the models various rotation angles then renders the model.
-	 */
 	public void render(Entity entityIn, float p_78088_2_, float p_78088_3_, float p_78088_4_, float p_78088_5_,
 			float p_78088_6_, float scale) {
 		EntityHorse entityhorse = (EntityHorse) entityIn;
@@ -302,18 +285,12 @@ public class ModelHorse extends ModelBase {
 		}
 	}
 
-	/**
-	 * Sets the rotations for a ModelRenderer in the ModelHorse class.
-	 */
 	private void setBoxRotation(ModelRenderer p_110682_1_, float p_110682_2_, float p_110682_3_, float p_110682_4_) {
 		p_110682_1_.rotateAngleX = p_110682_2_;
 		p_110682_1_.rotateAngleY = p_110682_3_;
 		p_110682_1_.rotateAngleZ = p_110682_4_;
 	}
 
-	/**
-	 * Fixes and offsets a rotation in the ModelHorse class.
-	 */
 	private float updateHorseRotation(float p_110683_1_, float p_110683_2_, float p_110683_3_) {
 		float f;
 
@@ -328,11 +305,6 @@ public class ModelHorse extends ModelBase {
 		return p_110683_1_ + p_110683_3_ * f;
 	}
 
-	/**
-	 * Used for easily adding entity-dependent animations. The second and third
-	 * float params here are the same second and third as in the setRotationAngles
-	 * method.
-	 */
 	public void setLivingAnimations(EntityLivingBase entitylivingbaseIn, float p_78086_2_, float p_78086_3_,
 			float partialTickTime) {
 		super.setLivingAnimations(entitylivingbaseIn, p_78086_2_, p_78086_3_, partialTickTime);

@@ -99,69 +99,27 @@ import org.apache.logging.log4j.Logger;
 public class EntityPlayerMP extends EntityPlayer implements ICrafting {
 	private static final Logger logger = LogManager.getLogger();
 	private String translator = "en_US";
-
-	/**
-	 * The NetServerHandler assigned to this player by the
-	 * ServerConfigurationManager.
-	 */
 	public NetHandlerPlayServer playerNetServerHandler;
-
-	/** Reference to the MinecraftServer object. */
 	public final MinecraftServer mcServer;
-
-	/** The ItemInWorldManager belonging to this player */
 	public final ItemInWorldManager theItemInWorldManager;
-
-	/** player X position as seen by PlayerManager */
 	public double managedPosX;
-
-	/** player Z position as seen by PlayerManager */
 	public double managedPosZ;
 	public final List<ChunkCoordIntPair> loadedChunks = Lists.<ChunkCoordIntPair>newLinkedList();
 	private final List<Integer> destroyedItemsNetCache = Lists.<Integer>newLinkedList();
 	private final StatisticsFile statsFile;
-
-	/**
-	 * the total health of the player, includes actual health and absorption health.
-	 * Updated every tick.
-	 */
 	private float combinedHealth = Float.MIN_VALUE;
-
-	/** amount of health the client was last set to */
 	private float lastHealth = -1.0E8F;
-
-	/** set to foodStats.GetFoodLevel */
 	private int lastFoodLevel = -99999999;
-
-	/** set to foodStats.getSaturationLevel() == 0.0F each tick */
 	private boolean wasHungry = true;
-
-	/** Amount of experience the client was last set to */
 	private int lastExperience = -99999999;
 	private int respawnInvulnerabilityTicks = 60;
 	private EntityPlayer.EnumChatVisibility chatVisibility;
 	private boolean chatColours = true;
 	private long playerLastActiveTime = System.currentTimeMillis();
-
-	/** The entity the player is currently spectating through. */
 	private Entity spectatingEntity = null;
-
-	/**
-	 * The currently in use window ID. Incremented every time a window is opened.
-	 */
 	private int currentWindowId;
-
-	/**
-	 * set to true when player is moving quantity of items from one inventory to
-	 * another(crafting) but item in either slot is not changed
-	 */
 	public boolean isChangingQuantityOnly;
 	public int ping;
-
-	/**
-	 * Set when a player beats the ender dragon, used to respawn the player at the
-	 * spawn point while retaining inventory and XP
-	 */
 	public boolean playerConqueredTheEnd;
 
 	public EntityPlayerMP(MinecraftServer server, WorldServer worldIn, GameProfile profile,
@@ -199,9 +157,6 @@ public class EntityPlayerMP extends EntityPlayer implements ICrafting {
 		}
 	}
 
-	/**
-	 * (abstract) Protected helper method to read subclass entity data from NBT.
-	 */
 	public void readEntityFromNBT(NBTTagCompound tagCompund) {
 		super.readEntityFromNBT(tagCompund);
 
@@ -215,17 +170,11 @@ public class EntityPlayerMP extends EntityPlayer implements ICrafting {
 		}
 	}
 
-	/**
-	 * (abstract) Protected helper method to write subclass entity data to NBT.
-	 */
 	public void writeEntityToNBT(NBTTagCompound tagCompound) {
 		super.writeEntityToNBT(tagCompound);
 		tagCompound.setInteger("playerGameType", this.theItemInWorldManager.getGameType().getID());
 	}
 
-	/**
-	 * Add experience levels to this player.
-	 */
 	public void addExperienceLevel(int levels) {
 		super.addExperienceLevel(levels);
 		this.lastExperience = -1;
@@ -240,27 +189,18 @@ public class EntityPlayerMP extends EntityPlayer implements ICrafting {
 		this.openContainer.onCraftGuiOpened(this);
 	}
 
-	/**
-	 * Sends an ENTER_COMBAT packet to the client
-	 */
 	public void sendEnterCombat() {
 		super.sendEnterCombat();
 		this.playerNetServerHandler
 				.sendPacket(new S42PacketCombatEvent(this.getCombatTracker(), S42PacketCombatEvent.Event.ENTER_COMBAT));
 	}
 
-	/**
-	 * Sends an END_COMBAT packet to the client
-	 */
 	public void sendEndCombat() {
 		super.sendEndCombat();
 		this.playerNetServerHandler
 				.sendPacket(new S42PacketCombatEvent(this.getCombatTracker(), S42PacketCombatEvent.Event.END_COMBAT));
 	}
 
-	/**
-	 * Called to update the entity's position/logic.
-	 */
 	public void onUpdate() {
 		this.theItemInWorldManager.updateBlockRemoving();
 		--this.respawnInvulnerabilityTicks;
@@ -405,10 +345,6 @@ public class EntityPlayerMP extends EntityPlayer implements ICrafting {
 		}
 	}
 
-	/**
-	 * Updates all biomes that have been explored by this player and triggers
-	 * Adventuring Time if player qualifies.
-	 */
 	protected void updateBiomesExplored() {
 		BiomeGenBase biomegenbase = this.worldObj.getBiomeGenForCoords(
 				new BlockPos(MathHelper.floor_double(this.posX), 0, MathHelper.floor_double(this.posZ)));
@@ -449,9 +385,6 @@ public class EntityPlayerMP extends EntityPlayer implements ICrafting {
 		}
 	}
 
-	/**
-	 * Called when the mob's health reaches 0.
-	 */
 	public void onDeath(DamageSource cause) {
 		if (this.worldObj.getGameRules().getBoolean("showDeathMessages")) {
 			Team team = this.getTeam();
@@ -497,9 +430,6 @@ public class EntityPlayerMP extends EntityPlayer implements ICrafting {
 		this.getCombatTracker().reset();
 	}
 
-	/**
-	 * Called when the entity is attacked.
-	 */
 	public boolean attackEntityFrom(DamageSource source, float amount) {
 		if (this.isEntityInvulnerable(source)) {
 			return false;
@@ -536,17 +466,10 @@ public class EntityPlayerMP extends EntityPlayer implements ICrafting {
 		return !this.canPlayersAttack() ? false : super.canAttackPlayer(other);
 	}
 
-	/**
-	 * Returns if other players can attack this player
-	 */
 	private boolean canPlayersAttack() {
 		return this.mcServer.isPVPEnabled();
 	}
 
-	/**
-	 * Teleports the entity to another dimension. Params: Dimension number to
-	 * teleport to
-	 */
 	public void travelToDimension(int dimensionId) {
 		if (this.dimension == 1 && dimensionId == 1) {
 			this.triggerAchievement(AchievementList.theEnd2);
@@ -590,10 +513,6 @@ public class EntityPlayerMP extends EntityPlayer implements ICrafting {
 		}
 	}
 
-	/**
-	 * Called whenever an item is picked up from walking over it. Args:
-	 * pickedUpEntity, stackSize
-	 */
 	public void onItemPickup(Entity p_71001_1_, int p_71001_2_) {
 		super.onItemPickup(p_71001_1_, p_71001_2_);
 		this.openContainer.detectAndSendChanges();
@@ -613,9 +532,6 @@ public class EntityPlayerMP extends EntityPlayer implements ICrafting {
 		return entityplayer$enumstatus;
 	}
 
-	/**
-	 * Wake up the player if they're sleeping.
-	 */
 	public void wakeUpPlayer(boolean immediately, boolean updateWorldFlag, boolean setSpawn) {
 		if (this.isPlayerSleeping()) {
 			this.getServerForPlayer().getEntityTracker().func_151248_b(this, new S0BPacketAnimation(this, 2));
@@ -629,9 +545,6 @@ public class EntityPlayerMP extends EntityPlayer implements ICrafting {
 		}
 	}
 
-	/**
-	 * Called when a player mounts an entity. e.g. mounts a pig, mounts a boat.
-	 */
 	public void mountEntity(Entity entityIn) {
 		Entity entity = this.ridingEntity;
 		super.mountEntity(entityIn);
@@ -646,9 +559,6 @@ public class EntityPlayerMP extends EntityPlayer implements ICrafting {
 	protected void updateFallState(double y, boolean onGroundIn, Block blockIn, BlockPos pos) {
 	}
 
-	/**
-	 * process player falling based on movement packet
-	 */
 	public void handleFalling(double p_71122_1_, boolean p_71122_3_) {
 		int i = MathHelper.floor_double(this.posX);
 		int j = MathHelper.floor_double(this.posY - 0.20000000298023224D);
@@ -673,9 +583,6 @@ public class EntityPlayerMP extends EntityPlayer implements ICrafting {
 		this.playerNetServerHandler.sendPacket(new S36PacketSignEditorOpen(signTile.getPos()));
 	}
 
-	/**
-	 * get the next window id to use
-	 */
 	private void getNextWindowId() {
 		this.currentWindowId = this.currentWindowId % 100 + 1;
 	}
@@ -689,9 +596,6 @@ public class EntityPlayerMP extends EntityPlayer implements ICrafting {
 		this.openContainer.onCraftGuiOpened(this);
 	}
 
-	/**
-	 * Displays the GUI for interacting with a chest inventory. Args: chestInventory
-	 */
 	public void displayGUIChest(IInventory chestInventory) {
 		if (this.openContainer != this.inventoryContainer) {
 			this.closeScreen();
@@ -760,9 +664,6 @@ public class EntityPlayerMP extends EntityPlayer implements ICrafting {
 		this.openContainer.onCraftGuiOpened(this);
 	}
 
-	/**
-	 * Displays the GUI for interacting with a book.
-	 */
 	public void displayGUIBook(ItemStack bookStack) {
 		Item item = bookStack.getItem();
 
@@ -772,11 +673,6 @@ public class EntityPlayerMP extends EntityPlayer implements ICrafting {
 		}
 	}
 
-	/**
-	 * Sends the contents of an inventory slot to the client-side Container. This
-	 * doesn't have to match the actual contents of that slot. Args: Container, slot
-	 * number, slot contents
-	 */
 	public void sendSlotContents(Container containerToSend, int slotInd, ItemStack stack) {
 		if (!(containerToSend.getSlot(slotInd) instanceof SlotCrafting)) {
 			if (!this.isChangingQuantityOnly) {
@@ -789,20 +685,11 @@ public class EntityPlayerMP extends EntityPlayer implements ICrafting {
 		this.updateCraftingInventory(p_71120_1_, p_71120_1_.getInventory());
 	}
 
-	/**
-	 * update the crafting window inventory with the items in the list
-	 */
 	public void updateCraftingInventory(Container containerToSend, List<ItemStack> itemsList) {
 		this.playerNetServerHandler.sendPacket(new S30PacketWindowItems(containerToSend.windowId, itemsList));
 		this.playerNetServerHandler.sendPacket(new S2FPacketSetSlot(-1, -1, this.inventory.getItemStack()));
 	}
 
-	/**
-	 * Sends two ints to the client-side Container. Used for furnace burning time,
-	 * smelting progress, brewing progress, and enchanting level. Normally the first
-	 * int identifies which variable to update, and the second contains the new
-	 * value. Both are truncated to shorts in non-local SMP.
-	 */
 	public void sendProgressBarUpdate(Container containerIn, int varToUpdate, int newValue) {
 		this.playerNetServerHandler
 				.sendPacket(new S31PacketWindowProperty(containerIn.windowId, varToUpdate, newValue));
@@ -815,26 +702,17 @@ public class EntityPlayerMP extends EntityPlayer implements ICrafting {
 		}
 	}
 
-	/**
-	 * set current crafting inventory back to the 2x2 square
-	 */
 	public void closeScreen() {
 		this.playerNetServerHandler.sendPacket(new S2EPacketCloseWindow(this.openContainer.windowId));
 		this.closeContainer();
 	}
 
-	/**
-	 * updates item held by mouse
-	 */
 	public void updateHeldItem() {
 		if (!this.isChangingQuantityOnly) {
 			this.playerNetServerHandler.sendPacket(new S2FPacketSetSlot(-1, -1, this.inventory.getItemStack()));
 		}
 	}
 
-	/**
-	 * Closes the container the player currently has open.
-	 */
 	public void closeContainer() {
 		this.openContainer.onContainerClosed(this);
 		this.openContainer = this.inventoryContainer;
@@ -855,9 +733,6 @@ public class EntityPlayerMP extends EntityPlayer implements ICrafting {
 		}
 	}
 
-	/**
-	 * Adds a value to a statistic field.
-	 */
 	public void addStat(StatBase stat, int amount) {
 		if (stat != null) {
 			this.statsFile.increaseStat(this, stat, amount);
@@ -898,10 +773,6 @@ public class EntityPlayerMP extends EntityPlayer implements ICrafting {
 		}
 	}
 
-	/**
-	 * this function is called when a players inventory is sent to him, lastHealth
-	 * is updated on any dimension transitions, then reset.
-	 */
 	public void setPlayerHealthUpdated() {
 		this.lastHealth = -1.0E8F;
 	}
@@ -910,18 +781,11 @@ public class EntityPlayerMP extends EntityPlayer implements ICrafting {
 		this.playerNetServerHandler.sendPacket(new S02PacketChat(chatComponent));
 	}
 
-	/**
-	 * Used for when item use count runs out, ie: eating completed
-	 */
 	protected void onItemUseFinish() {
 		this.playerNetServerHandler.sendPacket(new S19PacketEntityStatus(this, (byte) 9));
 		super.onItemUseFinish();
 	}
 
-	/**
-	 * sets the itemInUse when the use item button is clicked. Args: itemstack, int
-	 * maxItemUseDuration
-	 */
 	public void setItemInUse(ItemStack stack, int duration) {
 		super.setItemInUse(stack, duration);
 
@@ -930,10 +794,6 @@ public class EntityPlayerMP extends EntityPlayer implements ICrafting {
 		}
 	}
 
-	/**
-	 * Copies the values from the given player into this player if boolean par2 is
-	 * true. Always clones Ender Chest Inventory.
-	 */
 	public void clonePlayer(EntityPlayer oldPlayer, boolean respawnFromEnd) {
 		super.clonePlayer(oldPlayer, respawnFromEnd);
 		this.lastExperience = -1;
@@ -957,17 +817,10 @@ public class EntityPlayerMP extends EntityPlayer implements ICrafting {
 		this.playerNetServerHandler.sendPacket(new S1EPacketRemoveEntityEffect(this.getEntityId(), effect));
 	}
 
-	/**
-	 * Sets the position of the entity and updates the 'last' variables
-	 */
 	public void setPositionAndUpdate(double x, double y, double z) {
 		this.playerNetServerHandler.setPlayerLocation(x, y, z, this.rotationYaw, this.rotationPitch);
 	}
 
-	/**
-	 * Called when the player performs a critical hit on the Entity. Args: entity
-	 * that was hit critically
-	 */
 	public void onCriticalHit(Entity entityHit) {
 		this.getServerForPlayer().getEntityTracker().func_151248_b(this, new S0BPacketAnimation(entityHit, 4));
 	}
@@ -976,9 +829,6 @@ public class EntityPlayerMP extends EntityPlayer implements ICrafting {
 		this.getServerForPlayer().getEntityTracker().func_151248_b(this, new S0BPacketAnimation(entityHit, 5));
 	}
 
-	/**
-	 * Sends the player's abilities to the server (if there is one).
-	 */
 	public void sendPlayerAbilities() {
 		if (this.playerNetServerHandler != null) {
 			this.playerNetServerHandler.sendPacket(new S39PacketPlayerAbilities(this.capabilities));
@@ -990,9 +840,6 @@ public class EntityPlayerMP extends EntityPlayer implements ICrafting {
 		return (WorldServer) this.worldObj;
 	}
 
-	/**
-	 * Sets the player's game mode and sends it to them.
-	 */
 	public void setGameType(WorldSettings.GameType gameType) {
 		this.theItemInWorldManager.setGameType(gameType);
 		this.playerNetServerHandler.sendPacket(new S2BPacketChangeGameState(3, (float) gameType.getID()));
@@ -1007,24 +854,14 @@ public class EntityPlayerMP extends EntityPlayer implements ICrafting {
 		this.markPotionsDirty();
 	}
 
-	/**
-	 * Returns true if the player is in spectator mode.
-	 */
 	public boolean isSpectator() {
 		return this.theItemInWorldManager.getGameType() == WorldSettings.GameType.SPECTATOR;
 	}
 
-	/**
-	 * Send a chat message to the CommandSender
-	 */
 	public void addChatMessage(IChatComponent component) {
 		this.playerNetServerHandler.sendPacket(new S02PacketChat(component));
 	}
 
-	/**
-	 * Returns {@code true} if the CommandSender is allowed to execute the command,
-	 * {@code false} if not
-	 */
 	public boolean canCommandSenderUseCommand(int permLevel, String commandName) {
 		if ("seed".equals(commandName) && !this.mcServer.isDedicatedServer()) {
 			return true;
@@ -1043,9 +880,6 @@ public class EntityPlayerMP extends EntityPlayer implements ICrafting {
 		}
 	}
 
-	/**
-	 * Gets the player's IP address. Used in /banip.
-	 */
 	public String getPlayerIP() {
 		String s = this.playerNetServerHandler.netManager.getRemoteAddress().toString();
 		s = s.substring(s.indexOf("/") + 1);
@@ -1068,10 +902,6 @@ public class EntityPlayerMP extends EntityPlayer implements ICrafting {
 		this.playerNetServerHandler.sendPacket(new S48PacketResourcePackSend(url, hash));
 	}
 
-	/**
-	 * Get the position in the world. <b>{@code null} is not allowed!</b> If you are
-	 * not an entity in the world, return the coordinates 0, 0, 0
-	 */
 	public BlockPos getPosition() {
 		return new BlockPos(this.posX, this.posY + 0.5D, this.posZ);
 	}
@@ -1080,16 +910,10 @@ public class EntityPlayerMP extends EntityPlayer implements ICrafting {
 		this.playerLastActiveTime = MinecraftServer.getCurrentTimeMillis();
 	}
 
-	/**
-	 * Gets the stats file for reading achievements
-	 */
 	public StatisticsFile getStatFile() {
 		return this.statsFile;
 	}
 
-	/**
-	 * Sends a packet to the player to remove an entity.
-	 */
 	public void removeEntity(Entity p_152339_1_) {
 		if (p_152339_1_ instanceof EntityPlayer) {
 			this.playerNetServerHandler
@@ -1099,10 +923,6 @@ public class EntityPlayerMP extends EntityPlayer implements ICrafting {
 		}
 	}
 
-	/**
-	 * Clears potion metadata values if the entity has no potion effects. Otherwise,
-	 * updates potion effect color, ambience, and invisibility metadata values
-	 */
 	protected void updatePotionMetadata() {
 		if (this.isSpectator()) {
 			this.resetPotionEffectMetadata();
@@ -1129,10 +949,6 @@ public class EntityPlayerMP extends EntityPlayer implements ICrafting {
 		}
 	}
 
-	/**
-	 * Attacks for the player the targeted entity with the currently equipped item.
-	 * The equipped item has hitEntity called on it. Args: targetEntity
-	 */
 	public void attackTargetEntityWithCurrentItem(Entity targetEntity) {
 		if (this.theItemInWorldManager.getGameType() == WorldSettings.GameType.SPECTATOR) {
 			this.setSpectatingEntity(targetEntity);
@@ -1145,11 +961,6 @@ public class EntityPlayerMP extends EntityPlayer implements ICrafting {
 		return this.playerLastActiveTime;
 	}
 
-	/**
-	 * Returns null which indicates the tab list should just display the player's
-	 * name, return a different value to display the specified text instead of the
-	 * player's name
-	 */
 	public IChatComponent getTabListDisplayName() {
 		return null;
 	}

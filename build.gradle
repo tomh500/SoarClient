@@ -49,14 +49,12 @@ dependencies {
 
     implementation "org.lwjgl:lwjgl-nfd"
     implementation "org.lwjgl:lwjgl-stb"
-	implementation "org.lwjgl:lwjgl-yoga"
     runtimeOnly "org.lwjgl:lwjgl::$lwjglNatives"
     runtimeOnly "org.lwjgl:lwjgl-glfw::$lwjglNatives"
     runtimeOnly "org.lwjgl:lwjgl-openal::$lwjglNatives"
     runtimeOnly "org.lwjgl:lwjgl-opengl::$lwjglNatives"
     runtimeOnly "org.lwjgl:lwjgl-nfd::$lwjglNatives"
     runtimeOnly "org.lwjgl:lwjgl-stb::$lwjglNatives"
-	runtimeOnly "org.lwjgl:lwjgl-yoga::$lwjglNatives"
 
 	implementation 'it.unimi.dsi:fastutil:8.5.14'
 	implementation 'org.joml:joml:1.10.8'

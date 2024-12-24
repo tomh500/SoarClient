@@ -8,10 +8,9 @@ import net.minecraft.util.MathHelper;
 import net.minecraft.util.ResourceLocation;
 
 public class TileEntityEnchantmentTableRenderer extends TileEntitySpecialRenderer<TileEntityEnchantmentTable> {
-	/** The texture for the book above the enchantment table. */
 	private static final ResourceLocation TEXTURE_BOOK = new ResourceLocation(
 			"textures/entity/enchanting_table_book.png");
-	private ModelBook field_147541_c = new ModelBook();
+	public ModelBook field_147541_c = new ModelBook();
 
 	public void renderTileEntityAt(TileEntityEnchantmentTable te, double x, double y, double z, float partialTicks,
 			int destroyStage) {

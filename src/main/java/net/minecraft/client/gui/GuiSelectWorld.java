@@ -24,8 +24,6 @@ public class GuiSelectWorld extends GuiScreen implements GuiYesNoCallback {
 	protected GuiScreen parentScreen;
 	protected String screenTitle = "Select world";
 	private boolean field_146634_i;
-
-	/** The list index of the currently-selected world */
 	private int selectedIndex;
 	private java.util.List<SaveFormatComparator> field_146639_s;
 	private GuiSelectWorld.List availableWorlds;
@@ -42,11 +40,6 @@ public class GuiSelectWorld extends GuiScreen implements GuiYesNoCallback {
 		this.parentScreen = parentScreenIn;
 	}
 
-	/**
-	 * Adds the buttons (and other controls) to the screen in question. Called when
-	 * the GUI is displayed and when the window resizes, the buttonList is cleared
-	 * beforehand.
-	 */
 	public void initGui() {
 		this.screenTitle = I18n.format("selectWorld.title", new Object[0]);
 
@@ -71,17 +64,11 @@ public class GuiSelectWorld extends GuiScreen implements GuiYesNoCallback {
 		this.addWorldSelectionButtons();
 	}
 
-	/**
-	 * Handles mouse input.
-	 */
 	public void handleMouseInput() throws IOException {
 		super.handleMouseInput();
 		this.availableWorlds.handleMouseInput();
 	}
 
-	/**
-	 * Load the existing world saves for display
-	 */
 	private void loadLevelList() throws AnvilConverterException {
 		ISaveFormat isaveformat = this.mc.getSaveLoader();
 		this.field_146639_s = isaveformat.getSaveList();
@@ -122,10 +109,6 @@ public class GuiSelectWorld extends GuiScreen implements GuiYesNoCallback {
 		this.recreateButton.enabled = false;
 	}
 
-	/**
-	 * Called by the controls from the buttonList when activated. (Mouse pressed for
-	 * buttons)
-	 */
 	protected void actionPerformed(GuiButton button) throws IOException {
 		if (button.enabled) {
 			if (button.id == 2) {
@@ -201,27 +184,12 @@ public class GuiSelectWorld extends GuiScreen implements GuiYesNoCallback {
 		}
 	}
 
-	/**
-	 * Draws the screen and all the components in it. Args : mouseX, mouseY,
-	 * renderPartialTicks
-	 */
 	public void drawScreen(int mouseX, int mouseY, float partialTicks) {
 		this.availableWorlds.drawScreen(mouseX, mouseY, partialTicks);
 		this.drawCenteredString(this.fontRendererObj, this.screenTitle, this.width / 2, 20, 16777215);
 		super.drawScreen(mouseX, mouseY, partialTicks);
 	}
 
-	/**
-	 * Generate a GuiYesNo asking for confirmation to delete a world
-	 * 
-	 * Called when user selects the "Delete" button.
-	 * 
-	 * @param selectWorld A reference back to the GuiSelectWorld spawning the
-	 *                    GuiYesNo
-	 * @param name        The name of the world selected for deletion
-	 * @param id          An arbitrary integer passed back to selectWorld's
-	 *                    confirmClicked method
-	 */
 	public static GuiYesNo makeDeleteWorldYesNo(GuiYesNoCallback selectWorld, String name, int id) {
 		String s = I18n.format("selectWorld.deleteQuestion", new Object[0]);
 		String s1 = "\'" + name + "\' " + I18n.format("selectWorld.deleteWarning", new Object[0]);

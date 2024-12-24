@@ -29,10 +29,6 @@ public abstract class BlockContainer extends Block implements ITileEntityProvide
 				|| this.isInvalidNeighbor(p_181087_1_, p_181087_2_, EnumFacing.EAST);
 	}
 
-	/**
-	 * The type of render function called. 3 for standard block models, 2 for
-	 * TESR's, 1 for liquids, -1 is no render
-	 */
 	public int getRenderType() {
 		return -1;
 	}
@@ -42,9 +38,6 @@ public abstract class BlockContainer extends Block implements ITileEntityProvide
 		worldIn.removeTileEntity(pos);
 	}
 
-	/**
-	 * Called on both Client and Server when World#addBlockEvent is called
-	 */
 	public boolean onBlockEventReceived(World worldIn, BlockPos pos, IBlockState state, int eventID, int eventParam) {
 		super.onBlockEventReceived(worldIn, pos, state, eventID, eventParam);
 		TileEntity tileentity = worldIn.getTileEntity(pos);

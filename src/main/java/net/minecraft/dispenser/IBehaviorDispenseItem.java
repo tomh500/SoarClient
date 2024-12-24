@@ -9,8 +9,5 @@ public interface IBehaviorDispenseItem {
 		}
 	};
 
-	/**
-	 * Dispenses the specified ItemStack from a dispenser.
-	 */
 	ItemStack dispense(IBlockSource source, ItemStack stack);
 }

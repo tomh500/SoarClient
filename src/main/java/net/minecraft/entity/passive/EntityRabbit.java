@@ -179,10 +179,6 @@ public class EntityRabbit extends EntityAnimal {
 		this.field_175537_bp = this.onGround;
 	}
 
-	/**
-	 * Attempts to create sprinting particles if the entity is sprinting and not in
-	 * water.
-	 */
 	public void spawnRunningParticles() {
 	}
 
@@ -207,11 +203,6 @@ public class EntityRabbit extends EntityAnimal {
 		this.func_175520_cs();
 	}
 
-	/**
-	 * Called frequently so the entity can update its state every tick as required.
-	 * For example, zombies and skeletons use this to react to sunlight and start to
-	 * burn.
-	 */
 	public void onLivingUpdate() {
 		super.onLivingUpdate();
 
@@ -233,18 +224,12 @@ public class EntityRabbit extends EntityAnimal {
 		this.getEntityAttribute(SharedMonsterAttributes.movementSpeed).setBaseValue(0.30000001192092896D);
 	}
 
-	/**
-	 * (abstract) Protected helper method to write subclass entity data to NBT.
-	 */
 	public void writeEntityToNBT(NBTTagCompound tagCompound) {
 		super.writeEntityToNBT(tagCompound);
 		tagCompound.setInteger("RabbitType", this.getRabbitType());
 		tagCompound.setInteger("MoreCarrotTicks", this.carrotTicks);
 	}
 
-	/**
-	 * (abstract) Protected helper method to read subclass entity data from NBT.
-	 */
 	public void readEntityFromNBT(NBTTagCompound tagCompund) {
 		super.readEntityFromNBT(tagCompund);
 		this.setRabbitType(tagCompund.getInteger("RabbitType"));
@@ -255,23 +240,14 @@ public class EntityRabbit extends EntityAnimal {
 		return "mob.rabbit.hop";
 	}
 
-	/**
-	 * Returns the sound this mob makes while it's alive.
-	 */
 	protected String getLivingSound() {
 		return "mob.rabbit.idle";
 	}
 
-	/**
-	 * Returns the sound this mob makes when it is hurt.
-	 */
 	protected String getHurtSound() {
 		return "mob.rabbit.hurt";
 	}
 
-	/**
-	 * Returns the sound this mob makes on death.
-	 */
 	protected String getDeathSound() {
 		return "mob.rabbit.death";
 	}
@@ -285,36 +261,18 @@ public class EntityRabbit extends EntityAnimal {
 		}
 	}
 
-	/**
-	 * Returns the current armor value as determined by a call to
-	 * InventoryPlayer.getTotalArmorValue
-	 */
 	public int getTotalArmorValue() {
 		return this.getRabbitType() == 99 ? 8 : super.getTotalArmorValue();
 	}
 
-	/**
-	 * Called when the entity is attacked.
-	 */
 	public boolean attackEntityFrom(DamageSource source, float amount) {
 		return this.isEntityInvulnerable(source) ? false : super.attackEntityFrom(source, amount);
 	}
 
-	/**
-	 * Causes this Entity to drop a random item.
-	 */
 	protected void addRandomDrop() {
 		this.entityDropItem(new ItemStack(Items.rabbit_foot, 1), 0.0F);
 	}
 
-	/**
-	 * Drop 0-2 items of this living's type
-	 * 
-	 * @param wasRecentlyHit  true if this this entity was recently hit by
-	 *                        appropriate entity (generally only if player or
-	 *                        tameable)
-	 * @param lootingModifier level of enchanment to be applied to this drop
-	 */
 	protected void dropFewItems(boolean wasRecentlyHit, int lootingModifier) {
 		int i = this.rand.nextInt(2) + this.rand.nextInt(1 + lootingModifier);
 
@@ -349,10 +307,6 @@ public class EntityRabbit extends EntityAnimal {
 		return entityrabbit;
 	}
 
-	/**
-	 * Checks if the parameter is an item which this animal can be fed to breed it
-	 * (wheat, carrots or seeds depending on the animal type)
-	 */
 	public boolean isBreedingItem(ItemStack stack) {
 		return stack != null && this.isRabbitBreedingItem(stack.getItem());
 	}
@@ -377,11 +331,6 @@ public class EntityRabbit extends EntityAnimal {
 		this.dataWatcher.updateObject(18, Byte.valueOf((byte) rabbitTypeId));
 	}
 
-	/**
-	 * Called only once on an entity when first time spawned, via egg, mob spawner,
-	 * natural spawning etc, but not called when entity is reloaded from nbt. Mainly
-	 * used for initializing attributes and inventory
-	 */
 	public IEntityLivingData onInitialSpawn(DifficultyInstance difficulty, IEntityLivingData livingdata) {
 		livingdata = super.onInitialSpawn(difficulty, livingdata);
 		int i = this.rand.nextInt(6);
@@ -403,18 +352,10 @@ public class EntityRabbit extends EntityAnimal {
 		return livingdata;
 	}
 
-	/**
-	 * Returns true if {@link net.minecraft.entity.passive.EntityRabbit#carrotTicks
-	 * carrotTicks} has reached zero
-	 */
 	private boolean isCarrotEaten() {
 		return this.carrotTicks == 0;
 	}
 
-	/**
-	 * Returns duration of the current
-	 * {@link net.minecraft.entity.passive.EntityRabbit.EnumMoveType move type}
-	 */
 	protected int getMoveTypeDuration() {
 		return this.moveType.getDuration();
 	}

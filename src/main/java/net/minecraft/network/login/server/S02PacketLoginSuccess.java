@@ -17,9 +17,6 @@ public class S02PacketLoginSuccess implements Packet<INetHandlerLoginClient> {
 		this.profile = profileIn;
 	}
 
-	/**
-	 * Reads the raw packet data from the data stream.
-	 */
 	public void readPacketData(PacketBuffer buf) throws IOException {
 		String s = buf.readStringFromBuffer(36);
 		String s1 = buf.readStringFromBuffer(16);
@@ -27,18 +24,12 @@ public class S02PacketLoginSuccess implements Packet<INetHandlerLoginClient> {
 		this.profile = new GameProfile(uuid, s1);
 	}
 
-	/**
-	 * Writes the raw packet data to the data stream.
-	 */
 	public void writePacketData(PacketBuffer buf) throws IOException {
 		UUID uuid = this.profile.getId();
 		buf.writeString(uuid == null ? "" : uuid.toString());
 		buf.writeString(this.profile.getName());
 	}
 
-	/**
-	 * Passes this Packet on to the NetHandler for processing.
-	 */
 	public void processPacket(INetHandlerLoginClient handler) {
 		handler.handleLoginSuccess(this);
 	}

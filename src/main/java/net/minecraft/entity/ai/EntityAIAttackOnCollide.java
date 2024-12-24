@@ -10,23 +10,9 @@ import net.minecraft.world.World;
 public class EntityAIAttackOnCollide extends EntityAIBase {
 	World worldObj;
 	protected EntityCreature attacker;
-
-	/**
-	 * An amount of decrementing ticks that allows the entity to attack once the
-	 * tick reaches 0.
-	 */
 	int attackTick;
-
-	/** The speed with which the mob will approach the target */
 	double speedTowardsTarget;
-
-	/**
-	 * When true, the mob will continue chasing its target, even if it can't find a
-	 * path to them right now.
-	 */
 	boolean longMemory;
-
-	/** The PathEntity of our entity. */
 	PathEntity entityPathEntity;
 	Class<? extends Entity> classTarget;
 	private int delayCounter;
@@ -48,9 +34,6 @@ public class EntityAIAttackOnCollide extends EntityAIBase {
 		this.setMutexBits(3);
 	}
 
-	/**
-	 * Returns whether the EntityAIBase should begin execution.
-	 */
 	public boolean shouldExecute() {
 		EntityLivingBase entitylivingbase = this.attacker.getAttackTarget();
 
@@ -66,9 +49,6 @@ public class EntityAIAttackOnCollide extends EntityAIBase {
 		}
 	}
 
-	/**
-	 * Returns whether an in-progress EntityAIBase should continue executing
-	 */
 	public boolean continueExecuting() {
 		EntityLivingBase entitylivingbase = this.attacker.getAttackTarget();
 		return entitylivingbase == null ? false
@@ -77,24 +57,15 @@ public class EntityAIAttackOnCollide extends EntityAIBase {
 								: this.attacker.isWithinHomeDistanceFromPosition(new BlockPos(entitylivingbase))));
 	}
 
-	/**
-	 * Execute a one shot task or start executing a continuous task
-	 */
 	public void startExecuting() {
 		this.attacker.getNavigator().setPath(this.entityPathEntity, this.speedTowardsTarget);
 		this.delayCounter = 0;
 	}
 
-	/**
-	 * Resets the task
-	 */
 	public void resetTask() {
 		this.attacker.getNavigator().clearPathEntity();
 	}
 
-	/**
-	 * Updates the task
-	 */
 	public void updateTask() {
 		EntityLivingBase entitylivingbase = this.attacker.getAttackTarget();
 		this.attacker.getLookHelper().setLookPositionWithEntity(entitylivingbase, 30.0F, 30.0F);

@@ -11,9 +11,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 
 public class RecipesArmorDyes implements IRecipe {
-	/**
-	 * Used to check if a recipe matches current crafting inventory
-	 */
 	public boolean matches(InventoryCrafting inv, World worldIn) {
 		ItemStack itemstack = null;
 		List<ItemStack> list = Lists.<ItemStack>newArrayList();
@@ -43,9 +40,6 @@ public class RecipesArmorDyes implements IRecipe {
 		return itemstack != null && !list.isEmpty();
 	}
 
-	/**
-	 * Returns an Item that is the result of this recipe
-	 */
 	public ItemStack getCraftingResult(InventoryCrafting inv) {
 		ItemStack itemstack = null;
 		int[] aint = new int[3];
@@ -114,9 +108,6 @@ public class RecipesArmorDyes implements IRecipe {
 		}
 	}
 
-	/**
-	 * Returns the size of the recipe area
-	 */
 	public int getRecipeSize() {
 		return 10;
 	}

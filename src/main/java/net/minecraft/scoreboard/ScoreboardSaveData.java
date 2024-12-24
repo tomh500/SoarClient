@@ -29,9 +29,6 @@ public class ScoreboardSaveData extends WorldSavedData {
 		}
 	}
 
-	/**
-	 * reads in data from the NBTTagCompound into this MapDataBase
-	 */
 	public void readFromNBT(NBTTagCompound nbt) {
 		if (this.theScoreboard == null) {
 			this.delayedInitNbt = nbt;
@@ -160,10 +157,6 @@ public class ScoreboardSaveData extends WorldSavedData {
 		}
 	}
 
-	/**
-	 * write data to NBTTagCompound from this MapDataBase, similar to Entities and
-	 * TileEntities
-	 */
 	public void writeToNBT(NBTTagCompound nbt) {
 		if (this.theScoreboard == null) {
 			logger.warn("Tried to save scoreboard without having a scoreboard...");

@@ -4,7 +4,6 @@ import java.util.List;
 import net.minecraft.entity.passive.EntityAnimal;
 
 public class EntityAIFollowParent extends EntityAIBase {
-	/** The child that is following its parent. */
 	EntityAnimal childAnimal;
 	EntityAnimal parentAnimal;
 	double moveSpeed;
@@ -15,9 +14,6 @@ public class EntityAIFollowParent extends EntityAIBase {
 		this.moveSpeed = speed;
 	}
 
-	/**
-	 * Returns whether the EntityAIBase should begin execution.
-	 */
 	public boolean shouldExecute() {
 		if (this.childAnimal.getGrowingAge() >= 0) {
 			return false;
@@ -49,9 +45,6 @@ public class EntityAIFollowParent extends EntityAIBase {
 		}
 	}
 
-	/**
-	 * Returns whether an in-progress EntityAIBase should continue executing
-	 */
 	public boolean continueExecuting() {
 		if (this.childAnimal.getGrowingAge() >= 0) {
 			return false;
@@ -63,23 +56,14 @@ public class EntityAIFollowParent extends EntityAIBase {
 		}
 	}
 
-	/**
-	 * Execute a one shot task or start executing a continuous task
-	 */
 	public void startExecuting() {
 		this.delayCounter = 0;
 	}
 
-	/**
-	 * Resets the task
-	 */
 	public void resetTask() {
 		this.parentAnimal = null;
 	}
 
-	/**
-	 * Updates the task
-	 */
 	public void updateTask() {
 		if (--this.delayCounter <= 0) {
 			this.delayCounter = 10;

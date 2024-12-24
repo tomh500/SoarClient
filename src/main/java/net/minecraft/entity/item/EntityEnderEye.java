@@ -10,13 +10,8 @@ import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 
 public class EntityEnderEye extends Entity {
-	/** 'x' location the eye should float towards. */
 	private double targetX;
-
-	/** 'y' location the eye should float towards. */
 	private double targetY;
-
-	/** 'z' location the eye should float towards. */
 	private double targetZ;
 	private int despawnTimer;
 	private boolean shatterOrDrop;
@@ -29,11 +24,6 @@ public class EntityEnderEye extends Entity {
 	protected void entityInit() {
 	}
 
-	/**
-	 * Checks if the entity is in range to render by using the past in distance and
-	 * comparing it to its average edge length * 64 * renderDistanceWeight Args:
-	 * distance
-	 */
 	public boolean isInRangeToRenderDist(double distance) {
 		double d0 = this.getEntityBoundingBox().getAverageEdgeLength() * 4.0D;
 
@@ -74,9 +64,6 @@ public class EntityEnderEye extends Entity {
 		this.shatterOrDrop = this.rand.nextInt(5) > 0;
 	}
 
-	/**
-	 * Sets the velocity to the args. Args: x, y, z
-	 */
 	public void setVelocity(double x, double y, double z) {
 		this.motionX = x;
 		this.motionY = y;
@@ -89,9 +76,6 @@ public class EntityEnderEye extends Entity {
 		}
 	}
 
-	/**
-	 * Called to update the entity's position/logic.
-	 */
 	public void onUpdate() {
 		this.lastTickPosX = this.posX;
 		this.lastTickPosY = this.posY;
@@ -178,21 +162,12 @@ public class EntityEnderEye extends Entity {
 		}
 	}
 
-	/**
-	 * (abstract) Protected helper method to write subclass entity data to NBT.
-	 */
 	public void writeEntityToNBT(NBTTagCompound tagCompound) {
 	}
 
-	/**
-	 * (abstract) Protected helper method to read subclass entity data from NBT.
-	 */
 	public void readEntityFromNBT(NBTTagCompound tagCompund) {
 	}
 
-	/**
-	 * Gets how bright this entity is.
-	 */
 	public float getBrightness(float partialTicks) {
 		return 1.0F;
 	}
@@ -201,9 +176,6 @@ public class EntityEnderEye extends Entity {
 		return 15728880;
 	}
 
-	/**
-	 * If returns false, the item will not inflict any damage against entities.
-	 */
 	public boolean canAttackWithItem() {
 		return false;
 	}

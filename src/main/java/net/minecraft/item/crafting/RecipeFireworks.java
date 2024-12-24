@@ -13,9 +13,6 @@ import net.minecraft.world.World;
 public class RecipeFireworks implements IRecipe {
 	private ItemStack field_92102_a;
 
-	/**
-	 * Used to check if a recipe matches current crafting inventory
-	 */
 	public boolean matches(InventoryCrafting inv, World worldIn) {
 		this.field_92102_a = null;
 		int i = 0;
@@ -166,16 +163,10 @@ public class RecipeFireworks implements IRecipe {
 		}
 	}
 
-	/**
-	 * Returns an Item that is the result of this recipe
-	 */
 	public ItemStack getCraftingResult(InventoryCrafting inv) {
 		return this.field_92102_a.copy();
 	}
 
-	/**
-	 * Returns the size of the recipe area
-	 */
 	public int getRecipeSize() {
 		return 10;
 	}

@@ -27,9 +27,6 @@ public class EntityEnderPearl extends EntityThrowable {
 		super(worldIn, x, y, z);
 	}
 
-	/**
-	 * Called when this EntityThrowable hits a block or entity.
-	 */
 	protected void onImpact(MovingObjectPosition p_70184_1_) {
 		EntityLivingBase entitylivingbase = this.getThrower();
 
@@ -77,9 +74,6 @@ public class EntityEnderPearl extends EntityThrowable {
 		}
 	}
 
-	/**
-	 * Called to update the entity's position/logic.
-	 */
 	public void onUpdate() {
 		EntityLivingBase entitylivingbase = this.getThrower();
 

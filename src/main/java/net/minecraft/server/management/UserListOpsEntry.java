@@ -21,10 +21,6 @@ public class UserListOpsEntry extends UserListEntry<GameProfile> {
 				&& p_i1150_1_.get("bypassesPlayerLimit").getAsBoolean();
 	}
 
-	/**
-	 * Gets the permission level of the user, as defined in the "level" attribute of
-	 * the ops.json file
-	 */
 	public int getPermissionLevel() {
 		return this.permissionLevel;
 	}

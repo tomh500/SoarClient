@@ -28,8 +28,6 @@ import net.minecraft.world.World;
 
 public class BlockChest extends BlockContainer {
 	public static final PropertyDirection FACING = PropertyDirection.create("facing", EnumFacing.Plane.HORIZONTAL);
-
-	/** 0 : Normal chest, 1 : Trapped chest */
 	public final int chestType;
 
 	protected BlockChest(int type) {
@@ -40,10 +38,6 @@ public class BlockChest extends BlockContainer {
 		this.setBlockBounds(0.0625F, 0.0F, 0.0625F, 0.9375F, 0.875F, 0.9375F);
 	}
 
-	/**
-	 * Used to determine ambient occlusion and culling when rebuilding chunks for
-	 * render
-	 */
 	public boolean isOpaqueCube() {
 		return false;
 	}
@@ -52,10 +46,6 @@ public class BlockChest extends BlockContainer {
 		return false;
 	}
 
-	/**
-	 * The type of render function called. 3 for standard block models, 2 for
-	 * TESR's, 1 for liquids, -1 is no render
-	 */
 	public int getRenderType() {
 		return 2;
 	}
@@ -87,19 +77,11 @@ public class BlockChest extends BlockContainer {
 		}
 	}
 
-	/**
-	 * Called by ItemBlocks just before a block is actually set in the world, to
-	 * allow for adjustments to the IBlockstate
-	 */
 	public IBlockState onBlockPlaced(World worldIn, BlockPos pos, EnumFacing facing, float hitX, float hitY, float hitZ,
 			int meta, EntityLivingBase placer) {
 		return this.getDefaultState().withProperty(FACING, placer.getHorizontalFacing());
 	}
 
-	/**
-	 * Called by ItemBlocks after a block is set in the world, to allow post-place
-	 * logic
-	 */
 	public void onBlockPlacedBy(World worldIn, BlockPos pos, IBlockState state, EntityLivingBase placer,
 			ItemStack stack) {
 		EnumFacing enumfacing = EnumFacing
@@ -324,9 +306,6 @@ public class BlockChest extends BlockContainer {
 		}
 	}
 
-	/**
-	 * Called when a neighboring block changes.
-	 */
 	public void onNeighborBlockChange(World worldIn, BlockPos pos, IBlockState state, Block neighborBlock) {
 		super.onNeighborBlockChange(worldIn, pos, state, neighborBlock);
 		TileEntity tileentity = worldIn.getTileEntity(pos);
@@ -407,18 +386,10 @@ public class BlockChest extends BlockContainer {
 		}
 	}
 
-	/**
-	 * Returns a new instance of a block's tile entity class. Called on placing the
-	 * block.
-	 */
 	public TileEntity createNewTileEntity(World worldIn, int meta) {
 		return new TileEntityChest();
 	}
 
-	/**
-	 * Can this block provide power. Only wire currently seems to have this change
-	 * based on its state.
-	 */
 	public boolean canProvidePower() {
 		return this.chestType == 1;
 	}
@@ -472,9 +443,6 @@ public class BlockChest extends BlockContainer {
 		return Container.calcRedstoneFromInventory(this.getLockableContainer(worldIn, pos));
 	}
 
-	/**
-	 * Convert the given metadata into a BlockState for this Block
-	 */
 	public IBlockState getStateFromMeta(int meta) {
 		EnumFacing enumfacing = EnumFacing.getFront(meta);
 
@@ -485,9 +453,6 @@ public class BlockChest extends BlockContainer {
 		return this.getDefaultState().withProperty(FACING, enumfacing);
 	}
 
-	/**
-	 * Convert the BlockState into the correct metadata value
-	 */
 	public int getMetaFromState(IBlockState state) {
 		return ((EnumFacing) state.getValue(FACING)).getIndex();
 	}

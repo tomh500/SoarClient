@@ -1,9 +1,14 @@
 package net.minecraft.client.gui;
 
-import com.google.common.base.Strings;
-import com.google.common.collect.Lists;
 import java.util.List;
 import java.util.Map.Entry;
+
+import org.lwjgl.opengl.Display;
+import org.lwjgl.opengl.GL11;
+
+import com.google.common.base.Strings;
+import com.google.common.collect.Lists;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.state.IBlockState;
@@ -11,24 +16,32 @@ import net.minecraft.client.ClientBrandRetriever;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.OpenGlHelper;
+import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.src.Config;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.EnumFacing;
-import net.minecraft.util.FrameTimer;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.EnumSkyBlock;
 import net.minecraft.world.WorldType;
 import net.minecraft.world.chunk.Chunk;
-import org.lwjgl.opengl.Display;
-import org.lwjgl.opengl.GL11;
+import net.optifine.SmartAnimations;
+import net.optifine.TextureAnimations;
+import net.optifine.util.MemoryMonitor;
+import net.optifine.util.NativeMemory;
 
 public class GuiOverlayDebug extends Gui {
 	private final Minecraft mc;
 	private final FontRenderer fontRenderer;
+	private String debugOF = null;
+	private List<String> debugInfoLeft = null;
+	private List<String> debugInfoRight = null;
+	private long updateInfoLeftTimeMs = 0L;
+	private long updateInfoRightTimeMs = 0L;
 
 	public GuiOverlayDebug(Minecraft mc) {
 		this.mc = mc;
@@ -54,7 +67,13 @@ public class GuiOverlayDebug extends Gui {
 	}
 
 	protected void renderDebugInfoLeft() {
-		List<String> list = this.call();
+		List<String> list = this.debugInfoLeft;
+
+		if (list == null || System.currentTimeMillis() > this.updateInfoLeftTimeMs) {
+			list = this.call();
+			this.debugInfoLeft = list;
+			this.updateInfoLeftTimeMs = System.currentTimeMillis() + 100L;
+		}
 
 		for (int i = 0; i < list.size(); ++i) {
 			String s = (String) list.get(i);
@@ -71,7 +90,13 @@ public class GuiOverlayDebug extends Gui {
 	}
 
 	protected void renderDebugInfoRight(ScaledResolution scaledRes) {
-		List<String> list = this.getDebugInfoRight();
+		List<String> list = this.debugInfoRight;
+
+		if (list == null || System.currentTimeMillis() > this.updateInfoRightTimeMs) {
+			list = this.getDebugInfoRight();
+			this.debugInfoRight = list;
+			this.updateInfoRightTimeMs = System.currentTimeMillis() + 100L;
+		}
 
 		for (int i = 0; i < list.size(); ++i) {
 			String s = (String) list.get(i);
@@ -92,12 +117,62 @@ public class GuiOverlayDebug extends Gui {
 		BlockPos blockpos = new BlockPos(this.mc.getRenderViewEntity().posX,
 				this.mc.getRenderViewEntity().getEntityBoundingBox().minY, this.mc.getRenderViewEntity().posZ);
 
+		if (this.mc.debug != this.debugOF) {
+			StringBuffer stringbuffer = new StringBuffer(this.mc.debug);
+			int i = Config.getFpsMin();
+			int j = this.mc.debug.indexOf(" fps ");
+
+			if (j >= 0) {
+				stringbuffer.insert(j, "/" + i);
+			}
+
+			if (Config.isSmoothFps()) {
+				stringbuffer.append(" sf");
+			}
+
+			if (Config.isFastRender()) {
+				stringbuffer.append(" fr");
+			}
+
+			if (Config.isAnisotropicFiltering()) {
+				stringbuffer.append(" af");
+			}
+
+			if (Config.isAntialiasing()) {
+				stringbuffer.append(" aa");
+			}
+
+			if (Config.isRenderRegions()) {
+				stringbuffer.append(" reg");
+			}
+
+			if (Config.isShaders()) {
+				stringbuffer.append(" sh");
+			}
+
+			this.mc.debug = stringbuffer.toString();
+			this.debugOF = this.mc.debug;
+		}
+
+		StringBuilder stringbuilder = new StringBuilder();
+		TextureMap texturemap = Config.getTextureMap();
+		stringbuilder.append(", A: ");
+
+		if (SmartAnimations.isActive()) {
+			stringbuilder.append(texturemap.getCountAnimationsActive() + TextureAnimations.getCountAnimationsActive());
+			stringbuilder.append("/");
+		}
+
+		stringbuilder.append(texturemap.getCountAnimations() + TextureAnimations.getCountAnimations());
+		String s1 = stringbuilder.toString();
+
 		if (this.isReducedDebug()) {
 			return Lists.newArrayList(new String[] {
 					"Minecraft 1.8.9 (" + this.mc.getVersion() + "/" + ClientBrandRetriever.getClientModName() + ")",
 					this.mc.debug, this.mc.renderGlobal.getDebugInfoRenders(),
-					"P: " + this.mc.effectRenderer.getStatistics() + ". T: "
-							+ this.mc.theWorld.getDebugLoadedEntities(),
+					this.mc.renderGlobal.getDebugInfoEntities(),
+					"P: " + this.mc.effectRenderer.getStatistics() + ". T: " + this.mc.theWorld.getDebugLoadedEntities()
+							+ s1,
 					this.mc.theWorld.getProviderName(), "",
 					String.format("Chunk-relative: %d %d %d", new Object[] { Integer.valueOf(blockpos.getX() & 15),
 							Integer.valueOf(blockpos.getY() & 15), Integer.valueOf(blockpos.getZ() & 15) }) });
@@ -126,8 +201,8 @@ public class GuiOverlayDebug extends Gui {
 			List<String> list = Lists.newArrayList(new String[] {
 					"Minecraft 1.8.9 (" + this.mc.getVersion() + "/" + ClientBrandRetriever.getClientModName() + ")",
 					this.mc.debug, this.mc.renderGlobal.getDebugInfoRenders(),
-					"P: " + this.mc.effectRenderer.getStatistics() + ". T: "
-							+ this.mc.theWorld.getDebugLoadedEntities(),
+					this.mc.renderGlobal.getDebugInfoEntities(), "P: " + this.mc.effectRenderer.getStatistics()
+							+ ". T: " + this.mc.theWorld.getDebugLoadedEntities() + s1,
 					this.mc.theWorld.getProviderName(), "",
 					String.format("XYZ: %.3f / %.5f / %.3f",
 							new Object[] { Double.valueOf(this.mc.getRenderViewEntity().posX),
@@ -158,8 +233,12 @@ public class GuiOverlayDebug extends Gui {
 							.getPlayerByUUID(this.mc.thePlayer.getUniqueID());
 
 					if (entityplayermp != null) {
-						difficultyinstance = entityplayermp.worldObj
-								.getDifficultyForLocation(new BlockPos(entityplayermp));
+						DifficultyInstance difficultyinstance1 = this.mc.getIntegratedServer()
+								.getDifficultyAsync(entityplayermp.worldObj, new BlockPos(entityplayermp));
+
+						if (difficultyinstance1 != null) {
+							difficultyinstance = difficultyinstance1;
+						}
 					}
 				}
 
@@ -189,20 +268,25 @@ public class GuiOverlayDebug extends Gui {
 		long j = Runtime.getRuntime().totalMemory();
 		long k = Runtime.getRuntime().freeMemory();
 		long l = j - k;
-		List<String> list = Lists
-				.newArrayList(
-						new String[] {
-								String.format("Java: %s %dbit",
-										new Object[] { System.getProperty("java.version"), Integer.valueOf(64) }),
-								String.format("Mem: % 2d%% %03d/%03dMB",
-										new Object[] { Long.valueOf(l * 100L / i), Long.valueOf(bytesToMb(l)),
-												Long.valueOf(bytesToMb(i)) }),
-								String.format("Allocated: % 2d%% %03dMB",
-										new Object[] { Long.valueOf(j * 100L / i), Long.valueOf(bytesToMb(j)) }),
-								"", String.format("CPU: %s", new Object[] { OpenGlHelper.getCpu() }), "",
-								String.format("Display: %dx%d (%s)", new Object[] { Integer.valueOf(Display.getWidth()),
-										Integer.valueOf(Display.getHeight()), GL11.glGetString(GL11.GL_VENDOR) }),
-								GL11.glGetString(GL11.GL_RENDERER), GL11.glGetString(GL11.GL_VERSION) });
+		List<String> list = Lists.newArrayList(new String[] {
+				String.format("Java: %s %dbit",
+						new Object[] { System.getProperty("java.version"),
+								Integer.valueOf(this.mc.isJava64bit() ? 64 : 32) }),
+				String.format("Mem: % 2d%% %03d/%03dMB",
+						new Object[] { Long.valueOf(l * 100L / i), Long.valueOf(bytesToMb(l)),
+								Long.valueOf(bytesToMb(i)) }),
+				String.format("Allocated: % 2d%% %03dMB",
+						new Object[] { Long.valueOf(j * 100L / i), Long.valueOf(bytesToMb(j)) }),
+				"", String.format("CPU: %s", new Object[] { OpenGlHelper.getCpu() }), "",
+				String.format("Display: %dx%d (%s)",
+						new Object[] { Integer.valueOf(Display.getWidth()), Integer.valueOf(Display.getHeight()),
+								GL11.glGetString(GL11.GL_VENDOR) }),
+				GL11.glGetString(GL11.GL_RENDERER), GL11.glGetString(GL11.GL_VERSION) });
+		long i1 = NativeMemory.getBufferAllocated();
+		long j1 = NativeMemory.getBufferMaximum();
+		String s = "Native: " + bytesToMb(i1) + "/" + bytesToMb(j1) + "MB";
+		list.add(4, s);
+		list.set(5, "GC: " + MemoryMonitor.getAllocationRateMb() + "MB/s");
 
 		if (this.isReducedDebug()) {
 			return list;
@@ -221,15 +305,15 @@ public class GuiOverlayDebug extends Gui {
 				list.add(String.valueOf(Block.blockRegistry.getNameForObject(iblockstate.getBlock())));
 
 				for (Entry<IProperty, Comparable> entry : iblockstate.getProperties().entrySet()) {
-					String s = ((Comparable) entry.getValue()).toString();
+					String s1 = ((Comparable) entry.getValue()).toString();
 
 					if (entry.getValue() == Boolean.TRUE) {
-						s = EnumChatFormatting.GREEN + s;
+						s1 = EnumChatFormatting.GREEN + s1;
 					} else if (entry.getValue() == Boolean.FALSE) {
-						s = EnumChatFormatting.RED + s;
+						s1 = EnumChatFormatting.RED + s1;
 					}
 
-					list.add(((IProperty) entry.getKey()).getName() + ": " + s);
+					list.add(((IProperty) entry.getKey()).getName() + ": " + s1);
 				}
 			}
 
@@ -238,42 +322,6 @@ public class GuiOverlayDebug extends Gui {
 	}
 
 	private void renderLagometer() {
-		GlStateManager.disableDepth();
-		FrameTimer frametimer = this.mc.getFrameTimer();
-		int i = frametimer.getLastIndex();
-		int j = frametimer.getIndex();
-		long[] along = frametimer.getFrames();
-		ScaledResolution scaledresolution = new ScaledResolution(this.mc);
-		int k = i;
-		int l = 0;
-		drawRect(0, scaledresolution.getScaledHeight() - 60, 240, scaledresolution.getScaledHeight(), -1873784752);
-
-		while (k != j) {
-			int i1 = frametimer.getLagometerValue(along[k], 30);
-			int j1 = this.getFrameColor(MathHelper.clamp_int(i1, 0, 60), 0, 30, 60);
-			this.drawVerticalLine(l, scaledresolution.getScaledHeight(), scaledresolution.getScaledHeight() - i1, j1);
-			++l;
-			k = frametimer.parseIndex(k + 1);
-		}
-
-		drawRect(1, scaledresolution.getScaledHeight() - 30 + 1, 14, scaledresolution.getScaledHeight() - 30 + 10,
-				-1873784752);
-		this.fontRenderer.drawString("60", 2, scaledresolution.getScaledHeight() - 30 + 2, 14737632);
-		this.drawHorizontalLine(0, 239, scaledresolution.getScaledHeight() - 30, -1);
-		drawRect(1, scaledresolution.getScaledHeight() - 60 + 1, 14, scaledresolution.getScaledHeight() - 60 + 10,
-				-1873784752);
-		this.fontRenderer.drawString("30", 2, scaledresolution.getScaledHeight() - 60 + 2, 14737632);
-		this.drawHorizontalLine(0, 239, scaledresolution.getScaledHeight() - 60, -1);
-		this.drawHorizontalLine(0, 239, scaledresolution.getScaledHeight() - 1, -1);
-		this.drawVerticalLine(0, scaledresolution.getScaledHeight() - 60, scaledresolution.getScaledHeight(), -1);
-		this.drawVerticalLine(239, scaledresolution.getScaledHeight() - 60, scaledresolution.getScaledHeight(), -1);
-
-		if (this.mc.gameSettings.limitFramerate <= 120) {
-			this.drawHorizontalLine(0, 239,
-					scaledresolution.getScaledHeight() - 60 + this.mc.gameSettings.limitFramerate / 2, -16711681);
-		}
-
-		GlStateManager.enableDepth();
 	}
 
 	private int getFrameColor(int p_181552_1_, int p_181552_2_, int p_181552_3_, int p_181552_4_) {

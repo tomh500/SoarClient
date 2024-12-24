@@ -1,9 +1,6 @@
 package net.minecraft.crash;
 
 import com.google.common.collect.Lists;
-
-import jdk.jfr.StackTrace;
-
 import java.util.List;
 import java.util.concurrent.Callable;
 import net.minecraft.block.Block;
@@ -84,10 +81,6 @@ public class CrashReportCategory {
 		return stringbuilder.toString();
 	}
 
-	/**
-	 * Adds a Crashreport section with the given name with the value set to the
-	 * result of the given Callable;
-	 */
 	public void addCrashSectionCallable(String sectionName, Callable<String> callable) {
 		try {
 			this.addCrashSection(sectionName, callable.call());
@@ -96,26 +89,14 @@ public class CrashReportCategory {
 		}
 	}
 
-	/**
-	 * Adds a Crashreport section with the given name with the given value (convered
-	 * .toString())
-	 */
 	public void addCrashSection(String sectionName, Object value) {
 		this.children.add(new CrashReportCategory.Entry(sectionName, value));
 	}
 
-	/**
-	 * Adds a Crashreport section with the given name with the given Throwable
-	 */
 	public void addCrashSectionThrowable(String sectionName, Throwable throwable) {
 		this.addCrashSection(sectionName, throwable);
 	}
 
-	/**
-	 * Resets our stack trace according to the current trace, pruning the deepest 3
-	 * entries. The parameter indicates how many additional deepest entries to
-	 * prune. Returns the number of entries in the resulting pruned stack trace.
-	 */
 	public int getPrunedStackTrace(int size) {
 		StackTraceElement[] astacktraceelement = Thread.currentThread().getStackTrace();
 
@@ -128,10 +109,6 @@ public class CrashReportCategory {
 		}
 	}
 
-	/**
-	 * Do the deepest two elements of our saved stack trace match the given
-	 * elements, in order from the deepest?
-	 */
 	public boolean firstTwoElementsOfStackTraceMatch(StackTraceElement s1, StackTraceElement s2) {
 		if (this.stackTrace.length != 0 && s1 != null) {
 			StackTraceElement stacktraceelement = this.stackTrace[0];
@@ -156,15 +133,7 @@ public class CrashReportCategory {
 		}
 	}
 
-	/**
-	 * Removes the given number entries from the bottom of the stack trace.
-	 */
 	public void trimStackTraceEntriesFromBottom(int amount) {
-
-		if (stackTrace.length - amount < 0) {
-			return;
-		}
-
 		StackTraceElement[] astacktraceelement = new StackTraceElement[this.stackTrace.length - amount];
 		System.arraycopy(this.stackTrace, 0, astacktraceelement, 0, astacktraceelement.length);
 		this.stackTrace = astacktraceelement;

@@ -25,9 +25,6 @@ public class EntitySmallFireball extends EntityFireball {
 		this.setSize(0.3125F, 0.3125F);
 	}
 
-	/**
-	 * Called when this EntityFireball hits a block or entity.
-	 */
 	protected void onImpact(MovingObjectPosition movingObject) {
 		if (!this.worldObj.isRemote) {
 			if (movingObject.entityHit != null) {
@@ -61,17 +58,10 @@ public class EntitySmallFireball extends EntityFireball {
 		}
 	}
 
-	/**
-	 * Returns true if other Entities should be prevented from moving through this
-	 * Entity.
-	 */
 	public boolean canBeCollidedWith() {
 		return false;
 	}
 
-	/**
-	 * Called when the entity is attacked.
-	 */
 	public boolean attackEntityFrom(DamageSource source, float amount) {
 		return false;
 	}

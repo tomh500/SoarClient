@@ -25,16 +25,10 @@ public class S07PacketRespawn implements Packet<INetHandlerPlayClient> {
 		this.worldType = worldTypeIn;
 	}
 
-	/**
-	 * Passes this Packet on to the NetHandler for processing.
-	 */
 	public void processPacket(INetHandlerPlayClient handler) {
 		handler.handleRespawn(this);
 	}
 
-	/**
-	 * Reads the raw packet data from the data stream.
-	 */
 	public void readPacketData(PacketBuffer buf) throws IOException {
 		this.dimensionID = buf.readInt();
 		this.difficulty = EnumDifficulty.getDifficultyEnum(buf.readUnsignedByte());
@@ -46,9 +40,6 @@ public class S07PacketRespawn implements Packet<INetHandlerPlayClient> {
 		}
 	}
 
-	/**
-	 * Writes the raw packet data to the data stream.
-	 */
 	public void writePacketData(PacketBuffer buf) throws IOException {
 		buf.writeInt(this.dimensionID);
 		buf.writeByte(this.difficulty.getDifficultyId());

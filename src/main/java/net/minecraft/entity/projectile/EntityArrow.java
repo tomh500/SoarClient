@@ -32,20 +32,12 @@ public class EntityArrow extends Entity implements IProjectile {
 	private Block inTile;
 	private int inData;
 	private boolean inGround;
-
-	/** 1 if the player can pick up the arrow */
 	public int canBePickedUp;
-
-	/** Seems to be some sort of timer for animating an arrow. */
 	public int arrowShake;
-
-	/** The owner of this arrow. */
 	public Entity shootingEntity;
 	private int ticksInGround;
 	private int ticksInAir;
 	private double damage = 2.0D;
-
-	/** The amount of knockback an arrow applies when it hits a mob. */
 	private int knockbackStrength;
 
 	public EntityArrow(World worldIn) {
@@ -116,10 +108,6 @@ public class EntityArrow extends Entity implements IProjectile {
 		this.dataWatcher.addObject(16, Byte.valueOf((byte) 0));
 	}
 
-	/**
-	 * Similar to setArrowHeading, it's point the throwable entity to a x, y, z
-	 * direction.
-	 */
 	public void setThrowableHeading(double x, double y, double z, float velocity, float inaccuracy) {
 		float f = MathHelper.sqrt_double(x * x + y * y + z * z);
 		x = x / (double) f;
@@ -149,9 +137,6 @@ public class EntityArrow extends Entity implements IProjectile {
 		this.setRotation(yaw, pitch);
 	}
 
-	/**
-	 * Sets the velocity to the args. Args: x, y, z
-	 */
 	public void setVelocity(double x, double y, double z) {
 		this.motionX = x;
 		this.motionY = y;
@@ -168,9 +153,6 @@ public class EntityArrow extends Entity implements IProjectile {
 		}
 	}
 
-	/**
-	 * Called to update the entity's position/logic.
-	 */
 	public void onUpdate() {
 		super.onUpdate();
 
@@ -426,9 +408,6 @@ public class EntityArrow extends Entity implements IProjectile {
 		}
 	}
 
-	/**
-	 * (abstract) Protected helper method to write subclass entity data to NBT.
-	 */
 	public void writeEntityToNBT(NBTTagCompound tagCompound) {
 		tagCompound.setShort("xTile", (short) this.xTile);
 		tagCompound.setShort("yTile", (short) this.yTile);
@@ -443,9 +422,6 @@ public class EntityArrow extends Entity implements IProjectile {
 		tagCompound.setDouble("damage", this.damage);
 	}
 
-	/**
-	 * (abstract) Protected helper method to read subclass entity data from NBT.
-	 */
 	public void readEntityFromNBT(NBTTagCompound tagCompund) {
 		this.xTile = tagCompund.getShort("xTile");
 		this.yTile = tagCompund.getShort("yTile");
@@ -473,9 +449,6 @@ public class EntityArrow extends Entity implements IProjectile {
 		}
 	}
 
-	/**
-	 * Called by a player entity when they collide with an entity
-	 */
 	public void onCollideWithPlayer(EntityPlayer entityIn) {
 		if (!this.worldObj.isRemote && this.inGround && this.arrowShake <= 0) {
 			boolean flag = this.canBePickedUp == 1 || this.canBePickedUp == 2 && entityIn.capabilities.isCreativeMode;
@@ -493,10 +466,6 @@ public class EntityArrow extends Entity implements IProjectile {
 		}
 	}
 
-	/**
-	 * returns if this entity triggers Block.onEntityWalking on the blocks they walk
-	 * on. used for spiders and wolves to prevent them from trampling crops
-	 */
 	protected boolean canTriggerWalking() {
 		return false;
 	}
@@ -509,16 +478,10 @@ public class EntityArrow extends Entity implements IProjectile {
 		return this.damage;
 	}
 
-	/**
-	 * Sets the amount of knockback the arrow applies when it hits a mob.
-	 */
 	public void setKnockbackStrength(int knockbackStrengthIn) {
 		this.knockbackStrength = knockbackStrengthIn;
 	}
 
-	/**
-	 * If returns false, the item will not inflict any damage against entities.
-	 */
 	public boolean canAttackWithItem() {
 		return false;
 	}
@@ -527,9 +490,6 @@ public class EntityArrow extends Entity implements IProjectile {
 		return 0.0F;
 	}
 
-	/**
-	 * Whether the arrow has a stream of critical hit particles flying behind it.
-	 */
 	public void setIsCritical(boolean critical) {
 		byte b0 = this.dataWatcher.getWatchableObjectByte(16);
 
@@ -540,9 +500,6 @@ public class EntityArrow extends Entity implements IProjectile {
 		}
 	}
 
-	/**
-	 * Whether the arrow has a stream of critical hit particles flying behind it.
-	 */
 	public boolean getIsCritical() {
 		byte b0 = this.dataWatcher.getWatchableObjectByte(16);
 		return (b0 & 1) != 0;

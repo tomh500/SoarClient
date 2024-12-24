@@ -11,6 +11,7 @@ public class BreakingFour extends BakedQuad {
 				FaceBakery.getFacingFromVertexData(quad.getVertexData()));
 		this.texture = textureIn;
 		this.remapQuad();
+		this.fixVertexData();
 	}
 
 	private void remapQuad() {
@@ -20,10 +21,11 @@ public class BreakingFour extends BakedQuad {
 	}
 
 	private void remapVert(int vertex) {
-		int i = 7 * vertex;
-		float f = Float.intBitsToFloat(this.vertexData[i]);
-		float f1 = Float.intBitsToFloat(this.vertexData[i + 1]);
-		float f2 = Float.intBitsToFloat(this.vertexData[i + 2]);
+		int i = this.vertexData.length / 4;
+		int j = i * vertex;
+		float f = Float.intBitsToFloat(this.vertexData[j]);
+		float f1 = Float.intBitsToFloat(this.vertexData[j + 1]);
+		float f2 = Float.intBitsToFloat(this.vertexData[j + 2]);
 		float f3 = 0.0F;
 		float f4 = 0.0F;
 
@@ -58,7 +60,7 @@ public class BreakingFour extends BakedQuad {
 			f4 = (1.0F - f1) * 16.0F;
 		}
 
-		this.vertexData[i + 4] = Float.floatToRawIntBits(this.texture.getInterpolatedU((double) f3));
-		this.vertexData[i + 4 + 1] = Float.floatToRawIntBits(this.texture.getInterpolatedV((double) f4));
+		this.vertexData[j + 4] = Float.floatToRawIntBits(this.texture.getInterpolatedU((double) f3));
+		this.vertexData[j + 4 + 1] = Float.floatToRawIntBits(this.texture.getInterpolatedV((double) f4));
 	}
 }

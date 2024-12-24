@@ -47,9 +47,6 @@ public class VillageCollection extends WorldSavedData {
 		}
 	}
 
-	/**
-	 * Runs a single tick for the village collection
-	 */
 	public void tick() {
 		++this.tickCounter;
 
@@ -150,10 +147,6 @@ public class VillageCollection extends WorldSavedData {
 		}
 	}
 
-	/**
-	 * returns the VillageDoorInfo if it exists in any village or in the newDoor
-	 * list, otherwise returns null
-	 */
 	private VillageDoorInfo checkDoorExistence(BlockPos doorBlock) {
 		for (VillageDoorInfo villagedoorinfo : this.newDoors) {
 			if (villagedoorinfo.getDoorBlockPos().getX() == doorBlock.getX()
@@ -185,9 +178,6 @@ public class VillageCollection extends WorldSavedData {
 		}
 	}
 
-	/**
-	 * Check five blocks in the direction. The centerPos will not be checked.
-	 */
 	private int countBlocksCanSeeSky(BlockPos centerPos, EnumFacing direction, int limitation) {
 		int i = 0;
 
@@ -219,9 +209,6 @@ public class VillageCollection extends WorldSavedData {
 		return block instanceof BlockDoor ? block.getMaterial() == Material.wood : false;
 	}
 
-	/**
-	 * reads in data from the NBTTagCompound into this MapDataBase
-	 */
 	public void readFromNBT(NBTTagCompound nbt) {
 		this.tickCounter = nbt.getInteger("Tick");
 		NBTTagList nbttaglist = nbt.getTagList("Villages", 10);
@@ -234,10 +221,6 @@ public class VillageCollection extends WorldSavedData {
 		}
 	}
 
-	/**
-	 * write data to NBTTagCompound from this MapDataBase, similar to Entities and
-	 * TileEntities
-	 */
 	public void writeToNBT(NBTTagCompound nbt) {
 		nbt.setInteger("Tick", this.tickCounter);
 		NBTTagList nbttaglist = new NBTTagList();

@@ -16,9 +16,6 @@ public class MusicTicker implements ITickable {
 		this.mc = mcIn;
 	}
 
-	/**
-	 * Like the old updateEntity(), except more generic.
-	 */
 	public void update() {
 		MusicTicker.MusicType musicticker$musictype = this.mc.getAmbientMusicType();
 

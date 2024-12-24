@@ -1,14 +1,19 @@
 package net.minecraft.client.renderer;
 
-import com.google.common.collect.Maps;
 import java.util.Map;
 import java.util.Map.Entry;
+
+import com.google.common.collect.Maps;
+
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.resources.model.IBakedModel;
 import net.minecraft.client.resources.model.ModelManager;
 import net.minecraft.client.resources.model.ModelResourceLocation;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.src.Config;
+import net.minecraft.util.ResourceLocation;
+import net.optifine.CustomItems;
 
 public class ItemModelMesher {
 	private final Map<Integer, ModelResourceLocation> simpleShapes = Maps.<Integer, ModelResourceLocation>newHashMap();
@@ -42,6 +47,10 @@ public class ItemModelMesher {
 
 		if (ibakedmodel == null) {
 			ibakedmodel = this.modelManager.getMissingModel();
+		}
+
+		if (Config.isCustomItems()) {
+			ibakedmodel = CustomItems.getCustomItemModel(stack, ibakedmodel, (ResourceLocation) null, true);
 		}
 
 		return ibakedmodel;

@@ -9,10 +9,8 @@ import net.minecraft.util.ResourceLocation;
 public class GuiBrewingStand extends GuiContainer {
 	private static final ResourceLocation brewingStandGuiTextures = new ResourceLocation(
 			"textures/gui/container/brewing_stand.png");
-
-	/** The player inventory bound to this GUI. */
 	private final InventoryPlayer playerInventory;
-	private IInventory tileBrewingStand;
+	public IInventory tileBrewingStand;
 
 	public GuiBrewingStand(InventoryPlayer playerInv, IInventory p_i45506_2_) {
 		super(new ContainerBrewingStand(playerInv, p_i45506_2_));
@@ -20,10 +18,6 @@ public class GuiBrewingStand extends GuiContainer {
 		this.tileBrewingStand = p_i45506_2_;
 	}
 
-	/**
-	 * Draw the foreground layer for the GuiContainer (everything in front of the
-	 * items). Args : mouseX, mouseY
-	 */
 	protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
 		String s = this.tileBrewingStand.getDisplayName().getUnformattedText();
 		this.fontRendererObj.drawString(s, this.xSize / 2 - this.fontRendererObj.getStringWidth(s) / 2, 6, 4210752);
@@ -31,9 +25,6 @@ public class GuiBrewingStand extends GuiContainer {
 				this.ySize - 96 + 2, 4210752);
 	}
 
-	/**
-	 * Args : renderPartialTicks, mouseX, mouseY
-	 */
 	protected void drawGuiContainerBackgroundLayer(float partialTicks, int mouseX, int mouseY) {
 		GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
 		this.mc.getTextureManager().bindTexture(brewingStandGuiTextures);

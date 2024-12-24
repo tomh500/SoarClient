@@ -82,9 +82,6 @@ public class EntityEnderman extends EntityMob {
 		this.dataWatcher.addObject(18, new Byte((byte) 0));
 	}
 
-	/**
-	 * (abstract) Protected helper method to write subclass entity data to NBT.
-	 */
 	public void writeEntityToNBT(NBTTagCompound tagCompound) {
 		super.writeEntityToNBT(tagCompound);
 		IBlockState iblockstate = this.getHeldBlockState();
@@ -92,9 +89,6 @@ public class EntityEnderman extends EntityMob {
 		tagCompound.setShort("carriedData", (short) iblockstate.getBlock().getMetaFromState(iblockstate));
 	}
 
-	/**
-	 * (abstract) Protected helper method to read subclass entity data from NBT.
-	 */
 	public void readEntityFromNBT(NBTTagCompound tagCompund) {
 		super.readEntityFromNBT(tagCompund);
 		IBlockState iblockstate;
@@ -110,9 +104,6 @@ public class EntityEnderman extends EntityMob {
 		this.setHeldBlockState(iblockstate);
 	}
 
-	/**
-	 * Checks to see if this enderman should be attacking this player
-	 */
 	private boolean shouldAttackPlayer(EntityPlayer player) {
 		ItemStack itemstack = player.inventory.armorInventory[3];
 
@@ -134,11 +125,6 @@ public class EntityEnderman extends EntityMob {
 		return 2.55F;
 	}
 
-	/**
-	 * Called frequently so the entity can update its state every tick as required.
-	 * For example, zombies and skeletons use this to react to sunlight and start to
-	 * burn.
-	 */
 	public void onLivingUpdate() {
 		if (this.worldObj.isRemote) {
 			for (int i = 0; i < 2; ++i) {
@@ -179,9 +165,6 @@ public class EntityEnderman extends EntityMob {
 		super.updateAITasks();
 	}
 
-	/**
-	 * Teleport the enderman to a random nearby position
-	 */
 	protected boolean teleportRandomly() {
 		double d0 = this.posX + (this.rand.nextDouble() - 0.5D) * 64.0D;
 		double d1 = this.posY + (double) (this.rand.nextInt(64) - 32);
@@ -189,9 +172,6 @@ public class EntityEnderman extends EntityMob {
 		return this.teleportTo(d0, d1, d2);
 	}
 
-	/**
-	 * Teleport the enderman to another entity
-	 */
 	protected boolean teleportToEntity(Entity p_70816_1_) {
 		Vec3 vec3 = new Vec3(this.posX - p_70816_1_.posX, this.getEntityBoundingBox().minY
 				+ (double) (this.height / 2.0F) - p_70816_1_.posY + (double) p_70816_1_.getEyeHeight(),
@@ -204,9 +184,6 @@ public class EntityEnderman extends EntityMob {
 		return this.teleportTo(d1, d2, d3);
 	}
 
-	/**
-	 * Teleport the enderman
-	 */
 	protected boolean teleportTo(double x, double y, double z) {
 		double d0 = this.posX;
 		double d1 = this.posY;
@@ -266,23 +243,14 @@ public class EntityEnderman extends EntityMob {
 		}
 	}
 
-	/**
-	 * Returns the sound this mob makes while it's alive.
-	 */
 	protected String getLivingSound() {
 		return this.isScreaming() ? "mob.endermen.scream" : "mob.endermen.idle";
 	}
 
-	/**
-	 * Returns the sound this mob makes when it is hurt.
-	 */
 	protected String getHurtSound() {
 		return "mob.endermen.hit";
 	}
 
-	/**
-	 * Returns the sound this mob makes on death.
-	 */
 	protected String getDeathSound() {
 		return "mob.endermen.death";
 	}
@@ -291,14 +259,6 @@ public class EntityEnderman extends EntityMob {
 		return Items.ender_pearl;
 	}
 
-	/**
-	 * Drop 0-2 items of this living's type
-	 * 
-	 * @param wasRecentlyHit  true if this this entity was recently hit by
-	 *                        appropriate entity (generally only if player or
-	 *                        tameable)
-	 * @param lootingModifier level of enchanment to be applied to this drop
-	 */
 	protected void dropFewItems(boolean wasRecentlyHit, int lootingModifier) {
 		Item item = this.getDropItem();
 
@@ -311,23 +271,14 @@ public class EntityEnderman extends EntityMob {
 		}
 	}
 
-	/**
-	 * Sets this enderman's held block state
-	 */
 	public void setHeldBlockState(IBlockState state) {
 		this.dataWatcher.updateObject(16, Short.valueOf((short) (Block.getStateId(state) & 65535)));
 	}
 
-	/**
-	 * Gets this enderman's held block state
-	 */
 	public IBlockState getHeldBlockState() {
 		return Block.getStateById(this.dataWatcher.getWatchableObjectShort(16) & 65535);
 	}
 
-	/**
-	 * Called when the entity is attacked.
-	 */
 	public boolean attackEntityFrom(DamageSource source, float amount) {
 		if (this.isEntityInvulnerable(source)) {
 			return false;
