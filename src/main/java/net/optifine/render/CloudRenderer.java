@@ -1,11 +1,12 @@
 package net.optifine.render;
 
+import org.lwjgl.opengl.GL11;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GLAllocation;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.Vec3;
-import org.lwjgl.opengl.GL11;
 
 public class CloudRenderer {
 	private Minecraft mc;

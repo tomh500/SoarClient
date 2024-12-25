@@ -2,6 +2,9 @@ package net.optifine.config;
 
 import java.util.Arrays;
 import java.util.regex.Pattern;
+
+import org.apache.commons.lang3.StringEscapeUtils;
+
 import net.minecraft.nbt.NBTBase;
 import net.minecraft.nbt.NBTTagByte;
 import net.minecraft.nbt.NBTTagCompound;
@@ -14,7 +17,6 @@ import net.minecraft.nbt.NBTTagShort;
 import net.minecraft.nbt.NBTTagString;
 import net.minecraft.src.Config;
 import net.optifine.util.StrUtils;
-import org.apache.commons.lang3.StringEscapeUtils;
 
 public class NbtTagValue {
 	private String[] parents = null;

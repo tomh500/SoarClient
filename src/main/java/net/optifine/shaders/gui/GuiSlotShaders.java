@@ -3,6 +3,7 @@ package net.optifine.shaders.gui;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Properties;
+
 import net.minecraft.client.gui.GuiSlot;
 import net.minecraft.client.gui.GuiYesNo;
 import net.minecraft.client.gui.GuiYesNoCallback;

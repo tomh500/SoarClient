@@ -2,6 +2,7 @@ package net.optifine.gui;
 
 import java.io.IOException;
 import java.util.List;
+
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.GuiVideoSettings;

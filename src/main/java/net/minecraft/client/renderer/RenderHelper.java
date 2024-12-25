@@ -1,8 +1,10 @@
 package net.minecraft.client.renderer;
 
 import java.nio.FloatBuffer;
-import net.minecraft.util.Vec3;
+
 import org.lwjgl.opengl.GL11;
+
+import net.minecraft.util.Vec3;
 
 public class RenderHelper {
 	private static FloatBuffer colorBuffer = GLAllocation.createDirectFloatBuffer(16);

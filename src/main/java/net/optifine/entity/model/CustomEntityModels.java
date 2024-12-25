@@ -1,7 +1,5 @@
 package net.optifine.entity.model;
 
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParseException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -12,6 +10,10 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParseException;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.model.ModelRenderer;

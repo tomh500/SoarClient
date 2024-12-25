@@ -1,7 +1,8 @@
 package net.minecraft.client.audio;
 
-import com.google.common.collect.Lists;
 import java.util.List;
+
+import com.google.common.collect.Lists;
 
 public class SoundList {
 	private final List<SoundList.SoundEntry> soundList = Lists.<SoundList.SoundEntry>newArrayList();

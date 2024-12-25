@@ -2,6 +2,7 @@ package net.optifine.util;
 
 import java.util.HashMap;
 import java.util.Map;
+
 import net.minecraft.client.Minecraft;
 
 public class FrameEvent {

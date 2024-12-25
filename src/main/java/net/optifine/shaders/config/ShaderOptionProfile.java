@@ -2,6 +2,7 @@ package net.optifine.shaders.config;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import net.optifine.Lang;
 import net.optifine.shaders.ShaderUtils;
 import net.optifine.shaders.Shaders;

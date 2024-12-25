@@ -3,6 +3,7 @@ package net.optifine.gui;
 import java.awt.Rectangle;
 import java.util.ArrayList;
 import java.util.List;
+
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.settings.GameSettings;

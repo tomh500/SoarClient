@@ -12,9 +12,16 @@ import java.nio.IntBuffer;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+
 import javax.imageio.ImageIO;
 import javax.imageio.ImageReader;
 import javax.imageio.stream.ImageInputStream;
+
+import org.lwjgl.BufferUtils;
+import org.lwjgl.opengl.GL11;
+import org.lwjgl.opengl.GL12;
+import org.lwjgl.opengl.GLContext;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GLAllocation;
 import net.minecraft.client.renderer.GlStateManager;
@@ -47,10 +54,6 @@ import net.optifine.TextureAnimations;
 import net.optifine.entity.model.CustomEntityModels;
 import net.optifine.shaders.MultiTexID;
 import net.optifine.shaders.Shaders;
-import org.lwjgl.BufferUtils;
-import org.lwjgl.opengl.GL11;
-import org.lwjgl.opengl.GL12;
-import org.lwjgl.opengl.GLContext;
 
 public class TextureUtils {
 	public static final String texGrassTop = "grass_top";

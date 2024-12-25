@@ -1,7 +1,9 @@
 package net.optifine;
 
-import com.google.common.collect.AbstractIterator;
 import java.util.Iterator;
+
+import com.google.common.collect.AbstractIterator;
+
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.MathHelper;

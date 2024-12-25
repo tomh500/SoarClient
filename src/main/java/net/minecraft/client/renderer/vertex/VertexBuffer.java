@@ -1,10 +1,12 @@
 package net.minecraft.client.renderer.vertex;
 
 import java.nio.ByteBuffer;
+
+import org.lwjgl.opengl.GL11;
+
 import net.minecraft.client.renderer.OpenGlHelper;
 import net.optifine.render.VboRange;
 import net.optifine.render.VboRegion;
-import org.lwjgl.opengl.GL11;
 
 public class VertexBuffer {
 	private int glBufferId;

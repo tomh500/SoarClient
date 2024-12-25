@@ -1,9 +1,11 @@
 package net.optifine.gui;
 
-import com.mojang.authlib.exceptions.InvalidCredentialsException;
 import java.math.BigInteger;
 import java.net.URI;
 import java.util.Random;
+
+import com.mojang.authlib.exceptions.InvalidCredentialsException;
+
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;

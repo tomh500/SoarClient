@@ -8,6 +8,7 @@ import java.net.URL;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
+
 import net.minecraft.src.Config;
 
 public class HttpPipeline {

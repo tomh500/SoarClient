@@ -1,5 +1,7 @@
 package net.minecraft.client.renderer.entity;
 
+import org.lwjgl.opengl.GL11;
+
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
@@ -23,7 +25,6 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 import net.optifine.entity.model.IEntityRenderer;
 import net.optifine.shaders.Shaders;
-import org.lwjgl.opengl.GL11;
 
 public abstract class Render<T extends Entity> implements IEntityRenderer {
 	private static final ResourceLocation shadowTextures = new ResourceLocation("textures/misc/shadow.png");

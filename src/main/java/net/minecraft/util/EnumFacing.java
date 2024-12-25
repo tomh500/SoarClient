@@ -1,11 +1,12 @@
 package net.minecraft.util;
 
-import com.google.common.base.Predicate;
-import com.google.common.collect.Iterators;
-import com.google.common.collect.Maps;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Random;
+
+import com.google.common.base.Predicate;
+import com.google.common.collect.Iterators;
+import com.google.common.collect.Maps;
 
 public enum EnumFacing implements IStringSerializable {
 	DOWN(0, 1, -1, "down", EnumFacing.AxisDirection.NEGATIVE, EnumFacing.Axis.Y, new Vec3i(0, -1, 0)),

@@ -3,6 +3,9 @@ package net.optifine.shaders.gui;
 import java.io.File;
 import java.io.IOException;
 import java.net.URI;
+
+import org.lwjgl.Sys;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
@@ -16,7 +19,6 @@ import net.optifine.gui.TooltipProviderEnumShaderOptions;
 import net.optifine.shaders.Shaders;
 import net.optifine.shaders.ShadersTex;
 import net.optifine.shaders.config.EnumShaderOption;
-import org.lwjgl.Sys;
 
 public class GuiShaders extends GuiScreenOF {
 	protected GuiScreen parentGui;

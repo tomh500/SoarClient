@@ -1,8 +1,10 @@
 package net.optifine.shaders.config;
 
 import java.util.Properties;
-import net.minecraft.src.Config;
+
 import org.apache.commons.lang3.ArrayUtils;
+
+import net.minecraft.src.Config;
 
 public class Property {
 	private int defaultValue = 0;

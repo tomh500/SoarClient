@@ -2,6 +2,7 @@ package net.optifine.shaders.uniform;
 
 import java.util.HashMap;
 import java.util.Map;
+
 import net.minecraft.world.biome.BiomeGenBase;
 import net.optifine.expr.ConstantFloat;
 import net.optifine.expr.IExpression;

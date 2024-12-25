@@ -4,11 +4,13 @@ import java.awt.Dimension;
 import java.nio.IntBuffer;
 import java.util.ArrayList;
 import java.util.List;
+
+import org.lwjgl.opengl.GL11;
+import org.lwjgl.opengl.GL12;
+
 import net.minecraft.client.renderer.GLAllocation;
 import net.minecraft.src.Config;
 import net.optifine.util.TextureUtils;
-import org.lwjgl.opengl.GL11;
-import org.lwjgl.opengl.GL12;
 
 public class Mipmaps {
 	private final String iconName;

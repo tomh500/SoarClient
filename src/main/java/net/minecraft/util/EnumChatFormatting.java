@@ -1,11 +1,12 @@
 package net.minecraft.util;
 
-import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.regex.Pattern;
+
+import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 
 public enum EnumChatFormatting {
 	BLACK("BLACK", '0', 0), DARK_BLUE("DARK_BLUE", '1', 1), DARK_GREEN("DARK_GREEN", '2', 2),

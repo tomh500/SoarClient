@@ -3,6 +3,7 @@ package net.optifine.render;
 import java.util.ArrayList;
 import java.util.BitSet;
 import java.util.List;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockLeaves;
 import net.minecraft.block.state.BlockStateBase;

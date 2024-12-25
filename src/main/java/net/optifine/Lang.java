@@ -1,7 +1,5 @@
 package net.optifine;
 
-import com.google.common.base.Splitter;
-import com.google.common.collect.Iterables;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -9,12 +7,17 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.regex.Pattern;
+
+import org.apache.commons.io.Charsets;
+import org.apache.commons.io.IOUtils;
+
+import com.google.common.base.Splitter;
+import com.google.common.collect.Iterables;
+
 import net.minecraft.client.resources.I18n;
 import net.minecraft.client.resources.IResourcePack;
 import net.minecraft.src.Config;
 import net.minecraft.util.ResourceLocation;
-import org.apache.commons.io.Charsets;
-import org.apache.commons.io.IOUtils;
 
 public class Lang {
 	private static final Splitter splitter = Splitter.on('=').limit(2);

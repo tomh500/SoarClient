@@ -3,6 +3,7 @@ package net.optifine;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
+
 import net.minecraft.block.state.BlockStateBase;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.src.Config;

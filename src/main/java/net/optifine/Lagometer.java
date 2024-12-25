@@ -1,5 +1,7 @@
 package net.optifine;
 
+import org.lwjgl.opengl.GL11;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiIngame;
 import net.minecraft.client.gui.ScaledResolution;
@@ -11,7 +13,6 @@ import net.minecraft.client.settings.GameSettings;
 import net.minecraft.profiler.Profiler;
 import net.minecraft.src.Config;
 import net.optifine.util.MemoryMonitor;
-import org.lwjgl.opengl.GL11;
 
 public class Lagometer {
 	private static Minecraft mc;

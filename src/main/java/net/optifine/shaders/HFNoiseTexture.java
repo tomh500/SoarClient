@@ -1,9 +1,11 @@
 package net.optifine.shaders;
 
 import java.nio.ByteBuffer;
-import net.minecraft.client.renderer.GlStateManager;
+
 import org.lwjgl.BufferUtils;
 import org.lwjgl.opengl.GL11;
+
+import net.minecraft.client.renderer.GlStateManager;
 
 public class HFNoiseTexture implements ICustomTexture {
 	private int texID = GL11.glGenTextures();

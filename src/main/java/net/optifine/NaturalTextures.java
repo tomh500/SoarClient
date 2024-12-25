@@ -3,6 +3,7 @@ package net.optifine;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.util.ArrayList;
+
 import net.minecraft.client.renderer.block.model.BakedQuad;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.renderer.texture.TextureMap;

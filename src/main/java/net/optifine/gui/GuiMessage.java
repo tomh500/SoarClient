@@ -1,8 +1,10 @@
 package net.optifine.gui;
 
-import com.google.common.collect.Lists;
 import java.io.IOException;
 import java.util.List;
+
+import com.google.common.collect.Lists;
+
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiOptionButton;
 import net.minecraft.client.gui.GuiScreen;

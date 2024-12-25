@@ -2,6 +2,7 @@ package net.optifine;
 
 import java.util.HashSet;
 import java.util.Set;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.renderer.RenderGlobal;

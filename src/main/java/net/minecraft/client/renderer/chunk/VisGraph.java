@@ -5,6 +5,7 @@ import java.util.BitSet;
 import java.util.EnumSet;
 import java.util.Queue;
 import java.util.Set;
+
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.IntegerCache;

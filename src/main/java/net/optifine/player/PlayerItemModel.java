@@ -2,6 +2,7 @@ package net.optifine.player;
 
 import java.awt.Dimension;
 import java.awt.image.BufferedImage;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.AbstractClientPlayer;
 import net.minecraft.client.model.ModelBiped;

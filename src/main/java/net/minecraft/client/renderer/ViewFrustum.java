@@ -2,9 +2,9 @@ package net.minecraft.client.renderer;
 
 import java.util.HashMap;
 import java.util.Map;
+
 import net.minecraft.client.renderer.chunk.IRenderChunkFactory;
 import net.minecraft.client.renderer.chunk.RenderChunk;
-import net.minecraft.src.Config;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumWorldBlockLayer;

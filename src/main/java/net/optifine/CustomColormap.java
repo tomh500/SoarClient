@@ -8,6 +8,7 @@ import java.util.Properties;
 import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.state.BlockStateBase;
 import net.minecraft.block.state.IBlockState;

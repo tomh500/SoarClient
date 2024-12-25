@@ -3,6 +3,7 @@ package net.optifine.shaders.uniform;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+
 import net.optifine.expr.IExpression;
 import net.optifine.expr.IExpressionCached;
 

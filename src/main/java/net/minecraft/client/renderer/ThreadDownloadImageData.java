@@ -6,10 +6,16 @@ import java.io.File;
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.Proxy;
-import java.net.URL;
 import java.net.Proxy.Type;
+import java.net.URL;
 import java.util.concurrent.atomic.AtomicInteger;
+
 import javax.imageio.ImageIO;
+
+import org.apache.commons.io.FileUtils;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.texture.SimpleTexture;
 import net.minecraft.client.renderer.texture.TextureUtil;
@@ -21,9 +27,6 @@ import net.optifine.http.HttpRequest;
 import net.optifine.http.HttpResponse;
 import net.optifine.player.CapeImageBuffer;
 import net.optifine.shaders.ShadersTex;
-import org.apache.commons.io.FileUtils;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 public class ThreadDownloadImageData extends SimpleTexture {
 	private static final Logger logger = LogManager.getLogger();

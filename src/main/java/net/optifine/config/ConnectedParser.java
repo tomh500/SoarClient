@@ -12,9 +12,6 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
 
-import net.optifine.ConnectedProperties;
-import net.optifine.util.EntityUtils;
-
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockDoublePlant;
 import net.minecraft.block.properties.IProperty;
@@ -28,6 +25,8 @@ import net.minecraft.util.EnumWorldBlockLayer;
 import net.minecraft.util.IStringSerializable;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.biome.BiomeGenBase;
+import net.optifine.ConnectedProperties;
+import net.optifine.util.EntityUtils;
 
 public class ConnectedParser {
 	private String context = null;

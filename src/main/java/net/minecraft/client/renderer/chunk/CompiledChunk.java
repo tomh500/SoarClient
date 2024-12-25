@@ -1,8 +1,10 @@
 package net.minecraft.client.renderer.chunk;
 
-import com.google.common.collect.Lists;
 import java.util.BitSet;
 import java.util.List;
+
+import com.google.common.collect.Lists;
+
 import net.minecraft.client.renderer.WorldRenderer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;

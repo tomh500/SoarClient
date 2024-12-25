@@ -1,6 +1,7 @@
 package net.optifine.shaders.config;
 
 import java.util.Map;
+
 import net.minecraft.src.Config;
 import net.optifine.expr.ConstantFloat;
 import net.optifine.expr.FunctionBool;

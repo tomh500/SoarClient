@@ -1,7 +1,8 @@
 package net.minecraft.client.audio;
 
-import com.google.common.collect.Maps;
 import java.util.Map;
+
+import com.google.common.collect.Maps;
 
 public enum SoundCategory {
 	MASTER("master", 0), MUSIC("music", 1), RECORDS("record", 2), WEATHER("weather", 3), BLOCKS("block", 4),

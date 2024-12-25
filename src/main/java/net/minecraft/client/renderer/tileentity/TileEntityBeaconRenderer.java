@@ -1,6 +1,9 @@
 package net.minecraft.client.renderer.tileentity;
 
 import java.util.List;
+
+import org.lwjgl.opengl.GL11;
+
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.WorldRenderer;
@@ -10,7 +13,6 @@ import net.minecraft.tileentity.TileEntityBeacon;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.ResourceLocation;
 import net.optifine.shaders.Shaders;
-import org.lwjgl.opengl.GL11;
 
 public class TileEntityBeaconRenderer extends TileEntitySpecialRenderer<TileEntityBeacon> {
 	private static final ResourceLocation beaconBeam = new ResourceLocation("textures/entity/beacon_beam.png");

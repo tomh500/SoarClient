@@ -1,6 +1,7 @@
 package net.optifine;
 
 import java.util.UUID;
+
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.util.BlockPos;

@@ -1,9 +1,10 @@
 package net.minecraft.client.renderer.texture;
 
+import org.lwjgl.opengl.GL11;
+
 import net.minecraft.client.renderer.GlStateManager;
 import net.optifine.shaders.MultiTexID;
 import net.optifine.shaders.ShadersTex;
-import org.lwjgl.opengl.GL11;
 
 public abstract class AbstractTexture implements ITextureObject {
 	protected int glTextureId = -1;

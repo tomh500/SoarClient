@@ -2,6 +2,9 @@ package net.optifine.model;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import org.lwjgl.util.vector.Vector3f;
+
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.block.model.BakedQuad;
 import net.minecraft.client.renderer.block.model.BlockFaceUV;
@@ -21,7 +24,6 @@ import net.minecraft.src.Config;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
-import org.lwjgl.util.vector.Vector3f;
 
 public class BlockModelUtils {
 	private static final float VERTEX_COORD_ACCURACY = 1.0E-6F;
