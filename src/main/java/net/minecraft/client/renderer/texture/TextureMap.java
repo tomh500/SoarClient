@@ -569,7 +569,7 @@ public class TextureMap extends AbstractTexture implements ITickableTextureObjec
 		if (j != this.frameCountAnimations) {
 			this.countAnimationsActive = i;
 			this.frameCountAnimations = j;
-		}	
+		}
 	}
 
 	public TextureAtlasSprite registerSprite(ResourceLocation location) {

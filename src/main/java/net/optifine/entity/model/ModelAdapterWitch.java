@@ -22,10 +22,8 @@ public class ModelAdapterWitch extends ModelAdapter {
 			return null;
 		} else {
 			ModelWitch modelwitch = (ModelWitch) model;
-			return modelPart.equals("mole")
-					? modelwitch.field_82901_h
-					: (modelPart.equals("hat")
-							? modelwitch.witchHat
+			return modelPart.equals("mole") ? modelwitch.field_82901_h
+					: (modelPart.equals("hat") ? modelwitch.witchHat
 							: (modelPart.equals("head") ? modelwitch.villagerHead
 									: (modelPart.equals("body") ? modelwitch.villagerBody
 											: (modelPart.equals("arms") ? modelwitch.villagerArms

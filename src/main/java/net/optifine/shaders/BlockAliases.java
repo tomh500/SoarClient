@@ -63,7 +63,7 @@ public class BlockAliases {
 
 			if (((List) list).size() > 0) {
 				blockAliases = toArrays(list);
-			}	
+			}
 		}
 	}
 

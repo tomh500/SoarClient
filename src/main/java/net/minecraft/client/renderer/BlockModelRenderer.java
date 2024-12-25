@@ -34,7 +34,8 @@ public class BlockModelRenderer {
 	private static final EnumWorldBlockLayer[] OVERLAY_LAYERS = new EnumWorldBlockLayer[] { EnumWorldBlockLayer.CUTOUT,
 			EnumWorldBlockLayer.CUTOUT_MIPPED, EnumWorldBlockLayer.TRANSLUCENT };
 
-	public BlockModelRenderer() {}
+	public BlockModelRenderer() {
+	}
 
 	public boolean renderModel(IBlockAccess blockAccessIn, IBakedModel modelIn, IBlockState blockStateIn,
 			BlockPos blockPosIn, WorldRenderer worldRendererIn) {

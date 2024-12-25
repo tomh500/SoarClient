@@ -130,8 +130,7 @@ public class RenderItemFrame extends Render<EntityItemFrame> {
 				TextureAtlasSprite textureatlassprite = null;
 
 				if (item == Items.compass) {
-					textureatlassprite = this.mc.getTextureMapBlocks()
-							.getAtlasSprite(TextureCompass.locationSprite);
+					textureatlassprite = this.mc.getTextureMapBlocks().getAtlasSprite(TextureCompass.locationSprite);
 					this.mc.getTextureManager().bindTexture(TextureMap.locationBlocksTexture);
 
 					if (textureatlassprite instanceof TextureCompass) {
@@ -153,8 +152,7 @@ public class RenderItemFrame extends Render<EntityItemFrame> {
 
 				GlStateManager.scale(0.5F, 0.5F, 0.5F);
 
-				if (!this.itemRenderer.shouldRenderItemIn3D(entityitem.getEntityItem())
-						|| item instanceof ItemSkull) {
+				if (!this.itemRenderer.shouldRenderItemIn3D(entityitem.getEntityItem()) || item instanceof ItemSkull) {
 					GlStateManager.rotate(180.0F, 0.0F, 1.0F, 0.0F);
 				}
 
@@ -168,7 +166,7 @@ public class RenderItemFrame extends Render<EntityItemFrame> {
 					textureatlassprite.updateAnimation();
 				}
 			}
-			
+
 			GlStateManager.enableLighting();
 			GlStateManager.popMatrix();
 		}

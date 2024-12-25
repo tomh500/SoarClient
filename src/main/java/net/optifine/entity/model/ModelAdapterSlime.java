@@ -22,15 +22,10 @@ public class ModelAdapterSlime extends ModelAdapter {
 			return null;
 		} else {
 			ModelSlime modelslime = (ModelSlime) model;
-			return modelPart.equals("body")
-					? modelslime.slimeBodies
-					: (modelPart.equals("left_eye")
-							? modelslime.slimeLeftEye
-							: (modelPart.equals("right_eye")
-									? modelslime.slimeRightEye
-									: (modelPart.equals("mouth")
-											? modelslime.slimeMouth
-											: null)));
+			return modelPart.equals("body") ? modelslime.slimeBodies
+					: (modelPart.equals("left_eye") ? modelslime.slimeLeftEye
+							: (modelPart.equals("right_eye") ? modelslime.slimeRightEye
+									: (modelPart.equals("mouth") ? modelslime.slimeMouth : null)));
 		}
 	}
 

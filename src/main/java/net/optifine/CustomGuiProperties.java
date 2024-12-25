@@ -345,17 +345,14 @@ public class CustomGuiProperties {
 	}
 
 	private static IWorldNameable getWorldNameable(GuiScreen screen) {
-		return (IWorldNameable) (screen instanceof GuiBeacon ? ((GuiBeacon)screen).tileBeacon
-				: (screen instanceof GuiBrewingStand
-						? ((GuiBrewingStand) screen).tileBrewingStand
-						: (screen instanceof GuiChest ? ((GuiChest)screen).lowerChestInventory
+		return (IWorldNameable) (screen instanceof GuiBeacon ? ((GuiBeacon) screen).tileBeacon
+				: (screen instanceof GuiBrewingStand ? ((GuiBrewingStand) screen).tileBrewingStand
+						: (screen instanceof GuiChest ? ((GuiChest) screen).lowerChestInventory
 								: (screen instanceof GuiDispenser ? ((GuiDispenser) screen).dispenserInventory
-										: (screen instanceof GuiEnchantment
-												? ((GuiEnchantment)screen).worldNameable
-												: (screen instanceof GuiFurnace
-														? ((GuiFurnace)screen).tileFurnace
+										: (screen instanceof GuiEnchantment ? ((GuiEnchantment) screen).worldNameable
+												: (screen instanceof GuiFurnace ? ((GuiFurnace) screen).tileFurnace
 														: (screen instanceof GuiHopper
-																? ((GuiHopper)screen).hopperInventory
+																? ((GuiHopper) screen).hopperInventory
 																: null)))))));
 	}
 

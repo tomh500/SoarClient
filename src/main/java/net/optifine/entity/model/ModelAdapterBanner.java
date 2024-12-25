@@ -40,13 +40,13 @@ public class ModelAdapterBanner extends ModelAdapter {
 		if (!(tileentityspecialrenderer instanceof TileEntityBannerRenderer)) {
 			return null;
 		} else {
-			
+
 			if (tileentityspecialrenderer.getEntityClass() == null) {
 				tileentityspecialrenderer = new TileEntityBannerRenderer();
 				tileentityspecialrenderer.setRendererDispatcher(tileentityrendererdispatcher);
 			}
-			
-			((TileEntityBannerRenderer)tileentityspecialrenderer).bannerModel = (ModelBanner) modelBase;
+
+			((TileEntityBannerRenderer) tileentityspecialrenderer).bannerModel = (ModelBanner) modelBase;
 			return tileentityspecialrenderer;
 		}
 	}

@@ -57,8 +57,7 @@ public class EntityHorse extends EntityAnimal implements IInvBasic {
 			"textures/entity/horse/horse_creamy.png", "textures/entity/horse/horse_chestnut.png",
 			"textures/entity/horse/horse_brown.png", "textures/entity/horse/horse_black.png",
 			"textures/entity/horse/horse_gray.png", "textures/entity/horse/horse_darkbrown.png" };
-	public static final String[] HORSE_TEXTURES_ABBR = new String[] { "hwh", "hcr", "hch", "hbr", "hbl", "hgr",
-			"hdb" };
+	public static final String[] HORSE_TEXTURES_ABBR = new String[] { "hwh", "hcr", "hch", "hbr", "hbl", "hgr", "hdb" };
 	private static final String[] horseMarkingTextures = new String[] { null,
 			"textures/entity/horse/horse_markings_white.png", "textures/entity/horse/horse_markings_whitefield.png",
 			"textures/entity/horse/horse_markings_whitedots.png",

@@ -29,7 +29,7 @@ public class ExtendedBlockStorage {
 	}
 
 	public void set(int x, int y, int z, IBlockState state) {
-		
+
 		IBlockState iblockstate = this.get(x, y, z);
 		Block block = iblockstate.getBlock();
 		Block block1 = state.getBlock();

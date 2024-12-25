@@ -292,8 +292,8 @@ public class PlayerManager {
 				if (i > 0) {
 					for (int j1 = j - radius; j1 <= j + radius; ++j1) {
 						for (int k1 = k - radius; k1 <= k + radius; ++k1) {
-							PlayerManager.PlayerInstance playermanager$playerinstance1 = this.getPlayerInstance(j1,
-									k1, true);
+							PlayerManager.PlayerInstance playermanager$playerinstance1 = this.getPlayerInstance(j1, k1,
+									true);
 
 							if (!playermanager$playerinstance1.playersWatchingChunk.contains(entityplayermp)) {
 								playermanager$playerinstance1.addPlayer(entityplayermp);

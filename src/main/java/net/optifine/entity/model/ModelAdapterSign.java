@@ -44,7 +44,7 @@ public class ModelAdapterSign extends ModelAdapter {
 				tileentityspecialrenderer.setRendererDispatcher(tileentityrendererdispatcher);
 			}
 
-			((TileEntitySignRenderer)tileentityspecialrenderer).model = (ModelSign) modelBase;
+			((TileEntitySignRenderer) tileentityspecialrenderer).model = (ModelSign) modelBase;
 			return tileentityspecialrenderer;
 		}
 	}

@@ -46,7 +46,7 @@ public class ModelAdapterChestLarge extends ModelAdapter {
 				tileentityspecialrenderer.setRendererDispatcher(tileentityrendererdispatcher);
 			}
 
-			((TileEntityChestRenderer)tileentityspecialrenderer).largeChest = (ModelChest) modelBase;
+			((TileEntityChestRenderer) tileentityspecialrenderer).largeChest = (ModelChest) modelBase;
 			return tileentityspecialrenderer;
 		}
 	}

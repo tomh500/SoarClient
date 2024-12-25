@@ -43,7 +43,7 @@ public class ModelAdapterHeadSkeleton extends ModelAdapter {
 				tileentityspecialrenderer.setRendererDispatcher(tileentityrendererdispatcher);
 			}
 
-			((TileEntitySkullRenderer)tileentityspecialrenderer).humanoidHead = (ModelSkeletonHead) modelBase;
+			((TileEntitySkullRenderer) tileentityspecialrenderer).humanoidHead = (ModelSkeletonHead) modelBase;
 			return tileentityspecialrenderer;
 		}
 	}

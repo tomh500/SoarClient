@@ -30,7 +30,7 @@ public class ModelAdapterSquid extends ModelAdapter {
 				String s = "tentacle";
 
 				if (modelPart.startsWith(s)) {
-					ModelRenderer[] amodelrenderer = modelsquid.squidTentacles	;
+					ModelRenderer[] amodelrenderer = modelsquid.squidTentacles;
 
 					if (amodelrenderer == null) {
 						return null;

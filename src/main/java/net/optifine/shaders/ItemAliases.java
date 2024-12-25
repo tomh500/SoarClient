@@ -46,7 +46,7 @@ public class ItemAliases {
 			if (inputstream != null) {
 				loadItemAliases(inputstream, s, list);
 			}
-			
+
 			if (((List) list).size() > 0) {
 				itemAliases = toArray(list);
 			}

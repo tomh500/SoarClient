@@ -125,13 +125,12 @@ public class LoadingScreenRenderer implements IProgressUpdate {
 					this.mc.getTextureManager().bindTexture(Gui.optionsBackground);
 					float f = 32.0F;
 					worldrenderer.begin(7, DefaultVertexFormats.POSITION_TEX_COLOR);
-					worldrenderer.pos(0.0D, (double) l, 0.0D).tex(0.0D, (double) ((float) l / f))
-							.color(64, 64, 64, 255).endVertex();
-					worldrenderer.pos((double) k, (double) l, 0.0D)
-							.tex((double) ((float) k / f), (double) ((float) l / f)).color(64, 64, 64, 255)
+					worldrenderer.pos(0.0D, (double) l, 0.0D).tex(0.0D, (double) ((float) l / f)).color(64, 64, 64, 255)
 							.endVertex();
-					worldrenderer.pos((double) k, 0.0D, 0.0D).tex((double) ((float) k / f), 0.0D)
-							.color(64, 64, 64, 255).endVertex();
+					worldrenderer.pos((double) k, (double) l, 0.0D)
+							.tex((double) ((float) k / f), (double) ((float) l / f)).color(64, 64, 64, 255).endVertex();
+					worldrenderer.pos((double) k, 0.0D, 0.0D).tex((double) ((float) k / f), 0.0D).color(64, 64, 64, 255)
+							.endVertex();
 					worldrenderer.pos(0.0D, 0.0D, 0.0D).tex(0.0D, 0.0D).color(64, 64, 64, 255).endVertex();
 					tessellator.draw();
 				}

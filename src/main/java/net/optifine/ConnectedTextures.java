@@ -1587,7 +1587,7 @@ public class ConnectedTextures {
 		if (ibakedmodel == null) {
 			return null;
 		} else {
-			
+
 			EnumFacing enumfacing = getFacing(side);
 			List list = ibakedmodel.getFaceQuads(enumfacing);
 

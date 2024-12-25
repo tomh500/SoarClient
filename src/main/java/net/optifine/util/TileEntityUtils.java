@@ -49,11 +49,11 @@ public class TileEntityUtils {
 		if (te instanceof TileEntityBeacon) {
 			return ((TileEntityBeacon) te).getName();
 		} else if (te instanceof TileEntityBrewingStand) {
-			return ((TileEntityBrewingStand)te).getName();
+			return ((TileEntityBrewingStand) te).getName();
 		} else if (te instanceof TileEntityEnchantmentTable) {
-			return ((TileEntityEnchantmentTable)te).getName();
+			return ((TileEntityEnchantmentTable) te).getName();
 		} else if (te instanceof TileEntityFurnace) {
-			return ((TileEntityFurnace)te).getName();
+			return ((TileEntityFurnace) te).getName();
 		} else {
 			if (te instanceof IWorldNameable) {
 				IWorldNameable iworldnameable = (IWorldNameable) te;
@@ -69,16 +69,16 @@ public class TileEntityUtils {
 
 	public static boolean setTileEntityRawName(TileEntity te, String name) {
 		if (te instanceof TileEntityBeacon) {
-			((TileEntityBeacon)te).setName(name);
+			((TileEntityBeacon) te).setName(name);
 			return true;
 		} else if (te instanceof TileEntityBrewingStand) {
-			((TileEntityBrewingStand)te).setName(name);
+			((TileEntityBrewingStand) te).setName(name);
 			return true;
 		} else if (te instanceof TileEntityEnchantmentTable) {
-			((TileEntityEnchantmentTable)te).setCustomName(name);
+			((TileEntityEnchantmentTable) te).setCustomName(name);
 			return true;
 		} else if (te instanceof TileEntityFurnace) {
-			((TileEntityFurnace)te).setCustomInventoryName(name);
+			((TileEntityFurnace) te).setCustomInventoryName(name);
 			return true;
 		} else if (te instanceof TileEntityChest) {
 			((TileEntityChest) te).setCustomName(name);

@@ -5,7 +5,7 @@ import java.util.Arrays;
 import net.minecraft.client.main.Main;
 
 public class Launch {
-	
+
 	public static void main(String[] args) {
 		Main.main(concat(new String[] { "--version", "mcp", "--accessToken", "0", "--assetsDir", "assets",
 				"--assetIndex", "1.8", "--userProperties", "{}" }, args));

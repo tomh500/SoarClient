@@ -2519,8 +2519,7 @@ public class GameSettings {
 		ANIMATED_SMOKE("of.options.ANIMATED_SMOKE", false, false), WEATHER("of.options.WEATHER", false, false),
 		SKY("of.options.SKY", false, false), STARS("of.options.STARS", false, false),
 		SUN_MOON("of.options.SUN_MOON", false, false), VIGNETTE("of.options.VIGNETTE", false, false),
-		TIME("of.options.TIME", false, false),
-		CLEAR_WATER("of.options.CLEAR_WATER", false, false),
+		TIME("of.options.TIME", false, false), CLEAR_WATER("of.options.CLEAR_WATER", false, false),
 		VOID_PARTICLES("of.options.VOID_PARTICLES", false, false),
 		WATER_PARTICLES("of.options.WATER_PARTICLES", false, false),
 		RAIN_SPLASH("of.options.RAIN_SPLASH", false, false),
@@ -2544,16 +2543,14 @@ public class GameSettings {
 		NATURAL_TEXTURES("of.options.NATURAL_TEXTURES", false, false),
 		EMISSIVE_TEXTURES("of.options.EMISSIVE_TEXTURES", false, false),
 		HELD_ITEM_TOOLTIPS("of.options.HELD_ITEM_TOOLTIPS", false, false),
-		DROPPED_ITEMS("of.options.DROPPED_ITEMS", false, false),
-		CUSTOM_SKY("of.options.CUSTOM_SKY", false, false),
+		DROPPED_ITEMS("of.options.DROPPED_ITEMS", false, false), CUSTOM_SKY("of.options.CUSTOM_SKY", false, false),
 		TRANSLUCENT_BLOCKS("of.options.TRANSLUCENT_BLOCKS", false, false),
 		DYNAMIC_FOV("of.options.DYNAMIC_FOV", false, false), DYNAMIC_LIGHTS("of.options.DYNAMIC_LIGHTS", false, false),
 		ALTERNATE_BLOCKS("of.options.ALTERNATE_BLOCKS", false, false),
 		CUSTOM_ENTITY_MODELS("of.options.CUSTOM_ENTITY_MODELS", false, false),
 		ADVANCED_TOOLTIPS("of.options.ADVANCED_TOOLTIPS", false, false),
 		SCREENSHOT_SIZE("of.options.SCREENSHOT_SIZE", false, false),
-		CUSTOM_GUIS("of.options.CUSTOM_GUIS", false, false),
-		SHOW_GL_ERRORS("of.options.SHOW_GL_ERRORS", false, false);
+		CUSTOM_GUIS("of.options.CUSTOM_GUIS", false, false), SHOW_GL_ERRORS("of.options.SHOW_GL_ERRORS", false, false);
 
 		private final boolean enumFloat;
 		private final boolean enumBoolean;
