@@ -538,7 +538,7 @@ public class OpenGlHelper {
 	}
 
 	public static boolean useVbo() {
-		return Config.isMultiTexture() ? false : vboSupported;
+		return Config.isMultiTexture() ? false : vboSupported && Minecraft.getMinecraft().gameSettings.useVbo;
 	}
 
 	public static void glBindFramebuffer(int target, int framebufferIn) {

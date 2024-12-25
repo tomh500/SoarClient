@@ -2142,7 +2142,7 @@ public class Minecraft implements IThreadListener, IPlayerUsage {
 		});
 		theCrash.getCategory().addCrashSectionCallable("Using VBOs", new Callable<String>() {
 			public String call() {
-				return "Yes";
+				return Minecraft.this.gameSettings.useVbo ? "Yes" : "No";
 			}
 		});
 		theCrash.getCategory().addCrashSectionCallable("Is Modded", new Callable<String>() {
