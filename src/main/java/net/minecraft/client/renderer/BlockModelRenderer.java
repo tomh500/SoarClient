@@ -29,6 +29,7 @@ import net.optifine.shaders.SVertexBuilder;
 import net.optifine.shaders.Shaders;
 
 public class BlockModelRenderer {
+
 	private static float aoLightValueOpaque = 0.2F;
 	private static boolean separateAoLightValue = false;
 	private static final EnumWorldBlockLayer[] OVERLAY_LAYERS = new EnumWorldBlockLayer[] { EnumWorldBlockLayer.CUTOUT,
