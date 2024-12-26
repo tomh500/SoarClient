@@ -3,143 +3,105 @@ package com.soarclient.event;
 import java.lang.invoke.MethodHandle;
 import java.lang.invoke.MethodHandles;
 import java.lang.reflect.Method;
-import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.logging.Logger;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 import org.apache.commons.lang3.Validate;
 
 import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
-import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
 
 public final class EventBus {
 
-	private static final EventBus instance = new EventBus();
-	private static final Logger logger = Logger.getLogger(EventBus.class.getName());
+    private static final EventBus instance = new EventBus();
 
-	private volatile Map<Class<?>, List<MethodData>> handlers = Collections.emptyMap();
-	private final Map<Class<?>, Set<Method>> methodsCache = new Object2ObjectOpenHashMap<>();
+    private final Map<Class<?>, List<MethodData>> handlers = new ConcurrentHashMap<>();
 
-	public static EventBus getInstance() {
-		return instance;
-	}
+    private final Map<Class<?>, Set<MethodData>> methodsCache = new Object2ObjectOpenHashMap<>();
 
-	public void register(Object obj) {
+    private EventBus() {}
 
-		Class<?> clazz = obj.getClass();
-		Map<Class<?>, List<MethodData>> oldHandlers = this.handlers;
-		Map<Class<?>, List<MethodData>> newHandlers = new Object2ObjectOpenHashMap<>(oldHandlers);
+    public static EventBus getInstance() {
+        return instance;
+    }
 
-		for (Method method : getMethods(clazz)) {
-			if (validate(method)) {
-				Class<?> paramType = method.getParameterTypes()[0];
-				try {
-					List<MethodData> list = newHandlers.get(paramType);
-					if (list == null) {
-						list = new ObjectArrayList<>();
-						newHandlers.put(paramType, list);
-					}
-					list.add(new MethodData(obj, method));
-				} catch (IllegalAccessException e) {
-					logger.severe("Error creating MethodData: " + e.getMessage());
-				}
-			}
-		}
+    public void register(Object obj) {
+    	
+        Set<MethodData> cachedMethods = methodsCache.computeIfAbsent(obj.getClass(), cls -> {
+        	
+            Set<MethodData> mdSet = new ObjectOpenHashSet<>();
+            for (Method method : cls.getDeclaredMethods()) {
+                if (method.isAnnotationPresent(EventHandler.class)) {
+                    Validate.isTrue(method.getParameterCount() == 1,
+                            "Method %s has %d parameters; expected 1.",
+                            method.getName(), method.getParameterCount());
 
-		for (Map.Entry<Class<?>, List<MethodData>> entry : newHandlers.entrySet()) {
-			List<MethodData> unmodifiableList = Collections.unmodifiableList(new ObjectArrayList<>(entry.getValue()));
-			entry.setValue(unmodifiableList);
-		}
+                    method.setAccessible(true);
+                    try {
+                        mdSet.add(new MethodData(obj, method));
+                    } catch (IllegalAccessException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+            return mdSet;
+        });
 
-		this.handlers = Collections.unmodifiableMap(newHandlers);
-	}
+        for (MethodData md : cachedMethods) {
+            Class<?> eventType = md.eventType;
+            handlers.computeIfAbsent(eventType, k -> new CopyOnWriteArrayList<>()).add(md);
+        }
+    }
 
-	public void registers(Object... objects) {
-		for (Object obj : objects) {
-			register(obj);
-		}
-	}
+    public void registers(Object... objects) {
+        for (Object obj : objects) {
+            register(obj);
+        }
+    }
 
-	public void unregister(Object obj) {
+    public void unregister(Object obj) {
+    	
+        methodsCache.remove(obj.getClass());
 
-		Map<Class<?>, List<MethodData>> oldHandlers = this.handlers;
-		Map<Class<?>, List<MethodData>> newHandlers = new Object2ObjectOpenHashMap<>();
+        for (Map.Entry<Class<?>, List<MethodData>> entry : handlers.entrySet()) {
+            List<MethodData> list = entry.getValue();
+            list.removeIf(md -> md.instance == obj);
+            if (list.isEmpty()) {
+                handlers.remove(entry.getKey());
+            }
+        }
+    }
 
-		for (Map.Entry<Class<?>, List<MethodData>> entry : oldHandlers.entrySet()) {
-			List<MethodData> originalList = entry.getValue();
-			List<MethodData> copiedList = new ObjectArrayList<>(originalList);
-			boolean changed = copiedList.removeIf(md -> md.instance == obj);
+    public <T> T post(T event) {
+        List<MethodData> list = handlers.get(event.getClass());
+        if (list != null) {
+            for (MethodData md : list) {
+                md.invoke(event);
+            }
+        }
+        return event;
+    }
 
-			if (changed) {
-				if (!copiedList.isEmpty()) {
-					newHandlers.put(entry.getKey(), copiedList);
-				}
-			} else {
-				newHandlers.put(entry.getKey(), originalList);
-			}
-		}
+    private static final class MethodData {
+        final Object instance;
+        final MethodHandle target;
+        final Class<?> eventType;
 
-		for (Map.Entry<Class<?>, List<MethodData>> entry : newHandlers.entrySet()) {
-			if (!entry.getValue().equals(oldHandlers.get(entry.getKey()))) {
-				List<MethodData> immutableList = Collections.unmodifiableList(new ObjectArrayList<>(entry.getValue()));
-				entry.setValue(immutableList);
-			}
-		}
+        MethodData(Object instance, Method method) throws IllegalAccessException {
+            this.instance = instance;
+            this.eventType = method.getParameterTypes()[0];
+            this.target = MethodHandles.lookup().unreflect(method);
+        }
 
-		this.handlers = Collections.unmodifiableMap(newHandlers);
-	}
-
-	public <T> T post(T event) {
-		List<MethodData> list = handlers.get(event.getClass());
-		if (list == null || list.isEmpty()) {
-			return event;
-		}
-		for (MethodData md : list) {
-			try {
-				md.target.invoke(md.instance, event);
-			} catch (Throwable error) {
-				logger.severe("Error invoking event handler: " + error.getMessage());
-			}
-		}
-		return event;
-	}
-
-	private Set<Method> getMethods(Class<?> clazz) {
-		return methodsCache.computeIfAbsent(clazz, key -> {
-			Set<Method> methods = new ObjectOpenHashSet<>();
-			for (Method m : key.getDeclaredMethods()) {
-				m.setAccessible(true);
-				methods.add(m);
-			}
-			for (Method m : key.getMethods()) {
-				if (!methods.contains(m)) {
-					m.setAccessible(true);
-					methods.add(m);
-				}
-			}
-			return methods;
-		});
-	}
-
-	private boolean validate(Method method) {
-		if (method.isAnnotationPresent(EventHandler.class)) {
-			Validate.isTrue(method.getParameterCount() == 1, "Method %s has %d parameters; expected 1.",
-					method.getName(), method.getParameterCount());
-			return true;
-		}
-		return false;
-	}
-
-	private static final class MethodData {
-		final Object instance;
-		final MethodHandle target;
-
-		MethodData(Object instance, Method method) throws IllegalAccessException {
-			this.instance = instance;
-			this.target = MethodHandles.lookup().unreflect(method);
-		}
-	}
+        void invoke(Object event) {
+            try {
+                target.invoke(instance, event);
+            } catch (Throwable t) {
+                t.printStackTrace();
+            }
+        }
+    }
 }
