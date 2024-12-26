@@ -3,11 +3,11 @@ package com.soarclient.event;
 import java.lang.invoke.MethodHandle;
 import java.lang.invoke.MethodHandles;
 import java.lang.reflect.Method;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.CopyOnWriteArrayList;
 
 import org.apache.commons.lang3.Validate;
 
@@ -19,7 +19,6 @@ public final class EventBus {
     private static final EventBus instance = new EventBus();
 
     private final Map<Class<?>, List<MethodData>> handlers = new ConcurrentHashMap<>();
-
     private final Map<Class<?>, Set<MethodData>> methodsCache = new Object2ObjectOpenHashMap<>();
 
     private EventBus() {}
@@ -52,7 +51,7 @@ public final class EventBus {
 
         for (MethodData md : cachedMethods) {
             Class<?> eventType = md.eventType;
-            handlers.computeIfAbsent(eventType, k -> new CopyOnWriteArrayList<>()).add(md);
+            handlers.computeIfAbsent(eventType, k -> new ArrayList<>()).add(md);
         }
     }
 
