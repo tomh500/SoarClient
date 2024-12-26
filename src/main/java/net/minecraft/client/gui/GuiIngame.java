@@ -7,6 +7,12 @@ import java.util.Random;
 import com.google.common.base.Predicate;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
+import com.soarclient.event.EventBus;
+import com.soarclient.event.impl.RenderGameOverlayEvent;
+import com.soarclient.event.impl.RenderSkiaEvent;
+import com.soarclient.shaders.impl.GaussianBlur;
+import com.soarclient.skia.Skia;
+import com.soarclient.skia.context.SkiaContext;
 
 import net.minecraft.block.material.Material;
 import net.minecraft.client.Minecraft;
@@ -75,6 +81,8 @@ public class GuiIngame extends Gui {
 	private long lastSystemTime = 0L;
 	private long healthUpdateCounter = 0L;
 
+	public static GaussianBlur INGAME_BLUR = new GaussianBlur(true);
+	
 	public GuiIngame(Minecraft mcIn) {
 		this.mc = mcIn;
 		this.itemRenderer = mcIn.getRenderItem();
@@ -300,6 +308,19 @@ public class GuiIngame extends Gui {
 		GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
 		GlStateManager.disableLighting();
 		GlStateManager.enableAlpha();
+		
+		EventBus event = EventBus.getInstance();
+
+		INGAME_BLUR.draw(20);
+
+		SkiaContext.draw((context) -> {
+			Skia.save();
+			Skia.scale(scaledresolution.getScaleFactor());
+			event.post(new RenderSkiaEvent(partialTicks));
+			Skia.restore();
+		});
+
+		event.post(new RenderGameOverlayEvent(partialTicks));
 	}
 
 	protected void renderTooltip(ScaledResolution sr, float partialTicks) {

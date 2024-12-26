@@ -53,6 +53,10 @@ import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.minecraft.MinecraftSessionService;
 import com.mojang.authlib.properties.PropertyMap;
 import com.mojang.authlib.yggdrasil.YggdrasilAuthenticationService;
+import com.soarclient.Soar;
+import com.soarclient.event.EventBus;
+import com.soarclient.event.impl.GameLoopEvent;
+import com.soarclient.skia.context.SkiaContext;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
@@ -457,6 +461,7 @@ public class Minecraft implements IThreadListener, IPlayerUsage {
 		this.effectRenderer = new EffectRenderer(this.theWorld, this.renderEngine);
 		this.checkGLError("Post startup");
 		this.ingameGUI = new GuiIngame(this);
+		Soar.getInstance().start();
 
 		if (this.serverName != null) {
 			this.displayGuiScreen(new GuiConnecting(new GuiMainMenu(), this, this.serverName, this.serverPort));
@@ -480,6 +485,8 @@ public class Minecraft implements IThreadListener, IPlayerUsage {
 		}
 
 		this.renderGlobal.makeEntityOutlineShader();
+		SkiaContext.initialize();
+		SkiaContext.createSurface();
 	}
 
 	private void registerMetadataSerializers() {
@@ -497,7 +504,8 @@ public class Minecraft implements IThreadListener, IPlayerUsage {
 
 	private void createDisplay() throws LWJGLException {
 		Display.setResizable(true);
-		Display.setTitle("Minecraft 1.8.9");
+		Display.setTitle(
+				Soar.getInstance().getName() + " Client v" + Soar.getInstance().getVersion() + " for Minecraft 1.8.9");
 
 		try {
 			Display.create((new PixelFormat()).withDepthBits(24));
@@ -840,7 +848,8 @@ public class Minecraft implements IThreadListener, IPlayerUsage {
 	public void shutdownMinecraftApplet() {
 		try {
 			logger.info("Stopping!");
-
+			Soar.getInstance().stop();
+			
 			try {
 				this.loadWorld((WorldClient) null);
 			} catch (Throwable var5) {
@@ -860,6 +869,9 @@ public class Minecraft implements IThreadListener, IPlayerUsage {
 	}
 
 	private void runGameLoop() throws IOException {
+		
+		EventBus.getInstance().post(new GameLoopEvent());
+		
 		long i = System.nanoTime();
 		this.mcProfiler.startSection("root");
 
@@ -1387,6 +1399,7 @@ public class Minecraft implements IThreadListener, IPlayerUsage {
 
 		this.loadingScreen = new LoadingScreenRenderer(this);
 		this.updateFramebufferSize();
+		SkiaContext.onResize(width, height);
 	}
 
 	private void updateFramebufferSize() {

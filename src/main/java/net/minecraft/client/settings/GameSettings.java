@@ -772,14 +772,6 @@ public class GameSettings {
 
 							if (astring[0].equals("maxFps")) {
 								this.limitFramerate = Integer.parseInt(astring[1]);
-
-								if (this.enableVsync) {
-									this.limitFramerate = (int) GameSettings.Options.FRAMERATE_LIMIT.getValueMax();
-								}
-
-								if (this.limitFramerate <= 0) {
-									this.limitFramerate = (int) GameSettings.Options.FRAMERATE_LIMIT.getValueMax();
-								}
 							}
 
 							if (astring[0].equals("fboEnable")) {
