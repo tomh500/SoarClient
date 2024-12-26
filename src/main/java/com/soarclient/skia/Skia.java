@@ -4,12 +4,14 @@ import java.awt.Color;
 import java.io.File;
 
 import com.soarclient.skia.context.SkiaContext;
+import com.soarclient.skia.font.Fonts;
 import com.soarclient.skia.image.ImageHelper;
 
 import io.github.humbleui.skija.Canvas;
 import io.github.humbleui.skija.ClipMode;
 import io.github.humbleui.skija.Font;
 import io.github.humbleui.skija.Paint;
+import io.github.humbleui.skija.PaintMode;
 import io.github.humbleui.skija.Path;
 import io.github.humbleui.skija.SurfaceOrigin;
 import io.github.humbleui.types.RRect;
@@ -30,15 +32,17 @@ public class Skia {
 		getCanvas().drawRRect(RRect.makeXYWH(x, y, width, height, radius), getPaint(color));
 	}
 	
-	public static void drawImage(int textureId, float x, float y, float width, float height, SurfaceOrigin origin) {
+	public static void drawImage(int textureId, float x, float y, float width, float height, float alpha, SurfaceOrigin origin) {
 
-		if(imageHelper.load(textureId, width, height, origin)) {
-			getCanvas().drawImageRect(imageHelper.get(textureId), Rect.makeXYWH(x, y, width, height));
-		}
+	    if(imageHelper.load(textureId, width, height, origin)) {
+	        Paint paint = new Paint();
+	        paint.setAlpha((int) (255 * alpha));
+	        getCanvas().drawImageRect(imageHelper.get(textureId), Rect.makeXYWH(x, y, width, height), paint);
+	    }
 	}
-
-	public static void drawImage(int textureId, float x, float y, float width, float height) {
-		drawImage(textureId, x, y, width, height, SurfaceOrigin.TOP_LEFT);
+	
+	public static void drawImage(int textureId, float x, float y, float width, float height, float alpha) {
+		drawImage(textureId, x, y, width, height, alpha, SurfaceOrigin.TOP_LEFT);
 	}
 
 	public static void drawImage(String path, float x, float y, float width, float height) {
@@ -88,7 +92,7 @@ public class Skia {
 		save();
 		getCanvas().clipPath(path, ClipMode.INTERSECT, true);
 		drawImage(GuiIngame.INGAME_BLUR.getTexture(), 0, 0, sr.getScaledWidth(), sr.getScaledHeight(),
-				SurfaceOrigin.BOTTOM_LEFT);
+				1F, SurfaceOrigin.BOTTOM_LEFT);
 		restore();
 	}
 	
@@ -102,7 +106,7 @@ public class Skia {
 		save();
 		getCanvas().clipPath(path, ClipMode.INTERSECT, true);
 		drawImage(GuiIngame.INGAME_BLUR.getTexture(), 0, 0, sr.getScaledWidth(), sr.getScaledHeight(),
-				SurfaceOrigin.BOTTOM_LEFT);
+				1F, SurfaceOrigin.BOTTOM_LEFT);
 		restore();
 	}
 
@@ -133,6 +137,14 @@ public class Skia {
 	public static void save() {
 		getCanvas().save();
 	}
+	
+	public static void setAlpha(int alpha) {
+		
+		Paint paint = new Paint();
+		paint.setAlpha(alpha);
+		
+		getCanvas().saveLayer(null, paint);
+	}
 
 	public static void restore() {
 		getCanvas().restore();
@@ -152,9 +164,9 @@ public class Skia {
 
 	public static void drawText(String text, float x, float y, Color color, Font font) {
 		Rect bounds = font.measureText(text);
-		getCanvas().drawString(text, x - 1F, (y - 1F) + bounds.getHeight(), font, getPaint(color));
+		getCanvas().drawString(text, x - bounds.getLeft(), y - bounds.getTop(), font, getPaint(color));
 	}
-
+	
 	public static float getTextWidth(String text, Font font) {
 		Rect bounds = font.measureText(text);
 		return bounds.getWidth();

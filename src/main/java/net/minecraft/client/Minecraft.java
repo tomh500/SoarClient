@@ -55,7 +55,9 @@ import com.mojang.authlib.properties.PropertyMap;
 import com.mojang.authlib.yggdrasil.YggdrasilAuthenticationService;
 import com.soarclient.Soar;
 import com.soarclient.event.EventBus;
+import com.soarclient.event.impl.ClientTickEvent;
 import com.soarclient.event.impl.GameLoopEvent;
+import com.soarclient.management.mod.settings.impl.KeybindSetting;
 import com.soarclient.skia.context.SkiaContext;
 
 import net.minecraft.block.Block;
@@ -1497,14 +1499,29 @@ public class Minecraft implements IThreadListener, IPlayerUsage {
 			this.mcProfiler.endStartSection("mouse");
 
 			while (Mouse.next()) {
+				
 				int i = Mouse.getEventButton();
-				KeyBinding.setKeyBindState(i - 100, Mouse.getEventButtonState());
+				int mouseCode = i - 100;
 
+				KeyBinding.setKeyBindState(mouseCode, Mouse.getEventButtonState());
+
+				for (KeybindSetting s : Soar.getInstance().getModManager().getKeybindSettings()) {
+					if (s.getKeyCode() == mouseCode) {
+						s.setKeybindState(Mouse.getEventButtonState());
+					}
+				}
+				
 				if (Mouse.getEventButtonState()) {
 					if (this.thePlayer.isSpectator() && i == 2) {
 						this.ingameGUI.getSpectatorGui().func_175261_b();
 					} else {
 						KeyBinding.onTick(i - 100);
+						
+						for (KeybindSetting s : Soar.getInstance().getModManager().getKeybindSettings()) {
+							if (s.getKeyCode() == mouseCode) {
+								s.onTick();
+							}
+						}
 					}
 				}
 
@@ -1546,11 +1563,25 @@ public class Minecraft implements IThreadListener, IPlayerUsage {
 			this.mcProfiler.endStartSection("keyboard");
 
 			while (Keyboard.next()) {
+				
 				int k = Keyboard.getEventKey() == 0 ? Keyboard.getEventCharacter() + 256 : Keyboard.getEventKey();
 				KeyBinding.setKeyBindState(k, Keyboard.getEventKeyState());
 
+				for (KeybindSetting s : Soar.getInstance().getModManager().getKeybindSettings()) {
+					if (s.getKeyCode() == k) {
+						s.setKeybindState(Keyboard.getEventKeyState());
+					}
+				}
+				
 				if (Keyboard.getEventKeyState()) {
+					
 					KeyBinding.onTick(k);
+					
+					for (KeybindSetting s : Soar.getInstance().getModManager().getKeybindSettings()) {
+						if (s.getKeyCode() == k) {
+							s.onTick();
+						}
+					}
 				}
 
 				if (this.debugCrashKeyPressTime > 0L) {
@@ -1833,6 +1864,7 @@ public class Minecraft implements IThreadListener, IPlayerUsage {
 
 		this.mcProfiler.endSection();
 		this.systemTime = getSystemTime();
+		EventBus.getInstance().post(new ClientTickEvent());
 	}
 
 	public void launchIntegratedServer(String folderName, String worldName, WorldSettings worldSettingsIn) {

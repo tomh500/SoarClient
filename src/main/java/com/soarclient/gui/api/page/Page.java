@@ -1,4 +1,4 @@
-package com.soarclient.gui.api;
+package com.soarclient.gui.api.page;
 
 import net.minecraft.client.Minecraft;
 
@@ -21,9 +21,9 @@ public abstract class Page {
 	}
 	
 	public abstract void init();
-	public abstract void draw(float mouseX, float mouseY);
-	public abstract void mousePressed(float mouseX, float mouseY, int mouseButton);
-	public abstract void mouseReleased(float mouseX, float mouseY, int mouseButton);
+	public abstract void draw(int mouseX, int mouseY);
+	public abstract void mousePressed(int mouseX, int mouseY, int mouseButton);
+	public abstract void mouseReleased(int mouseX, int mouseY, int mouseButton);
 	public abstract void keyTyped(char typedChar, int keyCode);
 	public abstract void onClosed();
 	

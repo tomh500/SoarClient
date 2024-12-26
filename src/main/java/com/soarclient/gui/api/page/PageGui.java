@@ -1,20 +1,23 @@
-package com.soarclient.gui.api;
+package com.soarclient.gui.api.page;
 
 import java.util.List;
 
 import com.soarclient.Soar;
+import com.soarclient.gui.api.SoarGui;
 import com.soarclient.management.color.api.ColorPalette;
 import com.soarclient.skia.Skia;
-import com.soarclient.skia.ui.SkiaUI;
 
-public abstract class PageGui extends SkiaUI {
+public abstract class PageGui extends SoarGui {
 
 	private List<Page> pages;
-	private Page currentPage;
+	protected Page currentPage;
 	
 	public PageGui(List<Page> pages) {
 		this.pages = pages;
-		this.currentPage = pages.getFirst();
+		
+		if(!pages.isEmpty()) {
+			this.currentPage = pages.getFirst();
+		}
 	}
 	
 	@Override
@@ -28,7 +31,7 @@ public abstract class PageGui extends SkiaUI {
 	}
 
 	@Override
-	public void draw(float mouseX, float mouseY) {
+	public void draw(int mouseX, int mouseY) {
 		
 		ColorPalette palette = Soar.getInstance().getColorManager().getPalette();
 		
@@ -40,14 +43,14 @@ public abstract class PageGui extends SkiaUI {
 	}
 
 	@Override
-	public void mousePressed(float mouseX, float mouseY, int mouseButton) {
+	public void mousePressed(int mouseX, int mouseY, int mouseButton) {
 		if(currentPage != null) {
 			currentPage.mousePressed(mouseX, mouseY, mouseButton);
 		}
 	}
 
 	@Override
-	public void mouseReleased(float mouseX, float mouseY, int mouseButton) {
+	public void mouseReleased(int mouseX, int mouseY, int mouseButton) {
 		if(currentPage != null) {
 			currentPage.mouseReleased(mouseX, mouseY, mouseButton);
 		}
