@@ -1,0 +1,16 @@
+#
+# Version 8.0
+#
+category.all=All
+category.hud=HUD
+category.render=Render
+category.player=Player
+category.misc=Misc
+
+mod.modmenu.name=Mod Menu
+mod.modmenu.description=Customize Mod Menu related settings
+
+setting.darkmode=Dark Mode
+setting.darkmode.description=Enable dark mode
+setting.color=Color
+setting.color.description=Select a color

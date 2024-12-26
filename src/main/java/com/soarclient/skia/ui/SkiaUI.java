@@ -10,15 +10,22 @@ import net.minecraft.client.gui.GuiScreen;
 
 public abstract class SkiaUI {
 	
+	public abstract void init();
 	public abstract void draw(float mouseX, float mouseY);
 	public abstract void mousePressed(float mouseX, float mouseY, int mouseButton);
 	public abstract void mouseReleased(float mouseX, float mouseY, int mouseButton);
 	public abstract void keyTyped(char typedChar, int keyCode);
+	public abstract void onClosed();
 
 	public GuiScreen build() {
 		return new GuiScreen() {
 
 			private GaussianBlur blur = new GaussianBlur(false);
+			
+			@Override
+			public void initGui() {
+				SkiaUI.this.init();
+			}
 			
 			@Override
 			public void drawScreen(int mouseX, int mouseY, float partialTicks) {
@@ -35,6 +42,11 @@ public abstract class SkiaUI {
 			@Override
 			public void mouseReleased(int mouseX, int mouseY, int mouseButton) {
 				SkiaUI.this.mouseReleased((float) Mouse.getX(), (float) Display.getHeight() - Mouse.getY(), mouseButton);
+			}
+			
+			@Override
+			public void onGuiClosed() {
+				SkiaUI.this.onClosed();
 			}
 			
 			@Override

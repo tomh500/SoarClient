@@ -1,30 +1,33 @@
 package com.soarclient.gui;
 
-import java.awt.Color;
+import java.util.List;
 
-import com.soarclient.skia.Skia;
-import com.soarclient.skia.ui.SkiaUI;
+import com.soarclient.gui.api.Page;
+import com.soarclient.gui.api.PageGui;
 
-public class GuiModMenu extends SkiaUI {
+public class GuiModMenu extends PageGui {
 
-	@Override
-	public void draw(float mouseX, float mouseY) {
-		Skia.drawRect(0, 0, 100, 100, Color.WHITE);
-		
+	public GuiModMenu(List<Page> pages) {
+		super(pages);
 	}
 
 	@Override
-	public void mousePressed(float mouseX, float mouseY, int mouseButton) {
-		
+	public float getX() {
+		return 0;
 	}
 
 	@Override
-	public void mouseReleased(float mouseX, float mouseY, int mouseButton) {
-		
+	public float getY() {
+		return 0;
 	}
 
 	@Override
-	public void keyTyped(char typedChar, int keyCode) {
-		
+	public float getWidth() {
+		return 0;
+	}
+
+	@Override
+	public float getHeight() {
+		return 0;
 	}
 }

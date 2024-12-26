@@ -318,6 +318,15 @@ public class Minecraft implements IThreadListener, IPlayerUsage {
 	}
 
 	public void run() {
+		
+		if (displayWidth < 1100) {
+			displayWidth = 1100;
+		}
+
+		if (displayHeight < 630) {
+			displayHeight = 630;
+		}
+		
 		this.running = true;
 
 		try {

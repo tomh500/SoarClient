@@ -42,10 +42,6 @@ public final class TemperatureCache {
 	private List<Hct> precomputedHctsByHue;
 	private Map<Hct, Double> precomputedTempsByHct;
 
-	private TemperatureCache() {
-		throw new UnsupportedOperationException();
-	}
-
 	/**
 	 * Create a cache that allows calculation of ex. complementary and analogous
 	 * colors.
@@ -298,7 +294,6 @@ public final class TemperatureCache {
 	// annotation; another solution would be to create an android_library rule and
 	// supply
 	// AndroidManifest with an SDK set higher than 23.
-	@SuppressWarnings({ "AndroidJdkLibsChecker", "NewApi" })
 	private List<Hct> getHctsByTemp() {
 		if (precomputedHctsByTemp != null) {
 			return precomputedHctsByTemp;
