@@ -1,11 +1,16 @@
 #
 # Version 8.0
 #
-category.all=All
-category.hud=HUD
-category.render=Render
-category.player=Player
-category.misc=Misc
+text.all=All
+text.hud=HUD
+text.render=Render
+text.player=Player
+text.misc=Misc
+text.home=Home
+text.mods=Mods
+text.music=Music
+text.profile=Profile
+text.settings=Settings
 
 mod.modmenu.name=Mod Menu
 mod.modmenu.description=Customize Mod Menu related settings

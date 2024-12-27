@@ -16,8 +16,9 @@ public abstract class PageGui extends SoarGui {
 	protected List<Page> pages;
 	protected Page currentPage;
 	
-	public PageGui(List<Page> pages) {
-		this.pages = pages;
+	public PageGui() {
+		
+		this.pages = createPages();
 		
 		if(!pages.isEmpty()) {
 			this.currentPage = pages.getFirst();
@@ -90,7 +91,11 @@ public abstract class PageGui extends SoarGui {
 	public void onClosed() {
 		
 	}
-	
+
+	public Page getCurrentPage() {
+		return currentPage;
+	}
+
 	public void setCurrentPage(Page page) {
 		this.currentPage = page;
 	}
@@ -111,8 +116,13 @@ public abstract class PageGui extends SoarGui {
 		}
 	}
 	
+	public abstract List<Page> createPages();
 	public abstract float getX();
 	public abstract float getY();
 	public abstract float getWidth();
 	public abstract float getHeight();
+
+	public List<Page> getPages() {
+		return pages;
+	}
 }

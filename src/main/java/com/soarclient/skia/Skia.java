@@ -25,25 +25,35 @@ public class Skia {
 	public static void drawRect(float x, float y, float width, float height, Color color) {
 		getCanvas().drawRect(Rect.makeXYWH(x, y, width, height), getPaint(color));
 	}
-	
+
 	public static void drawCircle(float x, float y, float radius, Color color) {
-	    Paint paint = getPaint(color);
-	    getCanvas().drawCircle(x, y, radius, paint);
+		Paint paint = getPaint(color);
+		getCanvas().drawCircle(x, y, radius, paint);
 	}
 
 	public static void drawRoundedRect(float x, float y, float width, float height, float radius, Color color) {
 		getCanvas().drawRRect(RRect.makeXYWH(x, y, width, height, radius), getPaint(color));
 	}
-	
-	public static void drawImage(int textureId, float x, float y, float width, float height, float alpha, SurfaceOrigin origin) {
 
-	    if(imageHelper.load(textureId, width, height, origin)) {
-	        Paint paint = new Paint();
-	        paint.setAlpha((int) (255 * alpha));
-	        getCanvas().drawImageRect(imageHelper.get(textureId), Rect.makeXYWH(x, y, width, height), paint);
-	    }
+	public static void drawRoundedRectVarying(float x, float y, float width, float height, float topLeft,
+			float topRight, float bottomRight, float bottomLeft, Color color) {
+		
+		float[] corners = new float[] { topLeft, topLeft, topRight, topRight, bottomRight, bottomRight, bottomLeft,
+				bottomLeft };
+
+		getCanvas().drawRRect(RRect.makeComplexXYWH(x, y, width, height, corners), getPaint(color));
 	}
-	
+
+	public static void drawImage(int textureId, float x, float y, float width, float height, float alpha,
+			SurfaceOrigin origin) {
+
+		if (imageHelper.load(textureId, width, height, origin)) {
+			Paint paint = new Paint();
+			paint.setAlpha((int) (255 * alpha));
+			getCanvas().drawImageRect(imageHelper.get(textureId), Rect.makeXYWH(x, y, width, height), paint);
+		}
+	}
+
 	public static void drawImage(int textureId, float x, float y, float width, float height, float alpha) {
 		drawImage(textureId, x, y, width, height, alpha, SurfaceOrigin.TOP_LEFT);
 	}
@@ -94,11 +104,11 @@ public class Skia {
 
 		save();
 		getCanvas().clipPath(path, ClipMode.INTERSECT, true);
-		drawImage(GuiIngame.INGAME_BLUR.getTexture(), 0, 0, sr.getScaledWidth(), sr.getScaledHeight(),
-				1F, SurfaceOrigin.BOTTOM_LEFT);
+		drawImage(GuiIngame.INGAME_BLUR.getTexture(), 0, 0, sr.getScaledWidth(), sr.getScaledHeight(), 1F,
+				SurfaceOrigin.BOTTOM_LEFT);
 		restore();
 	}
-	
+
 	public static void drawRoundedBlur(float x, float y, float width, float height, float radius) {
 
 		ScaledResolution sr = new ScaledResolution(Minecraft.getMinecraft());
@@ -108,8 +118,8 @@ public class Skia {
 
 		save();
 		getCanvas().clipPath(path, ClipMode.INTERSECT, true);
-		drawImage(GuiIngame.INGAME_BLUR.getTexture(), 0, 0, sr.getScaledWidth(), sr.getScaledHeight(),
-				1F, SurfaceOrigin.BOTTOM_LEFT);
+		drawImage(GuiIngame.INGAME_BLUR.getTexture(), 0, 0, sr.getScaledWidth(), sr.getScaledHeight(), 1F,
+				SurfaceOrigin.BOTTOM_LEFT);
 		restore();
 	}
 
@@ -140,12 +150,12 @@ public class Skia {
 	public static void save() {
 		getCanvas().save();
 	}
-	
+
 	public static void setAlpha(int alpha) {
-		
+
 		Paint paint = new Paint();
 		paint.setAlpha(alpha);
-		
+
 		getCanvas().saveLayer(null, paint);
 	}
 
@@ -160,11 +170,11 @@ public class Skia {
 	public static void clipPath(Path path) {
 		getCanvas().clipPath(path, ClipMode.INTERSECT, true);
 	}
-	
+
 	public static void clip(float x, float y, float width, float height, float radius) {
-		
+
 		Path path = new Path();
-		
+
 		path.addRRect(RRect.makeXYWH(x, y, width, height, radius));
 		clipPath(path);
 	}
@@ -178,11 +188,16 @@ public class Skia {
 		getCanvas().drawString(text, x - bounds.getLeft(), y - bounds.getTop(), font, getPaint(color));
 	}
 	
+	public static void drawCenteredText(String text, float x, float y, Color color, Font font) {
+		Rect bounds = font.measureText(text);
+		getCanvas().drawString(text, x - bounds.getLeft() - (bounds.getWidth() / 2), y - bounds.getTop(), font, getPaint(color));
+	}
+
 	public static float getTextWidth(String text, Font font) {
 		Rect bounds = font.measureText(text);
 		return bounds.getWidth();
 	}
-	
+
 	public static float getTextHeight(String text, Font font) {
 		Rect bounds = font.measureText(text);
 		return bounds.getHeight();

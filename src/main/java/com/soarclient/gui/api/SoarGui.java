@@ -12,10 +12,12 @@ import com.soarclient.shaders.impl.GaussianBlur;
 import com.soarclient.skia.Skia;
 import com.soarclient.skia.context.SkiaContext;
 
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiScreen;
 
 public abstract class SoarGui {
 	
+	protected Minecraft mc = Minecraft.getMinecraft();
 	private Animation animation;
 	
 	public SoarGui() {
