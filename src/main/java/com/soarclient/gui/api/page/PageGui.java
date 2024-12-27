@@ -1,15 +1,19 @@
 package com.soarclient.gui.api.page;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.soarclient.Soar;
 import com.soarclient.gui.api.SoarGui;
 import com.soarclient.management.color.api.ColorPalette;
 import com.soarclient.skia.Skia;
+import com.soarclient.ui.component.Component;
 
 public abstract class PageGui extends SoarGui {
 
-	private List<Page> pages;
+	protected List<Component> components = new ArrayList<>();
+	
+	protected List<Page> pages;
 	protected Page currentPage;
 	
 	public PageGui(List<Page> pages) {
@@ -40,26 +44,45 @@ public abstract class PageGui extends SoarGui {
 		if(currentPage != null) {
 			currentPage.draw(mouseX, mouseY);
 		}
+		
+		for(Component c : components) {
+			c.draw(mouseX, mouseY);
+		}
 	}
 
 	@Override
 	public void mousePressed(int mouseX, int mouseY, int mouseButton) {
+		
 		if(currentPage != null) {
 			currentPage.mousePressed(mouseX, mouseY, mouseButton);
+		}
+		
+		for(Component c : components) {
+			c.mousePressed(mouseX, mouseY, mouseButton);
 		}
 	}
 
 	@Override
 	public void mouseReleased(int mouseX, int mouseY, int mouseButton) {
+		
 		if(currentPage != null) {
 			currentPage.mouseReleased(mouseX, mouseY, mouseButton);
+		}
+		
+		for(Component c : components) {
+			c.mouseReleased(mouseX, mouseY, mouseButton);
 		}
 	}
 
 	@Override
 	public void keyTyped(char typedChar, int keyCode) {
+		
 		if(currentPage != null) {
 			currentPage.keyTyped(typedChar, keyCode);
+		}
+		
+		for(Component c : components) {
+			c.keyTyped(typedChar, keyCode);
 		}
 	}
 

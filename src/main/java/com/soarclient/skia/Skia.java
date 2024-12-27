@@ -4,14 +4,12 @@ import java.awt.Color;
 import java.io.File;
 
 import com.soarclient.skia.context.SkiaContext;
-import com.soarclient.skia.font.Fonts;
 import com.soarclient.skia.image.ImageHelper;
 
 import io.github.humbleui.skija.Canvas;
 import io.github.humbleui.skija.ClipMode;
 import io.github.humbleui.skija.Font;
 import io.github.humbleui.skija.Paint;
-import io.github.humbleui.skija.PaintMode;
 import io.github.humbleui.skija.Path;
 import io.github.humbleui.skija.SurfaceOrigin;
 import io.github.humbleui.types.RRect;
@@ -26,6 +24,11 @@ public class Skia {
 
 	public static void drawRect(float x, float y, float width, float height, Color color) {
 		getCanvas().drawRect(Rect.makeXYWH(x, y, width, height), getPaint(color));
+	}
+	
+	public static void drawCircle(float x, float y, float radius, Color color) {
+	    Paint paint = getPaint(color);
+	    getCanvas().drawCircle(x, y, radius, paint);
 	}
 
 	public static void drawRoundedRect(float x, float y, float width, float height, float radius, Color color) {
@@ -157,6 +160,14 @@ public class Skia {
 	public static void clipPath(Path path) {
 		getCanvas().clipPath(path, ClipMode.INTERSECT, true);
 	}
+	
+	public static void clip(float x, float y, float width, float height, float radius) {
+		
+		Path path = new Path();
+		
+		path.addRRect(RRect.makeXYWH(x, y, width, height, radius));
+		clipPath(path);
+	}
 
 	public static void drawPath(Path path, Paint paint) {
 		getCanvas().drawPath(path, paint);
@@ -170,6 +181,11 @@ public class Skia {
 	public static float getTextWidth(String text, Font font) {
 		Rect bounds = font.measureText(text);
 		return bounds.getWidth();
+	}
+	
+	public static float getTextHeight(String text, Font font) {
+		Rect bounds = font.measureText(text);
+		return bounds.getHeight();
 	}
 
 	private static Paint getPaint(Color color) {
