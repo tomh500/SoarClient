@@ -122,6 +122,17 @@ public class Skia {
 				SurfaceOrigin.BOTTOM_LEFT);
 		restore();
 	}
+	
+    public static void drawLine(float x, float y, float endX, float endY, float width, Color color) {
+    	
+    	Paint paint = getPaint(color);
+    	
+    	paint.setStroke(true);
+    	paint.setStrokeWidth(width);
+    	paint.setAntiAlias(true);
+
+        getCanvas().drawLine(x, y, endX, endY, paint);
+    }
 
 	public static void scale(float scale) {
 		getCanvas().scale(scale, scale);

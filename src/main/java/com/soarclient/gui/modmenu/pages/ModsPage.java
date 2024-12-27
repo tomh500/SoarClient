@@ -1,10 +1,7 @@
 package com.soarclient.gui.modmenu.pages;
 
-import java.awt.Color;
-
 import com.soarclient.gui.api.page.Page;
 import com.soarclient.gui.api.page.PageGui;
-import com.soarclient.skia.Skia;
 import com.soarclient.skia.font.Icon;
 
 public class ModsPage extends Page {

@@ -12,6 +12,11 @@ text.music=Music
 text.profile=Profile
 text.settings=Settings
 
+design.simple=Simple
+
+mod.fpsdisplay.name=FPS Display
+mod.fpsdisplay.description=Display Minecraft FPS
+
 mod.modmenu.name=Mod Menu
 mod.modmenu.description=Customize Mod Menu related settings
 
