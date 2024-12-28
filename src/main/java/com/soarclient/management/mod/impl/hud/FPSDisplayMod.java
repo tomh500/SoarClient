@@ -9,6 +9,7 @@ public class FPSDisplayMod extends SimpleHUDMod {
 
 	public FPSDisplayMod() {
 		super("mod.fpsdisplay.name", "mod.fpsdisplay.description", Icon.MONITOR);
+		this.setEnabled(true);
 	}
 
 	@Override

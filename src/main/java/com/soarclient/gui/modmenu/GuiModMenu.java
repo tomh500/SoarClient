@@ -43,10 +43,11 @@ public class GuiModMenu extends PageGui {
 
 		Skia.drawRoundedRect(getX(), getY(), getWidth(), getHeight(), 35, palette.getSurfaceContainer());
 
+
 		if (currentPage != null) {
 			currentPage.draw(mouseX, mouseY);
 		}
-
+		
 		for (Component c : components) {
 			c.draw(mouseX, mouseY);
 		}
