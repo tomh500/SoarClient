@@ -37,7 +37,7 @@ public abstract class PageGui extends SoarGui {
 	}
 
 	@Override
-	public void drawSkia(int mouseX, int mouseY) {
+	public void draw(int mouseX, int mouseY) {
 		
 		ColorPalette palette = Soar.getInstance().getColorManager().getPalette();
 		

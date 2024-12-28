@@ -22,9 +22,9 @@ public abstract class SoarGui {
 
 	public abstract void init();
 
-	public abstract void draw(int mouseX, int mouseY);
+	public void drawOpenGL(int mouseX, int mouseY) {}
 	
-	public abstract void drawSkia(int mouseX, int mouseY);
+	public abstract void draw(int mouseX, int mouseY);
 
 	public abstract void mousePressed(int mouseX, int mouseY, int mouseButton);
 
@@ -47,7 +47,7 @@ public abstract class SoarGui {
 
 				ScaledResolution sr = new ScaledResolution(mc);
 				
-				SoarGui.this.draw(mcScale ? mouseX : (int) Mouse.getX(),
+				SoarGui.this.drawOpenGL(mcScale ? mouseX : (int) Mouse.getX(),
 						mcScale ? mouseY : (int) Display.getHeight() - Mouse.getY());
 				
 				SkiaContext.draw((context) -> {
@@ -58,7 +58,7 @@ public abstract class SoarGui {
 						Skia.scale(sr.getScaleFactor());
 					}
 					
-					SoarGui.this.drawSkia(mcScale ? mouseX : (int) Mouse.getX(),
+					SoarGui.this.draw(mcScale ? mouseX : (int) Mouse.getX(),
 							mcScale ? mouseY : (int) Display.getHeight() - Mouse.getY());
 					Skia.restore();
 				});

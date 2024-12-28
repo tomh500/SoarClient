@@ -55,16 +55,15 @@ public class GuiModMenu extends PageGui {
 	}
 
 	@Override
-	public void draw(int mouseX, int mouseY) {
+	public void drawOpenGL(int mouseX, int mouseY) {
 		blur.draw(1 + (20 * animation.getValue()));
 	}
 	
 	@Override
-	public void drawSkia(int mouseX, int mouseY) {
+	public void draw(int mouseX, int mouseY) {
 
 		ColorPalette palette = Soar.getInstance().getColorManager().getPalette();
 
-		Skia.save();
 		Skia.setAlpha((int) (animation.getValue() * 255));
 		Skia.scale(0, 0, mc.displayWidth, mc.displayHeight, 2 - animation.getValue());
 		
@@ -81,7 +80,6 @@ public class GuiModMenu extends PageGui {
 			c.draw(mouseX, mouseY);
 		}
 		
-		Skia.restore();
 		Skia.restore();
 		
 		if (animation.getEnd() == 0 && animation.isFinished()) {

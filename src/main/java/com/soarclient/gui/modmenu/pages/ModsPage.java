@@ -1,13 +1,32 @@
 package com.soarclient.gui.modmenu.pages;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import com.soarclient.Soar;
+import com.soarclient.animation.SimpleAnimation;
 import com.soarclient.gui.api.page.Page;
 import com.soarclient.gui.api.page.PageGui;
+import com.soarclient.management.color.api.ColorPalette;
+import com.soarclient.management.mod.Mod;
+import com.soarclient.skia.Skia;
+import com.soarclient.skia.font.Fonts;
 import com.soarclient.skia.font.Icon;
+import com.soarclient.utils.ColorUtils;
+import com.soarclient.utils.MathUtils;
+import com.soarclient.utils.language.I18n;
+import com.soarclient.utils.mouse.MouseUtils;
 
 public class ModsPage extends Page {
 
+	private List<Item> items = new ArrayList<>();
+
 	public ModsPage(PageGui parent) {
 		super(parent, "text.mods", Icon.INVENTORY_2);
+
+		for (Mod m : Soar.getInstance().getModManager().getMods()) {
+			items.add(new Item(m));
+		}
 	}
 
 	@Override
@@ -16,10 +35,78 @@ public class ModsPage extends Page {
 
 	@Override
 	public void draw(int mouseX, int mouseY) {
+
+		ColorPalette palette = Soar.getInstance().getColorManager().getPalette();
+
+		int index = 0;
+		float offsetX = 32;
+		float offsetY = 0;
+
+		for (Item i : items) {
+
+			Mod m = i.mod;
+			SimpleAnimation enableAnimation = i.enableAnimation;
+			SimpleAnimation focusAnimation = i.focusAnimation;
+			SimpleAnimation xAnimation = i.xAnimation;
+			SimpleAnimation yAnimation = i.yAnimation;
+
+			if (m.isHidden()) {
+				continue;
+			}
+
+			float itemX = x + offsetX;
+			float itemY = y + 96 + offsetY;
+
+			focusAnimation.onTick(MouseUtils.isInside(mouseX, mouseY, itemX, itemY, 244, 116 + 35) ? 1 : 0, 10);
+			enableAnimation.onTick(m.isEnabled() ? 1 : 0, 10);
+			xAnimation.onTick(itemX, 12);
+			yAnimation.onTick(itemY, 12);
+
+			itemX = xAnimation.getValue();
+			itemY = yAnimation.getValue();
+
+			Skia.drawRoundedRectVarying(itemX, itemY, 244, 116, 26, 26, 0, 0, palette.getSurface());
+			Skia.drawRoundedRectVarying(itemX, itemY + 116, 244, 35, 0, 0, 26, 26, palette.getSurfaceContainerHigh());
+
+			Skia.save();
+			Skia.clip(itemX, itemY + 116, 244, 35, 0, 0, 26, 26);
+			Skia.drawCircle(i.enabledPos[0], i.enabledPos[1],
+					MathUtils.calculateMaxRadius(itemX, itemY, 244, 35) * enableAnimation.getValue(),
+					ColorUtils.applyAlpha(palette.getPrimaryContainer(), enableAnimation.getValue()));
+			Skia.restore();
+
+			Skia.drawCenteredText(I18n.get(m.getName()), itemX + (244 / 2), itemY + 116 + (35 / 2) - 6,
+					palette.getOnSurfaceVariant(), Fonts.getRegular(16));
+			Skia.drawFullCenteredText(getIcon(), itemX + (244 / 2), itemY + (116 / 2), palette.getOnSurfaceVariant(),
+					Fonts.getIcon(68));
+			
+			index++;
+			offsetX += 32 + 244;
+
+			if (index % 3 == 0) {
+				offsetX = 32;
+				offsetY += 22 + 151;
+			}
+		}
 	}
 
 	@Override
 	public void mousePressed(int mouseX, int mouseY, int mouseButton) {
+
+		for (Item i : items) {
+
+			Mod m = i.mod;
+			float itemX = i.xAnimation.getValue();
+			float itemY = i.yAnimation.getValue();
+
+			if (mouseButton == 0) {
+
+				if (MouseUtils.isInside(mouseX, mouseY, itemX, itemY + 116, 244, 35)) {
+					i.enabledPos = new int[] { mouseX, mouseY };
+					m.toggle();
+				}
+			}
+		}
 	}
 
 	@Override
@@ -32,5 +119,19 @@ public class ModsPage extends Page {
 
 	@Override
 	public void onClosed() {
+	}
+
+	private class Item {
+
+		private Mod mod;
+		private SimpleAnimation focusAnimation = new SimpleAnimation();
+		private SimpleAnimation enableAnimation = new SimpleAnimation();
+		private SimpleAnimation xAnimation = new SimpleAnimation();
+		private SimpleAnimation yAnimation = new SimpleAnimation();
+		private int[] enabledPos = new int[] { 0, 0 };
+
+		private Item(Mod mod) {
+			this.mod = mod;
+		}
 	}
 }

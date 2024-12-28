@@ -46,8 +46,6 @@ public class IconButton extends Component {
 		boolean focus = MouseUtils.isInside(mouseX, mouseY, x, y, width, height);
 
 		Color[] c = getColor();
-		float iconWidth = Skia.getTextWidth(icon, Fonts.getIconFill(getFontSize()));
-		float iconHeight = Skia.getTextHeight(icon, Fonts.getIconFill(getFontSize()));
 
 		focusAnimation.onTick(focus ? 1F : 0, 10);
 		pressAnimation.onTick(pressed ? 1F : 0, 10);
@@ -58,10 +56,10 @@ public class IconButton extends Component {
 		Skia.drawRoundedRect(x, y, width, height, getRadius(),
 				ColorUtils.applyAlpha(c[1], focusAnimation.getValue() * 0.08F));
 		Skia.drawCircle(pressedPos[0], pressedPos[1],
-				pressAnimation.getValue() * MathUtils.calculateMaxRadius(x, y, width, height, mouseX, mouseY),
+				pressAnimation.getValue() * MathUtils.calculateMaxRadius(x, y, width, height),
 				ColorUtils.applyAlpha(c[1], pressAnimation.getValue() * 0.12F));
 		
-		Skia.drawText(icon, x + (width / 2) - (iconWidth / 2), y + (height / 2) - (iconHeight / 2), c[1],
+		Skia.drawFullCenteredText(icon, x + (width / 2), y + (height / 2), c[1],
 				Fonts.getIconFill(getFontSize()));
 
 		Skia.restore();

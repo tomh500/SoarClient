@@ -217,6 +217,18 @@ public class Skia {
 		path.addRRect(RRect.makeXYWH(x, y, width, height, radius));
 		clipPath(path, mode, true);
 	}
+	
+	public static void clip(float x, float y, float width, float height, float topLeft,
+			float topRight, float bottomRight, float bottomLeft) {
+		
+		float[] corners = new float[] { topLeft, topLeft, topRight, topRight, bottomRight, bottomRight, bottomLeft,
+				bottomLeft };
+		
+		Path path = new Path();
+		
+		path.addRRect(RRect.makeComplexXYWH(x, y, width, height, corners));
+		clipPath(path, ClipMode.INTERSECT, true);
+	}
 
 	public static void clip(float x, float y, float width, float height, float radius) {
 		clip(x, y, width, height, radius, ClipMode.INTERSECT);
@@ -234,6 +246,12 @@ public class Skia {
 	public static void drawCenteredText(String text, float x, float y, Color color, Font font) {
 		Rect bounds = font.measureText(text);
 		getCanvas().drawString(text, x - bounds.getLeft() - (bounds.getWidth() / 2), y - bounds.getTop(), font,
+				getPaint(color));
+	}
+	
+	public static void drawFullCenteredText(String text, float x, float y, Color color, Font font) {
+		Rect bounds = font.measureText(text);
+		getCanvas().drawString(text, x - bounds.getLeft() - (bounds.getWidth() / 2), y - bounds.getTop() - (bounds.getHeight() / 2), font,
 				getPaint(color));
 	}
 

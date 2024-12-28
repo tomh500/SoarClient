@@ -5,14 +5,8 @@ import java.math.RoundingMode;
 
 public class MathUtils {
 
-	public static float calculateMaxRadius(float x, float y, float width, float height, int mouseX, int mouseY) {
-
-		float topLeft = (float) Math.sqrt(Math.pow(mouseX - x, 2) + Math.pow(mouseY - y, 2));
-		float topRight = (float) Math.sqrt(Math.pow(mouseX - (x + width), 2) + Math.pow(mouseY - y, 2));
-		float bottomLeft = (float) Math.sqrt(Math.pow(mouseX - x, 2) + Math.pow(mouseY - (y + height), 2));
-		float bottomRight = (float) Math.sqrt(Math.pow(mouseX - (x + width), 2) + Math.pow(mouseY - (y + height), 2));
-
-		return Math.max(Math.max(topLeft, topRight), Math.max(bottomLeft, bottomRight));
+	public static float calculateMaxRadius(float x, float y, float width, float height) {
+	    return (float) Math.sqrt(Math.pow(width, 2) + Math.pow(height, 2));
 	}
 
 	public static float roundToPlace(double value, int places) {

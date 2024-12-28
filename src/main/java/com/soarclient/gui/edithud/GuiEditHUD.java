@@ -55,10 +55,6 @@ public class GuiEditHUD extends SoarGui {
 	
 	@Override
 	public void draw(int mouseX, int mouseY) {
-	}
-
-	@Override
-	public void drawSkia(int mouseX, int mouseY) {
 
 		selectedMod.ifPresent(mod -> updateModPosition(mod, mouseX, mouseY));
 
