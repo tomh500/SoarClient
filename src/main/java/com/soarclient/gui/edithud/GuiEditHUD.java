@@ -35,7 +35,7 @@ public class GuiEditHUD extends SoarGui {
 	private boolean snapping;
 
 	public GuiEditHUD(GuiScreen prevScreen) {
-		super(false, true);
+		super(true);
 		this.prevScreen = prevScreen;
 		this.snappingDistance = 6;
 		this.mods = initializeMods();
@@ -55,6 +55,10 @@ public class GuiEditHUD extends SoarGui {
 	
 	@Override
 	public void draw(int mouseX, int mouseY) {
+	}
+
+	@Override
+	public void drawSkia(int mouseX, int mouseY) {
 
 		selectedMod.ifPresent(mod -> updateModPosition(mod, mouseX, mouseY));
 
@@ -62,7 +66,7 @@ public class GuiEditHUD extends SoarGui {
 			handleMouseWheel(mouseX, mouseY);
 		}
 	}
-
+	
 	private void updateModPosition(Pair<HUDMod, GrabOffset> mod, int mouseX, int mouseY) {
 		setHudPositions(mod, mouseX, mouseY, snapping, DEFAULT_LINE_WIDTH);
 	}

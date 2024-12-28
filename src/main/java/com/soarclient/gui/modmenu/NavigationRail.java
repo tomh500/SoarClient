@@ -1,4 +1,4 @@
-package com.soarclient.ui.component.impl;
+package com.soarclient.gui.modmenu;
 
 import java.awt.Color;
 import java.util.ArrayList;
@@ -11,7 +11,6 @@ import com.soarclient.animation.SimpleAnimation;
 import com.soarclient.animation.cubicbezier.impl.EaseStandard;
 import com.soarclient.animation.other.DummyAnimation;
 import com.soarclient.gui.api.page.Page;
-import com.soarclient.gui.api.page.PageGui;
 import com.soarclient.gui.edithud.GuiEditHUD;
 import com.soarclient.management.color.api.ColorPalette;
 import com.soarclient.skia.Skia;
@@ -30,13 +29,13 @@ import io.github.humbleui.skija.Font;
 
 public class NavigationRail extends Component {
 
-	private PageGui parent;
+	private GuiModMenu parent;
 
 	private List<Navigation> navigations = new ArrayList<>();
 	private Navigation currentNavigation;
 	private IconButton editButton;
 
-	public NavigationRail(PageGui parent, float x, float y, float width, float height) {
+	public NavigationRail(GuiModMenu parent, float x, float y, float width, float height) {
 		super(x, y);
 		this.parent = parent;
 		this.width = width;
@@ -60,7 +59,7 @@ public class NavigationRail extends Component {
 
 			@Override
 			public void onAction() {
-				mc.displayGuiScreen(new GuiEditHUD(mc.currentScreen).build());
+				parent.setNextScreen(new GuiEditHUD(mc.currentScreen).build());
 			}
 		});
 	}
