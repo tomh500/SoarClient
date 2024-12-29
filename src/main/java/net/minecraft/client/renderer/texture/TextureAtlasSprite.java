@@ -186,7 +186,7 @@ public class TextureAtlasSprite {
 
 	public void updateAnimation() {
 		if (this.animationMetadata != null) {
-			this.animationActive = false;
+			this.animationActive = true;
 			++this.tickCounter;
 
 			if (this.tickCounter >= this.animationMetadata.getFrameTimeSingle(this.frameCounter)) {
