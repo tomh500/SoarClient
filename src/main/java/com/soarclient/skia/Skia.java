@@ -186,6 +186,16 @@ public class Skia {
 		getCanvas().translate(x, y);
 	}
 
+	public static void rotate(float x, float y, float width, float height, float rotate) {
+		
+	    float centerX = x + width / 2;
+	    float centerY = y + height / 2;
+
+	    getCanvas().translate(centerX, centerY);
+	    getCanvas().rotate(rotate);
+	    getCanvas().translate(-centerX, -centerY);
+	}
+	
 	public static void save() {
 		getCanvas().save();
 	}

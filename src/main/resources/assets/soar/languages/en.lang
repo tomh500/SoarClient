@@ -20,7 +20,17 @@ mod.fpsdisplay.description=Display Minecraft FPS
 mod.modmenu.name=Mod Menu
 mod.modmenu.description=Customize Mod Menu related settings
 
+mod.minimap.name=Minimap
+mod.minimap.description=Display map in a smaller size
+mod.minimap.name=Minimap
+mod.minimap.description=Display map in a smaller size
 setting.darkmode=Dark Mode
 setting.darkmode.description=Enable dark mode
 setting.color=Color
 setting.color.description=Select a color
+setting.width=Width
+setting.width.description=Set the width
+setting.height=Height
+setting.height.description=Set the height
+setting.alpha=Alpha
+setting.alpha.description=Set the alpha

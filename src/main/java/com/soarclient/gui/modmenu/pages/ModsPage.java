@@ -77,7 +77,7 @@ public class ModsPage extends Page {
 
 			Skia.drawCenteredText(I18n.get(m.getName()), itemX + (244 / 2), itemY + 116 + (35 / 2) - 6,
 					palette.getOnSurfaceVariant(), Fonts.getRegular(16));
-			Skia.drawFullCenteredText(getIcon(), itemX + (244 / 2), itemY + (116 / 2), palette.getOnSurfaceVariant(),
+			Skia.drawFullCenteredText(m.getIcon(), itemX + (244 / 2), itemY + (116 / 2), palette.getOnSurfaceVariant(),
 					Fonts.getIcon(68));
 			
 			index++;
