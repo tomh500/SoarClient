@@ -1,6 +1,7 @@
 package com.soarclient;
 
 import com.soarclient.animation.Delta;
+import com.soarclient.event.EventBus;
 import com.soarclient.management.color.ColorManager;
 import com.soarclient.management.mod.ModManager;
 import com.soarclient.utils.language.I18n;
@@ -28,6 +29,8 @@ public class Soar {
 		modManager = new ModManager();
 		modManager.init();
 		colorManager = new ColorManager();
+		
+		EventBus.getInstance().register(new SoarHandler());
 	}
 	
 	public void stop() {

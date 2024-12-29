@@ -57,6 +57,8 @@ import com.soarclient.Soar;
 import com.soarclient.event.EventBus;
 import com.soarclient.event.impl.ClientTickEvent;
 import com.soarclient.event.impl.GameLoopEvent;
+import com.soarclient.event.impl.RenderTickEvent;
+import com.soarclient.event.impl.UpdateFramebufferSizeEvent;
 import com.soarclient.management.mod.settings.impl.KeybindSetting;
 import com.soarclient.skia.context.SkiaContext;
 
@@ -954,6 +956,7 @@ public class Minecraft implements IThreadListener, IPlayerUsage {
 		}
 
 		this.guiAchievement.updateAchievementWindow();
+		EventBus.getInstance().post(new RenderTickEvent());
 		this.framebufferMc.unbindFramebuffer();
 		GlStateManager.popMatrix();
 		GlStateManager.pushMatrix();
@@ -1414,6 +1417,9 @@ public class Minecraft implements IThreadListener, IPlayerUsage {
 	}
 
 	private void updateFramebufferSize() {
+		
+		EventBus.getInstance().post(new UpdateFramebufferSizeEvent());
+		
 		this.framebufferMc.createBindFramebuffer(this.displayWidth, this.displayHeight);
 
 		if (this.entityRenderer != null) {
@@ -2733,5 +2739,9 @@ public class Minecraft implements IThreadListener, IPlayerUsage {
 
 	public DefaultResourcePack getMcDefaultResourcePack() {
 		return mcDefaultResourcePack;
+	}
+
+	public Timer getTimer() {
+		return timer;
 	}
 }

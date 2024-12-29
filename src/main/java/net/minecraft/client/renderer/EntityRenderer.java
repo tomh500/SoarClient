@@ -19,6 +19,8 @@ import org.lwjgl.util.glu.Project;
 import com.google.common.base.Predicate;
 import com.google.common.base.Predicates;
 import com.google.gson.JsonSyntaxException;
+import com.soarclient.event.EventBus;
+import com.soarclient.event.impl.HurtCameraEvent;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockBed;
@@ -521,6 +523,11 @@ public class EntityRenderer implements IResourceManagerReloadListener {
 	}
 
 	private void hurtCameraEffect(float partialTicks) {
+		
+		HurtCameraEvent event = new HurtCameraEvent();
+		
+		EventBus.getInstance().post(event);
+		
 		if (this.mc.getRenderViewEntity() instanceof EntityLivingBase) {
 			EntityLivingBase entitylivingbase = (EntityLivingBase) this.mc.getRenderViewEntity();
 			float f = (float) entitylivingbase.hurtTime - partialTicks;
@@ -538,7 +545,7 @@ public class EntityRenderer implements IResourceManagerReloadListener {
 			f = MathHelper.sin(f * f * f * f * (float) Math.PI);
 			float f2 = entitylivingbase.attackedAtYaw;
 			GlStateManager.rotate(-f2, 0.0F, 1.0F, 0.0F);
-			GlStateManager.rotate(-f * 14.0F, 0.0F, 0.0F, 1.0F);
+			GlStateManager.rotate((-f * event.getIntensity()) * 14.0F, 0.0F, 0.0F, 1.0F);
 			GlStateManager.rotate(f2, 0.0F, 1.0F, 0.0F);
 		}
 	}

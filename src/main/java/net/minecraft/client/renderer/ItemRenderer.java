@@ -2,6 +2,10 @@ package net.minecraft.client.renderer;
 
 import org.lwjgl.opengl.GL11;
 
+import com.soarclient.event.EventBus;
+import com.soarclient.event.impl.RenderFireOverlayEvent;
+import com.soarclient.event.impl.RenderWaterOverlayEvent;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
@@ -412,6 +416,15 @@ public class ItemRenderer {
 	}
 
 	private void renderWaterOverlayTexture(float partialTicks) {
+		
+		RenderWaterOverlayEvent event = new RenderWaterOverlayEvent();
+		
+		EventBus.getInstance().post(event);
+		
+		if(event.isCancelled()) {
+			return;
+		}
+		
 		if (!Config.isShaders() || Shaders.isUnderwaterOverlay()) {
 			this.mc.getTextureManager().bindTexture(RES_UNDERWATER_OVERLAY);
 			Tessellator tessellator = Tessellator.getInstance();
@@ -442,6 +455,15 @@ public class ItemRenderer {
 	}
 
 	private void renderFireInFirstPerson(float partialTicks) {
+		
+		RenderFireOverlayEvent event = new RenderFireOverlayEvent();
+		
+		EventBus.getInstance().post(event);
+		
+		if(event.isCancelled()) {
+			return;
+		}
+		
 		Tessellator tessellator = Tessellator.getInstance();
 		WorldRenderer worldrenderer = tessellator.getWorldRenderer();
 		GlStateManager.color(1.0F, 1.0F, 1.0F, 0.9F);

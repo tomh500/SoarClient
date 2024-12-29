@@ -9,6 +9,7 @@ import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.soarclient.event.EventBus;
 import com.soarclient.event.impl.RenderGameOverlayEvent;
+import com.soarclient.event.impl.RenderPumpkinOverlayEvent;
 import com.soarclient.event.impl.RenderSkiaEvent;
 import com.soarclient.shaders.impl.GaussianBlur;
 import com.soarclient.skia.Skia;
@@ -797,6 +798,15 @@ public class GuiIngame extends Gui {
 	}
 
 	private void renderPumpkinOverlay(ScaledResolution scaledRes) {
+		
+		RenderPumpkinOverlayEvent event = new RenderPumpkinOverlayEvent();
+		
+		EventBus.getInstance().post(event);
+		
+		if(event.isCancelled()) {
+			return;
+		}
+		
 		GlStateManager.disableDepth();
 		GlStateManager.depthMask(false);
 		GlStateManager.tryBlendFuncSeparate(770, 771, 1, 0);

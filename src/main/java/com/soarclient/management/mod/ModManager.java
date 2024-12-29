@@ -11,6 +11,7 @@ import com.soarclient.management.mod.api.hud.design.HUDDesign;
 import com.soarclient.management.mod.api.hud.design.impl.SimpleDesign;
 import com.soarclient.management.mod.impl.hud.FPSDisplayMod;
 import com.soarclient.management.mod.impl.hud.MinimapMod;
+import com.soarclient.management.mod.impl.hud.RearviewMod;
 import com.soarclient.management.mod.impl.settings.ModMenuSettings;
 import com.soarclient.management.mod.settings.Setting;
 import com.soarclient.management.mod.settings.impl.KeybindSetting;
@@ -33,6 +34,7 @@ public class ModManager {
 		// HUD
 		mods.add(new FPSDisplayMod());
 		mods.add(new MinimapMod());
+		mods.add(new RearviewMod());
 		
 		// Settings
 		mods.add(new ModMenuSettings());
