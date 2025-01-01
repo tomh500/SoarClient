@@ -52,6 +52,7 @@ public class GuiModMenu extends PageGui {
 		}
 		
 		animation = new EaseEmphasizedDecelerate(Duration.EXTRA_LONG_1, 0, 1);
+		currentPage.init();
 	}
 
 	@Override

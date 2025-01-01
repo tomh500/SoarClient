@@ -76,7 +76,6 @@ public class RearviewCamera {
         	endTime = renderEndNanoTime;
         }
 
-        mc.currentScreen = null;
         mc.displayHeight = 600;
         mc.displayWidth = 800;
         mc.gameSettings.hideGUI = true;

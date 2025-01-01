@@ -22,4 +22,8 @@ public class SimpleAnimation {
 	public float getValue() {
 		return currentValue;
 	}
+
+	public void setFirstTick(boolean firstTick) {
+		this.firstTick = firstTick;
+	}
 }

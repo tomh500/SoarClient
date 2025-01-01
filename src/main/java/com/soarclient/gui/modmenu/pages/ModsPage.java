@@ -31,6 +31,10 @@ public class ModsPage extends Page {
 
 	@Override
 	public void init() {
+		for (Item i : items) {
+			i.xAnimation.setFirstTick(true);
+			i.yAnimation.setFirstTick(true);
+		}
 	}
 
 	@Override
@@ -57,7 +61,9 @@ public class ModsPage extends Page {
 			float itemX = x + offsetX;
 			float itemY = y + 96 + offsetY;
 
-			focusAnimation.onTick(MouseUtils.isInside(mouseX, mouseY, itemX, itemY, 244, 116 + 35) ? 1 : 0, 10);
+			focusAnimation.onTick(
+					MouseUtils.isInside(mouseX, mouseY, itemX, itemY, 244, 116 + 35) ? i.pressed ? 0.12F : 0.08F : 0,
+					8);
 			enableAnimation.onTick(m.isEnabled() ? 1 : 0, 10);
 			xAnimation.onTick(itemX, 12);
 			yAnimation.onTick(itemY, 12);
@@ -66,11 +72,14 @@ public class ModsPage extends Page {
 			itemY = yAnimation.getValue();
 
 			Skia.drawRoundedRectVarying(itemX, itemY, 244, 116, 26, 26, 0, 0, palette.getSurface());
-			Skia.drawRoundedRectVarying(itemX, itemY + 116, 244, 35, 0, 0, 26, 26, palette.getSurfaceContainerHigh());
+			Skia.drawRoundedRectVarying(itemX, itemY + 116, 244, 35, 0, 0, 26, 26, palette.getSurfaceContainerLow());
+
+			Skia.drawRoundedRectVarying(itemX, itemY + 116, 244, 35, 0, 0, 26, 26,
+					ColorUtils.applyAlpha(palette.getSurfaceContainerLowest(), focusAnimation.getValue()));
 
 			Skia.save();
 			Skia.clip(itemX, itemY + 116, 244, 35, 0, 0, 26, 26);
-			Skia.drawCircle(i.enabledPos[0], i.enabledPos[1],
+			Skia.drawCircle(itemX + i.enabledPos[0], itemY + 116 + i.enabledPos[1],
 					MathUtils.calculateMaxRadius(itemX, itemY, 244, 35) * enableAnimation.getValue(),
 					ColorUtils.applyAlpha(palette.getPrimaryContainer(), enableAnimation.getValue()));
 			Skia.restore();
@@ -79,7 +88,7 @@ public class ModsPage extends Page {
 					palette.getOnSurfaceVariant(), Fonts.getRegular(16));
 			Skia.drawFullCenteredText(m.getIcon(), itemX + (244 / 2), itemY + (116 / 2), palette.getOnSurfaceVariant(),
 					Fonts.getIcon(68));
-			
+
 			index++;
 			offsetX += 32 + 244;
 
@@ -95,6 +104,24 @@ public class ModsPage extends Page {
 
 		for (Item i : items) {
 
+			float itemX = i.xAnimation.getValue();
+			float itemY = i.yAnimation.getValue();
+
+			if (mouseButton == 0) {
+
+				if (MouseUtils.isInside(mouseX, mouseY, itemX, itemY + 116, 244, 35)) {
+					i.pressed = true;
+				}
+			}
+
+		}
+	}
+
+	@Override
+	public void mouseReleased(int mouseX, int mouseY, int mouseButton) {
+
+		for (Item i : items) {
+
 			Mod m = i.mod;
 			float itemX = i.xAnimation.getValue();
 			float itemY = i.yAnimation.getValue();
@@ -102,15 +129,14 @@ public class ModsPage extends Page {
 			if (mouseButton == 0) {
 
 				if (MouseUtils.isInside(mouseX, mouseY, itemX, itemY + 116, 244, 35)) {
-					i.enabledPos = new int[] { mouseX, mouseY };
+					i.enabledPos[0] = mouseX - itemX;
+					i.enabledPos[1] = mouseY - (itemY + 116);
 					m.toggle();
 				}
 			}
-		}
-	}
 
-	@Override
-	public void mouseReleased(int mouseX, int mouseY, int mouseButton) {
+			i.pressed = false;
+		}
 	}
 
 	@Override
@@ -128,10 +154,12 @@ public class ModsPage extends Page {
 		private SimpleAnimation enableAnimation = new SimpleAnimation();
 		private SimpleAnimation xAnimation = new SimpleAnimation();
 		private SimpleAnimation yAnimation = new SimpleAnimation();
-		private int[] enabledPos = new int[] { 0, 0 };
+		private float[] enabledPos = new float[] { 0, 0 };
+		private boolean pressed;
 
 		private Item(Mod mod) {
 			this.mod = mod;
+			this.pressed = false;
 		}
 	}
 }

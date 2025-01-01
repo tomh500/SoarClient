@@ -21,6 +21,7 @@ import com.google.common.base.Predicates;
 import com.google.gson.JsonSyntaxException;
 import com.soarclient.event.EventBus;
 import com.soarclient.event.impl.HurtCameraEvent;
+import com.soarclient.management.mod.impl.hud.RearviewMod;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockBed;
@@ -1227,6 +1228,7 @@ public class EntityRenderer implements IResourceManagerReloadListener {
 	}
 
 	public void renderWorld(float partialTicks, long finishTimeNano) {
+		
 		this.updateLightmap(partialTicks);
 
 		if (this.mc.getRenderViewEntity() == null) {
