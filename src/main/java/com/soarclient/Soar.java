@@ -39,7 +39,6 @@ public class Soar {
 	}
 	
 	public void stop() {
-
 	}
 	
 	public static Soar getInstance() {

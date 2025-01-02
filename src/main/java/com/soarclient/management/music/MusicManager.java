@@ -1,26 +1,24 @@
 package com.soarclient.management.music;
 
-import java.awt.image.BufferedImage;
 import java.io.File;
-import java.util.ArrayList;
-import java.util.Collections;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.util.List;
-import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.CopyOnWriteArrayList;
 
-import javax.imageio.ImageIO;
-
+import com.soarclient.libraries.flac.FLACDecoder;
+import com.soarclient.libraries.flac.metadata.Metadata;
+import com.soarclient.libraries.flac.metadata.Picture;
+import com.soarclient.libraries.flac.metadata.VorbisComment;
 import com.soarclient.utils.RandomUtils;
 import com.soarclient.utils.file.FileLocation;
 import com.soarclient.utils.file.FileUtils;
 
-import me.eldodebug.jsmp.Jsmp;
-import me.eldodebug.jsmp.parser.JsmpResult;
 import net.minecraft.client.Minecraft;
 
 public class MusicManager {
 
-	private final List<Music> musics = Collections.synchronizedList(new ArrayList<>());
-	private CompletableFuture<Void> loadFuture;
+	private List<Music> musics = new CopyOnWriteArrayList<>();
 
 	private Music currentMusic;
 	private MusicPlayer musicPlayer;
@@ -28,11 +26,15 @@ public class MusicManager {
 	private boolean repeat;
 
 	public MusicManager() {
-
-		load();
+		
+		try {
+			load();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 
 		this.musicPlayer = new MusicPlayer(() -> {
-
+			
 			Music nextMusic;
 
 			if (repeat) {
@@ -63,75 +65,56 @@ public class MusicManager {
 		}.start();
 	}
 
-	public CompletableFuture<Void> load() {
-		
-		if (loadFuture != null && !loadFuture.isDone()) {
-			return loadFuture;
+	public void load() throws Exception {
+
+		File musicDir = FileLocation.MUSIC_DIR;
+
+		if (musicDir.listFiles() == null) {
+			return;
 		}
 
-		loadFuture = CompletableFuture.runAsync(() -> {
-			File musicDir = FileLocation.MUSIC_DIR;
+		for (File f : musicDir.listFiles()) {
 
-			if (musicDir.listFiles() == null) {
-				return;
-			}
+			String name = f.getName();
 
-			List<CompletableFuture<Music>> futures = new ArrayList<>();
+			if (name.endsWith(".flac")) {
 
-			for (File f : musicDir.listFiles()) {
-				if (!isSupportAudio(f)) {
-					continue;
+				FLACDecoder decoder = new FLACDecoder(new FileInputStream(f));
+				Metadata[] metadata = decoder.readMetadata();
+				String title = null;
+				String artist = null;
+				byte[] imageData = null;
+
+				for (Metadata meta : metadata) {
+					if (meta instanceof VorbisComment) {
+						VorbisComment comment = (VorbisComment) meta;
+						if(comment.getCommentByName("TITLE").length > 0) {
+							title = comment.getCommentByName("TITLE")[0];
+						}
+						if(comment.getCommentByName("ARTIST").length > 0) {
+							artist = comment.getCommentByName("ARTIST")[0];
+						}
+					} else if (meta instanceof Picture) {
+						Picture picture = (Picture) meta;
+						imageData = picture.getImage();
+					}
 				}
 
-				CompletableFuture<Music> musicFuture = CompletableFuture.supplyAsync(() -> {
-					try {
-						JsmpResult result = Jsmp.parse(f);
-						String title = null;
-						String artist = null;
-						BufferedImage image = null;
-						File albumFile = null;
+				String fileHash = FileUtils.getMd5Checksum(f);
+				File album = new File(FileLocation.CACHE_DIR, fileHash);
 
-						if (result != null) {
-							title = result.getTitle();
-							artist = result.getArtist();
-							image = result.getAlbumImage();
+				if (imageData != null && !album.exists()) {
 
-							if (image != null) {
-								albumFile = new File(FileLocation.CACHE_DIR, FileUtils.getMd5Checksum(f));
-								if (!albumFile.exists()) {
-									ImageIO.write(image, "png", albumFile);
-								}
-							}
-						}
+					FileOutputStream fos = new FileOutputStream(album);
 
-						return new Music(f, title == null ? f.getName().replace(FileUtils.getExtension(f), "") : title,
-								artist == null ? "Unknown" : artist, albumFile);
-					} catch (Exception e) {
-						e.printStackTrace();
-						return new Music(f, f.getName().replace(FileUtils.getExtension(f), ""), "Unknown", null);
-					}
-				});
+					fos.write(imageData);
+					fos.close();
+				}
 
-				futures.add(musicFuture);
+				musics.add(new Music(f, title == null ? f.getName().replace(".flac", "") : title,
+						artist == null ? "" : artist, album.exists() ? album : null));
 			}
-
-			CompletableFuture.allOf(futures.toArray(new CompletableFuture[0])).thenAccept(v -> {
-				futures.forEach(future -> {
-					try {
-						Music music = future.get();
-						musics.add(music);
-					} catch (Exception e) {
-						e.printStackTrace();
-					}
-				});
-			});
-		});
-
-		return loadFuture;
-	}
-
-	public boolean isLoading() {
-		return loadFuture != null && !loadFuture.isDone();
+		}
 	}
 
 	public void play() {
@@ -209,9 +192,9 @@ public class MusicManager {
 	public float getEndTime() {
 		return musicPlayer.getEndTime();
 	}
-	
+
 	public List<Music> getMusics() {
-	    return Collections.unmodifiableList(musics);
+		return musics;
 	}
 
 	public Music getCurrentMusic() {
@@ -236,12 +219,5 @@ public class MusicManager {
 
 	public void setRepeat(boolean repeat) {
 		this.repeat = repeat;
-	}
-
-	private boolean isSupportAudio(File f) {
-
-		String ext = FileUtils.getExtension(f);
-
-		return ext.equals("mp3") || ext.equals("flac");
 	}
 }

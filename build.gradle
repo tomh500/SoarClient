@@ -77,11 +77,6 @@ dependencies {
 	implementation 'net.raphimc:viaaprilfools-common:3.0.5-SNAPSHOT'
 	implementation 'net.raphimc:ViaLegacy:3.0.6-SNAPSHOT'
 	implementation 'io.github.humbleui:types:0.2.0'
-	
-	implementation 'io.github.jseproject:jse-spi-flac:1.0.1'
-    implementation 'io.github.jseproject:jse-spi-vorbis:1.0.1'
-    implementation 'io.github.jseproject:jse-spi-mp3:1.0.2'
-    implementation 'io.github.jseproject:jse-spi-aac:1.0.2'
 
 	implementation fileTree('libs')
 }
