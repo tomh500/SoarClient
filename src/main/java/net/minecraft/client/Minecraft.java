@@ -2744,4 +2744,8 @@ public class Minecraft implements IThreadListener, IPlayerUsage {
 	public Timer getTimer() {
 		return timer;
 	}
+
+	public boolean isRunning() {
+		return running;
+	}
 }
