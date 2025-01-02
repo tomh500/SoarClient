@@ -79,7 +79,7 @@ public class ModsPage extends Page {
 
 			Skia.save();
 			Skia.clip(itemX, itemY + 116, 244, 35, 0, 0, 26, 26);
-			Skia.drawCircle(itemX + i.enabledPos[0], itemY + 116 + i.enabledPos[1],
+			Skia.drawCircle(itemX + i.pressedPos[0], itemY + 116 + i.pressedPos[1],
 					MathUtils.calculateMaxRadius(itemX, itemY, 244, 35) * enableAnimation.getValue(),
 					ColorUtils.applyAlpha(palette.getPrimaryContainer(), enableAnimation.getValue()));
 			Skia.restore();
@@ -129,8 +129,8 @@ public class ModsPage extends Page {
 			if (mouseButton == 0) {
 
 				if (MouseUtils.isInside(mouseX, mouseY, itemX, itemY + 116, 244, 35)) {
-					i.enabledPos[0] = mouseX - itemX;
-					i.enabledPos[1] = mouseY - (itemY + 116);
+					i.pressedPos[0] = mouseX - itemX;
+					i.pressedPos[1] = mouseY - (itemY + 116);
 					m.toggle();
 				}
 			}
@@ -154,7 +154,7 @@ public class ModsPage extends Page {
 		private SimpleAnimation enableAnimation = new SimpleAnimation();
 		private SimpleAnimation xAnimation = new SimpleAnimation();
 		private SimpleAnimation yAnimation = new SimpleAnimation();
-		private float[] enabledPos = new float[] { 0, 0 };
+		private float[] pressedPos = new float[] { 0, 0 };
 		private boolean pressed;
 
 		private Item(Mod mod) {

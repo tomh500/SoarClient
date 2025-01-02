@@ -296,7 +296,11 @@ public class Skia {
 		return paint;
 	}
 
-	private static Canvas getCanvas() {
+	public static Canvas getCanvas() {
 		return SkiaContext.getCanvas();
+	}
+
+	public static ImageHelper getImageHelper() {
+		return imageHelper;
 	}
 }
