@@ -61,6 +61,8 @@ public class RearviewMod extends HUDMod {
 		Skia.drawRoundedImage(camera.getTexture(), getX(), getY(), widthSetting.getValue(),
 				heightSetting.getValue(), getRadius(), alphaSetting.getValue(), SurfaceOrigin.BOTTOM_LEFT);
 		this.finish();
+		
+		position.setSize(widthSetting.getValue(), heightSetting.getValue());
 	}
 	
 	@EventHandler
