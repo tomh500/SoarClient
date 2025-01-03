@@ -56,6 +56,7 @@ public class RearviewMod extends HUDMod {
 	
 	@EventHandler
 	public void onRenderSkia(RenderSkiaEvent event) {
+		
 		this.begin();
 		this.drawBackground(getX(), getY(), widthSetting.getValue(), heightSetting.getValue());
 		Skia.drawRoundedImage(camera.getTexture(), getX(), getY(), widthSetting.getValue(),
