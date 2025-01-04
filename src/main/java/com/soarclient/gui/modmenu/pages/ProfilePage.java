@@ -2,12 +2,13 @@ package com.soarclient.gui.modmenu.pages;
 
 import com.soarclient.gui.api.page.Page;
 import com.soarclient.gui.api.page.PageGui;
+import com.soarclient.gui.api.page.PageTransition;
 import com.soarclient.skia.font.Icon;
 
 public class ProfilePage extends Page {
 
 	public ProfilePage(PageGui parent) {
-		super(parent, "text.profile", Icon.DESCRIPTION);
+		super(parent, "text.profile", Icon.DESCRIPTION, PageTransition.LEFT);
 	}
 
 	@Override

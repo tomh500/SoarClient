@@ -9,6 +9,7 @@ import com.soarclient.Soar;
 import com.soarclient.animation.SimpleAnimation;
 import com.soarclient.gui.api.page.Page;
 import com.soarclient.gui.api.page.PageGui;
+import com.soarclient.gui.api.page.PageTransition;
 import com.soarclient.gui.modmenu.pages.music.MusicControlBar;
 import com.soarclient.management.color.api.ColorPalette;
 import com.soarclient.management.music.Music;
@@ -30,11 +31,12 @@ import io.github.humbleui.types.Rect;
 
 public class MusicPage extends Page {
 
+	private SimpleAnimation controlBarAnimation = new SimpleAnimation();
 	private MusicControlBar controlBar;
 	private List<Item> items = new ArrayList<>();
 
 	public MusicPage(PageGui parent) {
-		super(parent, "text.music", Icon.MUSIC_NOTE);
+		super(parent, "text.music", Icon.MUSIC_NOTE, PageTransition.LEFT);
 
 		for (Music m : Soar.getInstance().getMusicManager().getMusics()) {
 			items.add(new Item(m));
@@ -62,13 +64,15 @@ public class MusicPage extends Page {
 		float offsetX = 32;
 		float offsetY = 96;
 
+		controlBarAnimation.onTick(MouseUtils.isInside(mouseX, mouseY, controlBar.getX(), controlBar.getY(),
+				controlBar.getWidth(), controlBar.getHeight()) ? 1 : 0, 12);
+
 		for (Item i : items) {
 
 			Music m = i.music;
 			SimpleAnimation xAnimation = i.xAnimation;
 			SimpleAnimation yAnimation = i.yAnimation;
 			SimpleAnimation focusAnimation = i.focusAnimation;
-			SimpleAnimation pressAnimation = i.pressAnimation;
 
 			float itemX = x + offsetX;
 			float itemY = y + offsetY;
@@ -76,7 +80,6 @@ public class MusicPage extends Page {
 			xAnimation.onTick(itemX, 12);
 			yAnimation.onTick(itemY, 12);
 			focusAnimation.onTick(MouseUtils.isInside(mouseX, mouseY, itemX, itemY, 174, 174) ? 1 : 0, 10);
-			pressAnimation.onTick(i.pressed ? 1 : 0, 10);
 
 			itemX = xAnimation.getValue();
 			itemY = yAnimation.getValue();
@@ -113,7 +116,10 @@ public class MusicPage extends Page {
 			}
 		}
 
+		Skia.save();
+		Skia.translate(0, 100 - (controlBarAnimation.getValue() * 100));
 		controlBar.draw(mouseX, mouseY);
+		Skia.restore();
 	}
 
 	@Override
@@ -124,16 +130,6 @@ public class MusicPage extends Page {
 		if (MouseUtils.isInside(mouseX, mouseY, controlBar.getX(), controlBar.getY(), controlBar.getWidth(),
 				controlBar.getHeight())) {
 			return;
-		}
-
-		for (Item i : items) {
-
-			float itemX = i.xAnimation.getValue();
-			float itemY = i.yAnimation.getValue();
-
-			if (MouseUtils.isInside(mouseX, mouseY, itemX, itemY, 174, 174)) {
-				i.pressed = true;
-			}
 		}
 	}
 
@@ -155,10 +151,7 @@ public class MusicPage extends Page {
 			float itemX = i.xAnimation.getValue();
 			float itemY = i.yAnimation.getValue();
 
-			if (MouseUtils.isInside(mouseX, mouseY, itemX, itemY, 174, 174)) {
-
-				i.pressedPos[0] = mouseX - itemX;
-				i.pressedPos[1] = mouseY - itemY;
+			if (MouseUtils.isInside(mouseX, mouseY, itemX, itemY, 174, 174) && mouseButton == 0) {
 
 				if (musicManager.getCurrentMusic() != m) {
 					musicManager.stop();
@@ -168,8 +161,6 @@ public class MusicPage extends Page {
 					musicManager.switchPlayBack();
 				}
 			}
-
-			i.pressed = false;
 		}
 	}
 
@@ -213,13 +204,9 @@ public class MusicPage extends Page {
 		private SimpleAnimation xAnimation = new SimpleAnimation();
 		private SimpleAnimation yAnimation = new SimpleAnimation();
 		private SimpleAnimation focusAnimation = new SimpleAnimation();
-		private SimpleAnimation pressAnimation = new SimpleAnimation();
-		private float[] pressedPos = new float[] { 0, 0 };
-		private boolean pressed;
 
 		private Item(Music music) {
 			this.music = music;
-			this.pressed = false;
 		}
 	}
 }

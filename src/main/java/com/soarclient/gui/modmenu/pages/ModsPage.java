@@ -7,6 +7,7 @@ import com.soarclient.Soar;
 import com.soarclient.animation.SimpleAnimation;
 import com.soarclient.gui.api.page.Page;
 import com.soarclient.gui.api.page.PageGui;
+import com.soarclient.gui.api.page.PageTransition;
 import com.soarclient.management.color.api.ColorPalette;
 import com.soarclient.management.mod.Mod;
 import com.soarclient.skia.Skia;
@@ -22,7 +23,7 @@ public class ModsPage extends Page {
 	private List<Item> items = new ArrayList<>();
 
 	public ModsPage(PageGui parent) {
-		super(parent, "text.mods", Icon.INVENTORY_2);
+		super(parent, "text.mods", Icon.INVENTORY_2, PageTransition.LEFT);
 
 		for (Mod m : Soar.getInstance().getModManager().getMods()) {
 			items.add(new Item(m));

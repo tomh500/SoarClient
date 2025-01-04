@@ -20,7 +20,6 @@ import com.soarclient.gui.modmenu.pages.SettingsPage;
 import com.soarclient.management.color.api.ColorPalette;
 import com.soarclient.shaders.impl.GaussianBlur;
 import com.soarclient.skia.Skia;
-import com.soarclient.ui.component.Component;
 
 import net.minecraft.client.gui.GuiScreen;
 
@@ -53,6 +52,7 @@ public class GuiModMenu extends PageGui {
 		
 		animation = new EaseEmphasizedDecelerate(Duration.EXTRA_LONG_1, 0, 1);
 		currentPage.init();
+		pageAnimation = new DummyAnimation(0, 1);
 	}
 
 	@Override
@@ -69,19 +69,8 @@ public class GuiModMenu extends PageGui {
 		Skia.scale(0, 0, mc.displayWidth, mc.displayHeight, 2 - animation.getValue());
 		
 		Skia.drawRoundedRect(getX(), getY(), getWidth(), getHeight(), 35, palette.getSurfaceContainer());
-		Skia.save();
 		
-		Skia.clip(getX(), getY(), getWidth(), getHeight(), 35);
-		
-		if (currentPage != null) {
-			currentPage.draw(mouseX, mouseY);
-		}
-		
-		for (Component c : components) {
-			c.draw(mouseX, mouseY);
-		}
-		
-		Skia.restore();
+		drawPage(mouseX, mouseY);
 		
 		if (animation.getEnd() == 0 && animation.isFinished()) {
 			mc.displayGuiScreen(nextScreen);
