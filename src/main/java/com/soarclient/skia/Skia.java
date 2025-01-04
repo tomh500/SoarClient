@@ -290,6 +290,24 @@ public class Skia {
 		return bounds.getHeight();
 	}
 
+	public static String getLimitText(String text, Font font, float width) {
+
+		boolean isInRange = false;
+		boolean isRemoved = false;
+
+		while (!isInRange) {
+			
+			if (getTextWidth(text, font) > width - getTextWidth("...", font)) {
+				text = text.substring(0, text.length() - 1);			
+				isRemoved = true;
+			} else {
+				isInRange = true;
+			}
+		}
+
+		return text + (isRemoved ? "..." : "");
+	}
+	
 	private static Paint getPaint(Color color) {
 		Paint paint = new Paint();
 		paint.setARGB(color.getAlpha(), color.getRed(), color.getGreen(), color.getBlue());
