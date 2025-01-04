@@ -47,7 +47,7 @@ public class GuiModMenu extends PageGui {
 		for (Page p : pages) {
 			p.setX(getX() + navigationRail.getWidth());
 			p.setY(getY());
-			p.setWidth(getWidth() - navigationRail.getHeight());
+			p.setWidth(getWidth() - navigationRail.getWidth());
 			p.setHeight(getHeight());
 		}
 		

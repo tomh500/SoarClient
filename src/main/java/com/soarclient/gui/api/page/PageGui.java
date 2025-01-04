@@ -18,7 +18,6 @@ public abstract class PageGui extends SoarGui {
 	
 	public PageGui() {
 		super(false);
-		
 		this.pages = createPages();
 		
 		if(!pages.isEmpty()) {
@@ -98,7 +97,16 @@ public abstract class PageGui extends SoarGui {
 	}
 
 	public void setCurrentPage(Page page) {
+		
+		if(currentPage != null) {
+			currentPage.onClosed();
+		}
+		
 		this.currentPage = page;
+		
+		if(currentPage != null) {
+			currentPage.init();
+		}
 	}
 	
 	public void setCurrentPage(Class<? extends Page> clazz) {
