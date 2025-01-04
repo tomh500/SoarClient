@@ -55,9 +55,9 @@ public class IconButton extends Component {
 		Skia.drawRoundedRect(x, y, width, height, getRadius(), c[0]);
 		Skia.drawRoundedRect(x, y, width, height, getRadius(),
 				ColorUtils.applyAlpha(c[1], focusAnimation.getValue() * 0.08F));
-		Skia.drawCircle(pressedPos[0], pressedPos[1],
-				pressAnimation.getValue() * MathUtils.calculateMaxRadius(x, y, width, height),
-				ColorUtils.applyAlpha(c[1], pressAnimation.getValue() * 0.12F));
+	    Skia.drawCircle(x + pressedPos[0], y + pressedPos[1],
+	            pressAnimation.getValue() * MathUtils.calculateMaxRadius(x, y, width, height),
+	            ColorUtils.applyAlpha(c[1], pressAnimation.getValue() * 0.12F));
 		
 		Skia.drawFullCenteredText(icon, x + (width / 2), y + (height / 2), c[1],
 				Fonts.getIconFill(getFontSize()));
@@ -69,7 +69,7 @@ public class IconButton extends Component {
 	public void mousePressed(int mouseX, int mouseY, int mouseButton) {
 		if (MouseUtils.isInside(mouseX, mouseY, x, y, width, height) && mouseButton == 0) {
 			pressed = true;
-			pressedPos = new int[] { mouseX, mouseY };
+			pressedPos = new int[] { mouseX - (int)x, mouseY - (int)y };
 		}
 	}
 
@@ -81,7 +81,6 @@ public class IconButton extends Component {
 			}
 		}
 		pressed = false;
-		pressedPos = new int[] { 0, 0 };
 	}
 
 	@Override
