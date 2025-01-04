@@ -7,9 +7,9 @@ import java.util.List;
 
 import com.soarclient.Soar;
 import com.soarclient.animation.SimpleAnimation;
-import com.soarclient.animation.other.DummyAnimation;
 import com.soarclient.gui.api.page.Page;
 import com.soarclient.gui.api.page.PageGui;
+import com.soarclient.gui.modmenu.pages.music.MusicControlBar;
 import com.soarclient.management.color.api.ColorPalette;
 import com.soarclient.management.music.Music;
 import com.soarclient.management.music.MusicManager;
@@ -17,7 +17,6 @@ import com.soarclient.skia.Skia;
 import com.soarclient.skia.font.Fonts;
 import com.soarclient.skia.font.Icon;
 import com.soarclient.utils.ColorUtils;
-import com.soarclient.utils.MathUtils;
 import com.soarclient.utils.mouse.MouseUtils;
 
 import io.github.humbleui.skija.ClipMode;
@@ -31,6 +30,7 @@ import io.github.humbleui.types.Rect;
 
 public class MusicPage extends Page {
 
+	private MusicControlBar controlBar;
 	private List<Item> items = new ArrayList<>();
 
 	public MusicPage(PageGui parent) {
@@ -43,6 +43,9 @@ public class MusicPage extends Page {
 
 	@Override
 	public void init() {
+
+		controlBar = new MusicControlBar(x + 22, y + height - 60 - 18, width - 44);
+
 		for (Item i : items) {
 			i.xAnimation.setFirstTick(true);
 			i.yAnimation.setFirstTick(true);
@@ -85,6 +88,13 @@ public class MusicPage extends Page {
 				Skia.drawRoundedRect(itemX, itemY, 174, 174, 26, palette.getSurfaceContainerHigh());
 			}
 
+			String limitedTitle = Skia.getLimitText(m.getTitle(), Fonts.getRegular(15), 174);
+			String limitedArtist = Skia.getLimitText(m.getArtist(), Fonts.getRegular(12), 174);
+
+			Skia.drawText(limitedTitle, itemX, itemY + 174 + 6, palette.getOnSurface(), Fonts.getRegular(15));
+			Skia.drawText(limitedArtist, itemX, itemY + 174 + 6 + 15, palette.getOnSurfaceVariant(),
+					Fonts.getRegular(12));
+
 			String icon = musicManager.getCurrentMusic() != null && musicManager.getCurrentMusic().equals(m)
 					&& musicManager.isPlaying() ? Icon.PAUSE : Icon.PLAY_ARROW;
 
@@ -102,10 +112,19 @@ public class MusicPage extends Page {
 				offsetY += 206 + 23;
 			}
 		}
+
+		controlBar.draw(mouseX, mouseY);
 	}
 
 	@Override
 	public void mousePressed(int mouseX, int mouseY, int mouseButton) {
+
+		controlBar.mousePressed(mouseX, mouseY, mouseButton);
+
+		if (MouseUtils.isInside(mouseX, mouseY, controlBar.getX(), controlBar.getY(), controlBar.getWidth(),
+				controlBar.getHeight())) {
+			return;
+		}
 
 		for (Item i : items) {
 
@@ -122,6 +141,13 @@ public class MusicPage extends Page {
 	public void mouseReleased(int mouseX, int mouseY, int mouseButton) {
 
 		MusicManager musicManager = Soar.getInstance().getMusicManager();
+
+		controlBar.mouseReleased(mouseX, mouseY, mouseButton);
+
+		if (MouseUtils.isInside(mouseX, mouseY, controlBar.getX(), controlBar.getY(), controlBar.getWidth(),
+				controlBar.getHeight())) {
+			return;
+		}
 
 		for (Item i : items) {
 
