@@ -3,6 +3,7 @@ import org.gradle.internal.os.OperatingSystem
 plugins {
     id 'java'
     id 'eclipse'
+	id 'com.gradleup.shadow' version '9.0.0-beta4'
 }
 
 group = 'com.soarclient'
@@ -79,4 +80,10 @@ dependencies {
 	implementation 'io.github.humbleui:types:0.2.0'
 
 	implementation fileTree('libs')
+}
+
+jar {
+    manifest {
+        attributes "Main-Class" : "com.soarclient.launch.Launch"
+    }
 }
