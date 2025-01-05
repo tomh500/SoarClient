@@ -21,7 +21,6 @@ import com.google.common.collect.Lists;
 
 import net.minecraft.util.ReportedException;
 import net.minecraft.world.gen.layer.IntCache;
-import net.optifine.CrashReporter;
 
 public class CrashReport {
 	private static final Logger logger = LogManager.getLogger();
@@ -32,7 +31,6 @@ public class CrashReport {
 	private File crashReportFile;
 	private boolean firstCategoryInCrashReport = true;
 	private StackTraceElement[] stacktrace = new StackTraceElement[0];
-	private boolean reported = false;
 
 	public CrashReport(String descriptionIn, Throwable causeThrowable) {
 		this.description = descriptionIn;
@@ -170,10 +168,6 @@ public class CrashReport {
 	}
 
 	public String getCompleteReport() {
-		if (!this.reported) {
-			this.reported = true;
-			CrashReporter.onCrashReport(this, this.theReportCategory);
-		}
 
 		StringBuilder stringbuilder = new StringBuilder();
 		stringbuilder.append("---- Minecraft Crash Report ----\n");

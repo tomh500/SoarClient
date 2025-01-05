@@ -22,7 +22,6 @@ import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.PacketThreadUtil;
 import net.minecraft.network.play.server.S2BPacketChangeGameState;
-import net.minecraft.profiler.PlayerUsageSnooper;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.src.Config;
 import net.minecraft.util.BlockPos;
@@ -294,15 +293,6 @@ public class IntegratedServer extends MinecraftServer {
 		if (this.mc.theWorld != null) {
 			this.mc.theWorld.getWorldInfo().setDifficulty(difficulty);
 		}
-	}
-
-	public void addServerStatsToSnooper(PlayerUsageSnooper playerSnooper) {
-		super.addServerStatsToSnooper(playerSnooper);
-		playerSnooper.addClientStat("snooper_partner", this.mc.getPlayerUsageSnooper().getUniqueID());
-	}
-
-	public boolean isSnooperEnabled() {
-		return Minecraft.getMinecraft().isSnooperEnabled();
 	}
 
 	public String shareToLAN(WorldSettings.GameType type, boolean allowCheats) {
