@@ -7,7 +7,7 @@ import net.minecraft.world.biome.BiomeGenBase;
 
 public class GenLayerHills extends GenLayer {
 	private static final Logger logger = LogManager.getLogger();
-	private GenLayer field_151628_d;
+	private final GenLayer field_151628_d;
 
 	public GenLayerHills(long p_i45479_1_, GenLayer p_i45479_3_, GenLayer p_i45479_4_) {
 		super(p_i45479_1_);
@@ -22,7 +22,7 @@ public class GenLayerHills extends GenLayer {
 
 		for (int i = 0; i < areaHeight; ++i) {
 			for (int j = 0; j < areaWidth; ++j) {
-				this.initChunkSeed((long) (j + areaX), (long) (i + areaY));
+				this.initChunkSeed(j + areaX, i + areaY);
 				int k = aint[j + 1 + (i + 1) * (areaWidth + 2)];
 				int l = aint1[j + 1 + (i + 1) * (areaWidth + 2)];
 				boolean flag = (l - 2) % 29 == 0;

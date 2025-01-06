@@ -21,7 +21,7 @@ import net.minecraft.util.StringUtils;
 
 public class Potion {
 	public static final Potion[] potionTypes = new Potion[32];
-	private static final Map<ResourceLocation, Potion> field_180150_I = Maps.<ResourceLocation, Potion>newHashMap();
+	private static final Map<ResourceLocation, Potion> field_180150_I = Maps.newHashMap();
 	public static final Potion field_180151_b = null;
 	public static final Potion moveSpeed = (new Potion(1, new ResourceLocation("speed"), false, 8171462))
 			.setPotionName("potion.moveSpeed").setIconIndex(0, 0)
@@ -86,7 +86,7 @@ public class Potion {
 	public static final Potion field_180146_G = null;
 	public final int id;
 	private final Map<IAttribute, AttributeModifier> attributeModifierMap = Maps
-			.<IAttribute, AttributeModifier>newHashMap();
+			.newHashMap();
 	private final boolean isBadEffect;
 	private final int liquidColor;
 	private String name = "";
@@ -110,7 +110,7 @@ public class Potion {
 	}
 
 	public static Potion getPotionFromResourceLocation(String location) {
-		return (Potion) field_180150_I.get(new ResourceLocation(location));
+		return field_180150_I.get(new ResourceLocation(location));
 	}
 
 	public static Set<ResourceLocation> getPotionLocations() {
@@ -182,13 +182,13 @@ public class Potion {
 	public boolean isReady(int p_76397_1_, int p_76397_2_) {
 		if (this.id == regeneration.id) {
 			int k = 50 >> p_76397_2_;
-			return k > 0 ? p_76397_1_ % k == 0 : true;
+			return k <= 0 || p_76397_1_ % k == 0;
 		} else if (this.id == poison.id) {
 			int j = 25 >> p_76397_2_;
-			return j > 0 ? p_76397_1_ % j == 0 : true;
+			return j <= 0 || p_76397_1_ % j == 0;
 		} else if (this.id == wither.id) {
 			int i = 40 >> p_76397_2_;
-			return i > 0 ? p_76397_1_ % i == 0 : true;
+			return i <= 0 || p_76397_1_ % i == 0;
 		} else {
 			return this.id == hunger.id;
 		}
@@ -256,10 +256,10 @@ public class Potion {
 	public void removeAttributesModifiersFromEntity(EntityLivingBase entityLivingBaseIn, BaseAttributeMap p_111187_2_,
 			int amplifier) {
 		for (Entry<IAttribute, AttributeModifier> entry : this.attributeModifierMap.entrySet()) {
-			IAttributeInstance iattributeinstance = p_111187_2_.getAttributeInstance((IAttribute) entry.getKey());
+			IAttributeInstance iattributeinstance = p_111187_2_.getAttributeInstance(entry.getKey());
 
 			if (iattributeinstance != null) {
-				iattributeinstance.removeModifier((AttributeModifier) entry.getValue());
+				iattributeinstance.removeModifier(entry.getValue());
 			}
 		}
 	}
@@ -267,10 +267,10 @@ public class Potion {
 	public void applyAttributesModifiersToEntity(EntityLivingBase entityLivingBaseIn, BaseAttributeMap p_111185_2_,
 			int amplifier) {
 		for (Entry<IAttribute, AttributeModifier> entry : this.attributeModifierMap.entrySet()) {
-			IAttributeInstance iattributeinstance = p_111185_2_.getAttributeInstance((IAttribute) entry.getKey());
+			IAttributeInstance iattributeinstance = p_111185_2_.getAttributeInstance(entry.getKey());
 
 			if (iattributeinstance != null) {
-				AttributeModifier attributemodifier = (AttributeModifier) entry.getValue();
+				AttributeModifier attributemodifier = entry.getValue();
 				iattributeinstance.removeModifier(attributemodifier);
 				iattributeinstance.applyModifier(new AttributeModifier(attributemodifier.getID(),
 						this.getName() + " " + amplifier, this.getAttributeModifierAmount(amplifier, attributemodifier),

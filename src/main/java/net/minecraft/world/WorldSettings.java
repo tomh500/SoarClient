@@ -79,14 +79,14 @@ public final class WorldSettings {
 		return this.worldName;
 	}
 
-	public static enum GameType {
+	public enum GameType {
 		NOT_SET(-1, ""), SURVIVAL(0, "survival"), CREATIVE(1, "creative"), ADVENTURE(2, "adventure"),
 		SPECTATOR(3, "spectator");
 
 		int id;
 		String name;
 
-		private GameType(int typeId, String nameIn) {
+		GameType(int typeId, String nameIn) {
 			this.id = typeId;
 			this.name = nameIn;
 		}

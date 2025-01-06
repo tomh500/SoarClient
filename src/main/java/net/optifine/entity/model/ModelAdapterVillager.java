@@ -18,11 +18,10 @@ public class ModelAdapterVillager extends ModelAdapter {
 	}
 
 	public ModelRenderer getModelRenderer(ModelBase model, String modelPart) {
-		if (!(model instanceof ModelVillager)) {
+		if (!(model instanceof ModelVillager modelvillager)) {
 			return null;
 		} else {
-			ModelVillager modelvillager = (ModelVillager) model;
-			return modelPart.equals("head") ? modelvillager.villagerHead
+            return modelPart.equals("head") ? modelvillager.villagerHead
 					: (modelPart.equals("body") ? modelvillager.villagerBody
 							: (modelPart.equals("arms") ? modelvillager.villagerArms
 									: (modelPart.equals("left_leg") ? modelvillager.leftVillagerLeg

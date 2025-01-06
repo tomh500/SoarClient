@@ -19,12 +19,11 @@ public class ModelAdapterRabbit extends ModelAdapter {
 	}
 
 	public ModelRenderer getModelRenderer(ModelBase model, String modelPart) {
-		if (!(model instanceof ModelRabbit)) {
+		if (!(model instanceof ModelRabbit modelrabbit)) {
 			return null;
 		} else {
-			ModelRabbit modelrabbit = (ModelRabbit) model;
 
-			return modelPart.equals("left_foot") ? modelrabbit.rabbitLeftFoot
+            return modelPart.equals("left_foot") ? modelrabbit.rabbitLeftFoot
 					: (modelPart.equals("right_foot") ? modelrabbit.rabbitRightFoot
 							: (modelPart.equals("left_thigh") ? modelrabbit.rabbitLeftThigh
 									: (modelPart.equals("right_thigh") ? modelrabbit.rabbitRightThigh

@@ -38,13 +38,13 @@ public class CommandServerKick extends CommandBase {
 
 				if (flag) {
 					notifyOperators(sender, this, "commands.kick.success.reason",
-							new Object[] { entityplayermp.getName(), s });
+                            entityplayermp.getName(), s);
 				} else {
-					notifyOperators(sender, this, "commands.kick.success", new Object[] { entityplayermp.getName() });
+					notifyOperators(sender, this, "commands.kick.success", entityplayermp.getName());
 				}
 			}
 		} else {
-			throw new WrongUsageException("commands.kick.usage", new Object[0]);
+			throw new WrongUsageException("commands.kick.usage");
 		}
 	}
 

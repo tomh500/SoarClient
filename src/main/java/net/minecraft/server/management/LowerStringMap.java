@@ -7,7 +7,7 @@ import java.util.Set;
 import com.google.common.collect.Maps;
 
 public class LowerStringMap<V> implements Map<String, V> {
-	private final Map<String, V> internalMap = Maps.<String, V>newLinkedHashMap();
+	private final Map<String, V> internalMap = Maps.newLinkedHashMap();
 
 	public int size() {
 		return this.internalMap.size();
@@ -39,7 +39,7 @@ public class LowerStringMap<V> implements Map<String, V> {
 
 	public void putAll(Map<? extends String, ? extends V> p_putAll_1_) {
 		for (Entry<? extends String, ? extends V> entry : p_putAll_1_.entrySet()) {
-			this.put((String) entry.getKey(), entry.getValue());
+			this.put(entry.getKey(), entry.getValue());
 		}
 	}
 

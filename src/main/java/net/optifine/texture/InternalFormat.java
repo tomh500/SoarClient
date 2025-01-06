@@ -8,9 +8,9 @@ public enum InternalFormat {
 	RG32UI(33340), RGB32UI(36209), RGBA32UI(36208), R3_G3_B2(10768), RGB5_A1(32855), RGB10_A2(32857),
 	R11F_G11F_B10F(35898), RGB9_E5(35901);
 
-	private int id;
+	private final int id;
 
-	private InternalFormat(int id) {
+	InternalFormat(int id) {
 		this.id = id;
 	}
 

@@ -18,11 +18,10 @@ public class ModelAdapterIronGolem extends ModelAdapter {
 	}
 
 	public ModelRenderer getModelRenderer(ModelBase model, String modelPart) {
-		if (!(model instanceof ModelIronGolem)) {
+		if (!(model instanceof ModelIronGolem modelirongolem)) {
 			return null;
 		} else {
-			ModelIronGolem modelirongolem = (ModelIronGolem) model;
-			return modelPart
+            return modelPart
 					.equals("head")
 							? modelirongolem.ironGolemHead
 							: (modelPart.equals("body") ? modelirongolem.ironGolemBody

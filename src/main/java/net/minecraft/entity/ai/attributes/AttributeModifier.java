@@ -24,8 +24,8 @@ public class AttributeModifier {
 		this.name = nameIn;
 		this.amount = amountIn;
 		this.operation = operationIn;
-		Validate.notEmpty(nameIn, "Modifier name cannot be empty", new Object[0]);
-		Validate.inclusiveBetween(0L, 2L, (long) operationIn, "Invalid operation");
+		Validate.notEmpty(nameIn, "Modifier name cannot be empty");
+		Validate.inclusiveBetween(0L, 2L, operationIn, "Invalid operation");
 	}
 
 	public UUID getID() {
@@ -60,15 +60,9 @@ public class AttributeModifier {
 			AttributeModifier attributemodifier = (AttributeModifier) p_equals_1_;
 
 			if (this.id != null) {
-				if (!this.id.equals(attributemodifier.id)) {
-					return false;
-				}
-			} else if (attributemodifier.id != null) {
-				return false;
-			}
-
-			return true;
-		} else {
+                return this.id.equals(attributemodifier.id);
+			} else return attributemodifier.id == null;
+        } else {
 			return false;
 		}
 	}
@@ -78,7 +72,7 @@ public class AttributeModifier {
 	}
 
 	public String toString() {
-		return "AttributeModifier{amount=" + this.amount + ", operation=" + this.operation + ", name=\'" + this.name
+		return "AttributeModifier{amount=" + this.amount + ", operation=" + this.operation + ", name='" + this.name
 				+ '\'' + ", id=" + this.id + ", serialize=" + this.isSaved + '}';
 	}
 }

@@ -12,14 +12,14 @@ public enum BlockDir {
 	DOWN_WEST(EnumFacing.DOWN, EnumFacing.WEST), DOWN_EAST(EnumFacing.DOWN, EnumFacing.EAST),
 	UP_WEST(EnumFacing.UP, EnumFacing.WEST), UP_EAST(EnumFacing.UP, EnumFacing.EAST);
 
-	private EnumFacing facing1;
+	private final EnumFacing facing1;
 	private EnumFacing facing2;
 
-	private BlockDir(EnumFacing facing1) {
+	BlockDir(EnumFacing facing1) {
 		this.facing1 = facing1;
 	}
 
-	private BlockDir(EnumFacing facing1, EnumFacing facing2) {
+	BlockDir(EnumFacing facing1, EnumFacing facing2) {
 		this.facing1 = facing1;
 		this.facing2 = facing2;
 	}

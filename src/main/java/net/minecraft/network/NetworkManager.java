@@ -58,7 +58,7 @@ public class NetworkManager extends SimpleChannelInboundHandler<Packet> {
 	public static final Marker logMarkerNetwork = MarkerManager.getMarker("NETWORK");
 	public static final Marker logMarkerPackets = MarkerManager.getMarker("NETWORK_PACKETS", logMarkerNetwork);
 	public static final AttributeKey<EnumConnectionState> attrKeyConnectionState = AttributeKey
-			.<EnumConnectionState>valueOf("protocol");
+			.valueOf("protocol");
 	public static final LazyLoadBase<NioEventLoopGroup> CLIENT_NIO_EVENTLOOP = new LazyLoadBase<NioEventLoopGroup>() {
 		protected NioEventLoopGroup load() {
 			return new NioEventLoopGroup(0,
@@ -78,7 +78,7 @@ public class NetworkManager extends SimpleChannelInboundHandler<Packet> {
 		}
 	};
 	private final EnumPacketDirection direction;
-	private final Queue<NetworkManager.InboundHandlerTuplePacketListener> outboundPacketsQueue = Queues.<NetworkManager.InboundHandlerTuplePacketListener>newConcurrentLinkedQueue();
+	private final Queue<NetworkManager.InboundHandlerTuplePacketListener> outboundPacketsQueue = Queues.newConcurrentLinkedQueue();
 	private final ReentrantReadWriteLock readWriteLock = new ReentrantReadWriteLock();
 	private Channel channel;
 	private SocketAddress socketAddress;
@@ -99,7 +99,7 @@ public class NetworkManager extends SimpleChannelInboundHandler<Packet> {
 		try {
 			this.setConnectionState(EnumConnectionState.HANDSHAKING);
 		} catch (Throwable throwable) {
-			logger.fatal((Object) throwable);
+			logger.fatal(throwable);
 		}
 	}
 
@@ -110,7 +110,7 @@ public class NetworkManager extends SimpleChannelInboundHandler<Packet> {
 	}
 
 	public void channelInactive(ChannelHandlerContext p_channelInactive_1_) throws Exception {
-		this.closeChannel(new ChatComponentTranslation("disconnect.endOfStream", new Object[0]));
+		this.closeChannel(new ChatComponentTranslation("disconnect.endOfStream"));
 	}
 
 	public void exceptionCaught(ChannelHandlerContext p_exceptionCaught_1_, Throwable p_exceptionCaught_2_)
@@ -118,10 +118,10 @@ public class NetworkManager extends SimpleChannelInboundHandler<Packet> {
 		ChatComponentTranslation chatcomponenttranslation;
 
 		if (p_exceptionCaught_2_ instanceof TimeoutException) {
-			chatcomponenttranslation = new ChatComponentTranslation("disconnect.timeout", new Object[0]);
+			chatcomponenttranslation = new ChatComponentTranslation("disconnect.timeout");
 		} else {
 			chatcomponenttranslation = new ChatComponentTranslation("disconnect.genericReason",
-					new Object[] { "Internal Exception: " + p_exceptionCaught_2_ });
+                    "Internal Exception: " + p_exceptionCaught_2_);
 		}
 
 		this.closeChannel(chatcomponenttranslation);
@@ -132,21 +132,20 @@ public class NetworkManager extends SimpleChannelInboundHandler<Packet> {
 			try {
 				p_channelRead0_2_.processPacket(this.packetListener);
 			} catch (ThreadQuickExitException var4) {
-				;
-			}
+            }
 		}
 	}
 
 	public void setNetHandler(INetHandler handler) {
-		Validate.notNull(handler, "packetListener", new Object[0]);
-		logger.debug("Set listener of {} to {}", new Object[] { this, handler });
+		Validate.notNull(handler, "packetListener");
+		logger.debug("Set listener of {} to {}", this, handler);
 		this.packetListener = handler;
 	}
 
 	public void sendPacket(Packet packetIn) {
 		if (this.isChannelOpen()) {
 			this.flushOutboundQueue();
-			this.dispatchPacket(packetIn, (GenericFutureListener<? extends Future<? super Void>>[]) null);
+			this.dispatchPacket(packetIn, null);
 		} else {
 			this.readWriteLock.writeLock().lock();
 
@@ -163,13 +162,13 @@ public class NetworkManager extends SimpleChannelInboundHandler<Packet> {
 			GenericFutureListener<? extends Future<? super Void>>... listeners) {
 		if (this.isChannelOpen()) {
 			this.flushOutboundQueue();
-			this.dispatchPacket(packetIn, (GenericFutureListener[]) ArrayUtils.add(listeners, 0, listener));
+			this.dispatchPacket(packetIn, ArrayUtils.add(listeners, 0, listener));
 		} else {
 			this.readWriteLock.writeLock().lock();
 
 			try {
 				this.outboundPacketsQueue.add(new NetworkManager.InboundHandlerTuplePacketListener(packetIn,
-						(GenericFutureListener[]) ArrayUtils.add(listeners, 0, listener)));
+                        ArrayUtils.add(listeners, 0, listener)));
 			} finally {
 				this.readWriteLock.writeLock().unlock();
 			}
@@ -179,7 +178,7 @@ public class NetworkManager extends SimpleChannelInboundHandler<Packet> {
 	private void dispatchPacket(final Packet inPacket,
 			final GenericFutureListener<? extends Future<? super Void>>[] futureListeners) {
 		final EnumConnectionState enumconnectionstate = EnumConnectionState.getFromPacket(inPacket);
-		final EnumConnectionState enumconnectionstate1 = (EnumConnectionState) this.channel.attr(attrKeyConnectionState)
+		final EnumConnectionState enumconnectionstate1 = this.channel.attr(attrKeyConnectionState)
 				.get();
 
 		if (enumconnectionstate1 != enumconnectionstate) {
@@ -224,7 +223,7 @@ public class NetworkManager extends SimpleChannelInboundHandler<Packet> {
 
 			try {
 				while (!this.outboundPacketsQueue.isEmpty()) {
-					NetworkManager.InboundHandlerTuplePacketListener networkmanager$inboundhandlertuplepacketlistener = (NetworkManager.InboundHandlerTuplePacketListener) this.outboundPacketsQueue
+					NetworkManager.InboundHandlerTuplePacketListener networkmanager$inboundhandlertuplepacketlistener = this.outboundPacketsQueue
 							.poll();
 					this.dispatchPacket(networkmanager$inboundhandlertuplepacketlistener.packet,
 							networkmanager$inboundhandlertuplepacketlistener.futureListeners);
@@ -274,37 +273,36 @@ public class NetworkManager extends SimpleChannelInboundHandler<Packet> {
 			lazyloadbase = CLIENT_NIO_EVENTLOOP;
 		}
 
-		((Bootstrap) ((Bootstrap) ((Bootstrap) (new Bootstrap()).group((EventLoopGroup) lazyloadbase.getValue()))
+		(new Bootstrap()).group(lazyloadbase.getValue())
 				.handler(new ChannelInitializer<Channel>() {
 					protected void initChannel(Channel p_initChannel_1_) throws Exception {
 						try {
 							p_initChannel_1_.config().setOption(ChannelOption.TCP_NODELAY, Boolean.valueOf(true));
 						} catch (ChannelException var3) {
-							;
-						}
+                        }
 
 						p_initChannel_1_.pipeline()
-								.addLast((String) "timeout", (ChannelHandler) (new ReadTimeoutHandler(30)))
-								.addLast((String) "splitter", (ChannelHandler) (new MessageDeserializer2()))
-								.addLast((String) "decoder",
-										(ChannelHandler) (new MessageDeserializer(EnumPacketDirection.CLIENTBOUND)))
-								.addLast((String) "prepender", (ChannelHandler) (new MessageSerializer2()))
-								.addLast((String) "encoder",
-										(ChannelHandler) (new MessageSerializer(EnumPacketDirection.SERVERBOUND)))
-								.addLast((String) "packet_handler", (ChannelHandler) networkmanager);
+								.addLast("timeout", new ReadTimeoutHandler(30))
+								.addLast("splitter", new MessageDeserializer2())
+								.addLast("decoder",
+                                        new MessageDeserializer(EnumPacketDirection.CLIENTBOUND))
+								.addLast("prepender", new MessageSerializer2())
+								.addLast("encoder",
+                                        new MessageSerializer(EnumPacketDirection.SERVERBOUND))
+								.addLast("packet_handler", networkmanager);
 					}
-				})).channel(oclass)).connect(address, serverPort).syncUninterruptibly();
+				}).channel(oclass).connect(address, serverPort).syncUninterruptibly();
 		return networkmanager;
 	}
 
 	public static NetworkManager provideLocalClient(SocketAddress address) {
 		final NetworkManager networkmanager = new NetworkManager(EnumPacketDirection.CLIENTBOUND);
-		((Bootstrap) ((Bootstrap) ((Bootstrap) (new Bootstrap())
-				.group((EventLoopGroup) CLIENT_LOCAL_EVENTLOOP.getValue())).handler(new ChannelInitializer<Channel>() {
+		(new Bootstrap())
+				.group(CLIENT_LOCAL_EVENTLOOP.getValue()).handler(new ChannelInitializer<Channel>() {
 					protected void initChannel(Channel p_initChannel_1_) throws Exception {
-						p_initChannel_1_.pipeline().addLast((String) "packet_handler", (ChannelHandler) networkmanager);
+						p_initChannel_1_.pipeline().addLast("packet_handler", networkmanager);
 					}
-				})).channel(LocalChannel.class)).connect(address).syncUninterruptibly();
+				}).channel(LocalChannel.class).connect(address).syncUninterruptibly();
 		return networkmanager;
 	}
 

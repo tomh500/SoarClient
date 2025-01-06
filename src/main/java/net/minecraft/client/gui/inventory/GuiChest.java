@@ -11,7 +11,7 @@ public class GuiChest extends GuiContainer {
 			"textures/gui/container/generic_54.png");
 	public IInventory upperChestInventory;
 	public IInventory lowerChestInventory;
-	private int inventoryRows;
+	private final int inventoryRows;
 
 	public GuiChest(IInventory upperInv, IInventory lowerInv) {
 		super(new ContainerChest(upperInv, lowerInv, Minecraft.getMinecraft().thePlayer));

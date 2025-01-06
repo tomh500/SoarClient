@@ -7,10 +7,10 @@ public enum ModelVariableType {
 	POS_X("tx"), POS_Y("ty"), POS_Z("tz"), ANGLE_X("rx"), ANGLE_Y("ry"), ANGLE_Z("rz"), OFFSET_X("ox"), OFFSET_Y("oy"),
 	OFFSET_Z("oz"), SCALE_X("sx"), SCALE_Y("sy"), SCALE_Z("sz");
 
-	private String name;
+	private final String name;
 	public static ModelVariableType[] VALUES = values();
 
-	private ModelVariableType(String name) {
+	ModelVariableType(String name) {
 		this.name = name;
 	}
 

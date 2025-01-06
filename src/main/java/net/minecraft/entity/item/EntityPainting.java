@@ -23,7 +23,7 @@ public class EntityPainting extends EntityHanging {
 
 	public EntityPainting(World worldIn, BlockPos pos, EnumFacing facing) {
 		super(worldIn, pos);
-		List<EntityPainting.EnumArt> list = Lists.<EntityPainting.EnumArt>newArrayList();
+		List<EntityPainting.EnumArt> list = Lists.newArrayList();
 
 		for (EntityPainting.EnumArt entitypainting$enumart : EntityPainting.EnumArt.values()) {
 			this.art = entitypainting$enumart;
@@ -35,7 +35,7 @@ public class EntityPainting extends EntityHanging {
 		}
 
 		if (!list.isEmpty()) {
-			this.art = (EntityPainting.EnumArt) list.get(this.rand.nextInt(list.size()));
+			this.art = list.get(this.rand.nextInt(list.size()));
 		}
 
 		this.updateFacingWithBoundingBox(facing);
@@ -85,10 +85,9 @@ public class EntityPainting extends EntityHanging {
 
 	public void onBroken(Entity brokenEntity) {
 		if (this.worldObj.getGameRules().getBoolean("doEntityDrops")) {
-			if (brokenEntity instanceof EntityPlayer) {
-				EntityPlayer entityplayer = (EntityPlayer) brokenEntity;
+			if (brokenEntity instanceof EntityPlayer entityplayer) {
 
-				if (entityplayer.capabilities.isCreativeMode) {
+                if (entityplayer.capabilities.isCreativeMode) {
 					return;
 				}
 			}
@@ -99,16 +98,16 @@ public class EntityPainting extends EntityHanging {
 
 	public void setLocationAndAngles(double x, double y, double z, float yaw, float pitch) {
 		BlockPos blockpos = this.hangingPosition.add(x - this.posX, y - this.posY, z - this.posZ);
-		this.setPosition((double) blockpos.getX(), (double) blockpos.getY(), (double) blockpos.getZ());
+		this.setPosition(blockpos.getX(), blockpos.getY(), blockpos.getZ());
 	}
 
 	public void setPositionAndRotation2(double x, double y, double z, float yaw, float pitch, int posRotationIncrements,
 			boolean p_180426_10_) {
 		BlockPos blockpos = this.hangingPosition.add(x - this.posX, y - this.posY, z - this.posZ);
-		this.setPosition((double) blockpos.getX(), (double) blockpos.getY(), (double) blockpos.getZ());
+		this.setPosition(blockpos.getX(), blockpos.getY(), blockpos.getZ());
 	}
 
-	public static enum EnumArt {
+	public enum EnumArt {
 		KEBAB("Kebab", 16, 16, 0, 0), AZTEC("Aztec", 16, 16, 16, 0), ALBAN("Alban", 16, 16, 32, 0),
 		AZTEC_2("Aztec2", 16, 16, 48, 0), BOMB("Bomb", 16, 16, 64, 0), PLANT("Plant", 16, 16, 80, 0),
 		WASTELAND("Wasteland", 16, 16, 96, 0), POOL("Pool", 32, 16, 0, 32), COURBET("Courbet", 32, 16, 32, 32),
@@ -127,7 +126,7 @@ public class EntityPainting extends EntityHanging {
 		public final int offsetX;
 		public final int offsetY;
 
-		private EnumArt(String titleIn, int width, int height, int textureU, int textureV) {
+		EnumArt(String titleIn, int width, int height, int textureU, int textureV) {
 			this.title = titleIn;
 			this.sizeX = width;
 			this.sizeY = height;

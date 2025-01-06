@@ -12,8 +12,8 @@ import net.minecraft.util.IChatComponent;
 
 public class InventoryBasic implements IInventory {
 	private String inventoryTitle;
-	private int slotsCount;
-	private ItemStack[] inventoryContents;
+	private final int slotsCount;
+	private final ItemStack[] inventoryContents;
 	private List<IInvBasic> changeListeners;
 	private boolean hasCustomName;
 
@@ -30,7 +30,7 @@ public class InventoryBasic implements IInventory {
 
 	public void addInventoryChangeListener(IInvBasic listener) {
 		if (this.changeListeners == null) {
-			this.changeListeners = Lists.<IInvBasic>newArrayList();
+			this.changeListeners = Lists.newArrayList();
 		}
 
 		this.changeListeners.add(listener);
@@ -139,8 +139,8 @@ public class InventoryBasic implements IInventory {
 	}
 
 	public IChatComponent getDisplayName() {
-		return (IChatComponent) (this.hasCustomName() ? new ChatComponentText(this.getName())
-				: new ChatComponentTranslation(this.getName(), new Object[0]));
+		return this.hasCustomName() ? new ChatComponentText(this.getName())
+				: new ChatComponentTranslation(this.getName(), new Object[0]);
 	}
 
 	public int getInventoryStackLimit() {
@@ -150,7 +150,7 @@ public class InventoryBasic implements IInventory {
 	public void markDirty() {
 		if (this.changeListeners != null) {
 			for (int i = 0; i < this.changeListeners.size(); ++i) {
-				((IInvBasic) this.changeListeners.get(i)).onInventoryChanged(this);
+				this.changeListeners.get(i).onInventoryChanged(this);
 			}
 		}
 	}

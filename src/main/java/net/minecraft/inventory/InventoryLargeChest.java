@@ -10,9 +10,9 @@ import net.minecraft.world.ILockableContainer;
 import net.minecraft.world.LockCode;
 
 public class InventoryLargeChest implements ILockableContainer {
-	private String name;
-	private ILockableContainer upperChest;
-	private ILockableContainer lowerChest;
+	private final String name;
+	private final ILockableContainer upperChest;
+	private final ILockableContainer lowerChest;
 
 	public InventoryLargeChest(String nameIn, ILockableContainer upperChestIn, ILockableContainer lowerChestIn) {
 		this.name = nameIn;
@@ -53,8 +53,8 @@ public class InventoryLargeChest implements ILockableContainer {
 	}
 
 	public IChatComponent getDisplayName() {
-		return (IChatComponent) (this.hasCustomName() ? new ChatComponentText(this.getName())
-				: new ChatComponentTranslation(this.getName(), new Object[0]));
+		return this.hasCustomName() ? new ChatComponentText(this.getName())
+				: new ChatComponentTranslation(this.getName(), new Object[0]);
 	}
 
 	public ItemStack getStackInSlot(int index) {

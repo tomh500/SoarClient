@@ -54,15 +54,15 @@ public class RenderChunk {
 	private final ReentrantLock lockCompileTask = new ReentrantLock();
 	private final ReentrantLock lockCompiledChunk = new ReentrantLock();
 	private ChunkCompileTaskGenerator compileTask = null;
-	private final Set<TileEntity> setTileEntities = Sets.<TileEntity>newHashSet();
+	private final Set<TileEntity> setTileEntities = Sets.newHashSet();
 	private final int index;
 	private final FloatBuffer modelviewMatrix = GLAllocation.createDirectFloatBuffer(16);
 	private final VertexBuffer[] vertexBuffers = new VertexBuffer[EnumWorldBlockLayer.values().length];
 	public AxisAlignedBB boundingBox;
 	private int frameIndex = -1;
 	private boolean needsUpdate = true;
-	private EnumMap<EnumFacing, BlockPos> mapEnumFacing = null;
-	private BlockPos[] positionOffsets16 = new BlockPos[EnumFacing.VALUES.length];
+	private final EnumMap<EnumFacing, BlockPos> mapEnumFacing = null;
+	private final BlockPos[] positionOffsets16 = new BlockPos[EnumFacing.VALUES.length];
 	public static final EnumWorldBlockLayer[] ENUM_WORLD_BLOCK_LAYERS = EnumWorldBlockLayer.values();
 	private final EnumWorldBlockLayer[] blockLayersSingle = new EnumWorldBlockLayer[1];
 	private final boolean isMipmaps = Config.isMipmaps();
@@ -72,11 +72,11 @@ public class RenderChunk {
 	private final RenderChunk[] renderChunksOfset16 = new RenderChunk[6];
 	private boolean renderChunksOffset16Updated = false;
 	private Chunk chunk;
-	private RenderChunk[] renderChunkNeighbours = new RenderChunk[EnumFacing.VALUES.length];
-	private RenderChunk[] renderChunkNeighboursValid = new RenderChunk[EnumFacing.VALUES.length];
+	private final RenderChunk[] renderChunkNeighbours = new RenderChunk[EnumFacing.VALUES.length];
+	private final RenderChunk[] renderChunkNeighboursValid = new RenderChunk[EnumFacing.VALUES.length];
 	private boolean renderChunkNeighboursUpated = false;
-	private RenderGlobal.ContainerLocalRenderInformation renderInfo = new RenderGlobal.ContainerLocalRenderInformation(
-			this, (EnumFacing) null, 0);
+	private final RenderGlobal.ContainerLocalRenderInformation renderInfo = new RenderGlobal.ContainerLocalRenderInformation(
+			this, null, 0);
 	public AabbFrame boundingBoxParent;
 
 	public RenderChunk(World worldIn, RenderGlobal renderGlobalIn, BlockPos blockPosIn, int indexIn) {
@@ -187,7 +187,7 @@ public class RenderChunk {
 				if (block.hasTileEntity()) {
 					TileEntity tileentity = chunkcacheof.getTileEntity(new BlockPos(blockposm));
 					TileEntitySpecialRenderer<TileEntity> tileentityspecialrenderer = TileEntityRendererDispatcher.instance
-							.<TileEntity>getSpecialRenderer(tileentity);
+							.getSpecialRenderer(tileentity);
 
 					if (tileentity != null && tileentityspecialrenderer != null) {
 						compiledchunk.addTileEntity(tileentity);
@@ -252,7 +252,7 @@ public class RenderChunk {
 								(BitSet) worldrenderer1.animatedSprites.clone());
 					}
 				} else {
-					compiledchunk.setAnimatedSprites(enumworldblocklayer1, (BitSet) null);
+					compiledchunk.setAnimatedSprites(enumworldblocklayer1, null);
 				}
 			}
 
@@ -336,7 +336,7 @@ public class RenderChunk {
 	private void preRenderBlocks(WorldRenderer worldRendererIn, BlockPos pos) {
 		worldRendererIn.begin(7, DefaultVertexFormats.BLOCK);
 
-		worldRendererIn.setTranslation((double) (-pos.getX()), (double) (-pos.getY()), (double) (-pos.getZ()));
+		worldRendererIn.setTranslation(-pos.getX(), -pos.getY(), -pos.getZ());
 	}
 
 	private void postRenderBlocks(EnumWorldBlockLayer layer, float x, float y, float z, WorldRenderer worldRendererIn,
@@ -430,9 +430,8 @@ public class RenderChunk {
 	}
 
 	private boolean isWorldPlayerUpdate() {
-		if (this.world instanceof WorldClient) {
-			WorldClient worldclient = (WorldClient) this.world;
-			return worldclient.isPlayerUpdate();
+		if (this.world instanceof WorldClient worldclient) {
+            return worldclient.isPlayerUpdate();
 		} else {
 			return false;
 		}
@@ -592,8 +591,7 @@ public class RenderChunk {
 
 	public boolean isBoundingBoxInFrustum(ICamera p_isBoundingBoxInFrustum_1_, int p_isBoundingBoxInFrustum_2_) {
 		return this.getBoundingBoxParent().isBoundingBoxInFrustumFully(p_isBoundingBoxInFrustum_1_,
-				p_isBoundingBoxInFrustum_2_) ? true
-						: p_isBoundingBoxInFrustum_1_.isBoundingBoxInFrustum(this.boundingBox);
+                p_isBoundingBoxInFrustum_2_) || p_isBoundingBoxInFrustum_1_.isBoundingBoxInFrustum(this.boundingBox);
 	}
 
 	public AabbFrame getBoundingBoxParent() {
@@ -618,8 +616,8 @@ public class RenderChunk {
 
 			if (this.boundingBoxParent == null) {
 				int l1 = 1 << l;
-				this.boundingBoxParent = new AabbFrame((double) i1, (double) j1, (double) k1, (double) (i1 + l1),
-						(double) (j1 + l1), (double) (k1 + l1));
+				this.boundingBoxParent = new AabbFrame(i1, j1, k1, i1 + l1,
+                        j1 + l1, k1 + l1);
 			}
 		}
 

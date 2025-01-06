@@ -20,7 +20,7 @@ public class NettyCompressionDecoder extends ByteToMessageDecoder {
 	}
 
 	protected void decode(ChannelHandlerContext p_decode_1_, ByteBuf p_decode_2_, List<Object> p_decode_3_)
-			throws DataFormatException, Exception {
+			throws Exception {
 		if (p_decode_2_.readableBytes() != 0) {
 			PacketBuffer packetbuffer = new PacketBuffer(p_decode_2_);
 			int i = packetbuffer.readVarIntFromBuffer();

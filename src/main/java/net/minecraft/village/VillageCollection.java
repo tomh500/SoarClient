@@ -18,9 +18,9 @@ import net.minecraft.world.WorldSavedData;
 
 public class VillageCollection extends WorldSavedData {
 	private World worldObj;
-	private final List<BlockPos> villagerPositionsList = Lists.<BlockPos>newArrayList();
-	private final List<VillageDoorInfo> newDoors = Lists.<VillageDoorInfo>newArrayList();
-	private final List<Village> villageList = Lists.<Village>newArrayList();
+	private final List<BlockPos> villagerPositionsList = Lists.newArrayList();
+	private final List<VillageDoorInfo> newDoors = Lists.newArrayList();
+	private final List<Village> villageList = Lists.newArrayList();
 	private int tickCounter;
 
 	public VillageCollection(String name) {
@@ -69,7 +69,7 @@ public class VillageCollection extends WorldSavedData {
 		Iterator<Village> iterator = this.villageList.iterator();
 
 		while (iterator.hasNext()) {
-			Village village = (Village) iterator.next();
+			Village village = iterator.next();
 
 			if (village.isAnnihilated()) {
 				iterator.remove();
@@ -104,13 +104,13 @@ public class VillageCollection extends WorldSavedData {
 
 	private void dropOldestVillagerPosition() {
 		if (!this.villagerPositionsList.isEmpty()) {
-			this.addDoorsAround((BlockPos) this.villagerPositionsList.remove(0));
+			this.addDoorsAround(this.villagerPositionsList.remove(0));
 		}
 	}
 
 	private void addNewDoorsToVillageOrCreateVillage() {
 		for (int i = 0; i < this.newDoors.size(); ++i) {
-			VillageDoorInfo villagedoorinfo = (VillageDoorInfo) this.newDoors.get(i);
+			VillageDoorInfo villagedoorinfo = this.newDoors.get(i);
 			Village village = this.getNearestVillage(villagedoorinfo.getDoorBlockPos(), 32);
 
 			if (village == null) {
@@ -208,7 +208,7 @@ public class VillageCollection extends WorldSavedData {
 
 	private boolean isWoodDoor(BlockPos doorPos) {
 		Block block = this.worldObj.getBlockState(doorPos).getBlock();
-		return block instanceof BlockDoor ? block.getMaterial() == Material.wood : false;
+		return block instanceof BlockDoor && block.getMaterial() == Material.wood;
 	}
 
 	public void readFromNBT(NBTTagCompound nbt) {

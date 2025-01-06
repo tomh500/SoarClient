@@ -9,7 +9,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonPrimitive;
 
 public class JsonSerializableSet extends ForwardingSet<String> implements IJsonSerializable {
-	private final Set<String> underlyingSet = Sets.<String>newHashSet();
+	private final Set<String> underlyingSet = Sets.newHashSet();
 
 	public void fromJson(JsonElement json) {
 		if (json.isJsonArray()) {

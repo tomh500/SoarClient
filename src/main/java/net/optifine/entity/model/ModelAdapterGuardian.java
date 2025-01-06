@@ -19,12 +19,11 @@ public class ModelAdapterGuardian extends ModelAdapter {
 	}
 
 	public ModelRenderer getModelRenderer(ModelBase model, String modelPart) {
-		if (!(model instanceof ModelGuardian)) {
+		if (!(model instanceof ModelGuardian modelguardian)) {
 			return null;
 		} else {
-			ModelGuardian modelguardian = (ModelGuardian) model;
 
-			if (modelPart.equals("body")) {
+            if (modelPart.equals("body")) {
 				return modelguardian.guardianBody;
 			} else if (modelPart.equals("eye")) {
 				return modelguardian.guardianEye;

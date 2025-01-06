@@ -13,11 +13,11 @@ public enum ShaderParameterBool implements IExpressionBool {
 	IS_RIDDEN("is_ridden"), IS_RIDING("is_riding"), IS_SNEAKING("is_sneaking"), IS_SPRINTING("is_sprinting"),
 	IS_WET("is_wet");
 
-	private String name;
-	private RenderManager renderManager;
+	private final String name;
+	private final RenderManager renderManager;
 	private static final ShaderParameterBool[] VALUES = values();
 
-	private ShaderParameterBool(String name) {
+	ShaderParameterBool(String name) {
 		this.name = name;
 		this.renderManager = Minecraft.getMinecraft().getRenderManager();
 	}
@@ -33,10 +33,9 @@ public enum ShaderParameterBool implements IExpressionBool {
 	public boolean eval() {
 		Entity entity = Minecraft.getMinecraft().getRenderViewEntity();
 
-		if (entity instanceof EntityLivingBase) {
-			EntityLivingBase entitylivingbase = (EntityLivingBase) entity;
+		if (entity instanceof EntityLivingBase entitylivingbase) {
 
-			switch (this) {
+            switch (this) {
 			case IS_ALIVE:
 				return entitylivingbase.isEntityAlive();
 

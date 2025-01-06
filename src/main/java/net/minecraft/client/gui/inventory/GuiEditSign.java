@@ -18,7 +18,7 @@ import net.minecraft.util.ChatAllowedCharacters;
 import net.minecraft.util.ChatComponentText;
 
 public class GuiEditSign extends GuiScreen {
-	private TileEntitySign tileSign;
+	private final TileEntitySign tileSign;
 	private int updateCounter;
 	private int editLine;
 	private GuiButton doneBtn;
@@ -31,7 +31,7 @@ public class GuiEditSign extends GuiScreen {
 		this.buttonList.clear();
 		Keyboard.enableRepeatEvents(true);
 		this.buttonList.add(this.doneBtn = new GuiButton(0, this.width / 2 - 100, this.height / 4 + 120,
-				I18n.format("gui.done", new Object[0])));
+				I18n.format("gui.done")));
 		this.tileSign.setEditable(false);
 	}
 
@@ -55,7 +55,7 @@ public class GuiEditSign extends GuiScreen {
 		if (button.enabled) {
 			if (button.id == 0) {
 				this.tileSign.markDirty();
-				this.mc.displayGuiScreen((GuiScreen) null);
+				this.mc.displayGuiScreen(null);
 			}
 		}
 	}
@@ -89,7 +89,7 @@ public class GuiEditSign extends GuiScreen {
 
 	public void drawScreen(int mouseX, int mouseY, float partialTicks) {
 		this.drawDefaultBackground();
-		this.drawCenteredString(this.fontRendererObj, I18n.format("sign.edit", new Object[0]), this.width / 2, 40,
+		this.drawCenteredString(this.fontRendererObj, I18n.format("sign.edit"), this.width / 2, 40,
 				16777215);
 		GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
 		GlStateManager.pushMatrix();

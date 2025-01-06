@@ -18,7 +18,7 @@ import net.minecraft.world.World;
 
 public class BlockNote extends BlockContainer {
 	private static final List<String> INSTRUMENTS = Lists
-			.newArrayList(new String[] { "harp", "bd", "snare", "hat", "bassattack" });
+			.newArrayList("harp", "bd", "snare", "hat", "bassattack");
 
 	public BlockNote() {
 		super(Material.wood);
@@ -29,10 +29,9 @@ public class BlockNote extends BlockContainer {
 		boolean flag = worldIn.isBlockPowered(pos);
 		TileEntity tileentity = worldIn.getTileEntity(pos);
 
-		if (tileentity instanceof TileEntityNote) {
-			TileEntityNote tileentitynote = (TileEntityNote) tileentity;
+		if (tileentity instanceof TileEntityNote tileentitynote) {
 
-			if (tileentitynote.previousRedstoneState != flag) {
+            if (tileentitynote.previousRedstoneState != flag) {
 				if (flag) {
 					tileentitynote.triggerNote(worldIn, pos);
 				}
@@ -49,9 +48,8 @@ public class BlockNote extends BlockContainer {
 		} else {
 			TileEntity tileentity = worldIn.getTileEntity(pos);
 
-			if (tileentity instanceof TileEntityNote) {
-				TileEntityNote tileentitynote = (TileEntityNote) tileentity;
-				tileentitynote.changePitch();
+			if (tileentity instanceof TileEntityNote tileentitynote) {
+                tileentitynote.changePitch();
 				tileentitynote.triggerNote(worldIn, pos);
 				playerIn.triggerAchievement(StatList.field_181735_S);
 			}
@@ -80,7 +78,7 @@ public class BlockNote extends BlockContainer {
 			id = 0;
 		}
 
-		return (String) INSTRUMENTS.get(id);
+		return INSTRUMENTS.get(id);
 	}
 
 	public boolean onBlockEventReceived(World worldIn, BlockPos pos, IBlockState state, int eventID, int eventParam) {
@@ -88,7 +86,7 @@ public class BlockNote extends BlockContainer {
 		worldIn.playSoundEffect((double) pos.getX() + 0.5D, (double) pos.getY() + 0.5D, (double) pos.getZ() + 0.5D,
 				"note." + this.getInstrument(eventID), 3.0F, f);
 		worldIn.spawnParticle(EnumParticleTypes.NOTE, (double) pos.getX() + 0.5D, (double) pos.getY() + 1.2D,
-				(double) pos.getZ() + 0.5D, (double) eventParam / 24.0D, 0.0D, 0.0D, new int[0]);
+				(double) pos.getZ() + 0.5D, (double) eventParam / 24.0D, 0.0D, 0.0D);
 		return true;
 	}
 

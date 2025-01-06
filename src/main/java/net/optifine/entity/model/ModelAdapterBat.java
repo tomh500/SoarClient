@@ -18,11 +18,10 @@ public class ModelAdapterBat extends ModelAdapter {
 	}
 
 	public ModelRenderer getModelRenderer(ModelBase model, String modelPart) {
-		if (!(model instanceof ModelBat)) {
+		if (!(model instanceof ModelBat modelbat)) {
 			return null;
 		} else {
-			ModelBat modelbat = (ModelBat) model;
-			return modelPart
+            return modelPart
 					.equals("head")
 							? modelbat.batHead
 							: (modelPart.equals("body") ? modelbat.batBody

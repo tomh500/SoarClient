@@ -7,11 +7,11 @@ import net.minecraft.world.gen.ChunkProviderSettings;
 public class GenLayerBiome extends GenLayer {
 	private BiomeGenBase[] field_151623_c = new BiomeGenBase[] { BiomeGenBase.desert, BiomeGenBase.desert,
 			BiomeGenBase.desert, BiomeGenBase.savanna, BiomeGenBase.savanna, BiomeGenBase.plains };
-	private BiomeGenBase[] field_151621_d = new BiomeGenBase[] { BiomeGenBase.forest, BiomeGenBase.roofedForest,
+	private final BiomeGenBase[] field_151621_d = new BiomeGenBase[] { BiomeGenBase.forest, BiomeGenBase.roofedForest,
 			BiomeGenBase.extremeHills, BiomeGenBase.plains, BiomeGenBase.birchForest, BiomeGenBase.swampland };
-	private BiomeGenBase[] field_151622_e = new BiomeGenBase[] { BiomeGenBase.forest, BiomeGenBase.extremeHills,
+	private final BiomeGenBase[] field_151622_e = new BiomeGenBase[] { BiomeGenBase.forest, BiomeGenBase.extremeHills,
 			BiomeGenBase.taiga, BiomeGenBase.plains };
-	private BiomeGenBase[] field_151620_f = new BiomeGenBase[] { BiomeGenBase.icePlains, BiomeGenBase.icePlains,
+	private final BiomeGenBase[] field_151620_f = new BiomeGenBase[] { BiomeGenBase.icePlains, BiomeGenBase.icePlains,
 			BiomeGenBase.icePlains, BiomeGenBase.coldTaiga };
 	private final ChunkProviderSettings field_175973_g;
 
@@ -36,7 +36,7 @@ public class GenLayerBiome extends GenLayer {
 
 		for (int i = 0; i < areaHeight; ++i) {
 			for (int j = 0; j < areaWidth; ++j) {
-				this.initChunkSeed((long) (j + areaX), (long) (i + areaY));
+				this.initChunkSeed(j + areaX, i + areaY);
 				int k = aint[j + i * areaWidth];
 				int l = (k & 3840) >> 8;
 				k = k & -3841;

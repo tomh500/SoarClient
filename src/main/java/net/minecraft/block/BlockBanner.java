@@ -97,16 +97,15 @@ public class BlockBanner extends BlockContainer {
 	}
 
 	public void harvestBlock(World worldIn, EntityPlayer player, BlockPos pos, IBlockState state, TileEntity te) {
-		if (te instanceof TileEntityBanner) {
-			TileEntityBanner tileentitybanner = (TileEntityBanner) te;
-			ItemStack itemstack = new ItemStack(Items.banner, 1, ((TileEntityBanner) te).getBaseColor());
+		if (te instanceof TileEntityBanner tileentitybanner) {
+            ItemStack itemstack = new ItemStack(Items.banner, 1, ((TileEntityBanner) te).getBaseColor());
 			NBTTagCompound nbttagcompound = new NBTTagCompound();
 			TileEntityBanner.setBaseColorAndPatterns(nbttagcompound, tileentitybanner.getBaseColor(),
 					tileentitybanner.getPatterns());
 			itemstack.setTagInfo("BlockEntityTag", nbttagcompound);
 			spawnAsEntity(worldIn, pos, itemstack);
 		} else {
-			super.harvestBlock(worldIn, player, pos, state, (TileEntity) null);
+			super.harvestBlock(worldIn, player, pos, state, null);
 		}
 	}
 
@@ -116,7 +115,7 @@ public class BlockBanner extends BlockContainer {
 		}
 
 		public void setBlockBoundsBasedOnState(IBlockAccess worldIn, BlockPos pos) {
-			EnumFacing enumfacing = (EnumFacing) worldIn.getBlockState(pos).getValue(FACING);
+			EnumFacing enumfacing = worldIn.getBlockState(pos).getValue(FACING);
 			float f = 0.0F;
 			float f1 = 0.78125F;
 			float f2 = 0.0F;
@@ -144,7 +143,7 @@ public class BlockBanner extends BlockContainer {
 		}
 
 		public void onNeighborBlockChange(World worldIn, BlockPos pos, IBlockState state, Block neighborBlock) {
-			EnumFacing enumfacing = (EnumFacing) state.getValue(FACING);
+			EnumFacing enumfacing = state.getValue(FACING);
 
 			if (!worldIn.getBlockState(pos.offset(enumfacing.getOpposite())).getBlock().getMaterial().isSolid()) {
 				this.dropBlockAsItem(worldIn, pos, state, 0);
@@ -165,11 +164,11 @@ public class BlockBanner extends BlockContainer {
 		}
 
 		public int getMetaFromState(IBlockState state) {
-			return ((EnumFacing) state.getValue(FACING)).getIndex();
+			return state.getValue(FACING).getIndex();
 		}
 
 		protected BlockState createBlockState() {
-			return new BlockState(this, new IProperty[] { FACING });
+			return new BlockState(this, FACING);
 		}
 	}
 
@@ -192,11 +191,11 @@ public class BlockBanner extends BlockContainer {
 		}
 
 		public int getMetaFromState(IBlockState state) {
-			return ((Integer) state.getValue(ROTATION)).intValue();
+			return state.getValue(ROTATION).intValue();
 		}
 
 		protected BlockState createBlockState() {
-			return new BlockState(this, new IProperty[] { ROTATION });
+			return new BlockState(this, ROTATION);
 		}
 	}
 }

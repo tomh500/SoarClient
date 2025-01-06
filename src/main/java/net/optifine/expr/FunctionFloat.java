@@ -3,8 +3,8 @@ package net.optifine.expr;
 import net.optifine.shaders.uniform.Smoother;
 
 public class FunctionFloat implements IExpressionFloat {
-	private FunctionType type;
-	private IExpression[] arguments;
+	private final FunctionType type;
+	private final IExpression[] arguments;
 	private int smoothId = -1;
 
 	public FunctionFloat(FunctionType type, IExpression[] arguments) {
@@ -48,6 +48,6 @@ public class FunctionFloat implements IExpressionFloat {
 	}
 
 	public String toString() {
-		return "" + this.type + "()";
+		return this.type + "()";
 	}
 }

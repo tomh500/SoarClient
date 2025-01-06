@@ -19,7 +19,7 @@ import net.minecraft.scoreboard.Scoreboard;
 import net.minecraft.util.ResourceLocation;
 
 public class RenderPlayer extends RendererLivingEntity<AbstractClientPlayer> {
-	private boolean smallArms;
+	private final boolean smallArms;
 
 	public RenderPlayer(RenderManager renderManager) {
 		this(renderManager, false);
@@ -115,7 +115,7 @@ public class RenderPlayer extends RendererLivingEntity<AbstractClientPlayer> {
 				Score score = scoreboard.getValueFromObjective(entityIn.getName(), scoreobjective);
 				this.renderLivingLabel(entityIn, score.getScorePoints() + " " + scoreobjective.getDisplayName(), x, y,
 						z, 64);
-				y += (double) ((float) this.getFontRendererFromRenderManager().FONT_HEIGHT * 1.15F * p_177069_9_);
+				y += (float) this.getFontRendererFromRenderManager().FONT_HEIGHT * 1.15F * p_177069_9_;
 			}
 		}
 

@@ -44,7 +44,7 @@ public class MovingObjectPosition {
 				+ this.hitVec + ", entity=" + this.entityHit + '}';
 	}
 
-	public static enum MovingObjectType {
-		MISS, BLOCK, ENTITY;
-	}
+	public enum MovingObjectType {
+		MISS, BLOCK, ENTITY
+    }
 }

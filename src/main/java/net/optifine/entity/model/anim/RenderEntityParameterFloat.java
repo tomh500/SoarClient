@@ -15,11 +15,11 @@ public enum RenderEntityParameterFloat implements IExpressionFloat {
 	PARTIAL_TICKS("partial_ticks"), POS_X("pos_x"), POS_Y("pos_y"), POS_Z("pos_z"), REVENGE_TIME("revenge_time"),
 	SWING_PROGRESS("swing_progress");
 
-	private String name;
-	private RenderManager renderManager;
+	private final String name;
+	private final RenderManager renderManager;
 	private static final RenderEntityParameterFloat[] VALUES = values();
 
-	private RenderEntityParameterFloat(String name) {
+	RenderEntityParameterFloat(String name) {
 		this.name = name;
 		this.renderManager = Minecraft.getMinecraft().getRenderManager();
 	}
@@ -38,10 +38,9 @@ public enum RenderEntityParameterFloat implements IExpressionFloat {
 		if (render == null) {
 			return 0.0F;
 		} else {
-			if (render instanceof RendererLivingEntity) {
-				RendererLivingEntity rendererlivingentity = (RendererLivingEntity) render;
+			if (render instanceof RendererLivingEntity rendererlivingentity) {
 
-				switch (this) {
+                switch (this) {
 				case LIMB_SWING:
 					return rendererlivingentity.renderLimbSwing;
 

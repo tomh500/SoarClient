@@ -21,20 +21,19 @@ public class Util {
 			task.run();
 			return task.get();
 		} catch (ExecutionException executionexception) {
-			logger.fatal((String) "Error executing task", (Throwable) executionexception);
+			logger.fatal("Error executing task", executionexception);
 
-			if (executionexception.getCause() instanceof OutOfMemoryError) {
-				OutOfMemoryError outofmemoryerror = (OutOfMemoryError) executionexception.getCause();
-				throw outofmemoryerror;
+			if (executionexception.getCause() instanceof OutOfMemoryError outofmemoryerror) {
+                throw outofmemoryerror;
 			}
 		} catch (InterruptedException interruptedexception) {
-			logger.fatal((String) "Error executing task", (Throwable) interruptedexception);
+			logger.fatal("Error executing task", interruptedexception);
 		}
 
-		return (V) ((Object) null);
+		return null;
 	}
 
-	public static enum EnumOS {
-		LINUX, SOLARIS, WINDOWS, OSX, UNKNOWN;
-	}
+	public enum EnumOS {
+		LINUX, SOLARIS, WINDOWS, OSX, UNKNOWN
+    }
 }

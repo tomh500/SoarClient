@@ -18,7 +18,7 @@ public class ResourceLocation {
 	}
 
 	public ResourceLocation(String resourceDomainIn, String resourcePathIn) {
-		this(0, new String[] { resourceDomainIn, resourcePathIn });
+		this(0, resourceDomainIn, resourcePathIn);
 	}
 
 	protected static String[] splitObjectName(String toSplit) {
@@ -26,7 +26,7 @@ public class ResourceLocation {
 		int i = toSplit.indexOf(58);
 
 		if (i >= 0) {
-			astring[1] = toSplit.substring(i + 1, toSplit.length());
+			astring[1] = toSplit.substring(i + 1);
 
 			if (i > 1) {
 				astring[0] = toSplit.substring(0, i);
@@ -51,11 +51,10 @@ public class ResourceLocation {
 	public boolean equals(Object p_equals_1_) {
 		if (this == p_equals_1_) {
 			return true;
-		} else if (!(p_equals_1_ instanceof ResourceLocation)) {
+		} else if (!(p_equals_1_ instanceof ResourceLocation resourcelocation)) {
 			return false;
 		} else {
-			ResourceLocation resourcelocation = (ResourceLocation) p_equals_1_;
-			return this.resourceDomain.equals(resourcelocation.resourceDomain)
+            return this.resourceDomain.equals(resourcelocation.resourceDomain)
 					&& this.resourcePath.equals(resourcelocation.resourcePath);
 		}
 	}

@@ -6,9 +6,9 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 
 public class RecipesTools {
-	private String[][] recipePatterns = new String[][] { { "XXX", " # ", " # " }, { "X", "#", "#" },
+	private final String[][] recipePatterns = new String[][] { { "XXX", " # ", " # " }, { "X", "#", "#" },
 			{ "XX", "X#", " #" }, { "XX", " #", " #" } };
-	private Object[][] recipeItems = new Object[][] {
+	private final Object[][] recipeItems = new Object[][] {
 			{ Blocks.planks, Blocks.cobblestone, Items.iron_ingot, Items.diamond, Items.gold_ingot },
 			{ Items.wooden_pickaxe, Items.stone_pickaxe, Items.iron_pickaxe, Items.diamond_pickaxe,
 					Items.golden_pickaxe },
@@ -23,10 +23,10 @@ public class RecipesTools {
 			for (int j = 0; j < this.recipeItems.length - 1; ++j) {
 				Item item = (Item) this.recipeItems[j + 1][i];
 				p_77586_1_.addRecipe(new ItemStack(item),
-						new Object[] { this.recipePatterns[j], '#', Items.stick, 'X', object });
+                        this.recipePatterns[j], '#', Items.stick, 'X', object);
 			}
 		}
 
-		p_77586_1_.addRecipe(new ItemStack(Items.shears), new Object[] { " #", "# ", '#', Items.iron_ingot });
+		p_77586_1_.addRecipe(new ItemStack(Items.shears), " #", "# ", '#', Items.iron_ingot);
 	}
 }

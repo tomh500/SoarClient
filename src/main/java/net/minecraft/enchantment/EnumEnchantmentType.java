@@ -23,13 +23,13 @@ public enum EnumEnchantmentType {
 				return itemarmor.armorType == 0 ? this == ARMOR_HEAD
 						: (itemarmor.armorType == 2 ? this == ARMOR_LEGS
 								: (itemarmor.armorType == 1 ? this == ARMOR_TORSO
-										: (itemarmor.armorType == 3 ? this == ARMOR_FEET : false)));
+										: (itemarmor.armorType == 3 && this == ARMOR_FEET)));
 			}
 		} else {
 			return p_77557_1_ instanceof ItemSword ? this == WEAPON
 					: (p_77557_1_ instanceof ItemTool ? this == DIGGER
 							: (p_77557_1_ instanceof ItemBow ? this == BOW
-									: (p_77557_1_ instanceof ItemFishingRod ? this == FISHING_ROD : false)));
+									: (p_77557_1_ instanceof ItemFishingRod && this == FISHING_ROD)));
 		}
 	}
 }

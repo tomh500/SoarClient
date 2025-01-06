@@ -19,12 +19,11 @@ public class ModelAdapterOcelot extends ModelAdapter {
 	}
 
 	public ModelRenderer getModelRenderer(ModelBase model, String modelPart) {
-		if (!(model instanceof ModelOcelot)) {
+		if (!(model instanceof ModelOcelot modelocelot)) {
 			return null;
 		} else {
-			ModelOcelot modelocelot = (ModelOcelot) model;
 
-			return modelPart
+            return modelPart
 					.equals("back_left_leg")
 							? modelocelot.ocelotBackLeftLeg
 							: (modelPart.equals("back_right_leg") ? modelocelot.ocelotBackRightLeg

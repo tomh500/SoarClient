@@ -243,25 +243,25 @@ public enum EnumConnectionState {
 		}
 	};
 
-	private static int field_181136_e = -1;
-	private static int field_181137_f = 2;
+	private static final int field_181136_e = -1;
+	private static final int field_181137_f = 2;
 	private static final EnumConnectionState[] STATES_BY_ID = new EnumConnectionState[field_181137_f - field_181136_e
 			+ 1];
 	private static final Map<Class<? extends Packet>, EnumConnectionState> STATES_BY_CLASS = Maps
-			.<Class<? extends Packet>, EnumConnectionState>newHashMap();
+			.newHashMap();
 	private final int id;
 	private final Map<EnumPacketDirection, BiMap<Integer, Class<? extends Packet>>> directionMaps;
 
-	private EnumConnectionState(int protocolId) {
+	EnumConnectionState(int protocolId) {
 		this.directionMaps = Maps.newEnumMap(EnumPacketDirection.class);
 		this.id = protocolId;
 	}
 
 	protected EnumConnectionState registerPacket(EnumPacketDirection direction, Class<? extends Packet> packetClass) {
-		BiMap<Integer, Class<? extends Packet>> bimap = (BiMap) this.directionMaps.get(direction);
+		BiMap<Integer, Class<? extends Packet>> bimap = this.directionMaps.get(direction);
 
 		if (bimap == null) {
-			bimap = HashBiMap.<Integer, Class<? extends Packet>>create();
+			bimap = HashBiMap.create();
 			this.directionMaps.put(direction, bimap);
 		}
 
@@ -284,7 +284,7 @@ public enum EnumConnectionState {
 			throws InstantiationException, IllegalAccessException {
 		Class<? extends Packet> oclass = (Class) ((BiMap) this.directionMaps.get(direction))
 				.get(Integer.valueOf(packetId));
-		return oclass == null ? null : (Packet) oclass.newInstance();
+		return oclass == null ? null : oclass.newInstance();
 	}
 
 	public int getId() {
@@ -296,7 +296,7 @@ public enum EnumConnectionState {
 	}
 
 	public static EnumConnectionState getFromPacket(Packet packetIn) {
-		return (EnumConnectionState) STATES_BY_CLASS.get(packetIn.getClass());
+		return STATES_BY_CLASS.get(packetIn.getClass());
 	}
 
 	static {
@@ -304,7 +304,7 @@ public enum EnumConnectionState {
 			int i = enumconnectionstate.getId();
 
 			if (i < field_181136_e || i > field_181137_f) {
-				throw new Error("Invalid protocol ID " + Integer.toString(i));
+				throw new Error("Invalid protocol ID " + i);
 			}
 
 			STATES_BY_ID[i - field_181136_e] = enumconnectionstate;
@@ -314,7 +314,7 @@ public enum EnumConnectionState {
 						.values()) {
 					if (STATES_BY_CLASS.containsKey(oclass) && STATES_BY_CLASS.get(oclass) != enumconnectionstate) {
 						throw new Error("Packet " + oclass + " is already assigned to protocol "
-								+ STATES_BY_CLASS.get(oclass) + " - can\'t reassign to " + enumconnectionstate);
+								+ STATES_BY_CLASS.get(oclass) + " - can't reassign to " + enumconnectionstate);
 					}
 
 					try {

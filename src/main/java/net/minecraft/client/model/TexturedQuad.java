@@ -67,8 +67,8 @@ public class TexturedQuad {
 			renderer.pos(positiontexturevertex.vector3D.xCoord * (double) scale,
 					positiontexturevertex.vector3D.yCoord * (double) scale,
 					positiontexturevertex.vector3D.zCoord * (double) scale)
-					.tex((double) positiontexturevertex.texturePositionX,
-							(double) positiontexturevertex.texturePositionY)
+					.tex(positiontexturevertex.texturePositionX,
+                            positiontexturevertex.texturePositionY)
 					.normal(f, f1, f2).endVertex();
 		}
 

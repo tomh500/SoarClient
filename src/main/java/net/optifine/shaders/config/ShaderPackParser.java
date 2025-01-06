@@ -7,6 +7,7 @@ import java.io.CharArrayWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -63,14 +64,14 @@ public class ShaderPackParser {
 			Iterator<Integer> iterator = listDimensions.iterator();
 
 			while (iterator.hasNext()) {
-				int i = ((Integer) iterator.next()).intValue();
+				int i = iterator.next().intValue();
 				String s = "/shaders/world" + i;
 				collectShaderOptions(shaderPack, s, programNames, map);
 			}
 
 			Collection<ShaderOption> collection = map.values();
-			ShaderOption[] ashaderoption = (ShaderOption[]) ((ShaderOption[]) collection
-					.toArray(new ShaderOption[collection.size()]));
+			ShaderOption[] ashaderoption = collection
+					.toArray(new ShaderOption[collection.size()]);
 			Comparator<ShaderOption> comparator = new Comparator<ShaderOption>() {
 				public int compare(ShaderOption o1, ShaderOption o2) {
 					return o1.getName().compareToIgnoreCase(o2.getName());
@@ -105,14 +106,14 @@ public class ShaderPackParser {
 			if (shaderoption != null && !shaderoption.getName().startsWith(ShaderMacros.getPrefixMacro())
 					&& (!shaderoption.checkUsed() || isOptionUsed(shaderoption, astring))) {
 				String s1 = shaderoption.getName();
-				ShaderOption shaderoption1 = (ShaderOption) mapOptions.get(s1);
+				ShaderOption shaderoption1 = mapOptions.get(s1);
 
 				if (shaderoption1 != null) {
 					if (!Config.equals(shaderoption1.getValueDefault(), shaderoption.getValueDefault())) {
 						Config.warn("Ambiguous shader option: " + shaderoption.getName());
-						Config.warn(" - in " + Config.arrayToString((Object[]) shaderoption1.getPaths()) + ": "
+						Config.warn(" - in " + Config.arrayToString(shaderoption1.getPaths()) + ": "
 								+ shaderoption1.getValueDefault());
-						Config.warn(" - in " + Config.arrayToString((Object[]) shaderoption.getPaths()) + ": "
+						Config.warn(" - in " + Config.arrayToString(shaderoption.getPaths()) + ": "
 								+ shaderoption.getValueDefault());
 						shaderoption1.setEnabled(false);
 					}
@@ -150,7 +151,7 @@ public class ShaderPackParser {
 				return new String[0];
 			} else {
 				ByteArrayInputStream bytearrayinputstream = new ByteArrayInputStream(s.getBytes());
-				String[] astring = Config.readLines((InputStream) bytearrayinputstream);
+				String[] astring = Config.readLines(bytearrayinputstream);
 				return astring;
 			}
 		} catch (IOException ioexception) {
@@ -247,8 +248,8 @@ public class ShaderPackParser {
 		if (list.size() <= 0) {
 			return null;
 		} else {
-			ShaderProfile[] ashaderprofile = (ShaderProfile[]) ((ShaderProfile[]) list
-					.toArray(new ShaderProfile[list.size()]));
+			ShaderProfile[] ashaderprofile = list
+					.toArray(new ShaderProfile[list.size()]);
 			return ashaderprofile;
 		}
 	}
@@ -418,7 +419,7 @@ public class ShaderPackParser {
 				String s1 = astring[i];
 
 				if (s1.equals("<empty>")) {
-					list.add((ShaderOption) null);
+					list.add(null);
 				} else if (set.contains(s1)) {
 					Config.warn("[Shaders] Duplicate option: " + s1 + ", key: " + key);
 				} else {
@@ -452,7 +453,7 @@ public class ShaderPackParser {
 
 						if (shaderoption == null) {
 							Config.warn("[Shaders] Invalid option: " + s1 + ", key: " + key);
-							list.add((ShaderOption) null);
+							list.add(null);
 						} else {
 							shaderoption.setVisible(true);
 							list.add(shaderoption);
@@ -461,8 +462,8 @@ public class ShaderPackParser {
 				}
 			}
 
-			ShaderOption[] ashaderoption = (ShaderOption[]) ((ShaderOption[]) list
-					.toArray(new ShaderOption[list.size()]));
+			ShaderOption[] ashaderoption = list
+					.toArray(new ShaderOption[list.size()]);
 			String s2 = props.getProperty(key + ".columns");
 			int j = Config.parseInt(s2, 2);
 			ScreenShaderOptions screenshaderoptions = new ScreenShaderOptions(key, ashaderoption, j);
@@ -559,10 +560,7 @@ public class ShaderPackParser {
 			if (j >= 0 && s1.contains(ShaderMacros.getPrefixMacro())) {
 				ShaderMacro[] ashadermacro = findMacros(s1, ShaderMacros.getExtensions());
 
-				for (int i1 = 0; i1 < ashadermacro.length; ++i1) {
-					ShaderMacro shadermacro1 = ashadermacro[i1];
-					set.add(shadermacro1);
-				}
+                Collections.addAll(set, ashadermacro);
 			}
 
 			chararraywriter.write(s1);
@@ -582,7 +580,7 @@ public class ShaderPackParser {
 			}
 		}
 
-		ShaderMacro[] ashadermacro = (ShaderMacro[]) list.toArray(new ShaderMacro[list.size()]);
+		ShaderMacro[] ashadermacro = list.toArray(new ShaderMacro[list.size()]);
 		return ashadermacro;
 	}
 
@@ -597,7 +595,7 @@ public class ShaderPackParser {
 			if (inputstream == null) {
 				return null;
 			} else {
-				InputStreamReader inputstreamreader = new InputStreamReader(inputstream, "ASCII");
+				InputStreamReader inputstreamreader = new InputStreamReader(inputstream, StandardCharsets.US_ASCII);
 				BufferedReader bufferedreader = new BufferedReader(inputstreamreader);
 				bufferedreader = resolveIncludes(bufferedreader, filePath, shaderPack, fileIndex, listFiles,
 						includeLevel);
@@ -655,8 +653,8 @@ public class ShaderPackParser {
 		if (list.size() <= 0) {
 			return null;
 		} else {
-			CustomUniform[] acustomuniform = (CustomUniform[]) ((CustomUniform[]) list
-					.toArray(new CustomUniform[list.size()]));
+			CustomUniform[] acustomuniform = list
+					.toArray(new CustomUniform[list.size()]);
 			CustomUniforms customuniforms = new CustomUniforms(acustomuniform, map);
 			return customuniforms;
 		}
@@ -693,9 +691,9 @@ public class ShaderPackParser {
 	}
 
 	private static IExpression makeExpressionCached(IExpression expr) {
-		return (IExpression) (expr instanceof IExpressionFloat ? new ExpressionFloatCached((IExpressionFloat) expr)
+		return expr instanceof IExpressionFloat ? new ExpressionFloatCached((IExpressionFloat) expr)
 				: (expr instanceof IExpressionFloatArray ? new ExpressionFloatArrayCached((IExpressionFloatArray) expr)
-						: expr));
+						: expr);
 	}
 
 	public static void parseAlphaStates(Properties props) {
@@ -737,7 +735,7 @@ public class ShaderPackParser {
 		} else if (astring.length == 2) {
 			String s2 = astring[0];
 			String s1 = astring[1];
-			Integer integer = (Integer) mapAlphaFuncs.get(s2);
+			Integer integer = mapAlphaFuncs.get(s2);
 			float f = Config.parseFloat(s1, -1.0F);
 
 			if (integer != null && f >= 0.0F) {
@@ -796,10 +794,10 @@ public class ShaderPackParser {
 				s3 = astring[3];
 			}
 
-			Integer integer = (Integer) mapBlendFactors.get(s4);
-			Integer integer1 = (Integer) mapBlendFactors.get(s1);
-			Integer integer2 = (Integer) mapBlendFactors.get(s2);
-			Integer integer3 = (Integer) mapBlendFactors.get(s3);
+			Integer integer = mapBlendFactors.get(s4);
+			Integer integer1 = mapBlendFactors.get(s1);
+			Integer integer2 = mapBlendFactors.get(s2);
+			Integer integer3 = mapBlendFactors.get(s3);
 
 			if (integer != null && integer1 != null && integer2 != null && integer3 != null) {
 				return new GlBlendState(true, integer.intValue(), integer1.intValue(), integer2.intValue(),
@@ -883,7 +881,7 @@ public class ShaderPackParser {
 
 						if (i >= 0 && i < aboolean.length) {
 							String s4 = props.getProperty(s).trim();
-							Boolean obool = Config.parseBoolean(s4, (Boolean) null);
+							Boolean obool = Config.parseBoolean(s4, null);
 
 							if (obool == null) {
 								SMCLog.severe("Invalid boolean value: " + s4);
@@ -901,34 +899,34 @@ public class ShaderPackParser {
 
 	private static Map<String, Integer> makeMapAlphaFuncs() {
 		Map<String, Integer> map = new HashMap();
-		map.put("NEVER", new Integer(512));
-		map.put("LESS", new Integer(513));
-		map.put("EQUAL", new Integer(514));
-		map.put("LEQUAL", new Integer(515));
-		map.put("GREATER", new Integer(516));
-		map.put("NOTEQUAL", new Integer(517));
-		map.put("GEQUAL", new Integer(518));
-		map.put("ALWAYS", new Integer(519));
-		return Collections.<String, Integer>unmodifiableMap(map);
+		map.put("NEVER", Integer.valueOf(512));
+		map.put("LESS", Integer.valueOf(513));
+		map.put("EQUAL", Integer.valueOf(514));
+		map.put("LEQUAL", Integer.valueOf(515));
+		map.put("GREATER", Integer.valueOf(516));
+		map.put("NOTEQUAL", Integer.valueOf(517));
+		map.put("GEQUAL", Integer.valueOf(518));
+		map.put("ALWAYS", Integer.valueOf(519));
+		return Collections.unmodifiableMap(map);
 	}
 
 	private static Map<String, Integer> makeMapBlendFactors() {
 		Map<String, Integer> map = new HashMap();
-		map.put("ZERO", new Integer(0));
-		map.put("ONE", new Integer(1));
-		map.put("SRC_COLOR", new Integer(768));
-		map.put("ONE_MINUS_SRC_COLOR", new Integer(769));
-		map.put("DST_COLOR", new Integer(774));
-		map.put("ONE_MINUS_DST_COLOR", new Integer(775));
-		map.put("SRC_ALPHA", new Integer(770));
-		map.put("ONE_MINUS_SRC_ALPHA", new Integer(771));
-		map.put("DST_ALPHA", new Integer(772));
-		map.put("ONE_MINUS_DST_ALPHA", new Integer(773));
-		map.put("CONSTANT_COLOR", new Integer(32769));
-		map.put("ONE_MINUS_CONSTANT_COLOR", new Integer(32770));
-		map.put("CONSTANT_ALPHA", new Integer(32771));
-		map.put("ONE_MINUS_CONSTANT_ALPHA", new Integer(32772));
-		map.put("SRC_ALPHA_SATURATE", new Integer(776));
-		return Collections.<String, Integer>unmodifiableMap(map);
+		map.put("ZERO", Integer.valueOf(0));
+		map.put("ONE", Integer.valueOf(1));
+		map.put("SRC_COLOR", Integer.valueOf(768));
+		map.put("ONE_MINUS_SRC_COLOR", Integer.valueOf(769));
+		map.put("DST_COLOR", Integer.valueOf(774));
+		map.put("ONE_MINUS_DST_COLOR", Integer.valueOf(775));
+		map.put("SRC_ALPHA", Integer.valueOf(770));
+		map.put("ONE_MINUS_SRC_ALPHA", Integer.valueOf(771));
+		map.put("DST_ALPHA", Integer.valueOf(772));
+		map.put("ONE_MINUS_DST_ALPHA", Integer.valueOf(773));
+		map.put("CONSTANT_COLOR", Integer.valueOf(32769));
+		map.put("ONE_MINUS_CONSTANT_COLOR", Integer.valueOf(32770));
+		map.put("CONSTANT_ALPHA", Integer.valueOf(32771));
+		map.put("ONE_MINUS_CONSTANT_ALPHA", Integer.valueOf(32772));
+		map.put("SRC_ALPHA_SATURATE", Integer.valueOf(776));
+		return Collections.unmodifiableMap(map);
 	}
 }

@@ -88,7 +88,7 @@ public class RecipeFireworks implements IRecipe {
 				NBTTagCompound nbttagcompound = new NBTTagCompound();
 				NBTTagCompound nbttagcompound2 = new NBTTagCompound();
 				byte b0 = 0;
-				List<Integer> list = Lists.<Integer>newArrayList();
+				List<Integer> list = Lists.newArrayList();
 
 				for (int l1 = 0; l1 < inv.getSizeInventory(); ++l1) {
 					ItemStack itemstack2 = inv.getStackInSlot(l1);
@@ -115,7 +115,7 @@ public class RecipeFireworks implements IRecipe {
 				int[] aint1 = new int[list.size()];
 
 				for (int l2 = 0; l2 < aint1.length; ++l2) {
-					aint1[l2] = ((Integer) list.get(l2)).intValue();
+					aint1[l2] = list.get(l2).intValue();
 				}
 
 				nbttagcompound2.setIntArray("Colors", aint1);
@@ -124,7 +124,7 @@ public class RecipeFireworks implements IRecipe {
 				this.field_92102_a.setTagCompound(nbttagcompound);
 				return true;
 			} else if (j == 0 && i == 0 && l == 1 && k > 0 && k == i1) {
-				List<Integer> list1 = Lists.<Integer>newArrayList();
+				List<Integer> list1 = Lists.newArrayList();
 
 				for (int i2 = 0; i2 < inv.getSizeInventory(); ++i2) {
 					ItemStack itemstack1 = inv.getStackInSlot(i2);
@@ -142,7 +142,7 @@ public class RecipeFireworks implements IRecipe {
 				int[] aint = new int[list1.size()];
 
 				for (int j2 = 0; j2 < aint.length; ++j2) {
-					aint[j2] = ((Integer) list1.get(j2)).intValue();
+					aint[j2] = list1.get(j2).intValue();
 				}
 
 				if (this.field_92102_a != null && this.field_92102_a.hasTagCompound()) {

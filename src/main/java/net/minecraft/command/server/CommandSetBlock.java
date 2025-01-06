@@ -33,7 +33,7 @@ public class CommandSetBlock extends CommandBase {
 
 	public void processCommand(ICommandSender sender, String[] args) throws CommandException {
 		if (args.length < 4) {
-			throw new WrongUsageException("commands.setblock.usage", new Object[0]);
+			throw new WrongUsageException("commands.setblock.usage");
 		} else {
 			sender.setCommandStat(CommandResultStats.Type.AFFECTED_BLOCKS, 0);
 			BlockPos blockpos = parseBlockPos(sender, args, 0, false);
@@ -47,7 +47,7 @@ public class CommandSetBlock extends CommandBase {
 			World world = sender.getEntityWorld();
 
 			if (!world.isBlockLoaded(blockpos)) {
-				throw new CommandException("commands.setblock.outOfWorld", new Object[0]);
+				throw new CommandException("commands.setblock.outOfWorld");
 			} else {
 				NBTTagCompound nbttagcompound = new NBTTagCompound();
 				boolean flag = false;
@@ -60,7 +60,7 @@ public class CommandSetBlock extends CommandBase {
 						flag = true;
 					} catch (NBTException nbtexception) {
 						throw new CommandException("commands.setblock.tagError",
-								new Object[] { nbtexception.getMessage() });
+                                nbtexception.getMessage());
 					}
 				}
 
@@ -69,11 +69,11 @@ public class CommandSetBlock extends CommandBase {
 						world.destroyBlock(blockpos, true);
 
 						if (block == Blocks.air) {
-							notifyOperators(sender, this, "commands.setblock.success", new Object[0]);
+							notifyOperators(sender, this, "commands.setblock.success");
 							return;
 						}
 					} else if (args[5].equals("keep") && !world.isAirBlock(blockpos)) {
-						throw new CommandException("commands.setblock.noChange", new Object[0]);
+						throw new CommandException("commands.setblock.noChange");
 					}
 				}
 
@@ -90,7 +90,7 @@ public class CommandSetBlock extends CommandBase {
 				IBlockState iblockstate = block.getStateFromMeta(i);
 
 				if (!world.setBlockState(blockpos, iblockstate, 2)) {
-					throw new CommandException("commands.setblock.noChange", new Object[0]);
+					throw new CommandException("commands.setblock.noChange");
 				} else {
 					if (flag) {
 						TileEntity tileentity = world.getTileEntity(blockpos);
@@ -105,7 +105,7 @@ public class CommandSetBlock extends CommandBase {
 
 					world.notifyNeighborsRespectDebug(blockpos, iblockstate.getBlock());
 					sender.setCommandStat(CommandResultStats.Type.AFFECTED_BLOCKS, 1);
-					notifyOperators(sender, this, "commands.setblock.success", new Object[0]);
+					notifyOperators(sender, this, "commands.setblock.success");
 				}
 			}
 		}
@@ -115,7 +115,7 @@ public class CommandSetBlock extends CommandBase {
 		return args.length > 0 && args.length <= 3 ? func_175771_a(args, 0, pos)
 				: (args.length == 4 ? getListOfStringsMatchingLastWord(args, Block.blockRegistry.getKeys())
 						: (args.length == 6
-								? getListOfStringsMatchingLastWord(args, new String[] { "replace", "destroy", "keep" })
+								? getListOfStringsMatchingLastWord(args, "replace", "destroy", "keep")
 								: null));
 	}
 }

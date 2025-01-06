@@ -13,18 +13,17 @@ public class ChatComponentProcessor {
 			Entity entityIn) throws CommandException {
 		IChatComponent ichatcomponent = null;
 
-		if (component instanceof ChatComponentScore) {
-			ChatComponentScore chatcomponentscore = (ChatComponentScore) component;
-			String s = chatcomponentscore.getName();
+		if (component instanceof ChatComponentScore chatcomponentscore) {
+            String s = chatcomponentscore.getName();
 
 			if (PlayerSelector.hasArguments(s)) {
-				List<Entity> list = PlayerSelector.<Entity>matchEntities(commandSender, s, Entity.class);
+				List<Entity> list = PlayerSelector.matchEntities(commandSender, s, Entity.class);
 
 				if (list.size() != 1) {
 					throw new EntityNotFoundException();
 				}
 
-				s = ((Entity) list.get(0)).getName();
+				s = list.get(0).getName();
 			}
 
 			ichatcomponent = entityIn != null && s.equals("*")

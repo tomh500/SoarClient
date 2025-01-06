@@ -82,13 +82,13 @@ public class EntityTrackerEntry {
 	private double lastTrackedEntityPosY;
 	private double lastTrackedEntityPosZ;
 	private boolean firstUpdateDone;
-	private boolean sendVelocityUpdates;
+	private final boolean sendVelocityUpdates;
 	private int ticksSinceLastForcedTeleport;
 	private Entity field_85178_v;
 	private boolean ridingEntity;
 	private boolean onGround;
 	public boolean playerEntitiesUpdated;
-	public Set<EntityPlayerMP> trackingPlayers = Sets.<EntityPlayerMP>newHashSet();
+	public Set<EntityPlayerMP> trackingPlayers = Sets.newHashSet();
 
 	public EntityTrackerEntry(Entity trackedEntityIn, int trackingDistanceThresholdIn, int updateFrequencyIn,
 			boolean sendVelocityUpdatesIn) {
@@ -106,9 +106,7 @@ public class EntityTrackerEntry {
 	}
 
 	public boolean equals(Object p_equals_1_) {
-		return p_equals_1_ instanceof EntityTrackerEntry
-				? ((EntityTrackerEntry) p_equals_1_).trackedEntity.getEntityId() == this.trackedEntity.getEntityId()
-				: false;
+		return p_equals_1_ instanceof EntityTrackerEntry && ((EntityTrackerEntry) p_equals_1_).trackedEntity.getEntityId() == this.trackedEntity.getEntityId();
 	}
 
 	public int hashCode() {
@@ -135,9 +133,8 @@ public class EntityTrackerEntry {
 					new S1BPacketEntityAttach(0, this.trackedEntity, this.trackedEntity.ridingEntity));
 		}
 
-		if (this.trackedEntity instanceof EntityItemFrame && this.updateCounter % 10 == 0) {
-			EntityItemFrame entityitemframe = (EntityItemFrame) this.trackedEntity;
-			ItemStack itemstack = entityitemframe.getDisplayedItem();
+		if (this.trackedEntity instanceof EntityItemFrame entityitemframe && this.updateCounter % 10 == 0) {
+            ItemStack itemstack = entityitemframe.getDisplayedItem();
 
 			if (itemstack != null && itemstack.getItem() instanceof ItemMap) {
 				MapData mapdata = Items.filled_map.getMapData(itemstack, this.trackedEntity.worldObj);
@@ -383,19 +380,17 @@ public class EntityTrackerEntry {
 						}
 					}
 
-					if (this.trackedEntity instanceof EntityPlayer) {
-						EntityPlayer entityplayer = (EntityPlayer) this.trackedEntity;
+					if (this.trackedEntity instanceof EntityPlayer entityplayer) {
 
-						if (entityplayer.isPlayerSleeping()) {
+                        if (entityplayer.isPlayerSleeping()) {
 							playerMP.playerNetServerHandler
 									.sendPacket(new S0APacketUseBed(entityplayer, new BlockPos(this.trackedEntity)));
 						}
 					}
 
-					if (this.trackedEntity instanceof EntityLivingBase) {
-						EntityLivingBase entitylivingbase = (EntityLivingBase) this.trackedEntity;
+					if (this.trackedEntity instanceof EntityLivingBase entitylivingbase) {
 
-						for (PotionEffect potioneffect : entitylivingbase.getActivePotionEffects()) {
+                        for (PotionEffect potioneffect : entitylivingbase.getActivePotionEffects()) {
 							playerMP.playerNetServerHandler.sendPacket(
 									new S1DPacketEntityEffect(this.trackedEntity.getEntityId(), potioneffect));
 						}
@@ -436,9 +431,8 @@ public class EntityTrackerEntry {
 			return new S0EPacketSpawnObject(this.trackedEntity, 2, 1);
 		} else if (this.trackedEntity instanceof EntityPlayerMP) {
 			return new S0CPacketSpawnPlayer((EntityPlayer) this.trackedEntity);
-		} else if (this.trackedEntity instanceof EntityMinecart) {
-			EntityMinecart entityminecart = (EntityMinecart) this.trackedEntity;
-			return new S0EPacketSpawnObject(this.trackedEntity, 10, entityminecart.getMinecartType().getNetworkID());
+		} else if (this.trackedEntity instanceof EntityMinecart entityminecart) {
+            return new S0EPacketSpawnObject(this.trackedEntity, 10, entityminecart.getMinecartType().getNetworkID());
 		} else if (this.trackedEntity instanceof EntityBoat) {
 			return new S0EPacketSpawnObject(this.trackedEntity, 1);
 		} else if (this.trackedEntity instanceof IAnimals) {
@@ -465,9 +459,8 @@ public class EntityTrackerEntry {
 			return new S0EPacketSpawnObject(this.trackedEntity, 72);
 		} else if (this.trackedEntity instanceof EntityFireworkRocket) {
 			return new S0EPacketSpawnObject(this.trackedEntity, 76);
-		} else if (this.trackedEntity instanceof EntityFireball) {
-			EntityFireball entityfireball = (EntityFireball) this.trackedEntity;
-			S0EPacketSpawnObject s0epacketspawnobject2 = null;
+		} else if (this.trackedEntity instanceof EntityFireball entityfireball) {
+            S0EPacketSpawnObject s0epacketspawnobject2 = null;
 			int i = 63;
 
 			if (this.trackedEntity instanceof EntitySmallFireball) {
@@ -493,25 +486,22 @@ public class EntityTrackerEntry {
 			return new S0EPacketSpawnObject(this.trackedEntity, 50);
 		} else if (this.trackedEntity instanceof EntityEnderCrystal) {
 			return new S0EPacketSpawnObject(this.trackedEntity, 51);
-		} else if (this.trackedEntity instanceof EntityFallingBlock) {
-			EntityFallingBlock entityfallingblock = (EntityFallingBlock) this.trackedEntity;
-			return new S0EPacketSpawnObject(this.trackedEntity, 70, Block.getStateId(entityfallingblock.getBlock()));
+		} else if (this.trackedEntity instanceof EntityFallingBlock entityfallingblock) {
+            return new S0EPacketSpawnObject(this.trackedEntity, 70, Block.getStateId(entityfallingblock.getBlock()));
 		} else if (this.trackedEntity instanceof EntityArmorStand) {
 			return new S0EPacketSpawnObject(this.trackedEntity, 78);
 		} else if (this.trackedEntity instanceof EntityPainting) {
 			return new S10PacketSpawnPainting((EntityPainting) this.trackedEntity);
-		} else if (this.trackedEntity instanceof EntityItemFrame) {
-			EntityItemFrame entityitemframe = (EntityItemFrame) this.trackedEntity;
-			S0EPacketSpawnObject s0epacketspawnobject1 = new S0EPacketSpawnObject(this.trackedEntity, 71,
+		} else if (this.trackedEntity instanceof EntityItemFrame entityitemframe) {
+            S0EPacketSpawnObject s0epacketspawnobject1 = new S0EPacketSpawnObject(this.trackedEntity, 71,
 					entityitemframe.facingDirection.getHorizontalIndex());
 			BlockPos blockpos1 = entityitemframe.getHangingPosition();
 			s0epacketspawnobject1.setX(MathHelper.floor_float((float) (blockpos1.getX() * 32)));
 			s0epacketspawnobject1.setY(MathHelper.floor_float((float) (blockpos1.getY() * 32)));
 			s0epacketspawnobject1.setZ(MathHelper.floor_float((float) (blockpos1.getZ() * 32)));
 			return s0epacketspawnobject1;
-		} else if (this.trackedEntity instanceof EntityLeashKnot) {
-			EntityLeashKnot entityleashknot = (EntityLeashKnot) this.trackedEntity;
-			S0EPacketSpawnObject s0epacketspawnobject = new S0EPacketSpawnObject(this.trackedEntity, 77);
+		} else if (this.trackedEntity instanceof EntityLeashKnot entityleashknot) {
+            S0EPacketSpawnObject s0epacketspawnobject = new S0EPacketSpawnObject(this.trackedEntity, 77);
 			BlockPos blockpos = entityleashknot.getHangingPosition();
 			s0epacketspawnobject.setX(MathHelper.floor_float((float) (blockpos.getX() * 32)));
 			s0epacketspawnobject.setY(MathHelper.floor_float((float) (blockpos.getY() * 32)));
@@ -520,7 +510,7 @@ public class EntityTrackerEntry {
 		} else if (this.trackedEntity instanceof EntityXPOrb) {
 			return new S11PacketSpawnExperienceOrb((EntityXPOrb) this.trackedEntity);
 		} else {
-			throw new IllegalArgumentException("Don\'t know how to add " + this.trackedEntity.getClass() + "!");
+			throw new IllegalArgumentException("Don't know how to add " + this.trackedEntity.getClass() + "!");
 		}
 	}
 

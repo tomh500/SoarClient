@@ -8,7 +8,7 @@ public class ModelResourceLocation extends ResourceLocation {
 	private final String variant;
 
 	protected ModelResourceLocation(int p_i46078_1_, String... p_i46078_2_) {
-		super(0, new String[] { p_i46078_2_[0], p_i46078_2_[1] });
+		super(0, p_i46078_2_[0], p_i46078_2_[1]);
 		this.variant = StringUtils.isEmpty(p_i46078_2_[2]) ? "normal" : p_i46078_2_[2].toLowerCase();
 	}
 
@@ -30,7 +30,7 @@ public class ModelResourceLocation extends ResourceLocation {
 		String s = p_177517_0_;
 
 		if (i >= 0) {
-			astring[2] = p_177517_0_.substring(i + 1, p_177517_0_.length());
+			astring[2] = p_177517_0_.substring(i + 1);
 
 			if (i > 1) {
 				s = p_177517_0_.substring(0, i);
@@ -48,9 +48,8 @@ public class ModelResourceLocation extends ResourceLocation {
 	public boolean equals(Object p_equals_1_) {
 		if (this == p_equals_1_) {
 			return true;
-		} else if (p_equals_1_ instanceof ModelResourceLocation && super.equals(p_equals_1_)) {
-			ModelResourceLocation modelresourcelocation = (ModelResourceLocation) p_equals_1_;
-			return this.variant.equals(modelresourcelocation.variant);
+		} else if (p_equals_1_ instanceof ModelResourceLocation modelresourcelocation && super.equals(p_equals_1_)) {
+            return this.variant.equals(modelresourcelocation.variant);
 		} else {
 			return false;
 		}

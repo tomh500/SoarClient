@@ -11,7 +11,7 @@ import net.minecraft.util.IStringSerializable;
 import net.minecraft.world.World;
 
 public abstract class BlockLog extends BlockRotatedPillar {
-	public static final PropertyEnum<BlockLog.EnumAxis> LOG_AXIS = PropertyEnum.<BlockLog.EnumAxis>create("axis",
+	public static final PropertyEnum<BlockLog.EnumAxis> LOG_AXIS = PropertyEnum.create("axis",
 			BlockLog.EnumAxis.class);
 
 	public BlockLog() {
@@ -30,7 +30,7 @@ public abstract class BlockLog extends BlockRotatedPillar {
 				IBlockState iblockstate = worldIn.getBlockState(blockpos);
 
 				if (iblockstate.getBlock().getMaterial() == Material.leaves
-						&& !((Boolean) iblockstate.getValue(BlockLeaves.CHECK_DECAY)).booleanValue()) {
+						&& !iblockstate.getValue(BlockLeaves.CHECK_DECAY).booleanValue()) {
 					worldIn.setBlockState(blockpos,
 							iblockstate.withProperty(BlockLeaves.CHECK_DECAY, Boolean.valueOf(true)), 4);
 				}
@@ -44,12 +44,12 @@ public abstract class BlockLog extends BlockRotatedPillar {
 				BlockLog.EnumAxis.fromFacingAxis(facing.getAxis()));
 	}
 
-	public static enum EnumAxis implements IStringSerializable {
+	public enum EnumAxis implements IStringSerializable {
 		X("x"), Y("y"), Z("z"), NONE("none");
 
 		private final String name;
 
-		private EnumAxis(String name) {
+		EnumAxis(String name) {
 			this.name = name;
 		}
 

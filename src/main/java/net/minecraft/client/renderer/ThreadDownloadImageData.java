@@ -87,7 +87,7 @@ public class ThreadDownloadImageData extends SimpleTexture {
 
 		if (this.imageThread == null) {
 			if (this.cacheFile != null && this.cacheFile.isFile()) {
-				logger.debug("Loading http texture from local cache ({})", new Object[] { this.cacheFile });
+				logger.debug("Loading http texture from local cache ({})", this.cacheFile);
 
 				try {
 					this.bufferedImage = ImageIO.read(this.cacheFile);
@@ -98,7 +98,7 @@ public class ThreadDownloadImageData extends SimpleTexture {
 
 					this.loadingFinished();
 				} catch (IOException ioexception) {
-					logger.error((String) ("Couldn\'t load skin " + this.cacheFile), (Throwable) ioexception);
+					logger.error("Couldn't load skin " + this.cacheFile, ioexception);
 					this.loadTextureFromServer();
 				}
 			} else {
@@ -112,7 +112,7 @@ public class ThreadDownloadImageData extends SimpleTexture {
 			public void run() {
 				HttpURLConnection httpurlconnection = null;
 				ThreadDownloadImageData.logger.debug("Downloading http texture from {} to {}",
-						new Object[] { ThreadDownloadImageData.this.imageUrl, ThreadDownloadImageData.this.cacheFile });
+                        ThreadDownloadImageData.this.imageUrl, ThreadDownloadImageData.this.cacheFile);
 
 				if (ThreadDownloadImageData.this.shouldPipeline()) {
 					ThreadDownloadImageData.this.loadPipelined();
@@ -148,10 +148,9 @@ public class ThreadDownloadImageData extends SimpleTexture {
 
 						ThreadDownloadImageData.this.setBufferedImage(bufferedimage);
 					} catch (Exception exception) {
-						ThreadDownloadImageData.logger.error("Couldn\'t download http texture: "
+						ThreadDownloadImageData.logger.error("Couldn't download http texture: "
 								+ exception.getClass().getName() + ": " + exception.getMessage());
-						return;
-					} finally {
+                    } finally {
 						if (httpurlconnection != null) {
 							httpurlconnection.disconnect();
 						}
@@ -170,8 +169,7 @@ public class ThreadDownloadImageData extends SimpleTexture {
 			return false;
 		} else {
 			Proxy proxy = Minecraft.getMinecraft().getProxy();
-			return proxy.type() != Type.DIRECT && proxy.type() != Type.SOCKS ? false
-					: this.imageUrl.startsWith("http://");
+			return (proxy.type() == Type.DIRECT || proxy.type() == Type.SOCKS) && this.imageUrl.startsWith("http://");
 		}
 	}
 
@@ -201,10 +199,9 @@ public class ThreadDownloadImageData extends SimpleTexture {
 
 			this.setBufferedImage(bufferedimage);
 		} catch (Exception exception) {
-			logger.error("Couldn\'t download http texture: " + exception.getClass().getName() + ": "
+			logger.error("Couldn't download http texture: " + exception.getClass().getName() + ": "
 					+ exception.getMessage());
-			return;
-		} finally {
+        } finally {
 			this.loadingFinished();
 		}
 	}
@@ -212,9 +209,8 @@ public class ThreadDownloadImageData extends SimpleTexture {
 	private void loadingFinished() {
 		this.imageFound = Boolean.valueOf(this.bufferedImage != null);
 
-		if (this.imageBuffer instanceof CapeImageBuffer) {
-			CapeImageBuffer capeimagebuffer = (CapeImageBuffer) this.imageBuffer;
-			capeimagebuffer.cleanup();
+		if (this.imageBuffer instanceof CapeImageBuffer capeimagebuffer) {
+            capeimagebuffer.cleanup();
 		}
 	}
 

@@ -78,7 +78,7 @@ public class EntityVillager extends EntityAgeable implements IMerchant, INpc {
 	private int careerLevel;
 	private boolean isLookingForHome;
 	private boolean areAdditionalTasksSet;
-	private InventoryBasic villagerInventory;
+	private final InventoryBasic villagerInventory;
 	private static final EntityVillager.ITradeList[][][][] DEFAULT_TRADE_LIST_MAP = new EntityVillager.ITradeList[][][][] {
 			{ { { new EntityVillager.EmeraldForItems(Items.wheat, new EntityVillager.PriceInfo(18, 22)),
 					new EntityVillager.EmeraldForItems(Items.potato, new EntityVillager.PriceInfo(15, 19)),
@@ -296,7 +296,7 @@ public class EntityVillager extends EntityAgeable implements IMerchant, INpc {
 				this.detachHome();
 			} else {
 				BlockPos blockpos1 = this.villageObj.getCenter();
-				this.setHomePosAndDistance(blockpos1, (int) ((float) this.villageObj.getVillageRadius() * 1.0F));
+				this.setHomePosAndDistance(blockpos1, (int) ((float) this.villageObj.getVillageRadius()));
 
 				if (this.isLookingForHome) {
 					this.isLookingForHome = false;
@@ -672,7 +672,7 @@ public class EntityVillager extends EntityAgeable implements IMerchant, INpc {
 
 			if (s1 != null) {
 				ChatComponentTranslation chatcomponenttranslation = new ChatComponentTranslation(
-						"entity.Villager." + s1, new Object[0]);
+						"entity.Villager." + s1);
 				chatcomponenttranslation.getChatStyle().setChatHoverEvent(this.getHoverEvent());
 				chatcomponenttranslation.getChatStyle().setInsertion(this.getUniqueID().toString());
 				return chatcomponenttranslation;
@@ -712,8 +712,8 @@ public class EntityVillager extends EntityAgeable implements IMerchant, INpc {
 			this.worldObj.spawnParticle(particleType,
 					this.posX + (double) (this.rand.nextFloat() * this.width * 2.0F) - (double) this.width,
 					this.posY + 1.0D + (double) (this.rand.nextFloat() * this.height),
-					this.posZ + (double) (this.rand.nextFloat() * this.width * 2.0F) - (double) this.width, d0, d1, d2,
-					new int[0]);
+					this.posZ + (double) (this.rand.nextFloat() * this.width * 2.0F) - (double) this.width, d0, d1, d2
+            );
 		}
 	}
 
@@ -731,7 +731,7 @@ public class EntityVillager extends EntityAgeable implements IMerchant, INpc {
 	public EntityVillager createChild(EntityAgeable ageable) {
 		EntityVillager entityvillager = new EntityVillager(this.worldObj);
 		entityvillager.onInitialSpawn(this.worldObj.getDifficultyForLocation(new BlockPos(entityvillager)),
-				(IEntityLivingData) null);
+                null);
 		return entityvillager;
 	}
 
@@ -744,7 +744,7 @@ public class EntityVillager extends EntityAgeable implements IMerchant, INpc {
 			EntityWitch entitywitch = new EntityWitch(this.worldObj);
 			entitywitch.setLocationAndAngles(this.posX, this.posY, this.posZ, this.rotationYaw, this.rotationPitch);
 			entitywitch.onInitialSpawn(this.worldObj.getDifficultyForLocation(new BlockPos(entitywitch)),
-					(IEntityLivingData) null);
+                    null);
 			entitywitch.setNoAI(this.isAIDisabled());
 
 			if (this.hasCustomName()) {
@@ -1000,10 +1000,10 @@ public class EntityVillager extends EntityAgeable implements IMerchant, INpc {
 		}
 
 		public int getPrice(Random rand) {
-			return ((Integer) this.getFirst()).intValue() >= ((Integer) this.getSecond()).intValue()
-					? ((Integer) this.getFirst()).intValue()
-					: ((Integer) this.getFirst()).intValue() + rand.nextInt(
-							((Integer) this.getSecond()).intValue() - ((Integer) this.getFirst()).intValue() + 1);
+			return this.getFirst().intValue() >= this.getSecond().intValue()
+					? this.getFirst().intValue()
+					: this.getFirst().intValue() + rand.nextInt(
+							this.getSecond().intValue() - this.getFirst().intValue() + 1);
 		}
 	}
 }

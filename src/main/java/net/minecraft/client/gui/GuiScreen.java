@@ -47,14 +47,14 @@ import net.minecraft.util.IChatComponent;
 
 public abstract class GuiScreen extends Gui implements GuiYesNoCallback {
 	private static final Logger LOGGER = LogManager.getLogger();
-	private static final Set<String> PROTOCOLS = Sets.newHashSet(new String[] { "http", "https" });
+	private static final Set<String> PROTOCOLS = Sets.newHashSet("http", "https");
 	private static final Splitter NEWLINE_SPLITTER = Splitter.on('\n');
 	protected Minecraft mc;
 	protected RenderItem itemRender;
 	public int width;
 	public int height;
-	protected List<GuiButton> buttonList = Lists.<GuiButton>newArrayList();
-	protected List<GuiLabel> labelList = Lists.<GuiLabel>newArrayList();
+	protected List<GuiButton> buttonList = Lists.newArrayList();
+	protected List<GuiLabel> labelList = Lists.newArrayList();
 	public boolean allowUserInput;
 	protected FontRenderer fontRendererObj;
 	private GuiButton selectedButton;
@@ -65,17 +65,17 @@ public abstract class GuiScreen extends Gui implements GuiYesNoCallback {
 
 	public void drawScreen(int mouseX, int mouseY, float partialTicks) {
 		for (int i = 0; i < this.buttonList.size(); ++i) {
-			((GuiButton) this.buttonList.get(i)).drawButton(this.mc, mouseX, mouseY);
+			this.buttonList.get(i).drawButton(this.mc, mouseX, mouseY);
 		}
 
 		for (int j = 0; j < this.labelList.size(); ++j) {
-			((GuiLabel) this.labelList.get(j)).drawLabel(this.mc, mouseX, mouseY);
+			this.labelList.get(j).drawLabel(this.mc, mouseX, mouseY);
 		}
 	}
 
 	protected void keyTyped(char typedChar, int keyCode) throws IOException {
 		if (keyCode == 1) {
-			this.mc.displayGuiScreen((GuiScreen) null);
+			this.mc.displayGuiScreen(null);
 
 			if (this.mc.currentScreen == null) {
 				this.mc.setIngameFocus();
@@ -85,14 +85,13 @@ public abstract class GuiScreen extends Gui implements GuiYesNoCallback {
 
 	public static String getClipboardString() {
 		try {
-			Transferable transferable = Toolkit.getDefaultToolkit().getSystemClipboard().getContents((Object) null);
+			Transferable transferable = Toolkit.getDefaultToolkit().getSystemClipboard().getContents(null);
 
 			if (transferable != null && transferable.isDataFlavorSupported(DataFlavor.stringFlavor)) {
 				return (String) transferable.getTransferData(DataFlavor.stringFlavor);
 			}
 		} catch (Exception var1) {
-			;
-		}
+        }
 
 		return "";
 	}
@@ -101,10 +100,9 @@ public abstract class GuiScreen extends Gui implements GuiYesNoCallback {
 		if (!StringUtils.isEmpty(copyText)) {
 			try {
 				StringSelection stringselection = new StringSelection(copyText);
-				Toolkit.getDefaultToolkit().getSystemClipboard().setContents(stringselection, (ClipboardOwner) null);
+				Toolkit.getDefaultToolkit().getSystemClipboard().setContents(stringselection, null);
 			} catch (Exception var2) {
-				;
-			}
+            }
 		}
 	}
 
@@ -113,9 +111,9 @@ public abstract class GuiScreen extends Gui implements GuiYesNoCallback {
 
 		for (int i = 0; i < list.size(); ++i) {
 			if (i == 0) {
-				list.set(i, stack.getRarity().rarityColor + (String) list.get(i));
+				list.set(i, stack.getRarity().rarityColor + list.get(i));
 			} else {
-				list.set(i, EnumChatFormatting.GRAY + (String) list.get(i));
+				list.set(i, EnumChatFormatting.GRAY + list.get(i));
 			}
 		}
 
@@ -123,7 +121,7 @@ public abstract class GuiScreen extends Gui implements GuiYesNoCallback {
 	}
 
 	protected void drawCreativeTabHoveringText(String tabName, int mouseX, int mouseY) {
-		this.drawHoveringText(Arrays.<String>asList(new String[] { tabName }), mouseX, mouseY);
+		this.drawHoveringText(Arrays.asList(tabName), mouseX, mouseY);
 	}
 
 	protected void drawHoveringText(List<String> textLines, int x, int y) {
@@ -174,7 +172,7 @@ public abstract class GuiScreen extends Gui implements GuiYesNoCallback {
 			this.drawGradientRect(l1 - 3, i2 + k + 2, l1 + i + 3, i2 + k + 3, j1, j1);
 
 			for (int k1 = 0; k1 < textLines.size(); ++k1) {
-				String s1 = (String) textLines.get(k1);
+				String s1 = textLines.get(k1);
 				this.fontRendererObj.drawStringWithShadow(s1, (float) l1, (float) i2, -1);
 
 				if (k1 == 0) {
@@ -207,8 +205,7 @@ public abstract class GuiScreen extends Gui implements GuiYesNoCallback {
 						itemstack = ItemStack.loadItemStackFromNBT((NBTTagCompound) nbtbase);
 					}
 				} catch (NBTException var11) {
-					;
-				}
+                }
 
 				if (itemstack != null) {
 					this.renderToolTip(itemstack, x, y);
@@ -220,10 +217,9 @@ public abstract class GuiScreen extends Gui implements GuiYesNoCallback {
 					try {
 						NBTBase nbtbase1 = JsonToNBT.getTagFromJson(hoverevent.getValue().getUnformattedText());
 
-						if (nbtbase1 instanceof NBTTagCompound) {
-							List<String> list1 = Lists.<String>newArrayList();
-							NBTTagCompound nbttagcompound = (NBTTagCompound) nbtbase1;
-							list1.add(nbttagcompound.getString("name"));
+						if (nbtbase1 instanceof NBTTagCompound nbttagcompound) {
+							List<String> list1 = Lists.newArrayList();
+                            list1.add(nbttagcompound.getString("name"));
 
 							if (nbttagcompound.hasKey("type", 8)) {
 								String s = nbttagcompound.getString("type");
@@ -247,12 +243,12 @@ public abstract class GuiScreen extends Gui implements GuiYesNoCallback {
 				if (statbase != null) {
 					IChatComponent ichatcomponent = statbase.getStatName();
 					IChatComponent ichatcomponent1 = new ChatComponentTranslation(
-							"stats.tooltip.type." + (statbase.isAchievement() ? "achievement" : "statistic"),
-							new Object[0]);
+							"stats.tooltip.type." + (statbase.isAchievement() ? "achievement" : "statistic")
+                    );
 					ichatcomponent1.getChatStyle().setItalic(Boolean.valueOf(true));
 					String s1 = statbase instanceof Achievement ? ((Achievement) statbase).getDescription() : null;
 					List<String> list = Lists.newArrayList(
-							new String[] { ichatcomponent.getFormattedText(), ichatcomponent1.getFormattedText() });
+                            ichatcomponent.getFormattedText(), ichatcomponent1.getFormattedText());
 
 					if (s1 != null) {
 						list.addAll(this.fontRendererObj.listFormattedStringToWidth(s1, 150));
@@ -308,7 +304,7 @@ public abstract class GuiScreen extends Gui implements GuiYesNoCallback {
 							this.openWebLink(uri);
 						}
 					} catch (URISyntaxException urisyntaxexception) {
-						LOGGER.error((String) ("Can\'t open url for " + clickevent), (Throwable) urisyntaxexception);
+						LOGGER.error("Can't open url for " + clickevent, urisyntaxexception);
 					}
 				} else if (clickevent.getAction() == ClickEvent.Action.OPEN_FILE) {
 					URI uri1 = (new File(clickevent.getValue())).toURI();
@@ -318,7 +314,7 @@ public abstract class GuiScreen extends Gui implements GuiYesNoCallback {
 				} else if (clickevent.getAction() == ClickEvent.Action.RUN_COMMAND) {
 					this.sendChatMessage(clickevent.getValue(), false);
 				} else {
-					LOGGER.error("Don\'t know how to handle " + clickevent);
+					LOGGER.error("Don't know how to handle " + clickevent);
 				}
 
 				return true;
@@ -343,7 +339,7 @@ public abstract class GuiScreen extends Gui implements GuiYesNoCallback {
 	protected void mouseClicked(int mouseX, int mouseY, int mouseButton) throws IOException {
 		if (mouseButton == 0) {
 			for (int i = 0; i < this.buttonList.size(); ++i) {
-				GuiButton guibutton = (GuiButton) this.buttonList.get(i);
+				GuiButton guibutton = this.buttonList.get(i);
 
 				if (guibutton.mousePressed(this.mc, mouseX, mouseY)) {
 					this.selectedButton = guibutton;
@@ -460,14 +456,14 @@ public abstract class GuiScreen extends Gui implements GuiYesNoCallback {
 		GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
 		float f = 32.0F;
 		worldrenderer.begin(7, DefaultVertexFormats.POSITION_TEX_COLOR);
-		worldrenderer.pos(0.0D, (double) this.height, 0.0D)
-				.tex(0.0D, (double) ((float) this.height / 32.0F + (float) tint)).color(64, 64, 64, 255).endVertex();
-		worldrenderer.pos((double) this.width, (double) this.height, 0.0D)
-				.tex((double) ((float) this.width / 32.0F), (double) ((float) this.height / 32.0F + (float) tint))
+		worldrenderer.pos(0.0D, this.height, 0.0D)
+				.tex(0.0D, (float) this.height / 32.0F + (float) tint).color(64, 64, 64, 255).endVertex();
+		worldrenderer.pos(this.width, this.height, 0.0D)
+				.tex((float) this.width / 32.0F, (float) this.height / 32.0F + (float) tint)
 				.color(64, 64, 64, 255).endVertex();
-		worldrenderer.pos((double) this.width, 0.0D, 0.0D).tex((double) ((float) this.width / 32.0F), (double) tint)
+		worldrenderer.pos(this.width, 0.0D, 0.0D).tex((float) this.width / 32.0F, tint)
 				.color(64, 64, 64, 255).endVertex();
-		worldrenderer.pos(0.0D, 0.0D, 0.0D).tex(0.0D, (double) tint).color(64, 64, 64, 255).endVertex();
+		worldrenderer.pos(0.0D, 0.0D, 0.0D).tex(0.0D, tint).color(64, 64, 64, 255).endVertex();
 		tessellator.draw();
 	}
 
@@ -489,10 +485,10 @@ public abstract class GuiScreen extends Gui implements GuiYesNoCallback {
 	private void openWebLink(URI url) {
 		try {
 			Class<?> oclass = Class.forName("java.awt.Desktop");
-			Object object = oclass.getMethod("getDesktop", new Class[0]).invoke((Object) null, new Object[0]);
-			oclass.getMethod("browse", new Class[] { URI.class }).invoke(object, new Object[] { url });
+			Object object = oclass.getMethod("getDesktop").invoke(null);
+			oclass.getMethod("browse", URI.class).invoke(object, url);
 		} catch (Throwable throwable) {
-			LOGGER.error("Couldn\'t open link", throwable);
+			LOGGER.error("Couldn't open link", throwable);
 		}
 	}
 

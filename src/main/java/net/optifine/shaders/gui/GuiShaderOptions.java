@@ -17,10 +17,10 @@ import net.optifine.shaders.config.ShaderOptionProfile;
 import net.optifine.shaders.config.ShaderOptionScreen;
 
 public class GuiShaderOptions extends GuiScreenOF {
-	private GuiScreen prevScreen;
+	private final GuiScreen prevScreen;
 	protected String title;
-	private GameSettings settings;
-	private TooltipManager tooltipManager;
+	private final GameSettings settings;
+	private final TooltipManager tooltipManager;
 	private String screenName;
 	private String screenText;
 	private boolean changed;
@@ -48,7 +48,7 @@ public class GuiShaderOptions extends GuiScreenOF {
 	}
 
 	public void initGui() {
-		this.title = I18n.format("of.options.shaderOptionsTitle", new Object[0]);
+		this.title = I18n.format("of.options.shaderOptionsTitle");
 		int i = 100;
 		int j = 0;
 		int k = 30;
@@ -92,24 +92,22 @@ public class GuiShaderOptions extends GuiScreenOF {
 		}
 
 		this.buttonList.add(new GuiButton(201, this.width / 2 - i1 - 20, this.height / 6 + 168 + 11, i1, j1,
-				I18n.format("controls.reset", new Object[0])));
+				I18n.format("controls.reset")));
 		this.buttonList.add(new GuiButton(200, this.width / 2 + 20, this.height / 6 + 168 + 11, i1, j1,
-				I18n.format("gui.done", new Object[0])));
+				I18n.format("gui.done")));
 	}
 
 	public static String getButtonText(ShaderOption so, int btnWidth) {
 		String s = so.getNameText();
 
-		if (so instanceof ShaderOptionScreen) {
-			ShaderOptionScreen shaderoptionscreen = (ShaderOptionScreen) so;
-			return s + "...";
+		if (so instanceof ShaderOptionScreen shaderoptionscreen) {
+            return s + "...";
 		} else {
 			FontRenderer fontrenderer = Config.getMinecraft().fontRendererObj;
 
 			for (int i = fontrenderer.getStringWidth(": " + Lang.getOff()) + 5; fontrenderer.getStringWidth(s)
 					+ i >= btnWidth && s.length() > 0; s = s.substring(0, s.length() - 1)) {
-				;
-			}
+            }
 
 			String s1 = so.isChanged() ? so.getValueColor(so.getValue()) : "";
 			String s2 = so.getValueText(so.getValue());
@@ -119,9 +117,8 @@ public class GuiShaderOptions extends GuiScreenOF {
 
 	protected void actionPerformed(GuiButton guibutton) {
 		if (guibutton.enabled) {
-			if (guibutton.id < 200 && guibutton instanceof GuiButtonShaderOption) {
-				GuiButtonShaderOption guibuttonshaderoption = (GuiButtonShaderOption) guibutton;
-				ShaderOption shaderoption = guibuttonshaderoption.getShaderOption();
+			if (guibutton.id < 200 && guibutton instanceof GuiButtonShaderOption guibuttonshaderoption) {
+                ShaderOption shaderoption = guibuttonshaderoption.getShaderOption();
 
 				if (shaderoption instanceof ShaderOptionScreen) {
 					String s = shaderoption.getName();
@@ -165,9 +162,8 @@ public class GuiShaderOptions extends GuiScreenOF {
 	}
 
 	protected void actionPerformedRightClick(GuiButton btn) {
-		if (btn instanceof GuiButtonShaderOption) {
-			GuiButtonShaderOption guibuttonshaderoption = (GuiButtonShaderOption) btn;
-			ShaderOption shaderoption = guibuttonshaderoption.getShaderOption();
+		if (btn instanceof GuiButtonShaderOption guibuttonshaderoption) {
+            ShaderOption shaderoption = guibuttonshaderoption.getShaderOption();
 
 			if (isShiftKeyDown()) {
 				shaderoption.resetValue();
@@ -192,13 +188,11 @@ public class GuiShaderOptions extends GuiScreenOF {
 
 	private void updateAllButtons() {
 		for (GuiButton guibutton : this.buttonList) {
-			if (guibutton instanceof GuiButtonShaderOption) {
-				GuiButtonShaderOption guibuttonshaderoption = (GuiButtonShaderOption) guibutton;
-				ShaderOption shaderoption = guibuttonshaderoption.getShaderOption();
+			if (guibutton instanceof GuiButtonShaderOption guibuttonshaderoption) {
+                ShaderOption shaderoption = guibuttonshaderoption.getShaderOption();
 
-				if (shaderoption instanceof ShaderOptionProfile) {
-					ShaderOptionProfile shaderoptionprofile = (ShaderOptionProfile) shaderoption;
-					shaderoptionprofile.updateProfile();
+				if (shaderoption instanceof ShaderOptionProfile shaderoptionprofile) {
+                    shaderoptionprofile.updateProfile();
 				}
 
 				guibuttonshaderoption.displayString = getButtonText(shaderoption,

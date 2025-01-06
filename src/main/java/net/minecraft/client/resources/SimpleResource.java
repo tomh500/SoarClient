@@ -17,7 +17,7 @@ import net.minecraft.client.resources.data.IMetadataSerializer;
 import net.minecraft.util.ResourceLocation;
 
 public class SimpleResource implements IResource {
-	private final Map<String, IMetadataSection> mapMetadataSections = Maps.<String, IMetadataSection>newHashMap();
+	private final Map<String, IMetadataSection> mapMetadataSections = Maps.newHashMap();
 	private final String resourcePackName;
 	private final ResourceLocation srResourceLocation;
 	private final InputStream resourceInputStream;
@@ -50,7 +50,7 @@ public class SimpleResource implements IResource {
 
 	public <T extends IMetadataSection> T getMetadata(String p_110526_1_) {
 		if (!this.hasMetadata()) {
-			return (T) null;
+			return null;
 		} else {
 			if (this.mcmetaJson == null && !this.mcmetaJsonChecked) {
 				this.mcmetaJsonChecked = true;
@@ -58,9 +58,9 @@ public class SimpleResource implements IResource {
 
 				try {
 					bufferedreader = new BufferedReader(new InputStreamReader(this.mcmetaInputStream));
-					this.mcmetaJson = (new JsonParser()).parse((Reader) bufferedreader).getAsJsonObject();
+					this.mcmetaJson = (new JsonParser()).parse(bufferedreader).getAsJsonObject();
 				} finally {
-					IOUtils.closeQuietly((Reader) bufferedreader);
+					IOUtils.closeQuietly(bufferedreader);
 				}
 			}
 
@@ -81,12 +81,11 @@ public class SimpleResource implements IResource {
 	public boolean equals(Object p_equals_1_) {
 		if (this == p_equals_1_) {
 			return true;
-		} else if (!(p_equals_1_ instanceof SimpleResource)) {
+		} else if (!(p_equals_1_ instanceof SimpleResource simpleresource)) {
 			return false;
 		} else {
-			SimpleResource simpleresource = (SimpleResource) p_equals_1_;
 
-			if (this.srResourceLocation != null) {
+            if (this.srResourceLocation != null) {
 				if (!this.srResourceLocation.equals(simpleresource.srResourceLocation)) {
 					return false;
 				}
@@ -95,15 +94,9 @@ public class SimpleResource implements IResource {
 			}
 
 			if (this.resourcePackName != null) {
-				if (!this.resourcePackName.equals(simpleresource.resourcePackName)) {
-					return false;
-				}
-			} else if (simpleresource.resourcePackName != null) {
-				return false;
-			}
-
-			return true;
-		}
+                return this.resourcePackName.equals(simpleresource.resourcePackName);
+			} else return simpleresource.resourcePackName == null;
+        }
 	}
 
 	public int hashCode() {

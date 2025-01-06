@@ -12,11 +12,11 @@ import net.minecraft.profiler.Profiler;
 
 public class EntityAITasks {
 	private static final Logger logger = LogManager.getLogger();
-	private List<EntityAITasks.EntityAITaskEntry> taskEntries = Lists.<EntityAITasks.EntityAITaskEntry>newArrayList();
-	private List<EntityAITasks.EntityAITaskEntry> executingTaskEntries = Lists.<EntityAITasks.EntityAITaskEntry>newArrayList();
+	private final List<EntityAITasks.EntityAITaskEntry> taskEntries = Lists.newArrayList();
+	private final List<EntityAITasks.EntityAITaskEntry> executingTaskEntries = Lists.newArrayList();
 	private final Profiler theProfiler;
 	private int tickCount;
-	private int tickRate = 3;
+	private final int tickRate = 3;
 
 	public EntityAITasks(Profiler profilerIn) {
 		this.theProfiler = profilerIn;
@@ -30,7 +30,7 @@ public class EntityAITasks {
 		Iterator<EntityAITasks.EntityAITaskEntry> iterator = this.taskEntries.iterator();
 
 		while (iterator.hasNext()) {
-			EntityAITasks.EntityAITaskEntry entityaitasks$entityaitaskentry = (EntityAITasks.EntityAITaskEntry) iterator
+			EntityAITasks.EntityAITaskEntry entityaitasks$entityaitaskentry = iterator
 					.next();
 			EntityAIBase entityaibase = entityaitasks$entityaitaskentry.action;
 
@@ -85,7 +85,7 @@ public class EntityAITasks {
 			Iterator<EntityAITasks.EntityAITaskEntry> iterator1 = this.executingTaskEntries.iterator();
 
 			while (iterator1.hasNext()) {
-				EntityAITasks.EntityAITaskEntry entityaitasks$entityaitaskentry1 = (EntityAITasks.EntityAITaskEntry) iterator1
+				EntityAITasks.EntityAITaskEntry entityaitasks$entityaitaskentry1 = iterator1
 						.next();
 
 				if (!this.canContinue(entityaitasks$entityaitaskentry1)) {

@@ -41,10 +41,10 @@ public class PlayerSelector {
 	private static final Pattern intListPattern = Pattern.compile("\\G([-!]?[\\w-]*)(?:$|,)");
 	private static final Pattern keyValueListPattern = Pattern.compile("\\G(\\w+)=([-!]?[\\w-]*)(?:$|,)");
 	private static final Set<String> WORLD_BINDING_ARGS = Sets
-			.newHashSet(new String[] { "x", "y", "z", "dx", "dy", "dz", "rm", "r" });
+			.newHashSet("x", "y", "z", "dx", "dy", "dz", "rm", "r");
 
 	public static EntityPlayerMP matchOnePlayer(ICommandSender sender, String token) {
-		return (EntityPlayerMP) matchOneEntity(sender, token, EntityPlayerMP.class);
+		return matchOneEntity(sender, token, EntityPlayerMP.class);
 	}
 
 	public static <T extends Entity> T matchOneEntity(ICommandSender sender, String token,
@@ -59,7 +59,7 @@ public class PlayerSelector {
 		if (list.isEmpty()) {
 			return null;
 		} else {
-			List<IChatComponent> list1 = Lists.<IChatComponent>newArrayList();
+			List<IChatComponent> list1 = Lists.newArrayList();
 
 			for (Entity entity : list) {
 				list1.add(entity.getDisplayName());
@@ -77,16 +77,16 @@ public class PlayerSelector {
 			Map<String, String> map = getArgumentMap(matcher.group(2));
 
 			if (!isEntityTypeValid(sender, map)) {
-				return Collections.<T>emptyList();
+				return Collections.emptyList();
 			} else {
 				String s = matcher.group(1);
 				BlockPos blockpos = func_179664_b(map, sender.getPosition());
 				List<World> list = getWorlds(sender, map);
-				List<T> list1 = Lists.<T>newArrayList();
+				List<T> list1 = Lists.newArrayList();
 
 				for (World world : list) {
 					if (world != null) {
-						List<Predicate<Entity>> list2 = Lists.<Predicate<Entity>>newArrayList();
+						List<Predicate<Entity>> list2 = Lists.newArrayList();
 						list2.addAll(func_179663_a(map, s));
 						list2.addAll(getXpLevelPredicates(map));
 						list2.addAll(getGamemodePredicates(map));
@@ -102,12 +102,12 @@ public class PlayerSelector {
 				return func_179658_a(list1, map, sender, targetClass, s, blockpos);
 			}
 		} else {
-			return Collections.<T>emptyList();
+			return Collections.emptyList();
 		}
 	}
 
 	private static List<World> getWorlds(ICommandSender sender, Map<String, String> argumentMap) {
-		List<World> list = Lists.<World>newArrayList();
+		List<World> list = Lists.newArrayList();
 
 		if (func_179665_h(argumentMap)) {
 			list.add(sender.getEntityWorld());
@@ -125,7 +125,7 @@ public class PlayerSelector {
 
 		if (s != null && !EntityList.isStringValidEntityName(s)) {
 			ChatComponentTranslation chatcomponenttranslation = new ChatComponentTranslation(
-					"commands.generic.entity.invalidType", new Object[] { s });
+					"commands.generic.entity.invalidType", s);
 			chatcomponenttranslation.getChatStyle().setColor(EnumChatFormatting.RED);
 			commandSender.addChatMessage(chatcomponenttranslation);
 			return false;
@@ -135,7 +135,7 @@ public class PlayerSelector {
 	}
 
 	private static List<Predicate<Entity>> func_179663_a(Map<String, String> p_179663_0_, String p_179663_1_) {
-		List<Predicate<Entity>> list = Lists.<Predicate<Entity>>newArrayList();
+		List<Predicate<Entity>> list = Lists.newArrayList();
 		String s = func_179651_b(p_179663_0_, "type");
 		final boolean flag = s != null && s.startsWith("!");
 
@@ -167,18 +167,17 @@ public class PlayerSelector {
 	}
 
 	private static List<Predicate<Entity>> getXpLevelPredicates(Map<String, String> p_179648_0_) {
-		List<Predicate<Entity>> list = Lists.<Predicate<Entity>>newArrayList();
+		List<Predicate<Entity>> list = Lists.newArrayList();
 		final int i = parseIntWithDefault(p_179648_0_, "lm", -1);
 		final int j = parseIntWithDefault(p_179648_0_, "l", -1);
 
 		if (i > -1 || j > -1) {
 			list.add(new Predicate<Entity>() {
 				public boolean apply(Entity p_apply_1_) {
-					if (!(p_apply_1_ instanceof EntityPlayerMP)) {
+					if (!(p_apply_1_ instanceof EntityPlayerMP entityplayermp)) {
 						return false;
 					} else {
-						EntityPlayerMP entityplayermp = (EntityPlayerMP) p_apply_1_;
-						return (i <= -1 || entityplayermp.experienceLevel >= i)
+                        return (i <= -1 || entityplayermp.experienceLevel >= i)
 								&& (j <= -1 || entityplayermp.experienceLevel <= j);
 					}
 				}
@@ -189,17 +188,16 @@ public class PlayerSelector {
 	}
 
 	private static List<Predicate<Entity>> getGamemodePredicates(Map<String, String> p_179649_0_) {
-		List<Predicate<Entity>> list = Lists.<Predicate<Entity>>newArrayList();
+		List<Predicate<Entity>> list = Lists.newArrayList();
 		final int i = parseIntWithDefault(p_179649_0_, "m", WorldSettings.GameType.NOT_SET.getID());
 
 		if (i != WorldSettings.GameType.NOT_SET.getID()) {
 			list.add(new Predicate<Entity>() {
 				public boolean apply(Entity p_apply_1_) {
-					if (!(p_apply_1_ instanceof EntityPlayerMP)) {
+					if (!(p_apply_1_ instanceof EntityPlayerMP entityplayermp)) {
 						return false;
 					} else {
-						EntityPlayerMP entityplayermp = (EntityPlayerMP) p_apply_1_;
-						return entityplayermp.theItemInWorldManager.getGameType().getID() == i;
+                        return entityplayermp.theItemInWorldManager.getGameType().getID() == i;
 					}
 				}
 			});
@@ -209,7 +207,7 @@ public class PlayerSelector {
 	}
 
 	private static List<Predicate<Entity>> getTeamPredicates(Map<String, String> p_179659_0_) {
-		List<Predicate<Entity>> list = Lists.<Predicate<Entity>>newArrayList();
+		List<Predicate<Entity>> list = Lists.newArrayList();
 		String s = func_179651_b(p_179659_0_, "team");
 		final boolean flag = s != null && s.startsWith("!");
 
@@ -221,11 +219,10 @@ public class PlayerSelector {
 			final String s_f = s;
 			list.add(new Predicate<Entity>() {
 				public boolean apply(Entity p_apply_1_) {
-					if (!(p_apply_1_ instanceof EntityLivingBase)) {
+					if (!(p_apply_1_ instanceof EntityLivingBase entitylivingbase)) {
 						return false;
 					} else {
-						EntityLivingBase entitylivingbase = (EntityLivingBase) p_apply_1_;
-						Team team = entitylivingbase.getTeam();
+                        Team team = entitylivingbase.getTeam();
 						String s1 = team == null ? "" : team.getRegisteredName();
 						return s1.equals(s_f) != flag;
 					}
@@ -237,7 +234,7 @@ public class PlayerSelector {
 	}
 
 	private static List<Predicate<Entity>> getScorePredicates(Map<String, String> p_179657_0_) {
-		List<Predicate<Entity>> list = Lists.<Predicate<Entity>>newArrayList();
+		List<Predicate<Entity>> list = Lists.newArrayList();
 		final Map<String, Integer> map = func_96560_a(p_179657_0_);
 
 		if (map != null && map.size() > 0) {
@@ -246,7 +243,7 @@ public class PlayerSelector {
 					Scoreboard scoreboard = MinecraftServer.getServer().worldServerForDimension(0).getScoreboard();
 
 					for (Entry<String, Integer> entry : map.entrySet()) {
-						String s = (String) entry.getKey();
+						String s = entry.getKey();
 						boolean flag = false;
 
 						if (s.endsWith("_min") && s.length() > 4) {
@@ -270,11 +267,11 @@ public class PlayerSelector {
 						Score score = scoreboard.getValueFromObjective(s1, scoreobjective);
 						int i = score.getScorePoints();
 
-						if (i < ((Integer) entry.getValue()).intValue() && flag) {
+						if (i < entry.getValue().intValue() && flag) {
 							return false;
 						}
 
-						if (i > ((Integer) entry.getValue()).intValue() && !flag) {
+						if (i > entry.getValue().intValue() && !flag) {
 							return false;
 						}
 					}
@@ -288,7 +285,7 @@ public class PlayerSelector {
 	}
 
 	private static List<Predicate<Entity>> getNamePredicates(Map<String, String> p_179647_0_) {
-		List<Predicate<Entity>> list = Lists.<Predicate<Entity>>newArrayList();
+		List<Predicate<Entity>> list = Lists.newArrayList();
 		String s = func_179651_b(p_179647_0_, "name");
 		final boolean flag = s != null && s.startsWith("!");
 
@@ -309,7 +306,7 @@ public class PlayerSelector {
 	}
 
 	private static List<Predicate<Entity>> func_180698_a(Map<String, String> p_180698_0_, final BlockPos p_180698_1_) {
-		List<Predicate<Entity>> list = Lists.<Predicate<Entity>>newArrayList();
+		List<Predicate<Entity>> list = Lists.newArrayList();
 		final int i = parseIntWithDefault(p_180698_0_, "rm", -1);
 		final int j = parseIntWithDefault(p_180698_0_, "r", -1);
 
@@ -328,14 +325,14 @@ public class PlayerSelector {
 	}
 
 	private static List<Predicate<Entity>> getRotationsPredicates(Map<String, String> p_179662_0_) {
-		List<Predicate<Entity>> list = Lists.<Predicate<Entity>>newArrayList();
+		List<Predicate<Entity>> list = Lists.newArrayList();
 
 		if (p_179662_0_.containsKey("rym") || p_179662_0_.containsKey("ry")) {
 			final int i = func_179650_a(parseIntWithDefault(p_179662_0_, "rym", 0));
 			final int j = func_179650_a(parseIntWithDefault(p_179662_0_, "ry", 359));
 			list.add(new Predicate<Entity>() {
 				public boolean apply(Entity p_apply_1_) {
-					int i1 = PlayerSelector.func_179650_a((int) Math.floor((double) p_apply_1_.rotationYaw));
+					int i1 = PlayerSelector.func_179650_a((int) Math.floor(p_apply_1_.rotationYaw));
 					return i > j ? i1 >= i || i1 <= j : i1 >= i && i1 <= j;
 				}
 			});
@@ -346,7 +343,7 @@ public class PlayerSelector {
 			final int l = func_179650_a(parseIntWithDefault(p_179662_0_, "rx", 359));
 			list.add(new Predicate<Entity>() {
 				public boolean apply(Entity p_apply_1_) {
-					int i1 = PlayerSelector.func_179650_a((int) Math.floor((double) p_apply_1_.rotationPitch));
+					int i1 = PlayerSelector.func_179650_a((int) Math.floor(p_apply_1_.rotationPitch));
 					return k > l ? i1 >= k || i1 <= l : i1 >= k && i1 <= l;
 				}
 			});
@@ -357,7 +354,7 @@ public class PlayerSelector {
 
 	private static <T extends Entity> List<T> filterResults(Map<String, String> params, Class<? extends T> entityClass,
 			List<Predicate<Entity>> inputList, String type, World worldIn, BlockPos position) {
-		List<T> list = Lists.<T>newArrayList();
+		List<T> list = Lists.newArrayList();
 		String s = func_179651_b(params, "type");
 		s = s != null && s.startsWith("!") ? s.substring(1) : s;
 		boolean flag = !type.equals("e");
@@ -367,7 +364,7 @@ public class PlayerSelector {
 		int k = parseIntWithDefault(params, "dz", 0);
 		int l = parseIntWithDefault(params, "r", -1);
 		Predicate<Entity> predicate = Predicates.and(inputList);
-		Predicate<Entity> predicate1 = Predicates.<Entity>and(EntitySelectors.selectAnything, predicate);
+		Predicate<Entity> predicate1 = Predicates.and(EntitySelectors.selectAnything, predicate);
 
 		if (position != null) {
 			int i1 = worldIn.playerEntities.size();
@@ -376,10 +373,10 @@ public class PlayerSelector {
 
 			if (!params.containsKey("dx") && !params.containsKey("dy") && !params.containsKey("dz")) {
 				if (l >= 0) {
-					AxisAlignedBB axisalignedbb1 = new AxisAlignedBB((double) (position.getX() - l),
-							(double) (position.getY() - l), (double) (position.getZ() - l),
-							(double) (position.getX() + l + 1), (double) (position.getY() + l + 1),
-							(double) (position.getZ() + l + 1));
+					AxisAlignedBB axisalignedbb1 = new AxisAlignedBB(position.getX() - l,
+                            position.getY() - l, position.getZ() - l,
+                            position.getX() + l + 1, position.getY() + l + 1,
+                            position.getZ() + l + 1);
 
 					if (flag && flag2 && !flag1) {
 						list.addAll(worldIn.<T>getPlayers(entityClass, predicate1));
@@ -400,14 +397,12 @@ public class PlayerSelector {
 					Predicate<Entity> predicate2 = new Predicate<Entity>() {
 						public boolean apply(Entity p_apply_1_) {
 							return p_apply_1_.posX >= axisalignedbb.minX && p_apply_1_.posY >= axisalignedbb.minY
-									&& p_apply_1_.posZ >= axisalignedbb.minZ
-											? p_apply_1_.posX < axisalignedbb.maxX
-													&& p_apply_1_.posY < axisalignedbb.maxY
-													&& p_apply_1_.posZ < axisalignedbb.maxZ
-											: false;
+                                    && p_apply_1_.posZ >= axisalignedbb.minZ && p_apply_1_.posX < axisalignedbb.maxX
+                                    && p_apply_1_.posY < axisalignedbb.maxY
+                                    && p_apply_1_.posZ < axisalignedbb.maxZ;
 						}
 					};
-					list.addAll(worldIn.<T>getPlayers(entityClass, Predicates.<T>and(predicate1, predicate2)));
+					list.addAll(worldIn.<T>getPlayers(entityClass, Predicates.and(predicate1, predicate2)));
 				} else {
 					list.addAll(worldIn.<T>getEntitiesWithinAABB(entityClass, axisalignedbb, predicate1));
 				}
@@ -430,10 +425,10 @@ public class PlayerSelector {
 
 		if (!p_179658_4_.equals("p") && !p_179658_4_.equals("a") && !p_179658_4_.equals("e")) {
 			if (p_179658_4_.equals("r")) {
-				Collections.shuffle((List<?>) p_179658_0_);
+				Collections.shuffle(p_179658_0_);
 			}
 		} else if (p_179658_5_ != null) {
-			Collections.sort((List<T>) p_179658_0_, new Comparator<Entity>() {
+			Collections.sort(p_179658_0_, new Comparator<Entity>() {
 				public int compare(Entity p_compare_1_, Entity p_compare_2_) {
 					return ComparisonChain.start()
 							.compare(p_compare_1_.getDistanceSq(p_179658_5_), p_compare_2_.getDistanceSq(p_179658_5_))
@@ -445,19 +440,19 @@ public class PlayerSelector {
 		Entity entity = p_179658_2_.getCommandSenderEntity();
 
 		if (entity != null && p_179658_3_.isAssignableFrom(entity.getClass()) && i == 1
-				&& ((List) p_179658_0_).contains(entity) && !"r".equals(p_179658_4_)) {
+				&& p_179658_0_.contains(entity) && !"r".equals(p_179658_4_)) {
 			p_179658_0_ = Lists.newArrayList((T) entity);
 		}
 
 		if (i != 0) {
 			if (i < 0) {
-				Collections.reverse((List<?>) p_179658_0_);
+				Collections.reverse(p_179658_0_);
 			}
 
-			p_179658_0_ = ((List) p_179658_0_).subList(0, Math.min(Math.abs(i), ((List) p_179658_0_).size()));
+			p_179658_0_ = ((List) p_179658_0_).subList(0, Math.min(Math.abs(i), p_179658_0_.size()));
 		}
 
-		return (List) p_179658_0_;
+		return p_179658_0_;
 	}
 
 	private static AxisAlignedBB func_179661_a(BlockPos p_179661_0_, int p_179661_1_, int p_179661_2_,
@@ -471,7 +466,7 @@ public class PlayerSelector {
 		int l = p_179661_0_.getX() + (flag ? 0 : p_179661_1_) + 1;
 		int i1 = p_179661_0_.getY() + (flag1 ? 0 : p_179661_2_) + 1;
 		int j1 = p_179661_0_.getZ() + (flag2 ? 0 : p_179661_3_) + 1;
-		return new AxisAlignedBB((double) i, (double) j, (double) k, (double) l, (double) i1, (double) j1);
+		return new AxisAlignedBB(i, j, k, l, i1, j1);
 	}
 
 	public static int func_179650_a(int p_179650_0_) {
@@ -506,21 +501,21 @@ public class PlayerSelector {
 
 	private static int parseIntWithDefault(Map<String, String> p_179653_0_, String p_179653_1_, int p_179653_2_) {
 		return p_179653_0_.containsKey(p_179653_1_)
-				? MathHelper.parseIntWithDefault((String) p_179653_0_.get(p_179653_1_), p_179653_2_)
+				? MathHelper.parseIntWithDefault(p_179653_0_.get(p_179653_1_), p_179653_2_)
 				: p_179653_2_;
 	}
 
 	private static String func_179651_b(Map<String, String> p_179651_0_, String p_179651_1_) {
-		return (String) p_179651_0_.get(p_179651_1_);
+		return p_179651_0_.get(p_179651_1_);
 	}
 
 	public static Map<String, Integer> func_96560_a(Map<String, String> p_96560_0_) {
-		Map<String, Integer> map = Maps.<String, Integer>newHashMap();
+		Map<String, Integer> map = Maps.newHashMap();
 
 		for (String s : p_96560_0_.keySet()) {
 			if (s.startsWith("score_") && s.length() > "score_".length()) {
 				map.put(s.substring("score_".length()),
-						Integer.valueOf(MathHelper.parseIntWithDefault((String) p_96560_0_.get(s), 1)));
+						Integer.valueOf(MathHelper.parseIntWithDefault(p_96560_0_.get(s), 1)));
 			}
 		}
 
@@ -545,7 +540,7 @@ public class PlayerSelector {
 	}
 
 	private static Map<String, String> getArgumentMap(String argumentString) {
-		Map<String, String> map = Maps.<String, String>newHashMap();
+		Map<String, String> map = Maps.newHashMap();
 
 		if (argumentString == null) {
 			return map;

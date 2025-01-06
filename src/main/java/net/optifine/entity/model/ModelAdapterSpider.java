@@ -22,11 +22,10 @@ public class ModelAdapterSpider extends ModelAdapter {
 	}
 
 	public ModelRenderer getModelRenderer(ModelBase model, String modelPart) {
-		if (!(model instanceof ModelSpider)) {
+		if (!(model instanceof ModelSpider modelspider)) {
 			return null;
 		} else {
-			ModelSpider modelspider = (ModelSpider) model;
-			return modelPart.equals("head") ? modelspider.spiderHead
+            return modelPart.equals("head") ? modelspider.spiderHead
 					: (modelPart.equals("neck") ? modelspider.spiderNeck
 							: (modelPart.equals("body") ? modelspider.spiderBody
 									: (modelPart.equals("leg1") ? modelspider.spiderLeg1

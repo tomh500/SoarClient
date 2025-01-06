@@ -21,7 +21,7 @@ public class LanguageManager implements IResourceManagerReloadListener {
 	private final IMetadataSerializer theMetadataSerializer;
 	private String currentLanguage;
 	protected static final Locale currentLocale = new Locale();
-	private Map<String, Language> languageMap = Maps.<String, Language>newHashMap();
+	private final Map<String, Language> languageMap = Maps.newHashMap();
 
 	public LanguageManager(IMetadataSerializer theMetadataSerializerIn, String currentLanguageIn) {
 		this.theMetadataSerializer = theMetadataSerializerIn;
@@ -34,7 +34,7 @@ public class LanguageManager implements IResourceManagerReloadListener {
 
 		for (IResourcePack iresourcepack : resourcesPacks) {
 			try {
-				LanguageMetadataSection languagemetadatasection = (LanguageMetadataSection) iresourcepack
+				LanguageMetadataSection languagemetadatasection = iresourcepack
 						.getPackMetadata(this.theMetadataSerializer, "language");
 
 				if (languagemetadatasection != null) {
@@ -46,18 +46,18 @@ public class LanguageManager implements IResourceManagerReloadListener {
 				}
 			} catch (RuntimeException runtimeexception) {
 				logger.warn(
-						(String) ("Unable to parse metadata section of resourcepack: " + iresourcepack.getPackName()),
-						(Throwable) runtimeexception);
+                        "Unable to parse metadata section of resourcepack: " + iresourcepack.getPackName(),
+                        runtimeexception);
 			} catch (IOException ioexception) {
 				logger.warn(
-						(String) ("Unable to parse metadata section of resourcepack: " + iresourcepack.getPackName()),
-						(Throwable) ioexception);
+                        "Unable to parse metadata section of resourcepack: " + iresourcepack.getPackName(),
+                        ioexception);
 			}
 		}
 	}
 
 	public void onResourceManagerReload(IResourceManager resourceManager) {
-		List<String> list = Lists.newArrayList(new String[] { "en_US" });
+		List<String> list = Lists.newArrayList("en_US");
 
 		if (!"en_US".equals(this.currentLanguage)) {
 			list.add(this.currentLanguage);
@@ -81,8 +81,8 @@ public class LanguageManager implements IResourceManagerReloadListener {
 
 	public Language getCurrentLanguage() {
 		return this.languageMap.containsKey(this.currentLanguage)
-				? (Language) this.languageMap.get(this.currentLanguage)
-				: (Language) this.languageMap.get("en_US");
+				? this.languageMap.get(this.currentLanguage)
+				: this.languageMap.get("en_US");
 	}
 
 	public SortedSet<Language> getLanguages() {

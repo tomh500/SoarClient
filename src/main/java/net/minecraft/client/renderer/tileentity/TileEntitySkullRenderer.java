@@ -80,7 +80,7 @@ public class TileEntitySkullRenderer extends TileEntitySpecialRenderer<TileEntit
 
 					if (map.containsKey(Type.SKIN)) {
 						resourcelocation = minecraft.getSkinManager()
-								.loadSkin((MinecraftProfileTexture) map.get(Type.SKIN), Type.SKIN);
+								.loadSkin(map.get(Type.SKIN), Type.SKIN);
 					} else {
 						UUID uuid = EntityPlayer.getUUID(p_180543_7_);
 						resourcelocation = DefaultPlayerSkin.getDefaultSkin(uuid);
@@ -127,7 +127,7 @@ public class TileEntitySkullRenderer extends TileEntitySpecialRenderer<TileEntit
 		GlStateManager.enableRescaleNormal();
 		GlStateManager.scale(-1.0F, -1.0F, 1.0F);
 		GlStateManager.enableAlpha();
-		modelbase.render((Entity) null, 0.0F, 0.0F, 0.0F, p_180543_5_, 0.0F, f);
+		modelbase.render(null, 0.0F, 0.0F, 0.0F, p_180543_5_, 0.0F, f);
 		GlStateManager.popMatrix();
 
 		if (p_180543_8_ >= 0) {

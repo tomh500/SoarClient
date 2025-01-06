@@ -33,12 +33,12 @@ public class CommandAchievement extends CommandBase {
 
 	public void processCommand(ICommandSender sender, String[] args) throws CommandException {
 		if (args.length < 2) {
-			throw new WrongUsageException("commands.achievement.usage", new Object[0]);
+			throw new WrongUsageException("commands.achievement.usage");
 		} else {
 			final StatBase statbase = StatList.getOneShotStat(args[1]);
 
 			if (statbase == null && !args[1].equals("*")) {
-				throw new CommandException("commands.achievement.unknownAchievement", new Object[] { args[1] });
+				throw new CommandException("commands.achievement.unknownAchievement", args[1]);
 			} else {
 				final EntityPlayerMP entityplayermp = args.length >= 3 ? getPlayer(sender, args[2])
 						: getCommandSenderAsPlayer(sender);
@@ -53,28 +53,27 @@ public class CommandAchievement extends CommandBase {
 							}
 
 							notifyOperators(sender, this, "commands.achievement.give.success.all",
-									new Object[] { entityplayermp.getName() });
+                                    entityplayermp.getName());
 						} else if (flag1) {
 							for (Achievement achievement5 : Lists.reverse(AchievementList.achievementList)) {
 								entityplayermp.func_175145_a(achievement5);
 							}
 
 							notifyOperators(sender, this, "commands.achievement.take.success.all",
-									new Object[] { entityplayermp.getName() });
+                                    entityplayermp.getName());
 						}
 					} else {
-						if (statbase instanceof Achievement) {
-							Achievement achievement = (Achievement) statbase;
+						if (statbase instanceof Achievement achievement) {
 
-							if (flag) {
+                            if (flag) {
 								if (entityplayermp.getStatFile().hasAchievementUnlocked(achievement)) {
 									throw new CommandException("commands.achievement.alreadyHave",
-											new Object[] { entityplayermp.getName(), statbase.createChatComponent() });
+                                            entityplayermp.getName(), statbase.createChatComponent());
 								}
 
 								List<Achievement> list;
 
-								for (list = Lists.<Achievement>newArrayList(); achievement.parentAchievement != null
+								for (list = Lists.newArrayList(); achievement.parentAchievement != null
 										&& !entityplayermp.getStatFile().hasAchievementUnlocked(
 												achievement.parentAchievement); achievement = achievement.parentAchievement) {
 									list.add(achievement.parentAchievement);
@@ -86,7 +85,7 @@ public class CommandAchievement extends CommandBase {
 							} else if (flag1) {
 								if (!entityplayermp.getStatFile().hasAchievementUnlocked(achievement)) {
 									throw new CommandException("commands.achievement.dontHave",
-											new Object[] { entityplayermp.getName(), statbase.createChatComponent() });
+                                            entityplayermp.getName(), statbase.createChatComponent());
 								}
 
 								List<Achievement> list1 = Lists.newArrayList(Iterators.filter(
@@ -124,11 +123,11 @@ public class CommandAchievement extends CommandBase {
 						if (flag) {
 							entityplayermp.triggerAchievement(statbase);
 							notifyOperators(sender, this, "commands.achievement.give.success.one",
-									new Object[] { entityplayermp.getName(), statbase.createChatComponent() });
+                                    entityplayermp.getName(), statbase.createChatComponent());
 						} else if (flag1) {
 							entityplayermp.func_175145_a(statbase);
 							notifyOperators(sender, this, "commands.achievement.take.success.one",
-									new Object[] { statbase.createChatComponent(), entityplayermp.getName() });
+                                    statbase.createChatComponent(), entityplayermp.getName());
 						}
 					}
 				}
@@ -138,13 +137,13 @@ public class CommandAchievement extends CommandBase {
 
 	public List<String> addTabCompletionOptions(ICommandSender sender, String[] args, BlockPos pos) {
 		if (args.length == 1) {
-			return getListOfStringsMatchingLastWord(args, new String[] { "give", "take" });
+			return getListOfStringsMatchingLastWord(args, "give", "take");
 		} else if (args.length != 2) {
 			return args.length == 3
 					? getListOfStringsMatchingLastWord(args, MinecraftServer.getServer().getAllUsernames())
 					: null;
 		} else {
-			List<String> list = Lists.<String>newArrayList();
+			List<String> list = Lists.newArrayList();
 
 			for (StatBase statbase : StatList.allStats) {
 				list.add(statbase.statId);

@@ -11,7 +11,7 @@ import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.entity.passive.EntityHorse;
 
 public class ModelAdapterHorse extends ModelAdapter {
-	private static Map<String, Integer> mapPartFields = null;
+	private static final Map<String, Integer> mapPartFields = null;
 
 	public ModelAdapterHorse() {
 		super(EntityHorse.class, "horse", 0.75F);
@@ -26,12 +26,11 @@ public class ModelAdapterHorse extends ModelAdapter {
 	}
 
 	public ModelRenderer getModelRenderer(ModelBase model, String modelPart) {
-		if (!(model instanceof ModelHorse)) {
+		if (!(model instanceof ModelHorse modelhorse)) {
 			return null;
 		} else {
-			ModelHorse modelhorse = (ModelHorse) model;
 
-			return modelPart.equals("head") ? modelhorse.head
+            return modelPart.equals("head") ? modelhorse.head
 					: (modelPart.equals("upper_mouth") ? modelhorse.field_178711_b
 							: (modelPart.equals("lower_mouth") ? modelhorse.field_178712_c
 									: (modelPart.equals("horse_left_ear") ? modelhorse.horseLeftEar

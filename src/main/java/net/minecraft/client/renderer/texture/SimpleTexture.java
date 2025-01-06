@@ -38,7 +38,7 @@ public class SimpleTexture extends AbstractTexture {
 
 			if (iresource.hasMetadata()) {
 				try {
-					TextureMetadataSection texturemetadatasection = (TextureMetadataSection) iresource
+					TextureMetadataSection texturemetadatasection = iresource
 							.getMetadata("texture");
 
 					if (texturemetadatasection != null) {
@@ -46,8 +46,8 @@ public class SimpleTexture extends AbstractTexture {
 						flag1 = texturemetadatasection.getTextureClamp();
 					}
 				} catch (RuntimeException runtimeexception) {
-					logger.warn((String) ("Failed reading metadata of: " + this.textureLocation),
-							(Throwable) runtimeexception);
+					logger.warn("Failed reading metadata of: " + this.textureLocation,
+                            runtimeexception);
 				}
 			}
 

@@ -24,18 +24,18 @@ public class CommandEffect extends CommandBase {
 
 	public void processCommand(ICommandSender sender, String[] args) throws CommandException {
 		if (args.length < 2) {
-			throw new WrongUsageException("commands.effect.usage", new Object[0]);
+			throw new WrongUsageException("commands.effect.usage");
 		} else {
-			EntityLivingBase entitylivingbase = (EntityLivingBase) getEntity(sender, args[0], EntityLivingBase.class);
+			EntityLivingBase entitylivingbase = getEntity(sender, args[0], EntityLivingBase.class);
 
 			if (args[1].equals("clear")) {
 				if (entitylivingbase.getActivePotionEffects().isEmpty()) {
 					throw new CommandException("commands.effect.failure.notActive.all",
-							new Object[] { entitylivingbase.getName() });
+                            entitylivingbase.getName());
 				} else {
 					entitylivingbase.clearActivePotions();
 					notifyOperators(sender, this, "commands.effect.success.removed.all",
-							new Object[] { entitylivingbase.getName() });
+                            entitylivingbase.getName());
 				}
 			} else {
 				int i;
@@ -75,32 +75,27 @@ public class CommandEffect extends CommandBase {
 						k = parseInt(args[3], 0, 255);
 					}
 
-					boolean flag = true;
+					boolean flag = args.length < 5 || !"true".equalsIgnoreCase(args[4]);
 
-					if (args.length >= 5 && "true".equalsIgnoreCase(args[4])) {
-						flag = false;
-					}
-
-					if (l > 0) {
+                    if (l > 0) {
 						PotionEffect potioneffect = new PotionEffect(i, j, k, false, flag);
 						entitylivingbase.addPotionEffect(potioneffect);
 						notifyOperators(sender, this, "commands.effect.success",
-								new Object[] {
-										new ChatComponentTranslation(potioneffect.getEffectName(), new Object[0]),
-										Integer.valueOf(i), Integer.valueOf(k), entitylivingbase.getName(),
-										Integer.valueOf(l) });
+                                new ChatComponentTranslation(potioneffect.getEffectName()),
+                                Integer.valueOf(i), Integer.valueOf(k), entitylivingbase.getName(),
+                                Integer.valueOf(l));
 					} else if (entitylivingbase.isPotionActive(i)) {
 						entitylivingbase.removePotionEffect(i);
 						notifyOperators(sender, this, "commands.effect.success.removed",
-								new Object[] { new ChatComponentTranslation(potion1.getName(), new Object[0]),
-										entitylivingbase.getName() });
+                                new ChatComponentTranslation(potion1.getName()),
+                                entitylivingbase.getName());
 					} else {
 						throw new CommandException("commands.effect.failure.notActive",
-								new Object[] { new ChatComponentTranslation(potion1.getName(), new Object[0]),
-										entitylivingbase.getName() });
+                                new ChatComponentTranslation(potion1.getName()),
+                                entitylivingbase.getName());
 					}
 				} else {
-					throw new NumberInvalidException("commands.effect.notFound", new Object[] { Integer.valueOf(i) });
+					throw new NumberInvalidException("commands.effect.notFound", Integer.valueOf(i));
 				}
 			}
 		}
@@ -109,7 +104,7 @@ public class CommandEffect extends CommandBase {
 	public List<String> addTabCompletionOptions(ICommandSender sender, String[] args, BlockPos pos) {
 		return args.length == 1 ? getListOfStringsMatchingLastWord(args, this.getAllUsernames())
 				: (args.length == 2 ? getListOfStringsMatchingLastWord(args, Potion.getPotionLocations())
-						: (args.length == 5 ? getListOfStringsMatchingLastWord(args, new String[] { "true", "false" })
+						: (args.length == 5 ? getListOfStringsMatchingLastWord(args, "true", "false")
 								: null));
 	}
 

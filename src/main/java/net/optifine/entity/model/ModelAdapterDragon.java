@@ -18,11 +18,10 @@ public class ModelAdapterDragon extends ModelAdapter {
 	}
 
 	public ModelRenderer getModelRenderer(ModelBase model, String modelPart) {
-		if (!(model instanceof ModelDragon)) {
+		if (!(model instanceof ModelDragon modeldragon)) {
 			return null;
 		} else {
-			ModelDragon modeldragon = (ModelDragon) model;
-			return modelPart.equals("head") ? modeldragon.head
+            return modelPart.equals("head") ? modeldragon.head
 					: (modelPart.equals("spine") ? modeldragon.spine
 							: (modelPart.equals("jaw") ? modeldragon.jaw
 									: (modelPart.equals("body") ? modeldragon.body

@@ -10,7 +10,7 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.world.World;
 
 public class ItemDoor extends Item {
-	private Block block;
+	private final Block block;
 
 	public ItemDoor(Block block) {
 		this.block = block;
@@ -34,7 +34,7 @@ public class ItemDoor extends Item {
 			} else if (!this.block.canPlaceBlockAt(worldIn, pos)) {
 				return false;
 			} else {
-				placeDoor(worldIn, pos, EnumFacing.fromAngle((double) playerIn.rotationYaw), this.block);
+				placeDoor(worldIn, pos, EnumFacing.fromAngle(playerIn.rotationYaw), this.block);
 				--stack.stackSize;
 				return true;
 			}
@@ -52,13 +52,9 @@ public class ItemDoor extends Item {
 				|| worldIn.getBlockState(blockpos1.up()).getBlock() == door;
 		boolean flag1 = worldIn.getBlockState(blockpos).getBlock() == door
 				|| worldIn.getBlockState(blockpos.up()).getBlock() == door;
-		boolean flag2 = false;
+		boolean flag2 = flag && !flag1 || j > i;
 
-		if (flag && !flag1 || j > i) {
-			flag2 = true;
-		}
-
-		BlockPos blockpos2 = pos.up();
+        BlockPos blockpos2 = pos.up();
 		IBlockState iblockstate = door.getDefaultState().withProperty(BlockDoor.FACING, facing).withProperty(
 				BlockDoor.HINGE, flag2 ? BlockDoor.EnumHingePosition.RIGHT : BlockDoor.EnumHingePosition.LEFT);
 		worldIn.setBlockState(pos, iblockstate.withProperty(BlockDoor.HALF, BlockDoor.EnumDoorHalf.LOWER), 2);

@@ -31,7 +31,7 @@ public class ItemMonsterPlacer extends Item {
 	}
 
 	public String getItemStackDisplayName(ItemStack stack) {
-		String s = ("" + StatCollector.translateToLocal(this.getUnlocalizedName() + ".name")).trim();
+		String s = (StatCollector.translateToLocal(this.getUnlocalizedName() + ".name")).trim();
 		String s1 = EntityList.getStringFromID(stack.getMetadata());
 
 		if (s1 != null) {
@@ -42,7 +42,7 @@ public class ItemMonsterPlacer extends Item {
 	}
 
 	public int getColorFromItemStack(ItemStack stack, int renderPass) {
-		EntityList.EntityEggInfo entitylist$entityegginfo = (EntityList.EntityEggInfo) EntityList.entityEggs
+		EntityList.EntityEggInfo entitylist$entityegginfo = EntityList.entityEggs
 				.get(Integer.valueOf(stack.getMetadata()));
 		return entitylist$entityegginfo != null
 				? (renderPass == 0 ? entitylist$entityegginfo.primaryColor : entitylist$entityegginfo.secondaryColor)
@@ -126,7 +126,7 @@ public class ItemMonsterPlacer extends Item {
 
 						if (entity != null) {
 							if (entity instanceof EntityLivingBase && itemStackIn.hasDisplayName()) {
-								((EntityLiving) entity).setCustomNameTag(itemStackIn.getDisplayName());
+								entity.setCustomNameTag(itemStackIn.getDisplayName());
 							}
 
 							if (!playerIn.capabilities.isCreativeMode) {
@@ -159,7 +159,7 @@ public class ItemMonsterPlacer extends Item {
 					entityliving.rotationYawHead = entityliving.rotationYaw;
 					entityliving.renderYawOffset = entityliving.rotationYaw;
 					entityliving.onInitialSpawn(worldIn.getDifficultyForLocation(new BlockPos(entityliving)),
-							(IEntityLivingData) null);
+                            null);
 					worldIn.spawnEntityInWorld(entity);
 					entityliving.playLivingSound();
 				}

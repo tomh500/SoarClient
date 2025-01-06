@@ -14,7 +14,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.IStringSerializable;
 
 public class BlockSandStone extends Block {
-	public static final PropertyEnum<BlockSandStone.EnumType> TYPE = PropertyEnum.<BlockSandStone.EnumType>create(
+	public static final PropertyEnum<BlockSandStone.EnumType> TYPE = PropertyEnum.create(
 			"type", BlockSandStone.EnumType.class);
 
 	public BlockSandStone() {
@@ -24,7 +24,7 @@ public class BlockSandStone extends Block {
 	}
 
 	public int damageDropped(IBlockState state) {
-		return ((BlockSandStone.EnumType) state.getValue(TYPE)).getMetadata();
+		return state.getValue(TYPE).getMetadata();
 	}
 
 	public void getSubBlocks(Item itemIn, CreativeTabs tab, List<ItemStack> list) {
@@ -42,14 +42,14 @@ public class BlockSandStone extends Block {
 	}
 
 	public int getMetaFromState(IBlockState state) {
-		return ((BlockSandStone.EnumType) state.getValue(TYPE)).getMetadata();
+		return state.getValue(TYPE).getMetadata();
 	}
 
 	protected BlockState createBlockState() {
-		return new BlockState(this, new IProperty[] { TYPE });
+		return new BlockState(this, TYPE);
 	}
 
-	public static enum EnumType implements IStringSerializable {
+	public enum EnumType implements IStringSerializable {
 		DEFAULT(0, "sandstone", "default"), CHISELED(1, "chiseled_sandstone", "chiseled"),
 		SMOOTH(2, "smooth_sandstone", "smooth");
 
@@ -58,7 +58,7 @@ public class BlockSandStone extends Block {
 		private final String name;
 		private final String unlocalizedName;
 
-		private EnumType(int meta, String name, String unlocalizedName) {
+		EnumType(int meta, String name, String unlocalizedName) {
 			this.metadata = meta;
 			this.name = name;
 			this.unlocalizedName = unlocalizedName;

@@ -43,9 +43,9 @@ public class TileEntityPistonRenderer extends TileEntitySpecialRenderer<TileEnti
 			}
 
 			worldrenderer.begin(7, DefaultVertexFormats.BLOCK);
-			worldrenderer.setTranslation((double) ((float) x - (float) blockpos.getX() + te.getOffsetX(partialTicks)),
-					(double) ((float) y - (float) blockpos.getY() + te.getOffsetY(partialTicks)),
-					(double) ((float) z - (float) blockpos.getZ() + te.getOffsetZ(partialTicks)));
+			worldrenderer.setTranslation((float) x - (float) blockpos.getX() + te.getOffsetX(partialTicks),
+                    (float) y - (float) blockpos.getY() + te.getOffsetY(partialTicks),
+                    (float) z - (float) blockpos.getZ() + te.getOffsetZ(partialTicks));
 			World world = this.getWorld();
 
 			if (block == Blocks.piston_head && te.getProgress(partialTicks) < 0.5F) {
@@ -65,8 +65,8 @@ public class TileEntityPistonRenderer extends TileEntitySpecialRenderer<TileEnti
 				this.blockRenderer.getBlockModelRenderer().renderModel(world,
 						this.blockRenderer.getModelFromBlockState(iblockstate1, world, blockpos), iblockstate1,
 						blockpos, worldrenderer, true);
-				worldrenderer.setTranslation((double) ((float) x - (float) blockpos.getX()),
-						(double) ((float) y - (float) blockpos.getY()), (double) ((float) z - (float) blockpos.getZ()));
+				worldrenderer.setTranslation((float) x - (float) blockpos.getX(),
+                        (float) y - (float) blockpos.getY(), (float) z - (float) blockpos.getZ());
 				iblockstate.withProperty(BlockPistonBase.EXTENDED, Boolean.valueOf(true));
 				this.blockRenderer.getBlockModelRenderer().renderModel(world,
 						this.blockRenderer.getModelFromBlockState(iblockstate, world, blockpos), iblockstate, blockpos,

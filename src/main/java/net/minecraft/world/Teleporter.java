@@ -20,7 +20,7 @@ public class Teleporter {
 	private final WorldServer worldServerInstance;
 	private final Random random;
 	private final LongHashMap<Teleporter.PortalPosition> destinationCoordinateCache = new LongHashMap();
-	private final List<Long> destinationCoordinateKeys = Lists.<Long>newArrayList();
+	private final List<Long> destinationCoordinateKeys = Lists.newArrayList();
 
 	public Teleporter(WorldServer worldIn) {
 		this.worldServerInstance = worldIn;
@@ -53,7 +53,7 @@ public class Teleporter {
 				}
 			}
 
-			entityIn.setLocationAndAngles((double) i, (double) j, (double) k, entityIn.rotationYaw, 0.0F);
+			entityIn.setLocationAndAngles(i, j, k, entityIn.rotationYaw, 0.0F);
 			entityIn.motionX = entityIn.motionY = entityIn.motionZ = 0.0D;
 		}
 	}
@@ -68,7 +68,7 @@ public class Teleporter {
 		long l = ChunkCoordIntPair.chunkXZ2Int(j, k);
 
 		if (this.destinationCoordinateCache.containsItem(l)) {
-			Teleporter.PortalPosition teleporter$portalposition = (Teleporter.PortalPosition) this.destinationCoordinateCache
+			Teleporter.PortalPosition teleporter$portalposition = this.destinationCoordinateCache
 					.getValueByKey(l);
 			d0 = 0.0D;
 			blockpos = teleporter$portalposition;
@@ -362,8 +362,8 @@ public class Teleporter {
 			long i = worldTime - 300L;
 
 			while (iterator.hasNext()) {
-				Long olong = (Long) iterator.next();
-				Teleporter.PortalPosition teleporter$portalposition = (Teleporter.PortalPosition) this.destinationCoordinateCache
+				Long olong = iterator.next();
+				Teleporter.PortalPosition teleporter$portalposition = this.destinationCoordinateCache
 						.getValueByKey(olong.longValue());
 
 				if (teleporter$portalposition == null || teleporter$portalposition.lastUpdateTime < i) {

@@ -19,11 +19,10 @@ public class ModelAdapterEndermite extends ModelAdapter {
 	}
 
 	public ModelRenderer getModelRenderer(ModelBase model, String modelPart) {
-		if (!(model instanceof ModelEnderMite)) {
+		if (!(model instanceof ModelEnderMite modelendermite)) {
 			return null;
 		} else {
-			ModelEnderMite modelendermite = (ModelEnderMite) model;
-			String s = "body";
+            String s = "body";
 
 			if (modelPart.startsWith(s)) {
 				ModelRenderer[] amodelrenderer = modelendermite.field_178713_d;

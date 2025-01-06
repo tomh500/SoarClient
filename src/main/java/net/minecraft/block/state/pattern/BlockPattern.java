@@ -84,7 +84,7 @@ public class BlockPattern {
 
 	public static LoadingCache<BlockPos, BlockWorldState> func_181627_a(World p_181627_0_, boolean p_181627_1_) {
 		return CacheBuilder.newBuilder()
-				.<BlockPos, BlockWorldState>build(new BlockPattern.CacheLoader(p_181627_0_, p_181627_1_));
+				.build(new BlockPattern.CacheLoader(p_181627_0_, p_181627_1_));
 	}
 
 	protected static BlockPos translateOffset(BlockPos pos, EnumFacing finger, EnumFacing thumb, int palmOffset,
@@ -156,7 +156,7 @@ public class BlockPattern {
 		}
 
 		public BlockWorldState translateOffset(int palmOffset, int thumbOffset, int fingerOffset) {
-			return (BlockWorldState) this.lcache.getUnchecked(BlockPattern.translateOffset(this.pos, this.getFinger(),
+			return this.lcache.getUnchecked(BlockPattern.translateOffset(this.pos, this.getFinger(),
 					this.getThumb(), palmOffset, thumbOffset, fingerOffset));
 		}
 

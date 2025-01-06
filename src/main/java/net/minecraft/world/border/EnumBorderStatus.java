@@ -5,7 +5,7 @@ public enum EnumBorderStatus {
 
 	private final int id;
 
-	private EnumBorderStatus(int id) {
+	EnumBorderStatus(int id) {
 		this.id = id;
 	}
 

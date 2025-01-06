@@ -73,9 +73,7 @@ public class ShaderOptionSwitch extends ShaderOption {
 		if (matcher.matches()) {
 			String s = matcher.group(2);
 
-			if (s.equals(this.getName())) {
-				return true;
-			}
+            return s.equals(this.getName());
 		}
 
 		return false;

@@ -3,10 +3,10 @@ package net.minecraft.block;
 import net.minecraft.util.BlockPos;
 
 public class BlockEventData {
-	private BlockPos position;
-	private Block blockType;
-	private int eventID;
-	private int eventParameter;
+	private final BlockPos position;
+	private final Block blockType;
+	private final int eventID;
+	private final int eventParameter;
 
 	public BlockEventData(BlockPos pos, Block blockType, int eventId, int p_i45756_4_) {
 		this.position = pos;
@@ -32,11 +32,10 @@ public class BlockEventData {
 	}
 
 	public boolean equals(Object p_equals_1_) {
-		if (!(p_equals_1_ instanceof BlockEventData)) {
+		if (!(p_equals_1_ instanceof BlockEventData blockeventdata)) {
 			return false;
 		} else {
-			BlockEventData blockeventdata = (BlockEventData) p_equals_1_;
-			return this.position.equals(blockeventdata.position) && this.eventID == blockeventdata.eventID
+            return this.position.equals(blockeventdata.position) && this.eventID == blockeventdata.eventID
 					&& this.eventParameter == blockeventdata.eventParameter
 					&& this.blockType == blockeventdata.blockType;
 		}

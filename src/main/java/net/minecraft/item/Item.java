@@ -48,7 +48,7 @@ import net.minecraft.world.World;
 
 public class Item {
 	public static final RegistryNamespaced<ResourceLocation, Item> itemRegistry = new RegistryNamespaced();
-	private static final Map<Block, Item> BLOCK_TO_ITEM = Maps.<Block, Item>newHashMap();
+	private static final Map<Block, Item> BLOCK_TO_ITEM = Maps.newHashMap();
 	protected static final UUID itemModifierUUID = UUID.fromString("CB3F55D3-645C-4F38-A497-9C13A33DB5CF");
 	private CreativeTabs tabToDisplayOn;
 	protected static Random itemRand = new Random();
@@ -65,22 +65,21 @@ public class Item {
 	}
 
 	public static Item getItemById(int id) {
-		return (Item) itemRegistry.getObjectById(id);
+		return itemRegistry.getObjectById(id);
 	}
 
 	public static Item getItemFromBlock(Block blockIn) {
-		return (Item) BLOCK_TO_ITEM.get(blockIn);
+		return BLOCK_TO_ITEM.get(blockIn);
 	}
 
 	public static Item getByNameOrId(String id) {
-		Item item = (Item) itemRegistry.getObject(new ResourceLocation(id));
+		Item item = itemRegistry.getObject(new ResourceLocation(id));
 
 		if (item == null) {
 			try {
 				return getItemById(Integer.parseInt(id));
 			} catch (NumberFormatException var3) {
-				;
-			}
+            }
 		}
 
 		return item;
@@ -249,7 +248,7 @@ public class Item {
 	}
 
 	public String getItemStackDisplayName(ItemStack stack) {
-		return ("" + StatCollector.translateToLocal(this.getUnlocalizedNameInefficiently(stack) + ".name")).trim();
+		return (StatCollector.translateToLocal(this.getUnlocalizedNameInefficiently(stack) + ".name")).trim();
 	}
 
 	public boolean hasEffect(ItemStack stack) {
@@ -309,7 +308,7 @@ public class Item {
 	}
 
 	public Multimap<String, AttributeModifier> getItemAttributeModifiers() {
-		return HashMultimap.<String, AttributeModifier>create();
+		return HashMultimap.create();
 	}
 
 	public static void registerItems() {
@@ -818,7 +817,7 @@ public class Item {
 		registerItem(420, "lead", (new ItemLead()).setUnlocalizedName("leash"));
 		registerItem(421, "name_tag", (new ItemNameTag()).setUnlocalizedName("nameTag"));
 		registerItem(422, "command_block_minecart", (new ItemMinecart(EntityMinecart.EnumMinecartType.COMMAND_BLOCK))
-				.setUnlocalizedName("minecartCommandBlock").setCreativeTab((CreativeTabs) null));
+				.setUnlocalizedName("minecartCommandBlock").setCreativeTab(null));
 		registerItem(423, "mutton", (new ItemFood(2, 0.3F, true)).setUnlocalizedName("muttonRaw"));
 		registerItem(424, "cooked_mutton", (new ItemFood(6, 0.8F, true)).setUnlocalizedName("muttonCooked"));
 		registerItem(425, "banner", (new ItemBanner()).setUnlocalizedName("banner"));
@@ -846,7 +845,7 @@ public class Item {
 	}
 
 	protected static void registerItemBlock(Block blockIn, Item itemIn) {
-		registerItem(Block.getIdFromBlock(blockIn), (ResourceLocation) Block.blockRegistry.getNameForObject(blockIn),
+		registerItem(Block.getIdFromBlock(blockIn), Block.blockRegistry.getNameForObject(blockIn),
 				itemIn);
 		BLOCK_TO_ITEM.put(blockIn, itemIn);
 	}
@@ -859,7 +858,7 @@ public class Item {
 		itemRegistry.register(id, textualID, itemIn);
 	}
 
-	public static enum ToolMaterial {
+	public enum ToolMaterial {
 		WOOD(0, 59, 2.0F, 0.0F, 15), STONE(1, 131, 4.0F, 1.0F, 5), IRON(2, 250, 6.0F, 2.0F, 14),
 		EMERALD(3, 1561, 8.0F, 3.0F, 10), GOLD(0, 32, 12.0F, 0.0F, 22);
 
@@ -869,8 +868,8 @@ public class Item {
 		private final float damageVsEntity;
 		private final int enchantability;
 
-		private ToolMaterial(int harvestLevel, int maxUses, float efficiency, float damageVsEntity,
-				int enchantability) {
+		ToolMaterial(int harvestLevel, int maxUses, float efficiency, float damageVsEntity,
+                     int enchantability) {
 			this.harvestLevel = harvestLevel;
 			this.maxUses = maxUses;
 			this.efficiencyOnProperMaterial = efficiency;

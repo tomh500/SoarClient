@@ -28,12 +28,12 @@ import net.optifine.util.ResUtils;
 import net.optifine.util.StrUtils;
 
 public class RandomEntities {
-	private static Map<String, RandomEntityProperties> mapProperties = new HashMap();
+	private static final Map<String, RandomEntityProperties> mapProperties = new HashMap();
 	private static boolean active = false;
 	private static RenderGlobal renderGlobal;
-	private static RandomEntity randomEntity = new RandomEntity();
+	private static final RandomEntity randomEntity = new RandomEntity();
 	private static TileEntityRendererDispatcher tileEntityRendererDispatcher;
-	private static RandomTileEntity randomTileEntity = new RandomTileEntity();
+	private static final RandomTileEntity randomTileEntity = new RandomTileEntity();
 	private static boolean working = false;
 	public static final String SUFFIX_PNG = ".png";
 	public static final String SUFFIX_PROPERTIES = ".properties";
@@ -64,9 +64,8 @@ public class RandomEntities {
 	private static void updateEntityVillager(UUID uuid, EntityVillager ev) {
 		Entity entity = IntegratedServerUtils.getEntity(uuid);
 
-		if (entity instanceof EntityVillager) {
-			EntityVillager entityvillager = (EntityVillager) entity;
-			int i = entityvillager.getProfession();
+		if (entity instanceof EntityVillager entityvillager) {
+            int i = entityvillager.getProfession();
 			ev.setProfession(i);
 			int j = entityvillager.getCareerId();
 			ev.setCareerId(j);
@@ -85,8 +84,8 @@ public class RandomEntities {
 			}
 		}
 
-		randomEntity.setEntity((Entity) null);
-		randomTileEntity.setTileEntity((TileEntity) null);
+		randomEntity.setEntity(null);
+		randomTileEntity.setTileEntity(null);
 	}
 
 	public static ResourceLocation getTextureLocation(ResourceLocation loc) {
@@ -113,7 +112,7 @@ public class RandomEntities {
 						return resourcelocation2;
 					}
 
-					RandomEntityProperties randomentityproperties = (RandomEntityProperties) mapProperties.get(s);
+					RandomEntityProperties randomentityproperties = mapProperties.get(s);
 
 					if (randomentityproperties == null) {
 						ResourceLocation resourcelocation3 = loc;
@@ -302,7 +301,7 @@ public class RandomEntities {
 		if (resourcelocation == null) {
 			return null;
 		} else {
-			for (int i = 1; i < ((List) list).size() + 10; ++i) {
+			for (int i = 1; i < list.size() + 10; ++i) {
 				int j = i + 1;
 				ResourceLocation resourcelocation1 = getLocationIndexed(resourcelocation, j);
 
@@ -314,8 +313,8 @@ public class RandomEntities {
 			if (list.size() <= 1) {
 				return null;
 			} else {
-				ResourceLocation[] aresourcelocation = (ResourceLocation[]) ((ResourceLocation[]) list
-						.toArray(new ResourceLocation[list.size()]));
+				ResourceLocation[] aresourcelocation = (ResourceLocation[]) list
+						.toArray(new ResourceLocation[list.size()]);
 				dbg(loc.getResourcePath() + ", variants: " + aresourcelocation.length);
 				return aresourcelocation;
 			}
@@ -351,7 +350,7 @@ public class RandomEntities {
 				ResourceLocation resourcelocation = new ResourceLocation(s1);
 
 				if (Config.hasResource(resourcelocation)) {
-					RandomEntityProperties randomentityproperties = (RandomEntityProperties) mapProperties.get(s1);
+					RandomEntityProperties randomentityproperties = mapProperties.get(s1);
 
 					if (randomentityproperties == null) {
 						randomentityproperties = makeProperties(resourcelocation, false);

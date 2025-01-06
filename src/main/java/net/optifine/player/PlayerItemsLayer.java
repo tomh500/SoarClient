@@ -26,9 +26,8 @@ public class PlayerItemsLayer implements LayerRenderer {
 	protected void renderEquippedItems(EntityLivingBase entityLiving, float scale, float partialTicks) {
 		if (Config.isShowCapes()) {
 			if (!entityLiving.isInvisible()) {
-				if (entityLiving instanceof AbstractClientPlayer) {
-					AbstractClientPlayer abstractclientplayer = (AbstractClientPlayer) entityLiving;
-					GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
+				if (entityLiving instanceof AbstractClientPlayer abstractclientplayer) {
+                    GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
 					GlStateManager.disableRescaleNormal();
 					GlStateManager.enableCull();
 					ModelBiped modelbiped = this.renderPlayer.getMainModel();
@@ -50,9 +49,8 @@ public class PlayerItemsLayer implements LayerRenderer {
 		for (Object object : set) {
 			Object object1 = renderPlayerMap.get(object);
 
-			if (object1 instanceof RenderPlayer) {
-				RenderPlayer renderplayer = (RenderPlayer) object1;
-				renderplayer.addLayer(new PlayerItemsLayer(renderplayer));
+			if (object1 instanceof RenderPlayer renderplayer) {
+                renderplayer.addLayer(new PlayerItemsLayer(renderplayer));
 				flag = true;
 			}
 		}

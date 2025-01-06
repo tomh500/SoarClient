@@ -6,7 +6,7 @@ import net.minecraft.util.MathHelper;
 public class ModelSilverfish extends ModelBase {
 	public ModelRenderer[] silverfishBodyParts = new ModelRenderer[7];
 	public ModelRenderer[] silverfishWings;
-	private float[] field_78170_c = new float[7];
+	private final float[] field_78170_c = new float[7];
 	private static final int[][] silverfishBoxLength = new int[][] { { 3, 2, 2 }, { 4, 3, 2 }, { 6, 4, 3 }, { 3, 3, 3 },
 			{ 2, 2, 3 }, { 2, 1, 2 }, { 1, 1, 2 } };
 	private static final int[][] silverfishTexturePositions = new int[][] { { 0, 0 }, { 0, 4 }, { 0, 9 }, { 0, 16 },

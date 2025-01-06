@@ -35,10 +35,10 @@ public class EntityDamageSource extends DamageSource {
 		String s1 = s + ".item";
 		return itemstack != null && itemstack.hasDisplayName() && StatCollector.canTranslate(s1)
 				? new ChatComponentTranslation(s1,
-						new Object[] { entityLivingBaseIn.getDisplayName(), this.damageSourceEntity.getDisplayName(),
-								itemstack.getChatComponent() })
+                entityLivingBaseIn.getDisplayName(), this.damageSourceEntity.getDisplayName(),
+                itemstack.getChatComponent())
 				: new ChatComponentTranslation(s,
-						new Object[] { entityLivingBaseIn.getDisplayName(), this.damageSourceEntity.getDisplayName() });
+                entityLivingBaseIn.getDisplayName(), this.damageSourceEntity.getDisplayName());
 	}
 
 	public boolean isDifficultyScaled() {

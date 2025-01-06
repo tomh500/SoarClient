@@ -126,8 +126,7 @@ public class InventoryPlayer implements IInventory {
 		}
 
 		for (this.currentItem -= direction; this.currentItem < 0; this.currentItem += 9) {
-			;
-		}
+        }
 
 		while (this.currentItem >= 9) {
 			this.currentItem -= 9;
@@ -469,8 +468,8 @@ public class InventoryPlayer implements IInventory {
 	}
 
 	public IChatComponent getDisplayName() {
-		return (IChatComponent) (this.hasCustomName() ? new ChatComponentText(this.getName())
-				: new ChatComponentTranslation(this.getName(), new Object[0]));
+		return this.hasCustomName() ? new ChatComponentText(this.getName())
+				: new ChatComponentTranslation(this.getName(), new Object[0]);
 	}
 
 	public int getInventoryStackLimit() {
@@ -482,7 +481,7 @@ public class InventoryPlayer implements IInventory {
 			return true;
 		} else {
 			ItemStack itemstack = this.getStackInSlot(this.currentItem);
-			return itemstack != null ? itemstack.canHarvestBlock(blockIn) : false;
+			return itemstack != null && itemstack.canHarvestBlock(blockIn);
 		}
 	}
 
@@ -550,7 +549,7 @@ public class InventoryPlayer implements IInventory {
 	}
 
 	public boolean isUseableByPlayer(EntityPlayer player) {
-		return this.player.isDead ? false : player.getDistanceSqToEntity(this.player) <= 64.0D;
+		return !this.player.isDead && player.getDistanceSqToEntity(this.player) <= 64.0D;
 	}
 
 	public boolean hasItemStack(ItemStack itemStackIn) {

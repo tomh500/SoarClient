@@ -23,7 +23,7 @@ import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
 public class BlockTallGrass extends BlockBush implements IGrowable {
-	public static final PropertyEnum<BlockTallGrass.EnumType> TYPE = PropertyEnum.<BlockTallGrass.EnumType>create(
+	public static final PropertyEnum<BlockTallGrass.EnumType> TYPE = PropertyEnum.create(
 			"type", BlockTallGrass.EnumType.class);
 
 	protected BlockTallGrass() {
@@ -49,7 +49,7 @@ public class BlockTallGrass extends BlockBush implements IGrowable {
 		if (state.getBlock() != this) {
 			return super.getRenderColor(state);
 		} else {
-			BlockTallGrass.EnumType blocktallgrass$enumtype = (BlockTallGrass.EnumType) state.getValue(TYPE);
+			BlockTallGrass.EnumType blocktallgrass$enumtype = state.getValue(TYPE);
 			return blocktallgrass$enumtype == BlockTallGrass.EnumType.DEAD_BUSH ? 16777215
 					: ColorizerGrass.getGrassColor(0.5D, 1.0D);
 		}
@@ -72,7 +72,7 @@ public class BlockTallGrass extends BlockBush implements IGrowable {
 				&& player.getCurrentEquippedItem().getItem() == Items.shears) {
 			player.triggerAchievement(StatList.mineBlockStatArray[Block.getIdFromBlock(this)]);
 			spawnAsEntity(worldIn, pos,
-					new ItemStack(Blocks.tallgrass, 1, ((BlockTallGrass.EnumType) state.getValue(TYPE)).getMeta()));
+					new ItemStack(Blocks.tallgrass, 1, state.getValue(TYPE).getMeta()));
 		} else {
 			super.harvestBlock(worldIn, player, pos, state, te);
 		}
@@ -114,25 +114,25 @@ public class BlockTallGrass extends BlockBush implements IGrowable {
 	}
 
 	public int getMetaFromState(IBlockState state) {
-		return ((BlockTallGrass.EnumType) state.getValue(TYPE)).getMeta();
+		return state.getValue(TYPE).getMeta();
 	}
 
 	protected BlockState createBlockState() {
-		return new BlockState(this, new IProperty[] { TYPE });
+		return new BlockState(this, TYPE);
 	}
 
 	public Block.EnumOffsetType getOffsetType() {
 		return Block.EnumOffsetType.XYZ;
 	}
 
-	public static enum EnumType implements IStringSerializable {
+	public enum EnumType implements IStringSerializable {
 		DEAD_BUSH(0, "dead_bush"), GRASS(1, "tall_grass"), FERN(2, "fern");
 
 		private static final BlockTallGrass.EnumType[] META_LOOKUP = new BlockTallGrass.EnumType[values().length];
 		private final int meta;
 		private final String name;
 
-		private EnumType(int meta, String name) {
+		EnumType(int meta, String name) {
 			this.meta = meta;
 			this.name = name;
 		}

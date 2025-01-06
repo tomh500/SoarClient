@@ -17,7 +17,7 @@ public class GuiCustomizeSkin extends GuiScreen {
 
 	public void initGui() {
 		int i = 0;
-		this.title = I18n.format("options.skinCustomisation.title", new Object[0]);
+		this.title = I18n.format("options.skinCustomisation.title");
 
 		for (EnumPlayerModelParts enumplayermodelparts : EnumPlayerModelParts.values()) {
 			this.buttonList.add(new GuiCustomizeSkin.ButtonPart(enumplayermodelparts.getPartId(),
@@ -31,10 +31,10 @@ public class GuiCustomizeSkin extends GuiScreen {
 		}
 
 		this.buttonList.add(new GuiButtonOF(210, this.width / 2 - 100, this.height / 6 + 24 * (i >> 1),
-				I18n.format("of.options.skinCustomisation.ofCape", new Object[0])));
+				I18n.format("of.options.skinCustomisation.ofCape")));
 		i = i + 2;
 		this.buttonList.add(new GuiButton(200, this.width / 2 - 100, this.height / 6 + 24 * (i >> 1),
-				I18n.format("gui.done", new Object[0])));
+				I18n.format("gui.done")));
 	}
 
 	protected void actionPerformed(GuiButton button) throws IOException {
@@ -64,9 +64,9 @@ public class GuiCustomizeSkin extends GuiScreen {
 		String s;
 
 		if (this.mc.gameSettings.getModelParts().contains(playerModelParts)) {
-			s = I18n.format("options.on", new Object[0]);
+			s = I18n.format("options.on");
 		} else {
-			s = I18n.format("options.off", new Object[0]);
+			s = I18n.format("options.off");
 		}
 
 		return playerModelParts.func_179326_d().getFormattedText() + ": " + s;

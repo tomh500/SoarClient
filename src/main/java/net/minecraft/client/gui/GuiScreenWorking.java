@@ -9,7 +9,7 @@ public class GuiScreenWorking extends GuiScreen implements IProgressUpdate {
 	private String field_146589_f = "";
 	private int progress;
 	private boolean doneWorking;
-	private CustomLoadingScreen customLoadingScreen = CustomLoadingScreens.getCustomLoadingScreen();
+	private final CustomLoadingScreen customLoadingScreen = CustomLoadingScreens.getCustomLoadingScreen();
 
 	public void displaySavingString(String message) {
 		this.resetProgressAndMessage(message);
@@ -35,7 +35,7 @@ public class GuiScreenWorking extends GuiScreen implements IProgressUpdate {
 
 	public void drawScreen(int mouseX, int mouseY, float partialTicks) {
 		if (this.doneWorking) {
-			this.mc.displayGuiScreen((GuiScreen) null);
+			this.mc.displayGuiScreen(null);
 		} else {
 			if (this.customLoadingScreen != null && this.mc.theWorld == null) {
 				this.customLoadingScreen.drawBackground(this.width, this.height);

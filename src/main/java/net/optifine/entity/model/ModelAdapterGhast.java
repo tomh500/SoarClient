@@ -19,12 +19,11 @@ public class ModelAdapterGhast extends ModelAdapter {
 	}
 
 	public ModelRenderer getModelRenderer(ModelBase model, String modelPart) {
-		if (!(model instanceof ModelGhast)) {
+		if (!(model instanceof ModelGhast modelghast)) {
 			return null;
 		} else {
-			ModelGhast modelghast = (ModelGhast) model;
 
-			if (modelPart.equals("body")) {
+            if (modelPart.equals("body")) {
 				return modelghast.body;
 			} else {
 				String s = "tentacle";

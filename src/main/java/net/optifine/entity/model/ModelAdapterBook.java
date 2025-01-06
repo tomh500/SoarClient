@@ -18,11 +18,10 @@ public class ModelAdapterBook extends ModelAdapter {
 	}
 
 	public ModelRenderer getModelRenderer(ModelBase model, String modelPart) {
-		if (!(model instanceof ModelBook)) {
+		if (!(model instanceof ModelBook modelbook)) {
 			return null;
 		} else {
-			ModelBook modelbook = (ModelBook) model;
-			return modelPart.equals("cover_right") ? modelbook.coverRight
+            return modelPart.equals("cover_right") ? modelbook.coverRight
 					: (modelPart.equals("cover_left") ? modelbook.coverLeft
 							: (modelPart.equals("pages_right") ? modelbook.pagesRight
 									: (modelPart.equals("pages_left") ? modelbook.pagesLeft

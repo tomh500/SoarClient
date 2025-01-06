@@ -18,11 +18,10 @@ public class ModelAdapterWolf extends ModelAdapter {
 	}
 
 	public ModelRenderer getModelRenderer(ModelBase model, String modelPart) {
-		if (!(model instanceof ModelWolf)) {
+		if (!(model instanceof ModelWolf modelwolf)) {
 			return null;
 		} else {
-			ModelWolf modelwolf = (ModelWolf) model;
-			return modelPart
+            return modelPart
 					.equals("head")
 							? modelwolf.wolfHeadMain
 							: (modelPart.equals("body") ? modelwolf.wolfBody

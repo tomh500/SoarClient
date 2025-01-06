@@ -36,7 +36,7 @@ public class ChatComponentScore extends ChatComponentStyle {
 
 			if (scoreboard.entityHasObjective(this.name, scoreobjective)) {
 				Score score = scoreboard.getValueFromObjective(this.name, scoreobjective);
-				this.setValue(String.format("%d", new Object[] { Integer.valueOf(score.getScorePoints()) }));
+				this.setValue(String.format("%d", Integer.valueOf(score.getScorePoints())));
 			} else {
 				this.value = "";
 			}
@@ -60,17 +60,16 @@ public class ChatComponentScore extends ChatComponentStyle {
 	public boolean equals(Object p_equals_1_) {
 		if (this == p_equals_1_) {
 			return true;
-		} else if (!(p_equals_1_ instanceof ChatComponentScore)) {
+		} else if (!(p_equals_1_ instanceof ChatComponentScore chatcomponentscore)) {
 			return false;
 		} else {
-			ChatComponentScore chatcomponentscore = (ChatComponentScore) p_equals_1_;
-			return this.name.equals(chatcomponentscore.name) && this.objective.equals(chatcomponentscore.objective)
+            return this.name.equals(chatcomponentscore.name) && this.objective.equals(chatcomponentscore.objective)
 					&& super.equals(p_equals_1_);
 		}
 	}
 
 	public String toString() {
-		return "ScoreComponent{name=\'" + this.name + '\'' + "objective=\'" + this.objective + '\'' + ", siblings="
+		return "ScoreComponent{name='" + this.name + '\'' + "objective='" + this.objective + '\'' + ", siblings="
 				+ this.siblings + ", style=" + this.getChatStyle() + '}';
 	}
 }

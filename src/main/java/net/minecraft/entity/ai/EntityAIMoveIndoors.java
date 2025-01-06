@@ -7,7 +7,7 @@ import net.minecraft.village.Village;
 import net.minecraft.village.VillageDoorInfo;
 
 public class EntityAIMoveIndoors extends EntityAIBase {
-	private EntityCreature entityObj;
+	private final EntityCreature entityObj;
 	private VillageDoorInfo doorInfo;
 	private int insidePosX = -1;
 	private int insidePosZ = -1;
@@ -25,8 +25,8 @@ public class EntityAIMoveIndoors extends EntityAIBase {
 				&& !this.entityObj.worldObj.provider.getHasNoSky()) {
 			if (this.entityObj.getRNG().nextInt(50) != 0) {
 				return false;
-			} else if (this.insidePosX != -1 && this.entityObj.getDistanceSq((double) this.insidePosX,
-					this.entityObj.posY, (double) this.insidePosZ) < 4.0D) {
+			} else if (this.insidePosX != -1 && this.entityObj.getDistanceSq(this.insidePosX,
+					this.entityObj.posY, this.insidePosZ) < 4.0D) {
 				return false;
 			} else {
 				Village village = this.entityObj.worldObj.getVillageCollection().getNearestVillage(blockpos, 14);
@@ -56,13 +56,13 @@ public class EntityAIMoveIndoors extends EntityAIBase {
 
 		if (this.entityObj.getDistanceSq(blockpos) > 256.0D) {
 			Vec3 vec3 = RandomPositionGenerator.findRandomTargetBlockTowards(this.entityObj, 14, 3,
-					new Vec3((double) i + 0.5D, (double) j, (double) k + 0.5D));
+					new Vec3((double) i + 0.5D, j, (double) k + 0.5D));
 
 			if (vec3 != null) {
 				this.entityObj.getNavigator().tryMoveToXYZ(vec3.xCoord, vec3.yCoord, vec3.zCoord, 1.0D);
 			}
 		} else {
-			this.entityObj.getNavigator().tryMoveToXYZ((double) i + 0.5D, (double) j, (double) k + 0.5D, 1.0D);
+			this.entityObj.getNavigator().tryMoveToXYZ((double) i + 0.5D, j, (double) k + 0.5D, 1.0D);
 		}
 	}
 

@@ -38,7 +38,7 @@ public class EntityMinecartTNT extends EntityMinecart {
 		if (this.minecartTNTFuse > 0) {
 			--this.minecartTNTFuse;
 			this.worldObj.spawnParticle(EnumParticleTypes.SMOKE_NORMAL, this.posX, this.posY + 0.5D, this.posZ, 0.0D,
-					0.0D, 0.0D, new int[0]);
+					0.0D, 0.0D);
 		} else if (this.minecartTNTFuse == 0) {
 			this.explodeCart(this.motionX * this.motionX + this.motionZ * this.motionZ);
 		}
@@ -55,10 +55,9 @@ public class EntityMinecartTNT extends EntityMinecart {
 	public boolean attackEntityFrom(DamageSource source, float amount) {
 		Entity entity = source.getSourceOfDamage();
 
-		if (entity instanceof EntityArrow) {
-			EntityArrow entityarrow = (EntityArrow) entity;
+		if (entity instanceof EntityArrow entityarrow) {
 
-			if (entityarrow.isBurning()) {
+            if (entityarrow.isBurning()) {
 				this.explodeCart(entityarrow.motionX * entityarrow.motionX + entityarrow.motionY * entityarrow.motionY
 						+ entityarrow.motionZ * entityarrow.motionZ);
 			}
@@ -97,7 +96,7 @@ public class EntityMinecartTNT extends EntityMinecart {
 	public void fall(float distance, float damageMultiplier) {
 		if (distance >= 3.0F) {
 			float f = distance / 10.0F;
-			this.explodeCart((double) (f * f));
+			this.explodeCart(f * f);
 		}
 
 		super.fall(distance, damageMultiplier);
@@ -146,10 +145,8 @@ public class EntityMinecartTNT extends EntityMinecart {
 
 	public boolean verifyExplosion(Explosion explosionIn, World worldIn, BlockPos pos, IBlockState blockStateIn,
 			float p_174816_5_) {
-		return !this.isIgnited()
-				|| !BlockRailBase.isRailBlock(blockStateIn) && !BlockRailBase.isRailBlock(worldIn, pos.up())
-						? super.verifyExplosion(explosionIn, worldIn, pos, blockStateIn, p_174816_5_)
-						: false;
+		return (!this.isIgnited()
+                || !BlockRailBase.isRailBlock(blockStateIn) && !BlockRailBase.isRailBlock(worldIn, pos.up())) && super.verifyExplosion(explosionIn, worldIn, pos, blockStateIn, p_174816_5_);
 	}
 
 	protected void readEntityFromNBT(NBTTagCompound tagCompund) {

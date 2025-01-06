@@ -50,7 +50,7 @@ public abstract class EntityMob extends EntityCreature implements IMob {
 			return false;
 		} else if (super.attackEntityFrom(source, amount)) {
 			Entity entity = source.getEntity();
-			return this.riddenByEntity != entity && this.ridingEntity != entity ? true : true;
+			return true;
 		} else {
 			return false;
 		}
@@ -83,9 +83,9 @@ public abstract class EntityMob extends EntityCreature implements IMob {
 		if (flag) {
 			if (i > 0) {
 				entityIn.addVelocity(
-						(double) (-MathHelper.sin(this.rotationYaw * (float) Math.PI / 180.0F) * (float) i * 0.5F),
+                        -MathHelper.sin(this.rotationYaw * (float) Math.PI / 180.0F) * (float) i * 0.5F,
 						0.1D,
-						(double) (MathHelper.cos(this.rotationYaw * (float) Math.PI / 180.0F) * (float) i * 0.5F));
+                        MathHelper.cos(this.rotationYaw * (float) Math.PI / 180.0F) * (float) i * 0.5F);
 				this.motionX *= 0.6D;
 				this.motionZ *= 0.6D;
 			}

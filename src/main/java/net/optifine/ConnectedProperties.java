@@ -144,9 +144,8 @@ public class ConnectedProperties {
 			Map<Integer, Integer> map = new HashMap();
 
 			for (Object object : props.keySet()) {
-				if (object instanceof String) {
-					String s = (String) object;
-					String s1 = "ctm.";
+				if (object instanceof String s) {
+                    String s1 = "ctm.";
 
 					if (s.startsWith(s1)) {
 						String s2 = s.substring(s1.length());
@@ -181,7 +180,7 @@ public class ConnectedProperties {
 					aint[k] = -1;
 
 					if (map.containsKey(Integer.valueOf(k))) {
-						aint[k] = ((Integer) map.get(Integer.valueOf(k))).intValue();
+						aint[k] = map.get(Integer.valueOf(k)).intValue();
 					}
 				}
 
@@ -274,7 +273,7 @@ public class ConnectedProperties {
 				list.add(s);
 			}
 
-			String[] astring2 = (String[]) ((String[]) list.toArray(new String[list.size()]));
+			String[] astring2 = (String[]) list.toArray(new String[list.size()]);
 
 			for (int i1 = 0; i1 < astring2.length; ++i1) {
 				String s1 = astring2[i1];
@@ -906,8 +905,8 @@ public class ConnectedProperties {
 				}
 			}
 
-			TextureAtlasSprite[] atextureatlassprite = (TextureAtlasSprite[]) ((TextureAtlasSprite[]) list
-					.toArray(new TextureAtlasSprite[list.size()]));
+			TextureAtlasSprite[] atextureatlassprite = (TextureAtlasSprite[]) list
+					.toArray(new TextureAtlasSprite[list.size()]);
 			return atextureatlassprite;
 		}
 	}
@@ -917,7 +916,7 @@ public class ConnectedProperties {
 	}
 
 	public boolean matchesBlock(int blockId, int metadata) {
-		return !Matches.block(blockId, metadata, this.matchBlocks) ? false : Matches.metadata(metadata, this.metadatas);
+		return Matches.block(blockId, metadata, this.matchBlocks) && Matches.metadata(metadata, this.metadatas);
 	}
 
 	public boolean matchesIcon(TextureAtlasSprite icon) {
@@ -926,8 +925,8 @@ public class ConnectedProperties {
 
 	public String toString() {
 		return "CTM name: " + this.name + ", basePath: " + this.basePath + ", matchBlocks: "
-				+ Config.arrayToString((Object[]) this.matchBlocks) + ", matchTiles: "
-				+ Config.arrayToString((Object[]) this.matchTiles);
+				+ Config.arrayToString(this.matchBlocks) + ", matchTiles: "
+				+ Config.arrayToString(this.matchTiles);
 	}
 
 	public boolean matchesBiome(BiomeGenBase biome) {

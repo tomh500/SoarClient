@@ -22,11 +22,10 @@ public class ModelAdapterMinecart extends ModelAdapter {
 	}
 
 	public ModelRenderer getModelRenderer(ModelBase model, String modelPart) {
-		if (!(model instanceof ModelMinecart)) {
+		if (!(model instanceof ModelMinecart modelminecart)) {
 			return null;
 		} else {
-			ModelMinecart modelminecart = (ModelMinecart) model;
-			return modelPart
+            return modelPart
 					.equals("bottom")
 							? modelminecart.sideModels[0]
 							: (modelPart

@@ -33,7 +33,7 @@ public class SpectatorMenu {
 		}
 	};
 	private final ISpectatorMenuRecipient field_178651_f;
-	private final List<SpectatorDetails> field_178652_g = Lists.<SpectatorDetails>newArrayList();
+	private final List<SpectatorDetails> field_178652_g = Lists.newArrayList();
 	private ISpectatorMenuView field_178659_h = new BaseSpectatorGroup();
 	private int field_178660_i = -1;
 	private int field_178658_j;
@@ -48,13 +48,13 @@ public class SpectatorMenu {
 				: (p_178643_1_ == 7 ? (i < this.field_178659_h.func_178669_a().size() ? field_178653_d : field_178654_e)
 						: (p_178643_1_ == 8 ? field_178655_b
 								: (i >= 0 && i < this.field_178659_h.func_178669_a().size()
-										? (ISpectatorMenuObject) Objects.firstNonNull(
+										? Objects.firstNonNull(
 												this.field_178659_h.func_178669_a().get(i), field_178657_a)
 										: field_178657_a)));
 	}
 
 	public List<ISpectatorMenuObject> func_178642_a() {
-		List<ISpectatorMenuObject> list = Lists.<ISpectatorMenuObject>newArrayList();
+		List<ISpectatorMenuObject> list = Lists.newArrayList();
 
 		for (int i = 0; i <= 8; ++i) {
 			list.add(this.func_178643_a(i));

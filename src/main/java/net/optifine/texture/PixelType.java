@@ -7,9 +7,9 @@ public enum PixelType {
 	UNSIGNED_SHORT_1_5_5_5_REV(33638), UNSIGNED_INT(5125), UNSIGNED_INT_8_8_8_8(32821), UNSIGNED_INT_8_8_8_8_REV(33639),
 	UNSIGNED_INT_10_10_10_2(32822), UNSIGNED_INT_2_10_10_10_REV(33640);
 
-	private int id;
+	private final int id;
 
-	private PixelType(int id) {
+	PixelType(int id) {
 		this.id = id;
 	}
 

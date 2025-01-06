@@ -173,7 +173,7 @@ public class CustomItemProperties {
 				int j = Config.parseInt(s, -1);
 
 				if (j >= 0) {
-					set.add(new Integer(j));
+					set.add(Integer.valueOf(j));
 				} else {
 					if (s.contains("-")) {
 						String[] astring1 = Config.tokenize(s, "-");
@@ -192,7 +192,7 @@ public class CustomItemProperties {
 										continue label45;
 									}
 
-									set.add(new Integer(k1));
+									set.add(Integer.valueOf(k1));
 									++k1;
 								}
 							}
@@ -209,13 +209,13 @@ public class CustomItemProperties {
 						if (i2 <= 0) {
 							Config.warn("Item not found: " + s);
 						} else {
-							set.add(new Integer(i2));
+							set.add(Integer.valueOf(i2));
 						}
 					}
 				}
 			}
 
-			Integer[] ainteger = (Integer[]) ((Integer[]) set.toArray(new Integer[set.size()]));
+			Integer[] ainteger = (Integer[]) set.toArray(new Integer[set.size()]);
 			int[] aint = new int[ainteger.length];
 
 			for (int l1 = 0; l1 < aint.length; ++l1) {
@@ -249,7 +249,7 @@ public class CustomItemProperties {
 			return null;
 		} else {
 			if (mapTexs != null) {
-				String s = (String) mapTexs.get("texture.bow_standby");
+				String s = mapTexs.get("texture.bow_standby");
 
 				if (s != null) {
 					return s;
@@ -332,7 +332,7 @@ public class CustomItemProperties {
 			return null;
 		} else {
 			if (mapModelNames != null) {
-				String s = (String) mapModelNames.get("model.bow_standby");
+				String s = mapModelNames.get("model.bow_standby");
 
 				if (s != null) {
 					return s;
@@ -418,7 +418,7 @@ public class CustomItemProperties {
 	}
 
 	private RangeListInt parseRangeListInt(String str) {
-		return this.parseRangeListInt(str, (IParserInt) null);
+		return this.parseRangeListInt(str, null);
 	}
 
 	private RangeListInt parseRangeListInt(String str, IParserInt parser) {
@@ -519,7 +519,7 @@ public class CustomItemProperties {
 				list.add(nbttagvalue);
 			}
 
-			NbtTagValue[] anbttagvalue = (NbtTagValue[]) ((NbtTagValue[]) list.toArray(new NbtTagValue[list.size()]));
+			NbtTagValue[] anbttagvalue = (NbtTagValue[]) list.toArray(new NbtTagValue[list.size()]);
 			return anbttagvalue;
 		}
 	}
@@ -620,7 +620,7 @@ public class CustomItemProperties {
 			this.mapSprites = new HashMap();
 
 			for (String s : this.mapTextures.keySet()) {
-				String s1 = (String) this.mapTextures.get(s);
+				String s1 = this.mapTextures.get(s);
 				ResourceLocation resourcelocation1 = this.getTextureLocation(s1);
 				this.mapTextureLocations.put(s, resourcelocation1);
 
@@ -673,7 +673,7 @@ public class CustomItemProperties {
 
 			if (this.type == 1 && this.mapTextures != null) {
 				for (String s : this.mapTextures.keySet()) {
-					String s1 = (String) this.mapTextures.get(s);
+					String s1 = this.mapTextures.get(s);
 					String s2 = StrUtils.removePrefix(s, "texture.");
 
 					if (s2.startsWith("bow") || s2.startsWith("fishing_rod") || s2.startsWith("shield")) {
@@ -732,10 +732,9 @@ public class CustomItemProperties {
 				return new String[] { s5, s6 };
 			}
 
-			if (item instanceof ItemArmor) {
-				ItemArmor itemarmor = (ItemArmor) item;
+			if (item instanceof ItemArmor itemarmor) {
 
-				if (itemarmor.getArmorMaterial() == ItemArmor.ArmorMaterial.LEATHER) {
+                if (itemarmor.getArmorMaterial() == ItemArmor.ArmorMaterial.LEATHER) {
 					String s = "leather";
 					String s1 = "helmet";
 
@@ -771,7 +770,7 @@ public class CustomItemProperties {
 		if (map == null) {
 			return def;
 		} else {
-			String s = (String) map.get(key);
+			String s = map.get(key);
 			return s == null ? def : s;
 		}
 	}
@@ -806,7 +805,7 @@ public class CustomItemProperties {
 
 		for (BlockPart blockpart : modelBlockIn.getElements()) {
 			for (EnumFacing enumfacing : blockpart.mapFaces.keySet()) {
-				BlockPartFace blockpartface = (BlockPartFace) blockpart.mapFaces.get(enumfacing);
+				BlockPartFace blockpartface = blockpart.mapFaces.get(enumfacing);
 
 				if (!useTint) {
 					blockpartface = new BlockPartFace(blockpartface.cullFace, -1, blockpartface.texture,
@@ -839,7 +838,7 @@ public class CustomItemProperties {
 	}
 
 	public String toString() {
-		return "" + this.basePath + "/" + this.name + ", type: " + this.type + ", items: ["
+		return this.basePath + "/" + this.name + ", type: " + this.type + ", items: ["
 				+ Config.arrayToString(this.items) + "], textture: " + this.texture;
 	}
 
@@ -895,7 +894,7 @@ public class CustomItemProperties {
 
 		if (modelLocation != null && map != null) {
 			String s = modelLocation.getResourcePath();
-			IBakedModel ibakedmodel1 = (IBakedModel) map.get(s);
+			IBakedModel ibakedmodel1 = map.get(s);
 
 			if (ibakedmodel1 != null) {
 				return ibakedmodel1;
@@ -912,7 +911,7 @@ public class CustomItemProperties {
 
 		if (this.type == 1 && this.mapModels != null) {
 			for (String s : this.mapModels.keySet()) {
-				String s1 = (String) this.mapModels.get(s);
+				String s1 = this.mapModels.get(s);
 				String s2 = StrUtils.removePrefix(s, "model.");
 
 				if (s2.startsWith("bow") || s2.startsWith("fishing_rod") || s2.startsWith("shield")) {
@@ -939,7 +938,7 @@ public class CustomItemProperties {
 
 		if (this.type == 1 && this.mapModels != null) {
 			for (String s : this.mapModels.keySet()) {
-				String s1 = (String) this.mapModels.get(s);
+				String s1 = this.mapModels.get(s);
 				String s2 = StrUtils.removePrefix(s, "model.");
 
 				if (s2.startsWith("bow") || s2.startsWith("fishing_rod") || s2.startsWith("shield")) {

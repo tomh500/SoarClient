@@ -23,7 +23,7 @@ public class WorldGenMegaPineTree extends WorldGenHugeTrees {
 			.withProperty(BlockLeaves.CHECK_DECAY, Boolean.valueOf(false));
 	private static final IBlockState field_181635_g = Blocks.dirt.getDefaultState().withProperty(BlockDirt.VARIANT,
 			BlockDirt.DirtType.PODZOL);
-	private boolean useBaseHeight;
+	private final boolean useBaseHeight;
 
 	public WorldGenMegaPineTree(boolean p_i45457_1_, boolean p_i45457_2_) {
 		super(p_i45457_1_, 13, 15, field_181633_e, field_181634_f);

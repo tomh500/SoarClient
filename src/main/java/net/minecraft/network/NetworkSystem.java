@@ -71,9 +71,9 @@ public class NetworkSystem {
 	private final MinecraftServer mcServer;
 	public volatile boolean isAlive;
 	private final List<ChannelFuture> endpoints = Collections
-			.<ChannelFuture>synchronizedList(Lists.<ChannelFuture>newArrayList());
+			.synchronizedList(Lists.newArrayList());
 	private final List<NetworkManager> networkManagers = Collections
-			.<NetworkManager>synchronizedList(Lists.<NetworkManager>newArrayList());
+			.synchronizedList(Lists.newArrayList());
 
 	public NetworkSystem(MinecraftServer server) {
 		this.mcServer = server;
@@ -95,33 +95,32 @@ public class NetworkSystem {
 				logger.info("Using default channel type");
 			}
 
-			this.endpoints.add(((ServerBootstrap) ((ServerBootstrap) (new ServerBootstrap()).channel(oclass))
+			this.endpoints.add((new ServerBootstrap()).channel(oclass)
 					.childHandler(new ChannelInitializer<Channel>() {
 						protected void initChannel(Channel p_initChannel_1_) throws Exception {
 							try {
 								p_initChannel_1_.config().setOption(ChannelOption.TCP_NODELAY, Boolean.valueOf(true));
 							} catch (ChannelException var3) {
-								;
-							}
+                            }
 
 							p_initChannel_1_.pipeline()
-									.addLast((String) "timeout", (ChannelHandler) (new ReadTimeoutHandler(30)))
-									.addLast((String) "legacy_query",
-											(ChannelHandler) (new PingResponseHandler(NetworkSystem.this)))
-									.addLast((String) "splitter", (ChannelHandler) (new MessageDeserializer2()))
-									.addLast((String) "decoder",
-											(ChannelHandler) (new MessageDeserializer(EnumPacketDirection.SERVERBOUND)))
-									.addLast((String) "prepender", (ChannelHandler) (new MessageSerializer2()))
-									.addLast((String) "encoder",
-											(ChannelHandler) (new MessageSerializer(EnumPacketDirection.CLIENTBOUND)));
+									.addLast("timeout", new ReadTimeoutHandler(30))
+									.addLast("legacy_query",
+                                            new PingResponseHandler(NetworkSystem.this))
+									.addLast("splitter", new MessageDeserializer2())
+									.addLast("decoder",
+                                            new MessageDeserializer(EnumPacketDirection.SERVERBOUND))
+									.addLast("prepender", new MessageSerializer2())
+									.addLast("encoder",
+                                            new MessageSerializer(EnumPacketDirection.CLIENTBOUND));
 							NetworkManager networkmanager = new NetworkManager(EnumPacketDirection.SERVERBOUND);
 							NetworkSystem.this.networkManagers.add(networkmanager);
-							p_initChannel_1_.pipeline().addLast((String) "packet_handler",
-									(ChannelHandler) networkmanager);
+							p_initChannel_1_.pipeline().addLast("packet_handler",
+                                    networkmanager);
 							networkmanager.setNetHandler(
 									new NetHandlerHandshakeTCP(NetworkSystem.this.mcServer, networkmanager));
 						}
-					}).group((EventLoopGroup) lazyloadbase.getValue()).localAddress(address, port)).bind()
+					}).group(lazyloadbase.getValue()).localAddress(address, port).bind()
 					.syncUninterruptibly());
 		}
 	}
@@ -130,17 +129,17 @@ public class NetworkSystem {
 		ChannelFuture channelfuture;
 
 		synchronized (this.endpoints) {
-			channelfuture = ((ServerBootstrap) ((ServerBootstrap) (new ServerBootstrap())
-					.channel(LocalServerChannel.class)).childHandler(new ChannelInitializer<Channel>() {
+			channelfuture = (new ServerBootstrap())
+					.channel(LocalServerChannel.class).childHandler(new ChannelInitializer<Channel>() {
 						protected void initChannel(Channel p_initChannel_1_) throws Exception {
 							NetworkManager networkmanager = new NetworkManager(EnumPacketDirection.SERVERBOUND);
 							networkmanager.setNetHandler(
 									new NetHandlerHandshakeMemory(NetworkSystem.this.mcServer, networkmanager));
 							NetworkSystem.this.networkManagers.add(networkmanager);
-							p_initChannel_1_.pipeline().addLast((String) "packet_handler",
-									(ChannelHandler) networkmanager);
+							p_initChannel_1_.pipeline().addLast("packet_handler",
+                                    networkmanager);
 						}
-					}).group((EventLoopGroup) eventLoops.getValue()).localAddress(LocalAddress.ANY)).bind()
+					}).group(eventLoops.getValue()).localAddress(LocalAddress.ANY).bind()
 					.syncUninterruptibly();
 			this.endpoints.add(channelfuture);
 		}
@@ -165,7 +164,7 @@ public class NetworkSystem {
 			Iterator<NetworkManager> iterator = this.networkManagers.iterator();
 
 			while (iterator.hasNext()) {
-				final NetworkManager networkmanager = (NetworkManager) iterator.next();
+				final NetworkManager networkmanager = iterator.next();
 
 				if (!networkmanager.hasNoChannel()) {
 					if (!networkmanager.isChannelOpen()) {
@@ -188,8 +187,8 @@ public class NetworkSystem {
 								throw new ReportedException(crashreport);
 							}
 
-							logger.warn((String) ("Failed to handle packet for " + networkmanager.getRemoteAddress()),
-									(Throwable) exception);
+							logger.warn("Failed to handle packet for " + networkmanager.getRemoteAddress(),
+                                    exception);
 							final ChatComponentText chatcomponenttext = new ChatComponentText("Internal server error");
 							networkmanager.sendPacket(new S40PacketDisconnect(chatcomponenttext),
 									new GenericFutureListener<Future<? super Void>>() {
@@ -197,7 +196,7 @@ public class NetworkSystem {
 												throws Exception {
 											networkmanager.closeChannel(chatcomponenttext);
 										}
-									}, new GenericFutureListener[0]);
+									});
 							networkmanager.disableAutoRead();
 						}
 					}

@@ -73,8 +73,8 @@ public abstract class EntityTameable extends EntityAnimal implements IEntityOwna
 			this.worldObj.spawnParticle(enumparticletypes,
 					this.posX + (double) (this.rand.nextFloat() * this.width * 2.0F) - (double) this.width,
 					this.posY + 0.5D + (double) (this.rand.nextFloat() * this.height),
-					this.posZ + (double) (this.rand.nextFloat() * this.width * 2.0F) - (double) this.width, d0, d1, d2,
-					new int[0]);
+					this.posZ + (double) (this.rand.nextFloat() * this.width * 2.0F) - (double) this.width, d0, d1, d2
+            );
 		}
 	}
 
@@ -181,7 +181,7 @@ public abstract class EntityTameable extends EntityAnimal implements IEntityOwna
 	public void onDeath(DamageSource cause) {
 		if (!this.worldObj.isRemote && this.worldObj.getGameRules().getBoolean("showDeathMessages")
 				&& this.hasCustomName() && this.getOwner() instanceof EntityPlayerMP) {
-			((EntityPlayerMP) this.getOwner()).addChatMessage(this.getCombatTracker().getDeathMessage());
+			this.getOwner().addChatMessage(this.getCombatTracker().getDeathMessage());
 		}
 
 		super.onDeath(cause);

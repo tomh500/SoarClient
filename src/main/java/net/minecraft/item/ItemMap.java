@@ -49,8 +49,8 @@ public class ItemMap extends ItemMapBase {
 			s = "map_" + stack.getMetadata();
 			mapdata = new MapData(s);
 			mapdata.scale = 3;
-			mapdata.calculateMapCenter((double) worldIn.getWorldInfo().getSpawnX(),
-					(double) worldIn.getWorldInfo().getSpawnZ(), mapdata.scale);
+			mapdata.calculateMapCenter(worldIn.getWorldInfo().getSpawnX(),
+                    worldIn.getWorldInfo().getSpawnZ(), mapdata.scale);
 			mapdata.dimension = (byte) worldIn.provider.getDimensionId();
 			mapdata.markDirty();
 			worldIn.setItemData(s, mapdata);
@@ -88,7 +88,7 @@ public class ItemMap extends ItemMapBase {
 							boolean flag1 = i2 * i2 + j2 * j2 > (j1 - 2) * (j1 - 2);
 							int k2 = (j / i + k1 - 64) * i;
 							int l2 = (k / i + l1 - 64) * i;
-							Multiset<MapColor> multiset = HashMultiset.<MapColor>create();
+							Multiset<MapColor> multiset = HashMultiset.create();
 							Chunk chunk = worldIn.getChunkFromBlockCoords(new BlockPos(k2, 0, l2));
 
 							if (!chunk.isEmpty()) {
@@ -168,8 +168,8 @@ public class ItemMap extends ItemMapBase {
 									i5 = 0;
 								}
 
-								MapColor mapcolor = (MapColor) Iterables.getFirst(
-										Multisets.<MapColor>copyHighestCountFirst(multiset), MapColor.airColor);
+								MapColor mapcolor = Iterables.getFirst(
+										Multisets.copyHighestCountFirst(multiset), MapColor.airColor);
 
 								if (mapcolor == MapColor.waterColor) {
 									d2 = (double) k3 * 0.1D + (double) (k1 + l1 & 1) * 0.2D;
@@ -208,9 +208,8 @@ public class ItemMap extends ItemMapBase {
 		if (!worldIn.isRemote) {
 			MapData mapdata = this.getMapData(stack, worldIn);
 
-			if (entityIn instanceof EntityPlayer) {
-				EntityPlayer entityplayer = (EntityPlayer) entityIn;
-				mapdata.updateVisiblePlayers(entityplayer, stack);
+			if (entityIn instanceof EntityPlayer entityplayer) {
+                mapdata.updateVisiblePlayers(entityplayer, stack);
 			}
 
 			if (isSelected) {
@@ -234,7 +233,7 @@ public class ItemMap extends ItemMapBase {
 				mapdata1.scale = 4;
 			}
 
-			mapdata1.calculateMapCenter((double) mapdata.xCenter, (double) mapdata.zCenter, mapdata1.scale);
+			mapdata1.calculateMapCenter(mapdata.xCenter, mapdata.zCenter, mapdata1.scale);
 			mapdata1.dimension = mapdata.dimension;
 			mapdata1.markDirty();
 			worldIn.setItemData("map_" + stack.getMetadata(), mapdata1);

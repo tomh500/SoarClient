@@ -5,7 +5,7 @@ import java.util.List;
 import com.google.common.collect.Lists;
 
 public class SoundList {
-	private final List<SoundList.SoundEntry> soundList = Lists.<SoundList.SoundEntry>newArrayList();
+	private final List<SoundList.SoundEntry> soundList = Lists.newArrayList();
 	private boolean replaceExisting;
 	private SoundCategory category;
 
@@ -85,12 +85,12 @@ public class SoundList {
 			this.streaming = isStreaming;
 		}
 
-		public static enum Type {
+		public enum Type {
 			FILE("file"), SOUND_EVENT("event");
 
 			private final String field_148583_c;
 
-			private Type(String p_i45109_3_) {
+			Type(String p_i45109_3_) {
 				this.field_148583_c = p_i45109_3_;
 			}
 

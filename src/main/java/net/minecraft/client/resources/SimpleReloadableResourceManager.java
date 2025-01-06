@@ -23,10 +23,10 @@ public class SimpleReloadableResourceManager implements IReloadableResourceManag
 	private static final Logger logger = LogManager.getLogger();
 	private static final Joiner joinerResourcePacks = Joiner.on(", ");
 	private final Map<String, FallbackResourceManager> domainResourceManagers = Maps
-			.<String, FallbackResourceManager>newHashMap();
+			.newHashMap();
 	private final List<IResourceManagerReloadListener> reloadListeners = Lists
-			.<IResourceManagerReloadListener>newArrayList();
-	private final Set<String> setResourceDomains = Sets.<String>newLinkedHashSet();
+			.newArrayList();
+	private final Set<String> setResourceDomains = Sets.newLinkedHashSet();
 	private final IMetadataSerializer rmMetadataSerializer;
 
 	public SimpleReloadableResourceManager(IMetadataSerializer rmMetadataSerializerIn) {
@@ -36,7 +36,7 @@ public class SimpleReloadableResourceManager implements IReloadableResourceManag
 	public void reloadResourcePack(IResourcePack resourcePack) {
 		for (String s : resourcePack.getResourceDomains()) {
 			this.setResourceDomains.add(s);
-			FallbackResourceManager fallbackresourcemanager = (FallbackResourceManager) this.domainResourceManagers
+			FallbackResourceManager fallbackresourcemanager = this.domainResourceManagers
 					.get(s);
 
 			if (fallbackresourcemanager == null) {
@@ -53,7 +53,7 @@ public class SimpleReloadableResourceManager implements IReloadableResourceManag
 	}
 
 	public IResource getResource(ResourceLocation location) throws IOException {
-		IResourceManager iresourcemanager = (IResourceManager) this.domainResourceManagers
+		IResourceManager iresourcemanager = this.domainResourceManagers
 				.get(location.getResourceDomain());
 
 		if (iresourcemanager != null) {
@@ -64,7 +64,7 @@ public class SimpleReloadableResourceManager implements IReloadableResourceManag
 	}
 
 	public List<IResource> getAllResources(ResourceLocation location) throws IOException {
-		IResourceManager iresourcemanager = (IResourceManager) this.domainResourceManagers
+		IResourceManager iresourcemanager = this.domainResourceManagers
 				.get(location.getResourceDomain());
 
 		if (iresourcemanager != null) {

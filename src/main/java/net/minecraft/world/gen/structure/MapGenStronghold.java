@@ -14,7 +14,7 @@ import net.minecraft.world.World;
 import net.minecraft.world.biome.BiomeGenBase;
 
 public class MapGenStronghold extends MapGenStructure {
-	private List<BiomeGenBase> field_151546_e;
+	private final List<BiomeGenBase> field_151546_e;
 	private boolean ranBiomeCheck;
 	private ChunkCoordIntPair[] structureCoords;
 	private double field_82671_h;
@@ -24,7 +24,7 @@ public class MapGenStronghold extends MapGenStructure {
 		this.structureCoords = new ChunkCoordIntPair[3];
 		this.field_82671_h = 32.0D;
 		this.field_82672_i = 3;
-		this.field_151546_e = Lists.<BiomeGenBase>newArrayList();
+		this.field_151546_e = Lists.newArrayList();
 
 		for (BiomeGenBase biomegenbase : BiomeGenBase.getBiomeGenArray()) {
 			if (biomegenbase != null && biomegenbase.minHeight > 0.0F) {
@@ -37,14 +37,14 @@ public class MapGenStronghold extends MapGenStructure {
 		this();
 
 		for (Entry<String, String> entry : p_i2068_1_.entrySet()) {
-			if (((String) entry.getKey()).equals("distance")) {
-				this.field_82671_h = MathHelper.parseDoubleWithDefaultAndMax((String) entry.getValue(),
+			if (entry.getKey().equals("distance")) {
+				this.field_82671_h = MathHelper.parseDoubleWithDefaultAndMax(entry.getValue(),
 						this.field_82671_h, 1.0D);
-			} else if (((String) entry.getKey()).equals("count")) {
+			} else if (entry.getKey().equals("count")) {
 				this.structureCoords = new ChunkCoordIntPair[MathHelper
-						.parseIntWithDefaultAndMax((String) entry.getValue(), this.structureCoords.length, 1)];
-			} else if (((String) entry.getKey()).equals("spread")) {
-				this.field_82672_i = MathHelper.parseIntWithDefaultAndMax((String) entry.getValue(), this.field_82672_i,
+						.parseIntWithDefaultAndMax(entry.getValue(), this.structureCoords.length, 1)];
+			} else if (entry.getKey().equals("spread")) {
+				this.field_82672_i = MathHelper.parseIntWithDefaultAndMax(entry.getValue(), this.field_82672_i,
 						1);
 			}
 		}
@@ -95,7 +95,7 @@ public class MapGenStronghold extends MapGenStructure {
 	}
 
 	protected List<BlockPos> getCoordList() {
-		List<BlockPos> list = Lists.<BlockPos>newArrayList();
+		List<BlockPos> list = Lists.newArrayList();
 
 		for (ChunkCoordIntPair chunkcoordintpair : this.structureCoords) {
 			if (chunkcoordintpair != null) {
@@ -114,8 +114,7 @@ public class MapGenStronghold extends MapGenStructure {
 						|| ((StructureStrongholdPieces.Stairs2) mapgenstronghold$start.getComponents().get(
 								0)).strongholdPortalRoom == null; mapgenstronghold$start = new MapGenStronghold.Start(
 										this.worldObj, this.rand, chunkX, chunkZ)) {
-			;
-		}
+        }
 
 		return mapgenstronghold$start;
 	}
@@ -136,7 +135,7 @@ public class MapGenStronghold extends MapGenStructure {
 
 			while (!list.isEmpty()) {
 				int i = p_i2067_2_.nextInt(list.size());
-				StructureComponent structurecomponent = (StructureComponent) list.remove(i);
+				StructureComponent structurecomponent = list.remove(i);
 				structurecomponent.buildComponent(structurestrongholdpieces$stairs2, this.components, p_i2067_2_);
 			}
 

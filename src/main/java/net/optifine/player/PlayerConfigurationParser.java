@@ -4,6 +4,7 @@ import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
 
 import javax.imageio.ImageIO;
 
@@ -92,7 +93,7 @@ public class PlayerConfigurationParser {
 
 		try {
 			byte[] abyte = HttpPipeline.get(s, Minecraft.getMinecraft().getProxy());
-			BufferedImage bufferedimage = ImageIO.read((InputStream) (new ByteArrayInputStream(abyte)));
+			BufferedImage bufferedimage = ImageIO.read(new ByteArrayInputStream(abyte));
 			return bufferedimage;
 		} catch (IOException ioexception) {
 			Config.warn("Error loading item texture " + texturePath + ": " + ioexception.getClass().getName() + ": "
@@ -106,7 +107,7 @@ public class PlayerConfigurationParser {
 
 		try {
 			byte[] abyte = HttpPipeline.get(s, Minecraft.getMinecraft().getProxy());
-			String s1 = new String(abyte, "ASCII");
+			String s1 = new String(abyte, StandardCharsets.US_ASCII);
 			JsonParser jsonparser = new JsonParser();
 			JsonObject jsonobject = (JsonObject) jsonparser.parse(s1);
 			PlayerItemModel playeritemmodel = PlayerItemParser.parseItemModel(jsonobject);

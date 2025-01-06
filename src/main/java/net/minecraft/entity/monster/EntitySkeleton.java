@@ -41,8 +41,8 @@ import net.minecraft.world.World;
 import net.minecraft.world.WorldProviderHell;
 
 public class EntitySkeleton extends EntityMob implements IRangedAttackMob {
-	private EntityAIArrowAttack aiArrowAttack = new EntityAIArrowAttack(this, 1.0D, 20, 60, 15.0F);
-	private EntityAIAttackOnCollide aiAttackOnCollide = new EntityAIAttackOnCollide(this, EntityPlayer.class, 1.2D,
+	private final EntityAIArrowAttack aiArrowAttack = new EntityAIArrowAttack(this, 1.0D, 20, 60, 15.0F);
+	private final EntityAIAttackOnCollide aiAttackOnCollide = new EntityAIAttackOnCollide(this, EntityPlayer.class, 1.2D,
 			false);
 
 	public EntitySkeleton(World worldIn) {
@@ -54,7 +54,7 @@ public class EntitySkeleton extends EntityMob implements IRangedAttackMob {
 		this.tasks.addTask(4, new EntityAIWander(this, 1.0D));
 		this.tasks.addTask(6, new EntityAIWatchClosest(this, EntityPlayer.class, 8.0F));
 		this.tasks.addTask(6, new EntityAILookIdle(this));
-		this.targetTasks.addTask(1, new EntityAIHurtByTarget(this, false, new Class[0]));
+		this.targetTasks.addTask(1, new EntityAIHurtByTarget(this, false));
 		this.targetTasks.addTask(2, new EntityAINearestAttackableTarget(this, EntityPlayer.class, true));
 		this.targetTasks.addTask(3, new EntityAINearestAttackableTarget(this, EntityIronGolem.class, true));
 
@@ -70,7 +70,7 @@ public class EntitySkeleton extends EntityMob implements IRangedAttackMob {
 
 	protected void entityInit() {
 		super.entityInit();
-		this.dataWatcher.addObject(13, new Byte((byte) 0));
+		this.dataWatcher.addObject(13, Byte.valueOf((byte) 0));
 	}
 
 	protected String getLivingSound() {
@@ -120,7 +120,7 @@ public class EntitySkeleton extends EntityMob implements IRangedAttackMob {
 
 						if (itemstack.getItemDamage() >= itemstack.getMaxDamage()) {
 							this.renderBrokenItemStack(itemstack);
-							this.setCurrentItemOrArmor(4, (ItemStack) null);
+							this.setCurrentItemOrArmor(4, null);
 						}
 					}
 
@@ -143,18 +143,16 @@ public class EntitySkeleton extends EntityMob implements IRangedAttackMob {
 	public void updateRidden() {
 		super.updateRidden();
 
-		if (this.ridingEntity instanceof EntityCreature) {
-			EntityCreature entitycreature = (EntityCreature) this.ridingEntity;
-			this.renderYawOffset = entitycreature.renderYawOffset;
+		if (this.ridingEntity instanceof EntityCreature entitycreature) {
+            this.renderYawOffset = entitycreature.renderYawOffset;
 		}
 	}
 
 	public void onDeath(DamageSource cause) {
 		super.onDeath(cause);
 
-		if (cause.getSourceOfDamage() instanceof EntityArrow && cause.getEntity() instanceof EntityPlayer) {
-			EntityPlayer entityplayer = (EntityPlayer) cause.getEntity();
-			double d0 = entityplayer.posX - this.posX;
+		if (cause.getSourceOfDamage() instanceof EntityArrow && cause.getEntity() instanceof EntityPlayer entityplayer) {
+            double d0 = entityplayer.posX - this.posX;
 			double d1 = entityplayer.posZ - this.posZ;
 
 			if (d0 * d0 + d1 * d1 >= 2500.0D) {

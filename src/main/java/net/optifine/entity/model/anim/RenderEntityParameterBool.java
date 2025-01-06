@@ -14,11 +14,11 @@ public enum RenderEntityParameterBool implements IExpressionBool {
 	IS_RIDDEN("is_ridden"), IS_RIDING("is_riding"), IS_SNEAKING("is_sneaking"), IS_SPRINTING("is_sprinting"),
 	IS_WET("is_wet");
 
-	private String name;
-	private RenderManager renderManager;
+	private final String name;
+	private final RenderManager renderManager;
 	private static final RenderEntityParameterBool[] VALUES = values();
 
-	private RenderEntityParameterBool(String name) {
+	RenderEntityParameterBool(String name) {
 		this.name = name;
 		this.renderManager = Minecraft.getMinecraft().getRenderManager();
 	}
@@ -37,9 +37,8 @@ public enum RenderEntityParameterBool implements IExpressionBool {
 		if (render == null) {
 			return false;
 		} else {
-			if (render instanceof RendererLivingEntity) {
-				RendererLivingEntity rendererlivingentity = (RendererLivingEntity) render;
-				EntityLivingBase entitylivingbase = rendererlivingentity.renderEntity;
+			if (render instanceof RendererLivingEntity rendererlivingentity) {
+                EntityLivingBase entitylivingbase = rendererlivingentity.renderEntity;
 
 				if (entitylivingbase == null) {
 					return false;

@@ -6,8 +6,8 @@ import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 
 public class ContainerHorseInventory extends Container {
-	private IInventory horseInventory;
-	private EntityHorse theHorse;
+	private final IInventory horseInventory;
+	private final EntityHorse theHorse;
 
 	public ContainerHorseInventory(IInventory playerInventory, final IInventory horseInventoryIn,
 			final EntityHorse horse, EntityPlayer player) {
@@ -57,7 +57,7 @@ public class ContainerHorseInventory extends Container {
 
 	public ItemStack transferStackInSlot(EntityPlayer playerIn, int index) {
 		ItemStack itemstack = null;
-		Slot slot = (Slot) this.inventorySlots.get(index);
+		Slot slot = this.inventorySlots.get(index);
 
 		if (slot != null && slot.getHasStack()) {
 			ItemStack itemstack1 = slot.getStack();
@@ -82,7 +82,7 @@ public class ContainerHorseInventory extends Container {
 			}
 
 			if (itemstack1.stackSize == 0) {
-				slot.putStack((ItemStack) null);
+				slot.putStack(null);
 			} else {
 				slot.onSlotChanged();
 			}

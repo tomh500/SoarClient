@@ -41,7 +41,7 @@ public class EntityItemFrame extends EntityHanging {
 		} else if (!source.isExplosion() && this.getDisplayedItem() != null) {
 			if (!this.worldObj.isRemote) {
 				this.dropItemOrSelf(source.getEntity(), false);
-				this.setDisplayedItem((ItemStack) null);
+				this.setDisplayedItem(null);
 			}
 
 			return true;
@@ -72,10 +72,9 @@ public class EntityItemFrame extends EntityHanging {
 		if (this.worldObj.getGameRules().getBoolean("doEntityDrops")) {
 			ItemStack itemstack = this.getDisplayedItem();
 
-			if (p_146065_1_ instanceof EntityPlayer) {
-				EntityPlayer entityplayer = (EntityPlayer) p_146065_1_;
+			if (p_146065_1_ instanceof EntityPlayer entityplayer) {
 
-				if (entityplayer.capabilities.isCreativeMode) {
+                if (entityplayer.capabilities.isCreativeMode) {
 					this.removeFrameFromMap(itemstack);
 					return;
 				}
@@ -100,7 +99,7 @@ public class EntityItemFrame extends EntityHanging {
 				mapdata.mapDecorations.remove("frame-" + this.getEntityId());
 			}
 
-			p_110131_1_.setItemFrame((EntityItemFrame) null);
+			p_110131_1_.setItemFrame(null);
 		}
 	}
 
@@ -180,7 +179,7 @@ public class EntityItemFrame extends EntityHanging {
 				this.setDisplayedItem(itemstack);
 
 				if (!playerIn.capabilities.isCreativeMode && --itemstack.stackSize <= 0) {
-					playerIn.inventory.setInventorySlotContents(playerIn.inventory.currentItem, (ItemStack) null);
+					playerIn.inventory.setInventorySlotContents(playerIn.inventory.currentItem, null);
 				}
 			}
 		} else if (!this.worldObj.isRemote) {

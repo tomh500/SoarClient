@@ -25,8 +25,8 @@ import net.optifine.BlockPosM;
 
 public final class SpawnerAnimals {
 	private static final int MOB_COUNT_DIV = (int) Math.pow(17.0D, 2.0D);
-	private final Set<ChunkCoordIntPair> eligibleChunksForSpawning = Sets.<ChunkCoordIntPair>newHashSet();
-	private Map<Class, EntityLiving> mapSampleEntitiesByClass = new HashMap();
+	private final Set<ChunkCoordIntPair> eligibleChunksForSpawning = Sets.newHashSet();
+	private final Map<Class, EntityLiving> mapSampleEntitiesByClass = new HashMap();
 	private int lastPlayerChunkX = Integer.MAX_VALUE;
 	private int lastPlayerChunkZ = Integer.MAX_VALUE;
 	private int countChunkPos;
@@ -40,7 +40,7 @@ public final class SpawnerAnimals {
 			EntityPlayer entityplayer = null;
 
 			if (worldServerIn.playerEntities.size() == 1) {
-				entityplayer = (EntityPlayer) worldServerIn.playerEntities.get(0);
+				entityplayer = worldServerIn.playerEntities.get(0);
 
 				if (this.eligibleChunksForSpawning.size() > 0 && entityplayer != null
 						&& entityplayer.chunkCoordX == this.lastPlayerChunkX
@@ -128,10 +128,10 @@ public final class SpawnerAnimals {
 										float f = (float) l2 + 0.5F;
 										float f1 = (float) j3 + 0.5F;
 
-										if (!worldServerIn.isAnyPlayerWithinRangeAt((double) f, (double) i3,
-												(double) f1, 24.0D)
-												&& blockpos2.distanceSq((double) f, (double) i3,
-														(double) f1) >= 576.0D) {
+										if (!worldServerIn.isAnyPlayerWithinRangeAt(f, i3,
+                                                f1, 24.0D)
+												&& blockpos2.distanceSq(f, i3,
+                                                f1) >= 576.0D) {
 											if (biomegenbase$spawnlistentry == null) {
 												biomegenbase$spawnlistentry = worldServerIn
 														.getSpawnListEntryForTypeAt(enumcreaturetype, blockpos1);
@@ -150,11 +150,11 @@ public final class SpawnerAnimals {
 												EntityLiving entityliving;
 
 												try {
-													entityliving = (EntityLiving) this.mapSampleEntitiesByClass
+													entityliving = this.mapSampleEntitiesByClass
 															.get(biomegenbase$spawnlistentry.entityClass);
 
 													if (entityliving == null) {
-														entityliving = (EntityLiving) biomegenbase$spawnlistentry.entityClass
+														entityliving = biomegenbase$spawnlistentry.entityClass
 																.getConstructor(new Class[] { World.class })
 																.newInstance(new Object[] { worldServerIn });
 														this.mapSampleEntitiesByClass.put(
@@ -165,7 +165,7 @@ public final class SpawnerAnimals {
 													return j4;
 												}
 
-												entityliving.setLocationAndAngles((double) f, (double) i3, (double) f1,
+												entityliving.setLocationAndAngles(f, i3, f1,
 														worldServerIn.rand.nextFloat() * 360.0F, 0.0F);
 												boolean flag2 = entityliving.getCanSpawnHere()
 														&& entityliving.isNotColliding();
@@ -207,7 +207,7 @@ public final class SpawnerAnimals {
 		}
 	}
 
-	protected static BlockPos getRandomChunkPosition(World worldIn, int x, int z) {
+	private static BlockPos getRandomChunkPosition(World worldIn, int x, int z) {
 		Chunk chunk = worldIn.getChunkFromChunkCoords(x, z);
 		int i = x * 16 + worldIn.rand.nextInt(16);
 		int j = z * 16 + worldIn.rand.nextInt(16);
@@ -263,7 +263,7 @@ public final class SpawnerAnimals {
 
 		if (!list.isEmpty()) {
 			while (randomIn.nextFloat() < biomeIn.getSpawningChance()) {
-				BiomeGenBase.SpawnListEntry biomegenbase$spawnlistentry = (BiomeGenBase.SpawnListEntry) WeightedRandom
+				BiomeGenBase.SpawnListEntry biomegenbase$spawnlistentry = WeightedRandom
 						.getRandomItem(worldIn.rand, list);
 				int i = biomegenbase$spawnlistentry.minGroupCount + randomIn.nextInt(
 						1 + biomegenbase$spawnlistentry.maxGroupCount - biomegenbase$spawnlistentry.minGroupCount);
@@ -284,7 +284,7 @@ public final class SpawnerAnimals {
 							EntityLiving entityliving;
 
 							try {
-								entityliving = (EntityLiving) biomegenbase$spawnlistentry.entityClass
+								entityliving = biomegenbase$spawnlistentry.entityClass
 										.getConstructor(new Class[] { World.class })
 										.newInstance(new Object[] { worldIn });
 							} catch (Exception exception1) {
@@ -292,8 +292,8 @@ public final class SpawnerAnimals {
 								continue;
 							}
 
-							entityliving.setLocationAndAngles((double) ((float) j + 0.5F), (double) blockpos.getY(),
-									(double) ((float) k + 0.5F), randomIn.nextFloat() * 360.0F, 0.0F);
+							entityliving.setLocationAndAngles((float) j + 0.5F, blockpos.getY(),
+                                    (float) k + 0.5F, randomIn.nextFloat() * 360.0F, 0.0F);
 							worldIn.spawnEntityInWorld(entityliving);
 							ientitylivingdata = entityliving.onInitialSpawn(
 									worldIn.getDifficultyForLocation(new BlockPos(entityliving)), ientitylivingdata);

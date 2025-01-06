@@ -19,11 +19,10 @@ public class ModelAdapterWither extends ModelAdapter {
 	}
 
 	public ModelRenderer getModelRenderer(ModelBase model, String modelPart) {
-		if (!(model instanceof ModelWither)) {
+		if (!(model instanceof ModelWither modelwither)) {
 			return null;
 		} else {
-			ModelWither modelwither = (ModelWither) model;
-			String s = "body";
+            String s = "body";
 
 			if (modelPart.startsWith(s)) {
 				ModelRenderer[] amodelrenderer1 = modelwither.field_82905_a;

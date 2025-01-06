@@ -12,7 +12,7 @@ import net.minecraft.util.BlockPos;
 public class CrashReportCategory {
 	private final CrashReport crashReport;
 	private final String name;
-	private final List<CrashReportCategory.Entry> children = Lists.<CrashReportCategory.Entry>newArrayList();
+	private final List<CrashReportCategory.Entry> children = Lists.newArrayList();
 	private StackTraceElement[] stackTrace = new StackTraceElement[0];
 
 	public CrashReportCategory(CrashReport report, String name) {
@@ -21,8 +21,8 @@ public class CrashReportCategory {
 	}
 
 	public static String getCoordinateInfo(double x, double y, double z) {
-		return String.format("%.2f,%.2f,%.2f - %s", new Object[] { Double.valueOf(x), Double.valueOf(y),
-				Double.valueOf(z), getCoordinateInfo(new BlockPos(x, y, z)) });
+		return String.format("%.2f,%.2f,%.2f - %s", Double.valueOf(x), Double.valueOf(y),
+                Double.valueOf(z), getCoordinateInfo(new BlockPos(x, y, z)));
 	}
 
 	public static String getCoordinateInfo(BlockPos pos) {
@@ -33,7 +33,7 @@ public class CrashReportCategory {
 
 		try {
 			stringbuilder.append(String.format("World: (%d,%d,%d)",
-					new Object[] { Integer.valueOf(i), Integer.valueOf(j), Integer.valueOf(k) }));
+                    Integer.valueOf(i), Integer.valueOf(j), Integer.valueOf(k)));
 		} catch (Throwable var17) {
 			stringbuilder.append("(Error finding world loc)");
 		}
@@ -51,9 +51,9 @@ public class CrashReportCategory {
 			int k2 = (l + 1 << 4) - 1;
 			int l2 = (i1 + 1 << 4) - 1;
 			stringbuilder.append(String.format("Chunk: (at %d,%d,%d in %d,%d; contains blocks %d,0,%d to %d,255,%d)",
-					new Object[] { Integer.valueOf(j1), Integer.valueOf(k1), Integer.valueOf(l1), Integer.valueOf(l),
-							Integer.valueOf(i1), Integer.valueOf(i2), Integer.valueOf(j2), Integer.valueOf(k2),
-							Integer.valueOf(l2) }));
+                    Integer.valueOf(j1), Integer.valueOf(k1), Integer.valueOf(l1), Integer.valueOf(l),
+                    Integer.valueOf(i1), Integer.valueOf(i2), Integer.valueOf(j2), Integer.valueOf(k2),
+                    Integer.valueOf(l2)));
 		} catch (Throwable var16) {
 			stringbuilder.append("(Error finding chunk loc)");
 		}
@@ -73,9 +73,9 @@ public class CrashReportCategory {
 			int i3 = (k3 + 1 << 9) - 1;
 			stringbuilder.append(
 					String.format("Region: (%d,%d; contains chunks %d,%d to %d,%d, blocks %d,0,%d to %d,255,%d)",
-							new Object[] { Integer.valueOf(j3), Integer.valueOf(k3), Integer.valueOf(l3),
-									Integer.valueOf(i4), Integer.valueOf(j4), Integer.valueOf(k4), Integer.valueOf(l4),
-									Integer.valueOf(i5), Integer.valueOf(j5), Integer.valueOf(i3) }));
+                            Integer.valueOf(j3), Integer.valueOf(k3), Integer.valueOf(l3),
+                            Integer.valueOf(i4), Integer.valueOf(j4), Integer.valueOf(k4), Integer.valueOf(l4),
+                            Integer.valueOf(i5), Integer.valueOf(j5), Integer.valueOf(i3)));
 		} catch (Throwable var15) {
 			stringbuilder.append("(Error finding world loc)");
 		}
@@ -119,7 +119,7 @@ public class CrashReportCategory {
 					&& stacktraceelement.getClassName().equals(s1.getClassName())
 					&& stacktraceelement.getFileName().equals(s1.getFileName())
 					&& stacktraceelement.getMethodName().equals(s1.getMethodName())) {
-				if (s2 != null != this.stackTrace.length > 1) {
+				if (s2 == null == this.stackTrace.length > 1) {
 					return false;
 				} else if (s2 != null && !this.stackTrace[1].equals(s2)) {
 					return false;
@@ -172,8 +172,8 @@ public class CrashReportCategory {
 		category.addCrashSectionCallable("Block type", new Callable<String>() {
 			public String call() throws Exception {
 				try {
-					return String.format("ID #%d (%s // %s)", new Object[] { Integer.valueOf(i),
-							blockIn.getUnlocalizedName(), blockIn.getClass().getCanonicalName() });
+					return String.format("ID #%d (%s // %s)", Integer.valueOf(i),
+                            blockIn.getUnlocalizedName(), blockIn.getClass().getCanonicalName());
 				} catch (Throwable var2) {
 					return "ID #" + i;
 				}
@@ -184,9 +184,9 @@ public class CrashReportCategory {
 				if (blockData < 0) {
 					return "Unknown? (Got " + blockData + ")";
 				} else {
-					String s = String.format("%4s", new Object[] { Integer.toBinaryString(blockData) }).replace(" ",
+					String s = String.format("%4s", Integer.toBinaryString(blockData)).replace(" ",
 							"0");
-					return String.format("%1$d / 0x%1$X / 0b%2$s", new Object[] { Integer.valueOf(blockData), s });
+					return String.format("%1$d / 0x%1$X / 0b%2$s", Integer.valueOf(blockData), s);
 				}
 			}
 		});
@@ -219,9 +219,8 @@ public class CrashReportCategory {
 
 			if (value == null) {
 				this.value = "~~NULL~~";
-			} else if (value instanceof Throwable) {
-				Throwable throwable = (Throwable) value;
-				this.value = "~~ERROR~~ " + throwable.getClass().getSimpleName() + ": " + throwable.getMessage();
+			} else if (value instanceof Throwable throwable) {
+                this.value = "~~ERROR~~ " + throwable.getClass().getSimpleName() + ": " + throwable.getMessage();
 			} else {
 				this.value = value.toString();
 			}

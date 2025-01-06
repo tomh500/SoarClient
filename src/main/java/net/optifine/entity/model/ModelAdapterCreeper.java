@@ -18,11 +18,10 @@ public class ModelAdapterCreeper extends ModelAdapter {
 	}
 
 	public ModelRenderer getModelRenderer(ModelBase model, String modelPart) {
-		if (!(model instanceof ModelCreeper)) {
+		if (!(model instanceof ModelCreeper modelcreeper)) {
 			return null;
 		} else {
-			ModelCreeper modelcreeper = (ModelCreeper) model;
-			return modelPart
+            return modelPart
 					.equals("head")
 							? modelcreeper.head
 							: (modelPart

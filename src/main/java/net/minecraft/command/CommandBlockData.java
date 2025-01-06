@@ -24,19 +24,19 @@ public class CommandBlockData extends CommandBase {
 
 	public void processCommand(ICommandSender sender, String[] args) throws CommandException {
 		if (args.length < 4) {
-			throw new WrongUsageException("commands.blockdata.usage", new Object[0]);
+			throw new WrongUsageException("commands.blockdata.usage");
 		} else {
 			sender.setCommandStat(CommandResultStats.Type.AFFECTED_BLOCKS, 0);
 			BlockPos blockpos = parseBlockPos(sender, args, 0, false);
 			World world = sender.getEntityWorld();
 
 			if (!world.isBlockLoaded(blockpos)) {
-				throw new CommandException("commands.blockdata.outOfWorld", new Object[0]);
+				throw new CommandException("commands.blockdata.outOfWorld");
 			} else {
 				TileEntity tileentity = world.getTileEntity(blockpos);
 
 				if (tileentity == null) {
-					throw new CommandException("commands.blockdata.notValid", new Object[0]);
+					throw new CommandException("commands.blockdata.notValid");
 				} else {
 					NBTTagCompound nbttagcompound = new NBTTagCompound();
 					tileentity.writeToNBT(nbttagcompound);
@@ -48,7 +48,7 @@ public class CommandBlockData extends CommandBase {
 								.getTagFromJson(getChatComponentFromNthArg(sender, args, 3).getUnformattedText());
 					} catch (NBTException nbtexception) {
 						throw new CommandException("commands.blockdata.tagError",
-								new Object[] { nbtexception.getMessage() });
+                                nbtexception.getMessage());
 					}
 
 					nbttagcompound.merge(nbttagcompound2);
@@ -58,14 +58,14 @@ public class CommandBlockData extends CommandBase {
 
 					if (nbttagcompound.equals(nbttagcompound1)) {
 						throw new CommandException("commands.blockdata.failed",
-								new Object[] { nbttagcompound.toString() });
+                                nbttagcompound.toString());
 					} else {
 						tileentity.readFromNBT(nbttagcompound);
 						tileentity.markDirty();
 						world.markBlockForUpdate(blockpos);
 						sender.setCommandStat(CommandResultStats.Type.AFFECTED_BLOCKS, 1);
 						notifyOperators(sender, this, "commands.blockdata.success",
-								new Object[] { nbttagcompound.toString() });
+                                nbttagcompound.toString());
 					}
 				}
 			}

@@ -295,8 +295,7 @@ public class ModelHorse extends ModelBase {
 		float f;
 
 		for (f = p_110683_2_ - p_110683_1_; f < -180.0F; f += 360.0F) {
-			;
-		}
+        }
 
 		while (f >= 180.0F) {
 			f -= 360.0F;
@@ -373,8 +372,8 @@ public class ModelHorse extends ModelBase {
 		this.muleLeftEar.rotationPointZ = this.head.rotationPointZ;
 		this.muleRightEar.rotationPointZ = this.head.rotationPointZ;
 		this.neck.rotationPointZ = this.head.rotationPointZ;
-		this.field_178711_b.rotationPointZ = 0.02F - f8 * 1.0F;
-		this.field_178712_c.rotationPointZ = 0.0F + f8 * 1.0F;
+		this.field_178711_b.rotationPointZ = 0.02F - f8;
+		this.field_178712_c.rotationPointZ = 0.0F + f8;
 		this.mane.rotationPointZ = this.head.rotationPointZ;
 		this.horseLeftEar.rotateAngleX = this.head.rotateAngleX;
 		this.horseRightEar.rotateAngleX = this.head.rotateAngleX;

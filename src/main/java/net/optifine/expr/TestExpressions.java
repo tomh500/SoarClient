@@ -5,7 +5,7 @@ import java.io.InputStreamReader;
 
 public class TestExpressions {
 	public static void main(String[] args) throws Exception {
-		ExpressionParser expressionparser = new ExpressionParser((IExpressionResolver) null);
+		ExpressionParser expressionparser = new ExpressionParser(null);
 
 		while (true) {
 			try {
@@ -19,15 +19,13 @@ public class TestExpressions {
 
 				IExpression iexpression = expressionparser.parse(s);
 
-				if (iexpression instanceof IExpressionFloat) {
-					IExpressionFloat iexpressionfloat = (IExpressionFloat) iexpression;
-					float f = iexpressionfloat.eval();
+				if (iexpression instanceof IExpressionFloat iexpressionfloat) {
+                    float f = iexpressionfloat.eval();
 					System.out.println("" + f);
 				}
 
-				if (iexpression instanceof IExpressionBool) {
-					IExpressionBool iexpressionbool = (IExpressionBool) iexpression;
-					boolean flag = iexpressionbool.eval();
+				if (iexpression instanceof IExpressionBool iexpressionbool) {
+                    boolean flag = iexpressionbool.eval();
 					System.out.println("" + flag);
 				}
 			} catch (Exception exception) {

@@ -18,11 +18,10 @@ public class ModelAdapterChicken extends ModelAdapter {
 	}
 
 	public ModelRenderer getModelRenderer(ModelBase model, String modelPart) {
-		if (!(model instanceof ModelChicken)) {
+		if (!(model instanceof ModelChicken modelchicken)) {
 			return null;
 		} else {
-			ModelChicken modelchicken = (ModelChicken) model;
-			return modelPart
+            return modelPart
 					.equals("head")
 							? modelchicken.head
 							: (modelPart.equals("body") ? modelchicken.body

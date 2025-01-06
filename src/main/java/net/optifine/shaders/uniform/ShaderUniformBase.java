@@ -7,7 +7,7 @@ import org.lwjgl.opengl.ARBShaderObjects;
 import net.optifine.shaders.Shaders;
 
 public abstract class ShaderUniformBase {
-	private String name;
+	private final String name;
 	private int program = 0;
 	private int[] locations = new int[] { -1 };
 	private static final int LOCATION_UNDEFINED = -1;
@@ -51,7 +51,7 @@ public abstract class ShaderUniformBase {
 			int i = this.locations[this.program];
 
 			if (i == Integer.MIN_VALUE) {
-				i = ARBShaderObjects.glGetUniformLocationARB(this.program, (CharSequence) this.name);
+				i = ARBShaderObjects.glGetUniformLocationARB(this.program, this.name);
 				this.locations[this.program] = i;
 			}
 

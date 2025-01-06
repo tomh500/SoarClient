@@ -19,12 +19,11 @@ public class ModelAdapterSquid extends ModelAdapter {
 	}
 
 	public ModelRenderer getModelRenderer(ModelBase model, String modelPart) {
-		if (!(model instanceof ModelSquid)) {
+		if (!(model instanceof ModelSquid modelsquid)) {
 			return null;
 		} else {
-			ModelSquid modelsquid = (ModelSquid) model;
 
-			if (modelPart.equals("body")) {
+            if (modelPart.equals("body")) {
 				return modelsquid.squidBody;
 			} else {
 				String s = "tentacle";

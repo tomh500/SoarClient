@@ -40,14 +40,13 @@ public class EntityEnderPearl extends EntityThrowable {
 
 		for (int i = 0; i < 32; ++i) {
 			this.worldObj.spawnParticle(EnumParticleTypes.PORTAL, this.posX, this.posY + this.rand.nextDouble() * 2.0D,
-					this.posZ, this.rand.nextGaussian(), 0.0D, this.rand.nextGaussian(), new int[0]);
+					this.posZ, this.rand.nextGaussian(), 0.0D, this.rand.nextGaussian());
 		}
 
 		if (!this.worldObj.isRemote) {
-			if (entitylivingbase instanceof EntityPlayerMP) {
-				EntityPlayerMP entityplayermp = (EntityPlayerMP) entitylivingbase;
+			if (entitylivingbase instanceof EntityPlayerMP entityplayermp) {
 
-				if (entityplayermp.playerNetServerHandler.getNetworkManager().isChannelOpen()
+                if (entityplayermp.playerNetServerHandler.getNetworkManager().isChannelOpen()
 						&& entityplayermp.worldObj == this.worldObj && !entityplayermp.isPlayerSleeping()) {
 					if (this.rand.nextFloat() < 0.05F && this.worldObj.getGameRules().getBoolean("doMobSpawning")) {
 						EntityEndermite entityendermite = new EntityEndermite(this.worldObj);
@@ -58,7 +57,7 @@ public class EntityEnderPearl extends EntityThrowable {
 					}
 
 					if (entitylivingbase.isRiding()) {
-						entitylivingbase.mountEntity((Entity) null);
+						entitylivingbase.mountEntity(null);
 					}
 
 					entitylivingbase.setPositionAndUpdate(this.posX, this.posY, this.posZ);

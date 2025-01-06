@@ -18,11 +18,10 @@ public class ModelAdapterWitch extends ModelAdapter {
 	}
 
 	public ModelRenderer getModelRenderer(ModelBase model, String modelPart) {
-		if (!(model instanceof ModelWitch)) {
+		if (!(model instanceof ModelWitch modelwitch)) {
 			return null;
 		} else {
-			ModelWitch modelwitch = (ModelWitch) model;
-			return modelPart.equals("mole") ? modelwitch.field_82901_h
+            return modelPart.equals("mole") ? modelwitch.field_82901_h
 					: (modelPart.equals("hat") ? modelwitch.witchHat
 							: (modelPart.equals("head") ? modelwitch.villagerHead
 									: (modelPart.equals("body") ? modelwitch.villagerBody

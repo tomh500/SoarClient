@@ -4,14 +4,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Enumeration;
-import java.util.LinkedHashSet;
-import java.util.List;
-import java.util.Locale;
-import java.util.Properties;
-import java.util.Set;
+import java.util.*;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
@@ -32,11 +25,11 @@ public class ResUtils {
 
 		for (int i = 0; i < airesourcepack.length; ++i) {
 			IResourcePack iresourcepack = airesourcepack[i];
-			String[] astring = collectFiles(iresourcepack, (String[]) prefixes, (String[]) suffixes, (String[]) null);
-			set.addAll(Arrays.<String>asList(astring));
+			String[] astring = collectFiles(iresourcepack, prefixes, suffixes, null);
+			set.addAll(Arrays.asList(astring));
 		}
 
-		String[] astring1 = (String[]) set.toArray(new String[set.size()]);
+		String[] astring1 = set.toArray(new String[set.size()]);
 		return astring1;
 	}
 
@@ -45,18 +38,17 @@ public class ResUtils {
 	}
 
 	public static String[] collectFiles(IResourcePack rp, String[] prefixes, String[] suffixes) {
-		return collectFiles(rp, (String[]) prefixes, (String[]) suffixes, (String[]) null);
+		return collectFiles(rp, prefixes, suffixes, null);
 	}
 
 	public static String[] collectFiles(IResourcePack rp, String[] prefixes, String[] suffixes, String[] defaultPaths) {
 		if (rp instanceof DefaultResourcePack) {
 			return collectFilesFixed(rp, defaultPaths);
-		} else if (!(rp instanceof AbstractResourcePack)) {
+		} else if (!(rp instanceof AbstractResourcePack abstractresourcepack)) {
 			Config.warn("Unknown resource pack type: " + rp);
 			return new String[0];
 		} else {
-			AbstractResourcePack abstractresourcepack = (AbstractResourcePack) rp;
-			File file1 = abstractresourcepack.resourcePackFile;
+            File file1 = abstractresourcepack.resourcePackFile;
 
 			if (file1 == null) {
 				return new String[0];
@@ -86,7 +78,7 @@ public class ResUtils {
 				}
 			}
 
-			String[] astring = (String[]) ((String[]) list.toArray(new String[list.size()]));
+			String[] astring = (String[]) list.toArray(new String[list.size()]);
 			return astring;
 		}
 	}
@@ -116,14 +108,11 @@ public class ResUtils {
 					String s1 = basePath + file1.getName() + "/";
 					String[] astring = collectFilesFolder(file1, s1, prefixes, suffixes);
 
-					for (int j = 0; j < astring.length; ++j) {
-						String s2 = astring[j];
-						list.add(s2);
-					}
+                    Collections.addAll(list, astring);
 				}
 			}
 
-			String[] astring1 = (String[]) ((String[]) list.toArray(new String[list.size()]));
+			String[] astring1 = (String[]) list.toArray(new String[list.size()]);
 			return astring1;
 		}
 	}
@@ -150,7 +139,7 @@ public class ResUtils {
 			}
 
 			zipfile.close();
-			String[] astring = (String[]) ((String[]) list.toArray(new String[list.size()]));
+			String[] astring = (String[]) list.toArray(new String[list.size()]);
 			return astring;
 		} catch (IOException ioexception) {
 			ioexception.printStackTrace();
@@ -174,13 +163,13 @@ public class ResUtils {
 				Properties properties = new PropertiesOrdered();
 				properties.load(inputstream);
 				inputstream.close();
-				Config.dbg("" + module + ": Loading " + path);
+				Config.dbg(module + ": Loading " + path);
 				return properties;
 			}
 		} catch (FileNotFoundException var5) {
 			return null;
 		} catch (IOException var6) {
-			Config.warn("" + module + ": Error reading " + path);
+			Config.warn(module + ": Error reading " + path);
 			return null;
 		}
 	}
