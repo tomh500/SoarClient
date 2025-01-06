@@ -279,6 +279,10 @@ public class Skia {
 		getCanvas().drawString(text, x - bounds.getLeft() - (bounds.getWidth() / 2), y - bounds.getTop() - (bounds.getHeight() / 2), font,
 				getPaint(color));
 	}
+	
+	public static Rect getTextBounds(String text, Font font) {
+		return font.measureText(text);
+	}
 
 	public static float getTextWidth(String text, Font font) {
 		Rect bounds = font.measureText(text);
