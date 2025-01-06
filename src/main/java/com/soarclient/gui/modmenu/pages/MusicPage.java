@@ -21,6 +21,7 @@ import com.soarclient.ui.component.impl.text.SearchBar;
 import com.soarclient.utils.ColorUtils;
 import com.soarclient.utils.SearchUtils;
 import com.soarclient.utils.mouse.MouseUtils;
+import com.soarclient.utils.mouse.ScrollHelper;
 
 import io.github.humbleui.skija.ClipMode;
 import io.github.humbleui.skija.FilterTileMode;
@@ -36,6 +37,7 @@ public class MusicPage extends Page {
 	private SimpleAnimation controlBarAnimation = new SimpleAnimation();
 	private MusicControlBar controlBar;
 	private List<Item> items = new ArrayList<>();
+	private ScrollHelper scrollHelper = new ScrollHelper();
 
 	private SearchBar searchBar;
 
@@ -52,6 +54,7 @@ public class MusicPage extends Page {
 
 		controlBar = new MusicControlBar(x + 22, y + height - 60 - 18, width - 44);
 		searchBar = new SearchBar(x + width - 260 - 32, y + 32, 260, () -> {
+			scrollHelper.reset();
 		});
 		
 		for (Item i : items) {
@@ -70,10 +73,16 @@ public class MusicPage extends Page {
 		float offsetX = 32;
 		float offsetY = 96;
 
-		searchBar.draw(mouseX, mouseY);
-		
 		controlBarAnimation.onTick(MouseUtils.isInside(mouseX, mouseY, controlBar.getX(), controlBar.getY(),
 				controlBar.getWidth(), controlBar.getHeight()) ? 1 : 0, 12);
+		
+		scrollHelper.onScroll();
+		mouseY = (int) (mouseY - scrollHelper.getValue());
+		
+		Skia.save();
+		Skia.translate(0, scrollHelper.getValue());
+		
+		searchBar.draw(mouseX, mouseY);
 
 		for (Item i : items) {
 
@@ -128,6 +137,10 @@ public class MusicPage extends Page {
 			}
 		}
 
+		Skia.restore();
+		
+		mouseY = (int) (mouseY + scrollHelper.getValue());
+		
 		Skia.save();
 		Skia.translate(0, 100 - (controlBarAnimation.getValue() * 100));
 		controlBar.draw(mouseX, mouseY);
@@ -138,12 +151,14 @@ public class MusicPage extends Page {
 	public void mousePressed(int mouseX, int mouseY, int mouseButton) {
 
 		controlBar.mousePressed(mouseX, mouseY, mouseButton);
-		searchBar.mousePressed(mouseX, mouseY, mouseButton);
 		
 		if (MouseUtils.isInside(mouseX, mouseY, controlBar.getX(), controlBar.getY(), controlBar.getWidth(),
 				controlBar.getHeight())) {
 			return;
 		}
+		
+		mouseY = (int) (mouseY - scrollHelper.getValue());		
+		searchBar.mousePressed(mouseX, mouseY, mouseButton);
 	}
 
 	@Override
@@ -152,13 +167,15 @@ public class MusicPage extends Page {
 		MusicManager musicManager = Soar.getInstance().getMusicManager();
 
 		controlBar.mouseReleased(mouseX, mouseY, mouseButton);
-		searchBar.mouseReleased(mouseX, mouseY, mouseButton);
 		
 		if (MouseUtils.isInside(mouseX, mouseY, controlBar.getX(), controlBar.getY(), controlBar.getWidth(),
 				controlBar.getHeight())) {
 			return;
 		}
 
+		mouseY = (int) (mouseY - scrollHelper.getValue());	
+		searchBar.mouseReleased(mouseX, mouseY, mouseButton);
+		
 		for (Item i : items) {
 
 			Music m = i.music;

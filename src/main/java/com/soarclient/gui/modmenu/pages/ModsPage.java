@@ -19,10 +19,12 @@ import com.soarclient.utils.MathUtils;
 import com.soarclient.utils.SearchUtils;
 import com.soarclient.utils.language.I18n;
 import com.soarclient.utils.mouse.MouseUtils;
+import com.soarclient.utils.mouse.ScrollHelper;
 
 public class ModsPage extends Page {
 
 	private List<Item> items = new ArrayList<>();
+	private ScrollHelper scrollHelper = new ScrollHelper();
 	private SearchBar searchBar;
 	
 	public ModsPage(PageGui parent) {
@@ -37,6 +39,7 @@ public class ModsPage extends Page {
 	public void init() {
 		
 		searchBar = new SearchBar(x + width - 260 - 32, y + 32, 260, () -> {
+			scrollHelper.reset();
 		});
 		
 		for (Item i : items) {
@@ -54,6 +57,12 @@ public class ModsPage extends Page {
 		float offsetX = 32;
 		float offsetY = 0;
 
+		scrollHelper.onScroll();
+		mouseY = (int) (mouseY - scrollHelper.getValue());
+		
+		Skia.save();
+		Skia.translate(0, scrollHelper.getValue());
+		
 		searchBar.draw(mouseX, mouseY);
 		
 		for (Item i : items) {
@@ -111,11 +120,15 @@ public class ModsPage extends Page {
 				offsetY += 22 + 151;
 			}
 		}
+		
+		Skia.restore();
 	}
 
 	@Override
 	public void mousePressed(int mouseX, int mouseY, int mouseButton) {
 
+		mouseY = (int) (mouseY - scrollHelper.getValue());
+		
 		searchBar.mousePressed(mouseX, mouseY, mouseButton);
 		
 		for (Item i : items) {
@@ -136,6 +149,8 @@ public class ModsPage extends Page {
 	@Override
 	public void mouseReleased(int mouseX, int mouseY, int mouseButton) {
 
+		mouseY = (int) (mouseY - scrollHelper.getValue());
+		
 		searchBar.mousePressed(mouseX, mouseY, mouseButton);
 		
 		for (Item i : items) {

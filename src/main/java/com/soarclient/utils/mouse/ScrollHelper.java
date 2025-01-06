@@ -4,7 +4,6 @@ import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 
 import com.soarclient.animation.SimpleAnimation;
-import com.soarclient.utils.MathUtils;
 
 public class ScrollHelper {
 
@@ -32,14 +31,5 @@ public class ScrollHelper {
 	
 	public void reset() {
 		this.scroll = 0;
-	}
-
-	public void setMaxScroll(float offsetY, int size, float viewHeight, float rowHeight, float rowSpacing,
-			int rowCount) {
-		int totalRows = (int) Math.ceil((double) size / rowCount);
-		float totalContentHeight = offsetY + (totalRows * rowHeight) + ((totalRows - 1) * rowSpacing);
-		float maxScroll = Math.max(0, totalContentHeight - viewHeight);
-
-		this.maxScroll = MathUtils.clamp(maxScroll, 0, maxScroll);
 	}
 }
