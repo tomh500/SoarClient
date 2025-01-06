@@ -379,8 +379,8 @@ public class EntityGuardian extends EntityMob {
 	}
 
 	protected void addRandomDrop() {
-		ItemStack itemstack = WeightedRandom.getRandomItem(this.rand,
-				EntityFishHook.func_174855_j()).getItemStack(this.rand);
+		ItemStack itemstack = WeightedRandom.getRandomItem(this.rand, EntityFishHook.func_174855_j())
+				.getItemStack(this.rand);
 		this.entityDropItem(itemstack, 1.0F);
 	}
 
@@ -402,7 +402,7 @@ public class EntityGuardian extends EntityMob {
 		if (!this.func_175472_n() && !source.isMagicDamage()
 				&& source.getSourceOfDamage() instanceof EntityLivingBase entitylivingbase) {
 
-            if (!source.isExplosion()) {
+			if (!source.isExplosion()) {
 				entitylivingbase.attackEntityFrom(DamageSource.causeThornsDamage(this), 2.0F);
 				entitylivingbase.playSound("damage.thorns", 0.5F, 1.0F);
 			}
@@ -499,7 +499,7 @@ public class EntityGuardian extends EntityMob {
 									.getAttributeValue());
 					this.theEntity.setAttackTarget(null);
 				} else if (this.tickCounter >= 60 && this.tickCounter % 20 == 0) {
-                }
+				}
 
 				super.updateTask();
 			}

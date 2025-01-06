@@ -36,7 +36,7 @@ public class EntityAIRestrictOpenDoor extends EntityAIBase {
 
 	public boolean continueExecuting() {
 		return !this.entityObj.worldObj.isDaytime() && !this.frontDoor.getIsDetachedFromVillageFlag()
-                && this.frontDoor.func_179850_c(new BlockPos(this.entityObj));
+				&& this.frontDoor.func_179850_c(new BlockPos(this.entityObj));
 	}
 
 	public void startExecuting() {

@@ -46,5 +46,5 @@ public class MovingObjectPosition {
 
 	public enum MovingObjectType {
 		MISS, BLOCK, ENTITY
-    }
+	}
 }

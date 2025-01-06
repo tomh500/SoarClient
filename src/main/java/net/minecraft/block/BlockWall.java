@@ -106,7 +106,8 @@ public class BlockWall extends Block {
 
 	public boolean canConnectTo(IBlockAccess worldIn, BlockPos pos) {
 		Block block = worldIn.getBlockState(pos).getBlock();
-		return block != Blocks.barrier && (block == this || block instanceof BlockFenceGate || (block.blockMaterial.isOpaque() && block.isFullCube() && block.blockMaterial != Material.gourd));
+		return block != Blocks.barrier && (block == this || block instanceof BlockFenceGate
+				|| (block.blockMaterial.isOpaque() && block.isFullCube() && block.blockMaterial != Material.gourd));
 	}
 
 	public void getSubBlocks(Item itemIn, CreativeTabs tab, List<ItemStack> list) {

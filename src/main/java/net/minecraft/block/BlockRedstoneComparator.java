@@ -30,8 +30,8 @@ import net.minecraft.world.World;
 
 public class BlockRedstoneComparator extends BlockRedstoneDiode implements ITileEntityProvider {
 	public static final PropertyBool POWERED = PropertyBool.create("powered");
-	public static final PropertyEnum<BlockRedstoneComparator.Mode> MODE = PropertyEnum.create(
-			"mode", BlockRedstoneComparator.Mode.class);
+	public static final PropertyEnum<BlockRedstoneComparator.Mode> MODE = PropertyEnum.create("mode",
+			BlockRedstoneComparator.Mode.class);
 
 	public BlockRedstoneComparator(boolean powered) {
 		super(powered);
@@ -59,8 +59,7 @@ public class BlockRedstoneComparator extends BlockRedstoneDiode implements ITile
 
 	protected IBlockState getPoweredState(IBlockState unpoweredState) {
 		Boolean obool = unpoweredState.getValue(POWERED);
-		BlockRedstoneComparator.Mode blockredstonecomparator$mode = unpoweredState
-				.getValue(MODE);
+		BlockRedstoneComparator.Mode blockredstonecomparator$mode = unpoweredState.getValue(MODE);
 		EnumFacing enumfacing = unpoweredState.getValue(FACING);
 		return Blocks.powered_comparator.getDefaultState().withProperty(FACING, enumfacing).withProperty(POWERED, obool)
 				.withProperty(MODE, blockredstonecomparator$mode);
@@ -68,8 +67,7 @@ public class BlockRedstoneComparator extends BlockRedstoneDiode implements ITile
 
 	protected IBlockState getUnpoweredState(IBlockState poweredState) {
 		Boolean obool = poweredState.getValue(POWERED);
-		BlockRedstoneComparator.Mode blockredstonecomparator$mode = poweredState
-				.getValue(MODE);
+		BlockRedstoneComparator.Mode blockredstonecomparator$mode = poweredState.getValue(MODE);
 		EnumFacing enumfacing = poweredState.getValue(FACING);
 		return Blocks.unpowered_comparator.getDefaultState().withProperty(FACING, enumfacing)
 				.withProperty(POWERED, obool).withProperty(MODE, blockredstonecomparator$mode);
@@ -132,8 +130,7 @@ public class BlockRedstoneComparator extends BlockRedstoneDiode implements ITile
 
 	private EntityItemFrame findItemFrame(World worldIn, final EnumFacing facing, BlockPos pos) {
 		List<EntityItemFrame> list = worldIn.getEntitiesWithinAABB(EntityItemFrame.class,
-				new AxisAlignedBB(pos.getX(), pos.getY(), pos.getZ(),
-                        pos.getX() + 1, pos.getY() + 1, pos.getZ() + 1),
+				new AxisAlignedBB(pos.getX(), pos.getY(), pos.getZ(), pos.getX() + 1, pos.getY() + 1, pos.getZ() + 1),
 				new Predicate<Entity>() {
 					public boolean apply(Entity p_apply_1_) {
 						return p_apply_1_ != null && p_apply_1_.getHorizontalFacing() == facing;
@@ -179,7 +176,7 @@ public class BlockRedstoneComparator extends BlockRedstoneDiode implements ITile
 		int j = 0;
 
 		if (tileentity instanceof TileEntityComparator tileentitycomparator) {
-            j = tileentitycomparator.getOutputSignal();
+			j = tileentitycomparator.getOutputSignal();
 			tileentitycomparator.setOutputSignal(i);
 		}
 

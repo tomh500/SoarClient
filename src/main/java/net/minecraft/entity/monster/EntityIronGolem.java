@@ -129,7 +129,8 @@ public class EntityIronGolem extends EntityGolem {
 	}
 
 	public boolean canAttackClass(Class<? extends EntityLivingBase> cls) {
-		return (!this.isPlayerCreated() || !EntityPlayer.class.isAssignableFrom(cls)) && (cls != EntityCreeper.class && super.canAttackClass(cls));
+		return (!this.isPlayerCreated() || !EntityPlayer.class.isAssignableFrom(cls))
+				&& (cls != EntityCreeper.class && super.canAttackClass(cls));
 	}
 
 	public void writeEntityToNBT(NBTTagCompound tagCompound) {

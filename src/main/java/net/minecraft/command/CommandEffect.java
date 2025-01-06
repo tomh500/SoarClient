@@ -30,12 +30,10 @@ public class CommandEffect extends CommandBase {
 
 			if (args[1].equals("clear")) {
 				if (entitylivingbase.getActivePotionEffects().isEmpty()) {
-					throw new CommandException("commands.effect.failure.notActive.all",
-                            entitylivingbase.getName());
+					throw new CommandException("commands.effect.failure.notActive.all", entitylivingbase.getName());
 				} else {
 					entitylivingbase.clearActivePotions();
-					notifyOperators(sender, this, "commands.effect.success.removed.all",
-                            entitylivingbase.getName());
+					notifyOperators(sender, this, "commands.effect.success.removed.all", entitylivingbase.getName());
 				}
 			} else {
 				int i;
@@ -77,22 +75,19 @@ public class CommandEffect extends CommandBase {
 
 					boolean flag = args.length < 5 || !"true".equalsIgnoreCase(args[4]);
 
-                    if (l > 0) {
+					if (l > 0) {
 						PotionEffect potioneffect = new PotionEffect(i, j, k, false, flag);
 						entitylivingbase.addPotionEffect(potioneffect);
 						notifyOperators(sender, this, "commands.effect.success",
-                                new ChatComponentTranslation(potioneffect.getEffectName()),
-                                Integer.valueOf(i), Integer.valueOf(k), entitylivingbase.getName(),
-                                Integer.valueOf(l));
+								new ChatComponentTranslation(potioneffect.getEffectName()), Integer.valueOf(i),
+								Integer.valueOf(k), entitylivingbase.getName(), Integer.valueOf(l));
 					} else if (entitylivingbase.isPotionActive(i)) {
 						entitylivingbase.removePotionEffect(i);
 						notifyOperators(sender, this, "commands.effect.success.removed",
-                                new ChatComponentTranslation(potion1.getName()),
-                                entitylivingbase.getName());
+								new ChatComponentTranslation(potion1.getName()), entitylivingbase.getName());
 					} else {
 						throw new CommandException("commands.effect.failure.notActive",
-                                new ChatComponentTranslation(potion1.getName()),
-                                entitylivingbase.getName());
+								new ChatComponentTranslation(potion1.getName()), entitylivingbase.getName());
 					}
 				} else {
 					throw new NumberInvalidException("commands.effect.notFound", Integer.valueOf(i));
@@ -104,8 +99,7 @@ public class CommandEffect extends CommandBase {
 	public List<String> addTabCompletionOptions(ICommandSender sender, String[] args, BlockPos pos) {
 		return args.length == 1 ? getListOfStringsMatchingLastWord(args, this.getAllUsernames())
 				: (args.length == 2 ? getListOfStringsMatchingLastWord(args, Potion.getPotionLocations())
-						: (args.length == 5 ? getListOfStringsMatchingLastWord(args, "true", "false")
-								: null));
+						: (args.length == 5 ? getListOfStringsMatchingLastWord(args, "true", "false") : null));
 	}
 
 	protected String[] getAllUsernames() {

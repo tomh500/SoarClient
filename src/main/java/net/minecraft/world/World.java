@@ -155,7 +155,7 @@ public abstract class World implements IBlockAccess {
 
 		for (blockpos = new BlockPos(pos.getX(), this.getSeaLevel(), pos.getZ()); !this
 				.isAirBlock(blockpos.up()); blockpos = blockpos.up()) {
-        }
+		}
 
 		return this.getBlockState(blockpos).getBlock();
 	}
@@ -385,9 +385,8 @@ public abstract class World implements IBlockAccess {
 				crashreportcategory.addCrashSectionCallable("Source block type", new Callable<String>() {
 					public String call() throws Exception {
 						try {
-							return String.format("ID #%d (%s // %s)",
-                                    Integer.valueOf(Block.getIdFromBlock(blockIn)),
-                                    blockIn.getUnlocalizedName(), blockIn.getClass().getCanonicalName());
+							return String.format("ID #%d (%s // %s)", Integer.valueOf(Block.getIdFromBlock(blockIn)),
+									blockIn.getUnlocalizedName(), blockIn.getClass().getCanonicalName());
 						} catch (Throwable var2) {
 							return "ID #" + Block.getIdFromBlock(blockIn);
 						}
@@ -771,15 +770,14 @@ public abstract class World implements IBlockAccess {
 
 	public void playSoundAtEntity(Entity entityIn, String name, float volume, float pitch) {
 		for (int i = 0; i < this.worldAccesses.size(); ++i) {
-			this.worldAccesses.get(i).playSound(name, entityIn.posX, entityIn.posY, entityIn.posZ,
-					volume, pitch);
+			this.worldAccesses.get(i).playSound(name, entityIn.posX, entityIn.posY, entityIn.posZ, volume, pitch);
 		}
 	}
 
 	public void playSoundToNearExcept(EntityPlayer player, String name, float volume, float pitch) {
 		for (int i = 0; i < this.worldAccesses.size(); ++i) {
-			this.worldAccesses.get(i).playSoundToNearExcept(player, name, player.posX, player.posY,
-					player.posZ, volume, pitch);
+			this.worldAccesses.get(i).playSoundToNearExcept(player, name, player.posX, player.posY, player.posZ, volume,
+					pitch);
 		}
 	}
 
@@ -814,8 +812,8 @@ public abstract class World implements IBlockAccess {
 	private void spawnParticle(int particleID, boolean p_175720_2_, double xCood, double yCoord, double zCoord,
 			double xOffset, double yOffset, double zOffset, int... p_175720_15_) {
 		for (int i = 0; i < this.worldAccesses.size(); ++i) {
-			this.worldAccesses.get(i).spawnParticle(particleID, p_175720_2_, xCood, yCoord, zCoord,
-					xOffset, yOffset, zOffset, p_175720_15_);
+			this.worldAccesses.get(i).spawnParticle(particleID, p_175720_2_, xCood, yCoord, zCoord, xOffset, yOffset,
+					zOffset, p_175720_15_);
 		}
 	}
 
@@ -837,7 +835,7 @@ public abstract class World implements IBlockAccess {
 			return false;
 		} else {
 			if (entityIn instanceof EntityPlayer entityplayer) {
-                this.playerEntities.add(entityplayer);
+				this.playerEntities.add(entityplayer);
 				this.updateAllPlayersSleepingFlag();
 			}
 
@@ -1567,8 +1565,8 @@ public abstract class World implements IBlockAccess {
 						Block block = iblockstate.getBlock();
 
 						if (block.getMaterial() == materialIn) {
-							double d0 = (float) (l1 + 1) - BlockLiquid.getLiquidHeightPercent(
-									iblockstate.getValue(BlockLiquid.LEVEL).intValue());
+							double d0 = (float) (l1 + 1) - BlockLiquid
+									.getLiquidHeightPercent(iblockstate.getValue(BlockLiquid.LEVEL).intValue());
 
 							if ((double) l >= d0) {
 								flag = true;
@@ -1802,10 +1800,11 @@ public abstract class World implements IBlockAccess {
 	public static boolean doesBlockHaveSolidTopSurface(IBlockAccess blockAccess, BlockPos pos) {
 		IBlockState iblockstate = blockAccess.getBlockState(pos);
 		Block block = iblockstate.getBlock();
-		return block.getMaterial().isOpaque() && block.isFullCube() || (block instanceof BlockStairs ? iblockstate.getValue(BlockStairs.HALF) == BlockStairs.EnumHalf.TOP
-                : (block instanceof BlockSlab
-                ? iblockstate.getValue(BlockSlab.HALF) == BlockSlab.EnumBlockHalf.TOP
-                : (block instanceof BlockHopper || (block instanceof BlockSnow && iblockstate.getValue(BlockSnow.LAYERS).intValue() == 7))));
+		return block.getMaterial().isOpaque() && block.isFullCube() || (block instanceof BlockStairs
+				? iblockstate.getValue(BlockStairs.HALF) == BlockStairs.EnumHalf.TOP
+				: (block instanceof BlockSlab ? iblockstate.getValue(BlockSlab.HALF) == BlockSlab.EnumBlockHalf.TOP
+						: (block instanceof BlockHopper || (block instanceof BlockSnow
+								&& iblockstate.getValue(BlockSnow.LAYERS).intValue() == 7))));
 	}
 
 	public boolean isBlockNormalCube(BlockPos pos, boolean _default) {
@@ -2027,7 +2026,7 @@ public abstract class World implements IBlockAccess {
 					boolean flag = this.isWater(pos.west()) && this.isWater(pos.east()) && this.isWater(pos.north())
 							&& this.isWater(pos.south());
 
-                    return !flag;
+					return !flag;
 				}
 			}
 
@@ -2051,7 +2050,7 @@ public abstract class World implements IBlockAccess {
 			if (pos.getY() >= 0 && pos.getY() < 256 && this.getLightFor(EnumSkyBlock.BLOCK, pos) < 10) {
 				Block block = this.getBlockState(pos).getBlock();
 
-                return block.getMaterial() == Material.air && Blocks.snow_layer.canPlaceBlockAt(this, pos);
+				return block.getMaterial() == Material.air && Blocks.snow_layer.canPlaceBlockAt(this, pos);
 			}
 
 			return false;
@@ -2378,7 +2377,9 @@ public abstract class World implements IBlockAccess {
 		Block block = this.getBlockState(pos).getBlock();
 		AxisAlignedBB axisalignedbb = p_175716_3_ ? null
 				: blockIn.getCollisionBoundingBox(this, pos, blockIn.getDefaultState());
-		return (axisalignedbb == null || this.checkNoEntityCollision(axisalignedbb, entityIn)) && (block.getMaterial() == Material.circuits && blockIn == Blocks.anvil || block.getMaterial().isReplaceable() && blockIn.canReplace(this, pos, side, itemStackIn));
+		return (axisalignedbb == null || this.checkNoEntityCollision(axisalignedbb, entityIn))
+				&& (block.getMaterial() == Material.circuits && blockIn == Blocks.anvil
+						|| block.getMaterial().isReplaceable() && blockIn.canReplace(this, pos, side, itemStackIn));
 	}
 
 	public int getSeaLevel() {
@@ -2445,7 +2446,12 @@ public abstract class World implements IBlockAccess {
 	}
 
 	public boolean isBlockPowered(BlockPos pos) {
-		return this.getRedstonePower(pos.down(), EnumFacing.DOWN) > 0 || (this.getRedstonePower(pos.up(), EnumFacing.UP) > 0 || (this.getRedstonePower(pos.north(), EnumFacing.NORTH) > 0 || (this.getRedstonePower(pos.south(), EnumFacing.SOUTH) > 0 || (this.getRedstonePower(pos.west(), EnumFacing.WEST) > 0 || this.getRedstonePower(pos.east(), EnumFacing.EAST) > 0))));
+		return this.getRedstonePower(pos.down(), EnumFacing.DOWN) > 0
+				|| (this.getRedstonePower(pos.up(), EnumFacing.UP) > 0
+						|| (this.getRedstonePower(pos.north(), EnumFacing.NORTH) > 0
+								|| (this.getRedstonePower(pos.south(), EnumFacing.SOUTH) > 0
+										|| (this.getRedstonePower(pos.west(), EnumFacing.WEST) > 0
+												|| this.getRedstonePower(pos.east(), EnumFacing.EAST) > 0))));
 	}
 
 	public int isBlockIndirectlyGettingPowered(BlockPos pos) {

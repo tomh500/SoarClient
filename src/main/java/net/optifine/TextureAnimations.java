@@ -75,14 +75,12 @@ public class TextureAnimations {
 			}
 		}
 
-		TextureAnimation[] atextureanimation1 = (TextureAnimation[]) list
-				.toArray(new TextureAnimation[0]);
+		TextureAnimation[] atextureanimation1 = (TextureAnimation[]) list.toArray(new TextureAnimation[0]);
 		return atextureanimation1;
 	}
 
 	private static TextureAnimation[] getTextureAnimations(IResourcePack rp) {
-		String[] astring = ResUtils.collectFiles(rp, "mcpatcher/anim/", ".properties",
-                null);
+		String[] astring = ResUtils.collectFiles(rp, "mcpatcher/anim/", ".properties", null);
 
 		if (astring.length <= 0) {
 			return null;
@@ -117,8 +115,7 @@ public class TextureAnimations {
 				}
 			}
 
-			TextureAnimation[] atextureanimation = (TextureAnimation[]) list
-					.toArray(new TextureAnimation[0]);
+			TextureAnimation[] atextureanimation = (TextureAnimation[]) list.toArray(new TextureAnimation[0]);
 			return atextureanimation;
 		}
 	}

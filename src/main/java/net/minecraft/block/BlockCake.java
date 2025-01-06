@@ -44,9 +44,8 @@ public class BlockCake extends Block {
 		float f = 0.0625F;
 		float f1 = (float) (1 + state.getValue(BITES).intValue() * 2) / 16.0F;
 		float f2 = 0.5F;
-		return new AxisAlignedBB((float) pos.getX() + f1, pos.getY(),
-                (float) pos.getZ() + f, (float) (pos.getX() + 1) - f,
-                (float) pos.getY() + f2, (float) (pos.getZ() + 1) - f);
+		return new AxisAlignedBB((float) pos.getX() + f1, pos.getY(), (float) pos.getZ() + f,
+				(float) (pos.getX() + 1) - f, (float) pos.getY() + f2, (float) (pos.getZ() + 1) - f);
 	}
 
 	public AxisAlignedBB getSelectedBoundingBox(World worldIn, BlockPos pos) {

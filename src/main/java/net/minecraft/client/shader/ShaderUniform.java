@@ -194,7 +194,7 @@ public class ShaderUniform {
 
 	public void upload() {
 		if (!this.dirty) {
-        }
+		}
 
 		this.dirty = false;
 

@@ -107,12 +107,10 @@ public class KeyBinding implements Comparable<KeyBinding> {
 	}
 
 	public int compareTo(KeyBinding p_compareTo_1_) {
-		int i = I18n.format(this.keyCategory)
-				.compareTo(I18n.format(p_compareTo_1_.keyCategory));
+		int i = I18n.format(this.keyCategory).compareTo(I18n.format(p_compareTo_1_.keyCategory));
 
 		if (i == 0) {
-			i = I18n.format(this.keyDescription)
-					.compareTo(I18n.format(p_compareTo_1_.keyDescription));
+			i = I18n.format(this.keyDescription).compareTo(I18n.format(p_compareTo_1_.keyDescription));
 		}
 
 		return i;

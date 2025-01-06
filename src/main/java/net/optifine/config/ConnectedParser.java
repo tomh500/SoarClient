@@ -288,7 +288,7 @@ public class ConnectedParser {
 								list1.add(Integer.valueOf(l));
 							}
 						} catch (IllegalArgumentException var18) {
-                        }
+						}
 					}
 
 					if (list1.size() == 16) {
@@ -348,7 +348,7 @@ public class ConnectedParser {
 
 	private static Object getValueName(Comparable obj) {
 		if (obj instanceof IStringSerializable istringserializable) {
-            return istringserializable.getName();
+			return istringserializable.getName();
 		} else {
 			return obj.toString();
 		}
@@ -425,8 +425,7 @@ public class ConnectedParser {
 				list = list1;
 			}
 
-			BiomeGenBase[] abiomegenbase = (BiomeGenBase[]) list
-					.toArray(new BiomeGenBase[0]);
+			BiomeGenBase[] abiomegenbase = (BiomeGenBase[]) list.toArray(new BiomeGenBase[0]);
 			return abiomegenbase;
 		}
 	}
@@ -777,8 +776,7 @@ public class ConnectedParser {
 	}
 
 	public EnumDyeColor[] parseDyeColors(String str, String property, EnumDyeColor[] errValue) {
-		return this.parseObjects(str, EnumDyeColor.values(), NAME_GETTER_DYE_COLOR, property,
-				errValue);
+		return this.parseObjects(str, EnumDyeColor.values(), NAME_GETTER_DYE_COLOR, property, errValue);
 	}
 
 	public Weather[] parseWeather(String str, String property, Weather[] errValue) {
@@ -811,8 +809,7 @@ public class ConnectedParser {
 			if (list.isEmpty()) {
 				return null;
 			} else {
-				VillagerProfession[] avillagerprofession = list
-						.toArray(new VillagerProfession[0]);
+				VillagerProfession[] avillagerprofession = list.toArray(new VillagerProfession[0]);
 				return avillagerprofession;
 			}
 		}

@@ -205,9 +205,8 @@ public class EntityWolf extends EntityTameable {
 				for (int j = 0; j < i; ++j) {
 					float f1 = (this.rand.nextFloat() * 2.0F - 1.0F) * this.width * 0.5F;
 					float f2 = (this.rand.nextFloat() * 2.0F - 1.0F) * this.width * 0.5F;
-					this.worldObj.spawnParticle(EnumParticleTypes.WATER_SPLASH, this.posX + (double) f1,
-                            f + 0.8F, this.posZ + (double) f2, this.motionX, this.motionY, this.motionZ
-                    );
+					this.worldObj.spawnParticle(EnumParticleTypes.WATER_SPLASH, this.posX + (double) f1, f + 0.8F,
+							this.posZ + (double) f2, this.motionX, this.motionY, this.motionZ);
 				}
 			}
 		}
@@ -294,7 +293,7 @@ public class EntityWolf extends EntityTameable {
 			if (itemstack != null) {
 				if (itemstack.getItem() instanceof ItemFood itemfood) {
 
-                    if (itemfood.isWolfsFavoriteMeat() && this.dataWatcher.getWatchableObjectFloat(18) < 20.0F) {
+					if (itemfood.isWolfsFavoriteMeat() && this.dataWatcher.getWatchableObjectFloat(18) < 20.0F) {
 						if (!player.capabilities.isCreativeMode) {
 							--itemstack.stackSize;
 						}
@@ -377,7 +376,8 @@ public class EntityWolf extends EntityTameable {
 	}
 
 	public boolean isBreedingItem(ItemStack stack) {
-		return stack != null && (stack.getItem() instanceof ItemFood && ((ItemFood) stack.getItem()).isWolfsFavoriteMeat());
+		return stack != null
+				&& (stack.getItem() instanceof ItemFood && ((ItemFood) stack.getItem()).isWolfsFavoriteMeat());
 	}
 
 	public int getMaxSpawnedInChunk() {
@@ -434,7 +434,7 @@ public class EntityWolf extends EntityTameable {
 		} else if (!(otherAnimal instanceof EntityWolf entitywolf)) {
 			return false;
 		} else {
-            return entitywolf.isTamed() && (!entitywolf.isSitting() && this.isInLove() && entitywolf.isInLove());
+			return entitywolf.isTamed() && (!entitywolf.isSitting() && this.isInLove() && entitywolf.isInLove());
 		}
 	}
 
@@ -450,13 +450,14 @@ public class EntityWolf extends EntityTameable {
 		if (!(p_142018_1_ instanceof EntityCreeper) && !(p_142018_1_ instanceof EntityGhast)) {
 			if (p_142018_1_ instanceof EntityWolf entitywolf) {
 
-                if (entitywolf.isTamed() && entitywolf.getOwner() == p_142018_2_) {
+				if (entitywolf.isTamed() && entitywolf.getOwner() == p_142018_2_) {
 					return false;
 				}
 			}
 
 			return (!(p_142018_1_ instanceof EntityPlayer) || !(p_142018_2_ instanceof EntityPlayer)
-                    || ((EntityPlayer) p_142018_2_).canAttackPlayer((EntityPlayer) p_142018_1_)) && (!(p_142018_1_ instanceof EntityHorse) || !((EntityHorse) p_142018_1_).isTame());
+					|| ((EntityPlayer) p_142018_2_).canAttackPlayer((EntityPlayer) p_142018_1_))
+					&& (!(p_142018_1_ instanceof EntityHorse) || !((EntityHorse) p_142018_1_).isTame());
 		} else {
 			return false;
 		}

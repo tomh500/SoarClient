@@ -68,8 +68,7 @@ public class CommandSummon extends CommandBase {
 						nbttagcompound = JsonToNBT.getTagFromJson(ichatcomponent.getUnformattedText());
 						flag = true;
 					} catch (NBTException nbtexception) {
-						throw new CommandException("commands.summon.tagError",
-                                nbtexception.getMessage());
+						throw new CommandException("commands.summon.tagError", nbtexception.getMessage());
 					}
 				}
 
@@ -89,7 +88,7 @@ public class CommandSummon extends CommandBase {
 
 					if (!flag && entity2 instanceof EntityLiving) {
 						((EntityLiving) entity2).onInitialSpawn(world.getDifficultyForLocation(new BlockPos(entity2)),
-                                null);
+								null);
 					}
 
 					world.spawnEntityInWorld(entity2);

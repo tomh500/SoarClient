@@ -60,8 +60,8 @@ public class EntityPickupFX extends EntityFX {
 		d6 = d6 - interpPosX;
 		d7 = d7 - interpPosY;
 		d8 = d8 - interpPosZ;
-		this.field_174842_aB.renderEntityWithPosYaw(this.field_174840_a, (float) d6, (float) d7,
-                (float) d8, this.field_174840_a.rotationYaw, partialTicks);
+		this.field_174842_aB.renderEntityWithPosYaw(this.field_174840_a, (float) d6, (float) d7, (float) d8,
+				this.field_174840_a.rotationYaw, partialTicks);
 
 		if (Config.isShaders()) {
 			Shaders.setEntityId(null);

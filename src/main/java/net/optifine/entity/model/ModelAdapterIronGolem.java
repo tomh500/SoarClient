@@ -21,7 +21,7 @@ public class ModelAdapterIronGolem extends ModelAdapter {
 		if (!(model instanceof ModelIronGolem modelirongolem)) {
 			return null;
 		} else {
-            return modelPart
+			return modelPart
 					.equals("head")
 							? modelirongolem.ironGolemHead
 							: (modelPart.equals("body") ? modelirongolem.ironGolemBody

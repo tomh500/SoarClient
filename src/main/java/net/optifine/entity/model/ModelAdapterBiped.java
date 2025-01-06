@@ -13,7 +13,7 @@ public abstract class ModelAdapterBiped extends ModelAdapter {
 		if (!(model instanceof ModelBiped modelbiped)) {
 			return null;
 		} else {
-            return modelPart
+			return modelPart
 					.equals("head")
 							? modelbiped.bipedHead
 							: (modelPart.equals("headwear") ? modelbiped.bipedHeadwear

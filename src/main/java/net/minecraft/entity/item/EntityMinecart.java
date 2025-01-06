@@ -269,8 +269,7 @@ public abstract class EntityMinecart extends Entity implements IWorldNameable {
 				this.func_180460_a(blockpos, iblockstate);
 
 				if (iblockstate.getBlock() == Blocks.activator_rail) {
-					this.onActivatorRailPass(k, l, i1,
-							iblockstate.getValue(BlockRailPowered.POWERED).booleanValue());
+					this.onActivatorRailPass(k, l, i1, iblockstate.getValue(BlockRailPowered.POWERED).booleanValue());
 				}
 			} else {
 				this.moveDerailedMinecart();
@@ -679,8 +678,7 @@ public abstract class EntityMinecart extends Entity implements IWorldNameable {
 		if (this.hasDisplayTile()) {
 			tagCompound.setBoolean("CustomDisplayTile", true);
 			IBlockState iblockstate = this.getDisplayTile();
-			ResourceLocation resourcelocation = Block.blockRegistry
-					.getNameForObject(iblockstate.getBlock());
+			ResourceLocation resourcelocation = Block.blockRegistry.getNameForObject(iblockstate.getBlock());
 			tagCompound.setString("DisplayTile", resourcelocation == null ? "" : resourcelocation.toString());
 			tagCompound.setInteger("DisplayData", iblockstate.getBlock().getMetaFromState(iblockstate));
 			tagCompound.setInteger("DisplayOffset", this.getDisplayTileOffset());
@@ -730,9 +728,8 @@ public abstract class EntityMinecart extends Entity implements IWorldNameable {
 							double d4 = entityIn.posX - this.posX;
 							double d5 = entityIn.posZ - this.posZ;
 							Vec3 vec3 = (new Vec3(d4, 0.0D, d5)).normalize();
-							Vec3 vec31 = (new Vec3(MathHelper.cos(this.rotationYaw * (float) Math.PI / 180.0F),
-									0.0D, MathHelper.sin(this.rotationYaw * (float) Math.PI / 180.0F)))
-									.normalize();
+							Vec3 vec31 = (new Vec3(MathHelper.cos(this.rotationYaw * (float) Math.PI / 180.0F), 0.0D,
+									MathHelper.sin(this.rotationYaw * (float) Math.PI / 180.0F))).normalize();
 							double d6 = Math.abs(vec3.dotProduct(vec31));
 
 							if (d6 < 0.800000011920929D) {
@@ -881,8 +878,7 @@ public abstract class EntityMinecart extends Entity implements IWorldNameable {
 			chatcomponenttext.getChatStyle().setInsertion(this.getUniqueID().toString());
 			return chatcomponenttext;
 		} else {
-			ChatComponentTranslation chatcomponenttranslation = new ChatComponentTranslation(this.getName()
-            );
+			ChatComponentTranslation chatcomponenttranslation = new ChatComponentTranslation(this.getName());
 			chatcomponenttranslation.getChatStyle().setChatHoverEvent(this.getHoverEvent());
 			chatcomponenttranslation.getChatStyle().setInsertion(this.getUniqueID().toString());
 			return chatcomponenttranslation;
@@ -912,8 +908,7 @@ public abstract class EntityMinecart extends Entity implements IWorldNameable {
 		}
 
 		public static EntityMinecart.EnumMinecartType byNetworkID(int id) {
-			EntityMinecart.EnumMinecartType entityminecart$enumminecarttype = ID_LOOKUP
-					.get(Integer.valueOf(id));
+			EntityMinecart.EnumMinecartType entityminecart$enumminecarttype = ID_LOOKUP.get(Integer.valueOf(id));
 			return entityminecart$enumminecarttype == null ? RIDEABLE : entityminecart$enumminecarttype;
 		}
 

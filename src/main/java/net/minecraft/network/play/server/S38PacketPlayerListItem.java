@@ -187,7 +187,7 @@ public class S38PacketPlayerListItem implements Packet<INetHandlerPlayClient> {
 
 	public enum Action {
 		ADD_PLAYER, UPDATE_GAME_MODE, UPDATE_LATENCY, UPDATE_DISPLAY_NAME, REMOVE_PLAYER
-    }
+	}
 
 	public class AddPlayerData {
 		private final int ping;

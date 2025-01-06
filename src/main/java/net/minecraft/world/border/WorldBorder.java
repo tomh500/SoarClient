@@ -124,8 +124,7 @@ public class WorldBorder {
 
 	public double getDiameter() {
 		if (this.getStatus() != EnumBorderStatus.STATIONARY) {
-			double d0 = (float) (System.currentTimeMillis() - this.startTime)
-					/ (float) (this.endTime - this.startTime);
+			double d0 = (float) (System.currentTimeMillis() - this.startTime) / (float) (this.endTime - this.startTime);
 
 			if (d0 < 1.0D) {
 				return this.startDiameter + (this.endDiameter - this.startDiameter) * d0;

@@ -203,7 +203,8 @@ public class BlockDynamicLiquid extends BlockLiquid {
 	private boolean isBlocked(World worldIn, BlockPos pos, IBlockState state) {
 		Block block = worldIn.getBlockState(pos).getBlock();
 		return block instanceof BlockDoor || block == Blocks.standing_sign || block == Blocks.ladder
-                || block == Blocks.reeds || (block.blockMaterial == Material.portal || block.blockMaterial.blocksMovement());
+				|| block == Blocks.reeds
+				|| (block.blockMaterial == Material.portal || block.blockMaterial.blocksMovement());
 	}
 
 	protected int checkAdjacentBlock(World worldIn, BlockPos pos, int currentMinLevel) {

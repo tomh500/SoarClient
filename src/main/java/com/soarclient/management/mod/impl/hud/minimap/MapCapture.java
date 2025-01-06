@@ -21,7 +21,7 @@ import net.minecraft.world.World;
 import net.minecraft.world.chunk.Chunk;
 
 public class MapCapture {
-	
+
 	private byte[] miniMapColors = new byte[16384];
 	private DynamicTexture texture;
 
@@ -36,9 +36,9 @@ public class MapCapture {
 	}
 
 	public void update(World worldIn) {
-		
+
 		CompletableFuture.runAsync(() -> {
-			
+
 			int i = 1;
 			int j = mc.thePlayer.getPosition().getX();
 			int k = mc.thePlayer.getPosition().getZ();
@@ -60,7 +60,7 @@ public class MapCapture {
 						boolean flag1 = i2 * i2 + j2 * j2 > (j1 - 2) * (j1 - 2);
 						int k2 = (j / i + k1 - 64) * i;
 						int l2 = (k / i + l1 - 64) * i;
-                        
+
 						Multiset<MapColor> multiset = HashMultiset.<MapColor>create();
 						Chunk chunk = worldIn.getChunkFromBlockCoords(new BlockPos(k2, 0, l2));
 
@@ -120,8 +120,8 @@ public class MapCapture {
 										}
 
 										d1 += (double) k4 / (double) (i * i);
-                                        MapColor mapColor = iblockstate.getBlock().getMapColor(iblockstate);
-                                        multiset.add(mapColor);
+										MapColor mapColor = iblockstate.getBlock().getMapColor(iblockstate);
+										multiset.add(mapColor);
 									}
 								}
 							}

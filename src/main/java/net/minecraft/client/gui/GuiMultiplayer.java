@@ -79,14 +79,14 @@ public class GuiMultiplayer extends GuiScreen implements GuiYesNoCallback {
 				I18n.format("selectServer.delete")));
 		this.buttonList.add(this.btnSelectServer = new GuiButton(1, this.width / 2 - 154, this.height - 52, 100, 20,
 				I18n.format("selectServer.select")));
-		this.buttonList.add(new GuiButton(4, this.width / 2 - 50, this.height - 52, 100, 20,
-				I18n.format("selectServer.direct")));
-		this.buttonList.add(new GuiButton(3, this.width / 2 + 4 + 50, this.height - 52, 100, 20,
-				I18n.format("selectServer.add")));
-		this.buttonList.add(new GuiButton(8, this.width / 2 + 4, this.height - 28, 70, 20,
-				I18n.format("selectServer.refresh")));
-		this.buttonList.add(new GuiButton(0, this.width / 2 + 4 + 76, this.height - 28, 75, 20,
-				I18n.format("gui.cancel")));
+		this.buttonList.add(
+				new GuiButton(4, this.width / 2 - 50, this.height - 52, 100, 20, I18n.format("selectServer.direct")));
+		this.buttonList.add(
+				new GuiButton(3, this.width / 2 + 4 + 50, this.height - 52, 100, 20, I18n.format("selectServer.add")));
+		this.buttonList.add(
+				new GuiButton(8, this.width / 2 + 4, this.height - 28, 70, 20, I18n.format("selectServer.refresh")));
+		this.buttonList
+				.add(new GuiButton(0, this.width / 2 + 4 + 76, this.height - 28, 75, 20, I18n.format("gui.cancel")));
 		this.selectServer(this.serverListSelector.func_148193_k());
 	}
 
@@ -136,13 +136,11 @@ public class GuiMultiplayer extends GuiScreen implements GuiYesNoCallback {
 			} else if (button.id == 4) {
 				this.directConnect = true;
 				this.mc.displayGuiScreen(new GuiScreenServerList(this,
-						this.selectedServer = new ServerData(I18n.format("selectServer.defaultName"), "",
-								false)));
+						this.selectedServer = new ServerData(I18n.format("selectServer.defaultName"), "", false)));
 			} else if (button.id == 3) {
 				this.addingServer = true;
 				this.mc.displayGuiScreen(new GuiScreenAddServer(this,
-						this.selectedServer = new ServerData(I18n.format("selectServer.defaultName"), "",
-								false)));
+						this.selectedServer = new ServerData(I18n.format("selectServer.defaultName"), "", false)));
 			} else if (button.id == 7 && guilistextended$iguilistentry instanceof ServerListEntryNormal) {
 				this.editingServer = true;
 				ServerData serverdata = ((ServerListEntryNormal) guilistextended$iguilistentry).getServerData();
@@ -283,8 +281,7 @@ public class GuiMultiplayer extends GuiScreen implements GuiYesNoCallback {
 		this.hoveringText = null;
 		this.drawDefaultBackground();
 		this.serverListSelector.drawScreen(mouseX, mouseY, partialTicks);
-		this.drawCenteredString(this.fontRendererObj, I18n.format("multiplayer.title"), this.width / 2,
-				20, 16777215);
+		this.drawCenteredString(this.fontRendererObj, I18n.format("multiplayer.title"), this.width / 2, 20, 16777215);
 		super.drawScreen(mouseX, mouseY, partialTicks);
 
 		if (this.hoveringText != null) {

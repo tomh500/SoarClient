@@ -46,17 +46,15 @@ public class ItemBoat extends Item {
 			Vec3 vec32 = playerIn.getLook(f);
 			boolean flag = false;
 			float f9 = 1.0F;
-			List<Entity> list = worldIn.getEntitiesWithinAABBExcludingEntity(playerIn,
-					playerIn.getEntityBoundingBox().addCoord(vec32.xCoord * d3, vec32.yCoord * d3, vec32.zCoord * d3)
-							.expand(f9, f9, f9));
+			List<Entity> list = worldIn.getEntitiesWithinAABBExcludingEntity(playerIn, playerIn.getEntityBoundingBox()
+					.addCoord(vec32.xCoord * d3, vec32.yCoord * d3, vec32.zCoord * d3).expand(f9, f9, f9));
 
 			for (int i = 0; i < list.size(); ++i) {
 				Entity entity = list.get(i);
 
 				if (entity.canBeCollidedWith()) {
 					float f10 = entity.getCollisionBorderSize();
-					AxisAlignedBB axisalignedbb = entity.getEntityBoundingBox().expand(f10, f10,
-                            f10);
+					AxisAlignedBB axisalignedbb = entity.getEntityBoundingBox().expand(f10, f10, f10);
 
 					if (axisalignedbb.isVecInside(vec3)) {
 						flag = true;
@@ -75,7 +73,7 @@ public class ItemBoat extends Item {
 					}
 
 					EntityBoat entityboat = new EntityBoat(worldIn, (float) blockpos.getX() + 0.5F,
-                            (float) blockpos.getY() + 1.0F, (float) blockpos.getZ() + 0.5F);
+							(float) blockpos.getY() + 1.0F, (float) blockpos.getZ() + 0.5F);
 					entityboat.rotationYaw = (float) (((MathHelper
 							.floor_double((double) (playerIn.rotationYaw * 4.0F / 360.0F) + 0.5D) & 3) - 1) * 90);
 

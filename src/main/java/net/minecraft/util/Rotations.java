@@ -32,7 +32,7 @@ public class Rotations {
 		if (!(p_equals_1_ instanceof Rotations rotations)) {
 			return false;
 		} else {
-            return this.x == rotations.x && this.y == rotations.y && this.z == rotations.z;
+			return this.x == rotations.x && this.y == rotations.y && this.z == rotations.z;
 		}
 	}
 

@@ -132,7 +132,8 @@ public class BlockFence extends Block {
 	public boolean canConnectTo(IBlockAccess worldIn, BlockPos pos) {
 		Block block = worldIn.getBlockState(pos).getBlock();
 		return block != Blocks.barrier && ((block instanceof BlockFence && block.blockMaterial == this.blockMaterial)
-                || block instanceof BlockFenceGate || (block.blockMaterial.isOpaque() && block.isFullCube() && block.blockMaterial != Material.gourd));
+				|| block instanceof BlockFenceGate
+				|| (block.blockMaterial.isOpaque() && block.isFullCube() && block.blockMaterial != Material.gourd));
 	}
 
 	public boolean shouldSideBeRendered(IBlockAccess worldIn, BlockPos pos, EnumFacing side) {

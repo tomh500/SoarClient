@@ -57,15 +57,15 @@ public class Cartesian {
 			this.iterables = iterables;
 		}
 
-	    public Iterator<T[]> iterator() {
-	        if (this.iterables.length <= 0) {
-	            T[] emptyArray = Cartesian.createArray(this.clazz, 0);
-	            return Collections.singletonList(emptyArray).iterator();
-	        } else {
-	            return new ProductIterator<>(this.clazz, this.iterables);
-	        }
-	    }
-	    
+		public Iterator<T[]> iterator() {
+			if (this.iterables.length <= 0) {
+				T[] emptyArray = Cartesian.createArray(this.clazz, 0);
+				return Collections.singletonList(emptyArray).iterator();
+			} else {
+				return new ProductIterator<>(this.clazz, this.iterables);
+			}
+		}
+
 		static class ProductIterator<T> extends UnmodifiableIterator<T[]> {
 			private int index;
 			private final Iterable<? extends T>[] iterables;

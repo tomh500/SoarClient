@@ -101,7 +101,7 @@ public class EntityAIFollowOwner extends EntityAIBase {
 											&& this.func_181065_a(new BlockPos(i + l, k, j + i1))
 											&& this.func_181065_a(new BlockPos(i + l, k + 1, j + i1))) {
 										this.thePet.setLocationAndAngles((float) (i + l) + 0.5F, k,
-                                                (float) (j + i1) + 0.5F, this.thePet.rotationYaw,
+												(float) (j + i1) + 0.5F, this.thePet.rotationYaw,
 												this.thePet.rotationPitch);
 										this.petPathfinder.clearPathEntity();
 										return;

@@ -38,5 +38,5 @@ public class C19PacketResourcePackStatus implements Packet<INetHandlerPlayServer
 
 	public enum Action {
 		SUCCESSFULLY_LOADED, DECLINED, FAILED_DOWNLOAD, ACCEPTED
-    }
+	}
 }

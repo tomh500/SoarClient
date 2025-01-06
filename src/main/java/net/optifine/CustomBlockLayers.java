@@ -26,7 +26,7 @@ public class CustomBlockLayers {
 		} else if (!(blockState instanceof BlockStateBase blockstatebase)) {
 			return null;
 		} else {
-            int i = blockstatebase.getBlockId();
+			int i = blockstatebase.getBlockId();
 			return i > 0 && i < renderLayers.length ? renderLayers[i] : null;
 		}
 	}

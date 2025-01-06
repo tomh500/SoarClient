@@ -21,7 +21,7 @@ public class ModelAdapterWolf extends ModelAdapter {
 		if (!(model instanceof ModelWolf modelwolf)) {
 			return null;
 		} else {
-            return modelPart
+			return modelPart
 					.equals("head")
 							? modelwolf.wolfHeadMain
 							: (modelPart.equals("body") ? modelwolf.wolfBody

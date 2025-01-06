@@ -37,8 +37,7 @@ public class ScreenChatOptions extends GuiScreen {
 			++i;
 		}
 
-		this.buttonList.add(new GuiButton(200, this.width / 2 - 100, this.height / 6 + 120,
-				I18n.format("gui.done")));
+		this.buttonList.add(new GuiButton(200, this.width / 2 - 100, this.height / 6 + 120, I18n.format("gui.done")));
 	}
 
 	protected void actionPerformed(GuiButton button) throws IOException {

@@ -85,8 +85,7 @@ public class Potion {
 	public static final Potion field_180145_F = null;
 	public static final Potion field_180146_G = null;
 	public final int id;
-	private final Map<IAttribute, AttributeModifier> attributeModifierMap = Maps
-			.newHashMap();
+	private final Map<IAttribute, AttributeModifier> attributeModifierMap = Maps.newHashMap();
 	private final boolean isBadEffect;
 	private final int liquidColor;
 	private String name = "";

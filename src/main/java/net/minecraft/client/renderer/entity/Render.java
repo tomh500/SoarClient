@@ -134,14 +134,10 @@ public abstract class Render<T extends Entity> implements IEntityRenderer {
 				f6 = f10;
 			}
 
-			worldrenderer.pos(f1 - f2, 0.0F - f4, f5).tex(f8, f9)
-					.endVertex();
-			worldrenderer.pos(-f1 - f2, 0.0F - f4, f5).tex(f6, f9)
-					.endVertex();
-			worldrenderer.pos(-f1 - f2, 1.4F - f4, f5).tex(f6, f7)
-					.endVertex();
-			worldrenderer.pos(f1 - f2, 1.4F - f4, f5).tex(f8, f7)
-					.endVertex();
+			worldrenderer.pos(f1 - f2, 0.0F - f4, f5).tex(f8, f9).endVertex();
+			worldrenderer.pos(-f1 - f2, 0.0F - f4, f5).tex(f6, f9).endVertex();
+			worldrenderer.pos(-f1 - f2, 1.4F - f4, f5).tex(f6, f7).endVertex();
+			worldrenderer.pos(f1 - f2, 1.4F - f4, f5).tex(f8, f7).endVertex();
 			f3 -= 0.45F;
 			f4 -= 0.45F;
 			f1 *= 0.9F;
@@ -170,7 +166,7 @@ public abstract class Render<T extends Entity> implements IEntityRenderer {
 			float f = this.shadowSize;
 
 			if (entityIn instanceof EntityLiving entityliving) {
-                f *= entityliving.getRenderSizeModifier();
+				f *= entityliving.getRenderSizeModifier();
 
 				if (entityliving.isChild()) {
 					f *= 0.5F;
@@ -235,14 +231,10 @@ public abstract class Render<T extends Entity> implements IEntityRenderer {
 				float f1 = (float) ((p_180549_2_ - d2) / 2.0D / (double) p_180549_10_ + 0.5D);
 				float f2 = (float) ((p_180549_6_ - d4) / 2.0D / (double) p_180549_10_ + 0.5D);
 				float f3 = (float) ((p_180549_6_ - d5) / 2.0D / (double) p_180549_10_ + 0.5D);
-				worldrenderer.pos(d1, d3, d4).tex(f, f2).color(1.0F, 1.0F, 1.0F, (float) d0)
-						.endVertex();
-				worldrenderer.pos(d1, d3, d5).tex(f, f3).color(1.0F, 1.0F, 1.0F, (float) d0)
-						.endVertex();
-				worldrenderer.pos(d2, d3, d5).tex(f1, f3).color(1.0F, 1.0F, 1.0F, (float) d0)
-						.endVertex();
-				worldrenderer.pos(d2, d3, d4).tex(f1, f2).color(1.0F, 1.0F, 1.0F, (float) d0)
-						.endVertex();
+				worldrenderer.pos(d1, d3, d4).tex(f, f2).color(1.0F, 1.0F, 1.0F, (float) d0).endVertex();
+				worldrenderer.pos(d1, d3, d5).tex(f, f3).color(1.0F, 1.0F, 1.0F, (float) d0).endVertex();
+				worldrenderer.pos(d2, d3, d5).tex(f1, f3).color(1.0F, 1.0F, 1.0F, (float) d0).endVertex();
+				worldrenderer.pos(d2, d3, d4).tex(f1, f2).color(1.0F, 1.0F, 1.0F, (float) d0).endVertex();
 			}
 		}
 	}

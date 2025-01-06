@@ -54,8 +54,7 @@ public class DataWatcher {
 	}
 
 	public void addObjectByDataType(int id, int type) {
-		DataWatcher.WatchableObject datawatcher$watchableobject = new DataWatcher.WatchableObject(type, id,
-                null);
+		DataWatcher.WatchableObject datawatcher$watchableobject = new DataWatcher.WatchableObject(type, id, null);
 		this.lock.writeLock().lock();
 		this.watchedObjects.put(Integer.valueOf(id), datawatcher$watchableobject);
 		this.lock.writeLock().unlock();

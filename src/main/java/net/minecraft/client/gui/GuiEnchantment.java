@@ -214,8 +214,7 @@ public class GuiEnchantment extends GuiContainer {
 					}
 
 					if (this.mc.thePlayer.experienceLevel < k) {
-						list.add(EnumChatFormatting.RED + "Level Requirement: "
-								+ this.container.enchantLevels[j]);
+						list.add(EnumChatFormatting.RED + "Level Requirement: " + this.container.enchantLevels[j]);
 					} else {
 						String s1 = "";
 
@@ -269,10 +268,10 @@ public class GuiEnchantment extends GuiContainer {
 		boolean flag = false;
 
 		for (int i = 0; i < 3; ++i) {
-            if (this.container.enchantLevels[i] != 0) {
-                flag = true;
-                break;
-            }
+			if (this.container.enchantLevels[i] != 0) {
+				flag = true;
+				break;
+			}
 		}
 
 		if (flag) {

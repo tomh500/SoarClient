@@ -246,10 +246,10 @@ public class RandomEntityRule {
 			}
 
 			if (this.professions != null && randomEntity instanceof RandomEntity randomentity) {
-                Entity entity = randomentity.getEntity();
+				Entity entity = randomentity.getEntity();
 
 				if (entity instanceof EntityVillager entityvillager) {
-                    int j = entityvillager.getProfession();
+					int j = entityvillager.getProfession();
 					int k = entityvillager.getCareerId();
 
 					if (j < 0 || k < 0) {
@@ -274,11 +274,11 @@ public class RandomEntityRule {
 			}
 
 			if (this.collarColors != null && randomEntity instanceof RandomEntity randomentity1) {
-                Entity entity1 = randomentity1.getEntity();
+				Entity entity1 = randomentity1.getEntity();
 
 				if (entity1 instanceof EntityWolf entitywolf) {
 
-                    if (!entitywolf.isTamed()) {
+					if (!entitywolf.isTamed()) {
 						return false;
 					}
 
@@ -291,11 +291,11 @@ public class RandomEntityRule {
 			}
 
 			if (this.baby != null && randomEntity instanceof RandomEntity randomentity2) {
-                Entity entity2 = randomentity2.getEntity();
+				Entity entity2 = randomentity2.getEntity();
 
 				if (entity2 instanceof EntityLiving entityliving) {
 
-                    if (entityliving.isChild() != this.baby.booleanValue()) {
+					if (entityliving.isChild() != this.baby.booleanValue()) {
 						return false;
 					}
 				}
@@ -331,7 +331,7 @@ public class RandomEntityRule {
 				if (world2 != null) {
 					Weather weather = Weather.getWeather(world2, 0.0F);
 
-                    return ArrayUtils.contains(this.weatherList, weather);
+					return ArrayUtils.contains(this.weatherList, weather);
 				}
 			}
 

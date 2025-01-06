@@ -60,7 +60,7 @@ public class EntityTracker {
 		if (entityIn instanceof EntityPlayerMP entityplayermp) {
 			this.trackEntity(entityIn, 512, 2);
 
-            for (EntityTrackerEntry entitytrackerentry : this.trackedEntities) {
+			for (EntityTrackerEntry entitytrackerentry : this.trackedEntities) {
 				if (entitytrackerentry.trackedEntity != entityplayermp) {
 					entitytrackerentry.updatePlayerEntity(entityplayermp);
 				}
@@ -169,13 +169,12 @@ public class EntityTracker {
 	public void untrackEntity(Entity entityIn) {
 		if (entityIn instanceof EntityPlayerMP entityplayermp) {
 
-            for (EntityTrackerEntry entitytrackerentry : this.trackedEntities) {
+			for (EntityTrackerEntry entitytrackerentry : this.trackedEntities) {
 				entitytrackerentry.removeFromTrackedPlayers(entityplayermp);
 			}
 		}
 
-		EntityTrackerEntry entitytrackerentry1 = this.trackedEntityHashTable
-				.removeObject(entityIn.getEntityId());
+		EntityTrackerEntry entitytrackerentry1 = this.trackedEntityHashTable.removeObject(entityIn.getEntityId());
 
 		if (entitytrackerentry1 != null) {
 			this.trackedEntities.remove(entitytrackerentry1);
@@ -217,8 +216,7 @@ public class EntityTracker {
 	}
 
 	public void sendToAllTrackingEntity(Entity entityIn, Packet p_151247_2_) {
-		EntityTrackerEntry entitytrackerentry = this.trackedEntityHashTable
-				.lookup(entityIn.getEntityId());
+		EntityTrackerEntry entitytrackerentry = this.trackedEntityHashTable.lookup(entityIn.getEntityId());
 
 		if (entitytrackerentry != null) {
 			entitytrackerentry.sendPacketToTrackedPlayers(p_151247_2_);
@@ -226,8 +224,7 @@ public class EntityTracker {
 	}
 
 	public void func_151248_b(Entity entityIn, Packet p_151248_2_) {
-		EntityTrackerEntry entitytrackerentry = this.trackedEntityHashTable
-				.lookup(entityIn.getEntityId());
+		EntityTrackerEntry entitytrackerentry = this.trackedEntityHashTable.lookup(entityIn.getEntityId());
 
 		if (entitytrackerentry != null) {
 			entitytrackerentry.func_151261_b(p_151248_2_);

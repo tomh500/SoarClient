@@ -29,9 +29,8 @@ public class EntityDamageSourceIndirect extends EntityDamageSource {
 		String s = "death.attack." + this.damageType;
 		String s1 = s + ".item";
 		return itemstack != null && itemstack.hasDisplayName() && StatCollector.canTranslate(s1)
-				? new ChatComponentTranslation(s1,
-                entityLivingBaseIn.getDisplayName(), ichatcomponent,
-                itemstack.getChatComponent())
+				? new ChatComponentTranslation(s1, entityLivingBaseIn.getDisplayName(), ichatcomponent,
+						itemstack.getChatComponent())
 				: new ChatComponentTranslation(s, entityLivingBaseIn.getDisplayName(), ichatcomponent);
 	}
 }

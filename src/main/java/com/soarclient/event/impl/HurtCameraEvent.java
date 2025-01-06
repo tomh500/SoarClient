@@ -5,7 +5,7 @@ import com.soarclient.event.Event;
 public class HurtCameraEvent extends Event {
 
 	private float intensity;
-	
+
 	public HurtCameraEvent() {
 		this.intensity = 1.0F;
 	}

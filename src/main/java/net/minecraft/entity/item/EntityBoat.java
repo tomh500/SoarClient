@@ -186,8 +186,7 @@ public class EntityBoat extends Entity {
 
 		for (int j = 0; j < i; ++j) {
 			double d1 = this.getEntityBoundingBox().minY
-					+ (this.getEntityBoundingBox().maxY - this.getEntityBoundingBox().minY) * (double) (j)
-							/ (double) i
+					+ (this.getEntityBoundingBox().maxY - this.getEntityBoundingBox().minY) * (double) (j) / (double) i
 					- 0.125D;
 			double d3 = this.getEntityBoundingBox().minY
 					+ (this.getEntityBoundingBox().maxY - this.getEntityBoundingBox().minY) * (double) (j + 1)
@@ -267,7 +266,7 @@ public class EntityBoat extends Entity {
 			}
 
 			if (this.riddenByEntity instanceof EntityLivingBase entitylivingbase) {
-                float f = this.riddenByEntity.rotationYaw + -entitylivingbase.moveStrafing * 90.0F;
+				float f = this.riddenByEntity.rotationYaw + -entitylivingbase.moveStrafing * 90.0F;
 				this.motionX += -Math.sin(f * (float) Math.PI / 180.0F) * this.speedMultiplier
 						* (double) entitylivingbase.moveForward * 0.05000000074505806D;
 				this.motionZ += Math.cos(f * (float) Math.PI / 180.0F) * this.speedMultiplier

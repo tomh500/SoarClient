@@ -3,7 +3,7 @@ package com.soarclient.utils;
 import net.minecraft.client.renderer.GlStateManager;
 
 public class GlUtils {
-	
+
 	public static void startScale(float x, float y, float scale) {
 		GlStateManager.pushMatrix();
 		GlStateManager.translate(x, y, 0);

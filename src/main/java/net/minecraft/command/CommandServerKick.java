@@ -37,8 +37,7 @@ public class CommandServerKick extends CommandBase {
 				entityplayermp.playerNetServerHandler.kickPlayerFromServer(s);
 
 				if (flag) {
-					notifyOperators(sender, this, "commands.kick.success.reason",
-                            entityplayermp.getName(), s);
+					notifyOperators(sender, this, "commands.kick.success.reason", entityplayermp.getName(), s);
 				} else {
 					notifyOperators(sender, this, "commands.kick.success", entityplayermp.getName());
 				}

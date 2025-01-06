@@ -23,7 +23,7 @@ public class ModelAdapterBlaze extends ModelAdapter {
 			return null;
 		} else {
 
-            if (modelPart.equals("head")) {
+			if (modelPart.equals("head")) {
 				return modelblaze.blazeHead;
 			} else {
 				String s = "stick";

@@ -126,8 +126,7 @@ public class CustomLoadingScreen {
 
 		worldrenderer.begin(7, DefaultVertexFormats.POSITION_TEX_COLOR);
 		worldrenderer.pos(0.0D, height, 0.0D).tex(d3, d4 + d2).color(255, 255, 255, 255).endVertex();
-		worldrenderer.pos(width, height, 0.0D).tex(d3 + d1, d4 + d2).color(255, 255, 255, 255)
-				.endVertex();
+		worldrenderer.pos(width, height, 0.0D).tex(d3 + d1, d4 + d2).color(255, 255, 255, 255).endVertex();
 		worldrenderer.pos(width, 0.0D, 0.0D).tex(d3 + d1, d4).color(255, 255, 255, 255).endVertex();
 		worldrenderer.pos(0.0D, 0.0D, 0.0D).tex(d3, d4).color(255, 255, 255, 255).endVertex();
 		tessellator.draw();

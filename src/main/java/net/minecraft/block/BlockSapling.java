@@ -62,8 +62,7 @@ public class BlockSapling extends BlockBush implements IGrowable {
 	}
 
 	public void generateTree(World worldIn, BlockPos pos, IBlockState state, Random rand) {
-		WorldGenerator worldgenerator = rand.nextInt(10) == 0 ? new WorldGenBigTree(true)
-				: new WorldGenTrees(true);
+		WorldGenerator worldgenerator = rand.nextInt(10) == 0 ? new WorldGenBigTree(true) : new WorldGenTrees(true);
 		int i = 0;
 		int j = 0;
 		boolean flag = false;

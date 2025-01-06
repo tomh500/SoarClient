@@ -104,14 +104,13 @@ public class CustomItems {
 			inputstream.close();
 			useGlint = Config.parseBoolean(properties.getProperty("useGlint"), true);
 		} catch (FileNotFoundException var4) {
-        } catch (IOException ioexception) {
+		} catch (IOException ioexception) {
 			ioexception.printStackTrace();
 		}
 	}
 
 	private static void update(IResourcePack rp) {
-		String[] astring = ResUtils.collectFiles(rp, "mcpatcher/cit/", ".properties",
-                null);
+		String[] astring = ResUtils.collectFiles(rp, "mcpatcher/cit/", ".properties", null);
 		Map map = makeAutoImageProperties(rp);
 
 		if (map.size() > 0) {
@@ -523,7 +522,7 @@ public class CustomItems {
 			if (!(item instanceof ItemArmor itemarmor)) {
 				return null;
 			} else {
-                String s = itemarmor.getArmorMaterial().getName();
+				String s = itemarmor.getArmorMaterial().getName();
 				StringBuffer stringbuffer = new StringBuffer();
 				stringbuffer.append("texture.");
 				stringbuffer.append(s);
@@ -655,7 +654,7 @@ public class CustomItems {
 					return false;
 				}
 
-                return cip.hand != 2 || renderOffHand;
+				return cip.hand != 2 || renderOffHand;
 			}
 
 			return true;

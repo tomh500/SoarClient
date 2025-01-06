@@ -26,7 +26,7 @@ public class ModsPage extends Page {
 	private List<Item> items = new ArrayList<>();
 	private ScrollHelper scrollHelper = new ScrollHelper();
 	private SearchBar searchBar;
-	
+
 	public ModsPage(PageGui parent) {
 		super(parent, "text.mods", Icon.INVENTORY_2, PageTransition.LEFT);
 
@@ -37,11 +37,11 @@ public class ModsPage extends Page {
 
 	@Override
 	public void init() {
-		
+
 		searchBar = new SearchBar(x + width - 260 - 32, y + 32, 260, () -> {
 			scrollHelper.reset();
 		});
-		
+
 		for (Item i : items) {
 			i.xAnimation.setFirstTick(true);
 			i.yAnimation.setFirstTick(true);
@@ -59,12 +59,12 @@ public class ModsPage extends Page {
 
 		scrollHelper.onScroll();
 		mouseY = (int) (mouseY - scrollHelper.getValue());
-		
+
 		Skia.save();
 		Skia.translate(0, scrollHelper.getValue());
-		
+
 		searchBar.draw(mouseX, mouseY);
-		
+
 		for (Item i : items) {
 
 			Mod m = i.mod;
@@ -76,7 +76,7 @@ public class ModsPage extends Page {
 			if (m.isHidden()) {
 				continue;
 			}
-			
+
 			if (!searchBar.getText().isEmpty() && !SearchUtils.isSimillar(I18n.get(m.getName()), searchBar.getText())) {
 				continue;
 			}
@@ -120,7 +120,7 @@ public class ModsPage extends Page {
 				offsetY += 22 + 151;
 			}
 		}
-		
+
 		Skia.restore();
 	}
 
@@ -128,9 +128,9 @@ public class ModsPage extends Page {
 	public void mousePressed(int mouseX, int mouseY, int mouseButton) {
 
 		mouseY = (int) (mouseY - scrollHelper.getValue());
-		
+
 		searchBar.mousePressed(mouseX, mouseY, mouseButton);
-		
+
 		for (Item i : items) {
 
 			float itemX = i.xAnimation.getValue();
@@ -150,9 +150,9 @@ public class ModsPage extends Page {
 	public void mouseReleased(int mouseX, int mouseY, int mouseButton) {
 
 		mouseY = (int) (mouseY - scrollHelper.getValue());
-		
+
 		searchBar.mousePressed(mouseX, mouseY, mouseButton);
-		
+
 		for (Item i : items) {
 
 			Mod m = i.mod;

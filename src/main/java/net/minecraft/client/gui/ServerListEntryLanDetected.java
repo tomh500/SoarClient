@@ -22,8 +22,8 @@ public class ServerListEntryLanDetected implements GuiListExtended.IGuiListEntry
 		this.mc.fontRendererObj.drawString(this.field_148291_b.getServerMotd(), x + 32 + 3, y + 12, 8421504);
 
 		if (this.mc.gameSettings.hideServerAddress) {
-			this.mc.fontRendererObj.drawString(I18n.format("selectServer.hiddenAddress"), x + 32 + 3,
-					y + 12 + 11, 3158064);
+			this.mc.fontRendererObj.drawString(I18n.format("selectServer.hiddenAddress"), x + 32 + 3, y + 12 + 11,
+					3158064);
 		} else {
 			this.mc.fontRendererObj.drawString(this.field_148291_b.getServerIpPort(), x + 32 + 3, y + 12 + 11, 3158064);
 		}

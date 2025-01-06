@@ -7,7 +7,7 @@ public class Music {
 	private final File audio;
 	private final String title, artist;
 	private final File album;
-	
+
 	public Music(File audio, String title, String artist, File album) {
 		this.audio = audio;
 		this.title = title;

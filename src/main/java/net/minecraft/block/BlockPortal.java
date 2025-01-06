@@ -24,8 +24,8 @@ import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
 public class BlockPortal extends BlockBreakable {
-	public static final PropertyEnum<EnumFacing.Axis> AXIS = PropertyEnum.create("axis",
-			EnumFacing.Axis.class, EnumFacing.Axis.X, EnumFacing.Axis.Z);
+	public static final PropertyEnum<EnumFacing.Axis> AXIS = PropertyEnum.create("axis", EnumFacing.Axis.class,
+			EnumFacing.Axis.X, EnumFacing.Axis.Z);
 
 	public BlockPortal() {
 		super(Material.portal, false);
@@ -43,7 +43,7 @@ public class BlockPortal extends BlockBreakable {
 
 			for (blockpos = pos; !World.doesBlockHaveSolidTopSurface(worldIn, blockpos)
 					&& blockpos.getY() > 0; blockpos = blockpos.down()) {
-            }
+			}
 
 			if (i > 0 && !worldIn.getBlockState(blockpos.up()).getBlock().isNormalCube()) {
 				Entity entity = ItemMonsterPlacer.spawnCreature(worldIn, 57, (double) blockpos.getX() + 0.5D,
@@ -153,7 +153,8 @@ public class BlockPortal extends BlockBreakable {
 				&& worldIn.getBlockState(pos.south(2)).getBlock() != this;
 		boolean flag4 = flag || flag1 || enumfacing$axis == EnumFacing.Axis.X;
 		boolean flag5 = flag2 || flag3 || enumfacing$axis == EnumFacing.Axis.Z;
-		return flag4 && side == EnumFacing.WEST || (flag4 && side == EnumFacing.EAST || (flag5 && side == EnumFacing.NORTH || flag5 && side == EnumFacing.SOUTH));
+		return flag4 && side == EnumFacing.WEST || (flag4 && side == EnumFacing.EAST
+				|| (flag5 && side == EnumFacing.NORTH || flag5 && side == EnumFacing.SOUTH));
 	}
 
 	public int quantityDropped(Random random) {
@@ -292,7 +293,7 @@ public class BlockPortal extends BlockBreakable {
 			for (BlockPos blockpos = p_i45694_2_; p_i45694_2_.getY() > blockpos.getY() - 21 && p_i45694_2_.getY() > 0
 					&& this.func_150857_a(
 							worldIn.getBlockState(p_i45694_2_.down()).getBlock()); p_i45694_2_ = p_i45694_2_.down()) {
-            }
+			}
 
 			int i = this.func_180120_a(p_i45694_2_, this.field_150863_d) - 1;
 

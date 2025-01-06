@@ -24,7 +24,7 @@ public class Util {
 			logger.fatal("Error executing task", executionexception);
 
 			if (executionexception.getCause() instanceof OutOfMemoryError outofmemoryerror) {
-                throw outofmemoryerror;
+				throw outofmemoryerror;
 			}
 		} catch (InterruptedException interruptedexception) {
 			logger.fatal("Error executing task", interruptedexception);
@@ -35,5 +35,5 @@ public class Util {
 
 	public enum EnumOS {
 		LINUX, SOLARIS, WINDOWS, OSX, UNKNOWN
-    }
+	}
 }

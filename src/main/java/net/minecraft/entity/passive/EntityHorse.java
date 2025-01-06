@@ -47,8 +47,8 @@ public class EntityHorse extends EntityAnimal implements IInvBasic {
 			return p_apply_1_ instanceof EntityHorse && ((EntityHorse) p_apply_1_).isBreeding();
 		}
 	};
-	private static final IAttribute horseJumpStrength = (new RangedAttribute(null, "horse.jumpStrength",
-			0.7D, 0.0D, 2.0D)).setDescription("Jump Strength").setShouldWatch(true);
+	private static final IAttribute horseJumpStrength = (new RangedAttribute(null, "horse.jumpStrength", 0.7D, 0.0D,
+			2.0D)).setDescription("Jump Strength").setShouldWatch(true);
 	private static final String[] horseArmorTextures = new String[] { null,
 			"textures/entity/horse/armor/horse_armor_iron.png", "textures/entity/horse/armor/horse_armor_gold.png",
 			"textures/entity/horse/armor/horse_armor_diamond.png" };
@@ -295,7 +295,8 @@ public class EntityHorse extends EntityAnimal implements IInvBasic {
 
 	public boolean attackEntityFrom(DamageSource source, float amount) {
 		Entity entity = source.getEntity();
-		return (this.riddenByEntity == null || !this.riddenByEntity.equals(entity)) && super.attackEntityFrom(source, amount);
+		return (this.riddenByEntity == null || !this.riddenByEntity.equals(entity))
+				&& super.attackEntityFrom(source, amount);
 	}
 
 	public int getTotalArmorValue() {
@@ -1020,8 +1021,7 @@ public class EntityHorse extends EntityAnimal implements IInvBasic {
 				this.motionY = this.getHorseJumpStrength() * (double) this.jumpPower;
 
 				if (this.isPotionActive(Potion.jump)) {
-					this.motionY += (float) (this.getActivePotionEffect(Potion.jump).getAmplifier() + 1)
-							* 0.1F;
+					this.motionY += (float) (this.getActivePotionEffect(Potion.jump).getAmplifier() + 1) * 0.1F;
 				}
 
 				this.setHorseJumping(true);
@@ -1273,8 +1273,7 @@ public class EntityHorse extends EntityAnimal implements IInvBasic {
 		}
 
 		if (i != 4 && i != 3) {
-			this.getEntityAttribute(SharedMonsterAttributes.maxHealth)
-					.setBaseValue(this.getModifiedMaxHealth());
+			this.getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(this.getModifiedMaxHealth());
 
 			if (i == 0) {
 				this.getEntityAttribute(SharedMonsterAttributes.movementSpeed)
@@ -1336,8 +1335,7 @@ public class EntityHorse extends EntityAnimal implements IInvBasic {
 			this.worldObj.spawnParticle(enumparticletypes,
 					this.posX + (double) (this.rand.nextFloat() * this.width * 2.0F) - (double) this.width,
 					this.posY + 0.5D + (double) (this.rand.nextFloat() * this.height),
-					this.posZ + (double) (this.rand.nextFloat() * this.width * 2.0F) - (double) this.width, d0, d1, d2
-            );
+					this.posZ + (double) (this.rand.nextFloat() * this.width * 2.0F) - (double) this.width, d0, d1, d2);
 		}
 	}
 

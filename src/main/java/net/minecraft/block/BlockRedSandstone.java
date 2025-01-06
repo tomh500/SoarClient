@@ -13,8 +13,8 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.IStringSerializable;
 
 public class BlockRedSandstone extends Block {
-	public static final PropertyEnum<BlockRedSandstone.EnumType> TYPE = PropertyEnum.create(
-			"type", BlockRedSandstone.EnumType.class);
+	public static final PropertyEnum<BlockRedSandstone.EnumType> TYPE = PropertyEnum.create("type",
+			BlockRedSandstone.EnumType.class);
 
 	public BlockRedSandstone() {
 		super(Material.rock, BlockSand.EnumType.RED_SAND.getMapColor());

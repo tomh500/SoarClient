@@ -32,7 +32,7 @@ public class ChatComponentSelector extends ChatComponentStyle {
 		} else if (!(p_equals_1_ instanceof ChatComponentSelector chatcomponentselector)) {
 			return false;
 		} else {
-            return this.selector.equals(chatcomponentselector.selector) && super.equals(p_equals_1_);
+			return this.selector.equals(chatcomponentselector.selector) && super.equals(p_equals_1_);
 		}
 	}
 

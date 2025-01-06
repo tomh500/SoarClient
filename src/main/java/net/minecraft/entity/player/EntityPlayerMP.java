@@ -135,8 +135,8 @@ public class EntityPlayerMP extends EntityPlayer implements ICrafting {
 		if (!worldIn.provider.getHasNoSky()
 				&& worldIn.getWorldInfo().getGameType() != WorldSettings.GameType.ADVENTURE) {
 			int i = Math.max(5, server.getSpawnProtectionSize() - 6);
-			int j = MathHelper.floor_double(
-					worldIn.getWorldBorder().getClosestDistance(blockpos.getX(), blockpos.getZ()));
+			int j = MathHelper
+					.floor_double(worldIn.getWorldBorder().getClosestDistance(blockpos.getX(), blockpos.getZ()));
 
 			if (j < i) {
 				i = j;
@@ -352,12 +352,11 @@ public class EntityPlayerMP extends EntityPlayer implements ICrafting {
 		BiomeGenBase biomegenbase = this.worldObj.getBiomeGenForCoords(
 				new BlockPos(MathHelper.floor_double(this.posX), 0, MathHelper.floor_double(this.posZ)));
 		String s = biomegenbase.biomeName;
-		JsonSerializableSet jsonserializableset = this.getStatFile()
-				.func_150870_b(AchievementList.exploreAllBiomes);
+		JsonSerializableSet jsonserializableset = this.getStatFile().func_150870_b(AchievementList.exploreAllBiomes);
 
 		if (jsonserializableset == null) {
-			jsonserializableset = this.getStatFile()
-					.func_150872_a(AchievementList.exploreAllBiomes, new JsonSerializableSet());
+			jsonserializableset = this.getStatFile().func_150872_a(AchievementList.exploreAllBiomes,
+					new JsonSerializableSet());
 		}
 
 		jsonserializableset.add(s);
@@ -452,7 +451,7 @@ public class EntityPlayerMP extends EntityPlayer implements ICrafting {
 
 					if (entity instanceof EntityArrow entityarrow) {
 
-                        if (entityarrow.shootingEntity instanceof EntityPlayer
+						if (entityarrow.shootingEntity instanceof EntityPlayer
 								&& !this.canAttackPlayer((EntityPlayer) entityarrow.shootingEntity)) {
 							return false;
 						}
@@ -484,8 +483,8 @@ public class EntityPlayerMP extends EntityPlayer implements ICrafting {
 				BlockPos blockpos = this.mcServer.worldServerForDimension(dimensionId).getSpawnCoordinate();
 
 				if (blockpos != null) {
-					this.playerNetServerHandler.setPlayerLocation(blockpos.getX(), blockpos.getY(),
-                            blockpos.getZ(), 0.0F, 0.0F);
+					this.playerNetServerHandler.setPlayerLocation(blockpos.getX(), blockpos.getY(), blockpos.getZ(),
+							0.0F, 0.0F);
 				}
 
 				dimensionId = 1;
@@ -605,11 +604,10 @@ public class EntityPlayerMP extends EntityPlayer implements ICrafting {
 
 		if (chestInventory instanceof ILockableContainer ilockablecontainer) {
 
-            if (ilockablecontainer.isLocked() && !this.canOpen(ilockablecontainer.getLockCode())
+			if (ilockablecontainer.isLocked() && !this.canOpen(ilockablecontainer.getLockCode())
 					&& !this.isSpectator()) {
-				this.playerNetServerHandler
-						.sendPacket(new S02PacketChat(new ChatComponentTranslation("container.isLocked",
-                                chestInventory.getDisplayName()), (byte) 2));
+				this.playerNetServerHandler.sendPacket(new S02PacketChat(
+						new ChatComponentTranslation("container.isLocked", chestInventory.getDisplayName()), (byte) 2));
 				this.playerNetServerHandler.sendPacket(
 						new S29PacketSoundEffect("random.door_close", this.posX, this.posY, this.posZ, 1.0F, 1.0F));
 				return;
@@ -869,8 +867,8 @@ public class EntityPlayerMP extends EntityPlayer implements ICrafting {
 		} else if (!"tell".equals(commandName) && !"help".equals(commandName) && !"me".equals(commandName)
 				&& !"trigger".equals(commandName)) {
 			if (this.mcServer.getConfigurationManager().canSendCommands(this.getGameProfile())) {
-				UserListOpsEntry userlistopsentry = this.mcServer.getConfigurationManager()
-						.getOppedPlayers().getEntry(this.getGameProfile());
+				UserListOpsEntry userlistopsentry = this.mcServer.getConfigurationManager().getOppedPlayers()
+						.getEntry(this.getGameProfile());
 				return userlistopsentry != null ? userlistopsentry.getPermissionLevel() >= permLevel
 						: this.mcServer.getOpPermissionLevel() >= permLevel;
 			} else {
@@ -917,8 +915,7 @@ public class EntityPlayerMP extends EntityPlayer implements ICrafting {
 
 	public void removeEntity(Entity p_152339_1_) {
 		if (p_152339_1_ instanceof EntityPlayer) {
-			this.playerNetServerHandler
-					.sendPacket(new S13PacketDestroyEntities(p_152339_1_.getEntityId()));
+			this.playerNetServerHandler.sendPacket(new S13PacketDestroyEntities(p_152339_1_.getEntityId()));
 		} else {
 			this.destroyedItemsNetCache.add(Integer.valueOf(p_152339_1_.getEntityId()));
 		}

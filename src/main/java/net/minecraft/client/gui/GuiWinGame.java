@@ -145,14 +145,10 @@ public class GuiWinGame extends GuiScreen {
 
 		f3 = f3 * f3;
 		f3 = f3 * 96.0F / 255.0F;
-		worldrenderer.pos(0.0D, this.height, this.zLevel).tex(0.0D, f * f2)
-				.color(f3, f3, f3, 1.0F).endVertex();
-		worldrenderer.pos(i, this.height, this.zLevel)
-				.tex((float) i * f2, f * f2).color(f3, f3, f3, 1.0F).endVertex();
-		worldrenderer.pos(i, 0.0D, this.zLevel).tex((float) i * f2, f1 * f2)
-				.color(f3, f3, f3, 1.0F).endVertex();
-		worldrenderer.pos(0.0D, 0.0D, this.zLevel).tex(0.0D, f1 * f2).color(f3, f3, f3, 1.0F)
-				.endVertex();
+		worldrenderer.pos(0.0D, this.height, this.zLevel).tex(0.0D, f * f2).color(f3, f3, f3, 1.0F).endVertex();
+		worldrenderer.pos(i, this.height, this.zLevel).tex((float) i * f2, f * f2).color(f3, f3, f3, 1.0F).endVertex();
+		worldrenderer.pos(i, 0.0D, this.zLevel).tex((float) i * f2, f1 * f2).color(f3, f3, f3, 1.0F).endVertex();
+		worldrenderer.pos(0.0D, 0.0D, this.zLevel).tex(0.0D, f1 * f2).color(f3, f3, f3, 1.0F).endVertex();
 		tessellator.draw();
 	}
 
@@ -204,12 +200,9 @@ public class GuiWinGame extends GuiScreen {
 		int j1 = this.width;
 		int k1 = this.height;
 		worldrenderer.begin(7, DefaultVertexFormats.POSITION_TEX_COLOR);
-		worldrenderer.pos(0.0D, k1, this.zLevel).tex(0.0D, 1.0D).color(1.0F, 1.0F, 1.0F, 1.0F)
-				.endVertex();
-		worldrenderer.pos(j1, k1, this.zLevel).tex(1.0D, 1.0D).color(1.0F, 1.0F, 1.0F, 1.0F)
-				.endVertex();
-		worldrenderer.pos(j1, 0.0D, this.zLevel).tex(1.0D, 0.0D).color(1.0F, 1.0F, 1.0F, 1.0F)
-				.endVertex();
+		worldrenderer.pos(0.0D, k1, this.zLevel).tex(0.0D, 1.0D).color(1.0F, 1.0F, 1.0F, 1.0F).endVertex();
+		worldrenderer.pos(j1, k1, this.zLevel).tex(1.0D, 1.0D).color(1.0F, 1.0F, 1.0F, 1.0F).endVertex();
+		worldrenderer.pos(j1, 0.0D, this.zLevel).tex(1.0D, 0.0D).color(1.0F, 1.0F, 1.0F, 1.0F).endVertex();
 		worldrenderer.pos(0.0D, 0.0D, this.zLevel).tex(0.0D, 0.0D).color(1.0F, 1.0F, 1.0F, 1.0F).endVertex();
 		tessellator.draw();
 		GlStateManager.disableBlend();

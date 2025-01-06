@@ -25,8 +25,8 @@ public class EntityAIMoveIndoors extends EntityAIBase {
 				&& !this.entityObj.worldObj.provider.getHasNoSky()) {
 			if (this.entityObj.getRNG().nextInt(50) != 0) {
 				return false;
-			} else if (this.insidePosX != -1 && this.entityObj.getDistanceSq(this.insidePosX,
-					this.entityObj.posY, this.insidePosZ) < 4.0D) {
+			} else if (this.insidePosX != -1
+					&& this.entityObj.getDistanceSq(this.insidePosX, this.entityObj.posY, this.insidePosZ) < 4.0D) {
 				return false;
 			} else {
 				Village village = this.entityObj.worldObj.getVillageCollection().getNearestVillage(blockpos, 14);

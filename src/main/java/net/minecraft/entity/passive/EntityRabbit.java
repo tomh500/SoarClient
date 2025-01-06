@@ -455,7 +455,7 @@ public class EntityRabbit extends EntityAnimal {
 		public void updateTask() {
 			super.updateTask();
 			this.rabbit.getLookHelper().setLookPosition((double) this.destinationBlock.getX() + 0.5D,
-                    this.destinationBlock.getY() + 1, (double) this.destinationBlock.getZ() + 0.5D, 10.0F,
+					this.destinationBlock.getY() + 1, (double) this.destinationBlock.getZ() + 0.5D, 10.0F,
 					(float) this.rabbit.getVerticalFaceSpeed());
 
 			if (this.getIsAboveDestination()) {

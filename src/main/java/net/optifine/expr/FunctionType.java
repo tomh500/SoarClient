@@ -28,11 +28,9 @@ public enum FunctionType {
 	TORAD(ExpressionType.FLOAT, "torad", new ExpressionType[] { ExpressionType.FLOAT }),
 	TODEG(ExpressionType.FLOAT, "todeg", new ExpressionType[] { ExpressionType.FLOAT }),
 	MIN(ExpressionType.FLOAT, "min",
-			(new ParametersVariable()).first(ExpressionType.FLOAT)
-					.repeat(ExpressionType.FLOAT)),
+			(new ParametersVariable()).first(ExpressionType.FLOAT).repeat(ExpressionType.FLOAT)),
 	MAX(ExpressionType.FLOAT, "max",
-			(new ParametersVariable()).first(ExpressionType.FLOAT)
-					.repeat(ExpressionType.FLOAT)),
+			(new ParametersVariable()).first(ExpressionType.FLOAT).repeat(ExpressionType.FLOAT)),
 	CLAMP(ExpressionType.FLOAT, "clamp",
 			new ExpressionType[] { ExpressionType.FLOAT, ExpressionType.FLOAT, ExpressionType.FLOAT }),
 	ABS(ExpressionType.FLOAT, "abs", new ExpressionType[] { ExpressionType.FLOAT }),
@@ -50,8 +48,7 @@ public enum FunctionType {
 	TIME(ExpressionType.FLOAT, "time", new ExpressionType[0]),
 	IF(ExpressionType.FLOAT, "if",
 			(new ParametersVariable()).first(ExpressionType.BOOL, ExpressionType.FLOAT)
-					.repeat(ExpressionType.BOOL, ExpressionType.FLOAT)
-					.last(ExpressionType.FLOAT)),
+					.repeat(ExpressionType.BOOL, ExpressionType.FLOAT).last(ExpressionType.FLOAT)),
 	NOT(12, ExpressionType.BOOL, "!", new ExpressionType[] { ExpressionType.BOOL }),
 	AND(3, ExpressionType.BOOL, "&&", new ExpressionType[] { ExpressionType.BOOL, ExpressionType.BOOL }),
 	OR(2, ExpressionType.BOOL, "||", new ExpressionType[] { ExpressionType.BOOL, ExpressionType.BOOL }),
@@ -65,11 +62,11 @@ public enum FunctionType {
 			new ExpressionType[] { ExpressionType.FLOAT, ExpressionType.FLOAT, ExpressionType.FLOAT }),
 	EQUALS(7, ExpressionType.BOOL, "equals",
 			new ExpressionType[] { ExpressionType.FLOAT, ExpressionType.FLOAT, ExpressionType.FLOAT }),
-	IN(ExpressionType.BOOL, "in", (new ParametersVariable()).first(ExpressionType.FLOAT)
-			.repeat(ExpressionType.FLOAT).last(ExpressionType.FLOAT)),
+	IN(ExpressionType.BOOL, "in",
+			(new ParametersVariable()).first(ExpressionType.FLOAT).repeat(ExpressionType.FLOAT)
+					.last(ExpressionType.FLOAT)),
 	SMOOTH(ExpressionType.FLOAT, "smooth",
-			(new ParametersVariable()).first(ExpressionType.FLOAT)
-					.repeat(ExpressionType.FLOAT).maxCount(4)),
+			(new ParametersVariable()).first(ExpressionType.FLOAT).repeat(ExpressionType.FLOAT).maxCount(4)),
 	TRUE(ExpressionType.BOOL, "true", new ExpressionType[0]),
 	FALSE(ExpressionType.BOOL, "false", new ExpressionType[0]),
 	VEC2(ExpressionType.FLOAT_ARRAY, "vec2", new ExpressionType[] { ExpressionType.FLOAT, ExpressionType.FLOAT }),

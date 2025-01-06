@@ -82,8 +82,7 @@ public class CommandBanIp extends CommandBase {
 		if (list.isEmpty()) {
 			notifyOperators(sender, this, "commands.banip.success", address);
 		} else {
-			notifyOperators(sender, this, "commands.banip.success.players",
-                    address, joinNiceString(astring));
+			notifyOperators(sender, this, "commands.banip.success.players", address, joinNiceString(astring));
 		}
 	}
 }

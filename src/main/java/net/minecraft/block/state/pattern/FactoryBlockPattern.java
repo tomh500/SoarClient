@@ -19,8 +19,7 @@ import net.minecraft.block.state.BlockWorldState;
 public class FactoryBlockPattern {
 	private static final Joiner COMMA_JOIN = Joiner.on(",");
 	private final List<String[]> depth = Lists.newArrayList();
-	private final Map<Character, Predicate<BlockWorldState>> symbolMap = Maps
-			.newHashMap();
+	private final Map<Character, Predicate<BlockWorldState>> symbolMap = Maps.newHashMap();
 	private int aisleHeight;
 	private int rowWidth;
 
@@ -76,8 +75,8 @@ public class FactoryBlockPattern {
 
 	private Predicate<BlockWorldState>[][][] makePredicateArray() {
 		this.checkMissingPredicates();
-		Predicate<BlockWorldState>[][][] predicate = (Predicate[][][]) Array
-				.newInstance(Predicate.class, new int[] { this.depth.size(), this.aisleHeight, this.rowWidth });
+		Predicate<BlockWorldState>[][][] predicate = (Predicate[][][]) Array.newInstance(Predicate.class,
+				new int[] { this.depth.size(), this.aisleHeight, this.rowWidth });
 
 		for (int i = 0; i < this.depth.size(); ++i) {
 			for (int j = 0; j < this.aisleHeight; ++j) {

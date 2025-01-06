@@ -165,8 +165,7 @@ public class TextureAnimation {
 								this.imageData.position(i);
 								GlStateManager.bindTexture(this.dstTextId);
 								GL11.glTexSubImage2D(GL11.GL_TEXTURE_2D, 0, this.dstX, this.dstY, this.frameWidth,
-										this.frameHeight, GL11.GL_RGBA, GL11.GL_UNSIGNED_BYTE,
-                                        this.imageData);
+										this.frameHeight, GL11.GL_RGBA, GL11.GL_UNSIGNED_BYTE, this.imageData);
 							}
 						}
 					}

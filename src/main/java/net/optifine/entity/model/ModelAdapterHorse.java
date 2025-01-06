@@ -30,7 +30,7 @@ public class ModelAdapterHorse extends ModelAdapter {
 			return null;
 		} else {
 
-            return modelPart.equals("head") ? modelhorse.head
+			return modelPart.equals("head") ? modelhorse.head
 					: (modelPart.equals("upper_mouth") ? modelhorse.field_178711_b
 							: (modelPart.equals("lower_mouth") ? modelhorse.field_178712_c
 									: (modelPart.equals("horse_left_ear") ? modelhorse.horseLeftEar

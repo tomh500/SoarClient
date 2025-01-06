@@ -145,7 +145,7 @@ public class ConnectedProperties {
 
 			for (Object object : props.keySet()) {
 				if (object instanceof String s) {
-                    String s1 = "ctm.";
+					String s1 = "ctm.";
 
 					if (s.startsWith(s1)) {
 						String s2 = s.substring(s1.length());
@@ -905,8 +905,7 @@ public class ConnectedProperties {
 				}
 			}
 
-			TextureAtlasSprite[] atextureatlassprite = (TextureAtlasSprite[]) list
-					.toArray(new TextureAtlasSprite[0]);
+			TextureAtlasSprite[] atextureatlassprite = (TextureAtlasSprite[]) list.toArray(new TextureAtlasSprite[0]);
 			return atextureatlassprite;
 		}
 	}
@@ -925,8 +924,7 @@ public class ConnectedProperties {
 
 	public String toString() {
 		return "CTM name: " + this.name + ", basePath: " + this.basePath + ", matchBlocks: "
-				+ Config.arrayToString(this.matchBlocks) + ", matchTiles: "
-				+ Config.arrayToString(this.matchTiles);
+				+ Config.arrayToString(this.matchBlocks) + ", matchTiles: " + Config.arrayToString(this.matchTiles);
 	}
 
 	public boolean matchesBiome(BiomeGenBase biome) {

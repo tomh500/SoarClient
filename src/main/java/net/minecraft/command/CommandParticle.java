@@ -62,10 +62,10 @@ public class CommandParticle extends CommandBase {
 
 				boolean flag1 = args.length > 9 && "force".equals(args[9]);
 
-                World world = sender.getEntityWorld();
+				World world = sender.getEntityWorld();
 
 				if (world instanceof WorldServer worldserver) {
-                    int[] aint = new int[enumparticletypes.getArgumentCount()];
+					int[] aint = new int[enumparticletypes.getArgumentCount()];
 
 					if (enumparticletypes.hasArguments()) {
 						String[] astring = args[0].split("_", 3);
@@ -80,8 +80,7 @@ public class CommandParticle extends CommandBase {
 					}
 
 					worldserver.spawnParticle(enumparticletypes, flag1, d6, d0, d1, i, d2, d3, d4, d5, aint);
-					notifyOperators(sender, this, "commands.particle.success",
-                            s, Integer.valueOf(Math.max(i, 1)));
+					notifyOperators(sender, this, "commands.particle.success", s, Integer.valueOf(Math.max(i, 1)));
 				}
 			}
 		}
@@ -90,8 +89,6 @@ public class CommandParticle extends CommandBase {
 	public List<String> addTabCompletionOptions(ICommandSender sender, String[] args, BlockPos pos) {
 		return args.length == 1 ? getListOfStringsMatchingLastWord(args, EnumParticleTypes.getParticleNames())
 				: (args.length > 1 && args.length <= 4 ? func_175771_a(args, 1, pos)
-						: (args.length == 10
-								? getListOfStringsMatchingLastWord(args, "normal", "force")
-								: null));
+						: (args.length == 10 ? getListOfStringsMatchingLastWord(args, "normal", "force") : null));
 	}
 }

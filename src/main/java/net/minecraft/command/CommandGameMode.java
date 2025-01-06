@@ -36,12 +36,12 @@ public class CommandGameMode extends CommandBase {
 				entityplayer.addChatMessage(new ChatComponentTranslation("gameMode.changed"));
 			}
 
-			IChatComponent ichatcomponent = new ChatComponentTranslation("gameMode." + worldsettings$gametype.getName()
-            );
+			IChatComponent ichatcomponent = new ChatComponentTranslation(
+					"gameMode." + worldsettings$gametype.getName());
 
 			if (entityplayer != sender) {
-				notifyOperators(sender, this, 1, "commands.gamemode.success.other",
-                        entityplayer.getName(), ichatcomponent);
+				notifyOperators(sender, this, 1, "commands.gamemode.success.other", entityplayer.getName(),
+						ichatcomponent);
 			} else {
 				notifyOperators(sender, this, 1, "commands.gamemode.success.self", ichatcomponent);
 			}
@@ -71,8 +71,7 @@ public class CommandGameMode extends CommandBase {
 
 	public List<String> addTabCompletionOptions(ICommandSender sender, String[] args, BlockPos pos) {
 		return args.length == 1
-				? getListOfStringsMatchingLastWord(args,
-                "survival", "creative", "adventure", "spectator")
+				? getListOfStringsMatchingLastWord(args, "survival", "creative", "adventure", "spectator")
 				: (args.length == 2 ? getListOfStringsMatchingLastWord(args, this.getListOfPlayerUsernames()) : null);
 	}
 

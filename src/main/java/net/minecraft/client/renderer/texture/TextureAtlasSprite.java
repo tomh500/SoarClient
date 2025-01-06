@@ -204,8 +204,8 @@ public class TextureAtlasSprite {
 				}
 
 				if (i != k && k >= 0 && k < this.framesTextureData.size()) {
-					TextureUtil.uploadTextureMipmap(this.framesTextureData.get(k), this.width,
-							this.height, this.originX, this.originY, flag, flag1);
+					TextureUtil.uploadTextureMipmap(this.framesTextureData.get(k), this.width, this.height,
+							this.originX, this.originY, flag, flag1);
 				}
 			} else if (this.animationMetadata.isInterpolate()) {
 				if (!this.animationActive) {
@@ -303,11 +303,10 @@ public class TextureAtlasSprite {
 				}
 
 				if (k > 0 && (bufferedimage.getWidth() != i >> k || bufferedimage.getHeight() != j >> k)) {
-					throw new RuntimeException(
-							String.format("Unable to load miplevel: %d, image is size: %dx%d, expected %dx%d",
-                                    Integer.valueOf(k), Integer.valueOf(bufferedimage.getWidth()),
-                                    Integer.valueOf(bufferedimage.getHeight()), Integer.valueOf(i >> k),
-                                    Integer.valueOf(j >> k)));
+					throw new RuntimeException(String.format(
+							"Unable to load miplevel: %d, image is size: %dx%d, expected %dx%d", Integer.valueOf(k),
+							Integer.valueOf(bufferedimage.getWidth()), Integer.valueOf(bufferedimage.getHeight()),
+							Integer.valueOf(i >> k), Integer.valueOf(j >> k)));
 				}
 
 				aint[k] = new int[bufferedimage.getWidth() * bufferedimage.getHeight()];
@@ -607,7 +606,7 @@ public class TextureAtlasSprite {
 	}
 
 	public List<int[][]> getFramesTextureData() {
-        List<int[][]> list = new ArrayList(this.framesTextureData);
+		List<int[][]> list = new ArrayList(this.framesTextureData);
 		return list;
 	}
 

@@ -45,8 +45,7 @@ public class ModelBlockDefinition {
 	}
 
 	public ModelBlockDefinition.Variants getVariants(String p_178330_1_) {
-		ModelBlockDefinition.Variants modelblockdefinition$variants = this.mapVariants
-				.get(p_178330_1_);
+		ModelBlockDefinition.Variants modelblockdefinition$variants = this.mapVariants.get(p_178330_1_);
 
 		if (modelblockdefinition$variants == null) {
 			throw new ModelBlockDefinition.MissingVariantException();
@@ -59,7 +58,7 @@ public class ModelBlockDefinition {
 		if (this == p_equals_1_) {
 			return true;
 		} else if (p_equals_1_ instanceof ModelBlockDefinition modelblockdefinition) {
-            return this.mapVariants.equals(modelblockdefinition.mapVariants);
+			return this.mapVariants.equals(modelblockdefinition.mapVariants);
 		} else {
 			return false;
 		}
@@ -97,12 +96,10 @@ public class ModelBlockDefinition {
 
 			if (jsonelement.isJsonArray()) {
 				for (JsonElement jsonelement1 : jsonelement.getAsJsonArray()) {
-					list.add(p_178335_1_.deserialize(jsonelement1,
-							Variant.class));
+					list.add(p_178335_1_.deserialize(jsonelement1, Variant.class));
 				}
 			} else {
-				list.add(p_178335_1_.deserialize(jsonelement,
-						Variant.class));
+				list.add(p_178335_1_.deserialize(jsonelement, Variant.class));
 			}
 
 			return new ModelBlockDefinition.Variants(s, list);
@@ -148,7 +145,7 @@ public class ModelBlockDefinition {
 			} else if (!(p_equals_1_ instanceof Variant modelblockdefinition$variant)) {
 				return false;
 			} else {
-                return this.modelLocation.equals(modelblockdefinition$variant.modelLocation)
+				return this.modelLocation.equals(modelblockdefinition$variant.modelLocation)
 						&& this.modelRotation == modelblockdefinition$variant.modelRotation
 						&& this.uvLock == modelblockdefinition$variant.uvLock;
 			}
@@ -224,7 +221,8 @@ public class ModelBlockDefinition {
 			} else if (!(p_equals_1_ instanceof Variants modelblockdefinition$variants)) {
 				return false;
 			} else {
-                return this.name.equals(modelblockdefinition$variants.name) && this.listVariants.equals(modelblockdefinition$variants.listVariants);
+				return this.name.equals(modelblockdefinition$variants.name)
+						&& this.listVariants.equals(modelblockdefinition$variants.listVariants);
 			}
 		}
 

@@ -157,11 +157,13 @@ public class AxisAlignedBB {
 	}
 
 	public boolean intersectsWith(AxisAlignedBB other) {
-		return other.maxX > this.minX && other.minX < this.maxX && (other.maxY > this.minY && other.minY < this.maxY && other.maxZ > this.minZ && other.minZ < this.maxZ);
+		return other.maxX > this.minX && other.minX < this.maxX && (other.maxY > this.minY && other.minY < this.maxY
+				&& other.maxZ > this.minZ && other.minZ < this.maxZ);
 	}
 
 	public boolean isVecInside(Vec3 vec) {
-		return vec.xCoord > this.minX && vec.xCoord < this.maxX && (vec.yCoord > this.minY && vec.yCoord < this.maxY && vec.zCoord > this.minZ && vec.zCoord < this.maxZ);
+		return vec.xCoord > this.minX && vec.xCoord < this.maxX && (vec.yCoord > this.minY && vec.yCoord < this.maxY
+				&& vec.zCoord > this.minZ && vec.zCoord < this.maxZ);
 	}
 
 	public double getAverageEdgeLength() {
@@ -264,17 +266,17 @@ public class AxisAlignedBB {
 
 	private boolean isVecInYZ(Vec3 vec) {
 		return vec != null && vec.yCoord >= this.minY && vec.yCoord <= this.maxY && vec.zCoord >= this.minZ
-                && vec.zCoord <= this.maxZ;
+				&& vec.zCoord <= this.maxZ;
 	}
 
 	private boolean isVecInXZ(Vec3 vec) {
 		return vec != null && vec.xCoord >= this.minX && vec.xCoord <= this.maxX && vec.zCoord >= this.minZ
-                && vec.zCoord <= this.maxZ;
+				&& vec.zCoord <= this.maxZ;
 	}
 
 	private boolean isVecInXY(Vec3 vec) {
 		return vec != null && vec.xCoord >= this.minX && vec.xCoord <= this.maxX && vec.yCoord >= this.minY
-                && vec.yCoord <= this.maxY;
+				&& vec.yCoord <= this.maxY;
 	}
 
 	public String toString() {

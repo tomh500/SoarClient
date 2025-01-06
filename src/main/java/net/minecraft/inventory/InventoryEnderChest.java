@@ -50,7 +50,8 @@ public class InventoryEnderChest extends InventoryBasic {
 	}
 
 	public boolean isUseableByPlayer(EntityPlayer player) {
-		return (this.associatedChest == null || this.associatedChest.canBeUsed(player)) && super.isUseableByPlayer(player);
+		return (this.associatedChest == null || this.associatedChest.canBeUsed(player))
+				&& super.isUseableByPlayer(player);
 	}
 
 	public void openInventory(EntityPlayer player) {

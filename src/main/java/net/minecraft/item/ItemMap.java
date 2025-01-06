@@ -49,8 +49,8 @@ public class ItemMap extends ItemMapBase {
 			s = "map_" + stack.getMetadata();
 			mapdata = new MapData(s);
 			mapdata.scale = 3;
-			mapdata.calculateMapCenter(worldIn.getWorldInfo().getSpawnX(),
-                    worldIn.getWorldInfo().getSpawnZ(), mapdata.scale);
+			mapdata.calculateMapCenter(worldIn.getWorldInfo().getSpawnX(), worldIn.getWorldInfo().getSpawnZ(),
+					mapdata.scale);
 			mapdata.dimension = (byte) worldIn.provider.getDimensionId();
 			mapdata.markDirty();
 			worldIn.setItemData(s, mapdata);
@@ -168,8 +168,8 @@ public class ItemMap extends ItemMapBase {
 									i5 = 0;
 								}
 
-								MapColor mapcolor = Iterables.getFirst(
-										Multisets.copyHighestCountFirst(multiset), MapColor.airColor);
+								MapColor mapcolor = Iterables.getFirst(Multisets.copyHighestCountFirst(multiset),
+										MapColor.airColor);
 
 								if (mapcolor == MapColor.waterColor) {
 									d2 = (double) k3 * 0.1D + (double) (k1 + l1 & 1) * 0.2D;
@@ -209,7 +209,7 @@ public class ItemMap extends ItemMapBase {
 			MapData mapdata = this.getMapData(stack, worldIn);
 
 			if (entityIn instanceof EntityPlayer entityplayer) {
-                mapdata.updateVisiblePlayers(entityplayer, stack);
+				mapdata.updateVisiblePlayers(entityplayer, stack);
 			}
 
 			if (isSelected) {

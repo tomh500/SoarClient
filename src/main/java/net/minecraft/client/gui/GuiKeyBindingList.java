@@ -97,8 +97,7 @@ public class GuiKeyBindingList extends GuiListExtended {
 		private KeyEntry(KeyBinding p_i45029_2_) {
 			this.keybinding = p_i45029_2_;
 			this.keyDesc = I18n.format(p_i45029_2_.getKeyDescription());
-			this.btnChangeKeyBinding = new GuiButton(0, 0, 0, 75, 20,
-					I18n.format(p_i45029_2_.getKeyDescription()));
+			this.btnChangeKeyBinding = new GuiButton(0, 0, 0, 75, 20, I18n.format(p_i45029_2_.getKeyDescription()));
 			this.btnReset = new GuiButton(0, 0, 0, 50, 20, I18n.format("controls.reset"));
 		}
 

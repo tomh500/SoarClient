@@ -206,11 +206,17 @@ public class MapGenCaves extends MapGenBase {
 	}
 
 	protected boolean func_175793_a(IBlockState p_175793_1_, IBlockState p_175793_2_) {
-		return p_175793_1_.getBlock() == Blocks.stone || (p_175793_1_.getBlock() == Blocks.dirt || (p_175793_1_.getBlock() == Blocks.grass || (p_175793_1_.getBlock() == Blocks.hardened_clay || (p_175793_1_.getBlock() == Blocks.stained_hardened_clay || (p_175793_1_.getBlock() == Blocks.sandstone || (p_175793_1_.getBlock() == Blocks.red_sandstone || (p_175793_1_.getBlock() == Blocks.mycelium || (p_175793_1_.getBlock() == Blocks.snow_layer || (p_175793_1_.getBlock() == Blocks.sand
-                || p_175793_1_
-                .getBlock() == Blocks.gravel)
-                && p_175793_2_.getBlock()
-                .getMaterial() != Material.water))))))));
+		return p_175793_1_.getBlock() == Blocks.stone || (p_175793_1_.getBlock() == Blocks.dirt || (p_175793_1_
+				.getBlock() == Blocks.grass
+				|| (p_175793_1_.getBlock() == Blocks.hardened_clay || (p_175793_1_
+						.getBlock() == Blocks.stained_hardened_clay
+						|| (p_175793_1_.getBlock() == Blocks.sandstone || (p_175793_1_
+								.getBlock() == Blocks.red_sandstone
+								|| (p_175793_1_.getBlock() == Blocks.mycelium || (p_175793_1_
+										.getBlock() == Blocks.snow_layer
+										|| (p_175793_1_.getBlock() == Blocks.sand
+												|| p_175793_1_.getBlock() == Blocks.gravel)
+												&& p_175793_2_.getBlock().getMaterial() != Material.water))))))));
 	}
 
 	protected void recursiveGenerate(World worldIn, int chunkX, int chunkZ, int p_180701_4_, int p_180701_5_,

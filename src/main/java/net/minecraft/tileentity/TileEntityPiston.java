@@ -108,8 +108,8 @@ public class TileEntityPiston extends TileEntity implements ITickable {
 						}
 					} else {
 						entity.moveEntity(p_145863_2_ * (float) this.pistonFacing.getFrontOffsetX(),
-                                p_145863_2_ * (float) this.pistonFacing.getFrontOffsetY(),
-                                p_145863_2_ * (float) this.pistonFacing.getFrontOffsetZ());
+								p_145863_2_ * (float) this.pistonFacing.getFrontOffsetY(),
+								p_145863_2_ * (float) this.pistonFacing.getFrontOffsetZ());
 					}
 				}
 

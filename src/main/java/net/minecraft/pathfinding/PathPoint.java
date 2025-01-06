@@ -43,7 +43,7 @@ public class PathPoint {
 		if (!(p_equals_1_ instanceof PathPoint pathpoint)) {
 			return false;
 		} else {
-            return this.hash == pathpoint.hash && this.xCoord == pathpoint.xCoord && this.yCoord == pathpoint.yCoord
+			return this.hash == pathpoint.hash && this.xCoord == pathpoint.xCoord && this.yCoord == pathpoint.yCoord
 					&& this.zCoord == pathpoint.zCoord;
 		}
 	}

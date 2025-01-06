@@ -31,7 +31,7 @@ public class FontUtils {
 				properties.load(inputstream);
 				inputstream.close();
 			} catch (FileNotFoundException var7) {
-            } catch (IOException ioexception) {
+			} catch (IOException ioexception) {
 				ioexception.printStackTrace();
 			}
 

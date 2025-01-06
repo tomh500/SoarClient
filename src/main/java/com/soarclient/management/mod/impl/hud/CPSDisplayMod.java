@@ -17,7 +17,7 @@ public class CPSDisplayMod extends SimpleHUDMod {
 	private ArrayList<Long> rightPresses = new ArrayList<Long>();
 	private BooleanSetting rightClickSetting = new BooleanSetting("setting.rightclick",
 			"setting.cps.rightclick.description", Icon.RIGHT_CLICK, this, true);
-	
+
 	public CPSDisplayMod() {
 		super("mod.cpsdisplay.name", "mod.cpsdisplay.description", Icon.LEFT_CLICK);
 	}
@@ -36,7 +36,7 @@ public class CPSDisplayMod extends SimpleHUDMod {
 			}
 		}
 	}
-	
+
 	@EventHandler
 	public void onClientTick(ClientTickEvent event) {
 		leftPresses.removeIf(t -> System.currentTimeMillis() - t > 1000);

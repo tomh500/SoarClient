@@ -569,7 +569,7 @@ public class Config {
 					texturePackClouds = 3;
 				}
 			} catch (Exception var4) {
-            }
+			}
 		}
 	}
 
@@ -831,8 +831,7 @@ public class Config {
 			list1.add(resourcepackrepository.getResourcePackInstance());
 		}
 
-		IResourcePack[] airesourcepack = (IResourcePack[]) list1
-				.toArray(new IResourcePack[0]);
+		IResourcePack[] airesourcepack = (IResourcePack[]) list1.toArray(new IResourcePack[0]);
 		return airesourcepack;
 	}
 
@@ -938,7 +937,8 @@ public class Config {
 	}
 
 	public static boolean isVignetteEnabled() {
-		return (!isShaders() || Shaders.isVignette()) && (gameSettings.ofVignette == 0 ? gameSettings.fancyGraphics : gameSettings.ofVignette == 2);
+		return (!isShaders() || Shaders.isVignette())
+				&& (gameSettings.ofVignette == 0 ? gameSettings.fancyGraphics : gameSettings.ofVignette == 2);
 	}
 
 	public static boolean isStarsEnabled() {
@@ -1113,8 +1113,7 @@ public class Config {
 					}
 				}
 
-				DisplayMode[] adisplaymode2 = (DisplayMode[]) list
-						.toArray(new DisplayMode[0]);
+				DisplayMode[] adisplaymode2 = (DisplayMode[]) list.toArray(new DisplayMode[0]);
 				Arrays.sort(adisplaymode2, new DisplayModeComparator());
 				return adisplaymode2;
 			} catch (Exception exception) {
@@ -1237,8 +1236,7 @@ public class Config {
 
 		if (i != 0 && GlErrors.isEnabled(i)) {
 			String s = getGlErrorString(i);
-			String s1 = String.format("OpenGL error: %s (%s), at: %s",
-                    Integer.valueOf(i), s, p_checkGlError_0_);
+			String s1 = String.format("OpenGL error: %s (%s), at: %s", Integer.valueOf(i), s, p_checkGlError_0_);
 			error(s1);
 
 			if (isShowGlErrors() && TimedEvent.isActive("ShowGlError", 10000L)) {
@@ -1685,8 +1683,7 @@ public class Config {
 		} else {
 			int i = p_addObjectToArray_0_.length;
 			int j = i + 1;
-			Object[] aobject = (Object[]) Array
-					.newInstance(p_addObjectToArray_0_.getClass().getComponentType(), j);
+			Object[] aobject = (Object[]) Array.newInstance(p_addObjectToArray_0_.getClass().getComponentType(), j);
 			System.arraycopy(p_addObjectToArray_0_, 0, aobject, 0, i);
 			aobject[i] = p_addObjectToArray_1_;
 			return aobject;
@@ -1710,8 +1707,7 @@ public class Config {
 		} else {
 			int i = p_addObjectsToArray_0_.length;
 			int j = i + p_addObjectsToArray_1_.length;
-			Object[] aobject = (Object[]) Array
-					.newInstance(p_addObjectsToArray_0_.getClass().getComponentType(), j);
+			Object[] aobject = (Object[]) Array.newInstance(p_addObjectsToArray_0_.getClass().getComponentType(), j);
 			System.arraycopy(p_addObjectsToArray_0_, 0, aobject, 0, i);
 			System.arraycopy(p_addObjectsToArray_1_, 0, aobject, i, p_addObjectsToArray_1_.length);
 			return aobject;
@@ -1736,8 +1732,7 @@ public class Config {
 					"Can not make arrays with primitive elements (int, double), element class: "
 							+ p_collectionToArray_1_);
 		} else {
-			Object[] aobject = (Object[]) Array.newInstance(p_collectionToArray_1_,
-					p_collectionToArray_0_.size());
+			Object[] aobject = (Object[]) Array.newInstance(p_collectionToArray_1_, p_collectionToArray_0_.size());
 			return p_collectionToArray_0_.toArray(aobject);
 		}
 	}
@@ -1856,7 +1851,7 @@ public class Config {
 			int[] aint = new int[j];
 			System.arraycopy(p_addIntsToArray_0_, 0, aint, 0, i);
 
-            System.arraycopy(p_addIntsToArray_1_, 0, aint, i, p_addIntsToArray_1_.length);
+			System.arraycopy(p_addIntsToArray_1_, 0, aint, i, p_addIntsToArray_1_.length);
 
 			return aint;
 		} else {

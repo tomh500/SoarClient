@@ -139,8 +139,7 @@ public class BlockPart {
 
 			for (Entry<String, JsonElement> entry : jsonobject.entrySet()) {
 				EnumFacing enumfacing = this.parseEnumFacing(entry.getKey());
-				map.put(enumfacing,
-                        p_178253_1_.deserialize(entry.getValue(), BlockPartFace.class));
+				map.put(enumfacing, p_178253_1_.deserialize(entry.getValue(), BlockPartFace.class));
 			}
 
 			return map;

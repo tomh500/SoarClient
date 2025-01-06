@@ -22,8 +22,8 @@ public class GuiVideoSettings extends GuiScreenOF {
 	private final GuiScreen parentGuiScreen;
 	protected String screenTitle = "Video Settings";
 	private final GameSettings guiGameSettings;
-	private static final GameSettings.Options[] videoOptions = new GameSettings.Options[] { GameSettings.Options.GRAPHICS,
-			GameSettings.Options.RENDER_DISTANCE, GameSettings.Options.AMBIENT_OCCLUSION,
+	private static final GameSettings.Options[] videoOptions = new GameSettings.Options[] {
+			GameSettings.Options.GRAPHICS, GameSettings.Options.RENDER_DISTANCE, GameSettings.Options.AMBIENT_OCCLUSION,
 			GameSettings.Options.FRAMERATE_LIMIT, GameSettings.Options.AO_LEVEL, GameSettings.Options.VIEW_BOBBING,
 			GameSettings.Options.GUI_SCALE, GameSettings.Options.USE_VBO, GameSettings.Options.GAMMA,
 			GameSettings.Options.BLOCK_ALTERNATIVES, GameSettings.Options.DYNAMIC_LIGHTS,
@@ -73,8 +73,8 @@ public class GuiVideoSettings extends GuiScreenOF {
 		i1 = this.width / 2 - 155 + 160;
 		this.buttonList.add(new GuiOptionButton(222, i1, l, Lang.get("of.options.other")));
 		l = l + 21;
-		this.buttonList.add(new GuiButton(200, this.width / 2 - 100, this.height / 6 + 168 + 11,
-				I18n.format("gui.done")));
+		this.buttonList
+				.add(new GuiButton(200, this.width / 2 - 100, this.height / 6 + 168 + 11, I18n.format("gui.done")));
 	}
 
 	protected void actionPerformed(GuiButton button) throws IOException {

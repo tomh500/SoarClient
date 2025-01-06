@@ -64,7 +64,7 @@ public class ItemSkull extends Item {
 
 					if (tileentity instanceof TileEntitySkull tileentityskull) {
 
-                        if (stack.getMetadata() == 3) {
+						if (stack.getMetadata() == 3) {
 							GameProfile gameprofile = null;
 
 							if (stack.hasTagCompound()) {
@@ -120,7 +120,7 @@ public class ItemSkull extends Item {
 		if (stack.getMetadata() == 3 && stack.hasTagCompound()) {
 			if (stack.getTagCompound().hasKey("SkullOwner", 8)) {
 				return StatCollector.translateToLocalFormatted("item.skull.player.name",
-                        stack.getTagCompound().getString("SkullOwner"));
+						stack.getTagCompound().getString("SkullOwner"));
 			}
 
 			if (stack.getTagCompound().hasKey("SkullOwner", 10)) {
@@ -128,7 +128,7 @@ public class ItemSkull extends Item {
 
 				if (nbttagcompound.hasKey("Name", 8)) {
 					return StatCollector.translateToLocalFormatted("item.skull.player.name",
-                            nbttagcompound.getString("Name"));
+							nbttagcompound.getString("Name"));
 				}
 			}
 		}

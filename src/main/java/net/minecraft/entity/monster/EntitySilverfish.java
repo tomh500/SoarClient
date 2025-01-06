@@ -210,9 +210,7 @@ public class EntitySilverfish extends EntityMob {
 									world.destroyBlock(blockpos1, true);
 								} else {
 									world.setBlockState(blockpos1,
-											iblockstate.getValue(BlockSilverfish.VARIANT)
-													.getModelBlock(),
-											3);
+											iblockstate.getValue(BlockSilverfish.VARIANT).getModelBlock(), 3);
 								}
 
 								if (random.nextBoolean()) {

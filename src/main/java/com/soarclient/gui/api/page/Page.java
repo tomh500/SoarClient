@@ -3,14 +3,14 @@ package com.soarclient.gui.api.page;
 import net.minecraft.client.Minecraft;
 
 public abstract class Page {
-	
+
 	protected Minecraft mc = Minecraft.getMinecraft();
-	
+
 	protected float x, y, width, height;
 	private PageTransition transition;
 	private String title, icon;
 	private PageGui parent;
-	
+
 	public Page(PageGui parent, String title, String icon, PageTransition transition) {
 		this.parent = parent;
 		this.title = title;
@@ -21,14 +21,19 @@ public abstract class Page {
 		this.height = 0;
 		this.transition = transition;
 	}
-	
+
 	public abstract void init();
+
 	public abstract void draw(int mouseX, int mouseY);
+
 	public abstract void mousePressed(int mouseX, int mouseY, int mouseButton);
+
 	public abstract void mouseReleased(int mouseX, int mouseY, int mouseButton);
+
 	public abstract void keyTyped(char typedChar, int keyCode);
+
 	public abstract void onClosed();
-	
+
 	public float getX() {
 		return x;
 	}
@@ -68,11 +73,11 @@ public abstract class Page {
 	public String getIcon() {
 		return icon;
 	}
-	
+
 	public void setCurrentPage(Page page) {
 		parent.setCurrentPage(page);
 	}
-	
+
 	public void setCurrentPage(Class<? extends Page> clazz) {
 		parent.setCurrentPage(clazz);
 	}

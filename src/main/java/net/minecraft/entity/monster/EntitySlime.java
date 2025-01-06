@@ -52,8 +52,7 @@ public class EntitySlime extends EntityLiving implements IMob {
 		this.setSize(0.51000005F * (float) size, 0.51000005F * (float) size);
 		this.setPosition(this.posX, this.posY, this.posZ);
 		this.getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(size * size);
-		this.getEntityAttribute(SharedMonsterAttributes.movementSpeed)
-				.setBaseValue(0.2F + 0.1F * (float) size);
+		this.getEntityAttribute(SharedMonsterAttributes.movementSpeed).setBaseValue(0.2F + 0.1F * (float) size);
 		this.setHealth(this.getMaxHealth());
 		this.experienceValue = size;
 	}
@@ -110,8 +109,7 @@ public class EntitySlime extends EntityLiving implements IMob {
 				EnumParticleTypes enumparticletypes = this.getParticleType();
 				double d0 = this.posX + (double) f2;
 				double d1 = this.posZ + (double) f3;
-				world.spawnParticle(enumparticletypes, d0, this.getEntityBoundingBox().minY, d1, 0.0D, 0.0D, 0.0D
-                );
+				world.spawnParticle(enumparticletypes, d0, this.getEntityBoundingBox().minY, d1, 0.0D, 0.0D, 0.0D);
 			}
 
 			if (this.makesSoundOnLand()) {
@@ -304,8 +302,9 @@ public class EntitySlime extends EntityLiving implements IMob {
 
 		public boolean shouldExecute() {
 			EntityLivingBase entitylivingbase = this.slime.getAttackTarget();
-			return entitylivingbase != null && (entitylivingbase.isEntityAlive() && (!(entitylivingbase instanceof EntityPlayer)
-                    || !((EntityPlayer) entitylivingbase).capabilities.disableDamage));
+			return entitylivingbase != null
+					&& (entitylivingbase.isEntityAlive() && (!(entitylivingbase instanceof EntityPlayer)
+							|| !((EntityPlayer) entitylivingbase).capabilities.disableDamage));
 		}
 
 		public void startExecuting() {
@@ -315,8 +314,10 @@ public class EntitySlime extends EntityLiving implements IMob {
 
 		public boolean continueExecuting() {
 			EntityLivingBase entitylivingbase = this.slime.getAttackTarget();
-			return entitylivingbase != null && (entitylivingbase.isEntityAlive() && ((!(entitylivingbase instanceof EntityPlayer)
-                    || !((EntityPlayer) entitylivingbase).capabilities.disableDamage) && --this.field_179465_b > 0));
+			return entitylivingbase != null
+					&& (entitylivingbase.isEntityAlive() && ((!(entitylivingbase instanceof EntityPlayer)
+							|| !((EntityPlayer) entitylivingbase).capabilities.disableDamage)
+							&& --this.field_179465_b > 0));
 		}
 
 		public void updateTask() {

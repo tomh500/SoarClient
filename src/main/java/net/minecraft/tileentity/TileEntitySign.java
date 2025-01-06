@@ -90,8 +90,7 @@ public class TileEntitySign extends TileEntity {
 				IChatComponent ichatcomponent = IChatComponent.Serializer.jsonToComponent(s);
 
 				try {
-					this.signText[i] = ChatComponentProcessor.processComponent(icommandsender, ichatcomponent,
-                            null);
+					this.signText[i] = ChatComponentProcessor.processComponent(icommandsender, ichatcomponent, null);
 				} catch (CommandException var7) {
 					this.signText[i] = ichatcomponent;
 				}

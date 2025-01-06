@@ -143,14 +143,13 @@ public abstract class BlockFlower extends BlockBush {
 
 		static {
 			for (final BlockFlower.EnumFlowerColor blockflower$enumflowercolor : BlockFlower.EnumFlowerColor.values()) {
-				Collection<BlockFlower.EnumFlowerType> collection = Collections2.filter(
-						Lists.newArrayList(values()), new Predicate<BlockFlower.EnumFlowerType>() {
+				Collection<BlockFlower.EnumFlowerType> collection = Collections2.filter(Lists.newArrayList(values()),
+						new Predicate<BlockFlower.EnumFlowerType>() {
 							public boolean apply(BlockFlower.EnumFlowerType p_apply_1_) {
 								return p_apply_1_.getBlockType() == blockflower$enumflowercolor;
 							}
 						});
-				TYPES_FOR_BLOCK[blockflower$enumflowercolor.ordinal()] = collection
-						.toArray(new EnumFlowerType[0]);
+				TYPES_FOR_BLOCK[blockflower$enumflowercolor.ordinal()] = collection.toArray(new EnumFlowerType[0]);
 			}
 		}
 	}

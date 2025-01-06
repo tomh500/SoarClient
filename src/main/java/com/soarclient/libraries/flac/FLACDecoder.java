@@ -202,42 +202,42 @@ public class FLACDecoder {
 	 *         <code>space</code>)
 	 */
 	public ByteData decodeFrame(Frame frame, ByteData pcmData) {
-	    // 24bitを16bitとして扱うため、バッファサイズを16bit用に計算
-	    int bitsPerSample = streamInfo.getBitsPerSample() == 24 ? 16 : streamInfo.getBitsPerSample();
-	    int byteSize = frame.header.blockSize * channels * ((bitsPerSample + 7) / 2);
-	    
-	    if (pcmData == null || pcmData.getData().length < byteSize) {
-	        pcmData = new ByteData(byteSize);
-	    } else {
-	        pcmData.setLen(0);
-	    }
-	    
-	    if (streamInfo.getBitsPerSample() == 8) {
-	        for (int i = 0; i < frame.header.blockSize; i++) {
-	            for (int channel = 0; channel < channels; channel++) {
-	                pcmData.append((byte) (channelData[channel].getOutput()[i] + 0x80));
-	            }
-	        }
-	    } else if (streamInfo.getBitsPerSample() == 16) {
-	        for (int i = 0; i < frame.header.blockSize; i++) {
-	            for (int channel = 0; channel < channels; channel++) {
-	                short val = (short) (channelData[channel].getOutput()[i]);
-	                pcmData.append((byte) (val & 0xff));
-	                pcmData.append((byte) ((val >> 8) & 0xff));
-	            }
-	        }
-	    } else if (streamInfo.getBitsPerSample() == 24) {
-	        for (int i = 0; i < frame.header.blockSize; i++) {
-	            for (int channel = 0; channel < channels; channel++) {
-	                // 24bitから16bitに変換（8ビット右シフト）
-	                int val = (channelData[channel].getOutput()[i]);
-	                short val16 = (short)(val >> 8);
-	                pcmData.append((byte) (val16 & 0xff));
-	                pcmData.append((byte) ((val16 >> 8) & 0xff));
-	            }
-	        }
-	    }
-	    return pcmData;
+		// 24bitを16bitとして扱うため、バッファサイズを16bit用に計算
+		int bitsPerSample = streamInfo.getBitsPerSample() == 24 ? 16 : streamInfo.getBitsPerSample();
+		int byteSize = frame.header.blockSize * channels * ((bitsPerSample + 7) / 2);
+
+		if (pcmData == null || pcmData.getData().length < byteSize) {
+			pcmData = new ByteData(byteSize);
+		} else {
+			pcmData.setLen(0);
+		}
+
+		if (streamInfo.getBitsPerSample() == 8) {
+			for (int i = 0; i < frame.header.blockSize; i++) {
+				for (int channel = 0; channel < channels; channel++) {
+					pcmData.append((byte) (channelData[channel].getOutput()[i] + 0x80));
+				}
+			}
+		} else if (streamInfo.getBitsPerSample() == 16) {
+			for (int i = 0; i < frame.header.blockSize; i++) {
+				for (int channel = 0; channel < channels; channel++) {
+					short val = (short) (channelData[channel].getOutput()[i]);
+					pcmData.append((byte) (val & 0xff));
+					pcmData.append((byte) ((val >> 8) & 0xff));
+				}
+			}
+		} else if (streamInfo.getBitsPerSample() == 24) {
+			for (int i = 0; i < frame.header.blockSize; i++) {
+				for (int channel = 0; channel < channels; channel++) {
+					// 24bitから16bitに変換（8ビット右シフト）
+					int val = (channelData[channel].getOutput()[i]);
+					short val16 = (short) (val >> 8);
+					pcmData.append((byte) (val16 & 0xff));
+					pcmData.append((byte) ((val16 >> 8) & 0xff));
+				}
+			}
+		}
+		return pcmData;
 	}
 
 	/**

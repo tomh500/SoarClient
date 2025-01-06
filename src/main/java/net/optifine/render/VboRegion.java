@@ -133,8 +133,7 @@ public class VboRegion {
 		int i = 0;
 		int j = 0;
 
-		for (VboRange vborange = this.rangeList.getFirst().getItem(); vborange != null; vborange = vborange
-				.getNext()) {
+		for (VboRange vborange = this.rangeList.getFirst().getItem(); vborange != null; vborange = vborange.getNext()) {
 			++i;
 			j += vborange.getSize();
 
@@ -185,7 +184,7 @@ public class VboRegion {
 		int i;
 
 		for (i = this.capacity * 6 / 4; i < sizeMin; i = i * 6 / 4) {
-        }
+		}
 
 		long j = this.toBytes(this.capacity);
 		long k = this.toBytes(i);

@@ -71,8 +71,7 @@ public class CommandTrigger extends CommandBase {
 						score.setLocked(true);
 
 						if (entityplayermp.theItemInWorldManager.isCreative()) {
-							notifyOperators(sender, this, "commands.trigger.success",
-                                    args[0], args[1], args[2]);
+							notifyOperators(sender, this, "commands.trigger.success", args[0], args[1], args[2]);
 						}
 					}
 				}

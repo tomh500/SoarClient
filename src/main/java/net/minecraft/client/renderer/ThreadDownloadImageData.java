@@ -112,7 +112,7 @@ public class ThreadDownloadImageData extends SimpleTexture {
 			public void run() {
 				HttpURLConnection httpurlconnection = null;
 				ThreadDownloadImageData.logger.debug("Downloading http texture from {} to {}",
-                        ThreadDownloadImageData.this.imageUrl, ThreadDownloadImageData.this.cacheFile);
+						ThreadDownloadImageData.this.imageUrl, ThreadDownloadImageData.this.cacheFile);
 
 				if (ThreadDownloadImageData.this.shouldPipeline()) {
 					ThreadDownloadImageData.this.loadPipelined();
@@ -150,7 +150,7 @@ public class ThreadDownloadImageData extends SimpleTexture {
 					} catch (Exception exception) {
 						ThreadDownloadImageData.logger.error("Couldn't download http texture: "
 								+ exception.getClass().getName() + ": " + exception.getMessage());
-                    } finally {
+					} finally {
 						if (httpurlconnection != null) {
 							httpurlconnection.disconnect();
 						}
@@ -201,7 +201,7 @@ public class ThreadDownloadImageData extends SimpleTexture {
 		} catch (Exception exception) {
 			logger.error("Couldn't download http texture: " + exception.getClass().getName() + ": "
 					+ exception.getMessage());
-        } finally {
+		} finally {
 			this.loadingFinished();
 		}
 	}
@@ -210,7 +210,7 @@ public class ThreadDownloadImageData extends SimpleTexture {
 		this.imageFound = Boolean.valueOf(this.bufferedImage != null);
 
 		if (this.imageBuffer instanceof CapeImageBuffer capeimagebuffer) {
-            capeimagebuffer.cleanup();
+			capeimagebuffer.cleanup();
 		}
 	}
 

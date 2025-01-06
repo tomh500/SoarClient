@@ -54,7 +54,7 @@ public class ResourceLocation {
 		} else if (!(p_equals_1_ instanceof ResourceLocation resourcelocation)) {
 			return false;
 		} else {
-            return this.resourceDomain.equals(resourcelocation.resourceDomain)
+			return this.resourceDomain.equals(resourcelocation.resourceDomain)
 					&& this.resourcePath.equals(resourcelocation.resourcePath);
 		}
 	}

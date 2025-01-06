@@ -118,15 +118,13 @@ public class GuiPageButtonList extends GuiListExtended {
 	private void func_178060_e(int p_178060_1_, int p_178060_2_) {
 		for (GuiPageButtonList.GuiListEntry guipagebuttonlist$guilistentry : this.field_178078_x[p_178060_1_]) {
 			if (guipagebuttonlist$guilistentry != null) {
-				this.func_178066_a(this.field_178073_v.lookup(guipagebuttonlist$guilistentry.func_178935_b()),
-						false);
+				this.func_178066_a(this.field_178073_v.lookup(guipagebuttonlist$guilistentry.func_178935_b()), false);
 			}
 		}
 
 		for (GuiPageButtonList.GuiListEntry guipagebuttonlist$guilistentry1 : this.field_178078_x[p_178060_2_]) {
 			if (guipagebuttonlist$guilistentry1 != null) {
-				this.func_178066_a(this.field_178073_v.lookup(guipagebuttonlist$guilistentry1.func_178935_b()),
-						true);
+				this.func_178066_a(this.field_178073_v.lookup(guipagebuttonlist$guilistentry1.func_178935_b()), true);
 			}
 		}
 	}
@@ -143,14 +141,11 @@ public class GuiPageButtonList extends GuiListExtended {
 
 	private Gui func_178058_a(GuiPageButtonList.GuiListEntry p_178058_1_, int p_178058_2_, boolean p_178058_3_) {
 		return p_178058_1_ instanceof GuiSlideEntry
-				? this.func_178067_a(this.width / 2 - 155 + p_178058_2_, 0,
-						(GuiSlideEntry) p_178058_1_)
+				? this.func_178067_a(this.width / 2 - 155 + p_178058_2_, 0, (GuiSlideEntry) p_178058_1_)
 				: (p_178058_1_ instanceof GuiButtonEntry
-						? this.func_178065_a(this.width / 2 - 155 + p_178058_2_, 0,
-								(GuiButtonEntry) p_178058_1_)
+						? this.func_178065_a(this.width / 2 - 155 + p_178058_2_, 0, (GuiButtonEntry) p_178058_1_)
 						: (p_178058_1_ instanceof EditBoxEntry
-								? this.func_178068_a(this.width / 2 - 155 + p_178058_2_, 0,
-										(EditBoxEntry) p_178058_1_)
+								? this.func_178068_a(this.width / 2 - 155 + p_178058_2_, 0, (EditBoxEntry) p_178058_1_)
 								: (p_178058_1_ instanceof GuiLabelEntry
 										? this.func_178063_a(this.width / 2 - 155 + p_178058_2_, 0,
 												(GuiLabelEntry) p_178058_1_, p_178058_3_)
@@ -234,7 +229,7 @@ public class GuiPageButtonList extends GuiListExtended {
 	public void func_178062_a(char p_178062_1_, int p_178062_2_) {
 		if (this.field_178075_A instanceof GuiTextField guitextfield) {
 
-            if (!GuiScreen.isKeyComboCtrlV(p_178062_2_)) {
+			if (!GuiScreen.isKeyComboCtrlV(p_178062_2_)) {
 				if (p_178062_2_ == 15) {
 					guitextfield.setFocused(false);
 					int k = this.field_178072_w.indexOf(this.field_178075_A);

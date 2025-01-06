@@ -31,9 +31,10 @@ public class ClickEvent {
 				return false;
 			} else {
 				if (this.value != null) {
-                    return this.value.equals(clickevent.value);
-				} else return clickevent.value == null;
-            }
+					return this.value.equals(clickevent.value);
+				} else
+					return clickevent.value == null;
+			}
 		} else {
 			return false;
 		}

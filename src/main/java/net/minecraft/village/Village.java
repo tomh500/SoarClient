@@ -115,18 +115,16 @@ public class Village {
 	private void updateNumIronGolems() {
 		List<EntityIronGolem> list = this.worldObj.getEntitiesWithinAABB(EntityIronGolem.class,
 				new AxisAlignedBB(this.center.getX() - this.villageRadius, this.center.getY() - 4,
-                        this.center.getZ() - this.villageRadius,
-                        this.center.getX() + this.villageRadius, this.center.getY() + 4,
-                        this.center.getZ() + this.villageRadius));
+						this.center.getZ() - this.villageRadius, this.center.getX() + this.villageRadius,
+						this.center.getY() + 4, this.center.getZ() + this.villageRadius));
 		this.numIronGolems = list.size();
 	}
 
 	private void updateNumVillagers() {
 		List<EntityVillager> list = this.worldObj.getEntitiesWithinAABB(EntityVillager.class,
 				new AxisAlignedBB(this.center.getX() - this.villageRadius, this.center.getY() - 4,
-                        this.center.getZ() - this.villageRadius,
-                        this.center.getX() + this.villageRadius, this.center.getY() + 4,
-                        this.center.getZ() + this.villageRadius));
+						this.center.getZ() - this.villageRadius, this.center.getX() + this.villageRadius,
+						this.center.getY() + 4, this.center.getZ() + this.villageRadius));
 		this.numVillagers = list.size();
 
 		if (this.numVillagers == 0) {
@@ -243,8 +241,7 @@ public class Village {
 		Village.VillageAggressor village$villageaggressor = null;
 
 		for (int i = 0; i < this.villageAgressors.size(); ++i) {
-			Village.VillageAggressor village$villageaggressor1 = this.villageAgressors
-					.get(i);
+			Village.VillageAggressor village$villageaggressor1 = this.villageAgressors.get(i);
 			double d1 = village$villageaggressor1.agressor.getDistanceSqToEntity(entitylivingbaseIn);
 
 			if (d1 <= d0) {

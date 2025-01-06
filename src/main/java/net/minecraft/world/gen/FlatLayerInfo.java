@@ -54,8 +54,7 @@ public class FlatLayerInfo {
 		String s;
 
 		if (this.field_175902_a >= 3) {
-			ResourceLocation resourcelocation = Block.blockRegistry
-					.getNameForObject(this.getLayerMaterialBlock());
+			ResourceLocation resourcelocation = Block.blockRegistry.getNameForObject(this.getLayerMaterialBlock());
 			s = resourcelocation == null ? "null" : resourcelocation.toString();
 
 			if (this.layerCount > 1) {

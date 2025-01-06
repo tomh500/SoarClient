@@ -113,8 +113,7 @@ public class BlockCauldron extends Block {
 							--itemstack.stackSize;
 
 							if (itemstack.stackSize <= 0) {
-								playerIn.inventory.setInventorySlotContents(playerIn.inventory.currentItem,
-                                        null);
+								playerIn.inventory.setInventorySlotContents(playerIn.inventory.currentItem, null);
 							}
 						}
 
@@ -125,7 +124,7 @@ public class BlockCauldron extends Block {
 				} else {
 					if (i > 0 && item instanceof ItemArmor itemarmor) {
 
-                        if (itemarmor.getArmorMaterial() == ItemArmor.ArmorMaterial.LEATHER
+						if (itemarmor.getArmorMaterial() == ItemArmor.ArmorMaterial.LEATHER
 								&& itemarmor.hasColor(itemstack)) {
 							itemarmor.removeColor(itemstack);
 							this.setWaterLevel(worldIn, pos, state, i - 1);

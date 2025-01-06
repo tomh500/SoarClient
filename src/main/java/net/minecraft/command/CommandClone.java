@@ -43,8 +43,7 @@ public class CommandClone extends CommandBase {
 			int i = structureboundingbox.getXSize() * structureboundingbox.getYSize() * structureboundingbox.getZSize();
 
 			if (i > 32768) {
-				throw new CommandException("commands.clone.tooManyBlocks",
-                        Integer.valueOf(i), Integer.valueOf(32768));
+				throw new CommandException("commands.clone.tooManyBlocks", Integer.valueOf(i), Integer.valueOf(32768));
 			} else {
 				boolean flag = false;
 				Block block = null;
@@ -109,12 +108,12 @@ public class CommandClone extends CommandBase {
 												linkedlist.addLast(blockpos4);
 											} else if (!iblockstate.getBlock().isFullBlock()
 													&& !iblockstate.getBlock().isFullCube()) {
-												list2.add(new CommandClone.StaticCloneData(blockpos5, iblockstate,
-                                                        null));
+												list2.add(
+														new CommandClone.StaticCloneData(blockpos5, iblockstate, null));
 												linkedlist.addFirst(blockpos4);
 											} else {
-												list.add(new CommandClone.StaticCloneData(blockpos5, iblockstate,
-                                                        null));
+												list.add(
+														new CommandClone.StaticCloneData(blockpos5, iblockstate, null));
 												linkedlist.addLast(blockpos4);
 											}
 										}
@@ -142,8 +141,7 @@ public class CommandClone extends CommandBase {
 							list3.addAll(list);
 							list3.addAll(list1);
 							list3.addAll(list2);
-							List<CommandClone.StaticCloneData> list4 = Lists.reverse(
-									list3);
+							List<CommandClone.StaticCloneData> list4 = Lists.reverse(list3);
 
 							for (CommandClone.StaticCloneData commandclone$staticclonedata : list4) {
 								TileEntity tileentity2 = world.getTileEntity(commandclone$staticclonedata.pos);
@@ -206,8 +204,7 @@ public class CommandClone extends CommandBase {
 								throw new CommandException("commands.clone.failed");
 							} else {
 								sender.setCommandStat(CommandResultStats.Type.AFFECTED_BLOCKS, i);
-								notifyOperators(sender, this, "commands.clone.success",
-                                        Integer.valueOf(i));
+								notifyOperators(sender, this, "commands.clone.success", Integer.valueOf(i));
 							}
 						} else {
 							throw new CommandException("commands.clone.outOfWorld");
@@ -229,11 +226,11 @@ public class CommandClone extends CommandBase {
 										? func_175771_a(args, 3, pos)
 										: (args.length > 6 && args.length <= 9 ? func_175771_a(args, 6, pos)
 												: (args.length == 10
-														? getListOfStringsMatchingLastWord(args,
-                "replace", "masked", "filtered")
+														? getListOfStringsMatchingLastWord(args, "replace", "masked",
+																"filtered")
 														: (args.length == 11
-																? getListOfStringsMatchingLastWord(args,
-                "normal", "force", "move")
+																? getListOfStringsMatchingLastWord(args, "normal",
+																		"force", "move")
 																: (args.length == 12 && "filtered".equals(args[9])
 																		? getListOfStringsMatchingLastWord(args,
 																				Block.blockRegistry.getKeys())

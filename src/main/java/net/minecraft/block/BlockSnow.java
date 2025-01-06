@@ -42,8 +42,8 @@ public class BlockSnow extends Block {
 		int i = state.getValue(LAYERS).intValue() - 1;
 		float f = 0.125F;
 		return new AxisAlignedBB((double) pos.getX() + this.minX, (double) pos.getY() + this.minY,
-				(double) pos.getZ() + this.minZ, (double) pos.getX() + this.maxX,
-                (float) pos.getY() + (float) i * f, (double) pos.getZ() + this.maxZ);
+				(double) pos.getZ() + this.minZ, (double) pos.getX() + this.maxX, (float) pos.getY() + (float) i * f,
+				(double) pos.getZ() + this.maxZ);
 	}
 
 	public boolean isOpaqueCube() {
@@ -70,7 +70,10 @@ public class BlockSnow extends Block {
 	public boolean canPlaceBlockAt(World worldIn, BlockPos pos) {
 		IBlockState iblockstate = worldIn.getBlockState(pos.down());
 		Block block = iblockstate.getBlock();
-		return block != Blocks.ice && block != Blocks.packed_ice && (block.getMaterial() == Material.leaves || (block == this && iblockstate.getValue(LAYERS).intValue() >= 7 || block.isOpaqueCube() && block.blockMaterial.blocksMovement()));
+		return block != Blocks.ice && block != Blocks.packed_ice
+				&& (block.getMaterial() == Material.leaves
+						|| (block == this && iblockstate.getValue(LAYERS).intValue() >= 7
+								|| block.isOpaqueCube() && block.blockMaterial.blocksMovement()));
 	}
 
 	public void onNeighborBlockChange(World worldIn, BlockPos pos, IBlockState state, Block neighborBlock) {
@@ -88,8 +91,7 @@ public class BlockSnow extends Block {
 	}
 
 	public void harvestBlock(World worldIn, EntityPlayer player, BlockPos pos, IBlockState state, TileEntity te) {
-		spawnAsEntity(worldIn, pos,
-				new ItemStack(Items.snowball, state.getValue(LAYERS).intValue() + 1, 0));
+		spawnAsEntity(worldIn, pos, new ItemStack(Items.snowball, state.getValue(LAYERS).intValue() + 1, 0));
 		worldIn.setBlockToAir(pos);
 		player.triggerAchievement(StatList.mineBlockStatArray[Block.getIdFromBlock(this)]);
 	}

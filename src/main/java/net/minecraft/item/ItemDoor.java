@@ -54,7 +54,7 @@ public class ItemDoor extends Item {
 				|| worldIn.getBlockState(blockpos.up()).getBlock() == door;
 		boolean flag2 = flag && !flag1 || j > i;
 
-        BlockPos blockpos2 = pos.up();
+		BlockPos blockpos2 = pos.up();
 		IBlockState iblockstate = door.getDefaultState().withProperty(BlockDoor.FACING, facing).withProperty(
 				BlockDoor.HINGE, flag2 ? BlockDoor.EnumHingePosition.RIGHT : BlockDoor.EnumHingePosition.LEFT);
 		worldIn.setBlockState(pos, iblockstate.withProperty(BlockDoor.HALF, BlockDoor.EnumDoorHalf.LOWER), 2);

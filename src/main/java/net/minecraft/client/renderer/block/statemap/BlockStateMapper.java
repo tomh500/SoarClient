@@ -29,9 +29,8 @@ public class BlockStateMapper {
 
 		for (Block block : Block.blockRegistry) {
 			if (!this.setBuiltInBlocks.contains(block)) {
-				map.putAll(
-						Objects.firstNonNull(this.blockStateMap.get(block), new DefaultStateMapper())
-								.putStateModelLocations(block));
+				map.putAll(Objects.firstNonNull(this.blockStateMap.get(block), new DefaultStateMapper())
+						.putStateModelLocations(block));
 			}
 		}
 

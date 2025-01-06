@@ -187,9 +187,8 @@ public class EntityWither extends EntityMob implements IBossDisplayData, IRanged
 		if (this.getInvulTime() > 0) {
 			for (int i1 = 0; i1 < 3; ++i1) {
 				this.worldObj.spawnParticle(EnumParticleTypes.SPELL_MOB, this.posX + this.rand.nextGaussian(),
-						this.posY + (double) (this.rand.nextFloat() * 3.3F),
-						this.posZ + this.rand.nextGaussian(), 0.699999988079071D, 0.699999988079071D,
-						0.8999999761581421D);
+						this.posY + (double) (this.rand.nextFloat() * 3.3F), this.posZ + this.rand.nextGaussian(),
+						0.699999988079071D, 0.699999988079071D, 0.8999999761581421D);
 			}
 		}
 	}
@@ -254,13 +253,12 @@ public class EntityWither extends EntityMob implements IBossDisplayData, IRanged
 							this.updateWatchedTargetId(i, 0);
 						}
 					} else {
-						List<EntityLivingBase> list = this.worldObj.getEntitiesWithinAABB(
-								EntityLivingBase.class, this.getEntityBoundingBox().expand(20.0D, 8.0D, 20.0D),
+						List<EntityLivingBase> list = this.worldObj.getEntitiesWithinAABB(EntityLivingBase.class,
+								this.getEntityBoundingBox().expand(20.0D, 8.0D, 20.0D),
 								Predicates.and(attackEntitySelector, EntitySelectors.NOT_SPECTATING));
 
 						for (int j2 = 0; j2 < 10 && !list.isEmpty(); ++j2) {
-							EntityLivingBase entitylivingbase = list
-									.get(this.rand.nextInt(list.size()));
+							EntityLivingBase entitylivingbase = list.get(this.rand.nextInt(list.size()));
 
 							if (entitylivingbase != this && entitylivingbase.isEntityAlive()
 									&& this.canEntityBeSeen(entitylivingbase)) {

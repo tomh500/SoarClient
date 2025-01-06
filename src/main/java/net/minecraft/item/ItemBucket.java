@@ -46,15 +46,13 @@ public class ItemBucket extends Item {
 					IBlockState iblockstate = worldIn.getBlockState(blockpos);
 					Material material = iblockstate.getBlock().getMaterial();
 
-					if (material == Material.water
-							&& iblockstate.getValue(BlockLiquid.LEVEL).intValue() == 0) {
+					if (material == Material.water && iblockstate.getValue(BlockLiquid.LEVEL).intValue() == 0) {
 						worldIn.setBlockToAir(blockpos);
 						playerIn.triggerAchievement(StatList.objectUseStats[Item.getIdFromItem(this)]);
 						return this.fillBucket(itemStackIn, playerIn, Items.water_bucket);
 					}
 
-					if (material == Material.lava
-							&& iblockstate.getValue(BlockLiquid.LEVEL).intValue() == 0) {
+					if (material == Material.lava && iblockstate.getValue(BlockLiquid.LEVEL).intValue() == 0) {
 						worldIn.setBlockToAir(blockpos);
 						playerIn.triggerAchievement(StatList.objectUseStats[Item.getIdFromItem(this)]);
 						return this.fillBucket(itemStackIn, playerIn, Items.lava_bucket);
@@ -109,8 +107,7 @@ public class ItemBucket extends Item {
 					int i = pos.getX();
 					int j = pos.getY();
 					int k = pos.getZ();
-					worldIn.playSoundEffect((float) i + 0.5F, (float) j + 0.5F,
-                            (float) k + 0.5F, "random.fizz", 0.5F,
+					worldIn.playSoundEffect((float) i + 0.5F, (float) j + 0.5F, (float) k + 0.5F, "random.fizz", 0.5F,
 							2.6F + (worldIn.rand.nextFloat() - worldIn.rand.nextFloat()) * 0.8F);
 
 					for (int l = 0; l < 8; ++l) {

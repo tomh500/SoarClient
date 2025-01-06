@@ -59,10 +59,9 @@ public class SmartLeaves {
 			Block block = state1.getBlock();
 			Block block1 = state2.getBlock();
 			return block == block1 && (block instanceof BlockOldLeaf
-                    ? state1.getValue(BlockOldLeaf.VARIANT)
-                    .equals(state2.getValue(BlockOldLeaf.VARIANT))
-                    : (block instanceof BlockNewLeaf && state1.getValue(BlockNewLeaf.VARIANT).equals(
-                    state2.getValue(BlockNewLeaf.VARIANT))));
+					? state1.getValue(BlockOldLeaf.VARIANT).equals(state2.getValue(BlockOldLeaf.VARIANT))
+					: (block instanceof BlockNewLeaf
+							&& state1.getValue(BlockNewLeaf.VARIANT).equals(state2.getValue(BlockNewLeaf.VARIANT))));
 		}
 	}
 
@@ -174,8 +173,8 @@ public class SmartLeaves {
 				EnumFacing enumfacing1 = aenumfacing[k];
 				List<BakedQuad> list1 = ibakedmodel.getFaceQuads(enumfacing1);
 				BakedQuad bakedquad = list1.get(0);
-				BakedQuad bakedquad1 = new BakedQuad(bakedquad.getVertexData().clone(),
-						bakedquad.getTintIndex(), bakedquad.getFace(), bakedquad.getSprite());
+				BakedQuad bakedquad1 = new BakedQuad(bakedquad.getVertexData().clone(), bakedquad.getTintIndex(),
+						bakedquad.getFace(), bakedquad.getSprite());
 				int[] aint = bakedquad1.getVertexData();
 				int[] aint1 = aint.clone();
 				int j = aint.length / 4;

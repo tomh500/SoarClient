@@ -38,7 +38,7 @@ public abstract class EntityAIMoveToBlock extends EntityAIBase {
 
 	public void startExecuting() {
 		this.theEntity.getNavigator().tryMoveToXYZ((double) ((float) this.destinationBlock.getX()) + 0.5D,
-                this.destinationBlock.getY() + 1, (double) ((float) this.destinationBlock.getZ()) + 0.5D,
+				this.destinationBlock.getY() + 1, (double) ((float) this.destinationBlock.getZ()) + 0.5D,
 				this.movementSpeed);
 		this.timeoutCounter = 0;
 		this.field_179490_f = this.theEntity.getRNG().nextInt(this.theEntity.getRNG().nextInt(1200) + 1200) + 1200;
@@ -54,8 +54,8 @@ public abstract class EntityAIMoveToBlock extends EntityAIBase {
 
 			if (this.timeoutCounter % 40 == 0) {
 				this.theEntity.getNavigator().tryMoveToXYZ((double) ((float) this.destinationBlock.getX()) + 0.5D,
-                        this.destinationBlock.getY() + 1,
-						(double) ((float) this.destinationBlock.getZ()) + 0.5D, this.movementSpeed);
+						this.destinationBlock.getY() + 1, (double) ((float) this.destinationBlock.getZ()) + 0.5D,
+						this.movementSpeed);
 			}
 		} else {
 			this.isAboveDestination = true;

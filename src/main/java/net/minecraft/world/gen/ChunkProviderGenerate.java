@@ -149,8 +149,8 @@ public class ChunkProviderGenerate implements IChunkProvider {
 
 	public void replaceBlocksForBiome(int x, int z, ChunkPrimer primer, BiomeGenBase[] biomeGens) {
 		double d0 = 0.03125D;
-		this.stoneNoise = this.field_147430_m.func_151599_a(this.stoneNoise, x * 16, z * 16, 16,
-				16, d0 * 2.0D, d0 * 2.0D, 1.0D);
+		this.stoneNoise = this.field_147430_m.func_151599_a(this.stoneNoise, x * 16, z * 16, 16, 16, d0 * 2.0D,
+				d0 * 2.0D, 1.0D);
 
 		for (int i = 0; i < 16; ++i) {
 			for (int j = 0; j < 16; ++j) {
@@ -210,13 +210,12 @@ public class ChunkProviderGenerate implements IChunkProvider {
 
 	private void func_147423_a(int x, int y, int z) {
 		this.depthNoiseArray = this.noiseGen6.generateNoiseOctaves(this.depthNoiseArray, x, z, 5, 5,
-                this.settings.depthNoiseScaleX, this.settings.depthNoiseScaleZ,
-                this.settings.depthNoiseScaleExponent);
+				this.settings.depthNoiseScaleX, this.settings.depthNoiseScaleZ, this.settings.depthNoiseScaleExponent);
 		float f = this.settings.coordinateScale;
 		float f1 = this.settings.heightScale;
 		this.mainNoiseArray = this.field_147429_l.generateNoiseOctaves(this.mainNoiseArray, x, y, z, 5, 33, 5,
-                f / this.settings.mainNoiseScaleX, f1 / this.settings.mainNoiseScaleY,
-                f / this.settings.mainNoiseScaleZ);
+				f / this.settings.mainNoiseScaleX, f1 / this.settings.mainNoiseScaleY,
+				f / this.settings.mainNoiseScaleZ);
 		this.lowerLimitNoiseArray = this.field_147431_j.generateNoiseOctaves(this.lowerLimitNoiseArray, x, y, z, 5, 33,
 				5, f, f1, f);
 		this.upperLimitNoiseArray = this.field_147432_k.generateNoiseOctaves(this.upperLimitNoiseArray, x, y, z, 5, 33,

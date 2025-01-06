@@ -123,8 +123,7 @@ public class BlockState {
 				throw new IllegalArgumentException("Cannot set property " + property + " to " + value + " on block "
 						+ Block.blockRegistry.getNameForObject(this.block) + ", it is not an allowed value");
 			} else {
-				return this.properties.get(property) == value ? this
-						: this.propertyValueTable.get(property, value);
+				return this.properties.get(property) == value ? this : this.propertyValueTable.get(property, value);
 			}
 		}
 
@@ -148,8 +147,7 @@ public class BlockState {
 			if (this.propertyValueTable != null) {
 				throw new IllegalStateException();
 			} else {
-				Table<IProperty, Comparable, IBlockState> table = HashBasedTable
-						.create();
+				Table<IProperty, Comparable, IBlockState> table = HashBasedTable.create();
 
 				for (IProperty<? extends Comparable> iproperty : this.properties.keySet()) {
 					for (Comparable comparable : iproperty.getAllowedValues()) {

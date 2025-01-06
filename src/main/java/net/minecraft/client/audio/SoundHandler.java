@@ -68,15 +68,14 @@ public class SoundHandler implements IResourceManagerReloadListener, ITickable {
 						Map<String, SoundList> map = this.getSoundMap(iresource.getInputStream());
 
 						for (Entry<String, SoundList> entry : map.entrySet()) {
-							this.loadSoundResource(new ResourceLocation(s, entry.getKey()),
-                                    entry.getValue());
+							this.loadSoundResource(new ResourceLocation(s, entry.getKey()), entry.getValue());
 						}
 					} catch (RuntimeException runtimeexception) {
 						logger.warn("Invalid sounds.json", runtimeexception);
 					}
 				}
 			} catch (IOException var11) {
-            }
+			}
 		}
 	}
 
@@ -123,20 +122,20 @@ public class SoundHandler implements IResourceManagerReloadListener, ITickable {
 				try {
 					inputstream = this.mcResourceManager.getResource(resourcelocation1).getInputStream();
 				} catch (FileNotFoundException var18) {
-					logger.warn("File {} does not exist, cannot add it to event {}",
-                            resourcelocation1, location);
+					logger.warn("File {} does not exist, cannot add it to event {}", resourcelocation1, location);
 					continue;
 				} catch (IOException ioexception) {
-					logger.warn("Could not load sound file " + resourcelocation1 + ", cannot add it to event "
-							+ location, ioexception);
+					logger.warn(
+							"Could not load sound file " + resourcelocation1 + ", cannot add it to event " + location,
+							ioexception);
 					continue;
 				} finally {
 					IOUtils.closeQuietly(inputstream);
 				}
 
-				isoundeventaccessor = new SoundEventAccessor(new SoundPoolEntry(resourcelocation1,
-                        soundlist$soundentry.getSoundEntryPitch(),
-                        soundlist$soundentry.getSoundEntryVolume(), soundlist$soundentry.isStreaming()),
+				isoundeventaccessor = new SoundEventAccessor(
+						new SoundPoolEntry(resourcelocation1, soundlist$soundentry.getSoundEntryPitch(),
+								soundlist$soundentry.getSoundEntryVolume(), soundlist$soundentry.isStreaming()),
 						soundlist$soundentry.getSoundEntryWeight());
 				break;
 
@@ -220,8 +219,7 @@ public class SoundHandler implements IResourceManagerReloadListener, ITickable {
 		List<SoundEventAccessorComposite> list = Lists.newArrayList();
 
 		for (ResourceLocation resourcelocation : this.sndRegistry.getKeys()) {
-			SoundEventAccessorComposite soundeventaccessorcomposite = this.sndRegistry
-					.getObject(resourcelocation);
+			SoundEventAccessorComposite soundeventaccessorcomposite = this.sndRegistry.getObject(resourcelocation);
 
 			if (ArrayUtils.contains(categories, soundeventaccessorcomposite.getSoundCategory())) {
 				list.add(soundeventaccessorcomposite);

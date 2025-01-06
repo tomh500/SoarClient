@@ -39,8 +39,9 @@ public class CommandWhitelist extends CommandBase {
 				minecraftserver.getConfigurationManager().setWhiteListEnabled(false);
 				notifyOperators(sender, this, "commands.whitelist.disabled");
 			} else if (args[0].equals("list")) {
-				sender.addChatMessage(new ChatComponentTranslation("commands.whitelist.list", Integer.valueOf(minecraftserver.getConfigurationManager().getWhitelistedPlayerNames().length),
-                        Integer.valueOf(minecraftserver.getConfigurationManager().getAvailablePlayerDat().length)));
+				sender.addChatMessage(new ChatComponentTranslation("commands.whitelist.list",
+						Integer.valueOf(minecraftserver.getConfigurationManager().getWhitelistedPlayerNames().length),
+						Integer.valueOf(minecraftserver.getConfigurationManager().getAvailablePlayerDat().length)));
 				String[] astring = minecraftserver.getConfigurationManager().getWhitelistedPlayerNames();
 				sender.addChatMessage(new ChatComponentText(joinNiceString(astring)));
 			} else if (args[0].equals("add")) {
@@ -79,8 +80,7 @@ public class CommandWhitelist extends CommandBase {
 
 	public List<String> addTabCompletionOptions(ICommandSender sender, String[] args, BlockPos pos) {
 		if (args.length == 1) {
-			return getListOfStringsMatchingLastWord(args,
-                    "on", "off", "list", "add", "remove", "reload");
+			return getListOfStringsMatchingLastWord(args, "on", "off", "list", "add", "remove", "reload");
 		} else {
 			if (args.length == 2) {
 				if (args[0].equals("remove")) {

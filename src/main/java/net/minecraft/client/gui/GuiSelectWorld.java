@@ -57,10 +57,8 @@ public class GuiSelectWorld extends GuiScreen implements GuiYesNoCallback {
 		this.field_146636_v = I18n.format("selectWorld.conversion");
 		this.field_146635_w[WorldSettings.GameType.SURVIVAL.getID()] = I18n.format("gameMode.survival");
 		this.field_146635_w[WorldSettings.GameType.CREATIVE.getID()] = I18n.format("gameMode.creative");
-		this.field_146635_w[WorldSettings.GameType.ADVENTURE.getID()] = I18n.format("gameMode.adventure"
-        );
-		this.field_146635_w[WorldSettings.GameType.SPECTATOR.getID()] = I18n.format("gameMode.spectator"
-        );
+		this.field_146635_w[WorldSettings.GameType.ADVENTURE.getID()] = I18n.format("gameMode.adventure");
+		this.field_146635_w[WorldSettings.GameType.SPECTATOR.getID()] = I18n.format("gameMode.spectator");
 		this.availableWorlds = new GuiSelectWorld.List(this.mc);
 		this.availableWorlds.registerScrollButtons(4, 5);
 		this.addWorldSelectionButtons();
@@ -95,16 +93,15 @@ public class GuiSelectWorld extends GuiScreen implements GuiYesNoCallback {
 	public void addWorldSelectionButtons() {
 		this.buttonList.add(this.selectButton = new GuiButton(1, this.width / 2 - 154, this.height - 52, 150, 20,
 				I18n.format("selectWorld.select")));
-		this.buttonList.add(new GuiButton(3, this.width / 2 + 4, this.height - 52, 150, 20,
-				I18n.format("selectWorld.create")));
+		this.buttonList.add(
+				new GuiButton(3, this.width / 2 + 4, this.height - 52, 150, 20, I18n.format("selectWorld.create")));
 		this.buttonList.add(this.renameButton = new GuiButton(6, this.width / 2 - 154, this.height - 28, 72, 20,
 				I18n.format("selectWorld.rename")));
 		this.buttonList.add(this.deleteButton = new GuiButton(2, this.width / 2 - 76, this.height - 28, 72, 20,
 				I18n.format("selectWorld.delete")));
 		this.buttonList.add(this.recreateButton = new GuiButton(7, this.width / 2 + 4, this.height - 28, 72, 20,
 				I18n.format("selectWorld.recreate")));
-		this.buttonList.add(new GuiButton(0, this.width / 2 + 82, this.height - 28, 72, 20,
-				I18n.format("gui.cancel")));
+		this.buttonList.add(new GuiButton(0, this.width / 2 + 82, this.height - 28, 72, 20, I18n.format("gui.cancel")));
 		this.selectButton.enabled = false;
 		this.deleteButton.enabled = false;
 		this.renameButton.enabled = false;
@@ -237,8 +234,7 @@ public class GuiSelectWorld extends GuiScreen implements GuiYesNoCallback {
 
 		protected void drawSlot(int entryID, int p_180791_2_, int p_180791_3_, int p_180791_4_, int mouseXIn,
 				int mouseYIn) {
-			SaveFormatComparator saveformatcomparator = GuiSelectWorld.this.field_146639_s
-					.get(entryID);
+			SaveFormatComparator saveformatcomparator = GuiSelectWorld.this.field_146639_s.get(entryID);
 			String s = saveformatcomparator.getDisplayName();
 
 			if (StringUtils.isEmpty(s)) {

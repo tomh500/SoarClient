@@ -134,8 +134,8 @@ public class NetHandlerLoginServer implements INetHandlerLoginServer, ITickable 
 	}
 
 	public void processLoginStart(C00PacketLoginStart packetIn) {
-		Validate.validState(this.currentLoginState == NetHandlerLoginServer.LoginState.HELLO, "Unexpected hello packet"
-        );
+		Validate.validState(this.currentLoginState == NetHandlerLoginServer.LoginState.HELLO,
+				"Unexpected hello packet");
 		this.loginGameProfile = packetIn.getProfile();
 
 		if (this.server.isServerInOnlineMode() && !this.networkManager.isLocalChannel()) {
@@ -148,8 +148,7 @@ public class NetHandlerLoginServer implements INetHandlerLoginServer, ITickable 
 	}
 
 	public void processEncryptionResponse(C01PacketEncryptionResponse packetIn) {
-		Validate.validState(this.currentLoginState == NetHandlerLoginServer.LoginState.KEY, "Unexpected key packet"
-        );
+		Validate.validState(this.currentLoginState == NetHandlerLoginServer.LoginState.KEY, "Unexpected key packet");
 		PrivateKey privatekey = this.server.getKeyPair().getPrivate();
 
 		if (!Arrays.equals(this.verifyToken, packetIn.getVerifyToken(privatekey))) {
@@ -212,5 +211,5 @@ public class NetHandlerLoginServer implements INetHandlerLoginServer, ITickable 
 
 	enum LoginState {
 		HELLO, KEY, AUTHENTICATING, READY_TO_ACCEPT, DELAY_ACCEPT, ACCEPTED
-    }
+	}
 }

@@ -80,8 +80,8 @@ public class CommandHandler implements ICommandManager {
 			return true;
 		} catch (WrongUsageException wrongusageexception) {
 			ChatComponentTranslation chatcomponenttranslation2 = new ChatComponentTranslation("commands.generic.usage",
-                    new ChatComponentTranslation(wrongusageexception.getMessage(),
-                            wrongusageexception.getErrorObjects()));
+					new ChatComponentTranslation(wrongusageexception.getMessage(),
+							wrongusageexception.getErrorObjects()));
 			chatcomponenttranslation2.getChatStyle().setColor(EnumChatFormatting.RED);
 			sender.addChatMessage(chatcomponenttranslation2);
 		} catch (CommandException commandexception) {

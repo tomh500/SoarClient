@@ -33,7 +33,7 @@ public class RandomEntity implements IRandomEntity {
 		if (!(this.entity instanceof EntityLiving entityliving)) {
 			return 0;
 		} else {
-            return (int) entityliving.getHealth();
+			return (int) entityliving.getHealth();
 		}
 	}
 
@@ -41,7 +41,7 @@ public class RandomEntity implements IRandomEntity {
 		if (!(this.entity instanceof EntityLiving entityliving)) {
 			return 0;
 		} else {
-            return (int) entityliving.getMaxHealth();
+			return (int) entityliving.getMaxHealth();
 		}
 	}
 

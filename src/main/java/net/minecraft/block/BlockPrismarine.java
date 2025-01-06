@@ -15,8 +15,8 @@ import net.minecraft.util.IStringSerializable;
 import net.minecraft.util.StatCollector;
 
 public class BlockPrismarine extends Block {
-	public static final PropertyEnum<BlockPrismarine.EnumType> VARIANT = PropertyEnum.create(
-			"variant", BlockPrismarine.EnumType.class);
+	public static final PropertyEnum<BlockPrismarine.EnumType> VARIANT = PropertyEnum.create("variant",
+			BlockPrismarine.EnumType.class);
 	public static final int ROUGH_META = BlockPrismarine.EnumType.ROUGH.getMetadata();
 	public static final int BRICKS_META = BlockPrismarine.EnumType.BRICKS.getMetadata();
 	public static final int DARK_META = BlockPrismarine.EnumType.DARK.getMetadata();

@@ -23,7 +23,7 @@ public class TileEntityUtils {
 		if (!(te instanceof IWorldNameable iworldnameable)) {
 			return null;
 		} else {
-            updateTileEntityName(te);
+			updateTileEntityName(te);
 			return !iworldnameable.hasCustomName() ? null : iworldnameable.getName();
 		}
 	}
@@ -56,7 +56,7 @@ public class TileEntityUtils {
 		} else {
 			if (te instanceof IWorldNameable iworldnameable) {
 
-                if (iworldnameable.hasCustomName()) {
+				if (iworldnameable.hasCustomName()) {
 					return iworldnameable.getName();
 				}
 			}

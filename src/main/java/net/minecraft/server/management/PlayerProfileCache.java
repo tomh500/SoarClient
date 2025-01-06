@@ -118,8 +118,7 @@ public class PlayerProfileCache {
 				gameProfile, expirationDate);
 
 		if (this.uuidToProfileEntryMap.containsKey(uuid)) {
-			PlayerProfileCache.ProfileEntry playerprofilecache$profileentry1 = this.uuidToProfileEntryMap
-					.get(uuid);
+			PlayerProfileCache.ProfileEntry playerprofilecache$profileentry1 = this.uuidToProfileEntryMap.get(uuid);
 			this.usernameToProfileEntryMap
 					.remove(playerprofilecache$profileentry1.getGameProfile().getName().toLowerCase(Locale.ROOT));
 			this.gameProfiles.remove(gameProfile);
@@ -134,8 +133,7 @@ public class PlayerProfileCache {
 
 	public GameProfile getGameProfileForUsername(String username) {
 		String s = username.toLowerCase(Locale.ROOT);
-		PlayerProfileCache.ProfileEntry playerprofilecache$profileentry = this.usernameToProfileEntryMap
-				.get(s);
+		PlayerProfileCache.ProfileEntry playerprofilecache$profileentry = this.usernameToProfileEntryMap.get(s);
 
 		if (playerprofilecache$profileentry != null
 				&& (new Date()).getTime() >= playerprofilecache$profileentry.expirationDate.getTime()) {
@@ -155,8 +153,7 @@ public class PlayerProfileCache {
 
 			if (gameprofile1 != null) {
 				this.addEntry(gameprofile1);
-				playerprofilecache$profileentry = this.usernameToProfileEntryMap
-						.get(s);
+				playerprofilecache$profileentry = this.usernameToProfileEntryMap.get(s);
 			}
 		}
 
@@ -170,14 +167,12 @@ public class PlayerProfileCache {
 	}
 
 	public GameProfile getProfileByUUID(UUID uuid) {
-		PlayerProfileCache.ProfileEntry playerprofilecache$profileentry = this.uuidToProfileEntryMap
-				.get(uuid);
+		PlayerProfileCache.ProfileEntry playerprofilecache$profileentry = this.uuidToProfileEntryMap.get(uuid);
 		return playerprofilecache$profileentry == null ? null : playerprofilecache$profileentry.getGameProfile();
 	}
 
 	private PlayerProfileCache.ProfileEntry getByUUID(UUID uuid) {
-		PlayerProfileCache.ProfileEntry playerprofilecache$profileentry = this.uuidToProfileEntryMap
-				.get(uuid);
+		PlayerProfileCache.ProfileEntry playerprofilecache$profileentry = this.uuidToProfileEntryMap.get(uuid);
 
 		if (playerprofilecache$profileentry != null) {
 			GameProfile gameprofile = playerprofilecache$profileentry.getGameProfile();
@@ -205,8 +200,8 @@ public class PlayerProfileCache {
 				}
 			}
 		} catch (FileNotFoundException var9) {
-        } catch (JsonParseException var10) {
-        } finally {
+		} catch (JsonParseException var10) {
+		} finally {
 			IOUtils.closeQuietly(bufferedreader);
 		}
 	}
@@ -218,9 +213,9 @@ public class PlayerProfileCache {
 		try {
 			bufferedwriter = Files.newWriter(this.usercacheFile, Charsets.UTF_8);
 			bufferedwriter.write(s);
-        } catch (FileNotFoundException var8) {
-        } catch (IOException var9) {
-        } finally {
+		} catch (FileNotFoundException var8) {
+		} catch (IOException var9) {
+		} finally {
 			IOUtils.closeQuietly(bufferedwriter);
 		}
 	}

@@ -135,7 +135,7 @@ public class PotionEffect {
 		if (!(p_equals_1_ instanceof PotionEffect potioneffect)) {
 			return false;
 		} else {
-            return this.potionID == potioneffect.potionID && this.amplifier == potioneffect.amplifier
+			return this.potionID == potioneffect.potionID && this.amplifier == potioneffect.amplifier
 					&& this.duration == potioneffect.duration && this.isSplashPotion == potioneffect.isSplashPotion
 					&& this.isAmbient == potioneffect.isAmbient;
 		}

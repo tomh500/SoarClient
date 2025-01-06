@@ -100,7 +100,7 @@ public class BlockRendererDispatcher implements IResourceManagerReloadListener {
 			try {
 				state = block.getActualState(state, worldIn, pos);
 			} catch (Exception var6) {
-            }
+			}
 		}
 
 		IBakedModel ibakedmodel = this.blockModelShapes.getModelForState(state);

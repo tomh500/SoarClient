@@ -207,8 +207,7 @@ public class TextureMap extends AbstractTexture implements ITickableTextureObjec
 							}
 						}
 
-						TextureMetadataSection texturemetadatasection = iresource
-								.getMetadata("texture");
+						TextureMetadataSection texturemetadatasection = iresource.getMetadata("texture");
 
 						if (texturemetadatasection != null) {
 							List<Integer> list1 = texturemetadatasection.getListMipmaps();
@@ -237,19 +236,17 @@ public class TextureMap extends AbstractTexture implements ITickableTextureObjec
 										abufferedimage[j4] = TextureUtil.readBufferedImage(
 												resourceManager.getResource(resourcelocation).getInputStream());
 									} catch (IOException ioexception) {
-										logger.error("Unable to load miplevel {} from: {}",
-                                                Integer.valueOf(j4), resourcelocation, ioexception);
+										logger.error("Unable to load miplevel {} from: {}", Integer.valueOf(j4),
+												resourcelocation, ioexception);
 									}
 								}
 							}
 						}
 
-						AnimationMetadataSection animationmetadatasection = iresource
-								.getMetadata("animation");
+						AnimationMetadataSection animationmetadatasection = iresource.getMetadata("animation");
 						textureatlassprite3.loadSprite(abufferedimage, animationmetadatasection);
 					} catch (RuntimeException runtimeexception) {
-						logger.error("Unable to parse metadata from " + resourcelocation2,
-                                runtimeexception);
+						logger.error("Unable to parse metadata from " + resourcelocation2, runtimeexception);
 						continue;
 					} catch (IOException ioexception1) {
 						logger.error("Using missing texture, unable to load " + resourcelocation2 + ", "
@@ -262,11 +259,11 @@ public class TextureMap extends AbstractTexture implements ITickableTextureObjec
 							Integer.lowestOneBit(textureatlassprite3.getIconHeight()));
 
 					if (j3 < k) {
-						logger.warn("Texture {} with size {}x{} limits mip level from {} to {}",
-                                resourcelocation2, Integer.valueOf(textureatlassprite3.getIconWidth()),
-                                Integer.valueOf(textureatlassprite3.getIconHeight()),
-                                Integer.valueOf(MathHelper.calculateLogBaseTwo(k)),
-                                Integer.valueOf(MathHelper.calculateLogBaseTwo(j3)));
+						logger.warn("Texture {} with size {}x{} limits mip level from {} to {}", resourcelocation2,
+								Integer.valueOf(textureatlassprite3.getIconWidth()),
+								Integer.valueOf(textureatlassprite3.getIconHeight()),
+								Integer.valueOf(MathHelper.calculateLogBaseTwo(k)),
+								Integer.valueOf(MathHelper.calculateLogBaseTwo(j3)));
 						k = j3;
 					}
 
@@ -291,7 +288,8 @@ public class TextureMap extends AbstractTexture implements ITickableTextureObjec
 			}
 
 			if (k2 < this.mipmapLevels) {
-				logger.warn("{}: dropping miplevel from {} to {}, because of minimum power of two: {}", this.basePath, Integer.valueOf(this.mipmapLevels), Integer.valueOf(k2), Integer.valueOf(j2));
+				logger.warn("{}: dropping miplevel from {} to {}, because of minimum power of two: {}", this.basePath,
+						Integer.valueOf(this.mipmapLevels), Integer.valueOf(k2), Integer.valueOf(j2));
 				this.mipmapLevels = k2;
 			}
 
@@ -336,7 +334,7 @@ public class TextureMap extends AbstractTexture implements ITickableTextureObjec
 			}
 
 			logger.info("Created: {}x{} {}-atlas", Integer.valueOf(stitcher.getCurrentWidth()),
-                    Integer.valueOf(stitcher.getCurrentHeight()), this.basePath);
+					Integer.valueOf(stitcher.getCurrentHeight()), this.basePath);
 
 			if (Config.isShaders()) {
 				ShadersTex.allocateTextureMap(this.getGlTextureId(), this.mipmapLevels, stitcher.getCurrentWidth(),
@@ -346,8 +344,7 @@ public class TextureMap extends AbstractTexture implements ITickableTextureObjec
 						stitcher.getCurrentHeight());
 			}
 
-			Map<String, TextureAtlasSprite> map = Maps
-					.newHashMap(this.mapRegisteredSprites);
+			Map<String, TextureAtlasSprite> map = Maps.newHashMap(this.mapRegisteredSprites);
 
 			for (TextureAtlasSprite textureatlassprite2 : stitcher.getStichSlots()) {
 				String s = textureatlassprite2.getIconName();
@@ -452,11 +449,9 @@ public class TextureMap extends AbstractTexture implements ITickableTextureObjec
 				? new ResourceLocation(location.getResourceDomain(), location.getResourcePath() + ".png")
 				: (p_147634_2_ == 0
 						? new ResourceLocation(location.getResourceDomain(),
-								String.format("%s/%s%s",
-                                        this.basePath, location.getResourcePath(), ".png"))
-						: new ResourceLocation(location.getResourceDomain(),
-								String.format("%s/mipmaps/%s.%d%s", this.basePath,
-                                        location.getResourcePath(), Integer.valueOf(p_147634_2_), ".png")));
+								String.format("%s/%s%s", this.basePath, location.getResourcePath(), ".png"))
+						: new ResourceLocation(location.getResourceDomain(), String.format("%s/mipmaps/%s.%d%s",
+								this.basePath, location.getResourcePath(), Integer.valueOf(p_147634_2_), ".png")));
 	}
 
 	public TextureAtlasSprite getAtlasSprite(String iconName) {
@@ -575,8 +570,7 @@ public class TextureMap extends AbstractTexture implements ITickableTextureObjec
 		if (location == null) {
 			throw new IllegalArgumentException("Location cannot be null!");
 		} else {
-			TextureAtlasSprite textureatlassprite = this.mapRegisteredSprites
-					.get(location.toString());
+			TextureAtlasSprite textureatlassprite = this.mapRegisteredSprites.get(location.toString());
 
 			if (textureatlassprite == null) {
 				textureatlassprite = TextureAtlasSprite.makeAtlasSprite(location);
@@ -659,7 +653,8 @@ public class TextureMap extends AbstractTexture implements ITickableTextureObjec
 														? (p_isTerrainAnimationActive_1_ == TextureUtils.iconPortal
 																? Config.isAnimatedPortal()
 																: (p_isTerrainAnimationActive_1_ == TextureUtils.iconClock
-                || p_isTerrainAnimationActive_1_ == TextureUtils.iconCompass || Config.isAnimatedTerrain()))
+																		|| p_isTerrainAnimationActive_1_ == TextureUtils.iconCompass
+																		|| Config.isAnimatedTerrain()))
 														: Config.isAnimatedFire())
 										: Config.isAnimatedLava())
 						: Config.isAnimatedWater();
@@ -726,7 +721,7 @@ public class TextureMap extends AbstractTexture implements ITickableTextureObjec
 						}
 					}
 				} catch (Exception var17) {
-                }
+				}
 			}
 		}
 

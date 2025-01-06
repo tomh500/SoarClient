@@ -52,7 +52,7 @@ public class GuiEditHUD extends SoarGui {
 	@Override
 	public void init() {
 	}
-	
+
 	@Override
 	public void draw(int mouseX, int mouseY) {
 
@@ -62,7 +62,7 @@ public class GuiEditHUD extends SoarGui {
 			handleMouseWheel(mouseX, mouseY);
 		}
 	}
-	
+
 	private void updateModPosition(Pair<HUDMod, GrabOffset> mod, int mouseX, int mouseY) {
 		setHudPositions(mod, mouseX, mouseY, snapping, DEFAULT_LINE_WIDTH);
 	}

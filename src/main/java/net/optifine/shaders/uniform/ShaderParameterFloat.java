@@ -76,7 +76,7 @@ public enum ShaderParameterFloat {
 		this.indexNames1 = indexNames1;
 
 		if (!instanceOf(uniform, ShaderUniform2i.class, ShaderUniform2f.class, ShaderUniform3f.class,
-                ShaderUniform4f.class)) {
+				ShaderUniform4f.class)) {
 			throw new IllegalArgumentException(
 					"Invalid uniform type for enum: " + this + ", uniform: " + uniform.getClass().getName());
 		}

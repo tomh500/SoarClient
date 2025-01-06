@@ -777,10 +777,8 @@ public class NetHandlerPlayClient implements INetHandlerPlayClient {
 
 			if (flag) {
 				GameSettings gamesettings = this.gameController.gameSettings;
-				this.gameController.ingameGUI.setRecordPlaying(
-						I18n.format("mount.onboard",
-                                GameSettings.getKeyDisplayString(gamesettings.keyBindSneak.getKeyCode())),
-						false);
+				this.gameController.ingameGUI.setRecordPlaying(I18n.format("mount.onboard",
+						GameSettings.getKeyDisplayString(gamesettings.keyBindSneak.getKeyCode())), false);
 			}
 		} else if (packetIn.getLeash() == 1 && entity instanceof EntityLiving) {
 			if (entity1 != null) {
@@ -802,7 +800,7 @@ public class NetHandlerPlayClient implements INetHandlerPlayClient {
 				entity.handleStatusUpdate(packetIn.getOpCode());
 			}
 		}
-		
+
 		if (packetIn.getOpCode() == 2) {
 			EventBus.getInstance().post(new DamageEntityEvent(packetIn.getEntity(clientWorldController)));
 		}
@@ -842,8 +840,8 @@ public class NetHandlerPlayClient implements INetHandlerPlayClient {
 
 	public void handleExplosion(S27PacketExplosion packetIn) {
 		PacketThreadUtil.checkThreadAndEnqueue(packetIn, this, this.gameController);
-		Explosion explosion = new Explosion(this.gameController.theWorld, null, packetIn.getX(),
-				packetIn.getY(), packetIn.getZ(), packetIn.getStrength(), packetIn.getAffectedBlockPositions());
+		Explosion explosion = new Explosion(this.gameController.theWorld, null, packetIn.getX(), packetIn.getY(),
+				packetIn.getZ(), packetIn.getStrength(), packetIn.getAffectedBlockPositions());
 		explosion.doExplosionB(true);
 		this.gameController.thePlayer.motionX += packetIn.func_149149_c();
 		this.gameController.thePlayer.motionY += packetIn.func_149144_d();
@@ -889,7 +887,7 @@ public class NetHandlerPlayClient implements INetHandlerPlayClient {
 			boolean flag = false;
 
 			if (this.gameController.currentScreen instanceof GuiContainerCreative guicontainercreative) {
-                flag = guicontainercreative.getSelectedTabIndex() != CreativeTabs.tabInventory.getTabIndex();
+				flag = guicontainercreative.getSelectedTabIndex() != CreativeTabs.tabInventory.getTabIndex();
 			}
 
 			if (packetIn.func_149175_c() == 0 && packetIn.func_149173_d() >= 36 && packetIn.func_149173_d() < 45) {
@@ -958,7 +956,7 @@ public class NetHandlerPlayClient implements INetHandlerPlayClient {
 
 			if (tileentity instanceof TileEntitySign tileentitysign) {
 
-                if (tileentitysign.getIsEditable()) {
+				if (tileentitysign.getIsEditable()) {
 					System.arraycopy(packetIn.getLines(), 0, tileentitysign.signText, 0, 4);
 					tileentitysign.markDirty();
 				}
@@ -1055,8 +1053,8 @@ public class NetHandlerPlayClient implements INetHandlerPlayClient {
 
 		if (i >= 0 && i < S2BPacketChangeGameState.MESSAGE_NAMES.length
 				&& S2BPacketChangeGameState.MESSAGE_NAMES[i] != null) {
-			entityplayer.addChatComponentMessage(
-					new ChatComponentTranslation(S2BPacketChangeGameState.MESSAGE_NAMES[i]));
+			entityplayer
+					.addChatComponentMessage(new ChatComponentTranslation(S2BPacketChangeGameState.MESSAGE_NAMES[i]));
 		}
 
 		if (i == 1) {
@@ -1075,20 +1073,19 @@ public class NetHandlerPlayClient implements INetHandlerPlayClient {
 			if (f == 0.0F) {
 				this.gameController.displayGuiScreen(new GuiScreenDemo());
 			} else if (f == 101.0F) {
-				this.gameController.ingameGUI.getChatGUI().printChatMessage(new ChatComponentTranslation(
-						"demo.help.movement",
-                        GameSettings.getKeyDisplayString(gamesettings.keyBindForward.getKeyCode()),
-                        GameSettings.getKeyDisplayString(gamesettings.keyBindLeft.getKeyCode()),
-                        GameSettings.getKeyDisplayString(gamesettings.keyBindBack.getKeyCode()),
-                        GameSettings.getKeyDisplayString(gamesettings.keyBindRight.getKeyCode())));
+				this.gameController.ingameGUI.getChatGUI()
+						.printChatMessage(new ChatComponentTranslation("demo.help.movement",
+								GameSettings.getKeyDisplayString(gamesettings.keyBindForward.getKeyCode()),
+								GameSettings.getKeyDisplayString(gamesettings.keyBindLeft.getKeyCode()),
+								GameSettings.getKeyDisplayString(gamesettings.keyBindBack.getKeyCode()),
+								GameSettings.getKeyDisplayString(gamesettings.keyBindRight.getKeyCode())));
 			} else if (f == 102.0F) {
 				this.gameController.ingameGUI.getChatGUI().printChatMessage(new ChatComponentTranslation(
-						"demo.help.jump",
-                        GameSettings.getKeyDisplayString(gamesettings.keyBindJump.getKeyCode())));
+						"demo.help.jump", GameSettings.getKeyDisplayString(gamesettings.keyBindJump.getKeyCode())));
 			} else if (f == 103.0F) {
-				this.gameController.ingameGUI.getChatGUI().printChatMessage(new ChatComponentTranslation(
-						"demo.help.inventory",
-                        GameSettings.getKeyDisplayString(gamesettings.keyBindInventory.getKeyCode())));
+				this.gameController.ingameGUI.getChatGUI()
+						.printChatMessage(new ChatComponentTranslation("demo.help.inventory",
+								GameSettings.getKeyDisplayString(gamesettings.keyBindInventory.getKeyCode())));
 			}
 		} else if (i == 6) {
 			this.clientWorldController.playSound(entityplayer.posX,
@@ -1306,7 +1303,7 @@ public class NetHandlerPlayClient implements INetHandlerPlayClient {
 		String[] astring = packetIn.func_149630_c();
 
 		if (this.gameController.currentScreen instanceof GuiChat guichat) {
-            guichat.onAutocompleteResponse(astring);
+			guichat.onAutocompleteResponse(astring);
 		}
 	}
 
@@ -1602,9 +1599,9 @@ public class NetHandlerPlayClient implements INetHandlerPlayClient {
 							.getAttributeInstanceByName(s20packetentityproperties$snapshot.func_151409_a());
 
 					if (iattributeinstance == null) {
-						iattributeinstance = baseattributemap.registerAttribute(new RangedAttribute(null,
-								s20packetentityproperties$snapshot.func_151409_a(), 0.0D, 2.2250738585072014E-308D,
-								Double.MAX_VALUE));
+						iattributeinstance = baseattributemap.registerAttribute(
+								new RangedAttribute(null, s20packetentityproperties$snapshot.func_151409_a(), 0.0D,
+										2.2250738585072014E-308D, Double.MAX_VALUE));
 					}
 
 					iattributeinstance.setBaseValue(s20packetentityproperties$snapshot.func_151410_b());

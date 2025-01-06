@@ -40,12 +40,11 @@ public class SkinManager {
 		this.skinCacheDir = skinCacheDirectory;
 		this.sessionService = sessionService;
 		this.skinCacheLoader = CacheBuilder.newBuilder().expireAfterAccess(15L, TimeUnit.SECONDS)
-				.build(
-						new CacheLoader<GameProfile, Map<Type, MinecraftProfileTexture>>() {
-							public Map<Type, MinecraftProfileTexture> load(GameProfile p_load_1_) throws Exception {
-								return Minecraft.getMinecraft().getSessionService().getTextures(p_load_1_, false);
-							}
-						});
+				.build(new CacheLoader<GameProfile, Map<Type, MinecraftProfileTexture>>() {
+					public Map<Type, MinecraftProfileTexture> load(GameProfile p_load_1_) throws Exception {
+						return Minecraft.getMinecraft().getSessionService().getTextures(p_load_1_, false);
+					}
+				});
 	}
 
 	public ResourceLocation loadSkin(MinecraftProfileTexture profileTexture, Type p_152792_2_) {
@@ -101,7 +100,7 @@ public class SkinManager {
 				try {
 					map.putAll(SkinManager.this.sessionService.getTextures(profile, requireSecure));
 				} catch (InsecureTextureException var3) {
-                }
+				}
 
 				if (map.isEmpty()
 						&& profile.getId().equals(Minecraft.getMinecraft().getSession().getProfile().getId())) {
@@ -113,13 +112,11 @@ public class SkinManager {
 				Minecraft.getMinecraft().addScheduledTask(new Runnable() {
 					public void run() {
 						if (map.containsKey(Type.SKIN)) {
-							SkinManager.this.loadSkin(map.get(Type.SKIN), Type.SKIN,
-									skinAvailableCallback);
+							SkinManager.this.loadSkin(map.get(Type.SKIN), Type.SKIN, skinAvailableCallback);
 						}
 
 						if (map.containsKey(Type.CAPE)) {
-							SkinManager.this.loadSkin(map.get(Type.CAPE), Type.CAPE,
-									skinAvailableCallback);
+							SkinManager.this.loadSkin(map.get(Type.CAPE), Type.CAPE, skinAvailableCallback);
 						}
 					}
 				});

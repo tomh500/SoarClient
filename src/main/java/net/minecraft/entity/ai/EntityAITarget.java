@@ -134,7 +134,7 @@ public abstract class EntityAITarget extends EntityAIBase {
 					this.targetSearchStatus = this.canEasilyReach(target) ? 1 : 2;
 				}
 
-                return this.targetSearchStatus != 2;
+				return this.targetSearchStatus != 2;
 			}
 
 			return true;

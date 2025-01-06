@@ -77,8 +77,8 @@ public class ServerScoreboard extends Scoreboard {
 	public boolean addPlayerToTeam(String player, String newTeam) {
 		if (super.addPlayerToTeam(player, newTeam)) {
 			ScorePlayerTeam scoreplayerteam = this.getTeam(newTeam);
-			this.scoreboardMCServer.getConfigurationManager().sendPacketToAllPlayers(
-					new S3EPacketTeams(scoreplayerteam, List.of(player), 3));
+			this.scoreboardMCServer.getConfigurationManager()
+					.sendPacketToAllPlayers(new S3EPacketTeams(scoreplayerteam, List.of(player), 3));
 			this.markSaveDataDirty();
 			return true;
 		} else {

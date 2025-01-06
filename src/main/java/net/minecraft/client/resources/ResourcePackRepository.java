@@ -83,7 +83,7 @@ public class ResourcePackRepository {
 
 					iterator.remove();
 					logger.warn("Removed selected resource pack {} because it's no longer compatible",
-                            resourcepackrepository$entry.getResourcePackName());
+							resourcepackrepository$entry.getResourcePackName());
 				}
 			}
 		}
@@ -183,8 +183,7 @@ public class ResourcePackRepository {
 							+ "). Deleting it.");
 					FileUtils.deleteQuietly(file1);
 				} catch (IOException ioexception) {
-					logger.warn("File " + file1 + " couldn't be hashed. Deleting it.",
-                            ioexception);
+					logger.warn("File " + file1 + " couldn't be hashed. Deleting it.", ioexception);
 					FileUtils.deleteQuietly(file1);
 				}
 			}
@@ -220,8 +219,8 @@ public class ResourcePackRepository {
 	}
 
 	private void deleteOldServerResourcesPacks() {
-		List<File> list = Lists.newArrayList(
-				FileUtils.listFiles(this.dirServerResourcepacks, TrueFileFilter.TRUE, null));
+		List<File> list = Lists
+				.newArrayList(FileUtils.listFiles(this.dirServerResourcepacks, TrueFileFilter.TRUE, null));
 		Collections.sort(list, LastModifiedFileComparator.LASTMODIFIED_REVERSE);
 		int i = 0;
 
@@ -273,8 +272,7 @@ public class ResourcePackRepository {
 		}
 
 		public void updateResourcePack() throws IOException {
-			this.reResourcePack = this.resourcePackFile.isDirectory()
-					? new FolderResourcePack(this.resourcePackFile)
+			this.reResourcePack = this.resourcePackFile.isDirectory() ? new FolderResourcePack(this.resourcePackFile)
 					: new FileResourcePack(this.resourcePackFile);
 			this.rePackMetadataSection = this.reResourcePack
 					.getPackMetadata(ResourcePackRepository.this.rprMetadataSerializer, "pack");
@@ -282,7 +280,7 @@ public class ResourcePackRepository {
 			try {
 				this.texturePackIcon = this.reResourcePack.getPackImage();
 			} catch (IOException var2) {
-            }
+			}
 
 			if (this.texturePackIcon == null) {
 				this.texturePackIcon = ResourcePackRepository.this.rprDefaultResourcePack.getPackImage();
@@ -325,7 +323,8 @@ public class ResourcePackRepository {
 		}
 
 		public boolean equals(Object p_equals_1_) {
-			return this == p_equals_1_ || (p_equals_1_ instanceof Entry && this.toString().equals(p_equals_1_.toString()));
+			return this == p_equals_1_
+					|| (p_equals_1_ instanceof Entry && this.toString().equals(p_equals_1_.toString()));
 		}
 
 		public int hashCode() {
@@ -333,10 +332,9 @@ public class ResourcePackRepository {
 		}
 
 		public String toString() {
-			return String.format("%s:%s:%d",
-                    this.resourcePackFile.getName(),
-                    this.resourcePackFile.isDirectory() ? "folder" : "zip",
-                    Long.valueOf(this.resourcePackFile.lastModified()));
+			return String.format("%s:%s:%d", this.resourcePackFile.getName(),
+					this.resourcePackFile.isDirectory() ? "folder" : "zip",
+					Long.valueOf(this.resourcePackFile.lastModified()));
 		}
 	}
 }

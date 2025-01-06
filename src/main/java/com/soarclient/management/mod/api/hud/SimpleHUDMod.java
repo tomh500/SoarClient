@@ -36,8 +36,8 @@ public abstract class SimpleHUDMod extends HUDMod {
 		this.drawBackground(getX(), getY(), width, height);
 
 		if (hasIcon) {
-			this.drawText(getIcon(), getX() + padding,
-					getY() + (height / 2) - (iconBounds.getHeight() / 2), Fonts.getIcon(iconSize));
+			this.drawText(getIcon(), getX() + padding, getY() + (height / 2) - (iconBounds.getHeight() / 2),
+					Fonts.getIcon(iconSize));
 		}
 
 		this.drawText(getText(), getX() + padding + (hasIcon ? iconBounds.getWidth() + 4 : 0),

@@ -19,16 +19,16 @@ public class MusicControlBar extends Component {
 
 	private List<ControlButton> buttons = new ArrayList<>();
 	private boolean locked;
-	
+
 	public MusicControlBar(float x, float y, float width) {
 		super(x, y);
 		this.width = width;
 		this.height = 64;
-		
+
 		MusicManager musicManager = Soar.getInstance().getMusicManager();
-		
+
 		float offsetY = 26;
-		
+
 		buttons.add(new ControlButton(Icon.REPEAT, 0, y + offsetY, () -> {
 			musicManager.setShuffle(false);
 			musicManager.setRepeat(!musicManager.isRepeat());
@@ -83,16 +83,16 @@ public class MusicControlBar extends Component {
 			Skia.drawText(limitedTitle, x + 66, y + 17, palette.getOnSurface(), Fonts.getRegular(16));
 			Skia.drawText(limitedArtist, x + 66, y + 34, palette.getOnSurfaceVariant(), Fonts.getRegular(12));
 		}
-		
+
 		float seekWidth = 308;
 		float seekHeight = 6;
 
 		drawSeekBar(x + (width / 2) - (seekWidth / 2), y + height - seekHeight - 12, seekWidth, seekHeight);
-		
+
 		buttons.get(2).icon = musicManager.isPlaying() ? Icon.PAUSE : Icon.PLAY_ARROW;
 		buttons.get(0).color = musicManager.isRepeat() ? palette.getPrimary() : palette.getOnSurface();
 		buttons.get(4).color = musicManager.isShuffle() ? palette.getPrimary() : palette.getOnSurface();
-		
+
 		for (ControlButton b : buttons) {
 			b.draw(mouseX, mouseY);
 		}
@@ -110,7 +110,7 @@ public class MusicControlBar extends Component {
 		Skia.drawRoundedRect(x, y, width, height, 3.5F, palette.getSurfaceContainerHigh());
 		Skia.drawRoundedRect(x, y, (current / end) * width, height, 3.5F, palette.getPrimary());
 	}
-	
+
 	@Override
 	public void mousePressed(int mouseX, int mouseY, int mouseButton) {
 		for (ControlButton b : buttons) {
@@ -159,7 +159,7 @@ public class MusicControlBar extends Component {
 		@Override
 		public void mousePressed(int mouseX, int mouseY, int mouseButton) {
 		}
-		
+
 		@Override
 		public void mouseReleased(int mouseX, int mouseY, int mouseButton) {
 			if (MouseUtils.isInside(mouseX, mouseY, ControlButton.this.x - 13, ControlButton.this.y - 13, 28, 28)

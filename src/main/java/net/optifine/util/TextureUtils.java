@@ -192,7 +192,7 @@ public class TextureUtils {
 		int i;
 
 		for (i = 1; i < val; i *= 2) {
-        }
+		}
 
 		return i;
 	}
@@ -268,7 +268,7 @@ public class TextureUtils {
 		IResourceManager iresourcemanager = Config.getResourceManager();
 
 		if (iresourcemanager instanceof IReloadableResourceManager ireloadableresourcemanager) {
-            IResourceManagerReloadListener iresourcemanagerreloadlistener = new IResourceManagerReloadListener() {
+			IResourceManagerReloadListener iresourcemanagerreloadlistener = new IResourceManagerReloadListener() {
 				public void onResourceManagerReload(IResourceManager var1) {
 					TextureUtils.resourcesReloaded(var1);
 				}
@@ -399,7 +399,7 @@ public class TextureUtils {
 			int i;
 
 			for (i = size / sizeGrid * sizeGrid; i < size; i += sizeGrid) {
-            }
+			}
 
 			return i;
 		}
@@ -412,7 +412,7 @@ public class TextureUtils {
 			int i;
 
 			for (i = sizeMin / size * size; i < sizeMin; i += size) {
-            }
+			}
 
 			return i;
 		}
@@ -482,8 +482,7 @@ public class TextureUtils {
 			int l = j * k;
 			IntBuffer intbuffer = BufferUtils.createIntBuffer(l);
 			int[] aint = new int[l];
-			GL11.glGetTexImage(GL11.GL_TEXTURE_2D, i1, GL12.GL_BGRA, GL12.GL_UNSIGNED_INT_8_8_8_8_REV,
-                    intbuffer);
+			GL11.glGetTexImage(GL11.GL_TEXTURE_2D, i1, GL12.GL_BGRA, GL12.GL_UNSIGNED_INT_8_8_8_8_REV, intbuffer);
 			intbuffer.get(aint);
 			BufferedImage bufferedimage = new BufferedImage(j, k, 2);
 			bufferedimage.setRGB(0, 0, j, k, aint, 0, j);

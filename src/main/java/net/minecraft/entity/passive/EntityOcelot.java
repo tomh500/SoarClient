@@ -200,7 +200,7 @@ public class EntityOcelot extends EntityTameable {
 		} else if (!(otherAnimal instanceof EntityOcelot entityocelot)) {
 			return false;
 		} else {
-            return entityocelot.isTamed() && this.isInLove() && entityocelot.isInLove();
+			return entityocelot.isTamed() && this.isInLove() && entityocelot.isInLove();
 		}
 	}
 
@@ -228,7 +228,7 @@ public class EntityOcelot extends EntityTameable {
 
 			Block block = this.worldObj.getBlockState(blockpos.down()).getBlock();
 
-            return block == Blocks.grass || block.getMaterial() == Material.leaves;
+			return block == Blocks.grass || block.getMaterial() == Material.leaves;
 		}
 
 		return false;

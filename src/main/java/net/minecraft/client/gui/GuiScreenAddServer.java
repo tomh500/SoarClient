@@ -50,10 +50,10 @@ public class GuiScreenAddServer extends GuiScreen {
 	public void initGui() {
 		Keyboard.enableRepeatEvents(true);
 		this.buttonList.clear();
-		this.buttonList.add(new GuiButton(0, this.width / 2 - 100, this.height / 4 + 96 + 18,
-				I18n.format("addServer.add")));
-		this.buttonList.add(new GuiButton(1, this.width / 2 - 100, this.height / 4 + 120 + 18,
-				I18n.format("gui.cancel")));
+		this.buttonList
+				.add(new GuiButton(0, this.width / 2 - 100, this.height / 4 + 96 + 18, I18n.format("addServer.add")));
+		this.buttonList
+				.add(new GuiButton(1, this.width / 2 - 100, this.height / 4 + 120 + 18, I18n.format("gui.cancel")));
 		this.buttonList.add(this.serverResourcePacks = new GuiButton(2, this.width / 2 - 100, this.height / 4 + 72,
 				I18n.format("addServer.resourcePack") + ": "
 						+ this.serverData.getResourceMode().getMotd().getFormattedText()));
@@ -115,12 +115,9 @@ public class GuiScreenAddServer extends GuiScreen {
 
 	public void drawScreen(int mouseX, int mouseY, float partialTicks) {
 		this.drawDefaultBackground();
-		this.drawCenteredString(this.fontRendererObj, I18n.format("addServer.title"), this.width / 2, 17,
-				16777215);
-		this.drawString(this.fontRendererObj, I18n.format("addServer.enterName"), this.width / 2 - 100,
-				53, 10526880);
-		this.drawString(this.fontRendererObj, I18n.format("addServer.enterIp"), this.width / 2 - 100, 94,
-				10526880);
+		this.drawCenteredString(this.fontRendererObj, I18n.format("addServer.title"), this.width / 2, 17, 16777215);
+		this.drawString(this.fontRendererObj, I18n.format("addServer.enterName"), this.width / 2 - 100, 53, 10526880);
+		this.drawString(this.fontRendererObj, I18n.format("addServer.enterIp"), this.width / 2 - 100, 94, 10526880);
 		this.serverNameField.drawTextBox();
 		this.serverIPField.drawTextBox();
 		super.drawScreen(mouseX, mouseY, partialTicks);

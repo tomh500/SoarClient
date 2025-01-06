@@ -304,10 +304,9 @@ public class OpenGlHelper {
 
 		try {
 			Processor[] aprocessor = (new SystemInfo()).getHardware().getProcessors();
-			cpu = String.format("%dx %s", Integer.valueOf(aprocessor.length), aprocessor[0])
-					.replaceAll("\\s+", " ");
+			cpu = String.format("%dx %s", Integer.valueOf(aprocessor.length), aprocessor[0]).replaceAll("\\s+", " ");
 		} catch (Throwable var5) {
-        }
+		}
 	}
 
 	public static boolean areShadersSupported() {

@@ -204,7 +204,8 @@ public abstract class BlockRedstoneDiode extends BlockDirectional {
 	public boolean isFacingTowardsRepeater(World worldIn, BlockPos pos, IBlockState state) {
 		EnumFacing enumfacing = state.getValue(FACING).getOpposite();
 		BlockPos blockpos = pos.offset(enumfacing);
-		return isRedstoneRepeaterBlockID(worldIn.getBlockState(blockpos).getBlock()) && worldIn.getBlockState(blockpos).getValue(FACING) != enumfacing;
+		return isRedstoneRepeaterBlockID(worldIn.getBlockState(blockpos).getBlock())
+				&& worldIn.getBlockState(blockpos).getValue(FACING) != enumfacing;
 	}
 
 	protected int getTickDelay(IBlockState state) {

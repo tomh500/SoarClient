@@ -223,8 +223,8 @@ public class ChunkProviderHell implements IChunkProvider {
 		}
 
 		Chunk chunk = new Chunk(this.worldObj, chunkprimer, x, z);
-		BiomeGenBase[] abiomegenbase = this.worldObj.getWorldChunkManager()
-				.loadBlockGeneratorData(null, x * 16, z * 16, 16, 16);
+		BiomeGenBase[] abiomegenbase = this.worldObj.getWorldChunkManager().loadBlockGeneratorData(null, x * 16, z * 16,
+				16, 16);
 		byte[] abyte = chunk.getBiomeArray();
 
 		for (int i = 0; i < abyte.length; ++i) {

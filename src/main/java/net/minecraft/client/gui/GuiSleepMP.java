@@ -9,8 +9,8 @@ import net.minecraft.network.play.client.C0BPacketEntityAction;
 public class GuiSleepMP extends GuiChat {
 	public void initGui() {
 		super.initGui();
-		this.buttonList.add(new GuiButton(1, this.width / 2 - 100, this.height - 40,
-				I18n.format("multiplayer.stopSleeping")));
+		this.buttonList
+				.add(new GuiButton(1, this.width / 2 - 100, this.height - 40, I18n.format("multiplayer.stopSleeping")));
 	}
 
 	protected void keyTyped(char typedChar, int keyCode) throws IOException {

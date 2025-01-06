@@ -33,9 +33,10 @@ public class HoverEvent {
 				return false;
 			} else {
 				if (this.value != null) {
-                    return this.value.equals(hoverevent.value);
-				} else return hoverevent.value == null;
-            }
+					return this.value.equals(hoverevent.value);
+				} else
+					return hoverevent.value == null;
+			}
 		} else {
 			return false;
 		}

@@ -45,11 +45,11 @@ public class Skia {
 	}
 
 	public static void drawShadow(float x, float y, float width, float height, float radius) {
-		
+
 		int strength = 8;
 		Paint paint = getPaint(Color.BLACK);
 		int alpha = 1;
-		
+
 		save();
 		clip(x, y, width, height, radius, ClipMode.DIFFERENCE);
 		for (float f = strength; f > 0; f--) {
@@ -61,9 +61,9 @@ public class Skia {
 		restore();
 	}
 
-	private static void drawShadowOutline(float x, float y, float width, float height, float radius,
-			float strokeWidth, Paint paint) {
-		
+	private static void drawShadowOutline(float x, float y, float width, float height, float radius, float strokeWidth,
+			Paint paint) {
+
 		Path path = new Path();
 		path.addRRect(RRect.makeXYWH(x, y, width, height, radius));
 
@@ -72,8 +72,8 @@ public class Skia {
 		getCanvas().drawPath(path, paint);
 	}
 
-	public static void drawRoundedImage(int textureId, float x, float y, float width, float height, float radius, float alpha,
-			SurfaceOrigin origin) {
+	public static void drawRoundedImage(int textureId, float x, float y, float width, float height, float radius,
+			float alpha, SurfaceOrigin origin) {
 		Path path = new Path();
 		path.addRRect(RRect.makeXYWH(x, y, width, height, radius));
 
@@ -82,11 +82,12 @@ public class Skia {
 		drawImage(textureId, x, y, width, height, alpha, origin);
 		restore();
 	}
-	
-	public static void drawRoundedImage(int textureId, float x, float y, float width, float height, float radius, float alpha) {
+
+	public static void drawRoundedImage(int textureId, float x, float y, float width, float height, float radius,
+			float alpha) {
 		drawRoundedImage(textureId, x, y, width, height, radius, alpha, SurfaceOrigin.TOP_LEFT);
 	}
-	
+
 	public static void drawImage(int textureId, float x, float y, float width, float height, float alpha,
 			SurfaceOrigin origin) {
 
@@ -202,15 +203,15 @@ public class Skia {
 	}
 
 	public static void rotate(float x, float y, float width, float height, float rotate) {
-		
-	    float centerX = x + width / 2;
-	    float centerY = y + height / 2;
 
-	    getCanvas().translate(centerX, centerY);
-	    getCanvas().rotate(rotate);
-	    getCanvas().translate(-centerX, -centerY);
+		float centerX = x + width / 2;
+		float centerY = y + height / 2;
+
+		getCanvas().translate(centerX, centerY);
+		getCanvas().rotate(rotate);
+		getCanvas().translate(-centerX, -centerY);
 	}
-	
+
 	public static void save() {
 		getCanvas().save();
 	}
@@ -242,15 +243,15 @@ public class Skia {
 		path.addRRect(RRect.makeXYWH(x, y, width, height, radius));
 		clipPath(path, mode, true);
 	}
-	
-	public static void clip(float x, float y, float width, float height, float topLeft,
-			float topRight, float bottomRight, float bottomLeft) {
-		
+
+	public static void clip(float x, float y, float width, float height, float topLeft, float topRight,
+			float bottomRight, float bottomLeft) {
+
 		float[] corners = new float[] { topLeft, topLeft, topRight, topRight, bottomRight, bottomRight, bottomLeft,
 				bottomLeft };
-		
+
 		Path path = new Path();
-		
+
 		path.addRRect(RRect.makeComplexXYWH(x, y, width, height, corners));
 		clipPath(path, ClipMode.INTERSECT, true);
 	}
@@ -273,13 +274,13 @@ public class Skia {
 		getCanvas().drawString(text, x - bounds.getLeft() - (bounds.getWidth() / 2), y - bounds.getTop(), font,
 				getPaint(color));
 	}
-	
+
 	public static void drawFullCenteredText(String text, float x, float y, Color color, Font font) {
 		Rect bounds = font.measureText(text);
-		getCanvas().drawString(text, x - bounds.getLeft() - (bounds.getWidth() / 2), y - bounds.getTop() - (bounds.getHeight() / 2), font,
-				getPaint(color));
+		getCanvas().drawString(text, x - bounds.getLeft() - (bounds.getWidth() / 2),
+				y - bounds.getTop() - (bounds.getHeight() / 2), font, getPaint(color));
 	}
-	
+
 	public static Rect getTextBounds(String text, Font font) {
 		return font.measureText(text);
 	}
@@ -300,9 +301,9 @@ public class Skia {
 		boolean isRemoved = false;
 
 		while (!isInRange) {
-			
+
 			if (getTextWidth(text, font) > width - getTextWidth("...", font)) {
-				text = text.substring(0, text.length() - 1);			
+				text = text.substring(0, text.length() - 1);
 				isRemoved = true;
 			} else {
 				isInRange = true;
@@ -311,7 +312,7 @@ public class Skia {
 
 		return text + (isRemoved ? "..." : "");
 	}
-	
+
 	private static Paint getPaint(Color color) {
 		Paint paint = new Paint();
 		paint.setARGB(color.getAlpha(), color.getRed(), color.getGreen(), color.getBlue());

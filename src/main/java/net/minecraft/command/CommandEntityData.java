@@ -37,8 +37,7 @@ public class CommandEntityData extends CommandBase {
 					nbttagcompound2 = JsonToNBT
 							.getTagFromJson(getChatComponentFromNthArg(sender, args, 1).getUnformattedText());
 				} catch (NBTException nbtexception) {
-					throw new CommandException("commands.entitydata.tagError",
-                            nbtexception.getMessage());
+					throw new CommandException("commands.entitydata.tagError", nbtexception.getMessage());
 				}
 
 				nbttagcompound2.removeTag("UUIDMost");
@@ -46,12 +45,10 @@ public class CommandEntityData extends CommandBase {
 				nbttagcompound.merge(nbttagcompound2);
 
 				if (nbttagcompound.equals(nbttagcompound1)) {
-					throw new CommandException("commands.entitydata.failed",
-                            nbttagcompound.toString());
+					throw new CommandException("commands.entitydata.failed", nbttagcompound.toString());
 				} else {
 					entity.readFromNBT(nbttagcompound);
-					notifyOperators(sender, this, "commands.entitydata.success",
-                            nbttagcompound.toString());
+					notifyOperators(sender, this, "commands.entitydata.success", nbttagcompound.toString());
 				}
 			}
 		}

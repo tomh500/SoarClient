@@ -21,7 +21,7 @@ public class ModelAdapterHeadSkeleton extends ModelAdapter {
 		if (!(model instanceof ModelSkeletonHead modelskeletonhead)) {
 			return null;
 		} else {
-            return modelPart.equals("head") ? modelskeletonhead.skeletonHead : null;
+			return modelPart.equals("head") ? modelskeletonhead.skeletonHead : null;
 		}
 	}
 

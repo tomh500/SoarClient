@@ -32,8 +32,7 @@ public class UserListOpsEntry extends UserListEntry<GameProfile> {
 
 	protected void onSerialization(JsonObject data) {
 		if (this.getValue() != null) {
-			data.addProperty("uuid", this.getValue().getId() == null ? ""
-					: this.getValue().getId().toString());
+			data.addProperty("uuid", this.getValue().getId() == null ? "" : this.getValue().getId().toString());
 			data.addProperty("name", this.getValue().getName());
 			super.onSerialization(data);
 			data.addProperty("level", Integer.valueOf(this.permissionLevel));

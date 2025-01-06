@@ -297,8 +297,7 @@ public class EnchantmentHelper {
 			Map<Integer, EnchantmentData> map = mapEnchantmentData(k, itemStackIn);
 
 			if (map != null && !map.isEmpty()) {
-				EnchantmentData enchantmentdata = WeightedRandom.getRandomItem(randomIn,
-						map.values());
+				EnchantmentData enchantmentdata = WeightedRandom.getRandomItem(randomIn, map.values());
 
 				if (enchantmentdata != null) {
 					list = Lists.newArrayList();
@@ -325,8 +324,7 @@ public class EnchantmentHelper {
 						}
 
 						if (!map.isEmpty()) {
-							EnchantmentData enchantmentdata2 = WeightedRandom.getRandomItem(randomIn,
-									map.values());
+							EnchantmentData enchantmentdata2 = WeightedRandom.getRandomItem(randomIn, map.values());
 							list.add(enchantmentdata2);
 						}
 					}

@@ -279,8 +279,7 @@ public class ShaderGroup {
 		this.listShaders.clear();
 	}
 
-	public Shader addShader(String p_148023_1_, Framebuffer p_148023_2_, Framebuffer p_148023_3_)
-			throws IOException {
+	public Shader addShader(String p_148023_1_, Framebuffer p_148023_2_, Framebuffer p_148023_3_) throws IOException {
 		Shader shader = new Shader(this.resourceManager, p_148023_1_, p_148023_2_, p_148023_3_);
 		this.listShaders.add(this.listShaders.size(), shader);
 		return shader;
@@ -321,7 +320,7 @@ public class ShaderGroup {
 		}
 
 		for (this.field_148037_k = partialTicks; this.field_148036_j > 20.0F; this.field_148036_j -= 20.0F) {
-        }
+		}
 
 		for (Shader shader : this.listShaders) {
 			shader.loadShader(this.field_148036_j / 20.0F);
@@ -334,7 +333,6 @@ public class ShaderGroup {
 
 	private Framebuffer getFramebuffer(String p_148017_1_) {
 		return p_148017_1_ == null ? null
-				: (p_148017_1_.equals("minecraft:main") ? this.mainFramebuffer
-						: this.mapFramebuffers.get(p_148017_1_));
+				: (p_148017_1_.equals("minecraft:main") ? this.mainFramebuffer : this.mapFramebuffers.get(p_148017_1_));
 	}
 }

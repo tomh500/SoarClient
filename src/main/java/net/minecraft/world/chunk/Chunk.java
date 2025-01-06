@@ -980,7 +980,7 @@ public class Chunk {
 			logger.warn("Could not set level chunk sections, array length is " + newStorageArrays.length
 					+ " instead of " + this.storageArrays.length);
 		} else {
-            System.arraycopy(newStorageArrays, 0, this.storageArrays, 0, this.storageArrays.length);
+			System.arraycopy(newStorageArrays, 0, this.storageArrays, 0, this.storageArrays.length);
 		}
 	}
 
@@ -1067,7 +1067,7 @@ public class Chunk {
 			logger.warn("Could not set level chunk biomes, array length is " + biomeArray.length + " instead of "
 					+ this.blockBiomeArray.length);
 		} else {
-            System.arraycopy(biomeArray, 0, this.blockBiomeArray, 0, this.blockBiomeArray.length);
+			System.arraycopy(biomeArray, 0, this.blockBiomeArray, 0, this.blockBiomeArray.length);
 		}
 	}
 
@@ -1226,7 +1226,7 @@ public class Chunk {
 			logger.warn("Could not set level chunk heightmap, array length is " + newHeightMap.length + " instead of "
 					+ this.heightMap.length);
 		} else {
-            System.arraycopy(newHeightMap, 0, this.heightMap, 0, this.heightMap.length);
+			System.arraycopy(newHeightMap, 0, this.heightMap, 0, this.heightMap.length);
 		}
 	}
 
@@ -1284,5 +1284,5 @@ public class Chunk {
 
 	public enum EnumCreateEntityType {
 		IMMEDIATE, QUEUED, CHECK
-    }
+	}
 }

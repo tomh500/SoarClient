@@ -88,8 +88,7 @@ public class TileEntitySkull extends TileEntity {
 				if (gameprofile == null) {
 					return input;
 				} else {
-					Property property = Iterables.getFirst(gameprofile.getProperties().get("textures"),
-							null);
+					Property property = Iterables.getFirst(gameprofile.getProperties().get("textures"), null);
 
 					if (property == null) {
 						gameprofile = MinecraftServer.getServer().getMinecraftSessionService()

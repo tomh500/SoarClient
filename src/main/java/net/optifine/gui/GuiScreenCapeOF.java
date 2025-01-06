@@ -41,8 +41,8 @@ public class GuiScreenCapeOF extends GuiScreenOF {
 		this.buttonCopyLink.visible = this.linkUrl != null;
 		this.buttonList.add(this.buttonCopyLink);
 		i = i + 4;
-		this.buttonList.add(new GuiButtonOF(200, this.width / 2 - 100, this.height / 6 + 24 * (i >> 1),
-				I18n.format("gui.done")));
+		this.buttonList.add(
+				new GuiButtonOF(200, this.width / 2 - 100, this.height / 6 + 24 * (i >> 1), I18n.format("gui.done")));
 	}
 
 	protected void actionPerformed(GuiButton button) {
@@ -73,8 +73,8 @@ public class GuiScreenCapeOF extends GuiScreenOF {
 						this.setLinkUrl(s4);
 					}
 				} catch (InvalidCredentialsException invalidcredentialsexception) {
-					Config.showGuiMessage(I18n.format("of.message.capeOF.error1"), I18n.format(
-							"of.message.capeOF.error2", invalidcredentialsexception.getMessage()));
+					Config.showGuiMessage(I18n.format("of.message.capeOF.error1"),
+							I18n.format("of.message.capeOF.error2", invalidcredentialsexception.getMessage()));
 					Config.warn("Mojang authentication failed");
 					Config.warn(invalidcredentialsexception.getClass().getName() + ": "
 							+ invalidcredentialsexception.getMessage());

@@ -85,11 +85,10 @@ public abstract class BlockRailBase extends Block {
 
 	public void onNeighborBlockChange(World worldIn, BlockPos pos, IBlockState state, Block neighborBlock) {
 		if (!worldIn.isRemote) {
-			BlockRailBase.EnumRailDirection blockrailbase$enumraildirection = state
-					.getValue(this.getShapeProperty());
+			BlockRailBase.EnumRailDirection blockrailbase$enumraildirection = state.getValue(this.getShapeProperty());
 			boolean flag = !World.doesBlockHaveSolidTopSurface(worldIn, pos.down());
 
-            if (blockrailbase$enumraildirection == BlockRailBase.EnumRailDirection.ASCENDING_EAST
+			if (blockrailbase$enumraildirection == BlockRailBase.EnumRailDirection.ASCENDING_EAST
 					&& !World.doesBlockHaveSolidTopSurface(worldIn, pos.east())) {
 				flag = true;
 			} else if (blockrailbase$enumraildirection == BlockRailBase.EnumRailDirection.ASCENDING_WEST

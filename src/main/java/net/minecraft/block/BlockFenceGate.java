@@ -43,7 +43,8 @@ public class BlockFenceGate extends BlockDirectional {
 	}
 
 	public boolean canPlaceBlockAt(World worldIn, BlockPos pos) {
-		return worldIn.getBlockState(pos.down()).getBlock().getMaterial().isSolid() && super.canPlaceBlockAt(worldIn, pos);
+		return worldIn.getBlockState(pos.down()).getBlock().getMaterial().isSolid()
+				&& super.canPlaceBlockAt(worldIn, pos);
 	}
 
 	public AxisAlignedBB getCollisionBoundingBox(World worldIn, BlockPos pos, IBlockState state) {
@@ -52,12 +53,10 @@ public class BlockFenceGate extends BlockDirectional {
 		} else {
 			EnumFacing.Axis enumfacing$axis = state.getValue(FACING).getAxis();
 			return enumfacing$axis == EnumFacing.Axis.Z
-					? new AxisAlignedBB(pos.getX(), pos.getY(),
-                    (float) pos.getZ() + 0.375F, pos.getX() + 1,
-                    (float) pos.getY() + 1.5F, (float) pos.getZ() + 0.625F)
-					: new AxisAlignedBB((float) pos.getX() + 0.375F, pos.getY(),
-                    pos.getZ(), (float) pos.getX() + 0.625F,
-                    (float) pos.getY() + 1.5F, pos.getZ() + 1);
+					? new AxisAlignedBB(pos.getX(), pos.getY(), (float) pos.getZ() + 0.375F, pos.getX() + 1,
+							(float) pos.getY() + 1.5F, (float) pos.getZ() + 0.625F)
+					: new AxisAlignedBB((float) pos.getX() + 0.375F, pos.getY(), pos.getZ(),
+							(float) pos.getX() + 0.625F, (float) pos.getY() + 1.5F, pos.getZ() + 1);
 		}
 	}
 
@@ -115,13 +114,11 @@ public class BlockFenceGate extends BlockDirectional {
 			boolean flag = worldIn.isBlockPowered(pos);
 
 			if (flag || neighborBlock.canProvidePower()) {
-				if (flag && !state.getValue(OPEN).booleanValue()
-						&& !state.getValue(POWERED).booleanValue()) {
+				if (flag && !state.getValue(OPEN).booleanValue() && !state.getValue(POWERED).booleanValue()) {
 					worldIn.setBlockState(pos, state.withProperty(OPEN, Boolean.valueOf(true)).withProperty(POWERED,
 							Boolean.valueOf(true)), 2);
 					worldIn.playAuxSFXAtEntity(null, 1003, pos, 0);
-				} else if (!flag && state.getValue(OPEN).booleanValue()
-						&& state.getValue(POWERED).booleanValue()) {
+				} else if (!flag && state.getValue(OPEN).booleanValue() && state.getValue(POWERED).booleanValue()) {
 					worldIn.setBlockState(pos, state.withProperty(OPEN, Boolean.valueOf(false)).withProperty(POWERED,
 							Boolean.valueOf(false)), 2);
 					worldIn.playAuxSFXAtEntity(null, 1006, pos, 0);

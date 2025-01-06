@@ -40,7 +40,7 @@ public class CommandSetDefaultSpawnpoint extends CommandBase {
 		MinecraftServer.getServer().getConfigurationManager()
 				.sendPacketToAllPlayers(new S05PacketSpawnPosition(blockpos));
 		notifyOperators(sender, this, "commands.setworldspawn.success", Integer.valueOf(blockpos.getX()),
-                Integer.valueOf(blockpos.getY()), Integer.valueOf(blockpos.getZ()));
+				Integer.valueOf(blockpos.getY()), Integer.valueOf(blockpos.getZ()));
 	}
 
 	public List<String> addTabCompletionOptions(ICommandSender sender, String[] args, BlockPos pos) {

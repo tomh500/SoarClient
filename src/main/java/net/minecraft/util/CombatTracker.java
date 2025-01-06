@@ -75,18 +75,18 @@ public class CombatTracker {
 
 				if (combatentry.getDamageSrc() != DamageSource.fall
 						&& combatentry.getDamageSrc() != DamageSource.outOfWorld) {
-					if (ichatcomponent2 != null
-							&& (!ichatcomponent2.equals(ichatcomponent1))) {
+					if (ichatcomponent2 != null && (!ichatcomponent2.equals(ichatcomponent1))) {
 						Entity entity1 = combatentry.getDamageSrc().getEntity();
 						ItemStack itemstack1 = entity1 instanceof EntityLivingBase
 								? ((EntityLivingBase) entity1).getHeldItem()
 								: null;
 
 						if (itemstack1 != null && itemstack1.hasDisplayName()) {
-							ichatcomponent = new ChatComponentTranslation("death.fell.assist.item", this.fighter.getDisplayName(), ichatcomponent2, itemstack1.getChatComponent());
+							ichatcomponent = new ChatComponentTranslation("death.fell.assist.item",
+									this.fighter.getDisplayName(), ichatcomponent2, itemstack1.getChatComponent());
 						} else {
 							ichatcomponent = new ChatComponentTranslation("death.fell.assist",
-                                    this.fighter.getDisplayName(), ichatcomponent2);
+									this.fighter.getDisplayName(), ichatcomponent2);
 						}
 					} else if (ichatcomponent1 != null) {
 						ItemStack itemstack = entity instanceof EntityLivingBase
@@ -94,19 +94,19 @@ public class CombatTracker {
 								: null;
 
 						if (itemstack != null && itemstack.hasDisplayName()) {
-							ichatcomponent = new ChatComponentTranslation("death.fell.finish.item", this.fighter.getDisplayName(), ichatcomponent1, itemstack.getChatComponent());
+							ichatcomponent = new ChatComponentTranslation("death.fell.finish.item",
+									this.fighter.getDisplayName(), ichatcomponent1, itemstack.getChatComponent());
 						} else {
 							ichatcomponent = new ChatComponentTranslation("death.fell.finish",
-                                    this.fighter.getDisplayName(), ichatcomponent1);
+									this.fighter.getDisplayName(), ichatcomponent1);
 						}
 					} else {
 						ichatcomponent = new ChatComponentTranslation("death.fell.killer",
-                                this.fighter.getDisplayName());
+								this.fighter.getDisplayName());
 					}
 				} else {
 					ichatcomponent = new ChatComponentTranslation(
-							"death.fell.accident." + this.func_94548_b(combatentry),
-                            this.fighter.getDisplayName());
+							"death.fell.accident." + this.func_94548_b(combatentry), this.fighter.getDisplayName());
 				}
 			} else {
 				ichatcomponent = combatentry1.getDamageSrc().getDeathMessage(this.fighter);

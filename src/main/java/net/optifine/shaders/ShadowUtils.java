@@ -26,10 +26,9 @@ public class ShadowUtils {
 			float f5 = -MathHelper.cos(f2) * MathHelper.sin(f1);
 			BlockPos blockpos = new BlockPos(MathHelper.floor_double(viewEntity.posX) >> 4,
 					MathHelper.floor_double(viewEntity.posY) >> 4, MathHelper.floor_double(viewEntity.posZ) >> 4);
-			BlockPos blockpos1 = blockpos.add(-f3 * (float) i, -f4 * (float) i,
-                    -f5 * (float) i);
-			BlockPos blockpos2 = blockpos.add(f3 * (float) renderDistanceChunks,
-                    f4 * (float) renderDistanceChunks, f5 * (float) renderDistanceChunks);
+			BlockPos blockpos1 = blockpos.add(-f3 * (float) i, -f4 * (float) i, -f5 * (float) i);
+			BlockPos blockpos2 = blockpos.add(f3 * (float) renderDistanceChunks, f4 * (float) renderDistanceChunks,
+					f5 * (float) renderDistanceChunks);
 			IteratorRenderChunks iteratorrenderchunks = new IteratorRenderChunks(viewFrustum, blockpos1, blockpos2, i,
 					i);
 			return iteratorrenderchunks;

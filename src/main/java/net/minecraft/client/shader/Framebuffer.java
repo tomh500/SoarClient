@@ -96,8 +96,7 @@ public class Framebuffer {
 			this.setFramebufferFilter(9728);
 			GlStateManager.bindTexture(this.framebufferTexture);
 			GL11.glTexImage2D(GL11.GL_TEXTURE_2D, 0, GL11.GL_RGBA8, this.framebufferTextureWidth,
-					this.framebufferTextureHeight, 0, GL11.GL_RGBA, GL11.GL_UNSIGNED_BYTE,
-					(IntBuffer) null);
+					this.framebufferTextureHeight, 0, GL11.GL_RGBA, GL11.GL_UNSIGNED_BYTE, (IntBuffer) null);
 			OpenGlHelper.glBindFramebuffer(OpenGlHelper.GL_FRAMEBUFFER, this.framebufferObject);
 			OpenGlHelper.glFramebufferTexture2D(OpenGlHelper.GL_FRAMEBUFFER, OpenGlHelper.GL_COLOR_ATTACHMENT0, 3553,
 					this.framebufferTexture, 0);
@@ -215,10 +214,8 @@ public class Framebuffer {
 			WorldRenderer worldrenderer = tessellator.getWorldRenderer();
 			worldrenderer.begin(7, DefaultVertexFormats.POSITION_TEX_COLOR);
 			worldrenderer.pos(0.0D, f1, 0.0D).tex(0.0D, 0.0D).color(255, 255, 255, 255).endVertex();
-			worldrenderer.pos(f, f1, 0.0D).tex(f2, 0.0D).color(255, 255, 255, 255)
-					.endVertex();
-			worldrenderer.pos(f, 0.0D, 0.0D).tex(f2, f3).color(255, 255, 255, 255)
-					.endVertex();
+			worldrenderer.pos(f, f1, 0.0D).tex(f2, 0.0D).color(255, 255, 255, 255).endVertex();
+			worldrenderer.pos(f, 0.0D, 0.0D).tex(f2, f3).color(255, 255, 255, 255).endVertex();
 			worldrenderer.pos(0.0D, 0.0D, 0.0D).tex(0.0D, f3).color(255, 255, 255, 255).endVertex();
 			tessellator.draw();
 			this.unbindFramebufferTexture();

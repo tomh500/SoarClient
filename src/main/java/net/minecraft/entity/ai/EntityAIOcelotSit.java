@@ -57,14 +57,14 @@ public class EntityAIOcelotSit extends EntityAIMoveToBlock {
 			if (block == Blocks.chest) {
 				TileEntity tileentity = worldIn.getTileEntity(pos);
 
-                return tileentity instanceof TileEntityChest && ((TileEntityChest) tileentity).numPlayersUsing < 1;
+				return tileentity instanceof TileEntityChest && ((TileEntityChest) tileentity).numPlayersUsing < 1;
 			} else {
 				if (block == Blocks.lit_furnace) {
 					return true;
 				}
 
-                return block == Blocks.bed && iblockstate.getValue(BlockBed.PART) != BlockBed.EnumPartType.HEAD;
+				return block == Blocks.bed && iblockstate.getValue(BlockBed.PART) != BlockBed.EnumPartType.HEAD;
 			}
-        }
+		}
 	}
 }

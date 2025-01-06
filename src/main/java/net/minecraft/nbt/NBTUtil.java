@@ -102,7 +102,7 @@ public final class NBTUtil {
 		} else if (!p_181123_0_.getClass().equals(p_181123_1_.getClass())) {
 			return false;
 		} else if (p_181123_0_ instanceof NBTTagCompound nbttagcompound) {
-            NBTTagCompound nbttagcompound1 = (NBTTagCompound) p_181123_1_;
+			NBTTagCompound nbttagcompound1 = (NBTTagCompound) p_181123_1_;
 
 			for (String s : nbttagcompound.getKeySet()) {
 				NBTBase nbtbase1 = nbttagcompound.getTag(s);
@@ -114,7 +114,7 @@ public final class NBTUtil {
 
 			return true;
 		} else if (p_181123_0_ instanceof NBTTagList nbttaglist && p_181123_2_) {
-            NBTTagList nbttaglist1 = (NBTTagList) p_181123_1_;
+			NBTTagList nbttaglist1 = (NBTTagList) p_181123_1_;
 
 			if (nbttaglist.tagCount() == 0) {
 				return nbttaglist1.tagCount() == 0;

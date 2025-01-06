@@ -33,8 +33,8 @@ public class JsonException extends IOException {
 	}
 
 	public String getMessage() {
-		return "Invalid " + this.field_151383_a.get(this.field_151383_a.size() - 1).toString()
-				+ ": " + this.exceptionMessage;
+		return "Invalid " + this.field_151383_a.get(this.field_151383_a.size() - 1).toString() + ": "
+				+ this.exceptionMessage;
 	}
 
 	public static JsonException func_151379_a(Exception p_151379_0_) {

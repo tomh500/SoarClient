@@ -79,7 +79,7 @@ public class Item {
 			try {
 				return getItemById(Integer.parseInt(id));
 			} catch (NumberFormatException var3) {
-            }
+			}
 		}
 
 		return item;
@@ -845,8 +845,7 @@ public class Item {
 	}
 
 	protected static void registerItemBlock(Block blockIn, Item itemIn) {
-		registerItem(Block.getIdFromBlock(blockIn), Block.blockRegistry.getNameForObject(blockIn),
-				itemIn);
+		registerItem(Block.getIdFromBlock(blockIn), Block.blockRegistry.getNameForObject(blockIn), itemIn);
 		BLOCK_TO_ITEM.put(blockIn, itemIn);
 	}
 
@@ -868,8 +867,7 @@ public class Item {
 		private final float damageVsEntity;
 		private final int enchantability;
 
-		ToolMaterial(int harvestLevel, int maxUses, float efficiency, float damageVsEntity,
-                     int enchantability) {
+		ToolMaterial(int harvestLevel, int maxUses, float efficiency, float damageVsEntity, int enchantability) {
 			this.harvestLevel = harvestLevel;
 			this.maxUses = maxUses;
 			this.efficiencyOnProperMaterial = efficiency;

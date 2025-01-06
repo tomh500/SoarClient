@@ -178,20 +178,18 @@ public class ServerStatusResponse {
 			ServerStatusResponse serverstatusresponse = new ServerStatusResponse();
 
 			if (jsonobject.has("description")) {
-				serverstatusresponse.setServerDescription(p_deserialize_3_
-						.deserialize(jsonobject.get("description"), IChatComponent.class));
+				serverstatusresponse.setServerDescription(
+						p_deserialize_3_.deserialize(jsonobject.get("description"), IChatComponent.class));
 			}
 
 			if (jsonobject.has("players")) {
-				serverstatusresponse.setPlayerCountData(p_deserialize_3_
-						.deserialize(jsonobject.get("players"), PlayerCountData.class));
+				serverstatusresponse.setPlayerCountData(
+						p_deserialize_3_.deserialize(jsonobject.get("players"), PlayerCountData.class));
 			}
 
 			if (jsonobject.has("version")) {
-				serverstatusresponse.setProtocolVersionInfo(
-                        p_deserialize_3_.deserialize(
-                                jsonobject.get("version"),
-                                MinecraftProtocolVersionIdentifier.class));
+				serverstatusresponse.setProtocolVersionInfo(p_deserialize_3_.deserialize(jsonobject.get("version"),
+						MinecraftProtocolVersionIdentifier.class));
 			}
 
 			if (jsonobject.has("favicon")) {

@@ -115,15 +115,13 @@ public class ShaderProgramData {
 		this.uniform_depthtex2 = ARBShaderObjects.glGetUniformLocationARB(programID, "depthtex2");
 		this.uniform_tex = ARBShaderObjects.glGetUniformLocationARB(programID, "tex");
 		this.uniform_heldItemId = ARBShaderObjects.glGetUniformLocationARB(programID, "heldItemId");
-		this.uniform_heldBlockLightValue = ARBShaderObjects.glGetUniformLocationARB(programID,
-                "heldBlockLightValue");
+		this.uniform_heldBlockLightValue = ARBShaderObjects.glGetUniformLocationARB(programID, "heldBlockLightValue");
 		this.uniform_fogMode = ARBShaderObjects.glGetUniformLocationARB(programID, "fogMode");
 		this.uniform_fogColor = ARBShaderObjects.glGetUniformLocationARB(programID, "fogColor");
 		this.uniform_skyColor = ARBShaderObjects.glGetUniformLocationARB(programID, "skyColor");
 		this.uniform_worldTime = ARBShaderObjects.glGetUniformLocationARB(programID, "worldTime");
 		this.uniform_moonPhase = ARBShaderObjects.glGetUniformLocationARB(programID, "moonPhase");
-		this.uniform_frameTimeCounter = ARBShaderObjects.glGetUniformLocationARB(programID,
-                "frameTimeCounter");
+		this.uniform_frameTimeCounter = ARBShaderObjects.glGetUniformLocationARB(programID, "frameTimeCounter");
 		this.uniform_sunAngle = ARBShaderObjects.glGetUniformLocationARB(programID, "sunAngle");
 		this.uniform_shadowAngle = ARBShaderObjects.glGetUniformLocationARB(programID, "shadowAngle");
 		this.uniform_rainStrength = ARBShaderObjects.glGetUniformLocationARB(programID, "rainStrength");
@@ -136,43 +134,33 @@ public class ShaderProgramData {
 		this.uniform_moonPosition = ARBShaderObjects.glGetUniformLocationARB(programID, "moonPosition");
 		this.uniform_upPosition = ARBShaderObjects.glGetUniformLocationARB(programID, "upPosition");
 		this.uniform_previousCameraPosition = ARBShaderObjects.glGetUniformLocationARB(programID,
-                "previousCameraPosition");
-		this.uniform_cameraPosition = ARBShaderObjects.glGetUniformLocationARB(programID,
-                "cameraPosition");
-		this.uniform_gbufferModelView = ARBShaderObjects.glGetUniformLocationARB(programID,
-                "gbufferModelView");
+				"previousCameraPosition");
+		this.uniform_cameraPosition = ARBShaderObjects.glGetUniformLocationARB(programID, "cameraPosition");
+		this.uniform_gbufferModelView = ARBShaderObjects.glGetUniformLocationARB(programID, "gbufferModelView");
 		this.uniform_gbufferModelViewInverse = ARBShaderObjects.glGetUniformLocationARB(programID,
-                "gbufferModelViewInverse");
+				"gbufferModelViewInverse");
 		this.uniform_gbufferPreviousProjection = ARBShaderObjects.glGetUniformLocationARB(programID,
-                "gbufferPreviousProjection");
-		this.uniform_gbufferProjection = ARBShaderObjects.glGetUniformLocationARB(programID,
-                "gbufferProjection");
+				"gbufferPreviousProjection");
+		this.uniform_gbufferProjection = ARBShaderObjects.glGetUniformLocationARB(programID, "gbufferProjection");
 		this.uniform_gbufferProjectionInverse = ARBShaderObjects.glGetUniformLocationARB(programID,
-                "gbufferProjectionInverse");
+				"gbufferProjectionInverse");
 		this.uniform_gbufferPreviousModelView = ARBShaderObjects.glGetUniformLocationARB(programID,
-                "gbufferPreviousModelView");
-		this.uniform_shadowProjection = ARBShaderObjects.glGetUniformLocationARB(programID,
-                "shadowProjection");
+				"gbufferPreviousModelView");
+		this.uniform_shadowProjection = ARBShaderObjects.glGetUniformLocationARB(programID, "shadowProjection");
 		this.uniform_shadowProjectionInverse = ARBShaderObjects.glGetUniformLocationARB(programID,
-                "shadowProjectionInverse");
-		this.uniform_shadowModelView = ARBShaderObjects.glGetUniformLocationARB(programID,
-                "shadowModelView");
+				"shadowProjectionInverse");
+		this.uniform_shadowModelView = ARBShaderObjects.glGetUniformLocationARB(programID, "shadowModelView");
 		this.uniform_shadowModelViewInverse = ARBShaderObjects.glGetUniformLocationARB(programID,
-                "shadowModelViewInverse");
+				"shadowModelViewInverse");
 		this.uniform_wetness = ARBShaderObjects.glGetUniformLocationARB(programID, "wetness");
 		this.uniform_eyeAltitude = ARBShaderObjects.glGetUniformLocationARB(programID, "eyeAltitude");
-		this.uniform_eyeBrightness = ARBShaderObjects.glGetUniformLocationARB(programID,
-                "eyeBrightness");
-		this.uniform_eyeBrightnessSmooth = ARBShaderObjects.glGetUniformLocationARB(programID,
-                "eyeBrightnessSmooth");
-		this.uniform_terrainTextureSize = ARBShaderObjects.glGetUniformLocationARB(programID,
-                "terrainTextureSize");
-		this.uniform_terrainIconSize = ARBShaderObjects.glGetUniformLocationARB(programID,
-                "terrainIconSize");
+		this.uniform_eyeBrightness = ARBShaderObjects.glGetUniformLocationARB(programID, "eyeBrightness");
+		this.uniform_eyeBrightnessSmooth = ARBShaderObjects.glGetUniformLocationARB(programID, "eyeBrightnessSmooth");
+		this.uniform_terrainTextureSize = ARBShaderObjects.glGetUniformLocationARB(programID, "terrainTextureSize");
+		this.uniform_terrainIconSize = ARBShaderObjects.glGetUniformLocationARB(programID, "terrainIconSize");
 		this.uniform_isEyeInWater = ARBShaderObjects.glGetUniformLocationARB(programID, "isEyeInWater");
 		this.uniform_hideGUI = ARBShaderObjects.glGetUniformLocationARB(programID, "hideGUI");
-		this.uniform_centerDepthSmooth = ARBShaderObjects.glGetUniformLocationARB(programID,
-                "centerDepthSmooth");
+		this.uniform_centerDepthSmooth = ARBShaderObjects.glGetUniformLocationARB(programID, "centerDepthSmooth");
 		this.uniform_atlasSize = ARBShaderObjects.glGetUniformLocationARB(programID, "atlasSize");
 	}
 }

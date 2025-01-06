@@ -56,7 +56,7 @@ public class MusicPage extends Page {
 		searchBar = new SearchBar(x + width - 260 - 32, y + 32, 260, () -> {
 			scrollHelper.reset();
 		});
-		
+
 		for (Item i : items) {
 			i.xAnimation.setFirstTick(true);
 			i.yAnimation.setFirstTick(true);
@@ -75,13 +75,13 @@ public class MusicPage extends Page {
 
 		controlBarAnimation.onTick(MouseUtils.isInside(mouseX, mouseY, controlBar.getX(), controlBar.getY(),
 				controlBar.getWidth(), controlBar.getHeight()) ? 1 : 0, 12);
-		
+
 		scrollHelper.onScroll();
 		mouseY = (int) (mouseY - scrollHelper.getValue());
-		
+
 		Skia.save();
 		Skia.translate(0, scrollHelper.getValue());
-		
+
 		searchBar.draw(mouseX, mouseY);
 
 		for (Item i : items) {
@@ -91,10 +91,11 @@ public class MusicPage extends Page {
 			SimpleAnimation yAnimation = i.yAnimation;
 			SimpleAnimation focusAnimation = i.focusAnimation;
 
-			if (!searchBar.getText().isEmpty() && !SearchUtils.isSimillar(m.getTitle() + " " + m.getArtist(), searchBar.getText())) {
+			if (!searchBar.getText().isEmpty()
+					&& !SearchUtils.isSimillar(m.getTitle() + " " + m.getArtist(), searchBar.getText())) {
 				continue;
 			}
-			
+
 			float itemX = x + offsetX;
 			float itemY = y + offsetY;
 
@@ -138,9 +139,9 @@ public class MusicPage extends Page {
 		}
 
 		Skia.restore();
-		
+
 		mouseY = (int) (mouseY + scrollHelper.getValue());
-		
+
 		Skia.save();
 		Skia.translate(0, 100 - (controlBarAnimation.getValue() * 100));
 		controlBar.draw(mouseX, mouseY);
@@ -151,13 +152,13 @@ public class MusicPage extends Page {
 	public void mousePressed(int mouseX, int mouseY, int mouseButton) {
 
 		controlBar.mousePressed(mouseX, mouseY, mouseButton);
-		
+
 		if (MouseUtils.isInside(mouseX, mouseY, controlBar.getX(), controlBar.getY(), controlBar.getWidth(),
 				controlBar.getHeight())) {
 			return;
 		}
-		
-		mouseY = (int) (mouseY - scrollHelper.getValue());		
+
+		mouseY = (int) (mouseY - scrollHelper.getValue());
 		searchBar.mousePressed(mouseX, mouseY, mouseButton);
 	}
 
@@ -167,15 +168,15 @@ public class MusicPage extends Page {
 		MusicManager musicManager = Soar.getInstance().getMusicManager();
 
 		controlBar.mouseReleased(mouseX, mouseY, mouseButton);
-		
+
 		if (MouseUtils.isInside(mouseX, mouseY, controlBar.getX(), controlBar.getY(), controlBar.getWidth(),
 				controlBar.getHeight())) {
 			return;
 		}
 
-		mouseY = (int) (mouseY - scrollHelper.getValue());	
+		mouseY = (int) (mouseY - scrollHelper.getValue());
 		searchBar.mouseReleased(mouseX, mouseY, mouseButton);
-		
+
 		for (Item i : items) {
 
 			Music m = i.music;

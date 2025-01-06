@@ -14,10 +14,8 @@ import net.minecraft.util.EnumChatFormatting;
 
 public class Scoreboard {
 	private final Map<String, ScoreObjective> scoreObjectives = Maps.newHashMap();
-	private final Map<IScoreObjectiveCriteria, List<ScoreObjective>> scoreObjectiveCriterias = Maps
-			.newHashMap();
-	private final Map<String, Map<ScoreObjective, Score>> entitiesScoreObjectives = Maps
-			.newHashMap();
+	private final Map<IScoreObjectiveCriteria, List<ScoreObjective>> scoreObjectiveCriterias = Maps.newHashMap();
+	private final Map<String, Map<ScoreObjective, Score>> entitiesScoreObjectives = Maps.newHashMap();
 	private final ScoreObjective[] objectiveDisplaySlots = new ScoreObjective[19];
 	private final Map<String, ScorePlayerTeam> teams = Maps.newHashMap();
 	private final Map<String, ScorePlayerTeam> teamMemberships = Maps.newHashMap();
@@ -253,7 +251,7 @@ public class Scoreboard {
 	public void removePlayerFromTeam(String p_96512_1_, ScorePlayerTeam p_96512_2_) {
 		if (this.getPlayersTeam(p_96512_1_) != p_96512_2_) {
 			throw new IllegalStateException(
-                    "Player is either on another team or not on any team. Cannot remove from team '"
+					"Player is either on another team or not on any team. Cannot remove from team '"
 							+ p_96512_2_.getRegisteredName() + "'.");
 		} else {
 			this.teamMemberships.remove(p_96512_1_);

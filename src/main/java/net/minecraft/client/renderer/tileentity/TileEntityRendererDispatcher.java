@@ -149,8 +149,7 @@ public class TileEntityRendererDispatcher {
 
 	public void renderTileEntityAt(TileEntity tileEntityIn, double x, double y, double z, float partialTicks,
 			int destroyStage) {
-		TileEntitySpecialRenderer<TileEntity> tileentityspecialrenderer = this
-				.getSpecialRenderer(tileEntityIn);
+		TileEntitySpecialRenderer<TileEntity> tileentityspecialrenderer = this.getSpecialRenderer(tileEntityIn);
 
 		if (tileentityspecialrenderer != null) {
 			try {

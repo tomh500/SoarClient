@@ -35,10 +35,9 @@ public class RandomPositionGenerator {
 		boolean flag1;
 
 		if (entitycreatureIn.hasHome()) {
-			double d0 = entitycreatureIn.getHomePosition().distanceSq(
-                    MathHelper.floor_double(entitycreatureIn.posX),
-                    MathHelper.floor_double(entitycreatureIn.posY),
-                    MathHelper.floor_double(entitycreatureIn.posZ)) + 4.0D;
+			double d0 = entitycreatureIn.getHomePosition().distanceSq(MathHelper.floor_double(entitycreatureIn.posX),
+					MathHelper.floor_double(entitycreatureIn.posY), MathHelper.floor_double(entitycreatureIn.posZ))
+					+ 4.0D;
 			double d1 = entitycreatureIn.getMaximumHomeDistance() + (float) xz;
 			flag1 = d0 < d1 * d1;
 		} else {

@@ -90,8 +90,7 @@ public class CommandReplaceItem extends CommandBase {
 				try {
 					itemstack.setTagCompound(JsonToNBT.getTagFromJson(s));
 				} catch (NBTException nbtexception) {
-					throw new CommandException("commands.replaceitem.tagError",
-                            nbtexception.getMessage());
+					throw new CommandException("commands.replaceitem.tagError", nbtexception.getMessage());
 				}
 			}
 
@@ -106,12 +105,11 @@ public class CommandReplaceItem extends CommandBase {
 				TileEntity tileentity = world.getTileEntity(blockpos);
 
 				if (tileentity == null || !(tileentity instanceof IInventory iinventory)) {
-					throw new CommandException("commands.replaceitem.noContainer",
-                            Integer.valueOf(blockpos.getX()), Integer.valueOf(blockpos.getY()),
-                            Integer.valueOf(blockpos.getZ()));
+					throw new CommandException("commands.replaceitem.noContainer", Integer.valueOf(blockpos.getX()),
+							Integer.valueOf(blockpos.getY()), Integer.valueOf(blockpos.getZ()));
 				}
 
-                if (j >= 0 && j < iinventory.getSizeInventory()) {
+				if (j >= 0 && j < iinventory.getSizeInventory()) {
 					iinventory.setInventorySlotContents(j, itemstack);
 				}
 			} else {
@@ -123,8 +121,8 @@ public class CommandReplaceItem extends CommandBase {
 				}
 
 				if (!entity.replaceItemInInventory(j, itemstack)) {
-					throw new CommandException("commands.replaceitem.failed", Integer.valueOf(j),
-                            Integer.valueOf(k), itemstack == null ? "Air" : itemstack.getChatComponent());
+					throw new CommandException("commands.replaceitem.failed", Integer.valueOf(j), Integer.valueOf(k),
+							itemstack == null ? "Air" : itemstack.getChatComponent());
 				}
 
 				if (entity instanceof EntityPlayer) {
@@ -133,8 +131,8 @@ public class CommandReplaceItem extends CommandBase {
 			}
 
 			sender.setCommandStat(CommandResultStats.Type.AFFECTED_ITEMS, k);
-			notifyOperators(sender, this, "commands.replaceitem.success", Integer.valueOf(j),
-                    Integer.valueOf(k), itemstack == null ? "Air" : itemstack.getChatComponent());
+			notifyOperators(sender, this, "commands.replaceitem.success", Integer.valueOf(j), Integer.valueOf(k),
+					itemstack == null ? "Air" : itemstack.getChatComponent());
 		}
 	}
 

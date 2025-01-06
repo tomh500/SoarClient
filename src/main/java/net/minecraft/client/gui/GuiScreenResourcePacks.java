@@ -33,10 +33,9 @@ public class GuiScreenResourcePacks extends GuiScreen {
 	}
 
 	public void initGui() {
-		this.buttonList.add(new GuiOptionButton(2, this.width / 2 - 154, this.height - 48,
-				I18n.format("resourcePack.openFolder")));
 		this.buttonList.add(
-				new GuiOptionButton(1, this.width / 2 + 4, this.height - 48, I18n.format("gui.done")));
+				new GuiOptionButton(2, this.width / 2 - 154, this.height - 48, I18n.format("resourcePack.openFolder")));
+		this.buttonList.add(new GuiOptionButton(1, this.width / 2 + 4, this.height - 48, I18n.format("gui.done")));
 
 		if (!this.changed) {
 			this.availableResourcePacks = Lists.newArrayList();
@@ -121,8 +120,7 @@ public class GuiScreenResourcePacks extends GuiScreen {
 				try {
 					Class<?> oclass = Class.forName("java.awt.Desktop");
 					Object object = oclass.getMethod("getDesktop").invoke(null);
-					oclass.getMethod("browse", URI.class).invoke(object,
-                            file1.toURI());
+					oclass.getMethod("browse", URI.class).invoke(object, file1.toURI());
 				} catch (Throwable throwable) {
 					logger.error("Couldn't open link", throwable);
 					flag = true;
@@ -179,10 +177,9 @@ public class GuiScreenResourcePacks extends GuiScreen {
 		this.drawBackground(0);
 		this.availableResourcePacksList.drawScreen(mouseX, mouseY, partialTicks);
 		this.selectedResourcePacksList.drawScreen(mouseX, mouseY, partialTicks);
-		this.drawCenteredString(this.fontRendererObj, I18n.format("resourcePack.title"), this.width / 2,
-				16, 16777215);
-		this.drawCenteredString(this.fontRendererObj, I18n.format("resourcePack.folderInfo"),
-				this.width / 2 - 77, this.height - 26, 8421504);
+		this.drawCenteredString(this.fontRendererObj, I18n.format("resourcePack.title"), this.width / 2, 16, 16777215);
+		this.drawCenteredString(this.fontRendererObj, I18n.format("resourcePack.folderInfo"), this.width / 2 - 77,
+				this.height - 26, 8421504);
 		super.drawScreen(mouseX, mouseY, partialTicks);
 	}
 

@@ -54,8 +54,7 @@ public abstract class MobSpawnerBaseLogic {
 	private boolean isActivated() {
 		BlockPos blockpos = this.getSpawnerPosition();
 		return this.getSpawnerWorld().isAnyPlayerWithinRangeAt((double) blockpos.getX() + 0.5D,
-				(double) blockpos.getY() + 0.5D, (double) blockpos.getZ() + 0.5D,
-                this.activatingRangeFromPlayer);
+				(double) blockpos.getY() + 0.5D, (double) blockpos.getZ() + 0.5D, this.activatingRangeFromPlayer);
 	}
 
 	public void updateSpawner() {
@@ -66,8 +65,7 @@ public abstract class MobSpawnerBaseLogic {
 				double d3 = (float) blockpos.getX() + this.getSpawnerWorld().rand.nextFloat();
 				double d4 = (float) blockpos.getY() + this.getSpawnerWorld().rand.nextFloat();
 				double d5 = (float) blockpos.getZ() + this.getSpawnerWorld().rand.nextFloat();
-				this.getSpawnerWorld().spawnParticle(EnumParticleTypes.SMOKE_NORMAL, d3, d4, d5, 0.0D, 0.0D, 0.0D
-                );
+				this.getSpawnerWorld().spawnParticle(EnumParticleTypes.SMOKE_NORMAL, d3, d4, d5, 0.0D, 0.0D, 0.0D);
 				this.getSpawnerWorld().spawnParticle(EnumParticleTypes.FLAME, d3, d4, d5, 0.0D, 0.0D, 0.0D);
 
 				if (this.spawnDelay > 0) {
@@ -98,11 +96,9 @@ public abstract class MobSpawnerBaseLogic {
 
 					int j = this.getSpawnerWorld()
 							.getEntitiesWithinAABB(entity.getClass(),
-									(new AxisAlignedBB(blockpos.getX(), blockpos.getY(),
-                                            blockpos.getZ(), blockpos.getX() + 1,
-                                            blockpos.getY() + 1, blockpos.getZ() + 1))
-											.expand(this.spawnRange, this.spawnRange,
-                                                    this.spawnRange))
+									(new AxisAlignedBB(blockpos.getX(), blockpos.getY(), blockpos.getZ(),
+											blockpos.getX() + 1, blockpos.getY() + 1, blockpos.getZ() + 1))
+											.expand(this.spawnRange, this.spawnRange, this.spawnRange))
 							.size();
 
 					if (j >= this.maxNearbyEntities) {
@@ -187,8 +183,8 @@ public abstract class MobSpawnerBaseLogic {
 			}
 		} else if (entityIn instanceof EntityLivingBase && entityIn.worldObj != null && spawn) {
 			if (entityIn instanceof EntityLiving) {
-				((EntityLiving) entityIn).onInitialSpawn(
-						entityIn.worldObj.getDifficultyForLocation(new BlockPos(entityIn)), null);
+				((EntityLiving) entityIn)
+						.onInitialSpawn(entityIn.worldObj.getDifficultyForLocation(new BlockPos(entityIn)), null);
 			}
 
 			entityIn.worldObj.spawnEntityInWorld(entityIn);
@@ -206,8 +202,7 @@ public abstract class MobSpawnerBaseLogic {
 		}
 
 		if (this.minecartToSpawn.size() > 0) {
-			this.setRandomEntity(WeightedRandom
-					.getRandomItem(this.getSpawnerWorld().rand, this.minecartToSpawn));
+			this.setRandomEntity(WeightedRandom.getRandomItem(this.getSpawnerWorld().rand, this.minecartToSpawn));
 		}
 
 		this.func_98267_a(1);

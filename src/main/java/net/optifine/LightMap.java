@@ -90,7 +90,7 @@ public class LightMap {
 				float[] afloat3 = origMap[offset + i1 * width + i];
 				float[] afloat4 = colRgb[i1];
 
-                System.arraycopy(afloat3, 0, afloat4, 0, 3);
+				System.arraycopy(afloat3, 0, afloat4, 0, 3);
 			}
 		} else {
 			float f = 1.0F - (x - (float) i);

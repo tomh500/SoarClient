@@ -91,8 +91,7 @@ public class BlockRedstoneTorch extends BlockTorch {
 		boolean flag = this.shouldBeOff(worldIn, pos, state);
 		List<BlockRedstoneTorch.Toggle> list = toggles.get(worldIn);
 
-		while (list != null && !list.isEmpty()
-				&& worldIn.getTotalWorldTime() - list.get(0).time > 60L) {
+		while (list != null && !list.isEmpty() && worldIn.getTotalWorldTime() - list.get(0).time > 60L) {
 			list.remove(0);
 		}
 
@@ -103,7 +102,7 @@ public class BlockRedstoneTorch extends BlockTorch {
 
 				if (this.isBurnedOut(worldIn, pos, true)) {
 					worldIn.playSoundEffect((float) pos.getX() + 0.5F, (float) pos.getY() + 0.5F,
-                            (float) pos.getZ() + 0.5F, "random.fizz", 0.5F,
+							(float) pos.getZ() + 0.5F, "random.fizz", 0.5F,
 							2.6F + (worldIn.rand.nextFloat() - worldIn.rand.nextFloat()) * 0.8F);
 
 					for (int i = 0; i < 5; ++i) {

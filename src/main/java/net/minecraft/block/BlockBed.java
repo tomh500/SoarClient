@@ -52,8 +52,7 @@ public class BlockBed extends BlockDirectional {
 					EntityPlayer entityplayer = this.getPlayerInBed(worldIn, pos);
 
 					if (entityplayer != null) {
-						playerIn.addChatComponentMessage(
-								new ChatComponentTranslation("tile.bed.occupied"));
+						playerIn.addChatComponentMessage(new ChatComponentTranslation("tile.bed.occupied"));
 						return true;
 					}
 
@@ -69,11 +68,9 @@ public class BlockBed extends BlockDirectional {
 					return true;
 				} else {
 					if (entityplayer$enumstatus == EntityPlayer.EnumStatus.NOT_POSSIBLE_NOW) {
-						playerIn.addChatComponentMessage(
-								new ChatComponentTranslation("tile.bed.noSleep"));
+						playerIn.addChatComponentMessage(new ChatComponentTranslation("tile.bed.noSleep"));
 					} else if (entityplayer$enumstatus == EntityPlayer.EnumStatus.NOT_SAFE) {
-						playerIn.addChatComponentMessage(
-								new ChatComponentTranslation("tile.bed.notSafe"));
+						playerIn.addChatComponentMessage(new ChatComponentTranslation("tile.bed.notSafe"));
 					}
 
 					return true;

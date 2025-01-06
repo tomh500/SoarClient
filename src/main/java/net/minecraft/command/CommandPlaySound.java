@@ -70,8 +70,7 @@ public class CommandPlaySound extends CommandBase {
 
 			if (d7 > d6) {
 				if (d5 <= 0.0D) {
-					throw new CommandException("commands.playsound.playerTooFar",
-                            entityplayermp.getName());
+					throw new CommandException("commands.playsound.playerTooFar", entityplayermp.getName());
 				}
 
 				double d8 = d0 - entityplayermp.posX;

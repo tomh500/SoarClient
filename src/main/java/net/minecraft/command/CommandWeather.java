@@ -64,7 +64,6 @@ public class CommandWeather extends CommandBase {
 	}
 
 	public List<String> addTabCompletionOptions(ICommandSender sender, String[] args, BlockPos pos) {
-		return args.length == 1 ? getListOfStringsMatchingLastWord(args, "clear", "rain", "thunder")
-				: null;
+		return args.length == 1 ? getListOfStringsMatchingLastWord(args, "clear", "rain", "thunder") : null;
 	}
 }

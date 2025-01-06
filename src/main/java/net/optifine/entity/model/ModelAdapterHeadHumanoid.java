@@ -22,7 +22,7 @@ public class ModelAdapterHeadHumanoid extends ModelAdapter {
 		if (!(model instanceof ModelHumanoidHead modelhumanoidhead)) {
 			return null;
 		} else {
-            return modelPart.equals("head") ? modelhumanoidhead.skeletonHead
+			return modelPart.equals("head") ? modelhumanoidhead.skeletonHead
 					: (modelPart.equals("head2") ? modelhumanoidhead.head : null);
 		}
 	}

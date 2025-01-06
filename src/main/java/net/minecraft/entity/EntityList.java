@@ -79,14 +79,10 @@ import net.minecraft.world.World;
 
 public class EntityList {
 	private static final Logger logger = LogManager.getLogger();
-	private static final Map<String, Class<? extends Entity>> stringToClassMapping = Maps
-			.newHashMap();
-	private static final Map<Class<? extends Entity>, String> classToStringMapping = Maps
-			.newHashMap();
-	private static final Map<Integer, Class<? extends Entity>> idToClassMapping = Maps
-			.newHashMap();
-	private static final Map<Class<? extends Entity>, Integer> classToIDMapping = Maps
-			.newHashMap();
+	private static final Map<String, Class<? extends Entity>> stringToClassMapping = Maps.newHashMap();
+	private static final Map<Class<? extends Entity>, String> classToStringMapping = Maps.newHashMap();
+	private static final Map<Integer, Class<? extends Entity>> idToClassMapping = Maps.newHashMap();
+	private static final Map<Class<? extends Entity>, Integer> classToIDMapping = Maps.newHashMap();
 	private static final Map<String, Integer> stringToIDMapping = Maps.newHashMap();
 	public static final Map<Integer, EntityList.EntityEggInfo> entityEggs = Maps.newLinkedHashMap();
 
@@ -121,8 +117,7 @@ public class EntityList {
 			Class<? extends Entity> oclass = stringToClassMapping.get(entityName);
 
 			if (oclass != null) {
-				entity = oclass.getConstructor(new Class[] { World.class })
-						.newInstance(worldIn);
+				entity = oclass.getConstructor(new Class[] { World.class }).newInstance(worldIn);
 			}
 		} catch (Exception exception) {
 			exception.printStackTrace();
@@ -143,8 +138,7 @@ public class EntityList {
 			Class<? extends Entity> oclass = stringToClassMapping.get(nbt.getString("id"));
 
 			if (oclass != null) {
-				entity = oclass.getConstructor(new Class[] { World.class })
-						.newInstance(worldIn);
+				entity = oclass.getConstructor(new Class[] { World.class }).newInstance(worldIn);
 			}
 		} catch (Exception exception) {
 			exception.printStackTrace();
@@ -166,8 +160,7 @@ public class EntityList {
 			Class<? extends Entity> oclass = getClassFromID(entityID);
 
 			if (oclass != null) {
-				entity = oclass.getConstructor(new Class[] { World.class })
-						.newInstance(worldIn);
+				entity = oclass.getConstructor(new Class[] { World.class }).newInstance(worldIn);
 			}
 		} catch (Exception exception) {
 			exception.printStackTrace();

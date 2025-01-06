@@ -431,7 +431,7 @@ public class RenderChunk {
 
 	private boolean isWorldPlayerUpdate() {
 		if (this.world instanceof WorldClient worldclient) {
-            return worldclient.isPlayerUpdate();
+			return worldclient.isPlayerUpdate();
 		} else {
 			return false;
 		}
@@ -591,7 +591,7 @@ public class RenderChunk {
 
 	public boolean isBoundingBoxInFrustum(ICamera p_isBoundingBoxInFrustum_1_, int p_isBoundingBoxInFrustum_2_) {
 		return this.getBoundingBoxParent().isBoundingBoxInFrustumFully(p_isBoundingBoxInFrustum_1_,
-                p_isBoundingBoxInFrustum_2_) || p_isBoundingBoxInFrustum_1_.isBoundingBoxInFrustum(this.boundingBox);
+				p_isBoundingBoxInFrustum_2_) || p_isBoundingBoxInFrustum_1_.isBoundingBoxInFrustum(this.boundingBox);
 	}
 
 	public AabbFrame getBoundingBoxParent() {
@@ -616,8 +616,7 @@ public class RenderChunk {
 
 			if (this.boundingBoxParent == null) {
 				int l1 = 1 << l;
-				this.boundingBoxParent = new AabbFrame(i1, j1, k1, i1 + l1,
-                        j1 + l1, k1 + l1);
+				this.boundingBoxParent = new AabbFrame(i1, j1, k1, i1 + l1, j1 + l1, k1 + l1);
 			}
 		}
 

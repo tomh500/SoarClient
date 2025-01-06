@@ -57,8 +57,7 @@ public class NetworkManager extends SimpleChannelInboundHandler<Packet> {
 	private static final Logger logger = LogManager.getLogger();
 	public static final Marker logMarkerNetwork = MarkerManager.getMarker("NETWORK");
 	public static final Marker logMarkerPackets = MarkerManager.getMarker("NETWORK_PACKETS", logMarkerNetwork);
-	public static final AttributeKey<EnumConnectionState> attrKeyConnectionState = AttributeKey
-			.valueOf("protocol");
+	public static final AttributeKey<EnumConnectionState> attrKeyConnectionState = AttributeKey.valueOf("protocol");
 	public static final LazyLoadBase<NioEventLoopGroup> CLIENT_NIO_EVENTLOOP = new LazyLoadBase<NioEventLoopGroup>() {
 		protected NioEventLoopGroup load() {
 			return new NioEventLoopGroup(0,
@@ -78,7 +77,8 @@ public class NetworkManager extends SimpleChannelInboundHandler<Packet> {
 		}
 	};
 	private final EnumPacketDirection direction;
-	private final Queue<NetworkManager.InboundHandlerTuplePacketListener> outboundPacketsQueue = Queues.newConcurrentLinkedQueue();
+	private final Queue<NetworkManager.InboundHandlerTuplePacketListener> outboundPacketsQueue = Queues
+			.newConcurrentLinkedQueue();
 	private final ReentrantReadWriteLock readWriteLock = new ReentrantReadWriteLock();
 	private Channel channel;
 	private SocketAddress socketAddress;
@@ -121,7 +121,7 @@ public class NetworkManager extends SimpleChannelInboundHandler<Packet> {
 			chatcomponenttranslation = new ChatComponentTranslation("disconnect.timeout");
 		} else {
 			chatcomponenttranslation = new ChatComponentTranslation("disconnect.genericReason",
-                    "Internal Exception: " + p_exceptionCaught_2_);
+					"Internal Exception: " + p_exceptionCaught_2_);
 		}
 
 		this.closeChannel(chatcomponenttranslation);
@@ -132,7 +132,7 @@ public class NetworkManager extends SimpleChannelInboundHandler<Packet> {
 			try {
 				p_channelRead0_2_.processPacket(this.packetListener);
 			} catch (ThreadQuickExitException var4) {
-            }
+			}
 		}
 	}
 
@@ -168,7 +168,7 @@ public class NetworkManager extends SimpleChannelInboundHandler<Packet> {
 
 			try {
 				this.outboundPacketsQueue.add(new NetworkManager.InboundHandlerTuplePacketListener(packetIn,
-                        ArrayUtils.add(listeners, 0, listener)));
+						ArrayUtils.add(listeners, 0, listener)));
 			} finally {
 				this.readWriteLock.writeLock().unlock();
 			}
@@ -178,8 +178,7 @@ public class NetworkManager extends SimpleChannelInboundHandler<Packet> {
 	private void dispatchPacket(final Packet inPacket,
 			final GenericFutureListener<? extends Future<? super Void>>[] futureListeners) {
 		final EnumConnectionState enumconnectionstate = EnumConnectionState.getFromPacket(inPacket);
-		final EnumConnectionState enumconnectionstate1 = this.channel.attr(attrKeyConnectionState)
-				.get();
+		final EnumConnectionState enumconnectionstate1 = this.channel.attr(attrKeyConnectionState).get();
 
 		if (enumconnectionstate1 != enumconnectionstate) {
 			logger.debug("Disabled auto read");
@@ -273,36 +272,31 @@ public class NetworkManager extends SimpleChannelInboundHandler<Packet> {
 			lazyloadbase = CLIENT_NIO_EVENTLOOP;
 		}
 
-		(new Bootstrap()).group(lazyloadbase.getValue())
-				.handler(new ChannelInitializer<Channel>() {
-					protected void initChannel(Channel p_initChannel_1_) throws Exception {
-						try {
-							p_initChannel_1_.config().setOption(ChannelOption.TCP_NODELAY, Boolean.valueOf(true));
-						} catch (ChannelException var3) {
-                        }
+		(new Bootstrap()).group(lazyloadbase.getValue()).handler(new ChannelInitializer<Channel>() {
+			protected void initChannel(Channel p_initChannel_1_) throws Exception {
+				try {
+					p_initChannel_1_.config().setOption(ChannelOption.TCP_NODELAY, Boolean.valueOf(true));
+				} catch (ChannelException var3) {
+				}
 
-						p_initChannel_1_.pipeline()
-								.addLast("timeout", new ReadTimeoutHandler(30))
-								.addLast("splitter", new MessageDeserializer2())
-								.addLast("decoder",
-                                        new MessageDeserializer(EnumPacketDirection.CLIENTBOUND))
-								.addLast("prepender", new MessageSerializer2())
-								.addLast("encoder",
-                                        new MessageSerializer(EnumPacketDirection.SERVERBOUND))
-								.addLast("packet_handler", networkmanager);
-					}
-				}).channel(oclass).connect(address, serverPort).syncUninterruptibly();
+				p_initChannel_1_.pipeline().addLast("timeout", new ReadTimeoutHandler(30))
+						.addLast("splitter", new MessageDeserializer2())
+						.addLast("decoder", new MessageDeserializer(EnumPacketDirection.CLIENTBOUND))
+						.addLast("prepender", new MessageSerializer2())
+						.addLast("encoder", new MessageSerializer(EnumPacketDirection.SERVERBOUND))
+						.addLast("packet_handler", networkmanager);
+			}
+		}).channel(oclass).connect(address, serverPort).syncUninterruptibly();
 		return networkmanager;
 	}
 
 	public static NetworkManager provideLocalClient(SocketAddress address) {
 		final NetworkManager networkmanager = new NetworkManager(EnumPacketDirection.CLIENTBOUND);
-		(new Bootstrap())
-				.group(CLIENT_LOCAL_EVENTLOOP.getValue()).handler(new ChannelInitializer<Channel>() {
-					protected void initChannel(Channel p_initChannel_1_) throws Exception {
-						p_initChannel_1_.pipeline().addLast("packet_handler", networkmanager);
-					}
-				}).channel(LocalChannel.class).connect(address).syncUninterruptibly();
+		(new Bootstrap()).group(CLIENT_LOCAL_EVENTLOOP.getValue()).handler(new ChannelInitializer<Channel>() {
+			protected void initChannel(Channel p_initChannel_1_) throws Exception {
+				p_initChannel_1_.pipeline().addLast("packet_handler", networkmanager);
+			}
+		}).channel(LocalChannel.class).connect(address).syncUninterruptibly();
 		return networkmanager;
 	}
 

@@ -21,8 +21,8 @@ import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
 public class BlockOldLeaf extends BlockLeaves {
-	public static final PropertyEnum<BlockPlanks.EnumType> VARIANT = PropertyEnum.create(
-			"variant", BlockPlanks.EnumType.class, new Predicate<BlockPlanks.EnumType>() {
+	public static final PropertyEnum<BlockPlanks.EnumType> VARIANT = PropertyEnum.create("variant",
+			BlockPlanks.EnumType.class, new Predicate<BlockPlanks.EnumType>() {
 				public boolean apply(BlockPlanks.EnumType p_apply_1_) {
 					return p_apply_1_.getMetadata() < 4;
 				}
@@ -80,8 +80,7 @@ public class BlockOldLeaf extends BlockLeaves {
 	}
 
 	protected ItemStack createStackedBlock(IBlockState state) {
-		return new ItemStack(Item.getItemFromBlock(this), 1,
-				state.getValue(VARIANT).getMetadata());
+		return new ItemStack(Item.getItemFromBlock(this), 1, state.getValue(VARIANT).getMetadata());
 	}
 
 	public IBlockState getStateFromMeta(int meta) {
@@ -121,8 +120,8 @@ public class BlockOldLeaf extends BlockLeaves {
 		if (!worldIn.isRemote && player.getCurrentEquippedItem() != null
 				&& player.getCurrentEquippedItem().getItem() == Items.shears) {
 			player.triggerAchievement(StatList.mineBlockStatArray[Block.getIdFromBlock(this)]);
-			spawnAsEntity(worldIn, pos, new ItemStack(Item.getItemFromBlock(this), 1,
-					state.getValue(VARIANT).getMetadata()));
+			spawnAsEntity(worldIn, pos,
+					new ItemStack(Item.getItemFromBlock(this), 1, state.getValue(VARIANT).getMetadata()));
 		} else {
 			super.harvestBlock(worldIn, player, pos, state, te);
 		}

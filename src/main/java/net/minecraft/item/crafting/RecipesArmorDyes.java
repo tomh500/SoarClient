@@ -23,7 +23,7 @@ public class RecipesArmorDyes implements IRecipe {
 			if (itemstack1 != null) {
 				if (itemstack1.getItem() instanceof ItemArmor itemarmor) {
 
-                    if (itemarmor.getArmorMaterial() != ItemArmor.ArmorMaterial.LEATHER || itemstack != null) {
+					if (itemarmor.getArmorMaterial() != ItemArmor.ArmorMaterial.LEATHER || itemstack != null) {
 						return false;
 					}
 

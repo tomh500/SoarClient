@@ -406,12 +406,12 @@ public class CustomSkyLayer {
 				long j;
 
 				for (j = i - (long) this.startFadeIn; j < 0L; j += 24000L * this.daysLoop) {
-                }
+				}
 
 				int k = (int) (j / 24000L);
 				int l = k % this.daysLoop;
 
-                return this.days.isInRange(l);
+				return this.days.isInRange(l);
 			}
 
 			return true;

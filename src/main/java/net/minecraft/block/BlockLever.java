@@ -17,8 +17,8 @@ import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
 public class BlockLever extends Block {
-	public static final PropertyEnum<BlockLever.EnumOrientation> FACING = PropertyEnum.create(
-			"facing", BlockLever.EnumOrientation.class);
+	public static final PropertyEnum<BlockLever.EnumOrientation> FACING = PropertyEnum.create("facing",
+			BlockLever.EnumOrientation.class);
 	public static final PropertyBool POWERED = PropertyBool.create("powered");
 
 	protected BlockLever() {
@@ -108,8 +108,8 @@ public class BlockLever extends Block {
 	}
 
 	public void onNeighborBlockChange(World worldIn, BlockPos pos, IBlockState state, Block neighborBlock) {
-		if (this.func_181091_e(worldIn, pos, state) && !func_181090_a(worldIn, pos,
-				state.getValue(FACING).getFacing().getOpposite())) {
+		if (this.func_181091_e(worldIn, pos, state)
+				&& !func_181090_a(worldIn, pos, state.getValue(FACING).getFacing().getOpposite())) {
 			this.dropBlockAsItem(worldIn, pos, state, 0);
 			worldIn.setBlockToAir(pos);
 		}
@@ -189,8 +189,7 @@ public class BlockLever extends Block {
 	}
 
 	public int getStrongPower(IBlockAccess worldIn, BlockPos pos, IBlockState state, EnumFacing side) {
-		return !state.getValue(POWERED).booleanValue() ? 0
-				: (state.getValue(FACING).getFacing() == side ? 15 : 0);
+		return !state.getValue(POWERED).booleanValue() ? 0 : (state.getValue(FACING).getFacing() == side ? 15 : 0);
 	}
 
 	public boolean canProvidePower() {

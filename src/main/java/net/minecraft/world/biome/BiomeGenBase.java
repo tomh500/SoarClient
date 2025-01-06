@@ -341,8 +341,8 @@ public abstract class BiomeGenBase {
 
 	public final float getFloatTemperature(BlockPos pos) {
 		if (pos.getY() > 64) {
-			float f = (float) (temperatureNoise.func_151601_a((double) pos.getX() / 8.0D,
-					(double) pos.getZ() / 8.0D) * 4.0D);
+			float f = (float) (temperatureNoise.func_151601_a((double) pos.getX() / 8.0D, (double) pos.getZ() / 8.0D)
+					* 4.0D);
 			return this.temperature - (f + (float) pos.getY() - 64.0F) * 0.05F / 30.0F;
 		} else {
 			return this.temperature;
@@ -504,8 +504,7 @@ public abstract class BiomeGenBase {
 			if (biomegenbase != null) {
 				if (BIOME_ID_MAP.containsKey(biomegenbase.biomeName)) {
 					throw new Error("Biome \"" + biomegenbase.biomeName + "\" is defined as both ID "
-							+ BIOME_ID_MAP.get(biomegenbase.biomeName).biomeID + " and "
-							+ biomegenbase.biomeID);
+							+ BIOME_ID_MAP.get(biomegenbase.biomeName).biomeID + " and " + biomegenbase.biomeID);
 				}
 
 				BIOME_ID_MAP.put(biomegenbase.biomeName, biomegenbase);
@@ -560,5 +559,5 @@ public abstract class BiomeGenBase {
 
 	public enum TempCategory {
 		OCEAN, COLD, MEDIUM, WARM
-    }
+	}
 }

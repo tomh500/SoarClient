@@ -128,10 +128,8 @@ public final class SpawnerAnimals {
 										float f = (float) l2 + 0.5F;
 										float f1 = (float) j3 + 0.5F;
 
-										if (!worldServerIn.isAnyPlayerWithinRangeAt(f, i3,
-                                                f1, 24.0D)
-												&& blockpos2.distanceSq(f, i3,
-                                                f1) >= 576.0D) {
+										if (!worldServerIn.isAnyPlayerWithinRangeAt(f, i3, f1, 24.0D)
+												&& blockpos2.distanceSq(f, i3, f1) >= 576.0D) {
 											if (biomegenbase$spawnlistentry == null) {
 												biomegenbase$spawnlistentry = worldServerIn
 														.getSpawnListEntryForTypeAt(enumcreaturetype, blockpos1);
@@ -263,8 +261,8 @@ public final class SpawnerAnimals {
 
 		if (!list.isEmpty()) {
 			while (randomIn.nextFloat() < biomeIn.getSpawningChance()) {
-				BiomeGenBase.SpawnListEntry biomegenbase$spawnlistentry = WeightedRandom
-						.getRandomItem(worldIn.rand, list);
+				BiomeGenBase.SpawnListEntry biomegenbase$spawnlistentry = WeightedRandom.getRandomItem(worldIn.rand,
+						list);
 				int i = biomegenbase$spawnlistentry.minGroupCount + randomIn.nextInt(
 						1 + biomegenbase$spawnlistentry.maxGroupCount - biomegenbase$spawnlistentry.minGroupCount);
 				IEntityLivingData ientitylivingdata = null;
@@ -285,15 +283,14 @@ public final class SpawnerAnimals {
 
 							try {
 								entityliving = biomegenbase$spawnlistentry.entityClass
-										.getConstructor(new Class[] { World.class })
-										.newInstance(worldIn);
+										.getConstructor(new Class[] { World.class }).newInstance(worldIn);
 							} catch (Exception exception1) {
 								exception1.printStackTrace();
 								continue;
 							}
 
-							entityliving.setLocationAndAngles((float) j + 0.5F, blockpos.getY(),
-                                    (float) k + 0.5F, randomIn.nextFloat() * 360.0F, 0.0F);
+							entityliving.setLocationAndAngles((float) j + 0.5F, blockpos.getY(), (float) k + 0.5F,
+									randomIn.nextFloat() * 360.0F, 0.0F);
 							worldIn.spawnEntityInWorld(entityliving);
 							ientitylivingdata = entityliving.onInitialSpawn(
 									worldIn.getDifficultyForLocation(new BlockPos(entityliving)), ientitylivingdata);

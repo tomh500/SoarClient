@@ -313,7 +313,10 @@ public class Block {
 	}
 
 	public boolean shouldSideBeRendered(IBlockAccess worldIn, BlockPos pos, EnumFacing side) {
-		return side == EnumFacing.DOWN && this.minY > 0.0D || (side == EnumFacing.UP && this.maxY < 1.0D || (side == EnumFacing.NORTH && this.minZ > 0.0D || (side == EnumFacing.SOUTH && this.maxZ < 1.0D || (side == EnumFacing.WEST && this.minX > 0.0D || (side == EnumFacing.EAST && this.maxX < 1.0D || !worldIn.getBlockState(pos).getBlock().isOpaqueCube())))));
+		return side == EnumFacing.DOWN && this.minY > 0.0D || (side == EnumFacing.UP && this.maxY < 1.0D
+				|| (side == EnumFacing.NORTH && this.minZ > 0.0D || (side == EnumFacing.SOUTH && this.maxZ < 1.0D
+						|| (side == EnumFacing.WEST && this.minX > 0.0D || (side == EnumFacing.EAST && this.maxX < 1.0D
+								|| !worldIn.getBlockState(pos).getBlock().isOpaqueCube())))));
 	}
 
 	public boolean isBlockSolid(IBlockAccess worldIn, BlockPos pos, EnumFacing side) {
@@ -536,24 +539,23 @@ public class Block {
 				enumfacing = EnumFacing.SOUTH;
 			}
 
-			return new MovingObjectPosition(
-					vec36.addVector(pos.getX(), pos.getY(), pos.getZ()), enumfacing, pos);
+			return new MovingObjectPosition(vec36.addVector(pos.getX(), pos.getY(), pos.getZ()), enumfacing, pos);
 		}
 	}
 
 	private boolean isVecInsideYZBounds(Vec3 point) {
 		return point != null && point.yCoord >= this.minY && point.yCoord <= this.maxY && point.zCoord >= this.minZ
-                && point.zCoord <= this.maxZ;
+				&& point.zCoord <= this.maxZ;
 	}
 
 	private boolean isVecInsideXZBounds(Vec3 point) {
 		return point != null && point.xCoord >= this.minX && point.xCoord <= this.maxX && point.zCoord >= this.minZ
-                && point.zCoord <= this.maxZ;
+				&& point.zCoord <= this.maxZ;
 	}
 
 	private boolean isVecInsideXYBounds(Vec3 point) {
 		return point != null && point.xCoord >= this.minX && point.xCoord <= this.maxX && point.yCoord >= this.minY
-                && point.yCoord <= this.maxY;
+				&& point.yCoord <= this.maxY;
 	}
 
 	public void onBlockDestroyedByExplosion(World worldIn, BlockPos pos, Explosion explosionIn) {
@@ -1287,7 +1289,7 @@ public class Block {
 
 	public enum EnumOffsetType {
 		NONE, XZ, XYZ
-    }
+	}
 
 	public static class SoundType {
 		public final String soundName;

@@ -30,9 +30,9 @@ public class PacketThreadUtil {
 		}
 
 		if (p_clientPreProcessPacket_0_ instanceof S07PacketRespawn s07packetrespawn) {
-            lastDimensionId = s07packetrespawn.getDimensionID();
+			lastDimensionId = s07packetrespawn.getDimensionID();
 		} else if (p_clientPreProcessPacket_0_ instanceof S01PacketJoinGame s01packetjoingame) {
-            lastDimensionId = s01packetjoingame.getDimension();
+			lastDimensionId = s01packetjoingame.getDimension();
 		} else {
 			lastDimensionId = Integer.MIN_VALUE;
 		}

@@ -50,8 +50,8 @@ public class GuiAnimationSettingsOF extends GuiScreen {
 				Lang.get("of.options.animation.allOn")));
 		this.buttonList.add(new GuiButton(211, this.width / 2 - 155 + 80, this.height / 6 + 168 + 11, 70, 20,
 				Lang.get("of.options.animation.allOff")));
-		this.buttonList.add(new GuiOptionButton(200, this.width / 2 + 5, this.height / 6 + 168 + 11,
-				I18n.format("gui.done")));
+		this.buttonList
+				.add(new GuiOptionButton(200, this.width / 2 + 5, this.height / 6 + 168 + 11, I18n.format("gui.done")));
 	}
 
 	protected void actionPerformed(GuiButton guibutton) {

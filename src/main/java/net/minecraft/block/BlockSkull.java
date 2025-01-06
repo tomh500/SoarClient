@@ -134,7 +134,7 @@ public class BlockSkull extends BlockContainer {
 				TileEntity tileentity = worldIn.getTileEntity(pos);
 
 				if (tileentity instanceof TileEntitySkull tileentityskull) {
-                    ItemStack itemstack = new ItemStack(Items.skull, 1, this.getDamageValue(worldIn, pos));
+					ItemStack itemstack = new ItemStack(Items.skull, 1, this.getDamageValue(worldIn, pos));
 
 					if (tileentityskull.getSkullType() == 3 && tileentityskull.getPlayerProfile() != null) {
 						itemstack.setTagCompound(new NBTTagCompound());
@@ -157,7 +157,7 @@ public class BlockSkull extends BlockContainer {
 
 	public boolean canDispenserPlace(World worldIn, BlockPos pos, ItemStack stack) {
 		return stack.getMetadata() == 1 && pos.getY() >= 2 && worldIn.getDifficulty() != EnumDifficulty.PEACEFUL
-                && !worldIn.isRemote && this.getWitherBasePattern().match(worldIn, pos) != null;
+				&& !worldIn.isRemote && this.getWitherBasePattern().match(worldIn, pos) != null;
 	}
 
 	public void checkWitherSpawn(World worldIn, BlockPos pos, TileEntitySkull te) {

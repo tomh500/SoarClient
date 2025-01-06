@@ -10,8 +10,7 @@ public class IteratorCache {
 
 	public static Iterator<Object> getReadOnly(List list) {
 		synchronized (dequeIterators) {
-			IteratorCache.IteratorReusable<Object> iteratorreusable = dequeIterators
-					.pollFirst();
+			IteratorCache.IteratorReusable<Object> iteratorreusable = dequeIterators.pollFirst();
 
 			if (iteratorreusable == null) {
 				iteratorreusable = new IteratorCache.IteratorReadOnly();

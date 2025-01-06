@@ -40,11 +40,11 @@ public class EntityAIWatchClosest extends EntityAIBase {
 
 			if (this.watchedClass == EntityPlayer.class) {
 				this.closestEntity = this.theWatcher.worldObj.getClosestPlayerToEntity(this.theWatcher,
-                        this.maxDistanceForPlayer);
+						this.maxDistanceForPlayer);
 			} else {
-				this.closestEntity = this.theWatcher.worldObj.findNearestEntityWithinAABB(
-						this.watchedClass, this.theWatcher.getEntityBoundingBox()
-								.expand(this.maxDistanceForPlayer, 3.0D, this.maxDistanceForPlayer),
+				this.closestEntity = this.theWatcher.worldObj.findNearestEntityWithinAABB(this.watchedClass,
+						this.theWatcher.getEntityBoundingBox().expand(this.maxDistanceForPlayer, 3.0D,
+								this.maxDistanceForPlayer),
 						this.theWatcher);
 			}
 
@@ -54,7 +54,8 @@ public class EntityAIWatchClosest extends EntityAIBase {
 
 	public boolean continueExecuting() {
 		return this.closestEntity.isEntityAlive() && (!(this.theWatcher.getDistanceSqToEntity(
-                this.closestEntity) > (double) (this.maxDistanceForPlayer * this.maxDistanceForPlayer)) && this.lookTime > 0);
+				this.closestEntity) > (double) (this.maxDistanceForPlayer * this.maxDistanceForPlayer))
+				&& this.lookTime > 0);
 	}
 
 	public void startExecuting() {

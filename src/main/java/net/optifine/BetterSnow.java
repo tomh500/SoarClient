@@ -49,9 +49,10 @@ public class BetterSnow {
 	private static boolean hasSnowNeighbours(IBlockAccess blockAccess, BlockPos pos) {
 		Block block = Blocks.snow_layer;
 		return (blockAccess.getBlockState(pos.north()).getBlock() == block
-                || blockAccess.getBlockState(pos.south()).getBlock() == block
-                || blockAccess.getBlockState(pos.west()).getBlock() == block
-                || blockAccess.getBlockState(pos.east()).getBlock() == block) && blockAccess.getBlockState(pos.down()).getBlock().isOpaqueCube();
+				|| blockAccess.getBlockState(pos.south()).getBlock() == block
+				|| blockAccess.getBlockState(pos.west()).getBlock() == block
+				|| blockAccess.getBlockState(pos.east()).getBlock() == block)
+				&& blockAccess.getBlockState(pos.down()).getBlock().isOpaqueCube();
 	}
 
 	private static boolean checkBlock(Block block, IBlockState blockState) {
@@ -73,7 +74,7 @@ public class BetterSnow {
 					if (block instanceof BlockLever) {
 						Object object = blockState.getValue(BlockLever.FACING);
 
-                        return object == BlockLever.EnumOrientation.UP_X || object == BlockLever.EnumOrientation.UP_Z;
+						return object == BlockLever.EnumOrientation.UP_X || object == BlockLever.EnumOrientation.UP_Z;
 					}
 
 					return false;

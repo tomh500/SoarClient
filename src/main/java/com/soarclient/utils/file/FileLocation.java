@@ -9,7 +9,7 @@ public class FileLocation {
 	public static final File MAIN_DIR = new File(Minecraft.getMinecraft().mcDataDir, "soar");
 	public static final File MUSIC_DIR = new File(MAIN_DIR, "music");
 	public static final File CACHE_DIR = new File(MAIN_DIR, "cache");
-	
+
 	public static void init() {
 		FileUtils.createDir(MAIN_DIR);
 		FileUtils.createDir(MUSIC_DIR);

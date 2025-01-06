@@ -932,8 +932,8 @@ public abstract class Entity implements ICommandSender {
 	}
 
 	public void moveToBlockPosAndAngles(BlockPos pos, float rotationYawIn, float rotationPitchIn) {
-		this.setLocationAndAngles((double) pos.getX() + 0.5D, pos.getY(), (double) pos.getZ() + 0.5D,
-				rotationYawIn, rotationPitchIn);
+		this.setLocationAndAngles((double) pos.getX() + 0.5D, pos.getY(), (double) pos.getZ() + 0.5D, rotationYawIn,
+				rotationPitchIn);
 	}
 
 	public void setLocationAndAngles(double x, double y, double z, float yaw, float pitch) {
@@ -1135,8 +1135,7 @@ public abstract class Entity implements ICommandSender {
 	public void writeToNBT(NBTTagCompound tagCompund) {
 		try {
 			tagCompund.setTag("Pos", this.newDoubleNBTList(this.posX, this.posY, this.posZ));
-			tagCompund.setTag("Motion",
-					this.newDoubleNBTList(this.motionX, this.motionY, this.motionZ));
+			tagCompund.setTag("Motion", this.newDoubleNBTList(this.motionX, this.motionY, this.motionZ));
 			tagCompund.setTag("Rotation", this.newFloatNBTList(this.rotationYaw, this.rotationPitch));
 			tagCompund.setFloat("FallDistance", this.fallDistance);
 			tagCompund.setShort("Fire", (short) this.fire);
@@ -1348,12 +1347,11 @@ public abstract class Entity implements ICommandSender {
 
 			if (this.ridingEntity != null) {
 				this.ridingEntity.updateRiderPosition();
-				this.entityRiderYawDelta += this.ridingEntity.rotationYaw
-						- this.ridingEntity.prevRotationYaw;
+				this.entityRiderYawDelta += this.ridingEntity.rotationYaw - this.ridingEntity.prevRotationYaw;
 
 				for (this.entityRiderPitchDelta += this.ridingEntity.rotationPitch
 						- this.ridingEntity.prevRotationPitch; this.entityRiderYawDelta >= 180.0D; this.entityRiderYawDelta -= 360.0D) {
-                }
+				}
 
 				while (this.entityRiderYawDelta < -180.0D) {
 					this.entityRiderYawDelta += 360.0D;
@@ -1484,10 +1482,8 @@ public abstract class Entity implements ICommandSender {
 						d1 - (double) (blockpattern$patternhelper.getFinger().rotateY()
 								.getAxisDirection() == EnumFacing.AxisDirection.NEGATIVE ? 1 : 0),
 						d0, d0 - (double) blockpattern$patternhelper.func_181118_d()));
-				double d2 = MathHelper.func_181160_c(this.posY - 1.0D,
-                        blockpattern$patternhelper.getPos().getY(),
-                        blockpattern$patternhelper.getPos().getY()
-                                - blockpattern$patternhelper.func_181119_e());
+				double d2 = MathHelper.func_181160_c(this.posY - 1.0D, blockpattern$patternhelper.getPos().getY(),
+						blockpattern$patternhelper.getPos().getY() - blockpattern$patternhelper.func_181119_e());
 				this.lastPortalVec = new Vec3(d1, d2, 0.0D);
 				this.teleportDirection = blockpattern$patternhelper.getFinger();
 			}
@@ -1708,10 +1704,10 @@ public abstract class Entity implements ICommandSender {
 	}
 
 	public String toString() {
-		return String.format("%s['%s'/%d, l='%s', x=%.2f, y=%.2f, z=%.2f]",
-                this.getClass().getSimpleName(), this.getName(), Integer.valueOf(this.entityId),
-                this.worldObj == null ? "~NULL~" : this.worldObj.getWorldInfo().getWorldName(),
-                Double.valueOf(this.posX), Double.valueOf(this.posY), Double.valueOf(this.posZ));
+		return String.format("%s['%s'/%d, l='%s', x=%.2f, y=%.2f, z=%.2f]", this.getClass().getSimpleName(),
+				this.getName(), Integer.valueOf(this.entityId),
+				this.worldObj == null ? "~NULL~" : this.worldObj.getWorldInfo().getWorldName(),
+				Double.valueOf(this.posX), Double.valueOf(this.posY), Double.valueOf(this.posZ));
 	}
 
 	public boolean isEntityInvulnerable(DamageSource source) {
@@ -1810,12 +1806,13 @@ public abstract class Entity implements ICommandSender {
 				return Entity.this.getName();
 			}
 		});
-		category.addCrashSection("Entity's Exact location", String.format("%.2f, %.2f, %.2f",
-                Double.valueOf(this.posX), Double.valueOf(this.posY), Double.valueOf(this.posZ)));
+		category.addCrashSection("Entity's Exact location", String.format("%.2f, %.2f, %.2f", Double.valueOf(this.posX),
+				Double.valueOf(this.posY), Double.valueOf(this.posZ)));
 		category.addCrashSection("Entity's Block location",
 				CrashReportCategory.getCoordinateInfo(MathHelper.floor_double(this.posX),
-                        MathHelper.floor_double(this.posY), MathHelper.floor_double(this.posZ)));
-		category.addCrashSection("Entity's Momentum", String.format("%.2f, %.2f, %.2f", Double.valueOf(this.motionX), Double.valueOf(this.motionY), Double.valueOf(this.motionZ)));
+						MathHelper.floor_double(this.posY), MathHelper.floor_double(this.posZ)));
+		category.addCrashSection("Entity's Momentum", String.format("%.2f, %.2f, %.2f", Double.valueOf(this.motionX),
+				Double.valueOf(this.motionY), Double.valueOf(this.motionZ)));
 		category.addCrashSectionCallable("Entity's Rider", new Callable<String>() {
 			public String call() throws Exception {
 				return Entity.this.riddenByEntity.toString();

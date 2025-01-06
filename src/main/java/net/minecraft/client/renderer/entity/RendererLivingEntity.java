@@ -78,7 +78,7 @@ public abstract class RendererLivingEntity<T extends EntityLivingBase> extends R
 		float f;
 
 		for (f = par2 - par1; f < -180.0F; f += 360.0F) {
-        }
+		}
 
 		while (f >= 180.0F) {
 			f -= 360.0F;
@@ -108,7 +108,7 @@ public abstract class RendererLivingEntity<T extends EntityLivingBase> extends R
 			float f2 = f1 - f;
 
 			if (this.mainModel.isRiding && entity.ridingEntity instanceof EntityLivingBase entitylivingbase) {
-                f = this.interpolateRotation(entitylivingbase.prevRenderYawOffset, entitylivingbase.renderYawOffset,
+				f = this.interpolateRotation(entitylivingbase.prevRenderYawOffset, entitylivingbase.renderYawOffset,
 						partialTicks);
 				f2 = f1 - f;
 				float f3 = MathHelper.wrapAngleTo180_float(f2);

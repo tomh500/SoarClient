@@ -20,12 +20,12 @@ public class TestExpressions {
 				IExpression iexpression = expressionparser.parse(s);
 
 				if (iexpression instanceof IExpressionFloat iexpressionfloat) {
-                    float f = iexpressionfloat.eval();
+					float f = iexpressionfloat.eval();
 					System.out.println("" + f);
 				}
 
 				if (iexpression instanceof IExpressionBool iexpressionbool) {
-                    boolean flag = iexpressionbool.eval();
+					boolean flag = iexpressionbool.eval();
 					System.out.println("" + flag);
 				}
 			} catch (Exception exception) {

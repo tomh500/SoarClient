@@ -62,8 +62,8 @@ public class CommandDebug extends CommandBase {
 				int l = j - this.profileStartTick;
 				this.saveProfileResults(k, l);
 				MinecraftServer.getServer().theProfiler.profilingEnabled = false;
-				notifyOperators(sender, this, "commands.debug.stop",
-                        Float.valueOf((float) k / 1000.0F), Integer.valueOf(l));
+				notifyOperators(sender, this, "commands.debug.stop", Float.valueOf((float) k / 1000.0F),
+						Integer.valueOf(l));
 			}
 		}
 	}
@@ -91,8 +91,7 @@ public class CommandDebug extends CommandBase {
 		stringbuilder.append("Time span: ").append(timeSpan).append(" ms\n");
 		stringbuilder.append("Tick span: ").append(tickSpan).append(" ticks\n");
 		stringbuilder.append("// This is approximately ")
-				.append(String.format("%.2f",
-                        Float.valueOf((float) tickSpan / ((float) timeSpan / 1000.0F))))
+				.append(String.format("%.2f", Float.valueOf((float) tickSpan / ((float) timeSpan / 1000.0F))))
 				.append(" ticks per second. It should be ").append(20).append(" ticks per second\n\n");
 		stringbuilder.append("--- BEGIN PROFILE DUMP ---\n\n");
 		this.func_147202_a(0, "root", stringbuilder);
@@ -113,10 +112,8 @@ public class CommandDebug extends CommandBase {
 				}
 
 				stringBuilder.append(profiler$result.field_76331_c).append(" - ")
-						.append(String.format("%.2f", Double.valueOf(profiler$result.field_76332_a)))
-						.append("%/")
-						.append(String.format("%.2f", Double.valueOf(profiler$result.field_76330_b)))
-						.append("%\n");
+						.append(String.format("%.2f", Double.valueOf(profiler$result.field_76332_a))).append("%/")
+						.append(String.format("%.2f", Double.valueOf(profiler$result.field_76330_b))).append("%\n");
 
 				if (!profiler$result.field_76331_c.equals("unspecified")) {
 					try {
@@ -132,11 +129,11 @@ public class CommandDebug extends CommandBase {
 
 	private static String getWittyComment() {
 		String[] astring = new String[] { "Shiny numbers!", "Am I not running fast enough? :(",
-                "I'm working as hard as I can!", "Will I ever be good enough for you? :(", "Speedy. Zoooooom!",
+				"I'm working as hard as I can!", "Will I ever be good enough for you? :(", "Speedy. Zoooooom!",
 				"Hello world", "40% better than a crash report.", "Now with extra numbers", "Now with less numbers",
 				"Now with the same numbers", "You should add flames to things, it makes them go faster!",
 				"Do you feel the need for... optimization?", "*cracks redstone whip*",
-                "Maybe if you treated it better then it'll have more motivation to work faster! Poor server."};
+				"Maybe if you treated it better then it'll have more motivation to work faster! Poor server." };
 
 		try {
 			return astring[(int) (System.nanoTime() % (long) astring.length)];

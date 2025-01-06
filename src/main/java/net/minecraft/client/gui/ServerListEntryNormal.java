@@ -204,8 +204,7 @@ public class ServerListEntryNormal implements GuiListExtended.IGuiListEntry {
 			this.mc.getTextureManager().deleteTexture(this.serverIcon);
 			this.field_148305_h = null;
 		} else {
-			ByteBuf bytebuf = Unpooled.copiedBuffer(this.server.getBase64EncodedIconData(),
-					Charsets.UTF_8);
+			ByteBuf bytebuf = Unpooled.copiedBuffer(this.server.getBase64EncodedIconData(), Charsets.UTF_8);
 			ByteBuf bytebuf1 = Base64.decode(bytebuf);
 			BufferedImage bufferedimage;
 			label101: {

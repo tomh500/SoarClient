@@ -46,7 +46,7 @@ public class EmissiveTextures {
 		} else if (!(texture instanceof SimpleTexture simpletexture)) {
 			return texture;
 		} else {
-            ResourceLocation resourcelocation = simpletexture.locationEmissive;
+			ResourceLocation resourcelocation = simpletexture.locationEmissive;
 
 			if (!renderEmissive) {
 				if (resourcelocation != null) {
@@ -120,7 +120,7 @@ public class EmissiveTextures {
 
 				active = suffixEmissive != null;
 			} catch (FileNotFoundException var4) {
-            } catch (IOException ioexception) {
+			} catch (IOException ioexception) {
 				ioexception.printStackTrace();
 			}
 		}

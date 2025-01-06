@@ -141,8 +141,7 @@ public class ItemRenderer {
 
 	private void renderPlayerArms(AbstractClientPlayer clientPlayer) {
 		this.mc.getTextureManager().bindTexture(clientPlayer.getLocationSkin());
-		Render<AbstractClientPlayer> render = this.renderManager
-				.getEntityRenderObject(this.mc.thePlayer);
+		Render<AbstractClientPlayer> render = this.renderManager.getEntityRenderObject(this.mc.thePlayer);
 		RenderPlayer renderplayer = (RenderPlayer) render;
 
 		if (!clientPlayer.isInvisible()) {
@@ -214,8 +213,7 @@ public class ItemRenderer {
 		GlStateManager.rotate(-135.0F, 0.0F, 1.0F, 0.0F);
 		GlStateManager.scale(1.0F, 1.0F, 1.0F);
 		GlStateManager.translate(5.6F, 0.0F, 0.0F);
-		Render<AbstractClientPlayer> render = this.renderManager
-				.getEntityRenderObject(this.mc.thePlayer);
+		Render<AbstractClientPlayer> render = this.renderManager.getEntityRenderObject(this.mc.thePlayer);
 		GlStateManager.disableCull();
 		RenderPlayer renderplayer = (RenderPlayer) render;
 		renderplayer.renderRightArm(this.mc.thePlayer);
@@ -416,15 +414,15 @@ public class ItemRenderer {
 	}
 
 	private void renderWaterOverlayTexture(float partialTicks) {
-		
+
 		RenderWaterOverlayEvent event = new RenderWaterOverlayEvent();
-		
+
 		EventBus.getInstance().post(event);
-		
-		if(event.isCancelled()) {
+
+		if (event.isCancelled()) {
 			return;
 		}
-		
+
 		if (!Config.isShaders() || Shaders.isUnderwaterOverlay()) {
 			this.mc.getTextureManager().bindTexture(RES_UNDERWATER_OVERLAY);
 			Tessellator tessellator = Tessellator.getInstance();
@@ -455,15 +453,15 @@ public class ItemRenderer {
 	}
 
 	private void renderFireInFirstPerson(float partialTicks) {
-		
+
 		RenderFireOverlayEvent event = new RenderFireOverlayEvent();
-		
+
 		EventBus.getInstance().post(event);
-		
-		if(event.isCancelled()) {
+
+		if (event.isCancelled()) {
 			return;
 		}
-		
+
 		Tessellator tessellator = Tessellator.getInstance();
 		WorldRenderer worldrenderer = tessellator.getWorldRenderer();
 		GlStateManager.color(1.0F, 1.0F, 1.0F, 0.9F);
@@ -515,7 +513,8 @@ public class ItemRenderer {
 			if (!this.itemToRender.getIsItemStackEqual(itemstack)) {
 				flag = true;
 			}
-		} else flag = this.itemToRender != null || itemstack != null;
+		} else
+			flag = this.itemToRender != null || itemstack != null;
 
 		float f2 = 0.4F;
 		float f = flag ? 0.0F : 1.0F;

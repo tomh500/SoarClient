@@ -149,14 +149,15 @@ public class GuiOverlayDebug extends Gui {
 		String s1 = stringbuilder.toString();
 
 		if (this.isReducedDebug()) {
-			return Lists.newArrayList("Minecraft 1.8.9 (" + this.mc.getVersion() + "/" + ClientBrandRetriever.getClientModName() + ")",
-                    this.mc.debug, this.mc.renderGlobal.getDebugInfoRenders(),
-                    this.mc.renderGlobal.getDebugInfoEntities(),
-                    "P: " + this.mc.effectRenderer.getStatistics() + ". T: " + this.mc.theWorld.getDebugLoadedEntities()
-                            + s1,
-                    this.mc.theWorld.getProviderName(), "",
-                    String.format("Chunk-relative: %d %d %d", Integer.valueOf(blockpos.getX() & 15),
-Integer.valueOf(blockpos.getY() & 15), Integer.valueOf(blockpos.getZ() & 15)));
+			return Lists.newArrayList(
+					"Minecraft 1.8.9 (" + this.mc.getVersion() + "/" + ClientBrandRetriever.getClientModName() + ")",
+					this.mc.debug, this.mc.renderGlobal.getDebugInfoRenders(),
+					this.mc.renderGlobal.getDebugInfoEntities(),
+					"P: " + this.mc.effectRenderer.getStatistics() + ". T: " + this.mc.theWorld.getDebugLoadedEntities()
+							+ s1,
+					this.mc.theWorld.getProviderName(), "",
+					String.format("Chunk-relative: %d %d %d", Integer.valueOf(blockpos.getX() & 15),
+							Integer.valueOf(blockpos.getY() & 15), Integer.valueOf(blockpos.getZ() & 15)));
 		} else {
 			Entity entity = this.mc.getRenderViewEntity();
 			EnumFacing enumfacing = entity.getHorizontalFacing();
@@ -179,26 +180,24 @@ Integer.valueOf(blockpos.getY() & 15), Integer.valueOf(blockpos.getZ() & 15)));
 				s = "Towards positive X";
 			}
 
-			List<String> list = Lists.newArrayList("Minecraft 1.8.9 (" + this.mc.getVersion() + "/" + ClientBrandRetriever.getClientModName() + ")",
-                    this.mc.debug, this.mc.renderGlobal.getDebugInfoRenders(),
-                    this.mc.renderGlobal.getDebugInfoEntities(), "P: " + this.mc.effectRenderer.getStatistics()
-                            + ". T: " + this.mc.theWorld.getDebugLoadedEntities() + s1,
-                    this.mc.theWorld.getProviderName(), "",
-                    String.format("XYZ: %.3f / %.5f / %.3f",
-Double.valueOf(this.mc.getRenderViewEntity().posX),
-Double.valueOf(this.mc.getRenderViewEntity().getEntityBoundingBox().minY),
-Double.valueOf(this.mc.getRenderViewEntity().posZ)),
-                    String.format("Block: %d %d %d",
-Integer.valueOf(blockpos.getX()), Integer.valueOf(blockpos.getY()),
-Integer.valueOf(blockpos.getZ())),
-                    String.format("Chunk: %d %d %d in %d %d %d",
-Integer.valueOf(blockpos.getX() & 15), Integer.valueOf(blockpos.getY() & 15),
-Integer.valueOf(blockpos.getZ() & 15), Integer.valueOf(blockpos.getX() >> 4),
-Integer.valueOf(blockpos.getY() >> 4), Integer.valueOf(blockpos.getZ() >> 4)),
-                    String.format("Facing: %s (%s) (%.1f / %.1f)",
-enumfacing, s,
-Float.valueOf(MathHelper.wrapAngleTo180_float(entity.rotationYaw)),
-Float.valueOf(MathHelper.wrapAngleTo180_float(entity.rotationPitch))));
+			List<String> list = Lists.newArrayList(
+					"Minecraft 1.8.9 (" + this.mc.getVersion() + "/" + ClientBrandRetriever.getClientModName() + ")",
+					this.mc.debug, this.mc.renderGlobal.getDebugInfoRenders(),
+					this.mc.renderGlobal.getDebugInfoEntities(), "P: " + this.mc.effectRenderer.getStatistics()
+							+ ". T: " + this.mc.theWorld.getDebugLoadedEntities() + s1,
+					this.mc.theWorld.getProviderName(), "",
+					String.format("XYZ: %.3f / %.5f / %.3f", Double.valueOf(this.mc.getRenderViewEntity().posX),
+							Double.valueOf(this.mc.getRenderViewEntity().getEntityBoundingBox().minY),
+							Double.valueOf(this.mc.getRenderViewEntity().posZ)),
+					String.format("Block: %d %d %d", Integer.valueOf(blockpos.getX()), Integer.valueOf(blockpos.getY()),
+							Integer.valueOf(blockpos.getZ())),
+					String.format("Chunk: %d %d %d in %d %d %d", Integer.valueOf(blockpos.getX() & 15),
+							Integer.valueOf(blockpos.getY() & 15), Integer.valueOf(blockpos.getZ() & 15),
+							Integer.valueOf(blockpos.getX() >> 4), Integer.valueOf(blockpos.getY() >> 4),
+							Integer.valueOf(blockpos.getZ() >> 4)),
+					String.format("Facing: %s (%s) (%.1f / %.1f)", enumfacing, s,
+							Float.valueOf(MathHelper.wrapAngleTo180_float(entity.rotationYaw)),
+							Float.valueOf(MathHelper.wrapAngleTo180_float(entity.rotationPitch))));
 
 			if (this.mc.theWorld != null && this.mc.theWorld.isBlockLoaded(blockpos)) {
 				Chunk chunk = this.mc.theWorld.getChunkFromBlockCoords(blockpos);
@@ -223,8 +222,8 @@ Float.valueOf(MathHelper.wrapAngleTo180_float(entity.rotationPitch))));
 				}
 
 				list.add(String.format("Local Difficulty: %.2f (Day %d)",
-                        Float.valueOf(difficultyinstance.getAdditionalDifficulty()),
-                        Long.valueOf(this.mc.theWorld.getWorldTime() / 24000L)));
+						Float.valueOf(difficultyinstance.getAdditionalDifficulty()),
+						Long.valueOf(this.mc.theWorld.getWorldTime() / 24000L)));
 			}
 
 			if (this.mc.entityRenderer != null && this.mc.entityRenderer.isShaderActive()) {
@@ -236,7 +235,7 @@ Float.valueOf(MathHelper.wrapAngleTo180_float(entity.rotationPitch))));
 					&& this.mc.objectMouseOver.getBlockPos() != null) {
 				BlockPos blockpos1 = this.mc.objectMouseOver.getBlockPos();
 				list.add(String.format("Looking at: %d %d %d", Integer.valueOf(blockpos1.getX()),
-                        Integer.valueOf(blockpos1.getY()), Integer.valueOf(blockpos1.getZ())));
+						Integer.valueOf(blockpos1.getY()), Integer.valueOf(blockpos1.getZ())));
 			}
 
 			return list;
@@ -248,19 +247,16 @@ Float.valueOf(MathHelper.wrapAngleTo180_float(entity.rotationPitch))));
 		long j = Runtime.getRuntime().totalMemory();
 		long k = Runtime.getRuntime().freeMemory();
 		long l = j - k;
-		List<String> list = Lists.newArrayList(String.format("Java: %s %dbit",
-System.getProperty("java.version"),
-Integer.valueOf(this.mc.isJava64bit() ? 64 : 32)),
-                String.format("Mem: % 2d%% %03d/%03dMB",
-Long.valueOf(l * 100L / i), Long.valueOf(bytesToMb(l)),
-Long.valueOf(bytesToMb(i))),
-                String.format("Allocated: % 2d%% %03dMB",
-Long.valueOf(j * 100L / i), Long.valueOf(bytesToMb(j))),
-                "", String.format("CPU: %s", OpenGlHelper.getCpu()), "",
-                String.format("Display: %dx%d (%s)",
-Integer.valueOf(Display.getWidth()), Integer.valueOf(Display.getHeight()),
-GL11.glGetString(GL11.GL_VENDOR)),
-                GL11.glGetString(GL11.GL_RENDERER), GL11.glGetString(GL11.GL_VERSION));
+		List<String> list = Lists.newArrayList(
+				String.format("Java: %s %dbit", System.getProperty("java.version"),
+						Integer.valueOf(this.mc.isJava64bit() ? 64 : 32)),
+				String.format("Mem: % 2d%% %03d/%03dMB", Long.valueOf(l * 100L / i), Long.valueOf(bytesToMb(l)),
+						Long.valueOf(bytesToMb(i))),
+				String.format("Allocated: % 2d%% %03dMB", Long.valueOf(j * 100L / i), Long.valueOf(bytesToMb(j))), "",
+				String.format("CPU: %s", OpenGlHelper.getCpu()), "",
+				String.format("Display: %dx%d (%s)", Integer.valueOf(Display.getWidth()),
+						Integer.valueOf(Display.getHeight()), GL11.glGetString(GL11.GL_VENDOR)),
+				GL11.glGetString(GL11.GL_RENDERER), GL11.glGetString(GL11.GL_VERSION));
 		long i1 = NativeMemory.getBufferAllocated();
 		long j1 = NativeMemory.getBufferMaximum();
 		String s = "Native: " + bytesToMb(i1) + "/" + bytesToMb(j1) + "MB";

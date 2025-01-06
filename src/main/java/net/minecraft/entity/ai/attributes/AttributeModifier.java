@@ -60,9 +60,10 @@ public class AttributeModifier {
 			AttributeModifier attributemodifier = (AttributeModifier) p_equals_1_;
 
 			if (this.id != null) {
-                return this.id.equals(attributemodifier.id);
-			} else return attributemodifier.id == null;
-        } else {
+				return this.id.equals(attributemodifier.id);
+			} else
+				return attributemodifier.id == null;
+		} else {
 			return false;
 		}
 	}

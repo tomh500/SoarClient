@@ -164,7 +164,7 @@ public class WorldClient extends World {
 	protected void onEntityAdded(Entity entityIn) {
 		super.onEntityAdded(entityIn);
 
-        this.entitySpawnQueue.remove(entityIn);
+		this.entitySpawnQueue.remove(entityIn);
 	}
 
 	protected void onEntityRemoved(Entity entityIn) {
@@ -249,8 +249,8 @@ public class WorldClient extends World {
 			iblockstate.getBlock().randomDisplayTick(this, blockpos$mutableblockpos, iblockstate, random);
 
 			if (flag && iblockstate.getBlock() == Blocks.barrier) {
-				this.spawnParticle(EnumParticleTypes.BARRIER, (float) k + 0.5F, (float) l + 0.5F,
-                        (float) i1 + 0.5F, 0.0D, 0.0D, 0.0D);
+				this.spawnParticle(EnumParticleTypes.BARRIER, (float) k + 0.5F, (float) l + 0.5F, (float) i1 + 0.5F,
+						0.0D, 0.0D, 0.0D);
 			}
 		}
 	}
@@ -309,8 +309,7 @@ public class WorldClient extends World {
 		});
 		crashreportcategory.addCrashSectionCallable("Retry entities", new Callable<String>() {
 			public String call() {
-				return WorldClient.this.entitySpawnQueue.size() + " total; "
-						+ WorldClient.this.entitySpawnQueue;
+				return WorldClient.this.entitySpawnQueue.size() + " total; " + WorldClient.this.entitySpawnQueue;
 			}
 		});
 		crashreportcategory.addCrashSectionCallable("Server brand", new Callable<String>() {
@@ -386,7 +385,7 @@ public class WorldClient extends World {
 
 	private boolean isPlayerActing() {
 		if (this.mc.playerController instanceof PlayerControllerOF playercontrollerof) {
-            return playercontrollerof.isActing();
+			return playercontrollerof.isActing();
 		} else {
 			return false;
 		}

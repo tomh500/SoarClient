@@ -102,9 +102,8 @@ public class CustomGuiProperties {
 		this.levels = connectedparser.parseRangeListInt(props.getProperty("levels"));
 		this.professions = connectedparser.parseProfessions(props.getProperty("professions"));
 		CustomGuiProperties.EnumVariant[] acustomguiproperties$enumvariant = getContainerVariants(this.container);
-		this.variants = (CustomGuiProperties.EnumVariant[]) connectedparser
-				.parseEnums(props.getProperty("variants"), acustomguiproperties$enumvariant, "variants",
-						VARIANTS_INVALID);
+		this.variants = (CustomGuiProperties.EnumVariant[]) connectedparser.parseEnums(props.getProperty("variants"),
+				acustomguiproperties$enumvariant, "variants", VARIANTS_INVALID);
 		this.colors = parseEnumDyeColors(props.getProperty("colors"));
 	}
 
@@ -363,12 +362,12 @@ public class CustomGuiProperties {
 			return false;
 		} else {
 
-            if (this.levels != null) {
+			if (this.levels != null) {
 				NBTTagCompound nbttagcompound = new NBTTagCompound();
 				tileentitybeacon.writeToNBT(nbttagcompound);
 				int i = nbttagcompound.getInteger("Levels");
 
-                return this.levels.isInRange(i);
+				return this.levels.isInRange(i);
 			}
 
 			return true;
@@ -379,9 +378,9 @@ public class CustomGuiProperties {
 		TileEntity tileentity = blockAccess.getTileEntity(pos);
 
 		if (tileentity instanceof TileEntityChest tileentitychest) {
-            return this.matchesChest(tileentitychest, pos, blockAccess);
+			return this.matchesChest(tileentitychest, pos, blockAccess);
 		} else if (tileentity instanceof TileEntityEnderChest tileentityenderchest) {
-            return this.matchesEnderChest(tileentityenderchest, pos, blockAccess);
+			return this.matchesEnderChest(tileentityenderchest, pos, blockAccess);
 		} else {
 			return false;
 		}
@@ -401,7 +400,10 @@ public class CustomGuiProperties {
 	}
 
 	private boolean matchesChest(boolean isLarge, boolean isTrapped, boolean isChristmas, boolean isEnder) {
-		return (this.large == null || this.large.booleanValue() == isLarge) && ((this.trapped == null || this.trapped.booleanValue() == isTrapped) && ((this.christmas == null || this.christmas.booleanValue() == isChristmas) && (this.ender == null || this.ender.booleanValue() == isEnder)));
+		return (this.large == null || this.large.booleanValue() == isLarge)
+				&& ((this.trapped == null || this.trapped.booleanValue() == isTrapped)
+						&& ((this.christmas == null || this.christmas.booleanValue() == isChristmas)
+								&& (this.ender == null || this.ender.booleanValue() == isEnder)));
 	}
 
 	private boolean matchesDispenser(BlockPos pos, IBlockAccess blockAccess) {
@@ -411,11 +413,11 @@ public class CustomGuiProperties {
 			return false;
 		} else {
 
-            if (this.variants != null) {
+			if (this.variants != null) {
 				CustomGuiProperties.EnumVariant customguiproperties$enumvariant = this
 						.getDispenserVariant(tileentitydispenser);
 
-                return Config.equalsOne(customguiproperties$enumvariant, this.variants);
+				return Config.equalsOne(customguiproperties$enumvariant, this.variants);
 			}
 
 			return true;
@@ -457,7 +459,7 @@ public class CustomGuiProperties {
 			return false;
 		} else {
 
-            if (this.professions != null) {
+			if (this.professions != null) {
 				int i = entityvillager.getProfession();
 				int j = entityvillager.getCareerId();
 
@@ -476,7 +478,7 @@ public class CustomGuiProperties {
 					}
 				}
 
-                return flag;
+				return flag;
 			}
 
 			return true;
@@ -488,10 +490,10 @@ public class CustomGuiProperties {
 			return false;
 		} else {
 
-            if (this.variants != null) {
+			if (this.variants != null) {
 				CustomGuiProperties.EnumVariant customguiproperties$enumvariant = this.getHorseVariant(entityhorse);
 
-                return Config.equalsOne(customguiproperties$enumvariant, this.variants);
+				return Config.equalsOne(customguiproperties$enumvariant, this.variants);
 			}
 
 			return true;
@@ -538,5 +540,5 @@ public class CustomGuiProperties {
 
 	private enum EnumVariant {
 		HORSE, DONKEY, MULE, LLAMA, DISPENSER, DROPPER
-    }
+	}
 }

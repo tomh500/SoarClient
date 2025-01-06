@@ -21,7 +21,7 @@ public class ModelAdapterWitch extends ModelAdapter {
 		if (!(model instanceof ModelWitch modelwitch)) {
 			return null;
 		} else {
-            return modelPart.equals("mole") ? modelwitch.field_82901_h
+			return modelPart.equals("mole") ? modelwitch.field_82901_h
 					: (modelPart.equals("hat") ? modelwitch.witchHat
 							: (modelPart.equals("head") ? modelwitch.villagerHead
 									: (modelPart.equals("body") ? modelwitch.villagerBody

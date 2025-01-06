@@ -505,7 +505,7 @@ public class GlStateManager {
 	public static void glTexCoordPointer(int p_glTexCoordPointer_0_, int p_glTexCoordPointer_1_,
 			int p_glTexCoordPointer_2_, int p_glTexCoordPointer_3_) {
 		GL11.glTexCoordPointer(p_glTexCoordPointer_0_, p_glTexCoordPointer_1_, p_glTexCoordPointer_2_,
-                p_glTexCoordPointer_3_);
+				p_glTexCoordPointer_3_);
 	}
 
 	public static void glTexCoordPointer(int p_glTexCoordPointer_0_, int p_glTexCoordPointer_1_,
@@ -516,8 +516,7 @@ public class GlStateManager {
 
 	public static void glVertexPointer(int p_glVertexPointer_0_, int p_glVertexPointer_1_, int p_glVertexPointer_2_,
 			int p_glVertexPointer_3_) {
-		GL11.glVertexPointer(p_glVertexPointer_0_, p_glVertexPointer_1_, p_glVertexPointer_2_,
-                p_glVertexPointer_3_);
+		GL11.glVertexPointer(p_glVertexPointer_0_, p_glVertexPointer_1_, p_glVertexPointer_2_, p_glVertexPointer_3_);
 	}
 
 	public static void glVertexPointer(int p_glVertexPointer_0_, int p_glVertexPointer_1_, int p_glVertexPointer_2_,
@@ -1010,7 +1009,7 @@ public class GlStateManager {
 
 	public enum TexGen {
 		S, T, R, Q
-    }
+	}
 
 	static class TexGenCoord {
 		public GlStateManager.BooleanState textureGen;

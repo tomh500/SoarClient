@@ -29,12 +29,12 @@ public class CapeUtils {
 
 			if (itextureobject != null && itextureobject instanceof ThreadDownloadImageData threaddownloadimagedata) {
 
-                if (threaddownloadimagedata.imageFound != null) {
+				if (threaddownloadimagedata.imageFound != null) {
 					if (threaddownloadimagedata.imageFound.booleanValue()) {
 						player.setLocationOfCape(resourcelocation);
 
 						if (threaddownloadimagedata.getImageBuffer() instanceof CapeImageBuffer capeimagebuffer1) {
-                            player.setElytraOfCape(capeimagebuffer1.isElytraOfCape());
+							player.setElytraOfCape(capeimagebuffer1.isElytraOfCape());
 						}
 					}
 
@@ -43,8 +43,8 @@ public class CapeUtils {
 			}
 
 			CapeImageBuffer capeimagebuffer = new CapeImageBuffer(player, resourcelocation);
-			ThreadDownloadImageData threaddownloadimagedata1 = new ThreadDownloadImageData(null, s1,
-                    null, capeimagebuffer);
+			ThreadDownloadImageData threaddownloadimagedata1 = new ThreadDownloadImageData(null, s1, null,
+					capeimagebuffer);
 			threaddownloadimagedata1.pipeline = true;
 			texturemanager.loadTexture(resourcelocation, threaddownloadimagedata1);
 		}
@@ -77,7 +77,7 @@ public class CapeUtils {
 		ITextureObject itextureobject = texturemanager.getTexture(resourcelocation);
 
 		if (itextureobject instanceof SimpleTexture simpletexture) {
-            simpletexture.deleteGlTexture();
+			simpletexture.deleteGlTexture();
 			texturemanager.deleteTexture(resourcelocation);
 		}
 

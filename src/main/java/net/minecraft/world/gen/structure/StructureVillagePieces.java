@@ -937,23 +937,23 @@ public class StructureVillagePieces {
 
 	public static class House2 extends StructureVillagePieces.Village {
 		private static final List<WeightedRandomChestContent> villageBlacksmithChestContents = Lists.newArrayList(
-                new WeightedRandomChestContent(Items.diamond, 0, 1, 3, 3),
-                new WeightedRandomChestContent(Items.iron_ingot, 0, 1, 5, 10),
-                new WeightedRandomChestContent(Items.gold_ingot, 0, 1, 3, 5),
-                new WeightedRandomChestContent(Items.bread, 0, 1, 3, 15),
-                new WeightedRandomChestContent(Items.apple, 0, 1, 3, 15),
-                new WeightedRandomChestContent(Items.iron_pickaxe, 0, 1, 1, 5),
-                new WeightedRandomChestContent(Items.iron_sword, 0, 1, 1, 5),
-                new WeightedRandomChestContent(Items.iron_chestplate, 0, 1, 1, 5),
-                new WeightedRandomChestContent(Items.iron_helmet, 0, 1, 1, 5),
-                new WeightedRandomChestContent(Items.iron_leggings, 0, 1, 1, 5),
-                new WeightedRandomChestContent(Items.iron_boots, 0, 1, 1, 5),
-                new WeightedRandomChestContent(Item.getItemFromBlock(Blocks.obsidian), 0, 3, 7, 5),
-                new WeightedRandomChestContent(Item.getItemFromBlock(Blocks.sapling), 0, 3, 7, 5),
-                new WeightedRandomChestContent(Items.saddle, 0, 1, 1, 3),
-                new WeightedRandomChestContent(Items.iron_horse_armor, 0, 1, 1, 1),
-                new WeightedRandomChestContent(Items.golden_horse_armor, 0, 1, 1, 1),
-                new WeightedRandomChestContent(Items.diamond_horse_armor, 0, 1, 1, 1));
+				new WeightedRandomChestContent(Items.diamond, 0, 1, 3, 3),
+				new WeightedRandomChestContent(Items.iron_ingot, 0, 1, 5, 10),
+				new WeightedRandomChestContent(Items.gold_ingot, 0, 1, 3, 5),
+				new WeightedRandomChestContent(Items.bread, 0, 1, 3, 15),
+				new WeightedRandomChestContent(Items.apple, 0, 1, 3, 15),
+				new WeightedRandomChestContent(Items.iron_pickaxe, 0, 1, 1, 5),
+				new WeightedRandomChestContent(Items.iron_sword, 0, 1, 1, 5),
+				new WeightedRandomChestContent(Items.iron_chestplate, 0, 1, 1, 5),
+				new WeightedRandomChestContent(Items.iron_helmet, 0, 1, 1, 5),
+				new WeightedRandomChestContent(Items.iron_leggings, 0, 1, 1, 5),
+				new WeightedRandomChestContent(Items.iron_boots, 0, 1, 1, 5),
+				new WeightedRandomChestContent(Item.getItemFromBlock(Blocks.obsidian), 0, 3, 7, 5),
+				new WeightedRandomChestContent(Item.getItemFromBlock(Blocks.sapling), 0, 3, 7, 5),
+				new WeightedRandomChestContent(Items.saddle, 0, 1, 1, 3),
+				new WeightedRandomChestContent(Items.iron_horse_armor, 0, 1, 1, 1),
+				new WeightedRandomChestContent(Items.golden_horse_armor, 0, 1, 1, 1),
+				new WeightedRandomChestContent(Items.diamond_horse_armor, 0, 1, 1, 1));
 		private boolean hasMadeChest;
 
 		public House2() {
@@ -1788,8 +1788,7 @@ public class StructureVillagePieces {
 					++this.villagersSpawned;
 					EntityVillager entityvillager = new EntityVillager(worldIn);
 					entityvillager.setLocationAndAngles((double) j + 0.5D, k, (double) l + 0.5D, 0.0F, 0.0F);
-					entityvillager.onInitialSpawn(worldIn.getDifficultyForLocation(new BlockPos(entityvillager)),
-                            null);
+					entityvillager.onInitialSpawn(worldIn.getDifficultyForLocation(new BlockPos(entityvillager)), null);
 					entityvillager.setProfession(this.func_180779_c(i, entityvillager.getProfession()));
 					worldIn.spawnEntityInWorld(entityvillager);
 				}

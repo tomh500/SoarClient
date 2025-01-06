@@ -13,7 +13,7 @@ public abstract class ModelAdapterQuadruped extends ModelAdapter {
 		if (!(model instanceof ModelQuadruped modelquadruped)) {
 			return null;
 		} else {
-            return modelPart.equals("head") ? modelquadruped.head
+			return modelPart.equals("head") ? modelquadruped.head
 					: (modelPart.equals("body") ? modelquadruped.body
 							: (modelPart.equals("leg1") ? modelquadruped.leg1
 									: (modelPart.equals("leg2") ? modelquadruped.leg2

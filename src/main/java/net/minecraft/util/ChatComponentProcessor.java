@@ -14,7 +14,7 @@ public class ChatComponentProcessor {
 		IChatComponent ichatcomponent = null;
 
 		if (component instanceof ChatComponentScore chatcomponentscore) {
-            String s = chatcomponentscore.getName();
+			String s = chatcomponentscore.getName();
 
 			if (PlayerSelector.hasArguments(s)) {
 				List<Entity> list = PlayerSelector.matchEntities(commandSender, s, Entity.class);

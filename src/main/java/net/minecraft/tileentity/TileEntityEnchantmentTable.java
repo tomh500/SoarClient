@@ -48,7 +48,7 @@ public class TileEntityEnchantmentTable extends TileEntity implements ITickable,
 		this.bookSpreadPrev = this.bookSpread;
 		this.bookRotationPrev = this.bookRotation;
 		EntityPlayer entityplayer = this.worldObj.getClosestPlayer((float) this.pos.getX() + 0.5F,
-                (float) this.pos.getY() + 0.5F, (float) this.pos.getZ() + 0.5F, 3.0D);
+				(float) this.pos.getY() + 0.5F, (float) this.pos.getZ() + 0.5F, 3.0D);
 
 		if (entityplayer != null) {
 			double d0 = entityplayer.posX - (double) ((float) this.pos.getX() + 0.5F);
@@ -91,7 +91,7 @@ public class TileEntityEnchantmentTable extends TileEntity implements ITickable,
 		float f2;
 
 		for (f2 = this.field_145924_q - this.bookRotation; f2 >= (float) Math.PI; f2 -= ((float) Math.PI * 2F)) {
-        }
+		}
 
 		while (f2 < -(float) Math.PI) {
 			f2 += ((float) Math.PI * 2F);

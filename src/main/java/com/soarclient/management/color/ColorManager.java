@@ -7,7 +7,7 @@ import com.soarclient.management.mod.impl.settings.ModMenuSettings;
 public class ColorManager {
 
 	private ColorPalette palette;
-	
+
 	public ColorManager() {
 		updatePalette();
 	}
@@ -36,7 +36,7 @@ public class ColorManager {
 
 		palette = new ColorPalette(m.getHctColorSetting().getHct(), m.getDarkModeSetting().isEnabled());
 	}
-	
+
 	public ColorPalette getPalette() {
 		return palette;
 	}

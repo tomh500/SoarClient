@@ -58,10 +58,10 @@ public abstract class RenderLiving<T extends EntityLiving> extends RendererLivin
 				y = y - (1.6D - (double) entityLivingIn.height) * 0.5D;
 				Tessellator tessellator = Tessellator.getInstance();
 				WorldRenderer worldrenderer = tessellator.getWorldRenderer();
-				double d0 = this.interpolateValue(entity.prevRotationYaw, entity.rotationYaw,
-                        partialTicks * 0.5F) * 0.01745329238474369D;
-				double d1 = this.interpolateValue(entity.prevRotationPitch, entity.rotationPitch,
-                        partialTicks * 0.5F) * 0.01745329238474369D;
+				double d0 = this.interpolateValue(entity.prevRotationYaw, entity.rotationYaw, partialTicks * 0.5F)
+						* 0.01745329238474369D;
+				double d1 = this.interpolateValue(entity.prevRotationPitch, entity.rotationPitch, partialTicks * 0.5F)
+						* 0.01745329238474369D;
 				double d2 = Math.cos(d0);
 				double d3 = Math.sin(d0);
 				double d4 = Math.sin(d1);
@@ -79,16 +79,13 @@ public abstract class RenderLiving<T extends EntityLiving> extends RendererLivin
 						entity.posY + (double) entity.getEyeHeight() * 0.7D, partialTicks) - d4 * 0.5D - 0.25D;
 				double d8 = this.interpolateValue(entity.prevPosZ, entity.posZ, partialTicks) - d3 * 0.7D
 						+ d2 * 0.5D * d5;
-				double d9 = this.interpolateValue(entityLivingIn.prevRenderYawOffset,
-                        entityLivingIn.renderYawOffset, partialTicks) * 0.01745329238474369D
-						+ (Math.PI / 2D);
+				double d9 = this.interpolateValue(entityLivingIn.prevRenderYawOffset, entityLivingIn.renderYawOffset,
+						partialTicks) * 0.01745329238474369D + (Math.PI / 2D);
 				d2 = Math.cos(d9) * (double) entityLivingIn.width * 0.4D;
 				d3 = Math.sin(d9) * (double) entityLivingIn.width * 0.4D;
-				double d10 = this.interpolateValue(entityLivingIn.prevPosX, entityLivingIn.posX, partialTicks)
-						+ d2;
+				double d10 = this.interpolateValue(entityLivingIn.prevPosX, entityLivingIn.posX, partialTicks) + d2;
 				double d11 = this.interpolateValue(entityLivingIn.prevPosY, entityLivingIn.posY, partialTicks);
-				double d12 = this.interpolateValue(entityLivingIn.prevPosZ, entityLivingIn.posZ, partialTicks)
-						+ d3;
+				double d12 = this.interpolateValue(entityLivingIn.prevPosZ, entityLivingIn.posZ, partialTicks) + d3;
 				x = x + d2;
 				z = z + d3;
 				double d13 = (float) (d6 - d10);

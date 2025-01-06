@@ -34,7 +34,7 @@ public class BlockReed extends Block {
 				int i;
 
 				for (i = 1; worldIn.getBlockState(pos.down(i)).getBlock() == this; ++i) {
-                }
+				}
 
 				if (i < 3) {
 					int j = state.getValue(AGE).intValue();

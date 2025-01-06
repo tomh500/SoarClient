@@ -28,8 +28,7 @@ import net.optifine.shaders.ShadersTex;
 
 public class TextureManager implements ITickable, IResourceManagerReloadListener {
 	private static final Logger logger = LogManager.getLogger();
-	private final Map<ResourceLocation, ITextureObject> mapTextureObjects = Maps
-			.newHashMap();
+	private final Map<ResourceLocation, ITextureObject> mapTextureObjects = Maps.newHashMap();
 	private final List<ITickable> listTickables = Lists.newArrayList();
 	private final Map<String, Integer> mapTextureCounters = Maps.newHashMap();
 	private final IResourceManager theResourceManager;
@@ -124,8 +123,7 @@ public class TextureManager implements ITickable, IResourceManagerReloadListener
 		}
 
 		this.mapTextureCounters.put(name, integer);
-		ResourceLocation resourcelocation = new ResourceLocation(
-				String.format("dynamic/%s_%d", name, integer));
+		ResourceLocation resourcelocation = new ResourceLocation(String.format("dynamic/%s_%d", name, integer));
 		this.loadTexture(resourcelocation, texture);
 		return resourcelocation;
 	}
@@ -159,7 +157,7 @@ public class TextureManager implements ITickable, IResourceManagerReloadListener
 				ITextureObject itextureobject = this.mapTextureObjects.get(resourcelocation);
 
 				if (itextureobject instanceof AbstractTexture abstracttexture) {
-                    abstracttexture.deleteGlTexture();
+					abstracttexture.deleteGlTexture();
 				}
 
 				iterator.remove();

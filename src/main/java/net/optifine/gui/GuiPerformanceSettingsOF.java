@@ -36,8 +36,8 @@ public class GuiPerformanceSettingsOF extends GuiScreen {
 			}
 		}
 
-		this.buttonList.add(new GuiButton(200, this.width / 2 - 100, this.height / 6 + 168 + 11,
-				I18n.format("gui.done")));
+		this.buttonList
+				.add(new GuiButton(200, this.width / 2 - 100, this.height / 6 + 168 + 11, I18n.format("gui.done")));
 	}
 
 	protected void actionPerformed(GuiButton guibutton) {

@@ -30,11 +30,9 @@ public class ItemArmor extends Item {
 			int i = blockpos.getX();
 			int j = blockpos.getY();
 			int k = blockpos.getZ();
-			AxisAlignedBB axisalignedbb = new AxisAlignedBB(i, j, k, i + 1,
-                    j + 1, k + 1);
-			List<EntityLivingBase> list = source.getWorld().getEntitiesWithinAABB(
-					EntityLivingBase.class, axisalignedbb, Predicates.and(
-							EntitySelectors.NOT_SPECTATING, new EntitySelectors.ArmoredMob(stack)));
+			AxisAlignedBB axisalignedbb = new AxisAlignedBB(i, j, k, i + 1, j + 1, k + 1);
+			List<EntityLivingBase> list = source.getWorld().getEntitiesWithinAABB(EntityLivingBase.class, axisalignedbb,
+					Predicates.and(EntitySelectors.NOT_SPECTATING, new EntitySelectors.ArmoredMob(stack)));
 
 			if (list.size() > 0) {
 				EntityLivingBase entitylivingbase = list.get(0);
@@ -94,7 +92,9 @@ public class ItemArmor extends Item {
 	}
 
 	public boolean hasColor(ItemStack stack) {
-		return this.material == ArmorMaterial.LEATHER && (stack.hasTagCompound() && (stack.getTagCompound().hasKey("display", 10) && stack.getTagCompound().getCompoundTag("display").hasKey("color", 3)));
+		return this.material == ArmorMaterial.LEATHER
+				&& (stack.hasTagCompound() && (stack.getTagCompound().hasKey("display", 10)
+						&& stack.getTagCompound().getCompoundTag("display").hasKey("color", 3)));
 	}
 
 	public int getColor(ItemStack stack) {

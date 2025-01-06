@@ -17,8 +17,7 @@ import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.world.World;
 
 public class BlockNote extends BlockContainer {
-	private static final List<String> INSTRUMENTS = Lists
-			.newArrayList("harp", "bd", "snare", "hat", "bassattack");
+	private static final List<String> INSTRUMENTS = Lists.newArrayList("harp", "bd", "snare", "hat", "bassattack");
 
 	public BlockNote() {
 		super(Material.wood);
@@ -31,7 +30,7 @@ public class BlockNote extends BlockContainer {
 
 		if (tileentity instanceof TileEntityNote tileentitynote) {
 
-            if (tileentitynote.previousRedstoneState != flag) {
+			if (tileentitynote.previousRedstoneState != flag) {
 				if (flag) {
 					tileentitynote.triggerNote(worldIn, pos);
 				}
@@ -49,7 +48,7 @@ public class BlockNote extends BlockContainer {
 			TileEntity tileentity = worldIn.getTileEntity(pos);
 
 			if (tileentity instanceof TileEntityNote tileentitynote) {
-                tileentitynote.changePitch();
+				tileentitynote.changePitch();
 				tileentitynote.triggerNote(worldIn, pos);
 				playerIn.triggerAchievement(StatList.field_181735_S);
 			}

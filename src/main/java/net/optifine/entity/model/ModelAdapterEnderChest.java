@@ -21,7 +21,7 @@ public class ModelAdapterEnderChest extends ModelAdapter {
 		if (!(model instanceof ModelChest modelchest)) {
 			return null;
 		} else {
-            return modelPart.equals("lid") ? modelchest.chestLid
+			return modelPart.equals("lid") ? modelchest.chestLid
 					: (modelPart.equals("base") ? modelchest.chestBelow
 							: (modelPart.equals("knob") ? modelchest.chestKnob : null));
 		}

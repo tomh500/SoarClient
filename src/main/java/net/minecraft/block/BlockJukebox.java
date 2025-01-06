@@ -56,7 +56,7 @@ public class BlockJukebox extends BlockContainer {
 			TileEntity tileentity = worldIn.getTileEntity(pos);
 
 			if (tileentity instanceof TileEntityJukebox blockjukebox$tileentityjukebox) {
-                ItemStack itemstack = blockjukebox$tileentityjukebox.getRecord();
+				ItemStack itemstack = blockjukebox$tileentityjukebox.getRecord();
 
 				if (itemstack != null) {
 					worldIn.playAuxSFX(1005, pos, 0);

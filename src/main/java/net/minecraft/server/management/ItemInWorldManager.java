@@ -41,8 +41,8 @@ public class ItemInWorldManager {
 		this.gameType = type;
 		type.configurePlayerCapabilities(this.thisPlayerMP.capabilities);
 		this.thisPlayerMP.sendPlayerAbilities();
-		this.thisPlayerMP.mcServer.getConfigurationManager().sendPacketToAllPlayers(new S38PacketPlayerListItem(
-				S38PacketPlayerListItem.Action.UPDATE_GAME_MODE, this.thisPlayerMP));
+		this.thisPlayerMP.mcServer.getConfigurationManager().sendPacketToAllPlayers(
+				new S38PacketPlayerListItem(S38PacketPlayerListItem.Action.UPDATE_GAME_MODE, this.thisPlayerMP));
 	}
 
 	public WorldSettings.GameType getGameType() {
@@ -292,7 +292,7 @@ public class ItemInWorldManager {
 			if (tileentity instanceof ILockableContainer ilockablecontainer) {
 				Block block = worldIn.getBlockState(pos).getBlock();
 
-                if (ilockablecontainer instanceof TileEntityChest && block instanceof BlockChest) {
+				if (ilockablecontainer instanceof TileEntityChest && block instanceof BlockChest) {
 					ilockablecontainer = ((BlockChest) block).getLockableContainer(worldIn, pos);
 				}
 

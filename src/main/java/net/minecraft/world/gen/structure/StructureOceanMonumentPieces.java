@@ -991,10 +991,8 @@ public class StructureOceanMonumentPieces {
 						false);
 				this.func_181655_a(worldIn, structureBoundingBoxIn, 58 + l1, l1 * 2, -1 - l1, 58 + l1, 23, 58 + l1,
 						false);
-				this.func_181655_a(worldIn, structureBoundingBoxIn, -l1, l1 * 2, -1 - l1, 57 + l1, 23, -1 - l1,
-						false);
-				this.func_181655_a(worldIn, structureBoundingBoxIn, -l1, l1 * 2, 58 + l1, 57 + l1, 23, 58 + l1,
-						false);
+				this.func_181655_a(worldIn, structureBoundingBoxIn, -l1, l1 * 2, -1 - l1, 57 + l1, 23, -1 - l1, false);
+				this.func_181655_a(worldIn, structureBoundingBoxIn, -l1, l1 * 2, 58 + l1, 57 + l1, 23, 58 + l1, false);
 			}
 
 			for (StructureOceanMonumentPieces.Piece structureoceanmonumentpieces$piece : this.field_175843_q) {
@@ -1011,8 +1009,8 @@ public class StructureOceanMonumentPieces {
 			int i = 24;
 
 			if (this.func_175818_a(p_175840_5_, p_175840_2_, 0, p_175840_2_ + 23, 20)) {
-				this.fillWithBlocks(worldIn, p_175840_5_, p_175840_2_, 0, 0, p_175840_2_ + 24, 0, 20,
-						field_175828_a, field_175828_a, false);
+				this.fillWithBlocks(worldIn, p_175840_5_, p_175840_2_, 0, 0, p_175840_2_ + 24, 0, 20, field_175828_a,
+						field_175828_a, false);
 				this.func_181655_a(worldIn, p_175840_5_, p_175840_2_, 1, 0, p_175840_2_ + 24, 10, 20, false);
 
 				for (int j = 0; j < 4; ++j) {
@@ -1723,8 +1721,7 @@ public class StructureOceanMonumentPieces {
 				entityguardian.setElder(true);
 				entityguardian.heal(entityguardian.getMaxHealth());
 				entityguardian.setLocationAndAngles((double) i + 0.5D, j, (double) k + 0.5D, 0.0F, 0.0F);
-				entityguardian.onInitialSpawn(worldIn.getDifficultyForLocation(new BlockPos(entityguardian)),
-                        null);
+				entityguardian.onInitialSpawn(worldIn.getDifficultyForLocation(new BlockPos(entityguardian)), null);
 				worldIn.spawnEntityInWorld(entityguardian);
 				return true;
 			} else {

@@ -186,8 +186,8 @@ public class FaceBakery {
 		if (p_rotateVertex_4_ == ModelRotation.X0_Y0) {
 			return p_rotateVertex_3_;
 		} else {
-			this.rotateScale(p_rotateVertex_1_, new Vector3f(0.5F, 0.5F, 0.5F),
-					p_rotateVertex_4_.getMatrix4d(), new Vector3f(1.0F, 1.0F, 1.0F));
+			this.rotateScale(p_rotateVertex_1_, new Vector3f(0.5F, 0.5F, 0.5F), p_rotateVertex_4_.getMatrix4d(),
+					new Vector3f(1.0F, 1.0F, 1.0F));
 
 			return p_rotateVertex_4_.rotate(p_rotateVertex_2_, p_rotateVertex_3_);
 		}
@@ -225,8 +225,7 @@ public class FaceBakery {
 		Vector3f.sub(vector3f, vector3f1, vector3f3);
 		Vector3f.sub(vector3f2, vector3f1, vector3f4);
 		Vector3f.cross(vector3f4, vector3f3, vector3f5);
-		float f = (float) Math
-				.sqrt(vector3f5.x * vector3f5.x + vector3f5.y * vector3f5.y + vector3f5.z * vector3f5.z);
+		float f = (float) Math.sqrt(vector3f5.x * vector3f5.x + vector3f5.y * vector3f5.y + vector3f5.z * vector3f5.z);
 		vector3f5.x /= f;
 		vector3f5.y /= f;
 		vector3f5.z /= f;

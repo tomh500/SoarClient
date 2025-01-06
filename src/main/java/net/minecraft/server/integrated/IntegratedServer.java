@@ -181,8 +181,8 @@ public class IntegratedServer extends MinecraftServer {
 
 			if (this.mc.gameSettings.renderDistanceChunks != this.getConfigurationManager().getViewDistance()) {
 				logger.info("Changing view distance to {}, from {}",
-                        Integer.valueOf(this.mc.gameSettings.renderDistanceChunks),
-                        Integer.valueOf(this.getConfigurationManager().getViewDistance()));
+						Integer.valueOf(this.mc.gameSettings.renderDistanceChunks),
+						Integer.valueOf(this.getConfigurationManager().getViewDistance()));
 				this.getConfigurationManager().setViewDistance(this.mc.gameSettings.renderDistanceChunks);
 			}
 
@@ -191,8 +191,8 @@ public class IntegratedServer extends MinecraftServer {
 				WorldInfo worldinfo = this.mc.theWorld.getWorldInfo();
 
 				if (!worldinfo1.isDifficultyLocked() && worldinfo.getDifficulty() != worldinfo1.getDifficulty()) {
-					logger.info("Changing difficulty to {}, from {}",
-                            worldinfo.getDifficulty(), worldinfo1.getDifficulty());
+					logger.info("Changing difficulty to {}, from {}", worldinfo.getDifficulty(),
+							worldinfo1.getDifficulty());
 					this.setDifficultyForAllWorlds(worldinfo.getDifficulty());
 				} else if (worldinfo.isDifficultyLocked() && !worldinfo1.isDifficultyLocked()) {
 					logger.info("Locking difficulty to {}", worldinfo.getDifficulty());
@@ -302,7 +302,7 @@ public class IntegratedServer extends MinecraftServer {
 			try {
 				i = HttpUtil.getSuitableLanPort();
 			} catch (IOException var5) {
-            }
+			}
 
 			if (i <= 0) {
 				i = 25564;

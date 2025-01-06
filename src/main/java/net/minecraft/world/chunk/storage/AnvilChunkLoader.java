@@ -111,8 +111,7 @@ public class AnvilChunkLoader implements IChunkLoader, IThreadedFileIO {
 	public boolean writeNextIO() {
 		if (this.chunksToRemove.isEmpty()) {
 			if (this.field_183014_e) {
-				logger.info("ThreadedAnvilChunkStorage ({}): All chunks are saved",
-                        this.chunkSaveLocation.getName());
+				logger.info("ThreadedAnvilChunkStorage ({}): All chunks are saved", this.chunkSaveLocation.getName());
 			}
 
 			return false;
@@ -261,8 +260,7 @@ public class AnvilChunkLoader implements IChunkLoader, IThreadedFileIO {
 
 			for (NextTickListEntry nextticklistentry : list) {
 				NBTTagCompound nbttagcompound3 = new NBTTagCompound();
-				ResourceLocation resourcelocation = Block.blockRegistry
-						.getNameForObject(nextticklistentry.getBlock());
+				ResourceLocation resourcelocation = Block.blockRegistry.getNameForObject(nextticklistentry.getBlock());
 				nbttagcompound3.setString("i", resourcelocation == null ? "" : resourcelocation.toString());
 				nbttagcompound3.setInteger("x", nextticklistentry.position.getX());
 				nbttagcompound3.setInteger("y", nextticklistentry.position.getY());

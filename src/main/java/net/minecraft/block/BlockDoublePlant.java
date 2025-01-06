@@ -25,10 +25,10 @@ import net.minecraft.world.World;
 import net.minecraft.world.biome.BiomeColorHelper;
 
 public class BlockDoublePlant extends BlockBush implements IGrowable {
-	public static final PropertyEnum<BlockDoublePlant.EnumPlantType> VARIANT = PropertyEnum.create(
-			"variant", BlockDoublePlant.EnumPlantType.class);
-	public static final PropertyEnum<BlockDoublePlant.EnumBlockHalf> HALF = PropertyEnum.create(
-			"half", BlockDoublePlant.EnumBlockHalf.class);
+	public static final PropertyEnum<BlockDoublePlant.EnumPlantType> VARIANT = PropertyEnum.create("variant",
+			BlockDoublePlant.EnumPlantType.class);
+	public static final PropertyEnum<BlockDoublePlant.EnumBlockHalf> HALF = PropertyEnum.create("half",
+			BlockDoublePlant.EnumBlockHalf.class);
 	public static final PropertyEnum<EnumFacing> FACING = BlockDirectional.FACING;
 
 	public BlockDoublePlant() {
@@ -108,8 +108,7 @@ public class BlockDoublePlant extends BlockBush implements IGrowable {
 		if (state.getValue(HALF) == BlockDoublePlant.EnumBlockHalf.UPPER) {
 			return null;
 		} else {
-			BlockDoublePlant.EnumPlantType blockdoubleplant$enumplanttype = state
-					.getValue(VARIANT);
+			BlockDoublePlant.EnumPlantType blockdoubleplant$enumplanttype = state.getValue(VARIANT);
 			return blockdoubleplant$enumplanttype == BlockDoublePlant.EnumPlantType.FERN ? null
 					: (blockdoubleplant$enumplanttype == BlockDoublePlant.EnumPlantType.GRASS
 							? (rand.nextInt(8) == 0 ? Items.wheat_seeds : null)
@@ -119,8 +118,7 @@ public class BlockDoublePlant extends BlockBush implements IGrowable {
 
 	public int damageDropped(IBlockState state) {
 		return state.getValue(HALF) != BlockDoublePlant.EnumBlockHalf.UPPER
-				&& state.getValue(VARIANT) != BlockDoublePlant.EnumPlantType.GRASS
-						? state.getValue(VARIANT).getMeta()
+				&& state.getValue(VARIANT) != BlockDoublePlant.EnumPlantType.GRASS ? state.getValue(VARIANT).getMeta()
 						: 0;
 	}
 
@@ -158,8 +156,7 @@ public class BlockDoublePlant extends BlockBush implements IGrowable {
 			if (worldIn.getBlockState(pos.down()).getBlock() == this) {
 				if (!player.capabilities.isCreativeMode) {
 					IBlockState iblockstate = worldIn.getBlockState(pos.down());
-					BlockDoublePlant.EnumPlantType blockdoubleplant$enumplanttype = iblockstate
-							.getValue(VARIANT);
+					BlockDoublePlant.EnumPlantType blockdoubleplant$enumplanttype = iblockstate.getValue(VARIANT);
 
 					if (blockdoubleplant$enumplanttype != BlockDoublePlant.EnumPlantType.FERN
 							&& blockdoubleplant$enumplanttype != BlockDoublePlant.EnumPlantType.GRASS) {
@@ -187,8 +184,7 @@ public class BlockDoublePlant extends BlockBush implements IGrowable {
 	}
 
 	private boolean onHarvest(World worldIn, BlockPos pos, IBlockState state, EntityPlayer player) {
-		BlockDoublePlant.EnumPlantType blockdoubleplant$enumplanttype = state
-				.getValue(VARIANT);
+		BlockDoublePlant.EnumPlantType blockdoubleplant$enumplanttype = state.getValue(VARIANT);
 
 		if (blockdoubleplant$enumplanttype != BlockDoublePlant.EnumPlantType.FERN
 				&& blockdoubleplant$enumplanttype != BlockDoublePlant.EnumPlantType.GRASS) {

@@ -23,7 +23,7 @@ public class ModelAdapterSquid extends ModelAdapter {
 			return null;
 		} else {
 
-            if (modelPart.equals("body")) {
+			if (modelPart.equals("body")) {
 				return modelsquid.squidBody;
 			} else {
 				String s = "tentacle";

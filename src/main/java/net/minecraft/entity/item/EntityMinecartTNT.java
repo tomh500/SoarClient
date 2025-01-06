@@ -57,7 +57,7 @@ public class EntityMinecartTNT extends EntityMinecart {
 
 		if (entity instanceof EntityArrow entityarrow) {
 
-            if (entityarrow.isBurning()) {
+			if (entityarrow.isBurning()) {
 				this.explodeCart(entityarrow.motionX * entityarrow.motionX + entityarrow.motionY * entityarrow.motionY
 						+ entityarrow.motionZ * entityarrow.motionZ);
 			}
@@ -146,7 +146,8 @@ public class EntityMinecartTNT extends EntityMinecart {
 	public boolean verifyExplosion(Explosion explosionIn, World worldIn, BlockPos pos, IBlockState blockStateIn,
 			float p_174816_5_) {
 		return (!this.isIgnited()
-                || !BlockRailBase.isRailBlock(blockStateIn) && !BlockRailBase.isRailBlock(worldIn, pos.up())) && super.verifyExplosion(explosionIn, worldIn, pos, blockStateIn, p_174816_5_);
+				|| !BlockRailBase.isRailBlock(blockStateIn) && !BlockRailBase.isRailBlock(worldIn, pos.up()))
+				&& super.verifyExplosion(explosionIn, worldIn, pos, blockStateIn, p_174816_5_);
 	}
 
 	protected void readEntityFromNBT(NBTTagCompound tagCompund) {

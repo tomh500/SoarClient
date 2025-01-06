@@ -111,13 +111,13 @@ public class GaussianBlur {
 
 		mc.getFramebuffer().bindFramebuffer(true);
 		secondFramebuffer.bindFramebufferTexture();
-		if(!skiaMode) {
+		if (!skiaMode) {
 			blurShader.bind();
 		}
 		GlStateManager.color(1, 1, 1, 1);
 		GlStateManager.bindTexture(0);
 	}
-	
+
 	public int getTexture() {
 		return secondFramebuffer.framebufferTexture;
 	}

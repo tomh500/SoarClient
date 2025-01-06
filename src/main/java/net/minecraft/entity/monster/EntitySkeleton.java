@@ -42,8 +42,8 @@ import net.minecraft.world.WorldProviderHell;
 
 public class EntitySkeleton extends EntityMob implements IRangedAttackMob {
 	private final EntityAIArrowAttack aiArrowAttack = new EntityAIArrowAttack(this, 1.0D, 20, 60, 15.0F);
-	private final EntityAIAttackOnCollide aiAttackOnCollide = new EntityAIAttackOnCollide(this, EntityPlayer.class, 1.2D,
-			false);
+	private final EntityAIAttackOnCollide aiAttackOnCollide = new EntityAIAttackOnCollide(this, EntityPlayer.class,
+			1.2D, false);
 
 	public EntitySkeleton(World worldIn) {
 		super(worldIn);
@@ -144,15 +144,16 @@ public class EntitySkeleton extends EntityMob implements IRangedAttackMob {
 		super.updateRidden();
 
 		if (this.ridingEntity instanceof EntityCreature entitycreature) {
-            this.renderYawOffset = entitycreature.renderYawOffset;
+			this.renderYawOffset = entitycreature.renderYawOffset;
 		}
 	}
 
 	public void onDeath(DamageSource cause) {
 		super.onDeath(cause);
 
-		if (cause.getSourceOfDamage() instanceof EntityArrow && cause.getEntity() instanceof EntityPlayer entityplayer) {
-            double d0 = entityplayer.posX - this.posX;
+		if (cause.getSourceOfDamage() instanceof EntityArrow
+				&& cause.getEntity() instanceof EntityPlayer entityplayer) {
+			double d0 = entityplayer.posX - this.posX;
 			double d1 = entityplayer.posZ - this.posZ;
 
 			if (d0 * d0 + d1 * d1 >= 2500.0D) {

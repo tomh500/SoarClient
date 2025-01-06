@@ -21,7 +21,7 @@ public class ModelAdapterSlime extends ModelAdapter {
 		if (!(model instanceof ModelSlime modelslime)) {
 			return null;
 		} else {
-            return modelPart.equals("body") ? modelslime.slimeBodies
+			return modelPart.equals("body") ? modelslime.slimeBodies
 					: (modelPart.equals("left_eye") ? modelslime.slimeLeftEye
 							: (modelPart.equals("right_eye") ? modelslime.slimeRightEye
 									: (modelPart.equals("mouth") ? modelslime.slimeMouth : null)));

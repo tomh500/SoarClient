@@ -22,8 +22,7 @@ public class RecipesTools {
 
 			for (int j = 0; j < this.recipeItems.length - 1; ++j) {
 				Item item = (Item) this.recipeItems[j + 1][i];
-				p_77586_1_.addRecipe(new ItemStack(item),
-                        this.recipePatterns[j], '#', Items.stick, 'X', object);
+				p_77586_1_.addRecipe(new ItemStack(item), this.recipePatterns[j], '#', Items.stick, 'X', object);
 			}
 		}
 

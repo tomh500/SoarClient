@@ -52,9 +52,9 @@ public class ItemBlock extends Item {
 					this.block.onBlockPlacedBy(worldIn, pos, iblockstate1, playerIn, stack);
 				}
 
-				worldIn.playSoundEffect((float) pos.getX() + 0.5F, (float) pos.getY() + 0.5F,
-                        (float) pos.getZ() + 0.5F, this.block.stepSound.getPlaceSound(),
-						(this.block.stepSound.getVolume() + 1.0F) / 2.0F, this.block.stepSound.getFrequency() * 0.8F);
+				worldIn.playSoundEffect((float) pos.getX() + 0.5F, (float) pos.getY() + 0.5F, (float) pos.getZ() + 0.5F,
+						this.block.stepSound.getPlaceSound(), (this.block.stepSound.getVolume() + 1.0F) / 2.0F,
+						this.block.stepSound.getFrequency() * 0.8F);
 				--stack.stackSize;
 			}
 

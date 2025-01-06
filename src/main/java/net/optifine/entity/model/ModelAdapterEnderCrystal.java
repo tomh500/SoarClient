@@ -27,7 +27,7 @@ public class ModelAdapterEnderCrystal extends ModelAdapter {
 		if (!(model instanceof ModelEnderCrystal modelendercrystal)) {
 			return null;
 		} else {
-            return modelPart.equals("cube") ? modelendercrystal.cube
+			return modelPart.equals("cube") ? modelendercrystal.cube
 					: (modelPart.equals("glass") ? modelendercrystal.glass
 							: (modelPart.equals("base") ? modelendercrystal.base : null));
 		}
@@ -46,7 +46,7 @@ public class ModelAdapterEnderCrystal extends ModelAdapter {
 			return null;
 		} else {
 
-            renderendercrystal.modelEnderCrystal = modelBase;
+			renderendercrystal.modelEnderCrystal = modelBase;
 			renderendercrystal.shadowSize = shadowSize;
 			return renderendercrystal;
 		}

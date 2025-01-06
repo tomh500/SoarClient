@@ -47,8 +47,7 @@ public class CommandBlockData extends CommandBase {
 						nbttagcompound2 = JsonToNBT
 								.getTagFromJson(getChatComponentFromNthArg(sender, args, 3).getUnformattedText());
 					} catch (NBTException nbtexception) {
-						throw new CommandException("commands.blockdata.tagError",
-                                nbtexception.getMessage());
+						throw new CommandException("commands.blockdata.tagError", nbtexception.getMessage());
 					}
 
 					nbttagcompound.merge(nbttagcompound2);
@@ -57,15 +56,13 @@ public class CommandBlockData extends CommandBase {
 					nbttagcompound.setInteger("z", blockpos.getZ());
 
 					if (nbttagcompound.equals(nbttagcompound1)) {
-						throw new CommandException("commands.blockdata.failed",
-                                nbttagcompound.toString());
+						throw new CommandException("commands.blockdata.failed", nbttagcompound.toString());
 					} else {
 						tileentity.readFromNBT(nbttagcompound);
 						tileentity.markDirty();
 						world.markBlockForUpdate(blockpos);
 						sender.setCommandStat(CommandResultStats.Type.AFFECTED_BLOCKS, 1);
-						notifyOperators(sender, this, "commands.blockdata.success",
-                                nbttagcompound.toString());
+						notifyOperators(sender, this, "commands.blockdata.success", nbttagcompound.toString());
 					}
 				}
 			}

@@ -20,10 +20,8 @@ import net.minecraft.world.World;
 
 public abstract class TileEntity {
 	private static final Logger logger = LogManager.getLogger();
-	private static final Map<String, Class<? extends TileEntity>> nameToClassMap = Maps
-			.newHashMap();
-	private static final Map<Class<? extends TileEntity>, String> classToNameMap = Maps
-			.newHashMap();
+	private static final Map<String, Class<? extends TileEntity>> nameToClassMap = Maps.newHashMap();
+	private static final Map<Class<? extends TileEntity>, String> classToNameMap = Maps.newHashMap();
 	protected World worldObj;
 	protected BlockPos pos = BlockPos.ORIGIN;
 	protected boolean tileEntityInvalid;
@@ -175,9 +173,9 @@ public abstract class TileEntity {
 							.getIdFromBlock(TileEntity.this.worldObj.getBlockState(TileEntity.this.pos).getBlock());
 
 					try {
-						return String.format("ID #%d (%s // %s)",
-                                Integer.valueOf(i), Block.getBlockById(i).getUnlocalizedName(),
-                                Block.getBlockById(i).getClass().getCanonicalName());
+						return String.format("ID #%d (%s // %s)", Integer.valueOf(i),
+								Block.getBlockById(i).getUnlocalizedName(),
+								Block.getBlockById(i).getClass().getCanonicalName());
 					} catch (Throwable var3) {
 						return "ID #" + i;
 					}

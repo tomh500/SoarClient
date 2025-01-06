@@ -63,7 +63,7 @@ public class ChatComponentScore extends ChatComponentStyle {
 		} else if (!(p_equals_1_ instanceof ChatComponentScore chatcomponentscore)) {
 			return false;
 		} else {
-            return this.name.equals(chatcomponentscore.name) && this.objective.equals(chatcomponentscore.objective)
+			return this.name.equals(chatcomponentscore.name) && this.objective.equals(chatcomponentscore.objective)
 					&& super.equals(p_equals_1_);
 		}
 	}

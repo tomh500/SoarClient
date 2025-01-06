@@ -19,12 +19,11 @@ public class CustomUniforms {
 			IExpression iexpression = mapExpressions.get(s);
 
 			if (iexpression instanceof IExpressionCached iexpressioncached) {
-                list.add(iexpressioncached);
+				list.add(iexpressioncached);
 			}
 		}
 
-		this.expressionsCached = list
-				.toArray(new IExpressionCached[0]);
+		this.expressionsCached = list.toArray(new IExpressionCached[0]);
 	}
 
 	public void setProgram(int program) {

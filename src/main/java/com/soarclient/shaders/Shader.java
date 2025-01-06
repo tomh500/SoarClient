@@ -19,8 +19,7 @@ public class Shader {
 
 	public Shader(String filePath) {
 
-		vertId = createShader(readShader("/assets/soar/shaders/vertex.vert"),
-				GL20.GL_VERTEX_SHADER);
+		vertId = createShader(readShader("/assets/soar/shaders/vertex.vert"), GL20.GL_VERTEX_SHADER);
 		fragId = createShader(readShader("/assets/soar/shaders/" + filePath), GL20.GL_FRAGMENT_SHADER);
 
 		if (vertId != 0 && fragId != 0) {

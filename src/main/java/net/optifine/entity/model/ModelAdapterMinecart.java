@@ -25,7 +25,7 @@ public class ModelAdapterMinecart extends ModelAdapter {
 		if (!(model instanceof ModelMinecart modelminecart)) {
 			return null;
 		} else {
-            return modelPart
+			return modelPart
 					.equals("bottom")
 							? modelminecart.sideModels[0]
 							: (modelPart

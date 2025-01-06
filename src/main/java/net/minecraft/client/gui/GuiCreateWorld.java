@@ -58,10 +58,9 @@ public class GuiCreateWorld extends GuiScreen {
 	public void initGui() {
 		Keyboard.enableRepeatEvents(true);
 		this.buttonList.clear();
-		this.buttonList.add(new GuiButton(0, this.width / 2 - 155, this.height - 28, 150, 20,
-				I18n.format("selectWorld.create")));
-		this.buttonList.add(new GuiButton(1, this.width / 2 + 5, this.height - 28, 150, 20,
-				I18n.format("gui.cancel")));
+		this.buttonList.add(
+				new GuiButton(0, this.width / 2 - 155, this.height - 28, 150, 20, I18n.format("selectWorld.create")));
+		this.buttonList.add(new GuiButton(1, this.width / 2 + 5, this.height - 28, 150, 20, I18n.format("gui.cancel")));
 		this.buttonList.add(this.btnGameMode = new GuiButton(2, this.width / 2 - 75, 115, 150, 20,
 				I18n.format("selectWorld.gameMode")));
 		this.buttonList.add(this.btnMoreOptions = new GuiButton(3, this.width / 2 - 75, 187, 150, 20,
@@ -113,21 +112,17 @@ public class GuiCreateWorld extends GuiScreen {
 		this.btnMapFeatures.displayString = I18n.format("selectWorld.mapFeatures") + " ";
 
 		if (this.generateStructuresEnabled) {
-			this.btnMapFeatures.displayString = this.btnMapFeatures.displayString
-					+ I18n.format("options.on");
+			this.btnMapFeatures.displayString = this.btnMapFeatures.displayString + I18n.format("options.on");
 		} else {
-			this.btnMapFeatures.displayString = this.btnMapFeatures.displayString
-					+ I18n.format("options.off");
+			this.btnMapFeatures.displayString = this.btnMapFeatures.displayString + I18n.format("options.off");
 		}
 
 		this.btnBonusItems.displayString = I18n.format("selectWorld.bonusItems") + " ";
 
 		if (this.bonusChestEnabled && !this.hardCoreMode) {
-			this.btnBonusItems.displayString = this.btnBonusItems.displayString
-					+ I18n.format("options.on");
+			this.btnBonusItems.displayString = this.btnBonusItems.displayString + I18n.format("options.on");
 		} else {
-			this.btnBonusItems.displayString = this.btnBonusItems.displayString
-					+ I18n.format("options.off");
+			this.btnBonusItems.displayString = this.btnBonusItems.displayString + I18n.format("options.off");
 		}
 
 		this.btnMapType.displayString = I18n.format("selectWorld.mapType") + " "
@@ -135,25 +130,23 @@ public class GuiCreateWorld extends GuiScreen {
 		this.btnAllowCommands.displayString = I18n.format("selectWorld.allowCommands") + " ";
 
 		if (this.allowCheats && !this.hardCoreMode) {
-			this.btnAllowCommands.displayString = this.btnAllowCommands.displayString
-					+ I18n.format("options.on");
+			this.btnAllowCommands.displayString = this.btnAllowCommands.displayString + I18n.format("options.on");
 		} else {
-			this.btnAllowCommands.displayString = this.btnAllowCommands.displayString
-					+ I18n.format("options.off");
+			this.btnAllowCommands.displayString = this.btnAllowCommands.displayString + I18n.format("options.off");
 		}
 	}
 
 	public static String getUncollidingSaveDirName(ISaveFormat saveLoader, String name) {
 
-        StringBuilder nameBuilder = new StringBuilder(name.replaceAll("[\\./\"]", "_"));
-        for (String s : disallowedFilenames) {
+		StringBuilder nameBuilder = new StringBuilder(name.replaceAll("[\\./\"]", "_"));
+		for (String s : disallowedFilenames) {
 			if (nameBuilder.toString().equalsIgnoreCase(s)) {
 				nameBuilder = new StringBuilder("_" + nameBuilder + "_");
 			}
 		}
-        name = nameBuilder.toString();
+		name = nameBuilder.toString();
 
-        while (saveLoader.getWorldInfo(name) != null) {
+		while (saveLoader.getWorldInfo(name) != null) {
 			name = name + "-";
 		}
 
@@ -283,7 +276,8 @@ public class GuiCreateWorld extends GuiScreen {
 
 	private boolean canSelectCurWorldType() {
 		WorldType worldtype = WorldType.worldTypes[this.selectedIndex];
-		return worldtype != null && worldtype.getCanBeCreated() && (worldtype != WorldType.DEBUG_WORLD || isShiftKeyDown());
+		return worldtype != null && worldtype.getCanBeCreated()
+				&& (worldtype != WorldType.DEBUG_WORLD || isShiftKeyDown());
 	}
 
 	private void toggleMoreWorldOptions() {
@@ -364,18 +358,17 @@ public class GuiCreateWorld extends GuiScreen {
 
 	public void drawScreen(int mouseX, int mouseY, float partialTicks) {
 		this.drawDefaultBackground();
-		this.drawCenteredString(this.fontRendererObj, I18n.format("selectWorld.create"), this.width / 2,
-				20, -1);
+		this.drawCenteredString(this.fontRendererObj, I18n.format("selectWorld.create"), this.width / 2, 20, -1);
 
 		if (this.inMoreWorldOptionsDisplay) {
-			this.drawString(this.fontRendererObj, I18n.format("selectWorld.enterSeed"),
-					this.width / 2 - 100, 47, -6250336);
-			this.drawString(this.fontRendererObj, I18n.format("selectWorld.seedInfo"),
-					this.width / 2 - 100, 85, -6250336);
+			this.drawString(this.fontRendererObj, I18n.format("selectWorld.enterSeed"), this.width / 2 - 100, 47,
+					-6250336);
+			this.drawString(this.fontRendererObj, I18n.format("selectWorld.seedInfo"), this.width / 2 - 100, 85,
+					-6250336);
 
 			if (this.btnMapFeatures.visible) {
-				this.drawString(this.fontRendererObj, I18n.format("selectWorld.mapFeatures.info"),
-						this.width / 2 - 150, 122, -6250336);
+				this.drawString(this.fontRendererObj, I18n.format("selectWorld.mapFeatures.info"), this.width / 2 - 150,
+						122, -6250336);
 			}
 
 			if (this.btnAllowCommands.visible) {
@@ -392,10 +385,9 @@ public class GuiCreateWorld extends GuiScreen {
 						10526880);
 			}
 		} else {
-			this.drawString(this.fontRendererObj, I18n.format("selectWorld.enterName"),
-					this.width / 2 - 100, 47, -6250336);
-			this.drawString(this.fontRendererObj,
-					I18n.format("selectWorld.resultFolder") + " " + this.saveDirName,
+			this.drawString(this.fontRendererObj, I18n.format("selectWorld.enterName"), this.width / 2 - 100, 47,
+					-6250336);
+			this.drawString(this.fontRendererObj, I18n.format("selectWorld.resultFolder") + " " + this.saveDirName,
 					this.width / 2 - 100, 85, -6250336);
 			this.worldNameField.drawTextBox();
 			this.drawString(this.fontRendererObj, this.gameModeDesc1, this.width / 2 - 100, 137, -6250336);

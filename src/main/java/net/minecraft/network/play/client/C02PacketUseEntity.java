@@ -65,5 +65,5 @@ public class C02PacketUseEntity implements Packet<INetHandlerPlayServer> {
 
 	public enum Action {
 		INTERACT, ATTACK, INTERACT_AT
-    }
+	}
 }

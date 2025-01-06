@@ -156,20 +156,20 @@ public class ConnectedTextures {
 			double d0 = quad.getMidX();
 
 			if (d0 < 0.4D) {
-                return iblockstate.getValue(BlockPane.WEST).booleanValue();
+				return iblockstate.getValue(BlockPane.WEST).booleanValue();
 			} else if (d0 > 0.6D) {
-                return iblockstate.getValue(BlockPane.EAST).booleanValue();
+				return iblockstate.getValue(BlockPane.EAST).booleanValue();
 			} else {
 				double d1 = quad.getMidZ();
 
 				if (d1 < 0.4D) {
-                    return iblockstate.getValue(BlockPane.NORTH).booleanValue();
+					return iblockstate.getValue(BlockPane.NORTH).booleanValue();
 				} else {
 					if (d1 <= 0.6D) {
 						return true;
 					}
 
-                    return iblockstate.getValue(BlockPane.SOUTH).booleanValue();
+					return iblockstate.getValue(BlockPane.SOUTH).booleanValue();
 				}
 			}
 		}
@@ -316,7 +316,7 @@ public class ConnectedTextures {
 		if (!(blockState instanceof BlockStateBase blockstatebase)) {
 			return renderEnv.getArrayQuadsCtm(quad);
 		} else {
-            TextureAtlasSprite textureatlassprite = quad.getSprite();
+			TextureAtlasSprite textureatlassprite = quad.getSprite();
 
 			if (tileProperties != null) {
 				int i = textureatlassprite.getIndexInMap();
@@ -1490,7 +1490,9 @@ public class ConnectedTextures {
 			}
 
 			IBlockState iblockstate1 = iblockaccess.getBlockState(blockPos.offset(getFacing(side)));
-			return !iblockstate1.getBlock().isOpaqueCube() && ((side != 1 || iblockstate1.getBlock() != Blocks.snow_layer) && !isNeighbour(cp, iblockaccess, blockState, blockPos, iblockstate, side, icon, metadata));
+			return !iblockstate1.getBlock().isOpaqueCube()
+					&& ((side != 1 || iblockstate1.getBlock() != Blocks.snow_layer)
+							&& !isNeighbour(cp, iblockaccess, blockState, blockPos, iblockstate, side, icon, metadata));
 		}
 	}
 
@@ -1512,7 +1514,7 @@ public class ConnectedTextures {
 		} else {
 			if (cp.matchBlocks != null && iblockstate instanceof BlockStateBase blockstatebase) {
 
-                if (!cp.matchesBlock(blockstatebase.getBlockId(), blockstatebase.getMetadata())) {
+				if (!cp.matchesBlock(blockstatebase.getBlockId(), blockstatebase.getMetadata())) {
 					return false;
 				}
 			}
@@ -1527,7 +1529,8 @@ public class ConnectedTextures {
 			}
 
 			IBlockState iblockstate1 = iblockaccess.getBlockState(blockPos.offset(getFacing(side)));
-			return !iblockstate1.getBlock().isOpaqueCube() && (side != 1 || iblockstate1.getBlock() != Blocks.snow_layer);
+			return !iblockstate1.getBlock().isOpaqueCube()
+					&& (side != 1 || iblockstate1.getBlock() != Blocks.snow_layer);
 		}
 	}
 
@@ -1552,11 +1555,12 @@ public class ConnectedTextures {
 				return textureatlassprite == icon;
 			}
 		} else if (cp.connect == 3) {
-			return neighbourState != null && (neighbourState != AIR_DEFAULT_STATE && neighbourState.getBlock().getMaterial() == blockState.getBlock().getMaterial());
+			return neighbourState != null && (neighbourState != AIR_DEFAULT_STATE
+					&& neighbourState.getBlock().getMaterial() == blockState.getBlock().getMaterial());
 		} else if (!(neighbourState instanceof BlockStateBase blockstatebase)) {
 			return false;
 		} else {
-            Block block = blockstatebase.getBlock();
+			Block block = blockstatebase.getBlock();
 			int i = blockstatebase.getMetadata();
 			return block == blockState.getBlock() && i == metadata;
 		}
@@ -1986,8 +1990,7 @@ public class ConnectedTextures {
 			}
 		}
 
-		ConnectedProperties[] aconnectedproperties1 = (ConnectedProperties[]) list
-				.toArray(new ConnectedProperties[0]);
+		ConnectedProperties[] aconnectedproperties1 = (ConnectedProperties[]) list.toArray(new ConnectedProperties[0]);
 		Set set1 = new HashSet();
 		Set set = new HashSet();
 

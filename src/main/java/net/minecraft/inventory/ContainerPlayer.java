@@ -37,9 +37,9 @@ public class ContainerPlayer extends Container {
 
 						public boolean isItemValid(ItemStack stack) {
 							return stack != null && (stack.getItem() instanceof ItemArmor
-                                    ? ((ItemArmor) stack.getItem()).armorType == k_f
-                                    : ((stack.getItem() == Item.getItemFromBlock(Blocks.pumpkin)
-                                    || stack.getItem() == Items.skull) && k_f == 0));
+									? ((ItemArmor) stack.getItem()).armorType == k_f
+									: ((stack.getItem() == Item.getItemFromBlock(Blocks.pumpkin)
+											|| stack.getItem() == Items.skull) && k_f == 0));
 						}
 
 						public String getSlotTexture() {
@@ -107,8 +107,7 @@ public class ContainerPlayer extends Container {
 					return null;
 				}
 			} else if (itemstack.getItem() instanceof ItemArmor
-					&& !this.inventorySlots.get(5 + ((ItemArmor) itemstack.getItem()).armorType)
-							.getHasStack()) {
+					&& !this.inventorySlots.get(5 + ((ItemArmor) itemstack.getItem()).armorType).getHasStack()) {
 				int i = 5 + ((ItemArmor) itemstack.getItem()).armorType;
 
 				if (!this.mergeItemStack(itemstack1, i, i + 1, false)) {

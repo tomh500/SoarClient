@@ -80,10 +80,8 @@ public class ChunkRenderDispatcher {
 	}
 
 	public String getDebugInfo() {
-		return String.format("pC: %03d, pU: %1d, aB: %1d",
-                Integer.valueOf(this.queueChunkUpdates.size()),
-                Integer.valueOf(this.queueChunkUploads.size()),
-                Integer.valueOf(this.queueFreeRenderBuilders.size()));
+		return String.format("pC: %03d, pU: %1d, aB: %1d", Integer.valueOf(this.queueChunkUpdates.size()),
+				Integer.valueOf(this.queueChunkUploads.size()), Integer.valueOf(this.queueFreeRenderBuilders.size()));
 	}
 
 	public boolean runChunkUploads(long p_178516_1_) {
@@ -152,7 +150,7 @@ public class ChunkRenderDispatcher {
 			try {
 				this.renderWorker.processTask(chunkcompiletaskgenerator);
 			} catch (InterruptedException var8) {
-            }
+			}
 
 			flag = true;
 		} finally {
@@ -166,7 +164,7 @@ public class ChunkRenderDispatcher {
 		this.clearChunkUpdates();
 
 		while (this.runChunkUploads(0L)) {
-        }
+		}
 
 		List<RegionRenderCacheBuilder> list = Lists.newArrayList();
 
@@ -174,7 +172,7 @@ public class ChunkRenderDispatcher {
 			try {
 				list.add(this.allocateRenderBuilder());
 			} catch (InterruptedException var3) {
-            }
+			}
 		}
 
 		this.queueFreeRenderBuilders.addAll(list);
@@ -260,8 +258,7 @@ public class ChunkRenderDispatcher {
 
 	public void clearChunkUpdates() {
 		while (!this.queueChunkUpdates.isEmpty()) {
-			ChunkCompileTaskGenerator chunkcompiletaskgenerator = this.queueChunkUpdates
-					.poll();
+			ChunkCompileTaskGenerator chunkcompiletaskgenerator = this.queueChunkUpdates.poll();
 
 			if (chunkcompiletaskgenerator != null) {
 				chunkcompiletaskgenerator.finish();
@@ -277,14 +274,14 @@ public class ChunkRenderDispatcher {
 		while (this.listPausedBuilders.size() != this.countRenderBuilders) {
 			try {
 				this.runChunkUploads(Long.MAX_VALUE);
-				RegionRenderCacheBuilder regionrendercachebuilder = this.queueFreeRenderBuilders
-						.poll(100L, TimeUnit.MILLISECONDS);
+				RegionRenderCacheBuilder regionrendercachebuilder = this.queueFreeRenderBuilders.poll(100L,
+						TimeUnit.MILLISECONDS);
 
 				if (regionrendercachebuilder != null) {
 					this.listPausedBuilders.add(regionrendercachebuilder);
 				}
 			} catch (InterruptedException var2) {
-            }
+			}
 		}
 	}
 

@@ -38,16 +38,16 @@ public class ModManager {
 	private List<Mod> mods = new ArrayList<>();
 	private List<Setting> settings = new ArrayList<>();
 	private List<HUDDesign> designs = new ArrayList<>();
-	
+
 	private HUDDesign currentDesign;
-	
+
 	public void init() {
 		initMods();
 		initDesigns();
 	}
-	
+
 	private void initMods() {
-		
+
 		// HUD
 		mods.add(new ComboCounterMod());
 		mods.add(new CoordsMod());
@@ -69,18 +69,18 @@ public class ModManager {
 		mods.add(new StopwatchMod());
 		mods.add(new WeatherDisplayMod());
 		mods.add(new YawDisplayMod());
-		
+
 		// Settings
 		mods.add(new ModMenuSettings());
-		
+
 		sortMods();
 	}
-	
+
 	private void initDesigns() {
 		designs.add(new SimpleDesign());
 		setCurrentDesign("design.simple");
 	}
-	
+
 	public List<Mod> getMods() {
 		return mods;
 	}
@@ -92,7 +92,7 @@ public class ModManager {
 	public List<HUDMod> getHUDMods() {
 		return mods.stream().filter(m -> m instanceof HUDMod).map(m -> (HUDMod) m).collect(Collectors.toList());
 	}
-	
+
 	public List<KeybindSetting> getKeybindSettings() {
 		return settings.stream().filter(s -> s instanceof KeybindSetting).map(s -> (KeybindSetting) s)
 				.collect(Collectors.toList());
@@ -101,11 +101,11 @@ public class ModManager {
 	public List<Setting> getSettingsByMod(Mod m) {
 		return settings.stream().filter(s -> s.getParent().equals(m)).collect(Collectors.toList());
 	}
-	
+
 	public void addSetting(Setting setting) {
 		settings.add(setting);
 	}
-	
+
 	public HUDDesign getCurrentDesign() {
 		return currentDesign;
 	}
@@ -113,7 +113,7 @@ public class ModManager {
 	public void setCurrentDesign(String name) {
 		this.currentDesign = getDesignByName(name);
 	}
-	
+
 	public HUDDesign getDesignByName(String name) {
 
 		for (HUDDesign design : designs) {
@@ -124,7 +124,7 @@ public class ModManager {
 
 		return getDesignByName("design.simple");
 	}
-	
+
 	private void sortMods() {
 
 		Comparator<Mod> nameComparator = new Comparator<Mod>() {

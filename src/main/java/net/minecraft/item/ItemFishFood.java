@@ -78,7 +78,7 @@ public class ItemFishFood extends ItemFood {
 		private boolean cookable = false;
 
 		FishType(int meta, String unlocalizedName, int uncookedHeal, float uncookedSaturation, int cookedHeal,
-                 float cookedSaturation) {
+				float cookedSaturation) {
 			this.meta = meta;
 			this.unlocalizedName = unlocalizedName;
 			this.uncookedHealAmount = uncookedHeal;
@@ -127,8 +127,7 @@ public class ItemFishFood extends ItemFood {
 		}
 
 		public static ItemFishFood.FishType byMetadata(int meta) {
-			ItemFishFood.FishType itemfishfood$fishtype = META_LOOKUP
-					.get(Integer.valueOf(meta));
+			ItemFishFood.FishType itemfishfood$fishtype = META_LOOKUP.get(Integer.valueOf(meta));
 			return itemfishfood$fishtype == null ? COD : itemfishfood$fishtype;
 		}
 

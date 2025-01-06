@@ -21,7 +21,7 @@ public class ModelAdapterSnowman extends ModelAdapter {
 		if (!(model instanceof ModelSnowMan modelsnowman)) {
 			return null;
 		} else {
-            return modelPart.equals("body") ? modelsnowman.body
+			return modelPart.equals("body") ? modelsnowman.body
 					: (modelPart.equals("body_bottom") ? modelsnowman.bottomBody
 							: (modelPart.equals("head") ? modelsnowman.head
 									: (modelPart.equals("left_hand") ? modelsnowman.leftHand

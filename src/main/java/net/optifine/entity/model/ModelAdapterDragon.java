@@ -21,7 +21,7 @@ public class ModelAdapterDragon extends ModelAdapter {
 		if (!(model instanceof ModelDragon modeldragon)) {
 			return null;
 		} else {
-            return modelPart.equals("head") ? modeldragon.head
+			return modelPart.equals("head") ? modeldragon.head
 					: (modelPart.equals("spine") ? modeldragon.spine
 							: (modelPart.equals("jaw") ? modeldragon.jaw
 									: (modelPart.equals("body") ? modeldragon.body

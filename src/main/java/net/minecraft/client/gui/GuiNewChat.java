@@ -166,8 +166,7 @@ public class GuiNewChat extends Gui {
 	}
 
 	public void addToSentMessages(String message) {
-		if (this.sentMessages.isEmpty()
-				|| !this.sentMessages.get(this.sentMessages.size() - 1).equals(message)) {
+		if (this.sentMessages.isEmpty() || !this.sentMessages.get(this.sentMessages.size() - 1).equals(message)) {
 			this.sentMessages.add(message);
 		}
 	}

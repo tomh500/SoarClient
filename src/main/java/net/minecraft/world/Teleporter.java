@@ -68,8 +68,7 @@ public class Teleporter {
 		long l = ChunkCoordIntPair.chunkXZ2Int(j, k);
 
 		if (this.destinationCoordinateCache.containsItem(l)) {
-			Teleporter.PortalPosition teleporter$portalposition = this.destinationCoordinateCache
-					.getValueByKey(l);
+			Teleporter.PortalPosition teleporter$portalposition = this.destinationCoordinateCache.getValueByKey(l);
 			d0 = 0.0D;
 			blockpos = teleporter$portalposition;
 			teleporter$portalposition.lastUpdateTime = this.worldServerInstance.getTotalWorldTime();

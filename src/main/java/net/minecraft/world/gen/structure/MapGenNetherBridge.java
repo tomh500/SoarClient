@@ -35,7 +35,8 @@ public class MapGenNetherBridge extends MapGenStructure {
 		int j = chunkZ >> 4;
 		this.rand.setSeed((long) (i ^ j << 4) ^ this.worldObj.getSeed());
 		this.rand.nextInt();
-		return this.rand.nextInt(3) == 0 && (chunkX == (i << 4) + 4 + this.rand.nextInt(8) && chunkZ == (j << 4) + 4 + this.rand.nextInt(8));
+		return this.rand.nextInt(3) == 0
+				&& (chunkX == (i << 4) + 4 + this.rand.nextInt(8) && chunkZ == (j << 4) + 4 + this.rand.nextInt(8));
 	}
 
 	protected StructureStart getStructureStart(int chunkX, int chunkZ) {

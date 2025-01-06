@@ -56,7 +56,7 @@ public class EnchantmentDamage extends Enchantment {
 	public void onEntityDamaged(EntityLivingBase user, Entity target, int level) {
 		if (target instanceof EntityLivingBase entitylivingbase) {
 
-            if (this.damageType == 2 && entitylivingbase.getCreatureAttribute() == EnumCreatureAttribute.ARTHROPOD) {
+			if (this.damageType == 2 && entitylivingbase.getCreatureAttribute() == EnumCreatureAttribute.ARTHROPOD) {
 				int i = 20 + user.getRNG().nextInt(10 * level);
 				entitylivingbase.addPotionEffect(new PotionEffect(Potion.moveSlowdown.id, i, 3));
 			}

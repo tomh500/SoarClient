@@ -201,8 +201,7 @@ public class CustomGuis {
 					List<CustomGuiProperties> list = listProps.get(i);
 
 					if (list != null) {
-						CustomGuiProperties[] acustomguiproperties1 = list
-								.toArray(new CustomGuiProperties[0]);
+						CustomGuiProperties[] acustomguiproperties1 = list.toArray(new CustomGuiProperties[0]);
 						acustomguiproperties[i] = acustomguiproperties1;
 					}
 				}
@@ -213,8 +212,7 @@ public class CustomGuis {
 	}
 
 	private static void update(IResourcePack rp, List<List<CustomGuiProperties>> listProps) {
-		String[] astring = ResUtils.collectFiles(rp, "optifine/gui/container/", ".properties",
-                null);
+		String[] astring = ResUtils.collectFiles(rp, "optifine/gui/container/", ".properties", null);
 		Arrays.sort(astring);
 
 		for (int i = 0; i < astring.length; ++i) {

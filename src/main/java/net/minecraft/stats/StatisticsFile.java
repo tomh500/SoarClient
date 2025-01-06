@@ -47,8 +47,7 @@ public class StatisticsFile extends StatFileWriter {
 			} catch (IOException ioexception) {
 				logger.error("Couldn't read statistics file " + this.statsFile, ioexception);
 			} catch (JsonParseException jsonparseexception) {
-				logger.error("Couldn't parse statistics file " + this.statsFile,
-                        jsonparseexception);
+				logger.error("Couldn't parse statistics file " + this.statsFile, jsonparseexception);
 			}
 		}
 	}
@@ -70,9 +69,8 @@ public class StatisticsFile extends StatFileWriter {
 			this.field_150886_g = true;
 
 			if (this.mcServer.isAnnouncingPlayerAchievements()) {
-				this.mcServer.getConfigurationManager()
-						.sendChatMsg(new ChatComponentTranslation("chat.type.achievement",
-                                playerIn.getDisplayName(), statIn.createChatComponent()));
+				this.mcServer.getConfigurationManager().sendChatMsg(new ChatComponentTranslation(
+						"chat.type.achievement", playerIn.getDisplayName(), statIn.createChatComponent()));
 			}
 		}
 
@@ -80,9 +78,8 @@ public class StatisticsFile extends StatFileWriter {
 			this.field_150886_g = true;
 
 			if (this.mcServer.isAnnouncingPlayerAchievements()) {
-				this.mcServer.getConfigurationManager()
-						.sendChatMsg(new ChatComponentTranslation("chat.type.achievement.taken",
-                                playerIn.getDisplayName(), statIn.createChatComponent()));
+				this.mcServer.getConfigurationManager().sendChatMsg(new ChatComponentTranslation(
+						"chat.type.achievement.taken", playerIn.getDisplayName(), statIn.createChatComponent()));
 			}
 		}
 	}
@@ -109,8 +106,7 @@ public class StatisticsFile extends StatFileWriter {
 				if (statbase != null) {
 					TupleIntJsonSerializable tupleintjsonserializable = new TupleIntJsonSerializable();
 
-					if (entry.getValue().isJsonPrimitive()
-							&& entry.getValue().getAsJsonPrimitive().isNumber()) {
+					if (entry.getValue().isJsonPrimitive() && entry.getValue().getAsJsonPrimitive().isNumber()) {
 						tupleintjsonserializable.setIntegerValue(entry.getValue().getAsInt());
 					} else if (entry.getValue().isJsonObject()) {
 						JsonObject jsonobject1 = entry.getValue().getAsJsonObject();
@@ -125,8 +121,7 @@ public class StatisticsFile extends StatFileWriter {
 							try {
 								Constructor<? extends IJsonSerializable> constructor = statbase.func_150954_l()
 										.getConstructor();
-								IJsonSerializable ijsonserializable = constructor
-										.newInstance();
+								IJsonSerializable ijsonserializable = constructor.newInstance();
 								ijsonserializable.fromJson(jsonobject1.get("progress"));
 								tupleintjsonserializable.setJsonSerializableValue(ijsonserializable);
 							} catch (Throwable throwable) {
@@ -137,8 +132,8 @@ public class StatisticsFile extends StatFileWriter {
 
 					map.put(statbase, tupleintjsonserializable);
 				} else {
-					logger.warn("Invalid statistic in " + this.statsFile + ": Don't know what "
-							+ entry.getKey() + " is");
+					logger.warn(
+							"Invalid statistic in " + this.statsFile + ": Don't know what " + entry.getKey() + " is");
 				}
 			}
 
@@ -152,21 +147,19 @@ public class StatisticsFile extends StatFileWriter {
 		for (Entry<StatBase, TupleIntJsonSerializable> entry : p_150880_0_.entrySet()) {
 			if (entry.getValue().getJsonSerializableValue() != null) {
 				JsonObject jsonobject1 = new JsonObject();
-				jsonobject1.addProperty("value",
-                        Integer.valueOf(entry.getValue().getIntegerValue()));
+				jsonobject1.addProperty("value", Integer.valueOf(entry.getValue().getIntegerValue()));
 
 				try {
-					jsonobject1.add("progress", entry.getValue().getJsonSerializableValue()
-							.getSerializableElement());
+					jsonobject1.add("progress", entry.getValue().getJsonSerializableValue().getSerializableElement());
 				} catch (Throwable throwable) {
-					logger.warn("Couldn't save statistic " + entry.getKey().getStatName()
-							+ ": error serializing progress", throwable);
+					logger.warn(
+							"Couldn't save statistic " + entry.getKey().getStatName() + ": error serializing progress",
+							throwable);
 				}
 
 				jsonobject.add(entry.getKey().statId, jsonobject1);
 			} else {
-				jsonobject.addProperty(entry.getKey().statId,
-                        Integer.valueOf(entry.getValue().getIntegerValue()));
+				jsonobject.addProperty(entry.getKey().statId, Integer.valueOf(entry.getValue().getIntegerValue()));
 			}
 		}
 
@@ -174,7 +167,7 @@ public class StatisticsFile extends StatFileWriter {
 	}
 
 	public void func_150877_d() {
-        this.field_150888_e.addAll(this.statsData.keySet());
+		this.field_150888_e.addAll(this.statsData.keySet());
 	}
 
 	public void func_150876_a(EntityPlayerMP p_150876_1_) {

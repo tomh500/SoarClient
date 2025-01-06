@@ -136,10 +136,8 @@ public class ModelDragon extends ModelBase {
 			this.spine.rotationPointZ = f3;
 			this.spine.rotationPointX = f4;
 			f2 = (float) ((double) f2 + Math.sin(this.spine.rotateAngleX) * 10.0D);
-			f3 = (float) ((double) f3
-					- Math.cos(this.spine.rotateAngleY) * Math.cos(this.spine.rotateAngleX) * 10.0D);
-			f4 = (float) ((double) f4
-					- Math.sin(this.spine.rotateAngleY) * Math.cos(this.spine.rotateAngleX) * 10.0D);
+			f3 = (float) ((double) f3 - Math.cos(this.spine.rotateAngleY) * Math.cos(this.spine.rotateAngleX) * 10.0D);
+			f4 = (float) ((double) f4 - Math.sin(this.spine.rotateAngleY) * Math.cos(this.spine.rotateAngleX) * 10.0D);
 			this.spine.render(scale);
 		}
 
@@ -201,10 +199,8 @@ public class ModelDragon extends ModelBase {
 			this.spine.rotationPointZ = f3;
 			this.spine.rotationPointX = f4;
 			f2 = (float) ((double) f2 + Math.sin(this.spine.rotateAngleX) * 10.0D);
-			f3 = (float) ((double) f3
-					- Math.cos(this.spine.rotateAngleY) * Math.cos(this.spine.rotateAngleX) * 10.0D);
-			f4 = (float) ((double) f4
-					- Math.sin(this.spine.rotateAngleY) * Math.cos(this.spine.rotateAngleX) * 10.0D);
+			f3 = (float) ((double) f3 - Math.cos(this.spine.rotateAngleY) * Math.cos(this.spine.rotateAngleX) * 10.0D);
+			f4 = (float) ((double) f4 - Math.sin(this.spine.rotateAngleY) * Math.cos(this.spine.rotateAngleX) * 10.0D);
 			this.spine.render(scale);
 		}
 

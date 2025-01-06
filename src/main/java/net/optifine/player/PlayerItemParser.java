@@ -110,8 +110,7 @@ public class PlayerItemParser {
 				}
 			}
 
-			PlayerItemRenderer[] aplayeritemrenderer = (PlayerItemRenderer[]) list
-					.toArray(new PlayerItemRenderer[0]);
+			PlayerItemRenderer[] aplayeritemrenderer = (PlayerItemRenderer[]) list.toArray(new PlayerItemRenderer[0]);
 			return new PlayerItemModel(dimension, flag, aplayeritemrenderer);
 		}
 	}
@@ -384,10 +383,10 @@ public class PlayerItemParser {
 		boolean flag = false;
 
 		for (int i = 0; i < aint.length; ++i) {
-            if (aint[i] != null) {
-                flag = true;
-                break;
-            }
+			if (aint[i] != null) {
+				flag = true;
+				break;
+			}
 		}
 
 		if (!flag) {

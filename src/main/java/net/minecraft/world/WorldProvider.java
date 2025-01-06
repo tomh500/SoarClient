@@ -65,7 +65,7 @@ public abstract class WorldProvider {
 						this.worldObj.getWorldInfo().isMapFeaturesEnabled(), this.generatorSettings)
 				: (this.terrainType == WorldType.DEBUG_WORLD ? new ChunkProviderDebug(this.worldObj)
 						: (new ChunkProviderGenerate(this.worldObj, this.worldObj.getSeed(),
-                this.worldObj.getWorldInfo().isMapFeaturesEnabled(), this.generatorSettings)));
+								this.worldObj.getWorldInfo().isMapFeaturesEnabled(), this.generatorSettings)));
 	}
 
 	public boolean canCoordinateBeSpawn(int x, int z) {

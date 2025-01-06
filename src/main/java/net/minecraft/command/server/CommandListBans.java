@@ -36,9 +36,8 @@ public class CommandListBans extends CommandBase {
 			sender.addChatMessage(new ChatComponentText(
 					joinNiceString(MinecraftServer.getServer().getConfigurationManager().getBannedIPs().getKeys())));
 		} else {
-			sender.addChatMessage(new ChatComponentTranslation("commands.banlist.players",
-                    Integer.valueOf(MinecraftServer.getServer().getConfigurationManager()
-                            .getBannedPlayers().getKeys().length)));
+			sender.addChatMessage(new ChatComponentTranslation("commands.banlist.players", Integer.valueOf(
+					MinecraftServer.getServer().getConfigurationManager().getBannedPlayers().getKeys().length)));
 			sender.addChatMessage(new ChatComponentText(joinNiceString(
 					MinecraftServer.getServer().getConfigurationManager().getBannedPlayers().getKeys())));
 		}

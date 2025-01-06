@@ -92,17 +92,17 @@ public class WorldServer extends World implements IThreadListener {
 	private final WorldServer.ServerBlockEventList[] blockEventQueue = new WorldServer.ServerBlockEventList[] {
 			new WorldServer.ServerBlockEventList(), new WorldServer.ServerBlockEventList() };
 	private int blockEventCacheIndex;
-	private static final List<WeightedRandomChestContent> bonusChestContent = Lists
-			.newArrayList(new WeightedRandomChestContent(Items.stick, 0, 1, 3, 10),
-                    new WeightedRandomChestContent(Item.getItemFromBlock(Blocks.planks), 0, 1, 3, 10),
-                    new WeightedRandomChestContent(Item.getItemFromBlock(Blocks.log), 0, 1, 3, 10),
-                    new WeightedRandomChestContent(Items.stone_axe, 0, 1, 1, 3),
-                    new WeightedRandomChestContent(Items.wooden_axe, 0, 1, 1, 5),
-                    new WeightedRandomChestContent(Items.stone_pickaxe, 0, 1, 1, 3),
-                    new WeightedRandomChestContent(Items.wooden_pickaxe, 0, 1, 1, 5),
-                    new WeightedRandomChestContent(Items.apple, 0, 2, 3, 5),
-                    new WeightedRandomChestContent(Items.bread, 0, 2, 3, 3),
-                    new WeightedRandomChestContent(Item.getItemFromBlock(Blocks.log2), 0, 1, 3, 10));
+	private static final List<WeightedRandomChestContent> bonusChestContent = Lists.newArrayList(
+			new WeightedRandomChestContent(Items.stick, 0, 1, 3, 10),
+			new WeightedRandomChestContent(Item.getItemFromBlock(Blocks.planks), 0, 1, 3, 10),
+			new WeightedRandomChestContent(Item.getItemFromBlock(Blocks.log), 0, 1, 3, 10),
+			new WeightedRandomChestContent(Items.stone_axe, 0, 1, 1, 3),
+			new WeightedRandomChestContent(Items.wooden_axe, 0, 1, 1, 5),
+			new WeightedRandomChestContent(Items.stone_pickaxe, 0, 1, 1, 3),
+			new WeightedRandomChestContent(Items.wooden_pickaxe, 0, 1, 1, 5),
+			new WeightedRandomChestContent(Items.apple, 0, 2, 3, 5),
+			new WeightedRandomChestContent(Items.bread, 0, 2, 3, 3),
+			new WeightedRandomChestContent(Item.getItemFromBlock(Blocks.log2), 0, 1, 3, 10));
 	private final List<NextTickListEntry> pendingTickListEntriesThisTick = Lists.newArrayList();
 
 	public WorldServer(MinecraftServer server, ISaveHandler saveHandlerIn, WorldInfo info, int dimensionId,
@@ -216,9 +216,7 @@ public class WorldServer extends World implements IThreadListener {
 
 	public BiomeGenBase.SpawnListEntry getSpawnListEntryForTypeAt(EnumCreatureType creatureType, BlockPos pos) {
 		List<BiomeGenBase.SpawnListEntry> list = this.getChunkProvider().getPossibleCreatures(creatureType, pos);
-		return list != null && !list.isEmpty()
-				? WeightedRandom.getRandomItem(this.rand, list)
-				: null;
+		return list != null && !list.isEmpty() ? WeightedRandom.getRandomItem(this.rand, list) : null;
 	}
 
 	public boolean canCreatureTypeSpawnHere(EnumCreatureType creatureType, BiomeGenBase.SpawnListEntry spawnListEntry,
@@ -331,8 +329,8 @@ public class WorldServer extends World implements IThreadListener {
 							.adjustPosToNearbyEntity(new BlockPos(k + (i1 & 15), 0, l + (i1 >> 8 & 15)));
 
 					if (this.isRainingAt(blockpos)) {
-						this.addWeatherEffect(new EntityLightningBolt(this, blockpos.getX(),
-                                blockpos.getY(), blockpos.getZ()));
+						this.addWeatherEffect(
+								new EntityLightningBolt(this, blockpos.getX(), blockpos.getY(), blockpos.getZ()));
 					}
 				}
 
@@ -496,8 +494,7 @@ public class WorldServer extends World implements IThreadListener {
 				this.theProfiler.startSection("cleaning");
 
 				for (int j = 0; j < i; ++j) {
-					NextTickListEntry nextticklistentry = this.pendingTickListEntriesTreeSet
-							.first();
+					NextTickListEntry nextticklistentry = this.pendingTickListEntriesTreeSet.first();
 
 					if (!p_72955_1_ && nextticklistentry.scheduledTime > this.worldInfo.getWorldTotalTime()) {
 						break;
@@ -654,7 +651,7 @@ public class WorldServer extends World implements IThreadListener {
 				try {
 					this.addWorldInfoToCrashReport(crashreport);
 				} catch (Throwable var5) {
-                }
+				}
 
 				throw new ReportedException(crashreport);
 			}
@@ -836,7 +833,7 @@ public class WorldServer extends World implements IThreadListener {
 			if (entityplayer.getDistanceSq(x, y, z) < 4096.0D) {
 				((EntityPlayerMP) entityplayer).playerNetServerHandler
 						.sendPacket(new S27PacketExplosion(x, y, z, strength, explosion.getAffectedBlockPositions(),
-                                explosion.getPlayerKnockbackMap().get(entityplayer)));
+								explosion.getPlayerKnockbackMap().get(entityplayer)));
 			}
 		}
 
@@ -863,8 +860,8 @@ public class WorldServer extends World implements IThreadListener {
 			for (BlockEventData blockeventdata : this.blockEventQueue[i]) {
 				if (this.fireBlockEvent(blockeventdata)) {
 					this.mcServer.getConfigurationManager().sendToAllNear(blockeventdata.getPosition().getX(),
-                            blockeventdata.getPosition().getY(), blockeventdata.getPosition().getZ(),
-							64.0D, this.provider.getDimensionId(),
+							blockeventdata.getPosition().getY(), blockeventdata.getPosition().getZ(), 64.0D,
+							this.provider.getDimensionId(),
 							new S24PacketBlockAction(blockeventdata.getPosition(), blockeventdata.getBlock(),
 									blockeventdata.getEventID(), blockeventdata.getEventParameter()));
 				}
@@ -877,7 +874,7 @@ public class WorldServer extends World implements IThreadListener {
 	private boolean fireBlockEvent(BlockEventData event) {
 		IBlockState iblockstate = this.getBlockState(event.getPosition());
 		return iblockstate.getBlock() == event.getBlock() && iblockstate.getBlock().onBlockEventReceived(this,
-                event.getPosition(), iblockstate, event.getEventID(), event.getEventParameter());
+				event.getPosition(), iblockstate, event.getEventID(), event.getEventParameter());
 	}
 
 	public void flush() {

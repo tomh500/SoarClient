@@ -12,8 +12,7 @@ import com.google.common.collect.Sets;
 public class ModifiableAttributeInstance implements IAttributeInstance {
 	private final BaseAttributeMap attributeMap;
 	private final IAttribute genericAttribute;
-	private final Map<Integer, Set<AttributeModifier>> mapByOperation = Maps
-			.newHashMap();
+	private final Map<Integer, Set<AttributeModifier>> mapByOperation = Maps.newHashMap();
 	private final Map<String, Set<AttributeModifier>> mapByName = Maps.newHashMap();
 	private final Map<UUID, AttributeModifier> mapByUUID = Maps.newHashMap();
 	private double baseValue;

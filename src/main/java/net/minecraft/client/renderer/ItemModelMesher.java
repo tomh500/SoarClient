@@ -85,8 +85,7 @@ public class ItemModelMesher {
 		this.simpleShapesCache.clear();
 
 		for (Entry<Integer, ModelResourceLocation> entry : this.simpleShapes.entrySet()) {
-			this.simpleShapesCache.put(entry.getKey(),
-					this.modelManager.getModel(entry.getValue()));
+			this.simpleShapesCache.put(entry.getKey(), this.modelManager.getModel(entry.getValue()));
 		}
 	}
 }

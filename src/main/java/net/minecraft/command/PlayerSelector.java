@@ -40,8 +40,7 @@ public class PlayerSelector {
 	private static final Pattern tokenPattern = Pattern.compile("^@([pare])(?:\\[([\\w=,!-]*)\\])?$");
 	private static final Pattern intListPattern = Pattern.compile("\\G([-!]?[\\w-]*)(?:$|,)");
 	private static final Pattern keyValueListPattern = Pattern.compile("\\G(\\w+)=([-!]?[\\w-]*)(?:$|,)");
-	private static final Set<String> WORLD_BINDING_ARGS = Sets
-			.newHashSet("x", "y", "z", "dx", "dy", "dz", "rm", "r");
+	private static final Set<String> WORLD_BINDING_ARGS = Sets.newHashSet("x", "y", "z", "dx", "dy", "dz", "rm", "r");
 
 	public static EntityPlayerMP matchOnePlayer(ICommandSender sender, String token) {
 		return matchOneEntity(sender, token, EntityPlayerMP.class);
@@ -177,7 +176,7 @@ public class PlayerSelector {
 					if (!(p_apply_1_ instanceof EntityPlayerMP entityplayermp)) {
 						return false;
 					} else {
-                        return (i <= -1 || entityplayermp.experienceLevel >= i)
+						return (i <= -1 || entityplayermp.experienceLevel >= i)
 								&& (j <= -1 || entityplayermp.experienceLevel <= j);
 					}
 				}
@@ -197,7 +196,7 @@ public class PlayerSelector {
 					if (!(p_apply_1_ instanceof EntityPlayerMP entityplayermp)) {
 						return false;
 					} else {
-                        return entityplayermp.theItemInWorldManager.getGameType().getID() == i;
+						return entityplayermp.theItemInWorldManager.getGameType().getID() == i;
 					}
 				}
 			});
@@ -222,7 +221,7 @@ public class PlayerSelector {
 					if (!(p_apply_1_ instanceof EntityLivingBase entitylivingbase)) {
 						return false;
 					} else {
-                        Team team = entitylivingbase.getTeam();
+						Team team = entitylivingbase.getTeam();
 						String s1 = team == null ? "" : team.getRegisteredName();
 						return s1.equals(s_f) != flag;
 					}
@@ -373,10 +372,9 @@ public class PlayerSelector {
 
 			if (!params.containsKey("dx") && !params.containsKey("dy") && !params.containsKey("dz")) {
 				if (l >= 0) {
-					AxisAlignedBB axisalignedbb1 = new AxisAlignedBB(position.getX() - l,
-                            position.getY() - l, position.getZ() - l,
-                            position.getX() + l + 1, position.getY() + l + 1,
-                            position.getZ() + l + 1);
+					AxisAlignedBB axisalignedbb1 = new AxisAlignedBB(position.getX() - l, position.getY() - l,
+							position.getZ() - l, position.getX() + l + 1, position.getY() + l + 1,
+							position.getZ() + l + 1);
 
 					if (flag && flag2 && !flag1) {
 						list.addAll(worldIn.<T>getPlayers(entityClass, predicate1));
@@ -397,9 +395,8 @@ public class PlayerSelector {
 					Predicate<Entity> predicate2 = new Predicate<Entity>() {
 						public boolean apply(Entity p_apply_1_) {
 							return p_apply_1_.posX >= axisalignedbb.minX && p_apply_1_.posY >= axisalignedbb.minY
-                                    && p_apply_1_.posZ >= axisalignedbb.minZ && p_apply_1_.posX < axisalignedbb.maxX
-                                    && p_apply_1_.posY < axisalignedbb.maxY
-                                    && p_apply_1_.posZ < axisalignedbb.maxZ;
+									&& p_apply_1_.posZ >= axisalignedbb.minZ && p_apply_1_.posX < axisalignedbb.maxX
+									&& p_apply_1_.posY < axisalignedbb.maxY && p_apply_1_.posZ < axisalignedbb.maxZ;
 						}
 					};
 					list.addAll(worldIn.<T>getPlayers(entityClass, Predicates.and(predicate1, predicate2)));
@@ -439,8 +436,8 @@ public class PlayerSelector {
 
 		Entity entity = p_179658_2_.getCommandSenderEntity();
 
-		if (entity != null && p_179658_3_.isAssignableFrom(entity.getClass()) && i == 1
-				&& p_179658_0_.contains(entity) && !"r".equals(p_179658_4_)) {
+		if (entity != null && p_179658_3_.isAssignableFrom(entity.getClass()) && i == 1 && p_179658_0_.contains(entity)
+				&& !"r".equals(p_179658_4_)) {
 			p_179658_0_ = Lists.newArrayList((T) entity);
 		}
 

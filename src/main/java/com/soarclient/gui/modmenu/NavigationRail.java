@@ -123,7 +123,7 @@ public class NavigationRail extends Component {
 		float selHeight = 32;
 
 		for (Navigation n : navigations) {
-			
+
 			if (MouseUtils.isInside(mouseX, mouseY, x + (width / 2) - (selWidth / 2), y + offsetY, selWidth, selHeight)
 					&& mouseButton == 0 && !currentNavigation.equals(n)) {
 				n.pressed = true;
@@ -137,7 +137,7 @@ public class NavigationRail extends Component {
 	public void mouseReleased(int mouseX, int mouseY, int mouseButton) {
 
 		editButton.mouseReleased(mouseX, mouseY, mouseButton);
-		
+
 		float offsetY = 140;
 		float selWidth = 56;
 		float selHeight = 32;

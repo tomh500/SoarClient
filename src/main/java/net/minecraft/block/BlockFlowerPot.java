@@ -27,8 +27,8 @@ import net.minecraft.world.World;
 
 public class BlockFlowerPot extends BlockContainer {
 	public static final PropertyInteger LEGACY_DATA = PropertyInteger.create("legacy_data", 0, 15);
-	public static final PropertyEnum<BlockFlowerPot.EnumFlowerType> CONTENTS = PropertyEnum.create(
-			"contents", BlockFlowerPot.EnumFlowerType.class);
+	public static final PropertyEnum<BlockFlowerPot.EnumFlowerType> CONTENTS = PropertyEnum.create("contents",
+			BlockFlowerPot.EnumFlowerType.class);
 
 	public BlockFlowerPot() {
 		super(Material.circuits);
@@ -109,8 +109,9 @@ public class BlockFlowerPot extends BlockContainer {
 
 	private boolean canNotContain(Block blockIn, int meta) {
 		return blockIn == Blocks.yellow_flower || blockIn == Blocks.red_flower || blockIn == Blocks.cactus
-                || blockIn == Blocks.brown_mushroom || blockIn == Blocks.red_mushroom || blockIn == Blocks.sapling
-                || blockIn == Blocks.deadbush || blockIn == Blocks.tallgrass && meta == BlockTallGrass.EnumType.FERN.getMeta();
+				|| blockIn == Blocks.brown_mushroom || blockIn == Blocks.red_mushroom || blockIn == Blocks.sapling
+				|| blockIn == Blocks.deadbush
+				|| blockIn == Blocks.tallgrass && meta == BlockTallGrass.EnumType.FERN.getMeta();
 	}
 
 	public Item getItem(World worldIn, BlockPos pos) {
@@ -255,7 +256,7 @@ public class BlockFlowerPot extends BlockContainer {
 		TileEntity tileentity = worldIn.getTileEntity(pos);
 
 		if (tileentity instanceof TileEntityFlowerPot tileentityflowerpot) {
-            Item item = tileentityflowerpot.getFlowerPotItem();
+			Item item = tileentityflowerpot.getFlowerPotItem();
 
 			if (item instanceof ItemBlock) {
 				int i = tileentityflowerpot.getFlowerPotData();

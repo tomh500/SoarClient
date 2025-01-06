@@ -28,14 +28,14 @@ import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
 public class BlockRedstoneWire extends Block {
-	public static final PropertyEnum<BlockRedstoneWire.EnumAttachPosition> NORTH = PropertyEnum.create(
-			"north", BlockRedstoneWire.EnumAttachPosition.class);
-	public static final PropertyEnum<BlockRedstoneWire.EnumAttachPosition> EAST = PropertyEnum.create(
-			"east", BlockRedstoneWire.EnumAttachPosition.class);
-	public static final PropertyEnum<BlockRedstoneWire.EnumAttachPosition> SOUTH = PropertyEnum.create(
-			"south", BlockRedstoneWire.EnumAttachPosition.class);
-	public static final PropertyEnum<BlockRedstoneWire.EnumAttachPosition> WEST = PropertyEnum.create(
-			"west", BlockRedstoneWire.EnumAttachPosition.class);
+	public static final PropertyEnum<BlockRedstoneWire.EnumAttachPosition> NORTH = PropertyEnum.create("north",
+			BlockRedstoneWire.EnumAttachPosition.class);
+	public static final PropertyEnum<BlockRedstoneWire.EnumAttachPosition> EAST = PropertyEnum.create("east",
+			BlockRedstoneWire.EnumAttachPosition.class);
+	public static final PropertyEnum<BlockRedstoneWire.EnumAttachPosition> SOUTH = PropertyEnum.create("south",
+			BlockRedstoneWire.EnumAttachPosition.class);
+	public static final PropertyEnum<BlockRedstoneWire.EnumAttachPosition> WEST = PropertyEnum.create("west",
+			BlockRedstoneWire.EnumAttachPosition.class);
 	public static final PropertyInteger POWER = PropertyInteger.create("power", 0, 15);
 	private boolean canProvidePower = true;
 	private final Set<BlockPos> blocksNeedingUpdate = Sets.newHashSet();
@@ -298,7 +298,9 @@ public class BlockRedstoneWire extends Block {
 		Block block = iblockstate.getBlock();
 		boolean flag = block.isNormalCube();
 		boolean flag1 = worldIn.getBlockState(pos.up()).getBlock().isNormalCube();
-		return !flag1 && flag && canConnectUpwardsTo(worldIn, blockpos.up()) || (canConnectTo(iblockstate, side) || (block == Blocks.powered_repeater && iblockstate.getValue(BlockRedstoneDiode.FACING) == side || !flag && canConnectUpwardsTo(worldIn, blockpos.down())));
+		return !flag1 && flag && canConnectUpwardsTo(worldIn, blockpos.up()) || (canConnectTo(iblockstate, side)
+				|| (block == Blocks.powered_repeater && iblockstate.getValue(BlockRedstoneDiode.FACING) == side
+						|| !flag && canConnectUpwardsTo(worldIn, blockpos.down())));
 	}
 
 	protected static boolean canConnectUpwardsTo(IBlockAccess worldIn, BlockPos pos) {
@@ -362,8 +364,7 @@ public class BlockRedstoneWire extends Block {
 			float f1 = f * 0.6F + 0.4F;
 			float f2 = Math.max(0.0F, f * f * 0.7F - 0.5F);
 			float f3 = Math.max(0.0F, f * f * 0.6F - 0.7F);
-			worldIn.spawnParticle(EnumParticleTypes.REDSTONE, d0, d1, d2, f1, f2, f3
-            );
+			worldIn.spawnParticle(EnumParticleTypes.REDSTONE, d0, d1, d2, f1, f2, f3);
 		}
 	}
 

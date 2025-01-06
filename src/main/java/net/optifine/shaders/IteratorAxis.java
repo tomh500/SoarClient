@@ -69,7 +69,7 @@ public class IteratorAxis implements Iterator<BlockPos> {
 				++this.xNext;
 
 				if (this.xNext >= this.xEnd) {
-                }
+				}
 			}
 		}
 	}

@@ -185,7 +185,7 @@ public class IntHashMap<V> {
 					Object object2 = this.getValue();
 					Object object3 = entry.getValue();
 
-                    return Objects.equals(object2, object3);
+					return Objects.equals(object2, object3);
 				}
 
 				return false;

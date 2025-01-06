@@ -178,7 +178,8 @@ public final class ItemStack {
 	}
 
 	public boolean isItemStackDamageable() {
-		return this.item != null && (this.item.getMaxDamage() > 0 && (!this.hasTagCompound() || !this.getTagCompound().getBoolean("Unbreakable")));
+		return this.item != null && (this.item.getMaxDamage() > 0
+				&& (!this.hasTagCompound() || !this.getTagCompound().getBoolean("Unbreakable")));
 	}
 
 	public boolean getHasSubtypes() {
@@ -243,7 +244,7 @@ public final class ItemStack {
 					--this.stackSize;
 
 					if (entityIn instanceof EntityPlayer entityplayer) {
-                        entityplayer.triggerAchievement(StatList.objectBreakStats[Item.getIdFromItem(this.item)]);
+						entityplayer.triggerAchievement(StatList.objectBreakStats[Item.getIdFromItem(this.item)]);
 
 						if (this.stackSize == 0 && this.getItem() instanceof ItemBow) {
 							entityplayer.destroyCurrentEquippedItem();
@@ -295,18 +296,21 @@ public final class ItemStack {
 	}
 
 	public static boolean areItemStackTagsEqual(ItemStack stackA, ItemStack stackB) {
-		return stackA == null
-                && stackB == null || (stackA != null && stackB != null && ((stackA.stackTagCompound != null || stackB.stackTagCompound == null) && (stackA.stackTagCompound == null
-                || stackA.stackTagCompound.equals(stackB.stackTagCompound))));
+		return stackA == null && stackB == null || (stackA != null && stackB != null
+				&& ((stackA.stackTagCompound != null || stackB.stackTagCompound == null)
+						&& (stackA.stackTagCompound == null
+								|| stackA.stackTagCompound.equals(stackB.stackTagCompound))));
 	}
 
 	public static boolean areItemStacksEqual(ItemStack stackA, ItemStack stackB) {
-		return stackA == null && stackB == null || (stackA != null && stackB != null && stackA.isItemStackEqual(stackB));
+		return stackA == null && stackB == null
+				|| (stackA != null && stackB != null && stackA.isItemStackEqual(stackB));
 	}
 
 	private boolean isItemStackEqual(ItemStack other) {
-		return this.stackSize == other.stackSize && (this.item == other.item && (this.itemDamage == other.itemDamage && ((this.stackTagCompound != null || other.stackTagCompound == null) && (this.stackTagCompound == null
-                || this.stackTagCompound.equals(other.stackTagCompound)))));
+		return this.stackSize == other.stackSize && (this.item == other.item && (this.itemDamage == other.itemDamage
+				&& ((this.stackTagCompound != null || other.stackTagCompound == null)
+						&& (this.stackTagCompound == null || this.stackTagCompound.equals(other.stackTagCompound)))));
 	}
 
 	public static boolean areItemsEqual(ItemStack stackA, ItemStack stackB) {
@@ -431,7 +435,8 @@ public final class ItemStack {
 	}
 
 	public boolean hasDisplayName() {
-		return this.stackTagCompound != null && (this.stackTagCompound.hasKey("display", 10) && this.stackTagCompound.getCompoundTag("display").hasKey("Name", 8));
+		return this.stackTagCompound != null && (this.stackTagCompound.hasKey("display", 10)
+				&& this.stackTagCompound.getCompoundTag("display").hasKey("Name", 8));
 	}
 
 	public List<String> getTooltip(EntityPlayer playerIn, boolean advanced) {
@@ -455,8 +460,7 @@ public final class ItemStack {
 			int i = Item.getIdFromItem(this.item);
 
 			if (this.getHasSubtypes()) {
-				s = s + String.format("#%04d/%d%s",
-                        Integer.valueOf(i), Integer.valueOf(this.itemDamage), s1);
+				s = s + String.format("#%04d/%d%s", Integer.valueOf(i), Integer.valueOf(this.itemDamage), s1);
 			} else {
 				s = s + String.format("#%04d%s", Integer.valueOf(i), s1);
 			}
@@ -598,8 +602,7 @@ public final class ItemStack {
 				list.add("Durability: " + (this.getMaxDamage() - this.getItemDamage()) + " / " + this.getMaxDamage());
 			}
 
-			list.add(EnumChatFormatting.DARK_GRAY
-					+ Item.itemRegistry.getNameForObject(this.item).toString());
+			list.add(EnumChatFormatting.DARK_GRAY + Item.itemRegistry.getNameForObject(this.item).toString());
 
 			if (this.hasTagCompound()) {
 				list.add(EnumChatFormatting.DARK_GRAY + "NBT: " + this.getTagCompound().getKeySet().size() + " tag(s)");

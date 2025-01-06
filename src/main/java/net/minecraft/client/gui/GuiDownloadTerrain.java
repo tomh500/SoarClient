@@ -39,8 +39,8 @@ public class GuiDownloadTerrain extends GuiScreen {
 			this.drawBackground(0);
 		}
 
-		this.drawCenteredString(this.fontRendererObj, I18n.format("multiplayer.downloadingTerrain"),
-				this.width / 2, this.height / 2 - 50, 16777215);
+		this.drawCenteredString(this.fontRendererObj, I18n.format("multiplayer.downloadingTerrain"), this.width / 2,
+				this.height / 2 - 50, 16777215);
 		super.drawScreen(mouseX, mouseY, partialTicks);
 	}
 

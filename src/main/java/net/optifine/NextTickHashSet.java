@@ -23,14 +23,14 @@ public class NextTickHashSet extends TreeSet {
 	private static final int UNDEFINED = Integer.MIN_VALUE;
 
 	public NextTickHashSet(Set oldSet) {
-        this.addAll(oldSet);
+		this.addAll(oldSet);
 	}
 
 	public boolean contains(Object obj) {
 		if (!(obj instanceof NextTickListEntry nextticklistentry)) {
 			return false;
 		} else {
-            Set set = this.getSubSet(nextticklistentry, false);
+			Set set = this.getSubSet(nextticklistentry, false);
 			return set != null && set.contains(nextticklistentry);
 		}
 	}
@@ -40,7 +40,7 @@ public class NextTickHashSet extends TreeSet {
 			return false;
 		} else {
 
-            if (nextticklistentry == null) {
+			if (nextticklistentry == null) {
 				return false;
 			} else {
 				Set set = this.getSubSet(nextticklistentry, true);
@@ -60,7 +60,7 @@ public class NextTickHashSet extends TreeSet {
 		if (!(obj instanceof NextTickListEntry nextticklistentry)) {
 			return false;
 		} else {
-            Set set = this.getSubSet(nextticklistentry, false);
+			Set set = this.getSubSet(nextticklistentry, false);
 
 			if (set == null) {
 				return false;

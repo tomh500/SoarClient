@@ -31,7 +31,7 @@ public class TooltipProviderOptions implements TooltipProvider {
 		if (!(btn instanceof IOptionControl ioptioncontrol)) {
 			return null;
 		} else {
-            GameSettings.Options gamesettings$options = ioptioncontrol.getOption();
+			GameSettings.Options gamesettings$options = ioptioncontrol.getOption();
 			String[] astring = getTooltipLines(gamesettings$options.getEnumString());
 			return astring;
 		}

@@ -294,8 +294,7 @@ public class GuiContainerCreative extends InventoryEffectRenderer {
 
 		if (creativetabs.drawInForegroundOfTab()) {
 			GlStateManager.disableBlend();
-			this.fontRendererObj.drawString(I18n.format(creativetabs.getTranslatedTabLabel()), 8, 6,
-					4210752);
+			this.fontRendererObj.drawString(I18n.format(creativetabs.getTranslatedTabLabel()), 8, 6, 4210752);
 		}
 	}
 
@@ -478,8 +477,7 @@ public class GuiContainerCreative extends InventoryEffectRenderer {
 				Map<Integer, Integer> map = EnchantmentHelper.getEnchantments(stack);
 
 				if (map.size() == 1) {
-					Enchantment enchantment = Enchantment
-							.getEnchantmentById(map.keySet().iterator().next().intValue());
+					Enchantment enchantment = Enchantment.getEnchantmentById(map.keySet().iterator().next().intValue());
 
 					for (CreativeTabs creativetabs1 : CreativeTabs.creativeTabArray) {
 						if (creativetabs1.hasRelevantEnchantmentType(enchantment.type)) {
@@ -583,8 +581,8 @@ public class GuiContainerCreative extends InventoryEffectRenderer {
 		}
 
 		if (this.isPointInRegion(j + 3, k + 3, 23, 27, p_147052_2_, p_147052_3_)) {
-			this.drawCreativeTabHoveringText(I18n.format(p_147052_1_.getTranslatedTabLabel()),
-					p_147052_2_, p_147052_3_);
+			this.drawCreativeTabHoveringText(I18n.format(p_147052_1_.getTranslatedTabLabel()), p_147052_2_,
+					p_147052_3_);
 			return true;
 		} else {
 			return false;
@@ -685,8 +683,7 @@ public class GuiContainerCreative extends InventoryEffectRenderer {
 					int i1 = l + (k + j) * 9;
 
 					if (i1 >= 0 && i1 < this.itemList.size()) {
-						GuiContainerCreative.field_147060_v.setInventorySlotContents(l + k * 9,
-                                this.itemList.get(i1));
+						GuiContainerCreative.field_147060_v.setInventorySlotContents(l + k * 9, this.itemList.get(i1));
 					} else {
 						GuiContainerCreative.field_147060_v.setInventorySlotContents(l + k * 9, null);
 					}

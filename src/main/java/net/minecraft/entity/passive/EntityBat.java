@@ -112,8 +112,7 @@ public class EntityBat extends EntityAmbientCreature {
 			}
 
 			if (this.spawnPosition == null || this.rand.nextInt(30) == 0
-					|| this.spawnPosition.distanceSq((int) this.posX, (int) this.posY,
-                    (int) this.posZ) < 4.0D) {
+					|| this.spawnPosition.distanceSq((int) this.posX, (int) this.posY, (int) this.posZ) < 4.0D) {
 				this.spawnPosition = new BlockPos((int) this.posX + this.rand.nextInt(7) - this.rand.nextInt(7),
 						(int) this.posY + this.rand.nextInt(6) - 2,
 						(int) this.posZ + this.rand.nextInt(7) - this.rand.nextInt(7));

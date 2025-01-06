@@ -23,8 +23,8 @@ import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
 public class BlockRailDetector extends BlockRailBase {
-	public static final PropertyEnum<BlockRailBase.EnumRailDirection> SHAPE = PropertyEnum.create(
-			"shape", BlockRailBase.EnumRailDirection.class, new Predicate<BlockRailBase.EnumRailDirection>() {
+	public static final PropertyEnum<BlockRailBase.EnumRailDirection> SHAPE = PropertyEnum.create("shape",
+			BlockRailBase.EnumRailDirection.class, new Predicate<BlockRailBase.EnumRailDirection>() {
 				public boolean apply(BlockRailBase.EnumRailDirection p_apply_1_) {
 					return p_apply_1_ != BlockRailBase.EnumRailDirection.NORTH_EAST
 							&& p_apply_1_ != BlockRailBase.EnumRailDirection.NORTH_WEST
@@ -77,8 +77,7 @@ public class BlockRailDetector extends BlockRailBase {
 	private void updatePoweredState(World worldIn, BlockPos pos, IBlockState state) {
 		boolean flag = state.getValue(POWERED).booleanValue();
 		boolean flag1 = false;
-		List<EntityMinecart> list = this.findMinecarts(worldIn, pos, EntityMinecart.class
-        );
+		List<EntityMinecart> list = this.findMinecarts(worldIn, pos, EntityMinecart.class);
 
 		if (!list.isEmpty()) {
 			flag1 = true;
@@ -120,15 +119,14 @@ public class BlockRailDetector extends BlockRailBase {
 
 	public int getComparatorInputOverride(World worldIn, BlockPos pos) {
 		if (worldIn.getBlockState(pos).getValue(POWERED).booleanValue()) {
-			List<EntityMinecartCommandBlock> list = this.findMinecarts(worldIn, pos,
-					EntityMinecartCommandBlock.class);
+			List<EntityMinecartCommandBlock> list = this.findMinecarts(worldIn, pos, EntityMinecartCommandBlock.class);
 
 			if (!list.isEmpty()) {
 				return list.get(0).getCommandBlockLogic().getSuccessCount();
 			}
 
 			List<EntityMinecart> list1 = this.findMinecarts(worldIn, pos, EntityMinecart.class,
-                    EntitySelectors.selectInventories);
+					EntitySelectors.selectInventories);
 
 			if (!list1.isEmpty()) {
 				return Container.calcRedstoneFromInventory((IInventory) list1.get(0));
@@ -147,9 +145,8 @@ public class BlockRailDetector extends BlockRailBase {
 
 	private AxisAlignedBB getDectectionBox(BlockPos pos) {
 		float f = 0.2F;
-		return new AxisAlignedBB((float) pos.getX() + 0.2F, pos.getY(),
-                (float) pos.getZ() + 0.2F, (float) (pos.getX() + 1) - 0.2F,
-                (float) (pos.getY() + 1) - 0.2F, (float) (pos.getZ() + 1) - 0.2F);
+		return new AxisAlignedBB((float) pos.getX() + 0.2F, pos.getY(), (float) pos.getZ() + 0.2F,
+				(float) (pos.getX() + 1) - 0.2F, (float) (pos.getY() + 1) - 0.2F, (float) (pos.getZ() + 1) - 0.2F);
 	}
 
 	public IBlockState getStateFromMeta(int meta) {

@@ -91,8 +91,7 @@ public class Profiler {
 							+ (double) k / 1000000.0D + " ms");
 				}
 
-				this.profilingSection = !this.sectionList.isEmpty()
-						? this.sectionList.get(this.sectionList.size() - 1)
+				this.profilingSection = !this.sectionList.isEmpty() ? this.sectionList.get(this.sectionList.size() - 1)
 						: "";
 			}
 		}
@@ -103,8 +102,7 @@ public class Profiler {
 			return null;
 		} else {
 			long i = this.profilingMap.containsKey("root") ? this.profilingMap.get("root").longValue() : 0L;
-			long j = this.profilingMap.containsKey(profilerName)
-					? this.profilingMap.get(profilerName).longValue()
+			long j = this.profilingMap.containsKey(profilerName) ? this.profilingMap.get(profilerName).longValue()
 					: -1L;
 			List<Profiler.Result> list = Lists.newArrayList();
 

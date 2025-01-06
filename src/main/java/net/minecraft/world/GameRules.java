@@ -121,12 +121,12 @@ public class GameRules {
 			try {
 				this.valueInteger = Integer.parseInt(value);
 			} catch (NumberFormatException var4) {
-            }
+			}
 
 			try {
 				this.valueDouble = Double.parseDouble(value);
 			} catch (NumberFormatException var3) {
-            }
+			}
 		}
 
 		public String getString() {
@@ -148,5 +148,5 @@ public class GameRules {
 
 	public enum ValueType {
 		ANY_VALUE, BOOLEAN_VALUE, NUMERICAL_VALUE
-    }
+	}
 }

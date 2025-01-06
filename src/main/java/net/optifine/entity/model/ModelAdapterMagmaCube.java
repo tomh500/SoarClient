@@ -23,7 +23,7 @@ public class ModelAdapterMagmaCube extends ModelAdapter {
 			return null;
 		} else {
 
-            if (modelPart.equals("core")) {
+			if (modelPart.equals("core")) {
 				return modelmagmacube.core;
 			} else {
 				String s = "segment";

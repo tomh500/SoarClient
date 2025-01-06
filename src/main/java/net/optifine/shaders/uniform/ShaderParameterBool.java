@@ -35,7 +35,7 @@ public enum ShaderParameterBool implements IExpressionBool {
 
 		if (entity instanceof EntityLivingBase entitylivingbase) {
 
-            switch (this) {
+			switch (this) {
 			case IS_ALIVE:
 				return entitylivingbase.isEntityAlive();
 

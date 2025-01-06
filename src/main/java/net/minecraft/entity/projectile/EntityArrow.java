@@ -222,8 +222,7 @@ public class EntityArrow extends Entity implements IProjectile {
 
 				if (entity1.canBeCollidedWith() && (entity1 != this.shootingEntity || this.ticksInAir >= 5)) {
 					float f1 = 0.3F;
-					AxisAlignedBB axisalignedbb1 = entity1.getEntityBoundingBox().expand(f1, f1,
-                            f1);
+					AxisAlignedBB axisalignedbb1 = entity1.getEntityBoundingBox().expand(f1, f1, f1);
 					MovingObjectPosition movingobjectposition1 = axisalignedbb1.calculateIntercept(vec31, vec3);
 
 					if (movingobjectposition1 != null) {
@@ -244,7 +243,7 @@ public class EntityArrow extends Entity implements IProjectile {
 			if (movingobjectposition != null && movingobjectposition.entityHit != null
 					&& movingobjectposition.entityHit instanceof EntityPlayer entityplayer) {
 
-                if (entityplayer.capabilities.disableDamage || this.shootingEntity instanceof EntityPlayer
+				if (entityplayer.capabilities.disableDamage || this.shootingEntity instanceof EntityPlayer
 						&& !((EntityPlayer) this.shootingEntity).canAttackPlayer(entityplayer)) {
 					movingobjectposition = null;
 				}
@@ -275,7 +274,7 @@ public class EntityArrow extends Entity implements IProjectile {
 					if (movingobjectposition.entityHit.attackEntityFrom(damagesource, (float) l)) {
 						if (movingobjectposition.entityHit instanceof EntityLivingBase entitylivingbase) {
 
-                            if (!this.worldObj.isRemote) {
+							if (!this.worldObj.isRemote) {
 								entitylivingbase.setArrowCountInEntity(entitylivingbase.getArrowCountInEntity() + 1);
 							}
 
@@ -363,7 +362,7 @@ public class EntityArrow extends Entity implements IProjectile {
 			for (this.rotationPitch = (float) (MathHelper.atan2(this.motionY, f3) * 180.0D
 					/ Math.PI); this.rotationPitch
 							- this.prevRotationPitch < -180.0F; this.prevRotationPitch -= 360.0F) {
-            }
+			}
 
 			while (this.rotationPitch - this.prevRotationPitch >= 180.0F) {
 				this.prevRotationPitch += 360.0F;

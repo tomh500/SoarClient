@@ -39,7 +39,7 @@ public class BlockDropper extends BlockDispenser {
 					EnumFacing enumfacing = worldIn.getBlockState(pos).getValue(FACING);
 					BlockPos blockpos = pos.offset(enumfacing);
 					IInventory iinventory = TileEntityHopper.getInventoryAtPosition(worldIn, blockpos.getX(),
-                            blockpos.getY(), blockpos.getZ());
+							blockpos.getY(), blockpos.getZ());
 					ItemStack itemstack1;
 
 					if (iinventory == null) {

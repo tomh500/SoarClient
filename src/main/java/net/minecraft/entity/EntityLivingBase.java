@@ -162,8 +162,7 @@ public abstract class EntityLivingBase extends Entity {
 
 				int i = (int) (150.0D * d0);
 				((WorldServer) this.worldObj).spawnParticle(EnumParticleTypes.BLOCK_DUST, this.posX, this.posY,
-						this.posZ, i, 0.0D, 0.0D, 0.0D, 0.15000000596046448D,
-                        Block.getStateId(iblockstate));
+						this.posZ, i, 0.0D, 0.0D, 0.0D, 0.15000000596046448D, Block.getStateId(iblockstate));
 			}
 		}
 
@@ -542,10 +541,9 @@ public abstract class EntityLivingBase extends Entity {
 	public void addPotionEffect(PotionEffect potioneffectIn) {
 		if (this.isPotionApplicable(potioneffectIn)) {
 			if (this.activePotionsMap.containsKey(Integer.valueOf(potioneffectIn.getPotionID()))) {
-				this.activePotionsMap.get(Integer.valueOf(potioneffectIn.getPotionID()))
-						.combine(potioneffectIn);
-				this.onChangedPotionEffect(
-                        this.activePotionsMap.get(Integer.valueOf(potioneffectIn.getPotionID())), true);
+				this.activePotionsMap.get(Integer.valueOf(potioneffectIn.getPotionID())).combine(potioneffectIn);
+				this.onChangedPotionEffect(this.activePotionsMap.get(Integer.valueOf(potioneffectIn.getPotionID())),
+						true);
 			} else {
 				this.activePotionsMap.put(Integer.valueOf(potioneffectIn.getPotionID()), potioneffectIn);
 				this.onNewPotionEffect(potioneffectIn);
@@ -557,7 +555,7 @@ public abstract class EntityLivingBase extends Entity {
 		if (this.getCreatureAttribute() == EnumCreatureAttribute.UNDEAD) {
 			int i = potioneffectIn.getPotionID();
 
-            return i != Potion.regeneration.id && i != Potion.poison.id;
+			return i != Potion.regeneration.id && i != Potion.poison.id;
 		}
 
 		return true;
@@ -675,7 +673,7 @@ public abstract class EntityLivingBase extends Entity {
 						this.attackingPlayer = (EntityPlayer) entity;
 					} else if (entity instanceof EntityWolf entitywolf) {
 
-                        if (entitywolf.isTamed()) {
+						if (entitywolf.isTamed()) {
 							this.recentlyHit = 100;
 							this.attackingPlayer = null;
 						}

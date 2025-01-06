@@ -24,8 +24,8 @@ public class EntityAIPlay extends EntityAIBase {
 		} else if (this.villagerObj.getRNG().nextInt(400) != 0) {
 			return false;
 		} else {
-			List<EntityVillager> list = this.villagerObj.worldObj.getEntitiesWithinAABB(
-					EntityVillager.class, this.villagerObj.getEntityBoundingBox().expand(6.0D, 3.0D, 6.0D));
+			List<EntityVillager> list = this.villagerObj.worldObj.getEntitiesWithinAABB(EntityVillager.class,
+					this.villagerObj.getEntityBoundingBox().expand(6.0D, 3.0D, 6.0D));
 			double d0 = Double.MAX_VALUE;
 
 			for (EntityVillager entityvillager : list) {
@@ -43,7 +43,7 @@ public class EntityAIPlay extends EntityAIBase {
 			if (this.targetVillager == null) {
 				Vec3 vec3 = RandomPositionGenerator.findRandomTarget(this.villagerObj, 16, 3);
 
-                return vec3 != null;
+				return vec3 != null;
 			}
 
 			return true;

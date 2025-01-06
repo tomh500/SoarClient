@@ -104,9 +104,9 @@ public class ChunkCompileTaskGenerator {
 
 	public enum Status {
 		PENDING, COMPILING, UPLOADING, DONE
-    }
+	}
 
 	public enum Type {
 		REBUILD_CHUNK, RESORT_TRANSPARENCY
-    }
+	}
 }

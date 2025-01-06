@@ -21,7 +21,7 @@ public class ModelAdapterBanner extends ModelAdapter {
 		if (!(model instanceof ModelBanner modelbanner)) {
 			return null;
 		} else {
-            return modelPart.equals("slate") ? modelbanner.bannerSlate
+			return modelPart.equals("slate") ? modelbanner.bannerSlate
 					: (modelPart.equals("stand") ? modelbanner.bannerStand
 							: (modelPart.equals("top") ? modelbanner.bannerTop : null));
 		}

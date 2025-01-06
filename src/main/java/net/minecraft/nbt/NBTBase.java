@@ -69,7 +69,7 @@ public abstract class NBTBase {
 		if (!(p_equals_1_ instanceof NBTBase nbtbase)) {
 			return false;
 		} else {
-            return this.getId() == nbtbase.getId();
+			return this.getId() == nbtbase.getId();
 		}
 	}
 

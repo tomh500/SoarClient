@@ -73,5 +73,5 @@ public class BlockPressurePlate extends BlockBasePressurePlate {
 
 	public enum Sensitivity {
 		EVERYTHING, MOBS
-    }
+	}
 }

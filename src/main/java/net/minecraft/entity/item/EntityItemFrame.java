@@ -74,7 +74,7 @@ public class EntityItemFrame extends EntityHanging {
 
 			if (p_146065_1_ instanceof EntityPlayer entityplayer) {
 
-                if (entityplayer.capabilities.isCreativeMode) {
+				if (entityplayer.capabilities.isCreativeMode) {
 					this.removeFrameFromMap(itemstack);
 					return;
 				}

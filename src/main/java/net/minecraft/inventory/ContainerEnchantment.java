@@ -174,8 +174,7 @@ public class ContainerEnchantment extends Container {
 							List<EnchantmentData> list = this.func_178148_a(itemstack, j1, this.enchantLevels[j1]);
 
 							if (list != null && !list.isEmpty()) {
-								EnchantmentData enchantmentdata = list
-										.get(this.rand.nextInt(list.size()));
+								EnchantmentData enchantmentdata = list.get(this.rand.nextInt(list.size()));
 								this.enchantmentIds[j1] = enchantmentdata.enchantmentobj.effectId
 										| enchantmentdata.enchantmentLevel << 8;
 							}
@@ -276,8 +275,9 @@ public class ContainerEnchantment extends Container {
 	}
 
 	public boolean canInteractWith(EntityPlayer playerIn) {
-		return this.worldPointer.getBlockState(this.position).getBlock() == Blocks.enchanting_table && playerIn.getDistanceSq((double) this.position.getX() + 0.5D, (double) this.position.getY() + 0.5D,
-                (double) this.position.getZ() + 0.5D) <= 64.0D;
+		return this.worldPointer.getBlockState(this.position).getBlock() == Blocks.enchanting_table
+				&& playerIn.getDistanceSq((double) this.position.getX() + 0.5D, (double) this.position.getY() + 0.5D,
+						(double) this.position.getZ() + 0.5D) <= 64.0D;
 	}
 
 	public ItemStack transferStackInSlot(EntityPlayer playerIn, int index) {
@@ -302,8 +302,7 @@ public class ContainerEnchantment extends Container {
 					return null;
 				}
 			} else {
-				if (this.inventorySlots.get(0).getHasStack()
-						|| !this.inventorySlots.get(0).isItemValid(itemstack1)) {
+				if (this.inventorySlots.get(0).getHasStack() || !this.inventorySlots.get(0).isItemValid(itemstack1)) {
 					return null;
 				}
 

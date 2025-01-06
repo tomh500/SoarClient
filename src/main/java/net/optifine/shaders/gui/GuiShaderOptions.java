@@ -93,21 +93,21 @@ public class GuiShaderOptions extends GuiScreenOF {
 
 		this.buttonList.add(new GuiButton(201, this.width / 2 - i1 - 20, this.height / 6 + 168 + 11, i1, j1,
 				I18n.format("controls.reset")));
-		this.buttonList.add(new GuiButton(200, this.width / 2 + 20, this.height / 6 + 168 + 11, i1, j1,
-				I18n.format("gui.done")));
+		this.buttonList.add(
+				new GuiButton(200, this.width / 2 + 20, this.height / 6 + 168 + 11, i1, j1, I18n.format("gui.done")));
 	}
 
 	public static String getButtonText(ShaderOption so, int btnWidth) {
 		String s = so.getNameText();
 
 		if (so instanceof ShaderOptionScreen shaderoptionscreen) {
-            return s + "...";
+			return s + "...";
 		} else {
 			FontRenderer fontrenderer = Config.getMinecraft().fontRendererObj;
 
 			for (int i = fontrenderer.getStringWidth(": " + Lang.getOff()) + 5; fontrenderer.getStringWidth(s)
 					+ i >= btnWidth && s.length() > 0; s = s.substring(0, s.length() - 1)) {
-            }
+			}
 
 			String s1 = so.isChanged() ? so.getValueColor(so.getValue()) : "";
 			String s2 = so.getValueText(so.getValue());
@@ -118,7 +118,7 @@ public class GuiShaderOptions extends GuiScreenOF {
 	protected void actionPerformed(GuiButton guibutton) {
 		if (guibutton.enabled) {
 			if (guibutton.id < 200 && guibutton instanceof GuiButtonShaderOption guibuttonshaderoption) {
-                ShaderOption shaderoption = guibuttonshaderoption.getShaderOption();
+				ShaderOption shaderoption = guibuttonshaderoption.getShaderOption();
 
 				if (shaderoption instanceof ShaderOptionScreen) {
 					String s = shaderoption.getName();
@@ -163,7 +163,7 @@ public class GuiShaderOptions extends GuiScreenOF {
 
 	protected void actionPerformedRightClick(GuiButton btn) {
 		if (btn instanceof GuiButtonShaderOption guibuttonshaderoption) {
-            ShaderOption shaderoption = guibuttonshaderoption.getShaderOption();
+			ShaderOption shaderoption = guibuttonshaderoption.getShaderOption();
 
 			if (isShiftKeyDown()) {
 				shaderoption.resetValue();
@@ -189,10 +189,10 @@ public class GuiShaderOptions extends GuiScreenOF {
 	private void updateAllButtons() {
 		for (GuiButton guibutton : this.buttonList) {
 			if (guibutton instanceof GuiButtonShaderOption guibuttonshaderoption) {
-                ShaderOption shaderoption = guibuttonshaderoption.getShaderOption();
+				ShaderOption shaderoption = guibuttonshaderoption.getShaderOption();
 
 				if (shaderoption instanceof ShaderOptionProfile shaderoptionprofile) {
-                    shaderoptionprofile.updateProfile();
+					shaderoptionprofile.updateProfile();
 				}
 
 				guibuttonshaderoption.displayString = getButtonText(shaderoption,

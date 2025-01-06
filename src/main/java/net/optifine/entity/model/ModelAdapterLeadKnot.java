@@ -21,7 +21,7 @@ public class ModelAdapterLeadKnot extends ModelAdapter {
 		if (!(model instanceof ModelLeashKnot modelleashknot)) {
 			return null;
 		} else {
-            return modelPart.equals("knot") ? modelleashknot.field_110723_a : null;
+			return modelPart.equals("knot") ? modelleashknot.field_110723_a : null;
 		}
 	}
 

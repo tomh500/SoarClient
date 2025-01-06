@@ -291,7 +291,7 @@ public class EntityArmorStand extends EntityLivingBase {
 
 			if (flag && itemstack.getItem() instanceof ItemArmor itemarmor) {
 
-                if (itemarmor.armorType == 3) {
+				if (itemarmor.armorType == 3) {
 					i = 1;
 				} else if (itemarmor.armorType == 2) {
 					i = 2;
@@ -459,9 +459,8 @@ public class EntityArmorStand extends EntityLivingBase {
 	private void playParticles() {
 		if (this.worldObj instanceof WorldServer) {
 			((WorldServer) this.worldObj).spawnParticle(EnumParticleTypes.BLOCK_DUST, this.posX,
-					this.posY + (double) this.height / 1.5D, this.posZ, 10, this.width / 4.0F,
-                    this.height / 4.0F, this.width / 4.0F, 0.05D,
-                    Block.getStateId(Blocks.planks.getDefaultState()));
+					this.posY + (double) this.height / 1.5D, this.posZ, 10, this.width / 4.0F, this.height / 4.0F,
+					this.width / 4.0F, 0.05D, Block.getStateId(Blocks.planks.getDefaultState()));
 		}
 	}
 

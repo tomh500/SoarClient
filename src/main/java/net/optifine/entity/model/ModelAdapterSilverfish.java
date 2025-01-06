@@ -22,7 +22,7 @@ public class ModelAdapterSilverfish extends ModelAdapter {
 		if (!(model instanceof ModelSilverfish modelsilverfish)) {
 			return null;
 		} else {
-            String s = "body";
+			String s = "body";
 
 			if (modelPart.startsWith(s)) {
 				ModelRenderer[] amodelrenderer1 = modelsilverfish.silverfishBodyParts;

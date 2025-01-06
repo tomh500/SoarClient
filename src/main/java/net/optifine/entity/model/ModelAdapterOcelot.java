@@ -23,7 +23,7 @@ public class ModelAdapterOcelot extends ModelAdapter {
 			return null;
 		} else {
 
-            return modelPart
+			return modelPart
 					.equals("back_left_leg")
 							? modelocelot.ocelotBackLeftLeg
 							: (modelPart.equals("back_right_leg") ? modelocelot.ocelotBackRightLeg

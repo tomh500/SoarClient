@@ -84,8 +84,7 @@ public class TileEntityBannerRenderer extends TileEntitySpecialRenderer<TileEnti
 		if (s.isEmpty()) {
 			return null;
 		} else {
-			TileEntityBannerRenderer.TimedBannerTexture tileentitybannerrenderer$timedbannertexture = DESIGNS
-					.get(s);
+			TileEntityBannerRenderer.TimedBannerTexture tileentitybannerrenderer$timedbannertexture = DESIGNS.get(s);
 
 			if (tileentitybannerrenderer$timedbannertexture == null) {
 				if (DESIGNS.size() >= 256) {

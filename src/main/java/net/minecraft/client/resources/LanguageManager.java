@@ -45,13 +45,11 @@ public class LanguageManager implements IResourceManagerReloadListener {
 					}
 				}
 			} catch (RuntimeException runtimeexception) {
-				logger.warn(
-                        "Unable to parse metadata section of resourcepack: " + iresourcepack.getPackName(),
-                        runtimeexception);
+				logger.warn("Unable to parse metadata section of resourcepack: " + iresourcepack.getPackName(),
+						runtimeexception);
 			} catch (IOException ioexception) {
-				logger.warn(
-                        "Unable to parse metadata section of resourcepack: " + iresourcepack.getPackName(),
-                        ioexception);
+				logger.warn("Unable to parse metadata section of resourcepack: " + iresourcepack.getPackName(),
+						ioexception);
 			}
 		}
 	}
@@ -80,8 +78,7 @@ public class LanguageManager implements IResourceManagerReloadListener {
 	}
 
 	public Language getCurrentLanguage() {
-		return this.languageMap.containsKey(this.currentLanguage)
-				? this.languageMap.get(this.currentLanguage)
+		return this.languageMap.containsKey(this.currentLanguage) ? this.languageMap.get(this.currentLanguage)
 				: this.languageMap.get("en_US");
 	}
 

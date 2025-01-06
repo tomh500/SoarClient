@@ -87,11 +87,10 @@ public class NaturalTextures {
 					}
 				}
 
-				propertiesByIndex = (NaturalProperties[]) arraylist
-						.toArray(new NaturalProperties[0]);
+				propertiesByIndex = (NaturalProperties[]) arraylist.toArray(new NaturalProperties[0]);
 			} catch (FileNotFoundException var17) {
 				Config.warn("NaturalTextures: configuration \"" + s + "\" not found");
-            } catch (Exception exception) {
+			} catch (Exception exception) {
 				exception.printStackTrace();
 			}
 		}

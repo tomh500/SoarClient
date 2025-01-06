@@ -92,15 +92,13 @@ public class RenderItemFrame extends Render<EntityItemFrame> {
 			}
 
 			// TODO: Zoom
-			/*if (!Config.zoomMode) {
-				Entity entity = this.mc.thePlayer;
-				double d0 = itemFrame.getDistanceSq(entity.posX, entity.posY, entity.posZ);
+			/*
+			 * if (!Config.zoomMode) { Entity entity = this.mc.thePlayer; double d0 =
+			 * itemFrame.getDistanceSq(entity.posX, entity.posY, entity.posZ);
+			 * 
+			 * if (d0 > 4096.0D) { return; } }
+			 */
 
-				if (d0 > 4096.0D) {
-					return;
-				}
-			}*/
-			
 			Entity entity = this.mc.thePlayer;
 			double d0 = itemFrame.getDistanceSq(entity.posX, entity.posY, entity.posZ);
 
@@ -142,13 +140,13 @@ public class RenderItemFrame extends Render<EntityItemFrame> {
 					this.mc.getTextureManager().bindTexture(TextureMap.locationBlocksTexture);
 
 					if (textureatlassprite instanceof TextureCompass texturecompass) {
-                        double d1 = texturecompass.currentAngle;
+						double d1 = texturecompass.currentAngle;
 						double d2 = texturecompass.angleDelta;
 						texturecompass.currentAngle = 0.0D;
 						texturecompass.angleDelta = 0.0D;
 						texturecompass.updateCompass(itemFrame.worldObj, itemFrame.posX, itemFrame.posZ,
-                                MathHelper.wrapAngleTo180_float(
-                                        (float) (180 + itemFrame.facingDirection.getHorizontalIndex() * 90)),
+								MathHelper.wrapAngleTo180_float(
+										(float) (180 + itemFrame.facingDirection.getHorizontalIndex() * 90)),
 								false, true);
 						texturecompass.currentAngle = d1;
 						texturecompass.angleDelta = d2;
@@ -231,19 +229,19 @@ public class RenderItemFrame extends Render<EntityItemFrame> {
 		if (Shaders.isShadowPass) {
 			return false;
 		} else {
-			
-			// TODO: Zoom
-			/*if (!Config.zoomMode) {
-				Entity entity = this.mc.getRenderViewEntity();
-				double d0 = p_isRenderItem_1_.getDistanceSq(entity.posX, entity.posY, entity.posZ);
 
-                return !(d0 > itemRenderDistanceSq);
-			}*/
+			// TODO: Zoom
+			/*
+			 * if (!Config.zoomMode) { Entity entity = this.mc.getRenderViewEntity(); double
+			 * d0 = p_isRenderItem_1_.getDistanceSq(entity.posX, entity.posY, entity.posZ);
+			 * 
+			 * return !(d0 > itemRenderDistanceSq); }
+			 */
 
 			Entity entity = this.mc.getRenderViewEntity();
 			double d0 = p_isRenderItem_1_.getDistanceSq(entity.posX, entity.posY, entity.posZ);
 
-            return !(d0 > itemRenderDistanceSq);
+			return !(d0 > itemRenderDistanceSq);
 		}
 	}
 

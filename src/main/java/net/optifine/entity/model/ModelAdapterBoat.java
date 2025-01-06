@@ -21,7 +21,7 @@ public class ModelAdapterBoat extends ModelAdapter {
 		if (!(model instanceof ModelBoat modelboat)) {
 			return null;
 		} else {
-            return modelPart.equals("bottom") ? modelboat.boatSides[0]
+			return modelPart.equals("bottom") ? modelboat.boatSides[0]
 					: (modelPart.equals("back") ? modelboat.boatSides[1]
 							: (modelPart.equals("front") ? modelboat.boatSides[2]
 									: (modelPart.equals("right") ? modelboat.boatSides[3]

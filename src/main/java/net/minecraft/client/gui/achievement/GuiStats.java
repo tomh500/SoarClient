@@ -74,10 +74,9 @@ public class GuiStats extends GuiScreen implements IProgressMeter {
 	}
 
 	public void createButtons() {
-		this.buttonList.add(new GuiButton(0, this.width / 2 + 4, this.height - 28, 150, 20,
-				I18n.format("gui.done")));
-		this.buttonList.add(new GuiButton(1, this.width / 2 - 160, this.height - 52, 80, 20,
-				I18n.format("stat.generalButton")));
+		this.buttonList.add(new GuiButton(0, this.width / 2 + 4, this.height - 28, 150, 20, I18n.format("gui.done")));
+		this.buttonList.add(
+				new GuiButton(1, this.width / 2 - 160, this.height - 52, 80, 20, I18n.format("stat.generalButton")));
 		GuiButton guibutton;
 		this.buttonList.add(guibutton = new GuiButton(2, this.width / 2 - 80, this.height - 52, 80, 20,
 				I18n.format("stat.blocksButton")));
@@ -122,8 +121,8 @@ public class GuiStats extends GuiScreen implements IProgressMeter {
 	public void drawScreen(int mouseX, int mouseY, float partialTicks) {
 		if (this.doesGuiPauseGame) {
 			this.drawDefaultBackground();
-			this.drawCenteredString(this.fontRendererObj, I18n.format("multiplayer.downloadingStats"),
-					this.width / 2, this.height / 2, 16777215);
+			this.drawCenteredString(this.fontRendererObj, I18n.format("multiplayer.downloadingStats"), this.width / 2,
+					this.height / 2, 16777215);
 			this.drawCenteredString(this.fontRendererObj,
 					lanSearchStates[(int) (Minecraft.getSystemTime() / 150L % (long) lanSearchStates.length)],
 					this.width / 2, this.height / 2 + this.fontRendererObj.FONT_HEIGHT * 2, 16777215);
@@ -171,21 +170,13 @@ public class GuiStats extends GuiScreen implements IProgressMeter {
 		WorldRenderer worldrenderer = tessellator.getWorldRenderer();
 		worldrenderer.begin(7, DefaultVertexFormats.POSITION_TEX);
 		worldrenderer.pos(p_146527_1_, p_146527_2_ + 18, this.zLevel)
-				.tex((float) (p_146527_3_) * 0.0078125F,
-                        (float) (p_146527_4_ + 18) * 0.0078125F)
-				.endVertex();
+				.tex((float) (p_146527_3_) * 0.0078125F, (float) (p_146527_4_ + 18) * 0.0078125F).endVertex();
 		worldrenderer.pos(p_146527_1_ + 18, p_146527_2_ + 18, this.zLevel)
-				.tex((float) (p_146527_3_ + 18) * 0.0078125F,
-                        (float) (p_146527_4_ + 18) * 0.0078125F)
-				.endVertex();
+				.tex((float) (p_146527_3_ + 18) * 0.0078125F, (float) (p_146527_4_ + 18) * 0.0078125F).endVertex();
 		worldrenderer.pos(p_146527_1_ + 18, p_146527_2_, this.zLevel)
-				.tex((float) (p_146527_3_ + 18) * 0.0078125F,
-                        (float) (p_146527_4_) * 0.0078125F)
-				.endVertex();
+				.tex((float) (p_146527_3_ + 18) * 0.0078125F, (float) (p_146527_4_) * 0.0078125F).endVertex();
 		worldrenderer.pos(p_146527_1_, p_146527_2_, this.zLevel)
-				.tex((float) (p_146527_3_) * 0.0078125F,
-                        (float) (p_146527_4_) * 0.0078125F)
-				.endVertex();
+				.tex((float) (p_146527_3_) * 0.0078125F, (float) (p_146527_4_) * 0.0078125F).endVertex();
 		tessellator.draw();
 	}
 
@@ -646,10 +637,9 @@ public class GuiStats extends GuiScreen implements IProgressMeter {
 
 		protected void drawSlot(int entryID, int p_180791_2_, int p_180791_3_, int p_180791_4_, int mouseXIn,
 				int mouseYIn) {
-			EntityList.EntityEggInfo entitylist$entityegginfo = this.field_148222_l
-					.get(entryID);
-			String s = I18n.format("entity." + EntityList.getStringFromID(entitylist$entityegginfo.spawnedID) + ".name"
-            );
+			EntityList.EntityEggInfo entitylist$entityegginfo = this.field_148222_l.get(entryID);
+			String s = I18n
+					.format("entity." + EntityList.getStringFromID(entitylist$entityegginfo.spawnedID) + ".name");
 			int i = GuiStats.this.field_146546_t.readStat(entitylist$entityegginfo.field_151512_d);
 			int j = GuiStats.this.field_146546_t.readStat(entitylist$entityegginfo.field_151513_e);
 			String s1 = I18n.format("stat.entityKills", Integer.valueOf(i), s);

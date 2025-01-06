@@ -27,8 +27,8 @@ public class GuiRenameWorld extends GuiScreen {
 		this.buttonList.clear();
 		this.buttonList.add(new GuiButton(0, this.width / 2 - 100, this.height / 4 + 96 + 12,
 				I18n.format("selectWorld.renameButton")));
-		this.buttonList.add(new GuiButton(1, this.width / 2 - 100, this.height / 4 + 120 + 12,
-				I18n.format("gui.cancel")));
+		this.buttonList
+				.add(new GuiButton(1, this.width / 2 - 100, this.height / 4 + 120 + 12, I18n.format("gui.cancel")));
 		ISaveFormat isaveformat = this.mc.getSaveLoader();
 		WorldInfo worldinfo = isaveformat.getWorldInfo(this.saveName);
 		String s = worldinfo.getWorldName();
@@ -69,10 +69,9 @@ public class GuiRenameWorld extends GuiScreen {
 
 	public void drawScreen(int mouseX, int mouseY, float partialTicks) {
 		this.drawDefaultBackground();
-		this.drawCenteredString(this.fontRendererObj, I18n.format("selectWorld.renameTitle"),
-				this.width / 2, 20, 16777215);
-		this.drawString(this.fontRendererObj, I18n.format("selectWorld.enterName"), this.width / 2 - 100,
-				47, 10526880);
+		this.drawCenteredString(this.fontRendererObj, I18n.format("selectWorld.renameTitle"), this.width / 2, 20,
+				16777215);
+		this.drawString(this.fontRendererObj, I18n.format("selectWorld.enterName"), this.width / 2 - 100, 47, 10526880);
 		this.field_146583_f.drawTextBox();
 		super.drawScreen(mouseX, mouseY, partialTicks);
 	}

@@ -326,7 +326,7 @@ public class Bootstrap {
 						BlockPos blockpos = source.getBlockPos()
 								.offset(BlockDispenser.getFacing(source.getBlockMetadata()));
 						EntityTNTPrimed entitytntprimed = new EntityTNTPrimed(world, (double) blockpos.getX() + 0.5D,
-                                blockpos.getY(), (double) blockpos.getZ() + 0.5D, null);
+								blockpos.getY(), (double) blockpos.getZ() + 0.5D, null);
 						world.spawnEntityInWorld(entitytntprimed);
 						world.playSoundAtEntity(entitytntprimed, "game.tnt.primed", 1.0F, 1.0F);
 						--stack.stackSize;

@@ -84,15 +84,13 @@ public class PlayerManager {
 			this.previousTotalWorldTime = j;
 
 			for (int k = 0; k < this.playerInstanceList.size(); ++k) {
-				PlayerManager.PlayerInstance playermanager$playerinstance1 = this.playerInstanceList
-						.get(k);
+				PlayerManager.PlayerInstance playermanager$playerinstance1 = this.playerInstanceList.get(k);
 				playermanager$playerinstance1.onUpdate();
 				playermanager$playerinstance1.processChunk();
 			}
 		} else {
 			for (int l = 0; l < this.playerInstancesToUpdate.size(); ++l) {
-				PlayerManager.PlayerInstance playermanager$playerinstance2 = this.playerInstancesToUpdate
-						.get(l);
+				PlayerManager.PlayerInstance playermanager$playerinstance2 = this.playerInstancesToUpdate.get(l);
 				playermanager$playerinstance2.onUpdate();
 			}
 		}
@@ -115,8 +113,7 @@ public class PlayerManager {
 
 	private PlayerManager.PlayerInstance getPlayerInstance(int chunkX, int chunkZ, boolean createIfAbsent) {
 		long i = (long) chunkX + 2147483647L | (long) chunkZ + 2147483647L << 32;
-		PlayerManager.PlayerInstance playermanager$playerinstance = this.playerInstances
-				.getValueByKey(i);
+		PlayerManager.PlayerInstance playermanager$playerinstance = this.playerInstances.getValueByKey(i);
 
 		if (playermanager$playerinstance == null && createIfAbsent) {
 			playermanager$playerinstance = new PlayerManager.PlayerInstance(chunkX, chunkZ);
@@ -332,7 +329,7 @@ public class PlayerManager {
 		float f;
 
 		for (f = p_getNearest_2_.rotationYaw + 90.0F; f <= -180.0F; f += 360.0F) {
-        }
+		}
 
 		while (f > 180.0F) {
 			f -= 360.0F;
@@ -394,9 +391,8 @@ public class PlayerManager {
 
 		public void addPlayer(EntityPlayerMP player) {
 			if (this.playersWatchingChunk.contains(player)) {
-				PlayerManager.pmLogger.debug("Failed to add player. {} already is in chunk {}, {}",
-                        player, Integer.valueOf(this.chunkCoords.chunkXPos),
-                        Integer.valueOf(this.chunkCoords.chunkZPos));
+				PlayerManager.pmLogger.debug("Failed to add player. {} already is in chunk {}, {}", player,
+						Integer.valueOf(this.chunkCoords.chunkXPos), Integer.valueOf(this.chunkCoords.chunkZPos));
 			} else {
 				if (this.playersWatchingChunk.isEmpty()) {
 					this.previousWorldTime = PlayerManager.this.theWorldServer.getTotalWorldTime();

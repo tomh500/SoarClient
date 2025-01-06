@@ -16,12 +16,9 @@ import net.minecraft.util.ResourceLocation;
 public abstract class ResourcePackListEntry implements GuiListExtended.IGuiListEntry {
 	private static final ResourceLocation RESOURCE_PACKS_TEXTURE = new ResourceLocation(
 			"textures/gui/resource_packs.png");
-	private static final IChatComponent field_183020_d = new ChatComponentTranslation("resourcePack.incompatible"
-    );
-	private static final IChatComponent field_183021_e = new ChatComponentTranslation("resourcePack.incompatible.old"
-    );
-	private static final IChatComponent field_183022_f = new ChatComponentTranslation("resourcePack.incompatible.new"
-    );
+	private static final IChatComponent field_183020_d = new ChatComponentTranslation("resourcePack.incompatible");
+	private static final IChatComponent field_183021_e = new ChatComponentTranslation("resourcePack.incompatible.old");
+	private static final IChatComponent field_183022_f = new ChatComponentTranslation("resourcePack.incompatible.new");
 	protected final Minecraft mc;
 	protected final GuiScreenResourcePacks resourcePacksGUI;
 
@@ -104,8 +101,8 @@ public abstract class ResourcePackListEntry implements GuiListExtended.IGuiListE
 		List<String> list = this.mc.fontRendererObj.listFormattedStringToWidth(s1, 157);
 
 		for (int l = 0; l < 2 && l < list.size(); ++l) {
-			this.mc.fontRendererObj.drawStringWithShadow(list.get(l), (float) (x + 32 + 2),
-					(float) (y + 12 + 10 * l), 8421504);
+			this.mc.fontRendererObj.drawStringWithShadow(list.get(l), (float) (x + 32 + 2), (float) (y + 12 + 10 * l),
+					8421504);
 		}
 	}
 
@@ -150,8 +147,7 @@ public abstract class ResourcePackListEntry implements GuiListExtended.IGuiListE
 
 				if (j != 1) {
 					String s1 = I18n.format("resourcePack.incompatible.confirm.title");
-					String s = I18n.format("resourcePack.incompatible.confirm." + (j > 1 ? "new" : "old")
-                    );
+					String s = I18n.format("resourcePack.incompatible.confirm." + (j > 1 ? "new" : "old"));
 					this.mc.displayGuiScreen(new GuiYesNo(new GuiYesNoCallback() {
 						public void confirmClicked(boolean result, int id) {
 							List<ResourcePackListEntry> list2 = ResourcePackListEntry.this.resourcePacksGUI

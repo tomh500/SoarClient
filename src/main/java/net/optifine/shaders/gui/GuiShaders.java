@@ -27,10 +27,10 @@ public class GuiShaders extends GuiScreenOF {
 	private int updateTimer = -1;
 	private GuiSlotShaders shaderList;
 	private boolean saved = false;
-	private static final float[] QUALITY_MULTIPLIERS = new float[] { 0.5F, 0.6F, 0.6666667F, 0.75F, 0.8333333F, 0.9F, 1.0F,
-			1.1666666F, 1.3333334F, 1.5F, 1.6666666F, 1.8F, 2.0F };
-	private static final String[] QUALITY_MULTIPLIER_NAMES = new String[] { "0.5x", "0.6x", "0.66x", "0.75x", "0.83x", "0.9x",
-			"1x", "1.16x", "1.33x", "1.5x", "1.66x", "1.8x", "2x" };
+	private static final float[] QUALITY_MULTIPLIERS = new float[] { 0.5F, 0.6F, 0.6666667F, 0.75F, 0.8333333F, 0.9F,
+			1.0F, 1.1666666F, 1.3333334F, 1.5F, 1.6666666F, 1.8F, 2.0F };
+	private static final String[] QUALITY_MULTIPLIER_NAMES = new String[] { "0.5x", "0.6x", "0.66x", "0.75x", "0.83x",
+			"0.9x", "1x", "1.16x", "1.33x", "1.5x", "1.66x", "1.8x", "2x" };
 	private static final float QUALITY_MULTIPLIER_DEFAULT = 1.0F;
 	private static final float[] HAND_DEPTH_VALUES = new float[] { 0.0625F, 0.125F, 0.25F };
 	private static final String[] HAND_DEPTH_NAMES = new String[] { "0.5x", "1x", "2x" };
@@ -73,8 +73,7 @@ public class GuiShaders extends GuiScreenOF {
 		int i2 = this.height - 25;
 		this.buttonList.add(new GuiButton(201, l1, i2, k1 - 22 + 1, j, Lang.get("of.options.shaders.shadersFolder")));
 		this.buttonList.add(new GuiButtonDownloadShaders(210, l1 + k1 - 22 - 1, i2));
-		this.buttonList.add(new GuiButton(202, j1 / 4 * 3 - k1 / 2, this.height - 25, k1, j,
-				I18n.format("gui.done")));
+		this.buttonList.add(new GuiButton(202, j1 / 4 * 3 - k1 / 2, this.height - 25, k1, j, I18n.format("gui.done")));
 		this.buttonList
 				.add(new GuiButton(203, k, this.height - 25, i, j, Lang.get("of.options.shaders.shaderOptions")));
 		this.updateButtons();
@@ -113,7 +112,7 @@ public class GuiShaders extends GuiScreenOF {
 						switch (getOSType()) {
 						case 1:
 							String s = String.format("cmd.exe /C start \"Open file\" \"%s\"",
-                                    Shaders.shaderPacksDir.getAbsolutePath());
+									Shaders.shaderPacksDir.getAbsolutePath());
 
 							try {
 								Runtime.getRuntime().exec(s);
@@ -137,10 +136,9 @@ public class GuiShaders extends GuiScreenOF {
 
 						try {
 							Class oclass1 = Class.forName("java.awt.Desktop");
-							Object object1 = oclass1.getMethod("getDesktop").invoke(null
-                            );
+							Object object1 = oclass1.getMethod("getDesktop").invoke(null);
 							oclass1.getMethod("browse", URI.class).invoke(object1,
-                                    (new File(this.mc.mcDataDir, "shaderpacks")).toURI());
+									(new File(this.mc.mcDataDir, "shaderpacks")).toURI());
 						} catch (Throwable throwable1) {
 							throwable1.printStackTrace();
 							flag = true;
@@ -167,10 +165,9 @@ public class GuiShaders extends GuiScreenOF {
 					case 210:
 						try {
 							Class<?> oclass = Class.forName("java.awt.Desktop");
-							Object object = oclass.getMethod("getDesktop").invoke(null
-                            );
+							Object object = oclass.getMethod("getDesktop").invoke(null);
 							oclass.getMethod("browse", URI.class).invoke(object,
-                                    new URI("http://optifine.net/shaderPacks"));
+									new URI("http://optifine.net/shaderPacks"));
 						} catch (Throwable throwable) {
 							throwable.printStackTrace();
 						}
@@ -187,7 +184,7 @@ public class GuiShaders extends GuiScreenOF {
 				}
 			} else {
 
-                switch (guibuttonenumshaderoption.getEnumShaderOption()) {
+				switch (guibuttonenumshaderoption.getEnumShaderOption()) {
 				case ANTIALIASING:
 					Shaders.nextAntialiasingLevel(!rightClick);
 

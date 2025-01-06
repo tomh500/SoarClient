@@ -70,7 +70,7 @@ public class CommandTitle extends CommandBase {
 					} catch (JsonParseException jsonparseexception) {
 						Throwable throwable = ExceptionUtils.getRootCause(jsonparseexception);
 						throw new SyntaxErrorException("commands.tellraw.jsonException",
-                                throwable == null ? "" : throwable.getMessage());
+								throwable == null ? "" : throwable.getMessage());
 					}
 
 					S45PacketTitle s45packettitle1 = new S45PacketTitle(s45packettitle$type,

@@ -52,8 +52,7 @@ public class WeightedBakedModel implements IBakedModel {
 	}
 
 	public IBakedModel getAlternativeModel(long p_177564_1_) {
-		return WeightedRandom.getRandomItem(this.models,
-				Math.abs((int) p_177564_1_ >> 16) % this.totalWeight).model;
+		return WeightedRandom.getRandomItem(this.models, Math.abs((int) p_177564_1_ >> 16) % this.totalWeight).model;
 	}
 
 	public static class Builder {

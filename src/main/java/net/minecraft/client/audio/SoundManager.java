@@ -67,8 +67,7 @@ public class SoundManager {
 			SoundSystemConfig.addLibrary(LibraryLWJGLOpenAL.class);
 			SoundSystemConfig.setCodec("ogg", CodecJOrbis.class);
 		} catch (SoundSystemException soundsystemexception) {
-			logger.error(LOG_MARKER, "Error linking with the LibraryJavaSound plug-in",
-                    soundsystemexception);
+			logger.error(LOG_MARKER, "Error linking with the LibraryJavaSound plug-in", soundsystemexception);
 		}
 	}
 
@@ -111,8 +110,7 @@ public class SoundManager {
 					}
 				}, "Sound Library Loader")).start();
 			} catch (RuntimeException runtimeexception) {
-				logger.error(LOG_MARKER, "Error starting SoundSystem. Turning off sounds & music",
-                        runtimeexception);
+				logger.error(LOG_MARKER, "Error starting SoundSystem. Turning off sounds & music", runtimeexception);
 				this.options.setSoundLevel(SoundCategory.MASTER, 0.0F);
 				this.options.saveOptions();
 			}
@@ -130,8 +128,7 @@ public class SoundManager {
 			} else {
 				for (String s : this.categorySounds.get(category)) {
 					ISound isound = this.playingSounds.get(s);
-					float f = this.getNormalizedVolume(isound,
-                            this.playingSoundPoolEntries.get(isound), category);
+					float f = this.getNormalizedVolume(isound, this.playingSoundPoolEntries.get(isound), category);
 
 					if (f <= 0.0F) {
 						this.stopSound(isound);
@@ -177,11 +174,10 @@ public class SoundManager {
 			} else {
 				String s = this.invPlayingSounds.get(itickablesound);
 				this.sndSystem.setVolume(s,
-						this.getNormalizedVolume(itickablesound,
-                                this.playingSoundPoolEntries.get(itickablesound),
+						this.getNormalizedVolume(itickablesound, this.playingSoundPoolEntries.get(itickablesound),
 								this.sndHandler.getSound(itickablesound.getSoundLocation()).getSoundCategory()));
-				this.sndSystem.setPitch(s, this.getNormalizedPitch(itickablesound,
-                        this.playingSoundPoolEntries.get(itickablesound)));
+				this.sndSystem.setPitch(s,
+						this.getNormalizedPitch(itickablesound, this.playingSoundPoolEntries.get(itickablesound)));
 				this.sndSystem.setPosition(s, itickablesound.getXPosF(), itickablesound.getYPosF(),
 						itickablesound.getZPosF());
 			}
@@ -205,8 +201,7 @@ public class SoundManager {
 					}
 
 					iterator.remove();
-					logger.debug(LOG_MARKER, "Removed channel {} because it's not playing anymore",
-                            s1);
+					logger.debug(LOG_MARKER, "Removed channel {} because it's not playing anymore", s1);
 					this.sndSystem.removeSource(s1);
 					this.playingSoundsStopTime.remove(s1);
 					this.playingSoundPoolEntries.remove(isound);
@@ -215,7 +210,7 @@ public class SoundManager {
 						this.categorySounds
 								.remove(this.sndHandler.getSound(isound.getSoundLocation()).getSoundCategory(), s1);
 					} catch (RuntimeException var8) {
-                    }
+					}
 
 					if (isound instanceof ITickableSound) {
 						this.tickableSounds.remove(isound);
@@ -248,7 +243,7 @@ public class SoundManager {
 		} else {
 			String s = this.invPlayingSounds.get(sound);
 			return s != null && (this.sndSystem.playing(s) || this.playingSoundsStopTime.containsKey(s)
-                    && this.playingSoundsStopTime.get(s).intValue() <= this.playTime);
+					&& this.playingSoundsStopTime.get(s).intValue() <= this.playTime);
 		}
 	}
 
@@ -266,20 +261,19 @@ public class SoundManager {
 		if (this.loaded) {
 			if (this.sndSystem.getMasterVolume() <= 0.0F) {
 				logger.debug(LOG_MARKER, "Skipped playing soundEvent: {}, master volume was zero",
-                        p_sound.getSoundLocation());
+						p_sound.getSoundLocation());
 			} else {
 				SoundEventAccessorComposite soundeventaccessorcomposite = this.sndHandler
 						.getSound(p_sound.getSoundLocation());
 
 				if (soundeventaccessorcomposite == null) {
-					logger.warn(LOG_MARKER, "Unable to play unknown soundEvent: {}",
-                            p_sound.getSoundLocation());
+					logger.warn(LOG_MARKER, "Unable to play unknown soundEvent: {}", p_sound.getSoundLocation());
 				} else {
 					SoundPoolEntry soundpoolentry = soundeventaccessorcomposite.cloneEntry();
 
 					if (soundpoolentry == SoundHandler.missing_sound) {
 						logger.warn(LOG_MARKER, "Unable to play empty soundEvent: {}",
-                                soundeventaccessorcomposite.getSoundEventLocation());
+								soundeventaccessorcomposite.getSoundEventLocation());
 					} else {
 						float f = p_sound.getVolume();
 						float f1 = 16.0F;
@@ -294,8 +288,7 @@ public class SoundManager {
 						ResourceLocation resourcelocation = soundpoolentry.getSoundPoolEntryLocation();
 
 						if (f2 == 0.0F) {
-							logger.debug(LOG_MARKER, "Skipped playing sound {}, volume was zero.",
-                                    resourcelocation);
+							logger.debug(LOG_MARKER, "Skipped playing sound {}, volume was zero.", resourcelocation);
 						} else {
 							boolean flag = p_sound.canRepeat() && p_sound.getRepeatDelay() == 0;
 							String s = MathHelper.getRandomUuid(ThreadLocalRandom.current()).toString();
@@ -311,8 +304,8 @@ public class SoundManager {
 							}
 
 							logger.debug(LOG_MARKER, "Playing sound {} for event {} as channel {}",
-                                    soundpoolentry.getSoundPoolEntryLocation(),
-                                    soundeventaccessorcomposite.getSoundEventLocation(), s);
+									soundpoolentry.getSoundPoolEntryLocation(),
+									soundeventaccessorcomposite.getSoundEventLocation(), s);
 							this.sndSystem.setPitch(s, (float) d0);
 							this.sndSystem.setVolume(s, f2);
 							this.sndSystem.play(s);
@@ -362,8 +355,8 @@ public class SoundManager {
 	}
 
 	private static URL getURLForSoundResource(final ResourceLocation p_148612_0_) {
-		String s = String.format("%s:%s:%s",
-                "mcsounddomain", p_148612_0_.getResourceDomain(), p_148612_0_.getResourcePath());
+		String s = String.format("%s:%s:%s", "mcsounddomain", p_148612_0_.getResourceDomain(),
+				p_148612_0_.getResourcePath());
 		URLStreamHandler urlstreamhandler = new URLStreamHandler() {
 			protected URLConnection openConnection(final URL p_openConnection_1_) {
 				return new URLConnection(p_openConnection_1_) {

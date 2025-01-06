@@ -211,8 +211,8 @@ public class EntityDragon extends EntityLiving implements IBossDisplayData, IEnt
 					Vec3 vec3 = (new Vec3(this.targetX - this.posX, this.targetY - this.posY, this.targetZ - this.posZ))
 							.normalize();
 					double d15 = -MathHelper.cos(this.rotationYaw * (float) Math.PI / 180.0F);
-					Vec3 vec31 = (new Vec3(MathHelper.sin(this.rotationYaw * (float) Math.PI / 180.0F),
-							this.motionY, d15)).normalize();
+					Vec3 vec31 = (new Vec3(MathHelper.sin(this.rotationYaw * (float) Math.PI / 180.0F), this.motionY,
+							d15)).normalize();
 					float f5 = ((float) vec31.dotProduct(vec3) + 0.5F) / 1.5F;
 
 					if (f5 < 0.0F) {
@@ -220,8 +220,7 @@ public class EntityDragon extends EntityLiving implements IBossDisplayData, IEnt
 					}
 
 					this.randomYawVelocity *= 0.8F;
-					float f6 = MathHelper.sqrt_double(this.motionX * this.motionX + this.motionZ * this.motionZ)
-							+ 1.0F;
+					float f6 = MathHelper.sqrt_double(this.motionX * this.motionX + this.motionZ * this.motionZ) + 1.0F;
 					double d9 = Math.sqrt(this.motionX * this.motionX + this.motionZ * this.motionZ) + 1.0D;
 
 					if (d9 > 40.0D) {
@@ -340,8 +339,7 @@ public class EntityDragon extends EntityLiving implements IBossDisplayData, IEnt
 		if (this.healingEnderCrystal != null) {
 			if (this.healingEnderCrystal.isDead) {
 				if (!this.worldObj.isRemote) {
-					this.attackEntityFromPart(this.dragonPartHead, DamageSource.setExplosionSource(null),
-							10.0F);
+					this.attackEntityFromPart(this.dragonPartHead, DamageSource.setExplosionSource(null), 10.0F);
 				}
 
 				this.healingEnderCrystal = null;
@@ -352,8 +350,8 @@ public class EntityDragon extends EntityLiving implements IBossDisplayData, IEnt
 
 		if (this.rand.nextInt(10) == 0) {
 			float f = 32.0F;
-			List<EntityEnderCrystal> list = this.worldObj.getEntitiesWithinAABB(
-					EntityEnderCrystal.class, this.getEntityBoundingBox().expand(f, f, f));
+			List<EntityEnderCrystal> list = this.worldObj.getEntitiesWithinAABB(EntityEnderCrystal.class,
+					this.getEntityBoundingBox().expand(f, f, f));
 			EntityEnderCrystal entityendercrystal = null;
 			double d0 = Double.MAX_VALUE;
 

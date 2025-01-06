@@ -21,7 +21,7 @@ public class ModelAdapterBat extends ModelAdapter {
 		if (!(model instanceof ModelBat modelbat)) {
 			return null;
 		} else {
-            return modelPart
+			return modelPart
 					.equals("head")
 							? modelbat.batHead
 							: (modelPart.equals("body") ? modelbat.batBody

@@ -96,9 +96,8 @@ public class CommandStats extends CommandBase {
 					TileEntity tileentity = world.getTileEntity(blockpos);
 
 					if (tileentity == null) {
-						throw new CommandException("commands.stats.noCompatibleBlock",
-                                Integer.valueOf(blockpos.getX()), Integer.valueOf(blockpos.getY()),
-                                Integer.valueOf(blockpos.getZ()));
+						throw new CommandException("commands.stats.noCompatibleBlock", Integer.valueOf(blockpos.getX()),
+								Integer.valueOf(blockpos.getY()), Integer.valueOf(blockpos.getZ()));
 					}
 
 					if (tileentity instanceof TileEntityCommandBlock) {
@@ -106,8 +105,8 @@ public class CommandStats extends CommandBase {
 					} else {
 						if (!(tileentity instanceof TileEntitySign)) {
 							throw new CommandException("commands.stats.noCompatibleBlock",
-                                    Integer.valueOf(blockpos.getX()), Integer.valueOf(blockpos.getY()),
-                                    Integer.valueOf(blockpos.getZ()));
+									Integer.valueOf(blockpos.getX()), Integer.valueOf(blockpos.getY()),
+									Integer.valueOf(blockpos.getZ()));
 						}
 
 						commandresultstats = ((TileEntitySign) tileentity).getStats();
@@ -126,13 +125,11 @@ public class CommandStats extends CommandBase {
 					}
 
 					CommandResultStats.setScoreBoardStat(commandresultstats, commandresultstats$type, s1, s2);
-					notifyOperators(sender, this, "commands.stats.success",
-                            commandresultstats$type.getTypeName(), s2, s1);
+					notifyOperators(sender, this, "commands.stats.success", commandresultstats$type.getTypeName(), s2,
+							s1);
 				} else if ("clear".equals(s)) {
-					CommandResultStats.setScoreBoardStat(commandresultstats, commandresultstats$type, null,
-                            null);
-					notifyOperators(sender, this, "commands.stats.cleared",
-                            commandresultstats$type.getTypeName());
+					CommandResultStats.setScoreBoardStat(commandresultstats, commandresultstats$type, null, null);
+					notifyOperators(sender, this, "commands.stats.cleared", commandresultstats$type.getTypeName());
 				}
 
 				if (flag) {
@@ -159,8 +156,7 @@ public class CommandStats extends CommandBase {
 																				this.func_175777_e()))
 														: getListOfStringsMatchingLastWord(args,
 																CommandResultStats.Type.getTypeNames()))
-												: getListOfStringsMatchingLastWord(args,
-                "set", "clear"))));
+												: getListOfStringsMatchingLastWord(args, "set", "clear"))));
 	}
 
 	protected String[] func_175776_d() {

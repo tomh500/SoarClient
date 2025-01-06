@@ -325,9 +325,8 @@ public class BlockFire extends Block {
 
 	public void randomDisplayTick(World worldIn, BlockPos pos, IBlockState state, Random rand) {
 		if (rand.nextInt(24) == 0) {
-			worldIn.playSound((float) pos.getX() + 0.5F, (float) pos.getY() + 0.5F,
-                    (float) pos.getZ() + 0.5F, "fire.fire", 1.0F + rand.nextFloat(),
-					rand.nextFloat() * 0.7F + 0.3F, false);
+			worldIn.playSound((float) pos.getX() + 0.5F, (float) pos.getY() + 0.5F, (float) pos.getZ() + 0.5F,
+					"fire.fire", 1.0F + rand.nextFloat(), rand.nextFloat() * 0.7F + 0.3F, false);
 		}
 
 		if (!World.doesBlockHaveSolidTopSurface(worldIn, pos.down())

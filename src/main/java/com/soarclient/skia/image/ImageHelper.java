@@ -21,26 +21,25 @@ public class ImageHelper {
 	private Map<String, Image> images = new HashMap<>();
 	private Map<Integer, Image> textures = new HashMap<>();
 
-    public boolean load(int texture, float width, float height, SurfaceOrigin origin) {
-        if (!textures.containsKey(texture)) {
-            textures.put(texture, Image.adoptTextureFrom(SkiaContext.getContext(), texture, GL11.GL_TEXTURE_2D, (int) width,
-                    (int) height, GL11.GL_RGBA8, origin, ColorType.RGBA_8888));
-        }
-        return true;
-    }
+	public boolean load(int texture, float width, float height, SurfaceOrigin origin) {
+		if (!textures.containsKey(texture)) {
+			textures.put(texture, Image.adoptTextureFrom(SkiaContext.getContext(), texture, GL11.GL_TEXTURE_2D,
+					(int) width, (int) height, GL11.GL_RGBA8, origin, ColorType.RGBA_8888));
+		}
+		return true;
+	}
 
-	
 	public boolean load(String filePath) {
-	    if (!images.containsKey(filePath)) {
-	        Optional<byte[]> encodedBytes = SkiaUtils.convertToBytes(filePath);
-	        if (encodedBytes.isPresent()) {
-	            images.put(filePath, Image.makeDeferredFromEncodedBytes(encodedBytes.get()));
-	            return true;
-	        } else {
-	            return false;
-	        }
-	    }
-	    return true;
+		if (!images.containsKey(filePath)) {
+			Optional<byte[]> encodedBytes = SkiaUtils.convertToBytes(filePath);
+			if (encodedBytes.isPresent()) {
+				images.put(filePath, Image.makeDeferredFromEncodedBytes(encodedBytes.get()));
+				return true;
+			} else {
+				return false;
+			}
+		}
+		return true;
 	}
 
 	public boolean load(File file) {
@@ -68,7 +67,7 @@ public class ImageHelper {
 
 		return null;
 	}
-	
+
 	public Image get(int texture) {
 
 		if (textures.containsKey(texture)) {

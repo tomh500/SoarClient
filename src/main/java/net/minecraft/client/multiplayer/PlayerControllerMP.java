@@ -311,7 +311,7 @@ public class PlayerControllerMP {
 
 				if (!flag && heldStack != null && heldStack.getItem() instanceof ItemBlock itemblock) {
 
-                    if (!itemblock.canPlaceBlockOnSide(worldIn, hitPos, side, player, heldStack)) {
+					if (!itemblock.canPlaceBlockOnSide(worldIn, hitPos, side, player, heldStack)) {
 						return false;
 					}
 				}

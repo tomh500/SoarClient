@@ -157,8 +157,7 @@ public class BlockVine extends Block {
 					&& !this.canPlaceOn(worldIn.getBlockState(pos.offset(enumfacing)).getBlock())) {
 				IBlockState iblockstate1 = worldIn.getBlockState(pos.up());
 
-				if (iblockstate1.getBlock() != this
-						|| !iblockstate1.getValue(propertybool).booleanValue()) {
+				if (iblockstate1.getBlock() != this || !iblockstate1.getValue(propertybool).booleanValue()) {
 					state = state.withProperty(propertybool, Boolean.valueOf(false));
 				}
 			}
@@ -232,8 +231,7 @@ public class BlockVine extends Block {
 							}
 						}
 
-						if (iblockstate2.getValue(NORTH).booleanValue()
-								|| iblockstate2.getValue(EAST).booleanValue()
+						if (iblockstate2.getValue(NORTH).booleanValue() || iblockstate2.getValue(EAST).booleanValue()
 								|| iblockstate2.getValue(SOUTH).booleanValue()
 								|| iblockstate2.getValue(WEST).booleanValue()) {
 							worldIn.setBlockState(blockpos1, iblockstate2, 2);

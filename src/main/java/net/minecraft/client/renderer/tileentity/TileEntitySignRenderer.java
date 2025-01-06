@@ -94,8 +94,7 @@ public class TileEntitySignRenderer extends TileEntitySpecialRenderer<TileEntity
 						IChatComponent ichatcomponent = te.signText[j];
 						List<IChatComponent> list = GuiUtilRenderComponents.splitText(ichatcomponent, 90, fontrenderer,
 								false, true);
-						String s = list != null && list.size() > 0 ? list.get(0).getFormattedText()
-								: "";
+						String s = list != null && list.size() > 0 ? list.get(0).getFormattedText() : "";
 
 						if (j == te.lineBeingEdited) {
 							s = "> " + s + " <";
@@ -127,20 +126,21 @@ public class TileEntitySignRenderer extends TileEntitySpecialRenderer<TileEntity
 		} else if (Config.getMinecraft().currentScreen instanceof GuiEditSign) {
 			return true;
 		} else {
-			
-			// TODO: Zoom
-			/*if (!Config.zoomMode && p_isRenderText_0_.lineBeingEdited < 0) {
-				Entity entity = Config.getMinecraft().getRenderViewEntity();
-				double d0 = p_isRenderText_0_.getDistanceSq(entity.posX, entity.posY, entity.posZ);
 
-                return !(d0 > textRenderDistanceSq);
-			}*/
-			
+			// TODO: Zoom
+			/*
+			 * if (!Config.zoomMode && p_isRenderText_0_.lineBeingEdited < 0) { Entity
+			 * entity = Config.getMinecraft().getRenderViewEntity(); double d0 =
+			 * p_isRenderText_0_.getDistanceSq(entity.posX, entity.posY, entity.posZ);
+			 * 
+			 * return !(d0 > textRenderDistanceSq); }
+			 */
+
 			if (p_isRenderText_0_.lineBeingEdited < 0) {
 				Entity entity = Config.getMinecraft().getRenderViewEntity();
 				double d0 = p_isRenderText_0_.getDistanceSq(entity.posX, entity.posY, entity.posZ);
 
-                return !(d0 > textRenderDistanceSq);
+				return !(d0 > textRenderDistanceSq);
 			}
 
 			return true;

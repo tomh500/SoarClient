@@ -24,8 +24,7 @@ public class RecipesIngots {
 			p_77590_1_.addRecipe(itemstack, "#", '#', block);
 		}
 
-		p_77590_1_.addRecipe(new ItemStack(Items.gold_ingot),
-                "###", "###", "###", '#', Items.gold_nugget);
+		p_77590_1_.addRecipe(new ItemStack(Items.gold_ingot), "###", "###", "###", '#', Items.gold_nugget);
 		p_77590_1_.addRecipe(new ItemStack(Items.gold_nugget, 9), "#", '#', Items.gold_ingot);
 	}
 }

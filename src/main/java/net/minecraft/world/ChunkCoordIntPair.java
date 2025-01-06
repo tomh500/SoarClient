@@ -32,7 +32,7 @@ public class ChunkCoordIntPair {
 		} else if (!(p_equals_1_ instanceof ChunkCoordIntPair chunkcoordintpair)) {
 			return false;
 		} else {
-            return this.chunkXPos == chunkcoordintpair.chunkXPos && this.chunkZPos == chunkcoordintpair.chunkZPos;
+			return this.chunkXPos == chunkcoordintpair.chunkXPos && this.chunkZPos == chunkcoordintpair.chunkZPos;
 		}
 	}
 

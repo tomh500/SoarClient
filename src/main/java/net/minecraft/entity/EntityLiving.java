@@ -350,9 +350,10 @@ public abstract class EntityLiving extends EntityLivingBase {
 				if (i == 0) {
 					if (itemstack.getItem() instanceof ItemSword && !(itemstack1.getItem() instanceof ItemSword)) {
 						flag = true;
-					} else if (itemstack.getItem() instanceof ItemSword itemsword && itemstack1.getItem() instanceof ItemSword itemsword1) {
+					} else if (itemstack.getItem() instanceof ItemSword itemsword
+							&& itemstack1.getItem() instanceof ItemSword itemsword1) {
 
-                        if (itemsword.getDamageVsEntity() != itemsword1.getDamageVsEntity()) {
+						if (itemsword.getDamageVsEntity() != itemsword1.getDamageVsEntity()) {
 							flag = itemsword.getDamageVsEntity() > itemsword1.getDamageVsEntity();
 						} else {
 							flag = itemstack.getMetadata() > itemstack1.getMetadata()
@@ -365,9 +366,10 @@ public abstract class EntityLiving extends EntityLivingBase {
 					}
 				} else if (itemstack.getItem() instanceof ItemArmor && !(itemstack1.getItem() instanceof ItemArmor)) {
 					flag = true;
-				} else if (itemstack.getItem() instanceof ItemArmor itemarmor && itemstack1.getItem() instanceof ItemArmor itemarmor1) {
+				} else if (itemstack.getItem() instanceof ItemArmor itemarmor
+						&& itemstack1.getItem() instanceof ItemArmor itemarmor1) {
 
-                    if (itemarmor.damageReduceAmount != itemarmor1.damageReduceAmount) {
+					if (itemarmor.damageReduceAmount != itemarmor1.damageReduceAmount) {
 						flag = itemarmor.damageReduceAmount > itemarmor1.damageReduceAmount;
 					} else {
 						flag = itemstack.getMetadata() > itemstack1.getMetadata()
@@ -477,7 +479,7 @@ public abstract class EntityLiving extends EntityLivingBase {
 		double d2;
 
 		if (entityIn instanceof EntityLivingBase entitylivingbase) {
-            d2 = entitylivingbase.posY + (double) entitylivingbase.getEyeHeight()
+			d2 = entitylivingbase.posY + (double) entitylivingbase.getEyeHeight()
 					- (this.posY + (double) this.getEyeHeight());
 		} else {
 			d2 = (entityIn.getEntityBoundingBox().minY + entityIn.getEntityBoundingBox().maxY) / 2.0D
@@ -916,5 +918,5 @@ public abstract class EntityLiving extends EntityLivingBase {
 
 	public enum SpawnPlacementType {
 		ON_GROUND, IN_AIR, IN_WATER
-    }
+	}
 }

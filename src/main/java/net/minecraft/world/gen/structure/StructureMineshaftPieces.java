@@ -24,19 +24,19 @@ import net.minecraft.world.World;
 @SuppressWarnings("incomplete-switch")
 public class StructureMineshaftPieces {
 	private static final List<WeightedRandomChestContent> CHEST_CONTENT_WEIGHT_LIST = Lists.newArrayList(
-            new WeightedRandomChestContent(Items.iron_ingot, 0, 1, 5, 10),
-            new WeightedRandomChestContent(Items.gold_ingot, 0, 1, 3, 5),
-            new WeightedRandomChestContent(Items.redstone, 0, 4, 9, 5),
-            new WeightedRandomChestContent(Items.dye, EnumDyeColor.BLUE.getDyeDamage(), 4, 9, 5),
-            new WeightedRandomChestContent(Items.diamond, 0, 1, 2, 3),
-            new WeightedRandomChestContent(Items.coal, 0, 3, 8, 10),
-            new WeightedRandomChestContent(Items.bread, 0, 1, 3, 15),
-            new WeightedRandomChestContent(Items.iron_pickaxe, 0, 1, 1, 1),
-            new WeightedRandomChestContent(Item.getItemFromBlock(Blocks.rail), 0, 4, 8, 1),
-            new WeightedRandomChestContent(Items.melon_seeds, 0, 2, 4, 10),
-            new WeightedRandomChestContent(Items.pumpkin_seeds, 0, 2, 4, 10),
-            new WeightedRandomChestContent(Items.saddle, 0, 1, 1, 3),
-            new WeightedRandomChestContent(Items.iron_horse_armor, 0, 1, 1, 1));
+			new WeightedRandomChestContent(Items.iron_ingot, 0, 1, 5, 10),
+			new WeightedRandomChestContent(Items.gold_ingot, 0, 1, 3, 5),
+			new WeightedRandomChestContent(Items.redstone, 0, 4, 9, 5),
+			new WeightedRandomChestContent(Items.dye, EnumDyeColor.BLUE.getDyeDamage(), 4, 9, 5),
+			new WeightedRandomChestContent(Items.diamond, 0, 1, 2, 3),
+			new WeightedRandomChestContent(Items.coal, 0, 3, 8, 10),
+			new WeightedRandomChestContent(Items.bread, 0, 1, 3, 15),
+			new WeightedRandomChestContent(Items.iron_pickaxe, 0, 1, 1, 1),
+			new WeightedRandomChestContent(Item.getItemFromBlock(Blocks.rail), 0, 4, 8, 1),
+			new WeightedRandomChestContent(Items.melon_seeds, 0, 2, 4, 10),
+			new WeightedRandomChestContent(Items.pumpkin_seeds, 0, 2, 4, 10),
+			new WeightedRandomChestContent(Items.saddle, 0, 1, 1, 3),
+			new WeightedRandomChestContent(Items.iron_horse_armor, 0, 1, 1, 1));
 
 	public static void registerStructurePieces() {
 		MapGenStructureIO.registerStructureComponent(StructureMineshaftPieces.Corridor.class, "MSCorridor");
@@ -280,8 +280,7 @@ public class StructureMineshaftPieces {
 				worldIn.setBlockState(blockpos,
 						Blocks.rail.getStateFromMeta(this.getMetadataWithOffset(Blocks.rail, i)), 2);
 				EntityMinecartChest entityminecartchest = new EntityMinecartChest(worldIn,
-                        (float) blockpos.getX() + 0.5F, (float) blockpos.getY() + 0.5F,
-                        (float) blockpos.getZ() + 0.5F);
+						(float) blockpos.getX() + 0.5F, (float) blockpos.getY() + 0.5F, (float) blockpos.getZ() + 0.5F);
 				WeightedRandomChestContent.generateChestContents(rand, listIn, entityminecartchest, max);
 				worldIn.spawnEntityInWorld(entityminecartchest);
 				return true;
@@ -351,7 +350,7 @@ public class StructureMineshaftPieces {
 						this.generateChestContents(worldIn, structureBoundingBoxIn, randomIn, 2, 0, k1 - 1,
 								WeightedRandomChestContent.func_177629_a(
 										StructureMineshaftPieces.CHEST_CONTENT_WEIGHT_LIST,
-                                        Items.enchanted_book.getRandom(randomIn)),
+										Items.enchanted_book.getRandom(randomIn)),
 								3 + randomIn.nextInt(4));
 					}
 
@@ -359,7 +358,7 @@ public class StructureMineshaftPieces {
 						this.generateChestContents(worldIn, structureBoundingBoxIn, randomIn, 0, 0, k1 + 1,
 								WeightedRandomChestContent.func_177629_a(
 										StructureMineshaftPieces.CHEST_CONTENT_WEIGHT_LIST,
-                                        Items.enchanted_book.getRandom(randomIn)),
+										Items.enchanted_book.getRandom(randomIn)),
 								3 + randomIn.nextInt(4));
 					}
 

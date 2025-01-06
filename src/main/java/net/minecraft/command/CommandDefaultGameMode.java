@@ -20,7 +20,8 @@ public class CommandDefaultGameMode extends CommandGameMode {
 		} else {
 			WorldSettings.GameType worldsettings$gametype = this.getGameModeFromCommand(sender, args[0]);
 			this.setGameType(worldsettings$gametype);
-			notifyOperators(sender, this, "commands.defaultgamemode.success", new ChatComponentTranslation("gameMode." + worldsettings$gametype.getName()));
+			notifyOperators(sender, this, "commands.defaultgamemode.success",
+					new ChatComponentTranslation("gameMode." + worldsettings$gametype.getName()));
 		}
 	}
 

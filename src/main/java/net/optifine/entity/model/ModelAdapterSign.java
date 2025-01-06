@@ -21,7 +21,7 @@ public class ModelAdapterSign extends ModelAdapter {
 		if (!(model instanceof ModelSign modelsign)) {
 			return null;
 		} else {
-            return modelPart.equals("board") ? modelsign.signBoard
+			return modelPart.equals("board") ? modelsign.signBoard
 					: (modelPart.equals("stick") ? modelsign.signStick : null);
 		}
 	}

@@ -20,8 +20,8 @@ import net.minecraft.world.World;
 
 public abstract class BlockStoneSlab extends BlockSlab {
 	public static final PropertyBool SEAMLESS = PropertyBool.create("seamless");
-	public static final PropertyEnum<BlockStoneSlab.EnumType> VARIANT = PropertyEnum.create(
-			"variant", BlockStoneSlab.EnumType.class);
+	public static final PropertyEnum<BlockStoneSlab.EnumType> VARIANT = PropertyEnum.create("variant",
+			BlockStoneSlab.EnumType.class);
 
 	public BlockStoneSlab() {
 		super(Material.rock);
@@ -97,8 +97,7 @@ public abstract class BlockStoneSlab extends BlockSlab {
 	}
 
 	protected BlockState createBlockState() {
-		return this.isDouble() ? new BlockState(this, SEAMLESS, VARIANT)
-				: new BlockState(this, HALF, VARIANT);
+		return this.isDouble() ? new BlockState(this, SEAMLESS, VARIANT) : new BlockState(this, HALF, VARIANT);
 	}
 
 	public int damageDropped(IBlockState state) {

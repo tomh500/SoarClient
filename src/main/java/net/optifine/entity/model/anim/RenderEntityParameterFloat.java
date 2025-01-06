@@ -40,7 +40,7 @@ public enum RenderEntityParameterFloat implements IExpressionFloat {
 		} else {
 			if (render instanceof RendererLivingEntity rendererlivingentity) {
 
-                switch (this) {
+				switch (this) {
 				case LIMB_SWING:
 					return rendererlivingentity.renderLimbSwing;
 

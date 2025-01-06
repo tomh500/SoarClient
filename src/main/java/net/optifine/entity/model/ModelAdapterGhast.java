@@ -23,7 +23,7 @@ public class ModelAdapterGhast extends ModelAdapter {
 			return null;
 		} else {
 
-            if (modelPart.equals("body")) {
+			if (modelPart.equals("body")) {
 				return modelghast.body;
 			} else {
 				String s = "tentacle";

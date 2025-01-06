@@ -92,7 +92,7 @@ public abstract class GuiScreen extends Gui implements GuiYesNoCallback {
 				return (String) transferable.getTransferData(DataFlavor.stringFlavor);
 			}
 		} catch (Exception var1) {
-        }
+		}
 
 		return "";
 	}
@@ -103,7 +103,7 @@ public abstract class GuiScreen extends Gui implements GuiYesNoCallback {
 				StringSelection stringselection = new StringSelection(copyText);
 				Toolkit.getDefaultToolkit().getSystemClipboard().setContents(stringselection, null);
 			} catch (Exception var2) {
-            }
+			}
 		}
 	}
 
@@ -206,7 +206,7 @@ public abstract class GuiScreen extends Gui implements GuiYesNoCallback {
 						itemstack = ItemStack.loadItemStackFromNBT((NBTTagCompound) nbtbase);
 					}
 				} catch (NBTException var11) {
-                }
+				}
 
 				if (itemstack != null) {
 					this.renderToolTip(itemstack, x, y);
@@ -220,7 +220,7 @@ public abstract class GuiScreen extends Gui implements GuiYesNoCallback {
 
 						if (nbtbase1 instanceof NBTTagCompound nbttagcompound) {
 							List<String> list1 = Lists.newArrayList();
-                            list1.add(nbttagcompound.getString("name"));
+							list1.add(nbttagcompound.getString("name"));
 
 							if (nbttagcompound.hasKey("type", 8)) {
 								String s = nbttagcompound.getString("type");
@@ -244,12 +244,11 @@ public abstract class GuiScreen extends Gui implements GuiYesNoCallback {
 				if (statbase != null) {
 					IChatComponent ichatcomponent = statbase.getStatName();
 					IChatComponent ichatcomponent1 = new ChatComponentTranslation(
-							"stats.tooltip.type." + (statbase.isAchievement() ? "achievement" : "statistic")
-                    );
+							"stats.tooltip.type." + (statbase.isAchievement() ? "achievement" : "statistic"));
 					ichatcomponent1.getChatStyle().setItalic(Boolean.valueOf(true));
 					String s1 = statbase instanceof Achievement ? ((Achievement) statbase).getDescription() : null;
-					List<String> list = Lists.newArrayList(
-                            ichatcomponent.getFormattedText(), ichatcomponent1.getFormattedText());
+					List<String> list = Lists.newArrayList(ichatcomponent.getFormattedText(),
+							ichatcomponent1.getFormattedText());
 
 					if (s1 != null) {
 						list.addAll(this.fontRendererObj.listFormattedStringToWidth(s1, 150));
@@ -457,13 +456,13 @@ public abstract class GuiScreen extends Gui implements GuiYesNoCallback {
 		GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
 		float f = 32.0F;
 		worldrenderer.begin(7, DefaultVertexFormats.POSITION_TEX_COLOR);
-		worldrenderer.pos(0.0D, this.height, 0.0D)
-				.tex(0.0D, (float) this.height / 32.0F + (float) tint).color(64, 64, 64, 255).endVertex();
+		worldrenderer.pos(0.0D, this.height, 0.0D).tex(0.0D, (float) this.height / 32.0F + (float) tint)
+				.color(64, 64, 64, 255).endVertex();
 		worldrenderer.pos(this.width, this.height, 0.0D)
-				.tex((float) this.width / 32.0F, (float) this.height / 32.0F + (float) tint)
-				.color(64, 64, 64, 255).endVertex();
-		worldrenderer.pos(this.width, 0.0D, 0.0D).tex((float) this.width / 32.0F, tint)
-				.color(64, 64, 64, 255).endVertex();
+				.tex((float) this.width / 32.0F, (float) this.height / 32.0F + (float) tint).color(64, 64, 64, 255)
+				.endVertex();
+		worldrenderer.pos(this.width, 0.0D, 0.0D).tex((float) this.width / 32.0F, tint).color(64, 64, 64, 255)
+				.endVertex();
 		worldrenderer.pos(0.0D, 0.0D, 0.0D).tex(0.0D, tint).color(64, 64, 64, 255).endVertex();
 		tessellator.draw();
 	}

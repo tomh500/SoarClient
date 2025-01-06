@@ -11,8 +11,7 @@ import net.minecraft.util.IStringSerializable;
 import net.minecraft.world.World;
 
 public abstract class BlockLog extends BlockRotatedPillar {
-	public static final PropertyEnum<BlockLog.EnumAxis> LOG_AXIS = PropertyEnum.create("axis",
-			BlockLog.EnumAxis.class);
+	public static final PropertyEnum<BlockLog.EnumAxis> LOG_AXIS = PropertyEnum.create("axis", BlockLog.EnumAxis.class);
 
 	public BlockLog() {
 		super(Material.wood);

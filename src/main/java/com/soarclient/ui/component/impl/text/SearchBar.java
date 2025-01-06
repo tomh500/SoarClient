@@ -48,15 +48,16 @@ public class SearchBar extends Component {
 		Skia.drawRoundedRect(x, y, width, height, 20, palette.getSurface());
 		Skia.drawText(Icon.SEARCH, x + 12, y + 11.5F, palette.getOnSurface(), Fonts.getIcon(24));
 		Skia.drawText(I18n.get(hintText), x + 40 - (25 * (1 - hintTextValue)), y + 15F,
-				ColorUtils.applyAlpha(palette.getOnSurfaceVariant(), (int) (hintTextValue * 255)), Fonts.getRegular(16));
+				ColorUtils.applyAlpha(palette.getOnSurfaceVariant(), (int) (hintTextValue * 255)),
+				Fonts.getRegular(16));
 
 		Skia.save();
 		Skia.clip(x, y, width, height, 20);
-		
+
 		drawCursor();
 
 		String text = getText();
-		
+
 		if (!text.isEmpty() || isFocused()) {
 			float availableWidth = width - 50;
 			float textWidth = Skia.getTextWidth(text, Fonts.getRegular(16));
@@ -69,7 +70,7 @@ public class SearchBar extends Component {
 
 			Skia.drawText(text, x + 40 + xOffset, y + 15F, palette.getOnSurfaceVariant(), Fonts.getRegular(16));
 		}
-		
+
 		Skia.restore();
 
 		if (Keyboard.isKeyDown(Keyboard.KEY_LCONTROL) && Keyboard.isKeyDown(Keyboard.KEY_F) && !isFocused()) {
@@ -84,7 +85,7 @@ public class SearchBar extends Component {
 	}
 
 	private void drawCursor() {
-		
+
 		ColorPalette palette = Soar.getInstance().getColorManager().getPalette();
 
 		int selectionEnd = input.getSelectionEnd();
@@ -112,7 +113,7 @@ public class SearchBar extends Component {
 			float overflow = textWidth - availableWidth;
 			xOffset = -overflow;
 		}
-		
+
 		float cursorOffset = Skia.getTextWidth(text.substring(0, cursorPosition), Fonts.getRegular(16));
 		cursorAnimation.onTick(cursorOffset, 16);
 		float cursorX = x + 40 + cursorAnimation.getValue() + xOffset;
@@ -159,7 +160,7 @@ public class SearchBar extends Component {
 	@Override
 	public void mouseReleased(int mouseX, int mouseY, int mouseButton) {
 	}
-	
+
 	@Override
 	public void keyTyped(char typedChar, int keyCode) {
 		input.keyTyped(typedChar, keyCode);

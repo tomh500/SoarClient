@@ -28,8 +28,7 @@ import net.minecraft.world.World;
 
 public class ItemPotion extends Item {
 	private final Map<Integer, List<PotionEffect>> effectCache = Maps.newHashMap();
-	private static final Map<List<PotionEffect>, Integer> SUB_ITEMS_CACHE = Maps
-			.newLinkedHashMap();
+	private static final Map<List<PotionEffect>, Integer> SUB_ITEMS_CACHE = Maps.newLinkedHashMap();
 
 	public ItemPotion() {
 		this.setMaxStackSize(1);
@@ -200,8 +199,7 @@ public class ItemPotion extends Item {
 							AttributeModifier attributemodifier1 = new AttributeModifier(attributemodifier.getName(),
 									potion.getAttributeModifierAmount(potioneffect.getAmplifier(), attributemodifier),
 									attributemodifier.getOperation());
-							multimap.put(entry.getKey().getAttributeUnlocalizedName(),
-									attributemodifier1);
+							multimap.put(entry.getKey().getAttributeUnlocalizedName(), attributemodifier1);
 						}
 					}
 
@@ -244,14 +242,14 @@ public class ItemPotion extends Item {
 					if (d0 > 0.0D) {
 						tooltip.add(EnumChatFormatting.BLUE + StatCollector.translateToLocalFormatted(
 								"attribute.modifier.plus." + attributemodifier2.getOperation(),
-								new Object[] { ItemStack.DECIMALFORMAT.format(d1), StatCollector
-										.translateToLocal("attribute.name." + entry1.getKey()) }));
+								new Object[] { ItemStack.DECIMALFORMAT.format(d1),
+										StatCollector.translateToLocal("attribute.name." + entry1.getKey()) }));
 					} else if (d0 < 0.0D) {
 						d1 = d1 * -1.0D;
 						tooltip.add(EnumChatFormatting.RED + StatCollector.translateToLocalFormatted(
 								"attribute.modifier.take." + attributemodifier2.getOperation(),
-								new Object[] { ItemStack.DECIMALFORMAT.format(d1), StatCollector
-										.translateToLocal("attribute.name." + entry1.getKey()) }));
+								new Object[] { ItemStack.DECIMALFORMAT.format(d1),
+										StatCollector.translateToLocal("attribute.name." + entry1.getKey()) }));
 					}
 				}
 			}

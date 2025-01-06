@@ -58,8 +58,7 @@ public class ModelBlock {
 
 	protected ModelBlock(ResourceLocation parentLocationIn, Map<String, String> texturesIn, boolean ambientOcclusionIn,
 			boolean gui3dIn, ItemCameraTransforms cameraTransformsIn) {
-		this(parentLocationIn, Collections.emptyList(), texturesIn, ambientOcclusionIn, gui3dIn,
-				cameraTransformsIn);
+		this(parentLocationIn, Collections.emptyList(), texturesIn, ambientOcclusionIn, gui3dIn, cameraTransformsIn);
 	}
 
 	private ModelBlock(ResourceLocation parentLocationIn, List<BlockPart> elementsIn, Map<String, String> texturesIn,
@@ -183,7 +182,7 @@ public class ModelBlock {
 
 				throw new ModelBlock.LoopException();
 			} catch (NullPointerException var5) {
-            }
+			}
 		}
 	}
 
@@ -216,8 +215,7 @@ public class ModelBlock {
 
 				if (jsonobject.has("display")) {
 					JsonObject jsonobject1 = JsonUtils.getJsonObject(jsonobject, "display");
-					itemcameratransforms = p_deserialize_3_.deserialize(jsonobject1,
-							ItemCameraTransforms.class);
+					itemcameratransforms = p_deserialize_3_.deserialize(jsonobject1, ItemCameraTransforms.class);
 				}
 
 				return flag1 ? new ModelBlock(new ResourceLocation(s), map, flag2, true, itemcameratransforms)

@@ -235,8 +235,7 @@ public class EntityEnderman extends EntityMob {
 				double d3 = d0 + (this.posX - d0) * d6 + (this.rand.nextDouble() - 0.5D) * (double) this.width * 2.0D;
 				double d4 = d1 + (this.posY - d1) * d6 + this.rand.nextDouble() * (double) this.height;
 				double d5 = d2 + (this.posZ - d2) * d6 + (this.rand.nextDouble() - 0.5D) * (double) this.width * 2.0D;
-				this.worldObj.spawnParticle(EnumParticleTypes.PORTAL, d3, d4, d5, f, f1, f2
-                );
+				this.worldObj.spawnParticle(EnumParticleTypes.PORTAL, d3, d4, d5, f, f1, f2);
 			}
 
 			this.worldObj.playSoundEffect(d0, d1, d2, "mob.endermen.portal", 1.0F, 1.0F);
@@ -440,7 +439,9 @@ public class EntityEnderman extends EntityMob {
 		}
 
 		public boolean shouldExecute() {
-			return this.enderman.worldObj.getGameRules().getBoolean("mobGriefing") && (this.enderman.getHeldBlockState().getBlock().getMaterial() != Material.air && this.enderman.getRNG().nextInt(2000) == 0);
+			return this.enderman.worldObj.getGameRules().getBoolean("mobGriefing")
+					&& (this.enderman.getHeldBlockState().getBlock().getMaterial() != Material.air
+							&& this.enderman.getRNG().nextInt(2000) == 0);
 		}
 
 		public void updateTask() {
@@ -461,7 +462,8 @@ public class EntityEnderman extends EntityMob {
 
 		private boolean func_179474_a(World worldIn, BlockPos p_179474_2_, Block p_179474_3_, Block p_179474_4_,
 				Block p_179474_5_) {
-			return p_179474_3_.canPlaceBlockAt(worldIn, p_179474_2_) && (p_179474_4_.getMaterial() == Material.air && (p_179474_5_.getMaterial() != Material.air && p_179474_5_.isFullCube()));
+			return p_179474_3_.canPlaceBlockAt(worldIn, p_179474_2_) && (p_179474_4_.getMaterial() == Material.air
+					&& (p_179474_5_.getMaterial() != Material.air && p_179474_5_.isFullCube()));
 		}
 	}
 
@@ -473,7 +475,9 @@ public class EntityEnderman extends EntityMob {
 		}
 
 		public boolean shouldExecute() {
-			return this.enderman.worldObj.getGameRules().getBoolean("mobGriefing") && (this.enderman.getHeldBlockState().getBlock().getMaterial() == Material.air && this.enderman.getRNG().nextInt(20) == 0);
+			return this.enderman.worldObj.getGameRules().getBoolean("mobGriefing")
+					&& (this.enderman.getHeldBlockState().getBlock().getMaterial() == Material.air
+							&& this.enderman.getRNG().nextInt(20) == 0);
 		}
 
 		public void updateTask() {

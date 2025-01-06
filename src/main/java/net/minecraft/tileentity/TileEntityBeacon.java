@@ -65,11 +65,9 @@ public class TileEntityBeacon extends TileEntityLockable implements ITickable, I
 			int j = this.pos.getX();
 			int k = this.pos.getY();
 			int l = this.pos.getZ();
-			AxisAlignedBB axisalignedbb = (new AxisAlignedBB(j, k, l, j + 1,
-                    k + 1, l + 1)).expand(d0, d0, d0)
+			AxisAlignedBB axisalignedbb = (new AxisAlignedBB(j, k, l, j + 1, k + 1, l + 1)).expand(d0, d0, d0)
 					.addCoord(0.0D, this.worldObj.getHeight(), 0.0D);
-			List<EntityPlayer> list = this.worldObj.getEntitiesWithinAABB(EntityPlayer.class,
-					axisalignedbb);
+			List<EntityPlayer> list = this.worldObj.getEntitiesWithinAABB(EntityPlayer.class, axisalignedbb);
 
 			for (EntityPlayer entityplayer : list) {
 				entityplayer.addPotionEffect(new PotionEffect(this.primaryEffect, 180, i, true, true));
@@ -168,8 +166,7 @@ public class TileEntityBeacon extends TileEntityLockable implements ITickable, I
 
 		if (!this.worldObj.isRemote && this.levels == 4 && i < this.levels) {
 			for (EntityPlayer entityplayer : this.worldObj.getEntitiesWithinAABB(EntityPlayer.class,
-					(new AxisAlignedBB(j, k, l, j, k - 4, l))
-							.expand(10.0D, 5.0D, 10.0D))) {
+					(new AxisAlignedBB(j, k, l, j, k - 4, l)).expand(10.0D, 5.0D, 10.0D))) {
 				entityplayer.triggerAchievement(AchievementList.fullBeacon);
 			}
 		}
@@ -295,8 +292,8 @@ public class TileEntityBeacon extends TileEntityLockable implements ITickable, I
 	}
 
 	public boolean isUseableByPlayer(EntityPlayer player) {
-		return this.worldObj.getTileEntity(this.pos) == this && player.getDistanceSq((double) this.pos.getX() + 0.5D, (double) this.pos.getY() + 0.5D,
-                (double) this.pos.getZ() + 0.5D) <= 64.0D;
+		return this.worldObj.getTileEntity(this.pos) == this && player.getDistanceSq((double) this.pos.getX() + 0.5D,
+				(double) this.pos.getY() + 0.5D, (double) this.pos.getZ() + 0.5D) <= 64.0D;
 	}
 
 	public void openInventory(EntityPlayer player) {

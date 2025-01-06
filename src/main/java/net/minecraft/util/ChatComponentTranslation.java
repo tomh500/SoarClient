@@ -68,8 +68,7 @@ public class ChatComponentTranslation extends ChatComponentStyle {
 				l = matcher.end();
 
 				if (k > j) {
-					ChatComponentText chatcomponenttext = new ChatComponentText(
-							String.format(format.substring(j, k)));
+					ChatComponentText chatcomponenttext = new ChatComponentText(String.format(format.substring(j, k)));
 					chatcomponenttext.getChatStyle().setParentStyle(this.getChatStyle());
 					this.children.add(chatcomponenttext);
 				}
@@ -96,8 +95,7 @@ public class ChatComponentTranslation extends ChatComponentStyle {
 			}
 
 			if (j < format.length()) {
-				ChatComponentText chatcomponenttext1 = new ChatComponentText(
-						String.format(format.substring(j)));
+				ChatComponentText chatcomponenttext1 = new ChatComponentText(String.format(format.substring(j)));
 				chatcomponenttext1.getChatStyle().setParentStyle(this.getChatStyle());
 				this.children.add(chatcomponenttext1);
 			}
@@ -144,8 +142,7 @@ public class ChatComponentTranslation extends ChatComponentStyle {
 
 	public Iterator<IChatComponent> iterator() {
 		this.ensureInitialized();
-		return Iterators.concat(createDeepCopyIterator(this.children),
-				createDeepCopyIterator(this.siblings));
+		return Iterators.concat(createDeepCopyIterator(this.children), createDeepCopyIterator(this.siblings));
 	}
 
 	public String getUnformattedTextForChat() {
@@ -186,7 +183,7 @@ public class ChatComponentTranslation extends ChatComponentStyle {
 		} else if (!(p_equals_1_ instanceof ChatComponentTranslation chatcomponenttranslation)) {
 			return false;
 		} else {
-            return Arrays.equals(this.formatArgs, chatcomponenttranslation.formatArgs)
+			return Arrays.equals(this.formatArgs, chatcomponenttranslation.formatArgs)
 					&& this.key.equals(chatcomponenttranslation.key) && super.equals(p_equals_1_);
 		}
 	}

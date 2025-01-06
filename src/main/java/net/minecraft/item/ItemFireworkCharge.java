@@ -18,7 +18,7 @@ public class ItemFireworkCharge extends Item {
 			if (!(nbtbase instanceof NBTTagIntArray nbttagintarray)) {
 				return 9079434;
 			} else {
-                int[] aint = nbttagintarray.getIntArray();
+				int[] aint = nbttagintarray.getIntArray();
 
 				if (aint.length == 1) {
 					return aint[0];
@@ -91,7 +91,7 @@ public class ItemFireworkCharge extends Item {
 					if (i == ItemDye.dyeColors[j]) {
 						flag1 = true;
 						s.append(StatCollector.translateToLocal(
-                                "item.fireworksCharge." + EnumDyeColor.byDyeDamage(j).getUnlocalizedName()));
+								"item.fireworksCharge." + EnumDyeColor.byDyeDamage(j).getUnlocalizedName()));
 						break;
 					}
 				}
@@ -122,7 +122,7 @@ public class ItemFireworkCharge extends Item {
 					if (l == ItemDye.dyeColors[k]) {
 						flag5 = true;
 						s1.append(StatCollector.translateToLocal(
-                                "item.fireworksCharge." + EnumDyeColor.byDyeDamage(k).getUnlocalizedName()));
+								"item.fireworksCharge." + EnumDyeColor.byDyeDamage(k).getUnlocalizedName()));
 						break;
 					}
 				}

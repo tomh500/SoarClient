@@ -407,8 +407,7 @@ public abstract class GuiContainer extends GuiScreen {
 			k = -999;
 		}
 
-		if (this.doubleClick && slot != null && state == 0
-				&& this.inventorySlots.canMergeSlot(null, slot)) {
+		if (this.doubleClick && slot != null && state == 0 && this.inventorySlots.canMergeSlot(null, slot)) {
 			if (isShiftKeyDown()) {
 				if (slot != null && slot.inventory != null && this.shiftClickedSlot != null) {
 					for (Slot slot2 : this.inventorySlots.inventorySlots) {

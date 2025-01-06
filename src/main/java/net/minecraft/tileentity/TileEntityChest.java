@@ -144,8 +144,8 @@ public class TileEntityChest extends TileEntityLockable implements ITickable, II
 	}
 
 	public boolean isUseableByPlayer(EntityPlayer player) {
-		return this.worldObj.getTileEntity(this.pos) == this && player.getDistanceSq((double) this.pos.getX() + 0.5D, (double) this.pos.getY() + 0.5D,
-                (double) this.pos.getZ() + 0.5D) <= 64.0D;
+		return this.worldObj.getTileEntity(this.pos) == this && player.getDistanceSq((double) this.pos.getX() + 0.5D,
+				(double) this.pos.getY() + 0.5D, (double) this.pos.getZ() + 0.5D) <= 64.0D;
 	}
 
 	public void updateContainingBlockInfo() {
@@ -205,7 +205,7 @@ public class TileEntityChest extends TileEntityLockable implements ITickable, II
 			TileEntity tileentity = this.worldObj.getTileEntity(blockpos);
 
 			if (tileentity instanceof TileEntityChest tileentitychest) {
-                tileentitychest.func_174910_a(this, side.getOpposite());
+				tileentitychest.func_174910_a(this, side.getOpposite());
 				return tileentitychest;
 			}
 		}
@@ -234,9 +234,8 @@ public class TileEntityChest extends TileEntityLockable implements ITickable, II
 			float f = 5.0F;
 
 			for (EntityPlayer entityplayer : this.worldObj.getEntitiesWithinAABB(EntityPlayer.class,
-					new AxisAlignedBB((float) i - f, (float) j - f, (float) k - f,
-                            (float) (i + 1) + f, (float) (j + 1) + f,
-                            (float) (k + 1) + f))) {
+					new AxisAlignedBB((float) i - f, (float) j - f, (float) k - f, (float) (i + 1) + f,
+							(float) (j + 1) + f, (float) (k + 1) + f))) {
 				if (entityplayer.openContainer instanceof ContainerChest) {
 					IInventory iinventory = ((ContainerChest) entityplayer.openContainer).getLowerChestInventory();
 

@@ -399,7 +399,7 @@ public class CustomColors {
 			potionColors = readPotionColors(properties, fileName, "potion.", "Potion");
 			xpOrbTime = Config.parseInt(properties.getProperty("xporb.time"), -1);
 		} catch (FileNotFoundException var5) {
-        } catch (IOException ioexception) {
+		} catch (IOException ioexception) {
 			ioexception.printStackTrace();
 		}
 	}
@@ -451,8 +451,7 @@ public class CustomColors {
 		if (list.size() <= 0) {
 			return null;
 		} else {
-			CustomColormap[] acustomcolormap = (CustomColormap[]) list
-					.toArray(new CustomColormap[0]);
+			CustomColormap[] acustomcolormap = (CustomColormap[]) list.toArray(new CustomColormap[0]);
 			return acustomcolormap;
 		}
 	}
@@ -546,8 +545,7 @@ public class CustomColors {
 			List list = (List) lists.get(i);
 
 			if (list != null) {
-				CustomColormap[] acustomcolormap1 = (CustomColormap[]) list
-						.toArray(new CustomColormap[0]);
+				CustomColormap[] acustomcolormap1 = (CustomColormap[]) list.toArray(new CustomColormap[0]);
 				acustomcolormap[i] = acustomcolormap1;
 			}
 		}
@@ -777,7 +775,7 @@ public class CustomColors {
 		} else if (!(blockState instanceof BlockStateBase blockstatebase)) {
 			return null;
 		} else {
-            int i = blockstatebase.getBlockId();
+			int i = blockstatebase.getBlockId();
 
 			if (i >= 0 && i < blockColormaps.length) {
 				CustomColormap[] acustomcolormap = blockColormaps[i];
@@ -905,7 +903,7 @@ public class CustomColors {
 			if (!(object instanceof Integer integer)) {
 				return def;
 			} else {
-                return integer.intValue();
+				return integer.intValue();
 			}
 		}
 	}
@@ -1083,7 +1081,8 @@ public class CustomColors {
 
 			if (j >= 0 && j < lightMapPacks.length) {
 				LightMapPack lightmappack = lightMapPacks[j];
-				return lightmappack != null && lightmappack.updateLightmap(world, torchFlickerX, lmColors, nightvision, partialTicks);
+				return lightmappack != null
+						&& lightmappack.updateLightmap(world, torchFlickerX, lmColors, nightvision, partialTicks);
 			} else {
 				return false;
 			}

@@ -104,8 +104,7 @@ public class MapData extends WorldSavedData {
 				if (!mapStack.isOnItemFrame() && mapdata$mapinfo1.entityplayerObj.dimension == this.dimension) {
 					this.updateDecorations(0, mapdata$mapinfo1.entityplayerObj.worldObj,
 							mapdata$mapinfo1.entityplayerObj.getName(), mapdata$mapinfo1.entityplayerObj.posX,
-							mapdata$mapinfo1.entityplayerObj.posZ,
-                            mapdata$mapinfo1.entityplayerObj.rotationYaw);
+							mapdata$mapinfo1.entityplayerObj.posZ, mapdata$mapinfo1.entityplayerObj.rotationYaw);
 				}
 			} else {
 				this.playersHashMap.remove(mapdata$mapinfo1.entityplayerObj);
@@ -116,9 +115,8 @@ public class MapData extends WorldSavedData {
 		if (mapStack.isOnItemFrame()) {
 			EntityItemFrame entityitemframe = mapStack.getItemFrame();
 			BlockPos blockpos = entityitemframe.getHangingPosition();
-			this.updateDecorations(1, player.worldObj, "frame-" + entityitemframe.getEntityId(),
-                    blockpos.getX(), blockpos.getZ(),
-                    entityitemframe.facingDirection.getHorizontalIndex() * 90);
+			this.updateDecorations(1, player.worldObj, "frame-" + entityitemframe.getEntityId(), blockpos.getX(),
+					blockpos.getZ(), entityitemframe.facingDirection.getHorizontalIndex() * 90);
 		}
 
 		if (mapStack.hasTagCompound() && mapStack.getTagCompound().hasKey("Decorations", 9)) {

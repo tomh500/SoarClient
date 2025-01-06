@@ -11,12 +11,12 @@ public class GuiQualitySettingsOF extends GuiScreen {
 	private final GuiScreen prevScreen;
 	protected String title;
 	private final GameSettings settings;
-	private static final GameSettings.Options[] enumOptions = new GameSettings.Options[] { GameSettings.Options.MIPMAP_LEVELS,
-			GameSettings.Options.MIPMAP_TYPE, GameSettings.Options.AF_LEVEL, GameSettings.Options.AA_LEVEL,
-			GameSettings.Options.CLEAR_WATER, GameSettings.Options.RANDOM_ENTITIES, GameSettings.Options.BETTER_GRASS,
-			GameSettings.Options.BETTER_SNOW, GameSettings.Options.CUSTOM_FONTS, GameSettings.Options.CUSTOM_COLORS,
-			GameSettings.Options.CONNECTED_TEXTURES, GameSettings.Options.NATURAL_TEXTURES,
-			GameSettings.Options.CUSTOM_SKY, GameSettings.Options.CUSTOM_ITEMS,
+	private static final GameSettings.Options[] enumOptions = new GameSettings.Options[] {
+			GameSettings.Options.MIPMAP_LEVELS, GameSettings.Options.MIPMAP_TYPE, GameSettings.Options.AF_LEVEL,
+			GameSettings.Options.AA_LEVEL, GameSettings.Options.CLEAR_WATER, GameSettings.Options.RANDOM_ENTITIES,
+			GameSettings.Options.BETTER_GRASS, GameSettings.Options.BETTER_SNOW, GameSettings.Options.CUSTOM_FONTS,
+			GameSettings.Options.CUSTOM_COLORS, GameSettings.Options.CONNECTED_TEXTURES,
+			GameSettings.Options.NATURAL_TEXTURES, GameSettings.Options.CUSTOM_SKY, GameSettings.Options.CUSTOM_ITEMS,
 			GameSettings.Options.CUSTOM_ENTITY_MODELS, GameSettings.Options.CUSTOM_GUIS,
 			GameSettings.Options.EMISSIVE_TEXTURES };
 	private final TooltipManager tooltipManager = new TooltipManager(this, new TooltipProviderOptions());
@@ -44,8 +44,8 @@ public class GuiQualitySettingsOF extends GuiScreen {
 			}
 		}
 
-		this.buttonList.add(new GuiButton(200, this.width / 2 - 100, this.height / 6 + 168 + 11,
-				I18n.format("gui.done")));
+		this.buttonList
+				.add(new GuiButton(200, this.width / 2 - 100, this.height / 6 + 168 + 11, I18n.format("gui.done")));
 	}
 
 	protected void actionPerformed(GuiButton guibutton) {

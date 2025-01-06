@@ -124,7 +124,7 @@ public class MapStorage {
 					NBTBase nbtbase = nbttagcompound.getTag(s);
 
 					if (nbtbase instanceof NBTTagShort nbttagshort) {
-                        short short1 = nbttagshort.getShort();
+						short short1 = nbttagshort.getShort();
 						this.idCounts.put(s, Short.valueOf(short1));
 					}
 				}

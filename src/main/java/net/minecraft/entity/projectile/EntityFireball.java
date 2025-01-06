@@ -126,8 +126,7 @@ public abstract class EntityFireball extends Entity {
 				if (entity1.canBeCollidedWith()
 						&& (!entity1.isEntityEqual(this.shootingEntity) || this.ticksInAir >= 25)) {
 					float f = 0.3F;
-					AxisAlignedBB axisalignedbb = entity1.getEntityBoundingBox().expand(f, f,
-                            f);
+					AxisAlignedBB axisalignedbb = entity1.getEntityBoundingBox().expand(f, f, f);
 					MovingObjectPosition movingobjectposition1 = axisalignedbb.calculateIntercept(vec3, vec31);
 
 					if (movingobjectposition1 != null) {
@@ -157,7 +156,7 @@ public abstract class EntityFireball extends Entity {
 
 			for (this.rotationPitch = (float) (MathHelper.atan2(f1, this.motionY) * 180.0D / Math.PI)
 					- 90.0F; this.rotationPitch - this.prevRotationPitch < -180.0F; this.prevRotationPitch -= 360.0F) {
-            }
+			}
 
 			while (this.rotationPitch - this.prevRotationPitch >= 180.0F) {
 				this.prevRotationPitch += 360.0F;
@@ -213,8 +212,7 @@ public abstract class EntityFireball extends Entity {
 		ResourceLocation resourcelocation = Block.blockRegistry.getNameForObject(this.inTile);
 		tagCompound.setString("inTile", resourcelocation == null ? "" : resourcelocation.toString());
 		tagCompound.setByte("inGround", (byte) (this.inGround ? 1 : 0));
-		tagCompound.setTag("direction",
-				this.newDoubleNBTList(this.motionX, this.motionY, this.motionZ));
+		tagCompound.setTag("direction", this.newDoubleNBTList(this.motionX, this.motionY, this.motionZ));
 	}
 
 	public void readEntityFromNBT(NBTTagCompound tagCompund) {

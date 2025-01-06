@@ -78,8 +78,7 @@ public class CustomSky {
 			}
 
 			if (list.size() > 0) {
-				CustomSkyLayer[] acustomskylayer2 = (CustomSkyLayer[]) list
-						.toArray(new CustomSkyLayer[0]);
+				CustomSkyLayer[] acustomskylayer2 = (CustomSkyLayer[]) list.toArray(new CustomSkyLayer[0]);
 				acustomskylayer[j] = acustomskylayer2;
 				i = j;
 			}
@@ -91,7 +90,7 @@ public class CustomSky {
 			int l = i + 1;
 			CustomSkyLayer[][] acustomskylayer1 = new CustomSkyLayer[l][0];
 
-            System.arraycopy(acustomskylayer, 0, acustomskylayer1, 0, acustomskylayer1.length);
+			System.arraycopy(acustomskylayer, 0, acustomskylayer1, 0, acustomskylayer1.length);
 
 			return acustomskylayer1;
 		}

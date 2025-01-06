@@ -67,8 +67,7 @@ public class WorldGenBigTree extends WorldGenAbstractTree {
 					if (this.checkBlockLine(blockpos, blockpos1) == -1) {
 						int i1 = this.basePos.getX() - blockpos.getX();
 						int j1 = this.basePos.getZ() - blockpos.getZ();
-						double d4 = (double) blockpos.getY()
-								- Math.sqrt(i1 * i1 + j1 * j1) * this.branchSlope;
+						double d4 = (double) blockpos.getY() - Math.sqrt(i1 * i1 + j1 * j1) * this.branchSlope;
 						int k1 = d4 > (double) j ? j : (int) d4;
 						BlockPos blockpos2 = new BlockPos(this.basePos.getX(), k1, this.basePos.getZ());
 
@@ -138,8 +137,7 @@ public class WorldGenBigTree extends WorldGenAbstractTree {
 		float f2 = (float) blockpos.getZ() / (float) i;
 
 		for (int j = 0; j <= i; ++j) {
-			BlockPos blockpos1 = p_175937_1_.add(0.5F + (float) j * f, 0.5F + (float) j * f1,
-                    0.5F + (float) j * f2);
+			BlockPos blockpos1 = p_175937_1_.add(0.5F + (float) j * f, 0.5F + (float) j * f1, 0.5F + (float) j * f2);
 			BlockLog.EnumAxis blocklog$enumaxis = this.func_175938_b(p_175937_1_, blockpos1);
 			this.setBlockAndNotifyAdequately(this.world, blockpos1,
 					p_175937_3_.getDefaultState().withProperty(BlockLog.LOG_AXIS, blocklog$enumaxis));
@@ -216,8 +214,7 @@ public class WorldGenBigTree extends WorldGenAbstractTree {
 			return -1;
 		} else {
 			for (int j = 0; j <= i; ++j) {
-				BlockPos blockpos1 = posOne.add(0.5F + (float) j * f, 0.5F + (float) j * f1,
-                        0.5F + (float) j * f2);
+				BlockPos blockpos1 = posOne.add(0.5F + (float) j * f, 0.5F + (float) j * f1, 0.5F + (float) j * f2);
 
 				if (!this.func_150523_a(this.world.getBlockState(blockpos1).getBlock())) {
 					return j;

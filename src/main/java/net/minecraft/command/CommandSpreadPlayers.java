@@ -75,8 +75,8 @@ public class CommandSpreadPlayers extends CommandBase {
 			} else {
 				sender.addChatMessage(
 						new ChatComponentTranslation("commands.spreadplayers.spreading." + (flag ? "teams" : "players"),
-                                Integer.valueOf(list.size()), Double.valueOf(d3), Double.valueOf(d0),
-                                Double.valueOf(d1), Double.valueOf(d2)));
+								Integer.valueOf(list.size()), Double.valueOf(d3), Double.valueOf(d0),
+								Double.valueOf(d1), Double.valueOf(d2)));
 				this.func_110669_a(sender, list, new CommandSpreadPlayers.Position(d0, d1), d2, d3,
 						list.get(0).worldObj, flag);
 			}
@@ -97,13 +97,13 @@ public class CommandSpreadPlayers extends CommandBase {
 				acommandspreadplayers$position, p_110669_9_);
 		double d4 = this.func_110671_a(p_110669_2_, worldIn, acommandspreadplayers$position, p_110669_9_);
 		notifyOperators(p_110669_1_, this, "commands.spreadplayers.success." + (p_110669_9_ ? "teams" : "players"),
-                Integer.valueOf(acommandspreadplayers$position.length),
-                Double.valueOf(p_110669_3_.field_111101_a), Double.valueOf(p_110669_3_.field_111100_b));
+				Integer.valueOf(acommandspreadplayers$position.length), Double.valueOf(p_110669_3_.field_111101_a),
+				Double.valueOf(p_110669_3_.field_111100_b));
 
 		if (acommandspreadplayers$position.length > 1) {
-			p_110669_1_.addChatMessage(new ChatComponentTranslation(
-					"commands.spreadplayers.info." + (p_110669_9_ ? "teams" : "players"),
-                    String.format("%.2f", Double.valueOf(d4)), Integer.valueOf(i)));
+			p_110669_1_.addChatMessage(
+					new ChatComponentTranslation("commands.spreadplayers.info." + (p_110669_9_ ? "teams" : "players"),
+							String.format("%.2f", Double.valueOf(d4)), Integer.valueOf(i)));
 		}
 	}
 
@@ -187,9 +187,8 @@ public class CommandSpreadPlayers extends CommandBase {
 
 		if (i >= 10000) {
 			throw new CommandException("commands.spreadplayers.failure." + (p_110668_15_ ? "teams" : "players"),
-                    Integer.valueOf(p_110668_14_.length), Double.valueOf(p_110668_1_.field_111101_a),
-                    Double.valueOf(p_110668_1_.field_111100_b),
-                    String.format("%.2f", Double.valueOf(d0)));
+					Integer.valueOf(p_110668_14_.length), Double.valueOf(p_110668_1_.field_111101_a),
+					Double.valueOf(p_110668_1_.field_111100_b), String.format("%.2f", Double.valueOf(d0)));
 		} else {
 			return i;
 		}
@@ -218,8 +217,8 @@ public class CommandSpreadPlayers extends CommandBase {
 			}
 
 			entity.setPositionAndUpdate(
-                    (float) MathHelper.floor_double(commandspreadplayers$position.field_111101_a) + 0.5F,
-                    commandspreadplayers$position.func_111092_a(worldIn),
+					(float) MathHelper.floor_double(commandspreadplayers$position.field_111101_a) + 0.5F,
+					commandspreadplayers$position.func_111092_a(worldIn),
 					(double) MathHelper.floor_double(commandspreadplayers$position.field_111100_b) + 0.5D);
 			double d2 = Double.MAX_VALUE;
 

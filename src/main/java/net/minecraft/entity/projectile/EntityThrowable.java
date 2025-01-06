@@ -66,8 +66,7 @@ public abstract class EntityThrowable extends Entity implements IProjectile {
 				* MathHelper.cos(this.rotationPitch / 180.0F * (float) Math.PI) * f;
 		this.motionZ = MathHelper.cos(this.rotationYaw / 180.0F * (float) Math.PI)
 				* MathHelper.cos(this.rotationPitch / 180.0F * (float) Math.PI) * f;
-		this.motionY = -MathHelper.sin((this.rotationPitch + this.getInaccuracy()) / 180.0F * (float) Math.PI)
-				* f;
+		this.motionY = -MathHelper.sin((this.rotationPitch + this.getInaccuracy()) / 180.0F * (float) Math.PI) * f;
 		this.setThrowableHeading(this.motionX, this.motionY, this.motionZ, this.getVelocity(), 1.0F);
 	}
 
@@ -173,8 +172,7 @@ public abstract class EntityThrowable extends Entity implements IProjectile {
 
 				if (entity1.canBeCollidedWith() && (entity1 != entitylivingbase || this.ticksInAir >= 5)) {
 					float f = 0.3F;
-					AxisAlignedBB axisalignedbb = entity1.getEntityBoundingBox().expand(f, f,
-                            f);
+					AxisAlignedBB axisalignedbb = entity1.getEntityBoundingBox().expand(f, f, f);
 					MovingObjectPosition movingobjectposition1 = axisalignedbb.calculateIntercept(vec3, vec31);
 
 					if (movingobjectposition1 != null) {
@@ -208,9 +206,9 @@ public abstract class EntityThrowable extends Entity implements IProjectile {
 		float f1 = MathHelper.sqrt_double(this.motionX * this.motionX + this.motionZ * this.motionZ);
 		this.rotationYaw = (float) (MathHelper.atan2(this.motionX, this.motionZ) * 180.0D / Math.PI);
 
-		for (this.rotationPitch = (float) (MathHelper.atan2(this.motionY, f1) * 180.0D
-				/ Math.PI); this.rotationPitch - this.prevRotationPitch < -180.0F; this.prevRotationPitch -= 360.0F) {
-        }
+		for (this.rotationPitch = (float) (MathHelper.atan2(this.motionY, f1) * 180.0D / Math.PI); this.rotationPitch
+				- this.prevRotationPitch < -180.0F; this.prevRotationPitch -= 360.0F) {
+		}
 
 		while (this.rotationPitch - this.prevRotationPitch >= 180.0F) {
 			this.prevRotationPitch += 360.0F;

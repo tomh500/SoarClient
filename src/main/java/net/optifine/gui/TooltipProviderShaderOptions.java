@@ -18,7 +18,7 @@ public class TooltipProviderShaderOptions extends TooltipProviderOptions {
 		if (!(btn instanceof GuiButtonShaderOption guibuttonshaderoption)) {
 			return null;
 		} else {
-            ShaderOption shaderoption = guibuttonshaderoption.getShaderOption();
+			ShaderOption shaderoption = guibuttonshaderoption.getShaderOption();
 			String[] astring = this.makeTooltipLines(shaderoption, width);
 			return astring;
 		}
@@ -92,7 +92,7 @@ public class TooltipProviderShaderOptions extends TooltipProviderOptions {
 			String s = args.get(i);
 
 			if (s != null && s.length() > 0) {
-                list.addAll(fontrenderer.listFormattedStringToWidth(s, width));
+				list.addAll(fontrenderer.listFormattedStringToWidth(s, width));
 			}
 		}
 

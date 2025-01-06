@@ -27,8 +27,8 @@ public class CommandBroadcast extends CommandBase {
 	public void processCommand(ICommandSender sender, String[] args) throws CommandException {
 		if (args.length > 0 && args[0].length() > 0) {
 			IChatComponent ichatcomponent = getChatComponentFromNthArg(sender, args, 0, true);
-			MinecraftServer.getServer().getConfigurationManager().sendChatMsg(new ChatComponentTranslation(
-					"chat.type.announcement", sender.getDisplayName(), ichatcomponent));
+			MinecraftServer.getServer().getConfigurationManager().sendChatMsg(
+					new ChatComponentTranslation("chat.type.announcement", sender.getDisplayName(), ichatcomponent));
 		} else {
 			throw new WrongUsageException("commands.say.usage");
 		}

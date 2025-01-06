@@ -45,8 +45,7 @@ public class ItemHangingEntity extends Item {
 	}
 
 	private EntityHanging createEntity(World worldIn, BlockPos pos, EnumFacing clickedSide) {
-		return this.hangingEntityClass == EntityPainting.class
-				? new EntityPainting(worldIn, pos, clickedSide)
+		return this.hangingEntityClass == EntityPainting.class ? new EntityPainting(worldIn, pos, clickedSide)
 				: (this.hangingEntityClass == EntityItemFrame.class ? new EntityItemFrame(worldIn, pos, clickedSide)
 						: null);
 	}

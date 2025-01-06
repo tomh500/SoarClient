@@ -264,8 +264,7 @@ public class ChunkProviderSettings {
 				return new ChunkProviderSettings.Factory();
 			} else {
 				try {
-					return JSON_ADAPTER.fromJson(p_177865_0_,
-							Factory.class);
+					return JSON_ADAPTER.fromJson(p_177865_0_, Factory.class);
 				} catch (Exception var2) {
 					return new ChunkProviderSettings.Factory();
 				}
@@ -366,38 +365,124 @@ public class ChunkProviderSettings {
 				return true;
 			} else if (p_equals_1_ != null && this.getClass() == p_equals_1_.getClass()) {
 				ChunkProviderSettings.Factory chunkprovidersettings$factory = (ChunkProviderSettings.Factory) p_equals_1_;
-				return this.andesiteCount == chunkprovidersettings$factory.andesiteCount && (this.andesiteMaxHeight == chunkprovidersettings$factory.andesiteMaxHeight && (this.andesiteMinHeight == chunkprovidersettings$factory.andesiteMinHeight && (this.andesiteSize == chunkprovidersettings$factory.andesiteSize && (Float.compare(chunkprovidersettings$factory.baseSize,
-                        this.baseSize) == 0 && (Float.compare(
-                        chunkprovidersettings$factory.biomeDepthOffset,
-                        this.biomeDepthOffset) == 0 && (Float.compare(
-                        chunkprovidersettings$factory.biomeDepthWeight,
-                        this.biomeDepthWeight) == 0 && (Float.compare(
-                        chunkprovidersettings$factory.biomeScaleOffset,
-                        this.biomeScaleOffset) == 0 && (Float.compare(
-                        chunkprovidersettings$factory.biomeScaleWeight,
-                        this.biomeScaleWeight) == 0 && (this.biomeSize == chunkprovidersettings$factory.biomeSize && (this.coalCount == chunkprovidersettings$factory.coalCount && (this.coalMaxHeight == chunkprovidersettings$factory.coalMaxHeight && (this.coalMinHeight == chunkprovidersettings$factory.coalMinHeight && (this.coalSize == chunkprovidersettings$factory.coalSize && (Float.compare(
-                        chunkprovidersettings$factory.coordinateScale,
-                        this.coordinateScale) == 0 && (Float.compare(
-                        chunkprovidersettings$factory.depthNoiseScaleExponent,
-                        this.depthNoiseScaleExponent) == 0 && (Float.compare(
-                        chunkprovidersettings$factory.depthNoiseScaleX,
-                        this.depthNoiseScaleX) == 0 && (Float.compare(
-                        chunkprovidersettings$factory.depthNoiseScaleZ,
-                        this.depthNoiseScaleZ) == 0 && (this.diamondCount == chunkprovidersettings$factory.diamondCount && (this.diamondMaxHeight == chunkprovidersettings$factory.diamondMaxHeight && (this.diamondMinHeight == chunkprovidersettings$factory.diamondMinHeight && (this.diamondSize == chunkprovidersettings$factory.diamondSize && (this.dioriteCount == chunkprovidersettings$factory.dioriteCount && (this.dioriteMaxHeight == chunkprovidersettings$factory.dioriteMaxHeight && (this.dioriteMinHeight == chunkprovidersettings$factory.dioriteMinHeight && (this.dioriteSize == chunkprovidersettings$factory.dioriteSize && (this.dirtCount == chunkprovidersettings$factory.dirtCount && (this.dirtMaxHeight == chunkprovidersettings$factory.dirtMaxHeight && (this.dirtMinHeight == chunkprovidersettings$factory.dirtMinHeight && (this.dirtSize == chunkprovidersettings$factory.dirtSize && (this.dungeonChance == chunkprovidersettings$factory.dungeonChance && (this.fixedBiome == chunkprovidersettings$factory.fixedBiome && (this.goldCount == chunkprovidersettings$factory.goldCount && (this.goldMaxHeight == chunkprovidersettings$factory.goldMaxHeight && (this.goldMinHeight == chunkprovidersettings$factory.goldMinHeight && (this.goldSize == chunkprovidersettings$factory.goldSize && (this.graniteCount == chunkprovidersettings$factory.graniteCount && (this.graniteMaxHeight == chunkprovidersettings$factory.graniteMaxHeight && (this.graniteMinHeight == chunkprovidersettings$factory.graniteMinHeight && (this.graniteSize == chunkprovidersettings$factory.graniteSize && (this.gravelCount == chunkprovidersettings$factory.gravelCount && (this.gravelMaxHeight == chunkprovidersettings$factory.gravelMaxHeight && (this.gravelMinHeight == chunkprovidersettings$factory.gravelMinHeight && (this.gravelSize == chunkprovidersettings$factory.gravelSize && (Float.compare(
-                        chunkprovidersettings$factory.heightScale,
-                        this.heightScale) == 0 && (this.ironCount == chunkprovidersettings$factory.ironCount && (this.ironMaxHeight == chunkprovidersettings$factory.ironMaxHeight && (this.ironMinHeight == chunkprovidersettings$factory.ironMinHeight && (this.ironSize == chunkprovidersettings$factory.ironSize && (this.lapisCenterHeight == chunkprovidersettings$factory.lapisCenterHeight && (this.lapisCount == chunkprovidersettings$factory.lapisCount && (this.lapisSize == chunkprovidersettings$factory.lapisSize && (this.lapisSpread == chunkprovidersettings$factory.lapisSpread && (this.lavaLakeChance == chunkprovidersettings$factory.lavaLakeChance && (Float.compare(
-                        chunkprovidersettings$factory.lowerLimitScale,
-                        this.lowerLimitScale) == 0 && (Float.compare(
-                        chunkprovidersettings$factory.mainNoiseScaleX,
-                        this.mainNoiseScaleX) == 0 && (Float.compare(
-                        chunkprovidersettings$factory.mainNoiseScaleY,
-                        this.mainNoiseScaleY) == 0 && (Float.compare(
-                        chunkprovidersettings$factory.mainNoiseScaleZ,
-                        this.mainNoiseScaleZ) == 0 && (this.redstoneCount == chunkprovidersettings$factory.redstoneCount && (this.redstoneMaxHeight == chunkprovidersettings$factory.redstoneMaxHeight && (this.redstoneMinHeight == chunkprovidersettings$factory.redstoneMinHeight && (this.redstoneSize == chunkprovidersettings$factory.redstoneSize && (this.riverSize == chunkprovidersettings$factory.riverSize && (this.seaLevel == chunkprovidersettings$factory.seaLevel && (Float.compare(
-                        chunkprovidersettings$factory.stretchY,
-                        this.stretchY) == 0 && (Float.compare(
-                        chunkprovidersettings$factory.upperLimitScale,
-                        this.upperLimitScale) == 0 && (this.useCaves == chunkprovidersettings$factory.useCaves && (this.useDungeons == chunkprovidersettings$factory.useDungeons && (this.useLavaLakes == chunkprovidersettings$factory.useLavaLakes && (this.useLavaOceans == chunkprovidersettings$factory.useLavaOceans && (this.useMineShafts == chunkprovidersettings$factory.useMineShafts && (this.useRavines == chunkprovidersettings$factory.useRavines && (this.useStrongholds == chunkprovidersettings$factory.useStrongholds && (this.useTemples == chunkprovidersettings$factory.useTemples && (this.useMonuments == chunkprovidersettings$factory.useMonuments && (this.useVillages == chunkprovidersettings$factory.useVillages && (this.useWaterLakes == chunkprovidersettings$factory.useWaterLakes && this.waterLakeChance == chunkprovidersettings$factory.waterLakeChance))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))));
+				return this.andesiteCount == chunkprovidersettings$factory.andesiteCount
+						&& (this.andesiteMaxHeight == chunkprovidersettings$factory.andesiteMaxHeight
+								&& (this.andesiteMinHeight == chunkprovidersettings$factory.andesiteMinHeight
+										&& (this.andesiteSize == chunkprovidersettings$factory.andesiteSize && (Float
+												.compare(chunkprovidersettings$factory.baseSize, this.baseSize) == 0
+												&& (Float.compare(chunkprovidersettings$factory.biomeDepthOffset,
+														this.biomeDepthOffset) == 0
+														&& (Float.compare(
+																chunkprovidersettings$factory.biomeDepthWeight,
+																this.biomeDepthWeight) == 0
+																&& (Float.compare(
+																		chunkprovidersettings$factory.biomeScaleOffset,
+																		this.biomeScaleOffset) == 0
+																		&& (Float.compare(
+																				chunkprovidersettings$factory.biomeScaleWeight,
+																				this.biomeScaleWeight) == 0
+																				&& (this.biomeSize == chunkprovidersettings$factory.biomeSize
+																						&& (this.coalCount == chunkprovidersettings$factory.coalCount
+																								&& (this.coalMaxHeight == chunkprovidersettings$factory.coalMaxHeight
+																										&& (this.coalMinHeight == chunkprovidersettings$factory.coalMinHeight
+																												&& (this.coalSize == chunkprovidersettings$factory.coalSize
+																														&& (Float
+																																.compare(
+																																		chunkprovidersettings$factory.coordinateScale,
+																																		this.coordinateScale) == 0
+																																&& (Float
+																																		.compare(
+																																				chunkprovidersettings$factory.depthNoiseScaleExponent,
+																																				this.depthNoiseScaleExponent) == 0
+																																		&& (Float
+																																				.compare(
+																																						chunkprovidersettings$factory.depthNoiseScaleX,
+																																						this.depthNoiseScaleX) == 0
+																																				&& (Float
+																																						.compare(
+																																								chunkprovidersettings$factory.depthNoiseScaleZ,
+																																								this.depthNoiseScaleZ) == 0
+																																						&& (this.diamondCount == chunkprovidersettings$factory.diamondCount
+																																								&& (this.diamondMaxHeight == chunkprovidersettings$factory.diamondMaxHeight
+																																										&& (this.diamondMinHeight == chunkprovidersettings$factory.diamondMinHeight
+																																												&& (this.diamondSize == chunkprovidersettings$factory.diamondSize
+																																														&& (this.dioriteCount == chunkprovidersettings$factory.dioriteCount
+																																																&& (this.dioriteMaxHeight == chunkprovidersettings$factory.dioriteMaxHeight
+																																																		&& (this.dioriteMinHeight == chunkprovidersettings$factory.dioriteMinHeight
+																																																				&& (this.dioriteSize == chunkprovidersettings$factory.dioriteSize
+																																																						&& (this.dirtCount == chunkprovidersettings$factory.dirtCount
+																																																								&& (this.dirtMaxHeight == chunkprovidersettings$factory.dirtMaxHeight
+																																																										&& (this.dirtMinHeight == chunkprovidersettings$factory.dirtMinHeight
+																																																												&& (this.dirtSize == chunkprovidersettings$factory.dirtSize
+																																																														&& (this.dungeonChance == chunkprovidersettings$factory.dungeonChance
+																																																																&& (this.fixedBiome == chunkprovidersettings$factory.fixedBiome
+																																																																		&& (this.goldCount == chunkprovidersettings$factory.goldCount
+																																																																				&& (this.goldMaxHeight == chunkprovidersettings$factory.goldMaxHeight
+																																																																						&& (this.goldMinHeight == chunkprovidersettings$factory.goldMinHeight
+																																																																								&& (this.goldSize == chunkprovidersettings$factory.goldSize
+																																																																										&& (this.graniteCount == chunkprovidersettings$factory.graniteCount
+																																																																												&& (this.graniteMaxHeight == chunkprovidersettings$factory.graniteMaxHeight
+																																																																														&& (this.graniteMinHeight == chunkprovidersettings$factory.graniteMinHeight
+																																																																																&& (this.graniteSize == chunkprovidersettings$factory.graniteSize
+																																																																																		&& (this.gravelCount == chunkprovidersettings$factory.gravelCount
+																																																																																				&& (this.gravelMaxHeight == chunkprovidersettings$factory.gravelMaxHeight
+																																																																																						&& (this.gravelMinHeight == chunkprovidersettings$factory.gravelMinHeight
+																																																																																								&& (this.gravelSize == chunkprovidersettings$factory.gravelSize
+																																																																																										&& (Float
+																																																																																												.compare(
+																																																																																														chunkprovidersettings$factory.heightScale,
+																																																																																														this.heightScale) == 0
+																																																																																												&& (this.ironCount == chunkprovidersettings$factory.ironCount
+																																																																																														&& (this.ironMaxHeight == chunkprovidersettings$factory.ironMaxHeight
+																																																																																																&& (this.ironMinHeight == chunkprovidersettings$factory.ironMinHeight
+																																																																																																		&& (this.ironSize == chunkprovidersettings$factory.ironSize
+																																																																																																				&& (this.lapisCenterHeight == chunkprovidersettings$factory.lapisCenterHeight
+																																																																																																						&& (this.lapisCount == chunkprovidersettings$factory.lapisCount
+																																																																																																								&& (this.lapisSize == chunkprovidersettings$factory.lapisSize
+																																																																																																										&& (this.lapisSpread == chunkprovidersettings$factory.lapisSpread
+																																																																																																												&& (this.lavaLakeChance == chunkprovidersettings$factory.lavaLakeChance
+																																																																																																														&& (Float
+																																																																																																																.compare(
+																																																																																																																		chunkprovidersettings$factory.lowerLimitScale,
+																																																																																																																		this.lowerLimitScale) == 0
+																																																																																																																&& (Float
+																																																																																																																		.compare(
+																																																																																																																				chunkprovidersettings$factory.mainNoiseScaleX,
+																																																																																																																				this.mainNoiseScaleX) == 0
+																																																																																																																		&& (Float
+																																																																																																																				.compare(
+																																																																																																																						chunkprovidersettings$factory.mainNoiseScaleY,
+																																																																																																																						this.mainNoiseScaleY) == 0
+																																																																																																																				&& (Float
+																																																																																																																						.compare(
+																																																																																																																								chunkprovidersettings$factory.mainNoiseScaleZ,
+																																																																																																																								this.mainNoiseScaleZ) == 0
+																																																																																																																						&& (this.redstoneCount == chunkprovidersettings$factory.redstoneCount
+																																																																																																																								&& (this.redstoneMaxHeight == chunkprovidersettings$factory.redstoneMaxHeight
+																																																																																																																										&& (this.redstoneMinHeight == chunkprovidersettings$factory.redstoneMinHeight
+																																																																																																																												&& (this.redstoneSize == chunkprovidersettings$factory.redstoneSize
+																																																																																																																														&& (this.riverSize == chunkprovidersettings$factory.riverSize
+																																																																																																																																&& (this.seaLevel == chunkprovidersettings$factory.seaLevel
+																																																																																																																																		&& (Float
+																																																																																																																																				.compare(
+																																																																																																																																						chunkprovidersettings$factory.stretchY,
+																																																																																																																																						this.stretchY) == 0
+																																																																																																																																				&& (Float
+																																																																																																																																						.compare(
+																																																																																																																																								chunkprovidersettings$factory.upperLimitScale,
+																																																																																																																																								this.upperLimitScale) == 0
+																																																																																																																																						&& (this.useCaves == chunkprovidersettings$factory.useCaves
+																																																																																																																																								&& (this.useDungeons == chunkprovidersettings$factory.useDungeons
+																																																																																																																																										&& (this.useLavaLakes == chunkprovidersettings$factory.useLavaLakes
+																																																																																																																																												&& (this.useLavaOceans == chunkprovidersettings$factory.useLavaOceans
+																																																																																																																																														&& (this.useMineShafts == chunkprovidersettings$factory.useMineShafts
+																																																																																																																																																&& (this.useRavines == chunkprovidersettings$factory.useRavines
+																																																																																																																																																		&& (this.useStrongholds == chunkprovidersettings$factory.useStrongholds
+																																																																																																																																																				&& (this.useTemples == chunkprovidersettings$factory.useTemples
+																																																																																																																																																						&& (this.useMonuments == chunkprovidersettings$factory.useMonuments
+																																																																																																																																																								&& (this.useVillages == chunkprovidersettings$factory.useVillages
+																																																																																																																																																										&& (this.useWaterLakes == chunkprovidersettings$factory.useWaterLakes
+																																																																																																																																																												&& this.waterLakeChance == chunkprovidersettings$factory.waterLakeChance))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))));
 			} else {
 				return false;
 			}
@@ -665,7 +750,7 @@ public class ChunkProviderSettings {
 				chunkprovidersettings$factory.lapisSpread = JsonUtils.getInt(jsonobject, "lapisSpread",
 						chunkprovidersettings$factory.lapisSpread);
 			} catch (Exception var7) {
-            }
+			}
 
 			return chunkprovidersettings$factory;
 		}
@@ -679,8 +764,7 @@ public class ChunkProviderSettings {
 			jsonobject.addProperty("upperLimitScale", Float.valueOf(p_serialize_1_.upperLimitScale));
 			jsonobject.addProperty("depthNoiseScaleX", Float.valueOf(p_serialize_1_.depthNoiseScaleX));
 			jsonobject.addProperty("depthNoiseScaleZ", Float.valueOf(p_serialize_1_.depthNoiseScaleZ));
-			jsonobject.addProperty("depthNoiseScaleExponent",
-                    Float.valueOf(p_serialize_1_.depthNoiseScaleExponent));
+			jsonobject.addProperty("depthNoiseScaleExponent", Float.valueOf(p_serialize_1_.depthNoiseScaleExponent));
 			jsonobject.addProperty("mainNoiseScaleX", Float.valueOf(p_serialize_1_.mainNoiseScaleX));
 			jsonobject.addProperty("mainNoiseScaleY", Float.valueOf(p_serialize_1_.mainNoiseScaleY));
 			jsonobject.addProperty("mainNoiseScaleZ", Float.valueOf(p_serialize_1_.mainNoiseScaleZ));

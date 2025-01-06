@@ -72,11 +72,13 @@ public abstract class BlockLiquid extends Block {
 
 	public boolean isBlockSolid(IBlockAccess worldIn, BlockPos pos, EnumFacing side) {
 		Material material = worldIn.getBlockState(pos).getBlock().getMaterial();
-		return material != this.blockMaterial && (side == EnumFacing.UP || (material != Material.ice && super.isBlockSolid(worldIn, pos, side)));
+		return material != this.blockMaterial
+				&& (side == EnumFacing.UP || (material != Material.ice && super.isBlockSolid(worldIn, pos, side)));
 	}
 
 	public boolean shouldSideBeRendered(IBlockAccess worldIn, BlockPos pos, EnumFacing side) {
-		return worldIn.getBlockState(pos).getBlock().getMaterial() != this.blockMaterial && (side == EnumFacing.UP || super.shouldSideBeRendered(worldIn, pos, side));
+		return worldIn.getBlockState(pos).getBlock().getMaterial() != this.blockMaterial
+				&& (side == EnumFacing.UP || super.shouldSideBeRendered(worldIn, pos, side));
 	}
 
 	public boolean shouldRenderSides(IBlockAccess blockAccess, BlockPos pos) {
@@ -125,15 +127,14 @@ public abstract class BlockLiquid extends Block {
 
 					if (j >= 0) {
 						int k = j - (i - 8);
-						vec3 = vec3.addVector((blockpos.getX() - pos.getX()) * k,
-                                (blockpos.getY() - pos.getY()) * k,
-                                (blockpos.getZ() - pos.getZ()) * k);
+						vec3 = vec3.addVector((blockpos.getX() - pos.getX()) * k, (blockpos.getY() - pos.getY()) * k,
+								(blockpos.getZ() - pos.getZ()) * k);
 					}
 				}
 			} else if (j >= 0) {
 				int l = j - i;
-				vec3 = vec3.addVector((blockpos.getX() - pos.getX()) * l,
-                        (blockpos.getY() - pos.getY()) * l, (blockpos.getZ() - pos.getZ()) * l);
+				vec3 = vec3.addVector((blockpos.getX() - pos.getX()) * l, (blockpos.getY() - pos.getY()) * l,
+						(blockpos.getZ() - pos.getZ()) * l);
 			}
 		}
 

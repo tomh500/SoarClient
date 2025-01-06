@@ -27,7 +27,7 @@ public class TextureClock extends TextureAtlasSprite {
 			double d1;
 
 			for (d1 = d0 - this.currentAngle; d1 < -0.5D; ++d1) {
-            }
+			}
 
 			while (d1 >= 0.5D) {
 				--d1;
@@ -42,12 +42,12 @@ public class TextureClock extends TextureAtlasSprite {
 			for (i = (int) ((this.currentAngle + 1.0D) * (double) this.framesTextureData.size())
 					% this.framesTextureData
 							.size(); i < 0; i = (i + this.framesTextureData.size()) % this.framesTextureData.size()) {
-            }
+			}
 
 			if (i != this.frameCounter) {
 				this.frameCounter = i;
-				TextureUtil.uploadTextureMipmap(this.framesTextureData.get(this.frameCounter), this.width,
-						this.height, this.originX, this.originY, false, false);
+				TextureUtil.uploadTextureMipmap(this.framesTextureData.get(this.frameCounter), this.width, this.height,
+						this.originX, this.originY, false, false);
 			}
 		}
 	}

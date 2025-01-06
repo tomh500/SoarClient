@@ -139,10 +139,10 @@ public abstract class ServerConfigurationManager {
 
 		if (!playerIn.getName().equalsIgnoreCase(s)) {
 			chatcomponenttranslation = new ChatComponentTranslation("multiplayer.player.joined.renamed",
-                    playerIn.getDisplayName(), s);
+					playerIn.getDisplayName(), s);
 		} else {
 			chatcomponenttranslation = new ChatComponentTranslation("multiplayer.player.joined",
-                    playerIn.getDisplayName());
+					playerIn.getDisplayName());
 		}
 
 		chatcomponenttranslation.getChatStyle().setColor(EnumChatFormatting.YELLOW);
@@ -272,16 +272,15 @@ public abstract class ServerConfigurationManager {
 	public void playerLoggedIn(EntityPlayerMP playerIn) {
 		this.playerEntityList.add(playerIn);
 		this.uuidToPlayerMap.put(playerIn.getUniqueID(), playerIn);
-		this.sendPacketToAllPlayers(new S38PacketPlayerListItem(S38PacketPlayerListItem.Action.ADD_PLAYER,
-                playerIn));
+		this.sendPacketToAllPlayers(new S38PacketPlayerListItem(S38PacketPlayerListItem.Action.ADD_PLAYER, playerIn));
 		WorldServer worldserver = this.mcServer.worldServerForDimension(playerIn.dimension);
 		worldserver.spawnEntityInWorld(playerIn);
 		this.preparePlayer(playerIn, null);
 
 		for (int i = 0; i < this.playerEntityList.size(); ++i) {
 			EntityPlayerMP entityplayermp = this.playerEntityList.get(i);
-			playerIn.playerNetServerHandler.sendPacket(new S38PacketPlayerListItem(
-					S38PacketPlayerListItem.Action.ADD_PLAYER, entityplayermp));
+			playerIn.playerNetServerHandler
+					.sendPacket(new S38PacketPlayerListItem(S38PacketPlayerListItem.Action.ADD_PLAYER, entityplayermp));
 		}
 	}
 
@@ -310,8 +309,8 @@ public abstract class ServerConfigurationManager {
 			this.playerStatFiles.remove(uuid);
 		}
 
-		this.sendPacketToAllPlayers(new S38PacketPlayerListItem(S38PacketPlayerListItem.Action.REMOVE_PLAYER,
-                playerIn));
+		this.sendPacketToAllPlayers(
+				new S38PacketPlayerListItem(S38PacketPlayerListItem.Action.REMOVE_PLAYER, playerIn));
 	}
 
 	public String allowUserToConnect(SocketAddress address, GameProfile profile) {
@@ -407,9 +406,8 @@ public abstract class ServerConfigurationManager {
 					.getBedSpawnLocation(this.mcServer.worldServerForDimension(playerIn.dimension), blockpos, flag);
 
 			if (blockpos1 != null) {
-				entityplayermp.setLocationAndAngles((float) blockpos1.getX() + 0.5F,
-                        (float) blockpos1.getY() + 0.1F, (float) blockpos1.getZ() + 0.5F, 0.0F,
-						0.0F);
+				entityplayermp.setLocationAndAngles((float) blockpos1.getX() + 0.5F, (float) blockpos1.getY() + 0.1F,
+						(float) blockpos1.getZ() + 0.5F, 0.0F, 0.0F);
 				entityplayermp.setSpawnPoint(blockpos, flag);
 			} else {
 				entityplayermp.playerNetServerHandler.sendPacket(new S2BPacketChangeGameState(0, 0.0F));
@@ -797,8 +795,7 @@ public abstract class ServerConfigurationManager {
 
 	public void removeAllPlayers() {
 		for (int i = 0; i < this.playerEntityList.size(); ++i) {
-			this.playerEntityList.get(i).playerNetServerHandler
-					.kickPlayerFromServer("Server closed");
+			this.playerEntityList.get(i).playerNetServerHandler.kickPlayerFromServer("Server closed");
 		}
 	}
 

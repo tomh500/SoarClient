@@ -65,7 +65,7 @@ public class RandomEntities {
 		Entity entity = IntegratedServerUtils.getEntity(uuid);
 
 		if (entity instanceof EntityVillager entityvillager) {
-            int i = entityvillager.getProfession();
+			int i = entityvillager.getProfession();
 			ev.setProfession(i);
 			int j = entityvillager.getCareerId();
 			ev.setCareerId(j);
@@ -313,8 +313,7 @@ public class RandomEntities {
 			if (list.size() <= 1) {
 				return null;
 			} else {
-				ResourceLocation[] aresourcelocation = (ResourceLocation[]) list
-						.toArray(new ResourceLocation[0]);
+				ResourceLocation[] aresourcelocation = (ResourceLocation[]) list.toArray(new ResourceLocation[0]);
 				dbg(loc.getResourcePath() + ", variants: " + aresourcelocation.length);
 				return aresourcelocation;
 			}

@@ -97,7 +97,7 @@ public abstract class ChatComponentStyle implements IChatComponent {
 		} else if (!(p_equals_1_ instanceof ChatComponentStyle chatcomponentstyle)) {
 			return false;
 		} else {
-            return this.siblings.equals(chatcomponentstyle.siblings)
+			return this.siblings.equals(chatcomponentstyle.siblings)
 					&& this.getChatStyle().equals(chatcomponentstyle.getChatStyle());
 		}
 	}

@@ -70,7 +70,7 @@ public class SkiaContext {
 	}
 
 	public static void onResize(int newWidth, int newHeight) {
-		
+
 		if (surface != null) {
 			surface.close();
 		}

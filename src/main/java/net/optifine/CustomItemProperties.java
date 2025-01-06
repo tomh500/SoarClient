@@ -734,7 +734,7 @@ public class CustomItemProperties {
 
 			if (item instanceof ItemArmor itemarmor) {
 
-                if (itemarmor.getArmorMaterial() == ItemArmor.ArmorMaterial.LEATHER) {
+				if (itemarmor.getArmorMaterial() == ItemArmor.ArmorMaterial.LEATHER) {
 					String s = "leather";
 					String s1 = "helmet";
 

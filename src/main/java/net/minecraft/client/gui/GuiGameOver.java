@@ -23,8 +23,8 @@ public class GuiGameOver extends GuiScreen implements GuiYesNoCallback {
 						I18n.format("deathScreen.leaveServer")));
 			}
 		} else {
-			this.buttonList.add(new GuiButton(0, this.width / 2 - 100, this.height / 4 + 72,
-					I18n.format("deathScreen.respawn")));
+			this.buttonList.add(
+					new GuiButton(0, this.width / 2 - 100, this.height / 4 + 72, I18n.format("deathScreen.respawn")));
 			this.buttonList.add(new GuiButton(1, this.width / 2 - 100, this.height / 4 + 96,
 					I18n.format("deathScreen.titleScreen")));
 
@@ -53,8 +53,7 @@ public class GuiGameOver extends GuiScreen implements GuiYesNoCallback {
 				this.mc.displayGuiScreen(new GuiMainMenu());
 			} else {
 				GuiYesNo guiyesno = new GuiYesNo(this, I18n.format("deathScreen.quit.confirm"), "",
-						I18n.format("deathScreen.titleScreen"),
-						I18n.format("deathScreen.respawn"), 0);
+						I18n.format("deathScreen.titleScreen"), I18n.format("deathScreen.respawn"), 0);
 				this.mc.displayGuiScreen(guiyesno);
 				guiyesno.setButtonDelay(20);
 			}
@@ -77,18 +76,18 @@ public class GuiGameOver extends GuiScreen implements GuiYesNoCallback {
 		GlStateManager.pushMatrix();
 		GlStateManager.scale(2.0F, 2.0F, 2.0F);
 		boolean flag = this.mc.theWorld.getWorldInfo().isHardcoreModeEnabled();
-		String s = flag ? I18n.format("deathScreen.title.hardcore")
-				: I18n.format("deathScreen.title");
+		String s = flag ? I18n.format("deathScreen.title.hardcore") : I18n.format("deathScreen.title");
 		this.drawCenteredString(this.fontRendererObj, s, this.width / 2 / 2, 30, 16777215);
 		GlStateManager.popMatrix();
 
 		if (flag) {
-			this.drawCenteredString(this.fontRendererObj, I18n.format("deathScreen.hardcoreInfo"),
-					this.width / 2, 144, 16777215);
+			this.drawCenteredString(this.fontRendererObj, I18n.format("deathScreen.hardcoreInfo"), this.width / 2, 144,
+					16777215);
 		}
 
-		this.drawCenteredString(this.fontRendererObj, I18n.format("deathScreen.score") + ": "
-				+ EnumChatFormatting.YELLOW + this.mc.thePlayer.getScore(), this.width / 2, 100, 16777215);
+		this.drawCenteredString(this.fontRendererObj,
+				I18n.format("deathScreen.score") + ": " + EnumChatFormatting.YELLOW + this.mc.thePlayer.getScore(),
+				this.width / 2, 100, 16777215);
 		super.drawScreen(mouseX, mouseY, partialTicks);
 	}
 

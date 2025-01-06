@@ -45,8 +45,8 @@ public class ChunkProviderDebug implements IChunkProvider {
 
 		Chunk chunk = new Chunk(this.world, chunkprimer, x, z);
 		chunk.generateSkylightMap();
-		BiomeGenBase[] abiomegenbase = this.world.getWorldChunkManager().loadBlockGeneratorData(null,
-				x * 16, z * 16, 16, 16);
+		BiomeGenBase[] abiomegenbase = this.world.getWorldChunkManager().loadBlockGeneratorData(null, x * 16, z * 16,
+				16, 16);
 		byte[] abyte = chunk.getBiomeArray();
 
 		for (int i1 = 0; i1 < abyte.length; ++i1) {

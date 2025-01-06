@@ -14,8 +14,8 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 
 public class BlockNewLog extends BlockLog {
-	public static final PropertyEnum<BlockPlanks.EnumType> VARIANT = PropertyEnum.create(
-			"variant", BlockPlanks.EnumType.class, new Predicate<BlockPlanks.EnumType>() {
+	public static final PropertyEnum<BlockPlanks.EnumType> VARIANT = PropertyEnum.create("variant",
+			BlockPlanks.EnumType.class, new Predicate<BlockPlanks.EnumType>() {
 				public boolean apply(BlockPlanks.EnumType p_apply_1_) {
 					return p_apply_1_.getMetadata() >= 4;
 				}
@@ -103,8 +103,7 @@ public class BlockNewLog extends BlockLog {
 	}
 
 	protected ItemStack createStackedBlock(IBlockState state) {
-		return new ItemStack(Item.getItemFromBlock(this), 1,
-				state.getValue(VARIANT).getMetadata() - 4);
+		return new ItemStack(Item.getItemFromBlock(this), 1, state.getValue(VARIANT).getMetadata() - 4);
 	}
 
 	public int damageDropped(IBlockState state) {

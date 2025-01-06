@@ -162,8 +162,8 @@ public class BlockModelRenderer {
 		if (list1.size() > 0) {
 			list1 = BlockModelCustomizer.getRenderQuads(list1, p_renderModelFlat_1_, p_renderModelFlat_3_,
 					p_renderModelFlat_4_, null, enumworldblocklayer, 0L, renderenv);
-			this.renderQuadsFlat(p_renderModelFlat_1_, p_renderModelFlat_3_, p_renderModelFlat_4_, null,
-					-1, true, p_renderModelFlat_5_, list1, renderenv);
+			this.renderQuadsFlat(p_renderModelFlat_1_, p_renderModelFlat_3_, p_renderModelFlat_4_, null, -1, true,
+					p_renderModelFlat_5_, list1, renderenv);
 			flag = true;
 		}
 
@@ -886,8 +886,8 @@ public class BlockModelRenderer {
 		private static final BlockModelRenderer.EnumNeighborInfo[] VALUES = new BlockModelRenderer.EnumNeighborInfo[6];
 
 		EnumNeighborInfo(EnumFacing[] p_i46236_3_, float p_i46236_4_, boolean p_i46236_5_,
-                         BlockModelRenderer.Orientation[] p_i46236_6_, BlockModelRenderer.Orientation[] p_i46236_7_,
-                         BlockModelRenderer.Orientation[] p_i46236_8_, BlockModelRenderer.Orientation[] p_i46236_9_) {
+				BlockModelRenderer.Orientation[] p_i46236_6_, BlockModelRenderer.Orientation[] p_i46236_7_,
+				BlockModelRenderer.Orientation[] p_i46236_8_, BlockModelRenderer.Orientation[] p_i46236_9_) {
 			this.field_178276_g = p_i46236_3_;
 			this.field_178288_h = p_i46236_4_;
 			this.field_178289_i = p_i46236_5_;

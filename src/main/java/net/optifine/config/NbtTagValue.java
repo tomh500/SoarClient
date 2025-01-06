@@ -100,7 +100,8 @@ public class NbtTagValue {
 
 				if (nbtbase == null) {
 					return false;
-				} else return this.matchesBase(nbtbase);
+				} else
+					return this.matchesBase(nbtbase);
 			}
 		}
 	}
@@ -108,7 +109,7 @@ public class NbtTagValue {
 	private boolean matchesAnyChild(NBTBase tagBase) {
 		if (tagBase instanceof NBTTagCompound nbttagcompound) {
 
-            for (String s : nbttagcompound.getKeySet()) {
+			for (String s : nbttagcompound.getKeySet()) {
 				NBTBase nbtbase = nbttagcompound.getTag(s);
 
 				if (this.matchesBase(nbtbase)) {
@@ -118,7 +119,7 @@ public class NbtTagValue {
 		}
 
 		if (tagBase instanceof NBTTagList nbttaglist) {
-            int i = nbttaglist.tagCount();
+			int i = nbttaglist.tagCount();
 
 			for (int j = 0; j < i; ++j) {
 				NBTBase nbtbase1 = nbttaglist.get(j);
@@ -134,10 +135,10 @@ public class NbtTagValue {
 
 	private static NBTBase getChildTag(NBTBase tagBase, String tag) {
 		if (tagBase instanceof NBTTagCompound nbttagcompound) {
-            return nbttagcompound.getTag(tag);
+			return nbttagcompound.getTag(tag);
 		} else if (tagBase instanceof NBTTagList nbttaglist) {
 
-            if (tag.equals("count")) {
+			if (tag.equals("count")) {
 				return new NBTTagInt(nbttaglist.tagCount());
 			} else {
 				int i = Config.parseInt(tag, -1);
@@ -195,20 +196,20 @@ public class NbtTagValue {
 		if (nbtBase == null) {
 			return null;
 		} else if (nbtBase instanceof NBTTagString nbttagstring) {
-            return nbttagstring.getString();
+			return nbttagstring.getString();
 		} else if (nbtBase instanceof NBTTagInt nbttagint) {
-            return format == 1 ? "#" + StrUtils.fillLeft(Integer.toHexString(nbttagint.getInt()), 6, '0')
+			return format == 1 ? "#" + StrUtils.fillLeft(Integer.toHexString(nbttagint.getInt()), 6, '0')
 					: Integer.toString(nbttagint.getInt());
 		} else if (nbtBase instanceof NBTTagByte nbttagbyte) {
-            return Byte.toString(nbttagbyte.getByte());
+			return Byte.toString(nbttagbyte.getByte());
 		} else if (nbtBase instanceof NBTTagShort nbttagshort) {
-            return Short.toString(nbttagshort.getShort());
+			return Short.toString(nbttagshort.getShort());
 		} else if (nbtBase instanceof NBTTagLong nbttaglong) {
-            return Long.toString(nbttaglong.getLong());
+			return Long.toString(nbttaglong.getLong());
 		} else if (nbtBase instanceof NBTTagFloat nbttagfloat) {
-            return Float.toString(nbttagfloat.getFloat());
+			return Float.toString(nbttagfloat.getFloat());
 		} else if (nbtBase instanceof NBTTagDouble nbttagdouble) {
-            return Double.toString(nbttagdouble.getDouble());
+			return Double.toString(nbttagdouble.getDouble());
 		} else {
 			return nbtBase.toString();
 		}

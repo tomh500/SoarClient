@@ -403,8 +403,8 @@ public abstract class MinecraftServer implements Runnable, ICommandSender, IThre
 
 					if (j > 2000L && this.currentTime - this.timeOfLastWarning >= 15000L) {
 						logger.warn(
-                                "Can't keep up! Did the system time change, or is the server overloaded? Running {}ms behind, skipping {} tick(s)",
-                                Long.valueOf(j), Long.valueOf(j / 50L));
+								"Can't keep up! Did the system time change, or is the server overloaded? Running {}ms behind, skipping {} tick(s)",
+								Long.valueOf(j), Long.valueOf(j / 50L));
 						j = 2000L;
 						this.timeOfLastWarning = this.currentTime;
 					}
@@ -519,8 +519,7 @@ public abstract class MinecraftServer implements Runnable, ICommandSender, IThre
 					this.getCurrentPlayerCount() - agameprofile.length);
 
 			for (int k = 0; k < agameprofile.length; ++k) {
-				agameprofile[k] = this.serverConfigManager.getPlayerList().get(j + k)
-						.getGameProfile();
+				agameprofile[k] = this.serverConfigManager.getPlayerList().get(j + k).getGameProfile();
 			}
 
 			Collections.shuffle(Arrays.asList(agameprofile));

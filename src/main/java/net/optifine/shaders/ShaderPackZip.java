@@ -32,7 +32,7 @@ public class ShaderPackZip implements IShaderPack {
 			try {
 				this.packZipFile.close();
 			} catch (Exception var2) {
-            }
+			}
 
 			this.packZipFile = null;
 		}

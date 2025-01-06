@@ -73,8 +73,7 @@ public class NetworkPlayerInfo {
 			this.loadPlayerTextures();
 		}
 
-		return Objects.firstNonNull(this.locationSkin,
-				DefaultPlayerSkin.getDefaultSkin(this.gameProfile.getId()));
+		return Objects.firstNonNull(this.locationSkin, DefaultPlayerSkin.getDefaultSkin(this.gameProfile.getId()));
 	}
 
 	public ResourceLocation getLocationCape() {

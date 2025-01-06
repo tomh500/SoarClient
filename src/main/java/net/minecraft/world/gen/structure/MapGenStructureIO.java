@@ -12,14 +12,10 @@ import net.minecraft.world.World;
 
 public class MapGenStructureIO {
 	private static final Logger logger = LogManager.getLogger();
-	private static final Map<String, Class<? extends StructureStart>> startNameToClassMap = Maps
-			.newHashMap();
-	private static final Map<Class<? extends StructureStart>, String> startClassToNameMap = Maps
-			.newHashMap();
-	private static final Map<String, Class<? extends StructureComponent>> componentNameToClassMap = Maps
-			.newHashMap();
-	private static final Map<Class<? extends StructureComponent>, String> componentClassToNameMap = Maps
-			.newHashMap();
+	private static final Map<String, Class<? extends StructureStart>> startNameToClassMap = Maps.newHashMap();
+	private static final Map<Class<? extends StructureStart>, String> startClassToNameMap = Maps.newHashMap();
+	private static final Map<String, Class<? extends StructureComponent>> componentNameToClassMap = Maps.newHashMap();
+	private static final Map<Class<? extends StructureComponent>, String> componentClassToNameMap = Maps.newHashMap();
 
 	private static void registerStructure(Class<? extends StructureStart> startClass, String structureName) {
 		startNameToClassMap.put(structureName, startClass);
@@ -66,8 +62,7 @@ public class MapGenStructureIO {
 		StructureComponent structurecomponent = null;
 
 		try {
-			Class<? extends StructureComponent> oclass = componentNameToClassMap
-					.get(tagCompound.getString("id"));
+			Class<? extends StructureComponent> oclass = componentNameToClassMap.get(tagCompound.getString("id"));
 
 			if (oclass != null) {
 				structurecomponent = oclass.newInstance();

@@ -8,8 +8,7 @@ import com.google.common.collect.Lists;
 import net.minecraft.util.ResourceLocation;
 
 public class SoundEventAccessorComposite implements ISoundEventAccessor<SoundPoolEntry> {
-	private final List<ISoundEventAccessor<SoundPoolEntry>> soundPool = Lists
-			.newArrayList();
+	private final List<ISoundEventAccessor<SoundPoolEntry>> soundPool = Lists.newArrayList();
 	private final Random rnd = new Random();
 	private final ResourceLocation soundLocation;
 	private final SoundCategory category;

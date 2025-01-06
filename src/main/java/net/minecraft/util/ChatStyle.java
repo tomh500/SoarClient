@@ -406,8 +406,8 @@ public class ChatStyle {
 							JsonPrimitive jsonprimitive2 = jsonobject2.getAsJsonPrimitive("action");
 							HoverEvent.Action hoverevent$action = jsonprimitive2 == null ? null
 									: HoverEvent.Action.getValueByCanonicalName(jsonprimitive2.getAsString());
-							IChatComponent ichatcomponent = p_deserialize_3_
-									.deserialize(jsonobject2.get("value"), IChatComponent.class);
+							IChatComponent ichatcomponent = p_deserialize_3_.deserialize(jsonobject2.get("value"),
+									IChatComponent.class);
 
 							if (hoverevent$action != null && ichatcomponent != null
 									&& hoverevent$action.shouldAllowInChat()) {

@@ -50,8 +50,7 @@ public class CommandFill extends CommandBase {
 					* (blockpos3.getZ() - blockpos2.getZ() + 1);
 
 			if (j > 32768) {
-				throw new CommandException("commands.fill.tooManyBlocks",
-                        Integer.valueOf(j), Integer.valueOf(32768));
+				throw new CommandException("commands.fill.tooManyBlocks", Integer.valueOf(j), Integer.valueOf(32768));
 			} else if (blockpos2.getY() >= 0 && blockpos3.getY() < 256) {
 				World world = sender.getEntityWorld();
 
@@ -73,8 +72,7 @@ public class CommandFill extends CommandBase {
 						nbttagcompound = JsonToNBT.getTagFromJson(s);
 						flag = true;
 					} catch (NBTException nbtexception) {
-						throw new CommandException("commands.fill.tagError",
-                                nbtexception.getMessage());
+						throw new CommandException("commands.fill.tagError", nbtexception.getMessage());
 					}
 				}
 
@@ -177,8 +175,8 @@ public class CommandFill extends CommandBase {
 				: (args.length > 3 && args.length <= 6 ? func_175771_a(args, 3, pos)
 						: (args.length == 7 ? getListOfStringsMatchingLastWord(args, Block.blockRegistry.getKeys())
 								: (args.length == 9
-										? getListOfStringsMatchingLastWord(args,
-                "replace", "destroy", "keep", "hollow", "outline")
+										? getListOfStringsMatchingLastWord(args, "replace", "destroy", "keep", "hollow",
+												"outline")
 										: (args.length == 10 && "replace".equals(args[8])
 												? getListOfStringsMatchingLastWord(args, Block.blockRegistry.getKeys())
 												: null))));

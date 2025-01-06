@@ -725,7 +725,7 @@ public class WorldRenderer {
 			}
 
 			if (j > 0) {
-            }
+			}
 		}
 	}
 

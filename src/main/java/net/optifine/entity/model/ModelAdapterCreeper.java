@@ -21,7 +21,7 @@ public class ModelAdapterCreeper extends ModelAdapter {
 		if (!(model instanceof ModelCreeper modelcreeper)) {
 			return null;
 		} else {
-            return modelPart
+			return modelPart
 					.equals("head")
 							? modelcreeper.head
 							: (modelPart

@@ -17,8 +17,8 @@ import net.minecraft.util.BlockPos;
 import net.minecraft.world.World;
 
 public abstract class BlockWoodSlab extends BlockSlab {
-	public static final PropertyEnum<BlockPlanks.EnumType> VARIANT = PropertyEnum.create(
-			"variant", BlockPlanks.EnumType.class);
+	public static final PropertyEnum<BlockPlanks.EnumType> VARIANT = PropertyEnum.create("variant",
+			BlockPlanks.EnumType.class);
 
 	public BlockWoodSlab() {
 		super(Material.wood);
@@ -88,8 +88,7 @@ public abstract class BlockWoodSlab extends BlockSlab {
 	}
 
 	protected BlockState createBlockState() {
-		return this.isDouble() ? new BlockState(this, VARIANT)
-				: new BlockState(this, HALF, VARIANT);
+		return this.isDouble() ? new BlockState(this, VARIANT) : new BlockState(this, HALF, VARIANT);
 	}
 
 	public int damageDropped(IBlockState state) {

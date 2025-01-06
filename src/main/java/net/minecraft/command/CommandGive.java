@@ -70,8 +70,8 @@ public class CommandGive extends CommandBase {
 				}
 			}
 
-			notifyOperators(sender, this, "commands.give.success",
-                    itemstack.getChatComponent(), Integer.valueOf(i), entityplayer.getName());
+			notifyOperators(sender, this, "commands.give.success", itemstack.getChatComponent(), Integer.valueOf(i),
+					entityplayer.getName());
 		}
 	}
 

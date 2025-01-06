@@ -88,8 +88,8 @@ public class ChunkProviderServer implements IChunkProvider {
 						CrashReport crashreport = CrashReport.makeCrashReport(throwable,
 								"Exception generating new chunk");
 						CrashReportCategory crashreportcategory = crashreport.makeCategory("Chunk to be generated");
-						crashreportcategory.addCrashSection("Location", String.format("%d,%d",
-                                Integer.valueOf(chunkX), Integer.valueOf(chunkZ)));
+						crashreportcategory.addCrashSection("Location",
+								String.format("%d,%d", Integer.valueOf(chunkX), Integer.valueOf(chunkZ)));
 						crashreportcategory.addCrashSection("Position hash", Long.valueOf(i));
 						crashreportcategory.addCrashSection("Generator", this.serverChunkGenerator.makeString());
 						throw new ReportedException(crashreport);
@@ -154,7 +154,7 @@ public class ChunkProviderServer implements IChunkProvider {
 				logger.error("Couldn't save chunk", ioexception);
 			} catch (MinecraftException minecraftexception) {
 				logger.error("Couldn't save chunk; already in use by another instance of Minecraft?",
-                        minecraftexception);
+						minecraftexception);
 			}
 		}
 	}

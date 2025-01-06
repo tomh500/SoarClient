@@ -12,8 +12,8 @@ import net.minecraft.world.World;
 import net.minecraft.world.biome.BiomeGenBase;
 
 public class MapGenVillage extends MapGenStructure {
-	public static final List<BiomeGenBase> villageSpawnBiomes = Arrays.asList(
-            BiomeGenBase.plains, BiomeGenBase.desert, BiomeGenBase.savanna);
+	public static final List<BiomeGenBase> villageSpawnBiomes = Arrays.asList(BiomeGenBase.plains, BiomeGenBase.desert,
+			BiomeGenBase.savanna);
 	private int terrainType;
 	private int field_82665_g;
 	private final int field_82666_h;
@@ -64,7 +64,7 @@ public class MapGenVillage extends MapGenStructure {
 			boolean flag = this.worldObj.getWorldChunkManager().areBiomesViable(i * 16 + 8, j * 16 + 8, 0,
 					villageSpawnBiomes);
 
-            return flag;
+			return flag;
 		}
 
 		return false;

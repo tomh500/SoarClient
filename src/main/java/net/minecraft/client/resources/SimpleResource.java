@@ -85,7 +85,7 @@ public class SimpleResource implements IResource {
 			return false;
 		} else {
 
-            if (this.srResourceLocation != null) {
+			if (this.srResourceLocation != null) {
 				if (!this.srResourceLocation.equals(simpleresource.srResourceLocation)) {
 					return false;
 				}
@@ -94,9 +94,10 @@ public class SimpleResource implements IResource {
 			}
 
 			if (this.resourcePackName != null) {
-                return this.resourcePackName.equals(simpleresource.resourcePackName);
-			} else return simpleresource.resourcePackName == null;
-        }
+				return this.resourcePackName.equals(simpleresource.resourcePackName);
+			} else
+				return simpleresource.resourcePackName == null;
+		}
 	}
 
 	public int hashCode() {

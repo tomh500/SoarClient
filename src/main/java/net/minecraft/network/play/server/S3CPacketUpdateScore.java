@@ -80,5 +80,5 @@ public class S3CPacketUpdateScore implements Packet<INetHandlerPlayClient> {
 
 	public enum Action {
 		CHANGE, REMOVE
-    }
+	}
 }

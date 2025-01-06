@@ -57,10 +57,10 @@ public class CommandClearInventory extends CommandBase {
 			} else {
 				if (j == 0) {
 					sender.addChatMessage(new ChatComponentTranslation("commands.clear.testing",
-                            entityplayermp.getName(), Integer.valueOf(k)));
+							entityplayermp.getName(), Integer.valueOf(k)));
 				} else {
-					notifyOperators(sender, this, "commands.clear.success",
-                            entityplayermp.getName(), Integer.valueOf(k));
+					notifyOperators(sender, this, "commands.clear.success", entityplayermp.getName(),
+							Integer.valueOf(k));
 				}
 			}
 		}

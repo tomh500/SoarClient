@@ -23,7 +23,7 @@ public class ModelAdapterGuardian extends ModelAdapter {
 			return null;
 		} else {
 
-            if (modelPart.equals("body")) {
+			if (modelPart.equals("body")) {
 				return modelguardian.guardianBody;
 			} else if (modelPart.equals("eye")) {
 				return modelguardian.guardianEye;

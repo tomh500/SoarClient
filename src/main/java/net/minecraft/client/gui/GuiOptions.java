@@ -71,9 +71,9 @@ public class GuiOptions extends GuiScreen implements GuiYesNoCallback {
 		this.buttonList.add(new GuiButton(8675309, this.width / 2 + 5, this.height / 6 + 48 - 6, 150, 20,
 				"Super Secret Settings...") {
 			public void playPressSound(SoundHandler soundHandlerIn) {
-				SoundEventAccessorComposite soundeventaccessorcomposite = soundHandlerIn
-						.getRandomSoundFromCategories(SoundCategory.ANIMALS, SoundCategory.BLOCKS,
-                                SoundCategory.MOBS, SoundCategory.PLAYERS, SoundCategory.WEATHER);
+				SoundEventAccessorComposite soundeventaccessorcomposite = soundHandlerIn.getRandomSoundFromCategories(
+						SoundCategory.ANIMALS, SoundCategory.BLOCKS, SoundCategory.MOBS, SoundCategory.PLAYERS,
+						SoundCategory.WEATHER);
 
 				if (soundeventaccessorcomposite != null) {
 					soundHandlerIn.playSound(
@@ -97,16 +97,14 @@ public class GuiOptions extends GuiScreen implements GuiYesNoCallback {
 				I18n.format("options.resourcepack")));
 		this.buttonList.add(new GuiButton(104, this.width / 2 + 5, this.height / 6 + 144 - 6, 150, 20,
 				I18n.format("options.snooper.view")));
-		this.buttonList.add(new GuiButton(200, this.width / 2 - 100, this.height / 6 + 168,
-				I18n.format("gui.done")));
+		this.buttonList.add(new GuiButton(200, this.width / 2 - 100, this.height / 6 + 168, I18n.format("gui.done")));
 	}
 
 	public String func_175355_a(EnumDifficulty p_175355_1_) {
 		IChatComponent ichatcomponent = new ChatComponentText("");
 		ichatcomponent.appendSibling(new ChatComponentTranslation("options.difficulty"));
 		ichatcomponent.appendText(": ");
-		ichatcomponent
-				.appendSibling(new ChatComponentTranslation(p_175355_1_.getDifficultyResourceKey()));
+		ichatcomponent.appendSibling(new ChatComponentTranslation(p_175355_1_.getDifficultyResourceKey()));
 		return ichatcomponent.getFormattedText();
 	}
 
@@ -138,12 +136,9 @@ public class GuiOptions extends GuiScreen implements GuiYesNoCallback {
 
 			if (button.id == 109) {
 				this.mc.displayGuiScreen(
-						new GuiYesNo(this,
-								(new ChatComponentTranslation("difficulty.lock.title"))
-										.getFormattedText(),
-								(new ChatComponentTranslation("difficulty.lock.question",
-                                        new ChatComponentTranslation(this.mc.theWorld.getWorldInfo()
-                                                .getDifficulty().getDifficultyResourceKey())))
+						new GuiYesNo(this, (new ChatComponentTranslation("difficulty.lock.title")).getFormattedText(),
+								(new ChatComponentTranslation("difficulty.lock.question", new ChatComponentTranslation(
+										this.mc.theWorld.getWorldInfo().getDifficulty().getDifficultyResourceKey())))
 										.getFormattedText(),
 								109));
 			}

@@ -45,8 +45,8 @@ import net.minecraft.world.EnumDifficulty;
 import net.minecraft.world.World;
 
 public class EntityZombie extends EntityMob {
-	protected static final IAttribute reinforcementChance = (new RangedAttribute(null,
-			"zombie.spawnReinforcements", 0.0D, 0.0D, 1.0D)).setDescription("Spawn Reinforcements Chance");
+	protected static final IAttribute reinforcementChance = (new RangedAttribute(null, "zombie.spawnReinforcements",
+			0.0D, 0.0D, 1.0D)).setDescription("Spawn Reinforcements Chance");
 	private static final UUID babySpeedBoostUUID = UUID.fromString("B9766B59-9566-4402-BC1F-2EE2A276D836");
 	private static final AttributeModifier babySpeedBoostModifier = new AttributeModifier(babySpeedBoostUUID,
 			"Baby speed boost", 0.5D, 1);
@@ -229,8 +229,7 @@ public class EntityZombie extends EntityMob {
 							this.worldObj.spawnEntityInWorld(entityzombie);
 							entityzombie.setAttackTarget(entitylivingbase);
 							entityzombie.onInitialSpawn(
-									this.worldObj.getDifficultyForLocation(new BlockPos(entityzombie)),
-                                    null);
+									this.worldObj.getDifficultyForLocation(new BlockPos(entityzombie)), null);
 							this.getEntityAttribute(reinforcementChance).applyModifier(new AttributeModifier(
 									"Zombie reinforcement caller charge", -0.05000000074505806D, 0));
 							entityzombie.getEntityAttribute(reinforcementChance).applyModifier(new AttributeModifier(
@@ -364,16 +363,16 @@ public class EntityZombie extends EntityMob {
 		super.onKillEntity(entityLivingIn);
 
 		if ((this.worldObj.getDifficulty() == EnumDifficulty.NORMAL
-				|| this.worldObj.getDifficulty() == EnumDifficulty.HARD) && entityLivingIn instanceof EntityVillager entityliving) {
+				|| this.worldObj.getDifficulty() == EnumDifficulty.HARD)
+				&& entityLivingIn instanceof EntityVillager entityliving) {
 			if (this.worldObj.getDifficulty() != EnumDifficulty.HARD && this.rand.nextBoolean()) {
 				return;
 			}
 
-            EntityZombie entityzombie = new EntityZombie(this.worldObj);
+			EntityZombie entityzombie = new EntityZombie(this.worldObj);
 			entityzombie.copyLocationAndAnglesFrom(entityLivingIn);
 			this.worldObj.removeEntity(entityLivingIn);
-			entityzombie.onInitialSpawn(this.worldObj.getDifficultyForLocation(new BlockPos(entityzombie)),
-                    null);
+			entityzombie.onInitialSpawn(this.worldObj.getDifficultyForLocation(new BlockPos(entityzombie)), null);
 			entityzombie.setVillager(true);
 
 			if (entityLivingIn.isChild()) {
@@ -419,7 +418,7 @@ public class EntityZombie extends EntityMob {
 
 		if (livingdata instanceof GroupData entityzombie$groupdata) {
 
-            if (entityzombie$groupdata.isVillager) {
+			if (entityzombie$groupdata.isVillager) {
 				this.setVillager(true);
 			}
 
@@ -534,8 +533,7 @@ public class EntityZombie extends EntityMob {
 	protected void convertToVillager() {
 		EntityVillager entityvillager = new EntityVillager(this.worldObj);
 		entityvillager.copyLocationAndAnglesFrom(this);
-		entityvillager.onInitialSpawn(this.worldObj.getDifficultyForLocation(new BlockPos(entityvillager)),
-                null);
+		entityvillager.onInitialSpawn(this.worldObj.getDifficultyForLocation(new BlockPos(entityvillager)), null);
 		entityvillager.setLookingForHome();
 
 		if (this.isChild()) {
@@ -552,8 +550,8 @@ public class EntityZombie extends EntityMob {
 
 		this.worldObj.spawnEntityInWorld(entityvillager);
 		entityvillager.addPotionEffect(new PotionEffect(Potion.confusion.id, 200, 0));
-		this.worldObj.playAuxSFXAtEntity(null, 1017,
-				new BlockPos((int) this.posX, (int) this.posY, (int) this.posZ), 0);
+		this.worldObj.playAuxSFXAtEntity(null, 1017, new BlockPos((int) this.posX, (int) this.posY, (int) this.posZ),
+				0);
 	}
 
 	protected int getConversionTimeBoost() {

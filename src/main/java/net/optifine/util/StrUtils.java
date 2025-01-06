@@ -282,15 +282,15 @@ public class StrUtils {
 	}
 
 	public static String addIfNotContains(String target, String source) {
-        StringBuilder targetBuilder = new StringBuilder(target);
-        for (int i = 0; i < source.length(); ++i) {
+		StringBuilder targetBuilder = new StringBuilder(target);
+		for (int i = 0; i < source.length(); ++i) {
 			if (targetBuilder.toString().indexOf(source.charAt(i)) < 0) {
 				targetBuilder.append(source.charAt(i));
 			}
 		}
-        target = targetBuilder.toString();
+		target = targetBuilder.toString();
 
-        return target;
+		return target;
 	}
 
 	public static String fillLeft(String s, int len, char fillChar) {

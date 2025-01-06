@@ -35,7 +35,7 @@ public class BlockEventData {
 		if (!(p_equals_1_ instanceof BlockEventData blockeventdata)) {
 			return false;
 		} else {
-            return this.position.equals(blockeventdata.position) && this.eventID == blockeventdata.eventID
+			return this.position.equals(blockeventdata.position) && this.eventID == blockeventdata.eventID
 					&& this.eventParameter == blockeventdata.eventParameter
 					&& this.blockType == blockeventdata.blockType;
 		}

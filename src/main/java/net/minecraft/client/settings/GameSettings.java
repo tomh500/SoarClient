@@ -244,11 +244,11 @@ public class GameSettings {
 	private File optionsFileOF;
 
 	public GameSettings(Minecraft mcIn, File optionsFileIn) {
-		this.keyBindings = ArrayUtils.addAll(new KeyBinding[] { this.keyBindAttack,
-				this.keyBindUseItem, this.keyBindForward, this.keyBindLeft, this.keyBindBack, this.keyBindRight,
-				this.keyBindJump, this.keyBindSneak, this.keyBindSprint, this.keyBindDrop, this.keyBindInventory,
-				this.keyBindChat, this.keyBindPlayerList, this.keyBindPickBlock, this.keyBindCommand,
-				this.keyBindScreenshot, this.keyBindTogglePerspective, this.keyBindSmoothCamera, this.keyBindFullscreen,
+		this.keyBindings = ArrayUtils.addAll(new KeyBinding[] { this.keyBindAttack, this.keyBindUseItem,
+				this.keyBindForward, this.keyBindLeft, this.keyBindBack, this.keyBindRight, this.keyBindJump,
+				this.keyBindSneak, this.keyBindSprint, this.keyBindDrop, this.keyBindInventory, this.keyBindChat,
+				this.keyBindPlayerList, this.keyBindPickBlock, this.keyBindCommand, this.keyBindScreenshot,
+				this.keyBindTogglePerspective, this.keyBindSmoothCamera, this.keyBindFullscreen,
 				this.keyBindSpectatorOutlines }, this.keyBindsHotbar);
 		this.difficulty = EnumDifficulty.NORMAL;
 		this.lastServer = "";
@@ -282,11 +282,11 @@ public class GameSettings {
 	}
 
 	public GameSettings() {
-		this.keyBindings = ArrayUtils.addAll(new KeyBinding[] { this.keyBindAttack,
-				this.keyBindUseItem, this.keyBindForward, this.keyBindLeft, this.keyBindBack, this.keyBindRight,
-				this.keyBindJump, this.keyBindSneak, this.keyBindSprint, this.keyBindDrop, this.keyBindInventory,
-				this.keyBindChat, this.keyBindPlayerList, this.keyBindPickBlock, this.keyBindCommand,
-				this.keyBindScreenshot, this.keyBindTogglePerspective, this.keyBindSmoothCamera, this.keyBindFullscreen,
+		this.keyBindings = ArrayUtils.addAll(new KeyBinding[] { this.keyBindAttack, this.keyBindUseItem,
+				this.keyBindForward, this.keyBindLeft, this.keyBindBack, this.keyBindRight, this.keyBindJump,
+				this.keyBindSneak, this.keyBindSprint, this.keyBindDrop, this.keyBindInventory, this.keyBindChat,
+				this.keyBindPlayerList, this.keyBindPickBlock, this.keyBindCommand, this.keyBindScreenshot,
+				this.keyBindTogglePerspective, this.keyBindSmoothCamera, this.keyBindFullscreen,
 				this.keyBindSpectatorOutlines }, this.keyBindsHotbar);
 		this.difficulty = EnumDifficulty.NORMAL;
 		this.lastServer = "";
@@ -303,7 +303,7 @@ public class GameSettings {
 
 	public static boolean isKeyDown(KeyBinding key) {
 		return key.getKeyCode() != 0 && (key.getKeyCode() < 0 ? Mouse.isButtonDown(key.getKeyCode() + 100)
-                : Keyboard.isKeyDown(key.getKeyCode()));
+				: Keyboard.isKeyDown(key.getKeyCode()));
 	}
 
 	public void setOptionKeyBinding(KeyBinding key, int keyCode) {
@@ -620,24 +620,19 @@ public class GameSettings {
 												: s1 + (int) (f * 200.0F) + "%"))
 								: (settingOption == GameSettings.Options.FOV
 										? (f1 == 70.0F ? s1 + I18n.format("options.fov.min")
-												: (f1 == 110.0F ? s1 + I18n.format("options.fov.max")
-														: s1 + (int) f1))
+												: (f1 == 110.0F ? s1 + I18n.format("options.fov.max") : s1 + (int) f1))
 										: (settingOption == GameSettings.Options.FRAMERATE_LIMIT
 												? (f1 == settingOption.valueMax
 														? s1 + I18n.format("options.framerateLimit.max")
 														: s1 + (int) f1 + " fps")
 												: (settingOption == GameSettings.Options.RENDER_CLOUDS
 														? (f1 == settingOption.valueMin
-																? s1 + I18n.format("options.cloudHeight.min"
-                )
+																? s1 + I18n.format("options.cloudHeight.min")
 																: s1 + ((int) f1 + 128))
 														: (settingOption == GameSettings.Options.GAMMA
-																? (f == 0.0F
-																		? s1 + I18n.format("options.gamma.min"
-                )
+																? (f == 0.0F ? s1 + I18n.format("options.gamma.min")
 																		: (f == 1.0F
-																				? s1 + I18n.format("options.gamma.max"
-                )
+																				? s1 + I18n.format("options.gamma.max")
 																				: s1 + "+" + (int) (f * 100.0F) + "%"))
 																: (settingOption == GameSettings.Options.SATURATION
 																		? s1 + (int) (f * 400.0F) + "%"
@@ -664,20 +659,17 @@ public class GameSettings {
 																												: (settingOption == GameSettings.Options.MIPMAP_LEVELS
 																														? (f1 == 0.0F
 																																? s1 + I18n
-																																		.format("options.off"
-                                                                                                                                        )
+																																		.format("options.off")
 																																: s1 + (int) f1)
 																														: (f == 0.0F
 																																? s1 + I18n
-																																		.format("options.off"
-                                                                                                                                        )
+																																		.format("options.off")
 																																: s1 + (int) (f
 																																		* 100.0F)
 																																		+ "%")))))))))))));
 			} else if (settingOption.getEnumBoolean()) {
 				boolean flag = this.getOptionOrdinalValue(settingOption);
-				return flag ? s1 + I18n.format("options.on")
-						: s1 + I18n.format("options.off");
+				return flag ? s1 + I18n.format("options.on") : s1 + I18n.format("options.off");
 			} else if (settingOption == GameSettings.Options.GUI_SCALE) {
 				return this.guiScale >= GUISCALES.length ? s1 + this.guiScale + "x"
 						: s1 + getTranslation(GUISCALES, this.guiScale);
@@ -794,8 +786,7 @@ public class GameSettings {
 							}
 
 							if (astring[0].equals("resourcePacks")) {
-								this.resourcePacks = gson.fromJson(s.substring(s.indexOf(58) + 1),
-										typeListString);
+								this.resourcePacks = gson.fromJson(s.substring(s.indexOf(58) + 1), typeListString);
 
 								if (this.resourcePacks == null) {
 									this.resourcePacks = Lists.newArrayList();
@@ -803,8 +794,8 @@ public class GameSettings {
 							}
 
 							if (astring[0].equals("incompatibleResourcePacks")) {
-								this.incompatibleResourcePacks = gson
-										.fromJson(s.substring(s.indexOf(58) + 1), typeListString);
+								this.incompatibleResourcePacks = gson.fromJson(s.substring(s.indexOf(58) + 1),
+										typeListString);
 
 								if (this.incompatibleResourcePacks == null) {
 									this.incompatibleResourcePacks = Lists.newArrayList();
@@ -1061,9 +1052,7 @@ public class GameSettings {
 	}
 
 	public float getSoundLevel(SoundCategory sndCategory) {
-		return this.mapSoundLevels.containsKey(sndCategory)
-				? this.mapSoundLevels.get(sndCategory).floatValue()
-				: 1.0F;
+		return this.mapSoundLevels.containsKey(sndCategory) ? this.mapSoundLevels.get(sndCategory).floatValue() : 1.0F;
 	}
 
 	public void setSoundLevel(SoundCategory sndCategory, float soundLevel) {
@@ -1157,7 +1146,7 @@ public class GameSettings {
 			}
 
 			for (this.ofAfLevel = 1; this.ofAfLevel * 2 <= k; this.ofAfLevel *= 2) {
-            }
+			}
 
 			this.ofAfLevel = Config.limit(this.ofAfLevel, 1, 16);
 			this.mc.refreshResources();
@@ -2457,11 +2446,10 @@ public class GameSettings {
 		GUI_SCALE("options.guiScale", false, false), PARTICLES("options.particles", false, false),
 		CHAT_VISIBILITY("options.chat.visibility", false, false), CHAT_COLOR("options.chat.color", false, true),
 		CHAT_LINKS("options.chat.links", false, true), CHAT_OPACITY("options.chat.opacity", true, false),
-		CHAT_LINKS_PROMPT("options.chat.links.prompt", false, true),
-		USE_FULLSCREEN("options.fullscreen", false, true), ENABLE_VSYNC("options.vsync", false, true),
-		USE_VBO("options.vbo", false, true), TOUCHSCREEN("options.touchscreen", false, true),
-		CHAT_SCALE("options.chat.scale", true, false), CHAT_WIDTH("options.chat.width", true, false),
-		CHAT_HEIGHT_FOCUSED("options.chat.height.focused", true, false),
+		CHAT_LINKS_PROMPT("options.chat.links.prompt", false, true), USE_FULLSCREEN("options.fullscreen", false, true),
+		ENABLE_VSYNC("options.vsync", false, true), USE_VBO("options.vbo", false, true),
+		TOUCHSCREEN("options.touchscreen", false, true), CHAT_SCALE("options.chat.scale", true, false),
+		CHAT_WIDTH("options.chat.width", true, false), CHAT_HEIGHT_FOCUSED("options.chat.height.focused", true, false),
 		CHAT_HEIGHT_UNFOCUSED("options.chat.height.unfocused", true, false),
 		MIPMAP_LEVELS("options.mipmapLevels", true, false, 0.0F, 4.0F, 1.0F),
 		FORCE_UNICODE_FONT("options.forceUnicodeFont", false, true),

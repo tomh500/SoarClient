@@ -28,7 +28,7 @@ public enum EnumFacing implements IStringSerializable {
 	private static final Map<String, EnumFacing> NAME_LOOKUP = Maps.newHashMap();
 
 	EnumFacing(int indexIn, int oppositeIn, int horizontalIndexIn, String nameIn,
-               EnumFacing.AxisDirection axisDirectionIn, EnumFacing.Axis axisIn, Vec3i directionVecIn) {
+			EnumFacing.AxisDirection axisDirectionIn, EnumFacing.Axis axisIn, Vec3i directionVecIn) {
 		this.index = indexIn;
 		this.horizontalIndex = horizontalIndexIn;
 		this.opposite = oppositeIn;

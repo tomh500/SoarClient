@@ -26,30 +26,30 @@ import net.minecraft.client.gui.GuiScreen;
 public class GuiModMenu extends PageGui {
 
 	private GaussianBlur blur = new GaussianBlur(false);
-	
+
 	private Animation animation;
 	private NavigationRail navigationRail;
 	private GuiScreen nextScreen;
-	
+
 	public GuiModMenu() {
 		animation = new DummyAnimation(1, 1);
 	}
-	
+
 	@Override
 	public void init() {
 
 		components.clear();
-		
+
 		navigationRail = new NavigationRail(this, getX(), getY(), 90, getHeight());
 		components.add(navigationRail);
-		
+
 		for (Page p : pages) {
 			p.setX(getX() + navigationRail.getWidth());
 			p.setY(getY());
 			p.setWidth(getWidth() - navigationRail.getWidth());
 			p.setHeight(getHeight());
 		}
-		
+
 		animation = new EaseEmphasizedDecelerate(Duration.EXTRA_LONG_1, 0, 1);
 		currentPage.init();
 		pageAnimation = new DummyAnimation(0, 1);
@@ -59,7 +59,7 @@ public class GuiModMenu extends PageGui {
 	public void drawOpenGL(int mouseX, int mouseY) {
 		blur.draw(1 + (20 * animation.getValue()));
 	}
-	
+
 	@Override
 	public void draw(int mouseX, int mouseY) {
 
@@ -67,34 +67,34 @@ public class GuiModMenu extends PageGui {
 
 		Skia.setAlpha((int) (animation.getValue() * 255));
 		Skia.scale(0, 0, mc.displayWidth, mc.displayHeight, 2 - animation.getValue());
-		
+
 		Skia.drawRoundedRect(getX(), getY(), getWidth(), getHeight(), 35, palette.getSurfaceContainer());
-		
+
 		drawPage(mouseX, mouseY);
-		
+
 		if (animation.getEnd() == 0 && animation.isFinished()) {
 			mc.displayGuiScreen(nextScreen);
 			nextScreen = null;
 		}
 	}
-	
+
 	@Override
 	public void keyTyped(char typedChar, int keyCode) {
-		
+
 		if (keyCode == Keyboard.KEY_ESCAPE && animation.getEnd() == 1) {
 			animation = new EaseEmphasizedDecelerate(Duration.EXTRA_LONG_1, 1, 0);
 		}
-		
+
 		super.keyTyped(typedChar, keyCode);
 	}
 
 	public void setNextScreen(GuiScreen nextScreen) {
-		if(animation.getEnd() == 1) {
+		if (animation.getEnd() == 1) {
 			this.nextScreen = nextScreen;
 			animation = new EaseEmphasizedDecelerate(Duration.EXTRA_LONG_1, 1, 0);
 		}
 	}
-	
+
 	@Override
 	public List<Page> createPages() {
 

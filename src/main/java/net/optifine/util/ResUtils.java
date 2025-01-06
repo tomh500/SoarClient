@@ -48,7 +48,7 @@ public class ResUtils {
 			Config.warn("Unknown resource pack type: " + rp);
 			return new String[0];
 		} else {
-            File file1 = abstractresourcepack.resourcePackFile;
+			File file1 = abstractresourcepack.resourcePackFile;
 
 			if (file1 == null) {
 				return new String[0];
@@ -108,7 +108,7 @@ public class ResUtils {
 					String s1 = basePath + file1.getName() + "/";
 					String[] astring = collectFilesFolder(file1, s1, prefixes, suffixes);
 
-                    Collections.addAll(list, astring);
+					Collections.addAll(list, astring);
 				}
 			}
 

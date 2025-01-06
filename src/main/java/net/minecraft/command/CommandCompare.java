@@ -37,8 +37,8 @@ public class CommandCompare extends CommandBase {
 			int i = structureboundingbox.getXSize() * structureboundingbox.getYSize() * structureboundingbox.getZSize();
 
 			if (i > 524288) {
-				throw new CommandException("commands.compare.tooManyBlocks",
-                        Integer.valueOf(i), Integer.valueOf(524288));
+				throw new CommandException("commands.compare.tooManyBlocks", Integer.valueOf(i),
+						Integer.valueOf(524288));
 			} else if (structureboundingbox.minY >= 0 && structureboundingbox.maxY < 256
 					&& structureboundingbox1.minY >= 0 && structureboundingbox1.maxY < 256) {
 				World world = sender.getEntityWorld();
@@ -46,7 +46,7 @@ public class CommandCompare extends CommandBase {
 				if (world.isAreaLoaded(structureboundingbox) && world.isAreaLoaded(structureboundingbox1)) {
 					boolean flag = args.length > 9 && args[9].equals("masked");
 
-                    i = 0;
+					i = 0;
 					BlockPos blockpos3 = new BlockPos(structureboundingbox1.minX - structureboundingbox.minX,
 							structureboundingbox1.minY - structureboundingbox.minY,
 							structureboundingbox1.minZ - structureboundingbox.minZ);
@@ -114,8 +114,7 @@ public class CommandCompare extends CommandBase {
 		return args.length > 0 && args.length <= 3 ? func_175771_a(args, 0, pos)
 				: (args.length > 3 && args.length <= 6 ? func_175771_a(args, 3, pos)
 						: (args.length > 6 && args.length <= 9 ? func_175771_a(args, 6, pos)
-								: (args.length == 10
-										? getListOfStringsMatchingLastWord(args, "masked", "all")
+								: (args.length == 10 ? getListOfStringsMatchingLastWord(args, "masked", "all")
 										: null)));
 	}
 }

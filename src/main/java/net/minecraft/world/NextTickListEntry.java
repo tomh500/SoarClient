@@ -21,7 +21,7 @@ public class NextTickListEntry implements Comparable<NextTickListEntry> {
 		if (!(p_equals_1_ instanceof NextTickListEntry nextticklistentry)) {
 			return false;
 		} else {
-            return this.position.equals(nextticklistentry.position)
+			return this.position.equals(nextticklistentry.position)
 					&& Block.isEqualTo(this.block, nextticklistentry.block);
 		}
 	}

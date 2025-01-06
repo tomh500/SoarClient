@@ -201,9 +201,7 @@ public class ContainerRepair extends Container {
 						Enchantment enchantment = Enchantment.getEnchantmentById(i5);
 
 						if (enchantment != null) {
-							int k5 = map.containsKey(Integer.valueOf(i5))
-									? map.get(Integer.valueOf(i5)).intValue()
-									: 0;
+							int k5 = map.containsKey(Integer.valueOf(i5)) ? map.get(Integer.valueOf(i5)).intValue() : 0;
 							int l3 = map1.get(Integer.valueOf(i5)).intValue();
 							int i6;
 
@@ -346,8 +344,9 @@ public class ContainerRepair extends Container {
 	}
 
 	public boolean canInteractWith(EntityPlayer playerIn) {
-		return this.theWorld.getBlockState(this.selfPosition).getBlock() == Blocks.anvil && playerIn.getDistanceSq((double) this.selfPosition.getX() + 0.5D,
-                (double) this.selfPosition.getY() + 0.5D, (double) this.selfPosition.getZ() + 0.5D) <= 64.0D;
+		return this.theWorld.getBlockState(this.selfPosition).getBlock() == Blocks.anvil
+				&& playerIn.getDistanceSq((double) this.selfPosition.getX() + 0.5D,
+						(double) this.selfPosition.getY() + 0.5D, (double) this.selfPosition.getZ() + 0.5D) <= 64.0D;
 	}
 
 	public ItemStack transferStackInSlot(EntityPlayer playerIn, int index) {

@@ -21,7 +21,7 @@ public class ModelAdapterChicken extends ModelAdapter {
 		if (!(model instanceof ModelChicken modelchicken)) {
 			return null;
 		} else {
-            return modelPart
+			return modelPart
 					.equals("head")
 							? modelchicken.head
 							: (modelPart.equals("body") ? modelchicken.body

@@ -46,13 +46,13 @@ public class HttpUtil {
 				stringbuilder.append('&');
 			}
 
-            stringbuilder.append(URLEncoder.encode(entry.getKey(), StandardCharsets.UTF_8));
+			stringbuilder.append(URLEncoder.encode(entry.getKey(), StandardCharsets.UTF_8));
 
-            if (entry.getValue() != null) {
+			if (entry.getValue() != null) {
 				stringbuilder.append('=');
 
-                stringbuilder.append(URLEncoder.encode(entry.getValue().toString(), StandardCharsets.UTF_8));
-            }
+				stringbuilder.append(URLEncoder.encode(entry.getValue().toString(), StandardCharsets.UTF_8));
+			}
 		}
 
 		return stringbuilder.toString();
@@ -139,7 +139,7 @@ public class HttpUtil {
 
 						if (p_180192_4_ != null) {
 							p_180192_4_.displayLoadingString(String.format("Downloading file (%.2f MB)...",
-                                    Float.valueOf(f1 / 1000.0F / 1000.0F)));
+									Float.valueOf(f1 / 1000.0F / 1000.0F)));
 						}
 
 						if (saveFile.exists()) {
@@ -204,7 +204,7 @@ public class HttpUtil {
 
 						if (p_180192_4_ != null) {
 							p_180192_4_.setDoneWorking();
-                        }
+						}
 					} catch (Throwable throwable) {
 						throwable.printStackTrace();
 
@@ -220,7 +220,7 @@ public class HttpUtil {
 
 						if (p_180192_4_ != null) {
 							p_180192_4_.setDoneWorking();
-                        }
+						}
 					}
 				} finally {
 					IOUtils.closeQuietly(inputstream);
@@ -244,7 +244,7 @@ public class HttpUtil {
 					serversocket.close();
 				}
 			} catch (IOException var8) {
-            }
+			}
 		}
 
 		return i;

@@ -13,9 +13,11 @@ public abstract class HUDDesign {
 	}
 
 	public abstract void drawBackground(float x, float y, float width, float height, float radius);
+
 	public abstract void drawText(String text, float x, float y, Font font);
 
 	public abstract Color getTextColor();
+
 	public abstract Color getOnTextColor();
 
 	public String getName() {

@@ -157,7 +157,7 @@ public class BlockPistonBase extends Block {
 
 					if (tileentity instanceof TileEntityPiston tileentitypiston) {
 
-                        if (tileentitypiston.getFacing() == enumfacing && tileentitypiston.isExtending()) {
+						if (tileentitypiston.getFacing() == enumfacing && tileentitypiston.isExtending()) {
 							tileentitypiston.clearPistonTileEntity();
 							flag1 = true;
 						}
@@ -278,8 +278,8 @@ public class BlockPistonBase extends Block {
 					}
 
 					if (blockIn.getMobilityFlag() == 1) {
-                        return allowDestroy;
-                    }
+						return allowDestroy;
+					}
 				} else if (worldIn.getBlockState(pos).getValue(EXTENDED).booleanValue()) {
 					return false;
 				}

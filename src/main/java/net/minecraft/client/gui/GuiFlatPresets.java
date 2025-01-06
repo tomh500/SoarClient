@@ -50,8 +50,7 @@ public class GuiFlatPresets extends GuiScreen {
 		this.field_146433_u.setText(this.parentScreen.func_146384_e());
 		this.buttonList.add(this.field_146434_t = new GuiButton(0, this.width / 2 - 155, this.height - 28, 150, 20,
 				I18n.format("createWorld.customize.presets.select")));
-		this.buttonList.add(new GuiButton(1, this.width / 2 + 5, this.height - 28, 150, 20,
-				I18n.format("gui.cancel")));
+		this.buttonList.add(new GuiButton(1, this.width / 2 + 5, this.height - 28, 150, 20, I18n.format("gui.cancel")));
 		this.func_146426_g();
 	}
 
@@ -141,42 +140,36 @@ public class GuiFlatPresets extends GuiScreen {
 	}
 
 	static {
-		func_146421_a("Classic Flat", Item.getItemFromBlock(Blocks.grass), BiomeGenBase.plains,
-                List.of("village"),
-                new FlatLayerInfo(1, Blocks.grass), new FlatLayerInfo(2, Blocks.dirt),
-                new FlatLayerInfo(1, Blocks.bedrock));
+		func_146421_a("Classic Flat", Item.getItemFromBlock(Blocks.grass), BiomeGenBase.plains, List.of("village"),
+				new FlatLayerInfo(1, Blocks.grass), new FlatLayerInfo(2, Blocks.dirt),
+				new FlatLayerInfo(1, Blocks.bedrock));
 		func_146421_a("Tunnelers' Dream", Item.getItemFromBlock(Blocks.stone), BiomeGenBase.extremeHills,
 				Arrays.asList("biome_1", "dungeon", "decoration", "stronghold", "mineshaft"),
-                new FlatLayerInfo(1, Blocks.grass), new FlatLayerInfo(5, Blocks.dirt),
-                new FlatLayerInfo(230, Blocks.stone), new FlatLayerInfo(1, Blocks.bedrock));
+				new FlatLayerInfo(1, Blocks.grass), new FlatLayerInfo(5, Blocks.dirt),
+				new FlatLayerInfo(230, Blocks.stone), new FlatLayerInfo(1, Blocks.bedrock));
 		func_146421_a("Water World", Items.water_bucket, BiomeGenBase.deepOcean,
-				Arrays.asList("biome_1", "oceanmonument"),
-                new FlatLayerInfo(90, Blocks.water), new FlatLayerInfo(5, Blocks.sand),
-                new FlatLayerInfo(5, Blocks.dirt), new FlatLayerInfo(5, Blocks.stone),
-                new FlatLayerInfo(1, Blocks.bedrock));
+				Arrays.asList("biome_1", "oceanmonument"), new FlatLayerInfo(90, Blocks.water),
+				new FlatLayerInfo(5, Blocks.sand), new FlatLayerInfo(5, Blocks.dirt),
+				new FlatLayerInfo(5, Blocks.stone), new FlatLayerInfo(1, Blocks.bedrock));
 		func_175354_a("Overworld", Item.getItemFromBlock(Blocks.tallgrass), BlockTallGrass.EnumType.GRASS.getMeta(),
 				BiomeGenBase.plains,
-				Arrays.asList("village", "biome_1", "decoration", "stronghold", "mineshaft",
-                        "dungeon", "lake", "lava_lake"),
-                new FlatLayerInfo(1, Blocks.grass), new FlatLayerInfo(3, Blocks.dirt),
-                new FlatLayerInfo(59, Blocks.stone), new FlatLayerInfo(1, Blocks.bedrock));
+				Arrays.asList("village", "biome_1", "decoration", "stronghold", "mineshaft", "dungeon", "lake",
+						"lava_lake"),
+				new FlatLayerInfo(1, Blocks.grass), new FlatLayerInfo(3, Blocks.dirt),
+				new FlatLayerInfo(59, Blocks.stone), new FlatLayerInfo(1, Blocks.bedrock));
 		func_146421_a("Snowy Kingdom", Item.getItemFromBlock(Blocks.snow_layer), BiomeGenBase.icePlains,
-				Arrays.asList("village", "biome_1"),
-                new FlatLayerInfo(1, Blocks.snow_layer), new FlatLayerInfo(1, Blocks.grass),
-                new FlatLayerInfo(3, Blocks.dirt), new FlatLayerInfo(59, Blocks.stone),
-                new FlatLayerInfo(1, Blocks.bedrock));
-		func_146421_a("Bottomless Pit", Items.feather, BiomeGenBase.plains,
-				Arrays.asList("village", "biome_1"),
-                new FlatLayerInfo(1, Blocks.grass), new FlatLayerInfo(3, Blocks.dirt),
-                new FlatLayerInfo(2, Blocks.cobblestone));
+				Arrays.asList("village", "biome_1"), new FlatLayerInfo(1, Blocks.snow_layer),
+				new FlatLayerInfo(1, Blocks.grass), new FlatLayerInfo(3, Blocks.dirt),
+				new FlatLayerInfo(59, Blocks.stone), new FlatLayerInfo(1, Blocks.bedrock));
+		func_146421_a("Bottomless Pit", Items.feather, BiomeGenBase.plains, Arrays.asList("village", "biome_1"),
+				new FlatLayerInfo(1, Blocks.grass), new FlatLayerInfo(3, Blocks.dirt),
+				new FlatLayerInfo(2, Blocks.cobblestone));
 		func_146421_a("Desert", Item.getItemFromBlock(Blocks.sand), BiomeGenBase.desert,
-				Arrays.asList(
-                        "village", "biome_1", "decoration", "stronghold", "mineshaft", "dungeon"),
-                new FlatLayerInfo(8, Blocks.sand), new FlatLayerInfo(52, Blocks.sandstone),
-                new FlatLayerInfo(3, Blocks.stone), new FlatLayerInfo(1, Blocks.bedrock));
-		func_146425_a("Redstone Ready", Items.redstone, BiomeGenBase.desert,
-                new FlatLayerInfo(52, Blocks.sandstone), new FlatLayerInfo(3, Blocks.stone),
-                new FlatLayerInfo(1, Blocks.bedrock));
+				Arrays.asList("village", "biome_1", "decoration", "stronghold", "mineshaft", "dungeon"),
+				new FlatLayerInfo(8, Blocks.sand), new FlatLayerInfo(52, Blocks.sandstone),
+				new FlatLayerInfo(3, Blocks.stone), new FlatLayerInfo(1, Blocks.bedrock));
+		func_146425_a("Redstone Ready", Items.redstone, BiomeGenBase.desert, new FlatLayerInfo(52, Blocks.sandstone),
+				new FlatLayerInfo(3, Blocks.stone), new FlatLayerInfo(1, Blocks.bedrock));
 	}
 
 	static class LayerItem {
@@ -225,26 +218,14 @@ public class GuiFlatPresets extends GuiScreen {
 			Tessellator tessellator = Tessellator.getInstance();
 			WorldRenderer worldrenderer = tessellator.getWorldRenderer();
 			worldrenderer.begin(7, DefaultVertexFormats.POSITION_TEX);
-			worldrenderer
-					.pos(p_148171_1_, p_148171_2_ + 18, GuiFlatPresets.this.zLevel)
-					.tex((float) (p_148171_3_) * 0.0078125F,
-                            (float) (p_148171_4_ + 18) * 0.0078125F)
-					.endVertex();
-			worldrenderer
-					.pos(p_148171_1_ + 18, p_148171_2_ + 18, GuiFlatPresets.this.zLevel)
-					.tex((float) (p_148171_3_ + 18) * 0.0078125F,
-                            (float) (p_148171_4_ + 18) * 0.0078125F)
-					.endVertex();
-			worldrenderer
-					.pos(p_148171_1_ + 18, p_148171_2_, GuiFlatPresets.this.zLevel)
-					.tex((float) (p_148171_3_ + 18) * 0.0078125F,
-                            (float) (p_148171_4_) * 0.0078125F)
-					.endVertex();
-			worldrenderer
-					.pos(p_148171_1_, p_148171_2_, GuiFlatPresets.this.zLevel)
-					.tex((float) (p_148171_3_) * 0.0078125F,
-                            (float) (p_148171_4_) * 0.0078125F)
-					.endVertex();
+			worldrenderer.pos(p_148171_1_, p_148171_2_ + 18, GuiFlatPresets.this.zLevel)
+					.tex((float) (p_148171_3_) * 0.0078125F, (float) (p_148171_4_ + 18) * 0.0078125F).endVertex();
+			worldrenderer.pos(p_148171_1_ + 18, p_148171_2_ + 18, GuiFlatPresets.this.zLevel)
+					.tex((float) (p_148171_3_ + 18) * 0.0078125F, (float) (p_148171_4_ + 18) * 0.0078125F).endVertex();
+			worldrenderer.pos(p_148171_1_ + 18, p_148171_2_, GuiFlatPresets.this.zLevel)
+					.tex((float) (p_148171_3_ + 18) * 0.0078125F, (float) (p_148171_4_) * 0.0078125F).endVertex();
+			worldrenderer.pos(p_148171_1_, p_148171_2_, GuiFlatPresets.this.zLevel)
+					.tex((float) (p_148171_3_) * 0.0078125F, (float) (p_148171_4_) * 0.0078125F).endVertex();
 			tessellator.draw();
 		}
 
@@ -268,8 +249,7 @@ public class GuiFlatPresets extends GuiScreen {
 
 		protected void drawSlot(int entryID, int p_180791_2_, int p_180791_3_, int p_180791_4_, int mouseXIn,
 				int mouseYIn) {
-			GuiFlatPresets.LayerItem guiflatpresets$layeritem = GuiFlatPresets.FLAT_WORLD_PRESETS
-					.get(entryID);
+			GuiFlatPresets.LayerItem guiflatpresets$layeritem = GuiFlatPresets.FLAT_WORLD_PRESETS.get(entryID);
 			this.func_178054_a(p_180791_2_, p_180791_3_, guiflatpresets$layeritem.field_148234_a,
 					guiflatpresets$layeritem.field_179037_b);
 			GuiFlatPresets.this.fontRendererObj.drawString(guiflatpresets$layeritem.field_148232_b,

@@ -139,10 +139,8 @@ public class GuiBeacon extends GuiContainer {
 
 	protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
 		RenderHelper.disableStandardItemLighting();
-		this.drawCenteredString(this.fontRendererObj, I18n.format("tile.beacon.primary"), 62, 10,
-				14737632);
-		this.drawCenteredString(this.fontRendererObj, I18n.format("tile.beacon.secondary"), 169, 10,
-				14737632);
+		this.drawCenteredString(this.fontRendererObj, I18n.format("tile.beacon.primary"), 62, 10, 14737632);
+		this.drawCenteredString(this.fontRendererObj, I18n.format("tile.beacon.secondary"), 169, 10, 14737632);
 
 		for (GuiButton guibutton : this.buttonList) {
 			if (guibutton.isMouseOver()) {
@@ -245,7 +243,7 @@ public class GuiBeacon extends GuiContainer {
 
 		public PowerButton(int p_i1076_2_, int p_i1076_3_, int p_i1076_4_, int p_i1076_5_, int p_i1076_6_) {
 			super(p_i1076_2_, p_i1076_3_, p_i1076_4_, GuiContainer.inventoryBackground,
-                    Potion.potionTypes[p_i1076_5_].getStatusIconIndex() % 8 * 18,
+					Potion.potionTypes[p_i1076_5_].getStatusIconIndex() % 8 * 18,
 					198 + Potion.potionTypes[p_i1076_5_].getStatusIconIndex() / 8 * 18);
 			this.field_146149_p = p_i1076_5_;
 			this.field_146148_q = p_i1076_6_;
