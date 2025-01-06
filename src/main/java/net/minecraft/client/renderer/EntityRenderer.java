@@ -481,31 +481,9 @@ public class EntityRenderer implements IResourceManagerReloadListener {
 				}
 			}
 
-			boolean flag = false;
-
-			if (this.mc.currentScreen == null) {
-				GameSettings gamesettings = this.mc.gameSettings;
-				flag = GameSettings.isKeyDown(this.mc.gameSettings.ofKeyBindZoom);
-			}
-
-			if (flag) {
-				if (!Config.zoomMode) {
-					Config.zoomMode = true;
-					Config.zoomSmoothCamera = this.mc.gameSettings.smoothCamera;
-					this.mc.gameSettings.smoothCamera = true;
-					this.mc.renderGlobal.displayListEntitiesDirty = true;
-				}
-
-				if (Config.zoomMode) {
-					f /= 4.0F;
-				}
-			} else if (Config.zoomMode) {
-				Config.zoomMode = false;
-				this.mc.gameSettings.smoothCamera = Config.zoomSmoothCamera;
-				this.mouseFilterXAxis = new MouseFilter();
-				this.mouseFilterYAxis = new MouseFilter();
-				this.mc.renderGlobal.displayListEntitiesDirty = true;
-			}
+			this.mouseFilterXAxis = new MouseFilter();
+			this.mouseFilterYAxis = new MouseFilter();
+			this.mc.renderGlobal.displayListEntitiesDirty = true;
 
 			if (entity instanceof EntityLivingBase && ((EntityLivingBase) entity).getHealth() <= 0.0F) {
 				float f1 = (float) ((EntityLivingBase) entity).deathTime + partialTicks;

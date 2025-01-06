@@ -5,7 +5,6 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.FileWriter;
-import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
@@ -54,7 +53,6 @@ import net.optifine.Lang;
 import net.optifine.NaturalTextures;
 import net.optifine.RandomEntities;
 import net.optifine.shaders.Shaders;
-import net.optifine.util.KeyUtils;
 
 public class GameSettings {
 	private static final Logger logger = LogManager.getLogger();
@@ -243,7 +241,6 @@ public class GameSettings {
 	private static final int[] OF_DYNAMIC_LIGHTS = new int[] { 3, 1, 2 };
 	private static final String[] KEYS_DYNAMIC_LIGHTS = new String[] { "options.off", "options.graphics.fast",
 			"options.graphics.fancy" };
-	public KeyBinding ofKeyBindZoom;
 	private File optionsFileOF;
 
 	public GameSettings(Minecraft mcIn, File optionsFileIn) {
@@ -279,9 +276,6 @@ public class GameSettings {
 		this.renderDistanceChunks = mcIn.isJava64bit() ? 12 : 8;
 		this.optionsFileOF = new File(optionsFileIn, "optionsof.txt");
 		this.limitFramerate = (int) GameSettings.Options.FRAMERATE_LIMIT.getValueMax();
-		this.ofKeyBindZoom = new KeyBinding("of.key.zoom", 46, "key.categories.misc");
-		this.keyBindings = ArrayUtils.add(this.keyBindings, this.ofKeyBindZoom);
-		KeyUtils.fixKeyConflicts(this.keyBindings, new KeyBinding[] { this.ofKeyBindZoom });
 		this.renderDistanceChunks = 8;
 		this.loadOptions();
 		Config.initGameSettings(this);
@@ -2187,17 +2181,12 @@ public class GameSettings {
 						this.ofTranslucentBlocks = Integer.valueOf(astring[1]).intValue();
 						this.ofTranslucentBlocks = Config.limit(this.ofTranslucentBlocks, 0, 2);
 					}
-
-					if (astring[0].equals("key_" + this.ofKeyBindZoom.getKeyDescription())) {
-						this.ofKeyBindZoom.setKeyCode(Integer.parseInt(astring[1]));
-					}
 				} catch (Exception exception) {
 					Config.dbg("Skipping bad option: " + s);
 					exception.printStackTrace();
 				}
 			}
 
-			KeyUtils.fixKeyConflicts(this.keyBindings, new KeyBinding[] { this.ofKeyBindZoom });
 			KeyBinding.resetKeyBindingArrayAndHash();
 			bufferedreader.close();
 		} catch (Exception exception1) {
@@ -2272,8 +2261,6 @@ public class GameSettings {
 			printwriter.println("ofShowGlErrors:" + this.ofShowGlErrors);
 			printwriter.println("ofFullscreenMode:" + this.ofFullscreenMode);
 			printwriter.println("ofTranslucentBlocks:" + this.ofTranslucentBlocks);
-			printwriter
-					.println("key_" + this.ofKeyBindZoom.getKeyDescription() + ":" + this.ofKeyBindZoom.getKeyCode());
 			printwriter.close();
 		} catch (Exception exception) {
 			Config.warn("Failed to save options");

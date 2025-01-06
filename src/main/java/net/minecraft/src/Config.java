@@ -95,8 +95,6 @@ public class Config {
 	private static DisplayMode[] displayModes = null;
 	private static int antialiasingLevel = 0;
 	private static int availableProcessors = 0;
-	public static boolean zoomMode = false;
-	public static boolean zoomSmoothCamera = false;
 	private static int texturePackClouds = 0;
 	public static boolean waterOpacityChanged = false;
 	private static boolean fullscreenModeChecked = false;

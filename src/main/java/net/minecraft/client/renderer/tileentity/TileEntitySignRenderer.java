@@ -127,7 +127,16 @@ public class TileEntitySignRenderer extends TileEntitySpecialRenderer<TileEntity
 		} else if (Config.getMinecraft().currentScreen instanceof GuiEditSign) {
 			return true;
 		} else {
-			if (!Config.zoomMode && p_isRenderText_0_.lineBeingEdited < 0) {
+			
+			// TODO: Zoom
+			/*if (!Config.zoomMode && p_isRenderText_0_.lineBeingEdited < 0) {
+				Entity entity = Config.getMinecraft().getRenderViewEntity();
+				double d0 = p_isRenderText_0_.getDistanceSq(entity.posX, entity.posY, entity.posZ);
+
+                return !(d0 > textRenderDistanceSq);
+			}*/
+			
+			if (p_isRenderText_0_.lineBeingEdited < 0) {
 				Entity entity = Config.getMinecraft().getRenderViewEntity();
 				double d0 = p_isRenderText_0_.getDistanceSq(entity.posX, entity.posY, entity.posZ);
 

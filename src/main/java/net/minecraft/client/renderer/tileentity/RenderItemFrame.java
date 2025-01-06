@@ -91,13 +91,21 @@ public class RenderItemFrame extends Render<EntityItemFrame> {
 				return;
 			}
 
-			if (!Config.zoomMode) {
+			// TODO: Zoom
+			/*if (!Config.zoomMode) {
 				Entity entity = this.mc.thePlayer;
 				double d0 = itemFrame.getDistanceSq(entity.posX, entity.posY, entity.posZ);
 
 				if (d0 > 4096.0D) {
 					return;
 				}
+			}*/
+			
+			Entity entity = this.mc.thePlayer;
+			double d0 = itemFrame.getDistanceSq(entity.posX, entity.posY, entity.posZ);
+
+			if (d0 > 4096.0D) {
+				return;
 			}
 
 			EntityItem entityitem = new EntityItem(itemFrame.worldObj, 0.0D, 0.0D, 0.0D, itemstack);
@@ -223,14 +231,19 @@ public class RenderItemFrame extends Render<EntityItemFrame> {
 		if (Shaders.isShadowPass) {
 			return false;
 		} else {
-			if (!Config.zoomMode) {
+			
+			// TODO: Zoom
+			/*if (!Config.zoomMode) {
 				Entity entity = this.mc.getRenderViewEntity();
 				double d0 = p_isRenderItem_1_.getDistanceSq(entity.posX, entity.posY, entity.posZ);
 
                 return !(d0 > itemRenderDistanceSq);
-			}
+			}*/
 
-			return true;
+			Entity entity = this.mc.getRenderViewEntity();
+			double d0 = p_isRenderItem_1_.getDistanceSq(entity.posX, entity.posY, entity.posZ);
+
+            return !(d0 > itemRenderDistanceSq);
 		}
 	}
 
