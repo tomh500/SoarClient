@@ -9,6 +9,7 @@ import java.util.stream.Collectors;
 import com.soarclient.management.mod.api.hud.HUDMod;
 import com.soarclient.management.mod.api.hud.design.HUDDesign;
 import com.soarclient.management.mod.api.hud.design.impl.SimpleDesign;
+import com.soarclient.management.mod.impl.hud.CPSDisplayMod;
 import com.soarclient.management.mod.impl.hud.FPSDisplayMod;
 import com.soarclient.management.mod.impl.hud.MinimapMod;
 import com.soarclient.management.mod.impl.hud.RearviewMod;
@@ -32,6 +33,7 @@ public class ModManager {
 	private void initMods() {
 		
 		// HUD
+		mods.add(new CPSDisplayMod());
 		mods.add(new FPSDisplayMod());
 		mods.add(new MinimapMod());
 		mods.add(new RearviewMod());

@@ -53,6 +53,7 @@ import com.soarclient.Soar;
 import com.soarclient.event.EventBus;
 import com.soarclient.event.impl.ClientTickEvent;
 import com.soarclient.event.impl.GameLoopEvent;
+import com.soarclient.event.impl.MouseClickEvent;
 import com.soarclient.event.impl.RenderTickEvent;
 import com.soarclient.event.impl.UpdateFramebufferSizeEvent;
 import com.soarclient.management.mod.settings.impl.KeybindSetting;
@@ -1490,7 +1491,7 @@ public class Minecraft implements IThreadListener {
 		if (this.currentScreen == null || this.currentScreen.allowUserInput) {
 			this.mcProfiler.endStartSection("mouse");
 
-			while (Mouse.next()) {
+			while (nextMouse()) {
 				
 				int i = Mouse.getEventButton();
 				int mouseCode = i - 100;
@@ -2471,6 +2472,26 @@ public class Minecraft implements IThreadListener {
 		return map;
 	}
 
+	private boolean nextMouse() {
+
+		boolean next = Mouse.next();
+
+		if (next) {
+
+			int button = Mouse.getEventButton();
+
+			MouseClickEvent event = new MouseClickEvent(button);
+
+			EventBus.getInstance().post(event);
+
+			if (event.isCancelled()) {
+				next = nextMouse();
+			}
+		}
+
+		return next;
+	}
+	
 	public List<IResourcePack> getDefaultResourcePacks() {
 		return defaultResourcePacks;
 	}
