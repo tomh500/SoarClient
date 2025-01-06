@@ -19,13 +19,14 @@ public abstract class SimpleHUDMod extends HUDMod {
 	@EventHandler
 	public void onRenderSkia(RenderSkiaEvent event) {
 		
-		float padding = 5;
-		float iconPadding = 3;
 		float fontSize = 9;
 		float iconSize = 10.5F;
-		boolean hasIcon = getIcon() != null && iconSetting.isEnabled();
-		float addX = hasIcon ? iconSize + iconPadding : 0;
-		float width = Skia.getTextWidth(getText(), Fonts.getRegular(fontSize)) + (padding * 2) + addX;
+		float padding = 5;
+		boolean hasIcon = getIcon() != null;
+		float textWidth = Skia.getTextWidth(getText(), Fonts.getRegular(fontSize));
+		float textHeight = Skia.getTextHeight(getText(), Fonts.getRegular(fontSize));
+		float iconWidth = Skia.getTextWidth(getIcon(), Fonts.getIcon(iconSize));
+		float width = textWidth + (padding * 2) + (hasIcon ? iconWidth + 4 : 0);
 		float height = fontSize + (padding * 2) - 1.5F;
 		
 		this.begin();
@@ -35,7 +36,7 @@ public abstract class SimpleHUDMod extends HUDMod {
 			this.drawText(getIcon(), getX() + padding, getY() + padding - 1F, Fonts.getIcon(iconSize));
 		}
 		
-		this.drawText(getText(), getX() + padding + addX, getY() + padding, Fonts.getRegular(fontSize));
+		this.drawText(getText(), getX() + padding + (hasIcon ? iconWidth + 4 : 0), getY() + (height / 2) - (textHeight / 2) - 0.5F, Fonts.getRegular(fontSize));
 		this.finish();
 		
 		position.setSize(width, height);
