@@ -17,7 +17,9 @@ import com.soarclient.management.music.MusicManager;
 import com.soarclient.skia.Skia;
 import com.soarclient.skia.font.Fonts;
 import com.soarclient.skia.font.Icon;
+import com.soarclient.ui.component.impl.text.SearchBar;
 import com.soarclient.utils.ColorUtils;
+import com.soarclient.utils.SearchUtils;
 import com.soarclient.utils.mouse.MouseUtils;
 
 import io.github.humbleui.skija.ClipMode;
@@ -35,6 +37,8 @@ public class MusicPage extends Page {
 	private MusicControlBar controlBar;
 	private List<Item> items = new ArrayList<>();
 
+	private SearchBar searchBar;
+
 	public MusicPage(PageGui parent) {
 		super(parent, "text.music", Icon.MUSIC_NOTE, PageTransition.LEFT);
 
@@ -47,7 +51,9 @@ public class MusicPage extends Page {
 	public void init() {
 
 		controlBar = new MusicControlBar(x + 22, y + height - 60 - 18, width - 44);
-
+		searchBar = new SearchBar(x + width - 260 - 32, y + 32, 260, () -> {
+		});
+		
 		for (Item i : items) {
 			i.xAnimation.setFirstTick(true);
 			i.yAnimation.setFirstTick(true);
@@ -64,6 +70,8 @@ public class MusicPage extends Page {
 		float offsetX = 32;
 		float offsetY = 96;
 
+		searchBar.draw(mouseX, mouseY);
+		
 		controlBarAnimation.onTick(MouseUtils.isInside(mouseX, mouseY, controlBar.getX(), controlBar.getY(),
 				controlBar.getWidth(), controlBar.getHeight()) ? 1 : 0, 12);
 
@@ -74,6 +82,10 @@ public class MusicPage extends Page {
 			SimpleAnimation yAnimation = i.yAnimation;
 			SimpleAnimation focusAnimation = i.focusAnimation;
 
+			if (!searchBar.getText().isEmpty() && !SearchUtils.isSimillar(m.getTitle() + " " + m.getArtist(), searchBar.getText())) {
+				continue;
+			}
+			
 			float itemX = x + offsetX;
 			float itemY = y + offsetY;
 
@@ -126,7 +138,8 @@ public class MusicPage extends Page {
 	public void mousePressed(int mouseX, int mouseY, int mouseButton) {
 
 		controlBar.mousePressed(mouseX, mouseY, mouseButton);
-
+		searchBar.mousePressed(mouseX, mouseY, mouseButton);
+		
 		if (MouseUtils.isInside(mouseX, mouseY, controlBar.getX(), controlBar.getY(), controlBar.getWidth(),
 				controlBar.getHeight())) {
 			return;
@@ -139,7 +152,8 @@ public class MusicPage extends Page {
 		MusicManager musicManager = Soar.getInstance().getMusicManager();
 
 		controlBar.mouseReleased(mouseX, mouseY, mouseButton);
-
+		searchBar.mouseReleased(mouseX, mouseY, mouseButton);
+		
 		if (MouseUtils.isInside(mouseX, mouseY, controlBar.getX(), controlBar.getY(), controlBar.getWidth(),
 				controlBar.getHeight())) {
 			return;
@@ -166,6 +180,7 @@ public class MusicPage extends Page {
 
 	@Override
 	public void keyTyped(char typedChar, int keyCode) {
+		searchBar.keyTyped(typedChar, keyCode);
 	}
 
 	@Override

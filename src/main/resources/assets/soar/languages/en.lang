@@ -11,6 +11,7 @@ text.mods=Mods
 text.music=Music
 text.profile=Profile
 text.settings=Settings
+text.search=Search
 
 design.simple=Simple
 
@@ -22,6 +23,9 @@ mod.modmenu.description=Customize Mod Menu related settings
 
 mod.rearview.name=Rearview
 mod.rearview.description=Display behind you
+
+mod.cpsdisplay.name=CPS Display
+mod.cpsdisplay.description=Display click per seconds
 
 mod.minimap.name=Minimap
 mod.minimap.description=Display map in a smaller size
@@ -39,3 +43,5 @@ setting.alpha=Alpha
 setting.alpha.description=Set the alpha
 setting.fps=FPS
 setting.fps.description=Set the fps
+setting.rightclick=Right Click
+setting.cps.rightclick.description=Display right click cps

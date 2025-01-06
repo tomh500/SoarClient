@@ -13,15 +13,18 @@ import com.soarclient.management.mod.Mod;
 import com.soarclient.skia.Skia;
 import com.soarclient.skia.font.Fonts;
 import com.soarclient.skia.font.Icon;
+import com.soarclient.ui.component.impl.text.SearchBar;
 import com.soarclient.utils.ColorUtils;
 import com.soarclient.utils.MathUtils;
+import com.soarclient.utils.SearchUtils;
 import com.soarclient.utils.language.I18n;
 import com.soarclient.utils.mouse.MouseUtils;
 
 public class ModsPage extends Page {
 
 	private List<Item> items = new ArrayList<>();
-
+	private SearchBar searchBar;
+	
 	public ModsPage(PageGui parent) {
 		super(parent, "text.mods", Icon.INVENTORY_2, PageTransition.LEFT);
 
@@ -32,6 +35,10 @@ public class ModsPage extends Page {
 
 	@Override
 	public void init() {
+		
+		searchBar = new SearchBar(x + width - 260 - 32, y + 32, 260, () -> {
+		});
+		
 		for (Item i : items) {
 			i.xAnimation.setFirstTick(true);
 			i.yAnimation.setFirstTick(true);
@@ -47,6 +54,8 @@ public class ModsPage extends Page {
 		float offsetX = 32;
 		float offsetY = 0;
 
+		searchBar.draw(mouseX, mouseY);
+		
 		for (Item i : items) {
 
 			Mod m = i.mod;
@@ -56,6 +65,10 @@ public class ModsPage extends Page {
 			SimpleAnimation yAnimation = i.yAnimation;
 
 			if (m.isHidden()) {
+				continue;
+			}
+			
+			if (!searchBar.getText().isEmpty() && !SearchUtils.isSimillar(I18n.get(m.getName()), searchBar.getText())) {
 				continue;
 			}
 
@@ -103,6 +116,8 @@ public class ModsPage extends Page {
 	@Override
 	public void mousePressed(int mouseX, int mouseY, int mouseButton) {
 
+		searchBar.mousePressed(mouseX, mouseY, mouseButton);
+		
 		for (Item i : items) {
 
 			float itemX = i.xAnimation.getValue();
@@ -121,6 +136,8 @@ public class ModsPage extends Page {
 	@Override
 	public void mouseReleased(int mouseX, int mouseY, int mouseButton) {
 
+		searchBar.mousePressed(mouseX, mouseY, mouseButton);
+		
 		for (Item i : items) {
 
 			Mod m = i.mod;
@@ -142,6 +159,7 @@ public class ModsPage extends Page {
 
 	@Override
 	public void keyTyped(char typedChar, int keyCode) {
+		searchBar.keyTyped(typedChar, keyCode);
 	}
 
 	@Override
