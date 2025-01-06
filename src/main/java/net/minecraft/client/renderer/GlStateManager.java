@@ -29,7 +29,7 @@ public class GlStateManager {
 	private static final GlStateManager.ClearState clearState = new GlStateManager.ClearState();
 	private static final GlStateManager.StencilState stencilState = new GlStateManager.StencilState();
 	private static final GlStateManager.BooleanState normalizeState = new GlStateManager.BooleanState(2977);
-	private static int activeTextureUnit = 0;
+	public static int activeTextureUnit = 0;
 	private static final GlStateManager.TextureState[] textureState = new GlStateManager.TextureState[32];
 	private static int activeShadeModel = 7425;
 	private static final GlStateManager.BooleanState rescaleNormalState = new GlStateManager.BooleanState(32826);
@@ -795,6 +795,14 @@ public class GlStateManager {
 		}
 	}
 
+	public static GlStateManager.TextureState[] getTextureState() {
+		return textureState;
+	}
+
+	public static GlStateManager.Color getColorState() {
+		return colorState;
+	}
+
 	static {
 		for (int i = 0; i < 8; ++i) {
 			lightState[i] = new GlStateManager.BooleanState(16384 + i);
@@ -874,7 +882,7 @@ public class GlStateManager {
 		}
 	}
 
-	static class Color {
+	public static class Color {
 		public float red = 1.0F;
 		public float green = 1.0F;
 		public float blue = 1.0F;
@@ -1036,7 +1044,7 @@ public class GlStateManager {
 		}
 	}
 
-	static class TextureState {
+	public static class TextureState {
 		public GlStateManager.BooleanState texture2DState;
 		public int textureName;
 
