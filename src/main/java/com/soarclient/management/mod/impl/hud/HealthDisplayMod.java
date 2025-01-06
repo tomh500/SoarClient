@@ -1,0 +1,21 @@
+package com.soarclient.management.mod.impl.hud;
+
+import com.soarclient.management.mod.api.hud.SimpleHUDMod;
+import com.soarclient.skia.font.Icon;
+
+public class HealthDisplayMod extends SimpleHUDMod {
+
+	public HealthDisplayMod() {
+		super("mod.healthdisplay.name", "mod.healthdisplay.description", Icon.FAVORITE);
+	}
+
+	@Override
+	public String getText() {
+		return (int) mc.thePlayer.getHealth() + " Health";
+	}
+
+	@Override
+	public String getIcon() {
+		return Icon.FAVORITE;
+	}
+}

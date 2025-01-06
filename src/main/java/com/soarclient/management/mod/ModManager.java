@@ -10,9 +10,25 @@ import com.soarclient.management.mod.api.hud.HUDMod;
 import com.soarclient.management.mod.api.hud.design.HUDDesign;
 import com.soarclient.management.mod.api.hud.design.impl.SimpleDesign;
 import com.soarclient.management.mod.impl.hud.CPSDisplayMod;
+import com.soarclient.management.mod.impl.hud.ComboCounterMod;
+import com.soarclient.management.mod.impl.hud.CoordsMod;
+import com.soarclient.management.mod.impl.hud.DayCounterMod;
 import com.soarclient.management.mod.impl.hud.FPSDisplayMod;
+import com.soarclient.management.mod.impl.hud.GameModeDisplayMod;
+import com.soarclient.management.mod.impl.hud.HealthDisplayMod;
 import com.soarclient.management.mod.impl.hud.MinimapMod;
+import com.soarclient.management.mod.impl.hud.NameDisplayMod;
+import com.soarclient.management.mod.impl.hud.PingDisplayMod;
+import com.soarclient.management.mod.impl.hud.PitchDisplayMod;
+import com.soarclient.management.mod.impl.hud.PlayTimeDisplayMod;
+import com.soarclient.management.mod.impl.hud.PlayerCounterMod;
+import com.soarclient.management.mod.impl.hud.PotionCounterMod;
+import com.soarclient.management.mod.impl.hud.ReachDisplayMod;
 import com.soarclient.management.mod.impl.hud.RearviewMod;
+import com.soarclient.management.mod.impl.hud.ServerIPDisplayMod;
+import com.soarclient.management.mod.impl.hud.StopwatchMod;
+import com.soarclient.management.mod.impl.hud.WeatherDisplayMod;
+import com.soarclient.management.mod.impl.hud.YawDisplayMod;
 import com.soarclient.management.mod.impl.settings.ModMenuSettings;
 import com.soarclient.management.mod.settings.Setting;
 import com.soarclient.management.mod.settings.impl.KeybindSetting;
@@ -33,10 +49,26 @@ public class ModManager {
 	private void initMods() {
 		
 		// HUD
+		mods.add(new ComboCounterMod());
+		mods.add(new CoordsMod());
 		mods.add(new CPSDisplayMod());
+		mods.add(new DayCounterMod());
 		mods.add(new FPSDisplayMod());
+		mods.add(new GameModeDisplayMod());
+		mods.add(new HealthDisplayMod());
 		mods.add(new MinimapMod());
+		mods.add(new NameDisplayMod());
+		mods.add(new PingDisplayMod());
+		mods.add(new PitchDisplayMod());
+		mods.add(new PlayerCounterMod());
+		mods.add(new PlayTimeDisplayMod());
+		mods.add(new PotionCounterMod());
+		mods.add(new ReachDisplayMod());
 		mods.add(new RearviewMod());
+		mods.add(new ServerIPDisplayMod());
+		mods.add(new StopwatchMod());
+		mods.add(new WeatherDisplayMod());
+		mods.add(new YawDisplayMod());
 		
 		// Settings
 		mods.add(new ModMenuSettings());

@@ -19,6 +19,8 @@ public class Soar {
 	private ColorManager colorManager;
 	private MusicManager musicManager;
 	
+	private long launchTime;
+	
 	public Soar() {
 		name = "Soar";
 		version = "8.0";
@@ -27,6 +29,7 @@ public class Soar {
 	public void start() {
 		
 		FileLocation.init();
+		launchTime = System.currentTimeMillis();
 		I18n.setLanguage(Language.ENGLISH);
 		Delta.register();
 		
@@ -51,6 +54,10 @@ public class Soar {
 
 	public String getVersion() {
 		return version;
+	}
+	
+	public long getLaunchTime() {
+		return launchTime;
 	}
 
 	public ModManager getModManager() {

@@ -79,8 +79,8 @@ public class ModsPage extends Page {
 					MouseUtils.isInside(mouseX, mouseY, itemX, itemY, 244, 116 + 35) ? i.pressed ? 0.12F : 0.08F : 0,
 					8);
 			enableAnimation.onTick(m.isEnabled() ? 1 : 0, 10);
-			xAnimation.onTick(itemX, 12);
-			yAnimation.onTick(itemY, 12);
+			xAnimation.onTick(itemX, 14);
+			yAnimation.onTick(itemY, 14);
 
 			itemX = xAnimation.getValue();
 			itemY = yAnimation.getValue();

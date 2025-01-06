@@ -16,6 +16,8 @@ import com.google.common.collect.Maps;
 import com.google.common.util.concurrent.FutureCallback;
 import com.google.common.util.concurrent.Futures;
 import com.mojang.authlib.GameProfile;
+import com.soarclient.event.EventBus;
+import com.soarclient.event.impl.DamageEntityEvent;
 
 import io.netty.buffer.Unpooled;
 import net.minecraft.block.Block;
@@ -800,6 +802,10 @@ public class NetHandlerPlayClient implements INetHandlerPlayClient {
 			} else {
 				entity.handleStatusUpdate(packetIn.getOpCode());
 			}
+		}
+		
+		if (packetIn.getOpCode() == 2) {
+			EventBus.getInstance().post(new DamageEntityEvent(packetIn.getEntity(clientWorldController)));
 		}
 	}
 

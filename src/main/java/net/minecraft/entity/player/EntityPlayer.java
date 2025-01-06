@@ -7,6 +7,8 @@ import java.util.UUID;
 import com.google.common.base.Charsets;
 import com.google.common.collect.Lists;
 import com.mojang.authlib.GameProfile;
+import com.soarclient.event.EventBus;
+import com.soarclient.event.impl.AttackEntityEvent;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockBed;
@@ -950,6 +952,11 @@ public abstract class EntityPlayer extends EntityLivingBase {
 	}
 
 	public void attackTargetEntityWithCurrentItem(Entity targetEntity) {
+		
+		if (targetEntity.canAttackWithItem()) {
+			EventBus.getInstance().post(new AttackEntityEvent(targetEntity));
+		}
+		
 		if (targetEntity.canAttackWithItem()) {
 			if (!targetEntity.hitByEntity(this)) {
 				float f = (float) this.getEntityAttribute(SharedMonsterAttributes.attackDamage).getAttributeValue();

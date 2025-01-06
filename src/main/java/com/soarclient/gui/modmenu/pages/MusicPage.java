@@ -89,8 +89,8 @@ public class MusicPage extends Page {
 			float itemX = x + offsetX;
 			float itemY = y + offsetY;
 
-			xAnimation.onTick(itemX, 12);
-			yAnimation.onTick(itemY, 12);
+			xAnimation.onTick(itemX, 14);
+			yAnimation.onTick(itemY, 14);
 			focusAnimation.onTick(MouseUtils.isInside(mouseX, mouseY, itemX, itemY, 174, 174) ? 1 : 0, 10);
 
 			itemX = xAnimation.getValue();
