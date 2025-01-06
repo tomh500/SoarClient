@@ -301,7 +301,7 @@ public class CraftingManager {
 	}
 
 	public ShapedRecipes addRecipe(ItemStack stack, Object... recipeComponents) {
-		String s = "";
+		StringBuilder s = new StringBuilder();
 		int i = 0;
 		int j = 0;
 		int k = 0;
@@ -313,14 +313,14 @@ public class CraftingManager {
 				String s2 = astring[l];
 				++k;
 				j = s2.length();
-				s = s + s2;
+				s.append(s2);
 			}
 		} else {
 			while (recipeComponents[i] instanceof String) {
 				String s1 = (String) recipeComponents[i++];
 				++k;
 				j = s1.length();
-				s = s + s1;
+				s.append(s1);
 			}
 		}
 

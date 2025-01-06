@@ -235,7 +235,7 @@ public class ExpressionParser {
 
 			if (iexpression == null) {
 				IExpression[] aiexpression = list
-						.toArray(new IExpression[list.size()]);
+						.toArray(new IExpression[0]);
 				return aiexpression;
 			}
 

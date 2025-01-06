@@ -220,7 +220,7 @@ public class StrUtils {
 				}
 
 				list.add(str.substring(i));
-				return (String[]) list.toArray(new String[list.size()]);
+				return (String[]) list.toArray(new String[0]);
 			}
 		} else {
 			return new String[0];
@@ -282,13 +282,15 @@ public class StrUtils {
 	}
 
 	public static String addIfNotContains(String target, String source) {
-		for (int i = 0; i < source.length(); ++i) {
-			if (target.indexOf(source.charAt(i)) < 0) {
-				target = target + source.charAt(i);
+        StringBuilder targetBuilder = new StringBuilder(target);
+        for (int i = 0; i < source.length(); ++i) {
+			if (targetBuilder.toString().indexOf(source.charAt(i)) < 0) {
+				targetBuilder.append(source.charAt(i));
 			}
 		}
+        target = targetBuilder.toString();
 
-		return target;
+        return target;
 	}
 
 	public static String fillLeft(String s, int len, char fillChar) {
@@ -475,7 +477,7 @@ public class StrUtils {
 					}
 				}
 
-				String[] astring = list.toArray(new String[list.size()]);
+				String[] astring = list.toArray(new String[0]);
 				return astring;
 			}
 		} else {

@@ -116,7 +116,7 @@ public class CustomEntityModels {
 		}
 
 		ResourceLocation[] aresourcelocation = list
-				.toArray(new ResourceLocation[list.size()]);
+				.toArray(new ResourceLocation[0]);
 		return aresourcelocation;
 	}
 

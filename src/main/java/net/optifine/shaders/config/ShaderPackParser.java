@@ -71,7 +71,7 @@ public class ShaderPackParser {
 
 			Collection<ShaderOption> collection = map.values();
 			ShaderOption[] ashaderoption = collection
-					.toArray(new ShaderOption[collection.size()]);
+					.toArray(new ShaderOption[0]);
 			Comparator<ShaderOption> comparator = new Comparator<ShaderOption>() {
 				public int compare(ShaderOption o1, ShaderOption o2) {
 					return o1.getName().compareToIgnoreCase(o2.getName());
@@ -87,7 +87,7 @@ public class ShaderPackParser {
 		for (int i = 0; i < programNames.length; ++i) {
 			String s = programNames[i];
 
-			if (!s.equals("")) {
+			if (!s.isEmpty()) {
 				String s1 = dir + "/" + s + ".vsh";
 				String s2 = dir + "/" + s + ".fsh";
 				collectShaderOptions(shaderPack, s1, mapOptions);
@@ -249,7 +249,7 @@ public class ShaderPackParser {
 			return null;
 		} else {
 			ShaderProfile[] ashaderprofile = list
-					.toArray(new ShaderProfile[list.size()]);
+					.toArray(new ShaderProfile[0]);
 			return ashaderprofile;
 		}
 	}
@@ -463,7 +463,7 @@ public class ShaderPackParser {
 			}
 
 			ShaderOption[] ashaderoption = list
-					.toArray(new ShaderOption[list.size()]);
+					.toArray(new ShaderOption[0]);
 			String s2 = props.getProperty(key + ".columns");
 			int j = Config.parseInt(s2, 2);
 			ScreenShaderOptions screenshaderoptions = new ScreenShaderOptions(key, ashaderoption, j);
@@ -580,7 +580,7 @@ public class ShaderPackParser {
 			}
 		}
 
-		ShaderMacro[] ashadermacro = list.toArray(new ShaderMacro[list.size()]);
+		ShaderMacro[] ashadermacro = list.toArray(new ShaderMacro[0]);
 		return ashadermacro;
 	}
 
@@ -654,7 +654,7 @@ public class ShaderPackParser {
 			return null;
 		} else {
 			CustomUniform[] acustomuniform = list
-					.toArray(new CustomUniform[list.size()]);
+					.toArray(new CustomUniform[0]);
 			CustomUniforms customuniforms = new CustomUniforms(acustomuniform, map);
 			return customuniforms;
 		}

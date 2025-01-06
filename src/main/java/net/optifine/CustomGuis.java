@@ -202,7 +202,7 @@ public class CustomGuis {
 
 					if (list != null) {
 						CustomGuiProperties[] acustomguiproperties1 = list
-								.toArray(new CustomGuiProperties[list.size()]);
+								.toArray(new CustomGuiProperties[0]);
 						acustomguiproperties[i] = acustomguiproperties1;
 					}
 				}

@@ -920,7 +920,7 @@ public class Shaders {
 
 		if (shaderPackDimensions.size() > 0) {
 			Integer[] ainteger = shaderPackDimensions
-					.toArray(new Integer[shaderPackDimensions.size()]);
+					.toArray(new Integer[0]);
 			Config.dbg("[Shaders] Worlds: " + Config.arrayToString(ainteger));
 		}
 	}
@@ -1043,7 +1043,7 @@ public class Shaders {
 			return null;
 		} else {
 			ICustomTexture[] aicustomtexture = list
-					.toArray(new ICustomTexture[list.size()]);
+					.toArray(new ICustomTexture[0]);
 			return aicustomtexture;
 		}
 	}
@@ -1428,7 +1428,7 @@ public class Shaders {
 				}
 
 				ShaderOption[] ashaderoption3 = list
-						.toArray(new ShaderOption[list.size()]);
+						.toArray(new ShaderOption[0]);
 				return ashaderoption3;
 			}
 		}
@@ -1476,7 +1476,7 @@ public class Shaders {
 			}
 		}
 
-		ShaderOption[] ashaderoption1 = list.toArray(new ShaderOption[list.size()]);
+		ShaderOption[] ashaderoption1 = list.toArray(new ShaderOption[0]);
 		return ashaderoption1;
 	}
 
@@ -1503,7 +1503,7 @@ public class Shaders {
 			}
 		}
 
-		ShaderOption[] ashaderoption = list.toArray(new ShaderOption[list.size()]);
+		ShaderOption[] ashaderoption = list.toArray(new ShaderOption[0]);
 		return ashaderoption;
 	}
 
@@ -1600,7 +1600,7 @@ public class Shaders {
 			}
 		}
 
-		ShaderOption[] ashaderoption = list.toArray(new ShaderOption[list.size()]);
+		ShaderOption[] ashaderoption = list.toArray(new ShaderOption[0]);
 		return ashaderoption;
 	}
 
@@ -1703,7 +1703,7 @@ public class Shaders {
 			s2 = "none";
 		}
 
-		stringbuilder.append(", program: " + s2);
+		stringbuilder.append(", program: ").append(s2);
 		Program program = getProgramById(activeProgramID);
 
 		if (program != activeProgram) {
@@ -1713,11 +1713,11 @@ public class Shaders {
 				s3 = "none";
 			}
 
-			stringbuilder.append(" (" + s3 + ")");
+			stringbuilder.append(" (").append(s3).append(")");
 		}
 
 		if (location.equals("setDrawBuffers")) {
-			stringbuilder.append(", drawBuffers: " + activeProgram.getDrawBufSettings());
+			stringbuilder.append(", drawBuffers: ").append(activeProgram.getDrawBufSettings());
 		}
 
 		return stringbuilder.toString();

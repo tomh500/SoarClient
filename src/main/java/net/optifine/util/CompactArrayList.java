@@ -94,9 +94,9 @@ public class CompactArrayList {
 					}
 				}
 
-				for (int k = this.list.size() - 1; k >= i; --k) {
-					this.list.remove(k);
-				}
+                if (this.list.size() > i) {
+                    this.list.subList(i, this.list.size()).clear();
+                }
 			}
 		}
 	}

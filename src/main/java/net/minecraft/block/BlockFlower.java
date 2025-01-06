@@ -150,7 +150,7 @@ public abstract class BlockFlower extends BlockBush {
 							}
 						});
 				TYPES_FOR_BLOCK[blockflower$enumflowercolor.ordinal()] = collection
-						.toArray(new EnumFlowerType[collection.size()]);
+						.toArray(new EnumFlowerType[0]);
 			}
 		}
 	}
