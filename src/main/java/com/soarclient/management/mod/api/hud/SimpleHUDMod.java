@@ -22,7 +22,7 @@ public abstract class SimpleHUDMod extends HUDMod {
 		float fontSize = 9;
 		float iconSize = 10.5F;
 		float padding = 5;
-		boolean hasIcon = getIcon() != null;
+		boolean hasIcon = getIcon() != null && iconSetting.isEnabled();
 		float textWidth = Skia.getTextWidth(getText(), Fonts.getRegular(fontSize));
 		float textHeight = Skia.getTextHeight(getText(), Fonts.getRegular(fontSize));
 		float iconWidth = Skia.getTextWidth(getIcon(), Fonts.getIcon(iconSize));
