@@ -208,7 +208,7 @@ public abstract class CommandBase implements ICommand {
 			throws EntityNotFoundException {
 		return PlayerSelector.hasArguments(p_175763_1_)
 				? PlayerSelector.matchEntities(p_175763_0_, p_175763_1_, Entity.class)
-				: Lists.newArrayList(new Entity[] { getEntity(p_175763_0_, p_175763_1_) });
+				: Lists.newArrayList(getEntity(p_175763_0_, p_175763_1_));
 	}
 
 	public static String getPlayerName(ICommandSender sender, String query) throws PlayerNotFoundException {

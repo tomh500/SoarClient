@@ -46,7 +46,7 @@ public class HttpUtil {
 				stringbuilder.append('&');
 			}
 
-            stringbuilder.append(URLEncoder.encode((String) entry.getKey(), StandardCharsets.UTF_8));
+            stringbuilder.append(URLEncoder.encode(entry.getKey(), StandardCharsets.UTF_8));
 
             if (entry.getValue() != null) {
 				stringbuilder.append('=');

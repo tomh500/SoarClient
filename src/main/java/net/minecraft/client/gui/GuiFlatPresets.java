@@ -142,7 +142,7 @@ public class GuiFlatPresets extends GuiScreen {
 
 	static {
 		func_146421_a("Classic Flat", Item.getItemFromBlock(Blocks.grass), BiomeGenBase.plains,
-				Arrays.asList("village"),
+                List.of("village"),
                 new FlatLayerInfo(1, Blocks.grass), new FlatLayerInfo(2, Blocks.dirt),
                 new FlatLayerInfo(1, Blocks.bedrock));
 		func_146421_a("Tunnelers' Dream", Item.getItemFromBlock(Blocks.stone), BiomeGenBase.extremeHills,
