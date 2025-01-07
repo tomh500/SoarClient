@@ -1893,6 +1893,11 @@ public class Minecraft implements IThreadListener {
 	}
 
 	public void loadWorld(WorldClient worldClientIn, String loadingMessage) {
+		
+        if (worldClientIn != this.theWorld) {
+            this.entityRenderer.getMapItemRenderer().clearLoadedMaps();
+        }
+        
 		if (worldClientIn == null) {
 			NetHandlerPlayClient nethandlerplayclient = this.getNetHandler();
 
@@ -1952,7 +1957,6 @@ public class Minecraft implements IThreadListener {
 			this.thePlayer = null;
 		}
 
-		System.gc();
 		this.systemTime = 0L;
 	}
 

@@ -11,19 +11,21 @@ public class MathHelper {
 	public static final float PI2 = MathUtils.roundToFloat((Math.PI * 2D));
 	public static final float PId2 = MathUtils.roundToFloat((Math.PI / 2D));
 	public static final float deg2Rad = MathUtils.roundToFloat(0.017453292519943295D);
-	private static final float[] SIN_TABLE_FAST = new float[4096];
 	private static final float[] SIN_TABLE = new float[65536];
 	private static final int[] multiplyDeBruijnBitPosition;
 	private static final double field_181163_d;
 	private static final double[] field_181164_e;
 	private static final double[] field_181165_f;
 
-	public static float sin(float p_76126_0_) {
-		return SIN_TABLE[(int) (p_76126_0_ * 10430.378F) & 65535];
+	private static final int[] SINE_TABLE_INT = new int[16384 + 1];
+	private static final float SINE_TABLE_MIDPOINT;
+	
+	public static float sin(float f) {
+		return lookup((int) (f * 10430.378f) & 0xFFFF);
 	}
 
-	public static float cos(float value) {
-		return SIN_TABLE[(int) (value * 10430.378F + 16384.0F) & 65535];
+	public static float cos(float f) {
+		return lookup((int) (f * 10430.378f + 16384.0f) & 0xFFFF);
 	}
 
 	public static float sqrt_float(float value) {
@@ -397,13 +399,39 @@ public class MathHelper {
 		return j << 16 | k << 8 | l;
 	}
 
+	private static float lookup(int index) {
+		
+		if (index == 32768) {
+			return SINE_TABLE_MIDPOINT;
+		}
+
+		int neg = (index & 0x8000) << 16;
+		int mask = (index << 17) >> 31;
+		int pos = (0x8001 & mask) + (index ^ mask);
+		pos &= 0x7fff;
+		return Float.intBitsToFloat(SINE_TABLE_INT[pos] ^ neg);
+	}
+	
 	static {
+		
 		for (int i = 0; i < 65536; ++i) {
 			SIN_TABLE[i] = (float) Math.sin((double) i * Math.PI * 2.0D / 65536.0D);
 		}
+		
+		for (int i = 0; i < SINE_TABLE_INT.length; i++) {
+			SINE_TABLE_INT[i] = Float.floatToRawIntBits(SIN_TABLE[i]);
+		}
 
-		for (int j = 0; j < SIN_TABLE_FAST.length; ++j) {
-			SIN_TABLE_FAST[j] = MathUtils.roundToFloat(Math.sin((double) j * Math.PI * 2.0D / 4096.0D));
+		SINE_TABLE_MIDPOINT = SIN_TABLE[SIN_TABLE.length / 2];
+
+		for (int i = 0; i < SIN_TABLE.length; i++) {
+			float expected = SIN_TABLE[i];
+			float value = lookup(i);
+
+			if (expected != value) {
+				throw new IllegalArgumentException(
+						String.format("LUT error at index %d (expected: %s, found: %s)", i, expected, value));
+			}
 		}
 
 		multiplyDeBruijnBitPosition = new int[] { 0, 1, 28, 2, 29, 14, 24, 3, 30, 22, 20, 15, 25, 17, 4, 8, 31, 27, 13,

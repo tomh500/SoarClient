@@ -124,6 +124,9 @@ public abstract class Entity implements ICommandSender {
 	protected UUID entityUniqueID;
 	private final CommandResultStats cmdResultStats;
 
+    private long displayNameCachedAt;
+    private IChatComponent cachedDisplayName;
+    
 	public int getEntityId() {
 		return this.entityId;
 	}
@@ -1862,9 +1865,15 @@ public abstract class Entity implements ICommandSender {
 	}
 
 	public IChatComponent getDisplayName() {
+		
+        if (System.currentTimeMillis() - displayNameCachedAt < 50L) {
+        	return cachedDisplayName;
+        }
+        
 		ChatComponentText chatcomponenttext = new ChatComponentText(this.getName());
-		chatcomponenttext.getChatStyle().setChatHoverEvent(this.getHoverEvent());
 		chatcomponenttext.getChatStyle().setInsertion(this.getUniqueID().toString());
+        cachedDisplayName = chatcomponenttext;
+        displayNameCachedAt = System.currentTimeMillis();
 		return chatcomponenttext;
 	}
 

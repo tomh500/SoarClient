@@ -36,6 +36,7 @@ import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
 
 public final class ItemStack {
+	
 	public static final DecimalFormat DECIMALFORMAT = new DecimalFormat("#.###");
 	public int stackSize;
 	public int animationsToGo;
@@ -47,6 +48,8 @@ public final class ItemStack {
 	private boolean canDestroyCacheResult;
 	private Block canPlaceOnCacheBlock;
 	private boolean canPlaceOnCacheResult;
+	
+	private String cachedDisplayName;
 
 	public ItemStack(Block blockIn) {
 		this(blockIn, 1);
@@ -391,6 +394,11 @@ public final class ItemStack {
 	}
 
 	public String getDisplayName() {
+		
+        if (cachedDisplayName != null) {
+        	return cachedDisplayName;
+        }
+        
 		String s = this.getItem().getItemStackDisplayName(this);
 
 		if (this.stackTagCompound != null && this.stackTagCompound.hasKey("display", 10)) {
@@ -401,10 +409,14 @@ public final class ItemStack {
 			}
 		}
 
+		cachedDisplayName = s;
 		return s;
 	}
 
 	public ItemStack setStackDisplayName(String displayName) {
+		
+		cachedDisplayName = null;
+		
 		if (this.stackTagCompound == null) {
 			this.stackTagCompound = new NBTTagCompound();
 		}

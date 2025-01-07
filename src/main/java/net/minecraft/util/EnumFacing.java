@@ -27,6 +27,10 @@ public enum EnumFacing implements IStringSerializable {
 	private static final EnumFacing[] HORIZONTALS = new EnumFacing[4];
 	private static final Map<String, EnumFacing> NAME_LOOKUP = Maps.newHashMap();
 
+    private int frontOffsetX;
+    private int frontOffsetY;
+    private int frontOffsetZ;
+    
 	EnumFacing(int indexIn, int oppositeIn, int horizontalIndexIn, String nameIn,
 			EnumFacing.AxisDirection axisDirectionIn, EnumFacing.Axis axisIn, Vec3i directionVecIn) {
 		this.index = indexIn;
@@ -36,6 +40,9 @@ public enum EnumFacing implements IStringSerializable {
 		this.axis = axisIn;
 		this.axisDirection = axisDirectionIn;
 		this.directionVec = directionVecIn;
+        frontOffsetX = axisIn == EnumFacing.Axis.X ? axisDirectionIn.getOffset() : 0;
+        frontOffsetY = axisIn == EnumFacing.Axis.Y ? axisDirectionIn.getOffset() : 0;
+        frontOffsetZ = axisIn == EnumFacing.Axis.Z ? axisDirectionIn.getOffset() : 0;
 	}
 
 	public int getIndex() {
@@ -161,17 +168,18 @@ public enum EnumFacing implements IStringSerializable {
 		}
 	}
 
-	public int getFrontOffsetX() {
-		return this.axis == EnumFacing.Axis.X ? this.axisDirection.getOffset() : 0;
-	}
+    public int getFrontOffsetX() {
+        return frontOffsetX;
+    }
 
-	public int getFrontOffsetY() {
-		return this.axis == EnumFacing.Axis.Y ? this.axisDirection.getOffset() : 0;
-	}
+    public int getFrontOffsetY() {
+        return frontOffsetY;
+    }
 
-	public int getFrontOffsetZ() {
-		return this.axis == EnumFacing.Axis.Z ? this.axisDirection.getOffset() : 0;
-	}
+    public int getFrontOffsetZ() {
+        return frontOffsetZ;
+    }
+
 
 	public String getName2() {
 		return this.name;
@@ -198,7 +206,7 @@ public enum EnumFacing implements IStringSerializable {
 	}
 
 	public static EnumFacing random(Random rand) {
-		return values()[rand.nextInt(values().length)];
+		return VALUES[rand.nextInt(VALUES.length)];
 	}
 
 	public static EnumFacing getFacingFromVector(float p_176737_0_, float p_176737_1_, float p_176737_2_) {

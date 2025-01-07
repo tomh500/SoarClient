@@ -15,6 +15,7 @@ import net.minecraft.block.BlockBed;
 import net.minecraft.block.BlockDirectional;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.client.Minecraft;
 import net.minecraft.command.server.CommandBlockLogic;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
@@ -119,6 +120,9 @@ public abstract class EntityPlayer extends EntityLivingBase {
 	private boolean hasReducedDebug = false;
 	public EntityFishHook fishEntity;
 
+    private long displayNameCachedAt;
+    private IChatComponent cachedDisplayName;
+    
 	public EntityPlayer(World worldIn, GameProfile gameProfileIn) {
 		super(worldIn);
 		this.entityUniqueID = getUUID(gameProfileIn);
@@ -1673,12 +1677,23 @@ public abstract class EntityPlayer extends EntityLivingBase {
 	}
 
 	public IChatComponent getDisplayName() {
+		
+        if (System.currentTimeMillis() - displayNameCachedAt < 50L) {
+            return cachedDisplayName;
+        }
+        
 		IChatComponent ichatcomponent = new ChatComponentText(
 				ScorePlayerTeam.formatPlayerName(this.getTeam(), this.getName()));
 		ichatcomponent.getChatStyle()
 				.setChatClickEvent(new ClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/msg " + this.getName() + " "));
-		ichatcomponent.getChatStyle().setChatHoverEvent(this.getHoverEvent());
+		
+		if(Minecraft.getMinecraft().isIntegratedServerRunning()) {
+			ichatcomponent.getChatStyle().setChatHoverEvent(this.getHoverEvent());
+		}
+		
 		ichatcomponent.getChatStyle().setInsertion(this.getName());
+        cachedDisplayName = ichatcomponent;
+        displayNameCachedAt = System.currentTimeMillis();
 		return ichatcomponent;
 	}
 

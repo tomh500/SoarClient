@@ -3,12 +3,11 @@ package net.minecraft.block;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
+import java.util.WeakHashMap;
 
 import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
 
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.util.BlockPos;
@@ -18,7 +17,7 @@ import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
 public class BlockRedstoneTorch extends BlockTorch {
-	private static final Map<World, List<BlockRedstoneTorch.Toggle>> toggles = Maps.newHashMap();
+	private static Map<World, List<BlockRedstoneTorch.Toggle>> toggles = new WeakHashMap<>();
 	private final boolean isOn;
 
 	private boolean isBurnedOut(World worldIn, BlockPos pos, boolean turnOff) {
