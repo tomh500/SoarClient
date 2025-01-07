@@ -13,6 +13,7 @@ import com.google.common.base.Predicate;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 
+import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockHopper;
 import net.minecraft.block.BlockLiquid;
@@ -39,7 +40,6 @@ import net.minecraft.util.EntitySelectors;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.ITickable;
-import net.minecraft.util.IntHashMap;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.ReportedException;
@@ -66,7 +66,7 @@ public abstract class World implements IBlockAccess {
 	private final List<TileEntity> tileEntitiesToBeRemoved = Lists.newArrayList();
 	public final List<EntityPlayer> playerEntities = Lists.newArrayList();
 	public final List<Entity> weatherEffects = Lists.newArrayList();
-	protected final IntHashMap<Entity> entitiesById = new IntHashMap();
+	protected final Int2ObjectOpenHashMap<Entity> entitiesById = new Int2ObjectOpenHashMap<>();
 	private final long cloudColour = 16777215L;
 	private int skylightSubtracted;
 	protected int updateLCG = (new Random()).nextInt();
@@ -2359,7 +2359,7 @@ public abstract class World implements IBlockAccess {
 	}
 
 	public Entity getEntityByID(int id) {
-		return this.entitiesById.lookup(id);
+		return this.entitiesById.get(id);
 	}
 
 	public List<Entity> getLoadedEntityList() {

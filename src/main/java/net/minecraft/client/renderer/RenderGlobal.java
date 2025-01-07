@@ -28,6 +28,7 @@ import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import com.google.gson.JsonSyntaxException;
 
+import it.unimi.dsi.fastutil.longs.Long2ObjectOpenHashMap;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockChest;
 import net.minecraft.block.BlockEnderChest;
@@ -38,7 +39,6 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.ISound;
 import net.minecraft.client.audio.PositionedSoundRecord;
-import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.multiplayer.ChunkProviderClient;
 import net.minecraft.client.multiplayer.WorldClient;
 import net.minecraft.client.particle.EntityFX;
@@ -48,7 +48,6 @@ import net.minecraft.client.renderer.chunk.IRenderChunkFactory;
 import net.minecraft.client.renderer.chunk.ListChunkFactory;
 import net.minecraft.client.renderer.chunk.RenderChunk;
 import net.minecraft.client.renderer.chunk.VboChunkFactory;
-import net.minecraft.client.renderer.chunk.VisGraph;
 import net.minecraft.client.renderer.culling.ClippingHelper;
 import net.minecraft.client.renderer.culling.ClippingHelperImpl;
 import net.minecraft.client.renderer.culling.Frustum;
@@ -89,7 +88,6 @@ import net.minecraft.util.ClassInheritanceMultiMap;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.EnumWorldBlockLayer;
-import net.minecraft.util.LongHashMap;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.Matrix4f;
 import net.minecraft.util.MovingObjectPosition;
@@ -191,7 +189,7 @@ public class RenderGlobal implements IWorldAccess, IResourceManagerReloadListene
 			.unmodifiableSet(new HashSet(Arrays.asList(EnumFacing.VALUES)));
 	private int countTileEntitiesRendered;
 	private IChunkProvider worldChunkProvider = null;
-	private LongHashMap worldChunkProviderMap = null;
+	private Long2ObjectOpenHashMap<?> worldChunkProviderMap = null;
 	private int countLoadedChunksPrev = 0;
 	private final RenderEnv renderEnv = new RenderEnv(Blocks.air.getDefaultState(), new BlockPos(0, 0, 0));
 	public boolean renderOverlayDamaged = false;
@@ -2866,7 +2864,7 @@ public class RenderGlobal implements IWorldAccess, IResourceManagerReloadListene
 
 				}
 
-				return this.worldChunkProviderMap == null ? 0 : this.worldChunkProviderMap.getNumHashElements();
+				return this.worldChunkProviderMap == null ? 0 : this.worldChunkProviderMap.size();
 			}
 		}
 	}

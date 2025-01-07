@@ -781,26 +781,26 @@ public class WorldServer extends World implements IThreadListener {
 
 	protected void onEntityAdded(Entity entityIn) {
 		super.onEntityAdded(entityIn);
-		this.entitiesById.addKey(entityIn.getEntityId(), entityIn);
+		this.entitiesById.put(entityIn.getEntityId(), entityIn);
 		this.entitiesByUuid.put(entityIn.getUniqueID(), entityIn);
 		Entity[] aentity = entityIn.getParts();
 
 		if (aentity != null) {
 			for (int i = 0; i < aentity.length; ++i) {
-				this.entitiesById.addKey(aentity[i].getEntityId(), aentity[i]);
+				this.entitiesById.put(aentity[i].getEntityId(), aentity[i]);
 			}
 		}
 	}
 
 	protected void onEntityRemoved(Entity entityIn) {
 		super.onEntityRemoved(entityIn);
-		this.entitiesById.removeObject(entityIn.getEntityId());
+		this.entitiesById.remove(entityIn.getEntityId());
 		this.entitiesByUuid.remove(entityIn.getUniqueID());
 		Entity[] aentity = entityIn.getParts();
 
 		if (aentity != null) {
 			for (int i = 0; i < aentity.length; ++i) {
-				this.entitiesById.removeObject(aentity[i].getEntityId());
+				this.entitiesById.remove(aentity[i].getEntityId());
 			}
 		}
 	}

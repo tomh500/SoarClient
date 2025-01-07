@@ -2,7 +2,6 @@ package net.minecraft.network;
 
 import java.io.IOException;
 import java.util.Collections;
-import java.util.Date;
 import java.util.List;
 import java.util.Set;
 import java.util.concurrent.Callable;
@@ -16,10 +15,10 @@ import com.google.common.primitives.Doubles;
 import com.google.common.primitives.Floats;
 import com.google.common.util.concurrent.Futures;
 
-import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
 import io.netty.util.concurrent.Future;
 import io.netty.util.concurrent.GenericFutureListener;
+import it.unimi.dsi.fastutil.ints.Int2ShortOpenHashMap;
 import net.minecraft.block.material.Material;
 import net.minecraft.command.server.CommandBlockLogic;
 import net.minecraft.crash.CrashReport;
@@ -94,7 +93,6 @@ import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.IChatComponent;
 import net.minecraft.util.ITickable;
-import net.minecraft.util.IntHashMap;
 import net.minecraft.util.ReportedException;
 import net.minecraft.world.WorldServer;
 
@@ -112,7 +110,7 @@ public class NetHandlerPlayServer implements INetHandlerPlayServer, ITickable {
 	private long lastSentPingPacket;
 	private int chatSpamThresholdCount;
 	private int itemDropThreshold;
-	private final IntHashMap<Short> field_147372_n = new IntHashMap();
+	private final Int2ShortOpenHashMap field_147372_n = new Int2ShortOpenHashMap();
 	private double lastPosX;
 	private double lastPosY;
 	private double lastPosZ;
@@ -875,8 +873,8 @@ public class NetHandlerPlayServer implements INetHandlerPlayServer, ITickable {
 					this.playerEntity.updateHeldItem();
 					this.playerEntity.isChangingQuantityOnly = false;
 				} else {
-					this.field_147372_n.addKey(this.playerEntity.openContainer.windowId,
-							Short.valueOf(packetIn.getActionNumber()));
+					this.field_147372_n.put(this.playerEntity.openContainer.windowId,
+							packetIn.getActionNumber());
 					this.playerEntity.playerNetServerHandler.sendPacket(
 							new S32PacketConfirmTransaction(packetIn.getWindowId(), packetIn.getActionNumber(), false));
 					this.playerEntity.openContainer.setCanCraft(this.playerEntity, false);
@@ -952,7 +950,7 @@ public class NetHandlerPlayServer implements INetHandlerPlayServer, ITickable {
 
 	public void processConfirmTransaction(C0FPacketConfirmTransaction packetIn) {
 		PacketThreadUtil.checkThreadAndEnqueue(packetIn, this, this.playerEntity.getServerForPlayer());
-		Short oshort = this.field_147372_n.lookup(this.playerEntity.openContainer.windowId);
+		Short oshort = this.field_147372_n.get(this.playerEntity.openContainer.windowId);
 
 		if (oshort != null && packetIn.getUid() == oshort.shortValue()
 				&& this.playerEntity.openContainer.windowId == packetIn.getWindowId()

@@ -9,13 +9,13 @@ import java.util.TreeSet;
 
 import com.google.common.collect.Iterators;
 
+import it.unimi.dsi.fastutil.longs.Long2ObjectOpenHashMap;
 import net.minecraft.util.BlockPos;
-import net.minecraft.util.LongHashMap;
 import net.minecraft.world.ChunkCoordIntPair;
 import net.minecraft.world.NextTickListEntry;
 
 public class NextTickHashSet extends TreeSet {
-	private final LongHashMap longHashMap = new LongHashMap();
+	private final Long2ObjectOpenHashMap<HashSet> longHashMap = new Long2ObjectOpenHashMap<>();
 	private int minX = Integer.MIN_VALUE;
 	private int minZ = Integer.MIN_VALUE;
 	private int maxX = Integer.MIN_VALUE;
@@ -90,11 +90,11 @@ public class NextTickHashSet extends TreeSet {
 
 	private Set getSubSet(int cx, int cz, boolean autoCreate) {
 		long i = ChunkCoordIntPair.chunkXZ2Int(cx, cz);
-		HashSet hashset = (HashSet) this.longHashMap.getValueByKey(i);
+		HashSet hashset = (HashSet) this.longHashMap.get(i);
 
 		if (hashset == null && autoCreate) {
 			hashset = new HashSet();
-			this.longHashMap.add(i, hashset);
+			this.longHashMap.put(i, hashset);
 		}
 
 		return hashset;
