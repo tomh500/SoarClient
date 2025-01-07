@@ -2,11 +2,10 @@ package net.optifine;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Properties;
 
+import it.unimi.dsi.fastutil.ints.Int2IntOpenHashMap;
 import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
@@ -141,7 +140,7 @@ public class ConnectedProperties {
 		if (this.tiles == null) {
 			return null;
 		} else {
-			Map<Integer, Integer> map = new HashMap();
+			Int2IntOpenHashMap map = new Int2IntOpenHashMap();
 
 			for (Object object : props.keySet()) {
 				if (object instanceof String s) {
@@ -159,7 +158,7 @@ public class ConnectedProperties {
 								int j = Config.parseInt(s3, -1);
 
 								if (j >= 0 && j < this.tiles.length) {
-									map.put(Integer.valueOf(i), Integer.valueOf(j));
+									map.put(i, j);
 								} else {
 									Config.warn("Invalid CTM tile index: " + s3);
 								}
@@ -179,8 +178,8 @@ public class ConnectedProperties {
 				for (int k = 0; k < aint.length; ++k) {
 					aint[k] = -1;
 
-					if (map.containsKey(Integer.valueOf(k))) {
-						aint[k] = map.get(Integer.valueOf(k)).intValue();
+					if (map.containsKey(k)) {
+						aint[k] = map.get(k);
 					}
 				}
 
@@ -208,28 +207,6 @@ public class ConnectedProperties {
 
 			return astring;
 		}
-	}
-
-	private static String parseName(String path) {
-		String s = path;
-		int i = path.lastIndexOf(47);
-
-		if (i >= 0) {
-			s = path.substring(i + 1);
-		}
-
-		int j = s.lastIndexOf(46);
-
-		if (j >= 0) {
-			s = s.substring(0, j);
-		}
-
-		return s;
-	}
-
-	private static String parseBasePath(String path) {
-		int i = path.lastIndexOf(47);
-		return i < 0 ? "" : path.substring(0, i);
 	}
 
 	private String[] parseTileNames(String str) {

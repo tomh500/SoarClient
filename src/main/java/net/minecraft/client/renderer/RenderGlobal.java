@@ -28,6 +28,7 @@ import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import com.google.gson.JsonSyntaxException;
 
+import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
 import it.unimi.dsi.fastutil.longs.Long2ObjectOpenHashMap;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockChest;
@@ -137,7 +138,7 @@ public class RenderGlobal implements IWorldAccess, IResourceManagerReloadListene
 	private VertexBuffer skyVBO;
 	private VertexBuffer sky2VBO;
 	private int cloudTickCounter;
-	public final Map<Integer, DestroyBlockProgress> damagedBlocks = Maps.newHashMap();
+	public final Int2ObjectOpenHashMap<DestroyBlockProgress> damagedBlocks = new Int2ObjectOpenHashMap<>();
 	private final Map<BlockPos, ISound> mapSoundPositions = Maps.newHashMap();
 	private final TextureAtlasSprite[] destroyBlockIcons = new TextureAtlasSprite[10];
 	private Framebuffer entityOutlineFramebuffer;
@@ -2801,19 +2802,19 @@ public class RenderGlobal implements IWorldAccess, IResourceManagerReloadListene
 
 	public void sendBlockBreakProgress(int breakerId, BlockPos pos, int progress) {
 		if (progress >= 0 && progress < 10) {
-			DestroyBlockProgress destroyblockprogress = this.damagedBlocks.get(Integer.valueOf(breakerId));
+			DestroyBlockProgress destroyblockprogress = this.damagedBlocks.get(breakerId);
 
 			if (destroyblockprogress == null || destroyblockprogress.getPosition().getX() != pos.getX()
 					|| destroyblockprogress.getPosition().getY() != pos.getY()
 					|| destroyblockprogress.getPosition().getZ() != pos.getZ()) {
 				destroyblockprogress = new DestroyBlockProgress(breakerId, pos);
-				this.damagedBlocks.put(Integer.valueOf(breakerId), destroyblockprogress);
+				this.damagedBlocks.put(breakerId, destroyblockprogress);
 			}
 
 			destroyblockprogress.setPartialBlockDamage(progress);
 			destroyblockprogress.setCloudUpdateTick(this.cloudTickCounter);
 		} else {
-			this.damagedBlocks.remove(Integer.valueOf(breakerId));
+			this.damagedBlocks.remove(breakerId);
 		}
 	}
 

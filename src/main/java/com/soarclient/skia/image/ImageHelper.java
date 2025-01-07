@@ -15,11 +15,12 @@ import com.soarclient.skia.utils.SkiaUtils;
 import io.github.humbleui.skija.ColorType;
 import io.github.humbleui.skija.Image;
 import io.github.humbleui.skija.SurfaceOrigin;
+import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
 
 public class ImageHelper {
 
 	private Map<String, Image> images = new HashMap<>();
-	private Map<Integer, Image> textures = new HashMap<>();
+	private Int2ObjectOpenHashMap<Image> textures = new Int2ObjectOpenHashMap<>();
 
 	public boolean load(int texture, float width, float height, SurfaceOrigin origin) {
 		if (!textures.containsKey(texture)) {

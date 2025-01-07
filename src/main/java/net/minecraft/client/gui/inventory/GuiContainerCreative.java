@@ -3,13 +3,13 @@ package net.minecraft.client.gui.inventory;
 import java.io.IOException;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 
 import com.google.common.collect.Lists;
 
+import it.unimi.dsi.fastutil.ints.Int2IntLinkedOpenHashMap;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiTextField;
 import net.minecraft.client.gui.achievement.GuiAchievements;
@@ -474,7 +474,7 @@ public class GuiContainerCreative extends InventoryEffectRenderer {
 			CreativeTabs creativetabs = stack.getItem().getCreativeTab();
 
 			if (creativetabs == null && stack.getItem() == Items.enchanted_book) {
-				Map<Integer, Integer> map = EnchantmentHelper.getEnchantments(stack);
+				Int2IntLinkedOpenHashMap map = EnchantmentHelper.getEnchantments(stack);
 
 				if (map.size() == 1) {
 					Enchantment enchantment = Enchantment.getEnchantmentById(map.keySet().iterator().next().intValue());

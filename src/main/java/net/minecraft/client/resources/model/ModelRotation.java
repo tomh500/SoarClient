@@ -1,12 +1,9 @@
 package net.minecraft.client.resources.model;
 
-import java.util.Map;
-
 import org.lwjgl.util.vector.Matrix4f;
 import org.lwjgl.util.vector.Vector3f;
 
-import com.google.common.collect.Maps;
-
+import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.MathHelper;
 
@@ -15,7 +12,7 @@ public enum ModelRotation {
 	X90_Y270(90, 270), X180_Y0(180, 0), X180_Y90(180, 90), X180_Y180(180, 180), X180_Y270(180, 270), X270_Y0(270, 0),
 	X270_Y90(270, 90), X270_Y180(270, 180), X270_Y270(270, 270);
 
-	private static final Map<Integer, ModelRotation> mapRotations = Maps.newHashMap();
+	private static final Int2ObjectOpenHashMap<ModelRotation> mapRotations = new Int2ObjectOpenHashMap<>();
 	private final int combinedXY;
 	private final Matrix4f matrix4d;
 	private final int quartersX;
@@ -80,8 +77,8 @@ public enum ModelRotation {
 	}
 
 	public static ModelRotation getModelRotation(int p_177524_0_, int p_177524_1_) {
-		return mapRotations.get(Integer.valueOf(
-				combineXY(MathHelper.normalizeAngle(p_177524_0_, 360), MathHelper.normalizeAngle(p_177524_1_, 360))));
+		return mapRotations.get(
+				combineXY(MathHelper.normalizeAngle(p_177524_0_, 360), MathHelper.normalizeAngle(p_177524_1_, 360)));
 	}
 
 	public javax.vecmath.Matrix4f getMatrix() {
@@ -98,7 +95,7 @@ public enum ModelRotation {
 
 	static {
 		for (ModelRotation modelrotation : values()) {
-			mapRotations.put(Integer.valueOf(modelrotation.combinedXY), modelrotation);
+			mapRotations.put(modelrotation.combinedXY, modelrotation);
 		}
 	}
 }

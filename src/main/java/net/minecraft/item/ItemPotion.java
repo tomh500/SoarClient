@@ -10,6 +10,7 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Multimap;
 
+import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.ai.attributes.IAttribute;
@@ -27,7 +28,7 @@ import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
 
 public class ItemPotion extends Item {
-	private final Map<Integer, List<PotionEffect>> effectCache = Maps.newHashMap();
+	private final Int2ObjectOpenHashMap<List<PotionEffect>> effectCache = new Int2ObjectOpenHashMap<>();
 	private static final Map<List<PotionEffect>, Integer> SUB_ITEMS_CACHE = Maps.newLinkedHashMap();
 
 	public ItemPotion() {
@@ -53,11 +54,11 @@ public class ItemPotion extends Item {
 
 			return list1;
 		} else {
-			List<PotionEffect> list = this.effectCache.get(Integer.valueOf(stack.getMetadata()));
+			List<PotionEffect> list = this.effectCache.get(stack.getMetadata());
 
 			if (list == null) {
 				list = PotionHelper.getPotionEffects(stack.getMetadata(), false);
-				this.effectCache.put(Integer.valueOf(stack.getMetadata()), list);
+				this.effectCache.put(stack.getMetadata(), list);
 			}
 
 			return list;
@@ -65,11 +66,11 @@ public class ItemPotion extends Item {
 	}
 
 	public List<PotionEffect> getEffects(int meta) {
-		List<PotionEffect> list = this.effectCache.get(Integer.valueOf(meta));
+		List<PotionEffect> list = this.effectCache.get(meta);
 
 		if (list == null) {
 			list = PotionHelper.getPotionEffects(meta, false);
-			this.effectCache.put(Integer.valueOf(meta), list);
+			this.effectCache.put(meta, list);
 		}
 
 		return list;

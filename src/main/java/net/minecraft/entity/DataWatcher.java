@@ -11,6 +11,7 @@ import org.apache.commons.lang3.ObjectUtils;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
+import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
 import net.minecraft.crash.CrashReport;
 import net.minecraft.crash.CrashReportCategory;
 import net.minecraft.item.ItemStack;
@@ -24,7 +25,7 @@ public class DataWatcher {
 	private final Entity owner;
 	private boolean isBlank = true;
 	private static final Map<Class<?>, Integer> dataTypes = Maps.newHashMap();
-	private final Map<Integer, DataWatcher.WatchableObject> watchedObjects = Maps.newHashMap();
+	private final Int2ObjectOpenHashMap<DataWatcher.WatchableObject> watchedObjects = new Int2ObjectOpenHashMap<>();
 	private boolean objectChanged;
 	private final ReadWriteLock lock = new ReentrantReadWriteLock();
 	public BiomeGenBase spawnBiome = BiomeGenBase.plains;
@@ -41,13 +42,13 @@ public class DataWatcher {
 			throw new IllegalArgumentException("Unknown data type: " + object.getClass());
 		} else if (id > 31) {
 			throw new IllegalArgumentException("Data value id is too big with " + id + "! (Max is " + 31 + ")");
-		} else if (this.watchedObjects.containsKey(Integer.valueOf(id))) {
+		} else if (this.watchedObjects.containsKey(id)) {
 			throw new IllegalArgumentException("Duplicate id value for " + id + "!");
 		} else {
 			DataWatcher.WatchableObject datawatcher$watchableobject = new DataWatcher.WatchableObject(
 					integer.intValue(), id, object);
 			this.lock.writeLock().lock();
-			this.watchedObjects.put(Integer.valueOf(id), datawatcher$watchableobject);
+			this.watchedObjects.put(id, datawatcher$watchableobject);
 			this.lock.writeLock().unlock();
 			this.isBlank = false;
 		}
@@ -56,7 +57,7 @@ public class DataWatcher {
 	public void addObjectByDataType(int id, int type) {
 		DataWatcher.WatchableObject datawatcher$watchableobject = new DataWatcher.WatchableObject(type, id, null);
 		this.lock.writeLock().lock();
-		this.watchedObjects.put(Integer.valueOf(id), datawatcher$watchableobject);
+		this.watchedObjects.put(id, datawatcher$watchableobject);
 		this.lock.writeLock().unlock();
 		this.isBlank = false;
 	}
@@ -90,7 +91,7 @@ public class DataWatcher {
 		DataWatcher.WatchableObject datawatcher$watchableobject;
 
 		try {
-			datawatcher$watchableobject = this.watchedObjects.get(Integer.valueOf(id));
+			datawatcher$watchableobject = this.watchedObjects.get(id);
 		} catch (Throwable throwable) {
 			CrashReport crashreport = CrashReport.makeCrashReport(throwable, "Getting synched entity data");
 			CrashReportCategory crashreportcategory = crashreport.makeCategory("Synched entity data");

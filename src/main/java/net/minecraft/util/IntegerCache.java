@@ -1,17 +1,24 @@
 package net.minecraft.util;
 
+import com.github.benmanes.caffeine.cache.Caffeine;
+import com.github.benmanes.caffeine.cache.LoadingCache;
+
+import java.util.concurrent.TimeUnit;
+
 public class IntegerCache {
-	private static final Integer[] CACHE = new Integer[65535];
+    private static final int CACHE_SIZE = 65535;
+    private static final LoadingCache<Integer, Integer> CACHE = Caffeine.newBuilder()
+            .maximumSize(CACHE_SIZE)
+            .expireAfterAccess(1, TimeUnit.HOURS)
+            .build(key -> Integer.valueOf(key));
 
-	public static Integer getInteger(int value) {
-		return value >= 0 && value < CACHE.length ? CACHE[value] : Integer.valueOf(value);
-	}
+    public static int getInteger(int value) {
+        return CACHE.get(value);
+    }
 
-	static {
-		int i = 0;
-
-		for (int j = CACHE.length; i < j; ++i) {
-			CACHE[i] = Integer.valueOf(i);
-		}
-	}
+    static {
+        for (int i = 0; i < CACHE_SIZE; i++) {
+            CACHE.put(i, Integer.valueOf(i));
+        }
+    }
 }

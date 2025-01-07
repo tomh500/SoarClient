@@ -18,6 +18,7 @@ import javax.imageio.ImageIO;
 import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.apache.commons.lang3.tuple.Pair;
 
+import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockRedstoneWire;
 import net.minecraft.block.BlockStem;
@@ -279,7 +280,7 @@ public class CustomColors {
 		String s = "mcpatcher/lightmap/world";
 		String s1 = ".png";
 		String[] astring = ResUtils.collectFiles(s, s1);
-		Map<Integer, String> map = new HashMap();
+		Int2ObjectOpenHashMap<String> map = new Int2ObjectOpenHashMap<>();
 
 		for (int i = 0; i < astring.length; ++i) {
 			String s2 = astring[i];
@@ -289,7 +290,7 @@ public class CustomColors {
 			if (j == Integer.MIN_VALUE) {
 				warn("Invalid dimension ID: " + s3 + ", path: " + s2);
 			} else {
-				map.put(Integer.valueOf(j), s2);
+				map.put(j, s2);
 			}
 		}
 
@@ -298,7 +299,7 @@ public class CustomColors {
 		Arrays.sort(ainteger);
 
 		if (ainteger.length <= 0) {
-			return new ImmutablePair(null, Integer.valueOf(0));
+			return new ImmutablePair<LightMapPack[], Integer>(null, 0);
 		} else {
 			int j1 = ainteger[0].intValue();
 			int k1 = ainteger[ainteger.length - 1].intValue();
@@ -306,7 +307,7 @@ public class CustomColors {
 			CustomColormap[] acustomcolormap = new CustomColormap[k];
 
 			for (int l = 0; l < ainteger.length; ++l) {
-				Integer integer = ainteger[l];
+				int integer = ainteger[l];
 				String s4 = map.get(integer);
 				CustomColormap customcolormap = getCustomColors(s4, -1, -1);
 
@@ -314,7 +315,7 @@ public class CustomColors {
 					if (customcolormap.getWidth() < 16) {
 						warn("Invalid lightmap width: " + customcolormap.getWidth() + ", path: " + s4);
 					} else {
-						int i1 = integer.intValue() - j1;
+						int i1 = integer - j1;
 						acustomcolormap[i1] = customcolormap;
 					}
 				}
@@ -338,23 +339,7 @@ public class CustomColors {
 				}
 			}
 
-			return new ImmutablePair(alightmappack, Integer.valueOf(j1));
-		}
-	}
-
-	private static int getTextureHeight(String path, int defHeight) {
-		try {
-			InputStream inputstream = Config.getResourceStream(new ResourceLocation(path));
-
-			if (inputstream == null) {
-				return defHeight;
-			} else {
-				BufferedImage bufferedimage = ImageIO.read(inputstream);
-				inputstream.close();
-				return bufferedimage == null ? defHeight : bufferedimage.getHeight();
-			}
-		} catch (IOException var4) {
-			return defHeight;
+			return new ImmutablePair<LightMapPack[], Integer>(alightmappack, j1);
 		}
 	}
 
@@ -1128,8 +1113,8 @@ public class CustomColors {
 	}
 
 	private static int[] readSpawnEggColors(Properties props, String fileName, String prefix, String logName) {
-		List<Integer> list = new ArrayList();
-		Set set = props.keySet();
+		List<Integer> list = new ArrayList<>();
+		Set<?> set = props.keySet();
 		int i = 0;
 
 		for (Object o : set) {
@@ -1201,7 +1186,7 @@ public class CustomColors {
 
 	private static float[][] readDyeColors(Properties props, String fileName, String prefix, String logName) {
 		EnumDyeColor[] aenumdyecolor = EnumDyeColor.values();
-		Map<String, EnumDyeColor> map = new HashMap();
+		Map<String, EnumDyeColor> map = new HashMap<>();
 
 		for (int i = 0; i < aenumdyecolor.length; ++i) {
 			EnumDyeColor enumdyecolor = aenumdyecolor[i];

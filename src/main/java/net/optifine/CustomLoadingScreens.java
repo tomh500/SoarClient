@@ -1,14 +1,13 @@
 package net.optifine;
 
 import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
 
 import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.apache.commons.lang3.tuple.Pair;
 
+import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
 import net.minecraft.network.PacketThreadUtil;
 import net.minecraft.src.Config;
 import net.optifine.util.ResUtils;
@@ -46,7 +45,7 @@ public class CustomLoadingScreens {
 		String s = "optifine/gui/loading/background";
 		String s1 = ".png";
 		String[] astring = ResUtils.collectFiles(s, s1);
-		Map<Integer, String> map = new HashMap();
+		Int2ObjectOpenHashMap<String> map = new Int2ObjectOpenHashMap<>();
 
 		for (int i = 0; i < astring.length; ++i) {
 			String s2 = astring[i];
@@ -56,7 +55,7 @@ public class CustomLoadingScreens {
 			if (j == Integer.MIN_VALUE) {
 				warn("Invalid dimension ID: " + s3 + ", path: " + s2);
 			} else {
-				map.put(Integer.valueOf(j), s2);
+				map.put(j, s2);
 			}
 		}
 
@@ -65,7 +64,7 @@ public class CustomLoadingScreens {
 		Arrays.sort(ainteger);
 
 		if (ainteger.length <= 0) {
-			return new ImmutablePair(null, Integer.valueOf(0));
+			return new ImmutablePair(null, 0);
 		} else {
 			String s5 = "optifine/gui/loading/loading.properties";
 			Properties properties = ResUtils.readProperties(s5, "CustomLoadingScreens");
@@ -75,13 +74,13 @@ public class CustomLoadingScreens {
 			CustomLoadingScreen[] acustomloadingscreen = new CustomLoadingScreen[i1];
 
 			for (int j1 = 0; j1 < ainteger.length; ++j1) {
-				Integer integer = ainteger[j1];
+				int integer = ainteger[j1];
 				String s4 = map.get(integer);
-				acustomloadingscreen[integer.intValue() - k] = CustomLoadingScreen.parseScreen(s4, integer.intValue(),
+				acustomloadingscreen[integer - k] = CustomLoadingScreen.parseScreen(s4, integer,
 						properties);
 			}
 
-			return new ImmutablePair(acustomloadingscreen, Integer.valueOf(k));
+			return new ImmutablePair(acustomloadingscreen, k);
 		}
 	}
 

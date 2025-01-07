@@ -1,8 +1,5 @@
 package net.optifine.expr;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import net.minecraft.client.Minecraft;
 import net.minecraft.src.Config;
 import net.minecraft.util.MathHelper;
@@ -80,8 +77,7 @@ public enum FunctionType {
 	private final String name;
 	private final IParameters parameters;
 	public static FunctionType[] VALUES = values();
-	private static final Map<Integer, Float> mapSmooth = new HashMap();
-
+	
 	FunctionType(ExpressionType expressionType, String name, ExpressionType[] parameterTypes) {
 		this(0, expressionType, name, parameterTypes);
 	}

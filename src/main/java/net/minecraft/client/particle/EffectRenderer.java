@@ -2,13 +2,12 @@ package net.minecraft.client.particle;
 
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 import java.util.Random;
 import java.util.concurrent.Callable;
 
 import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
 
+import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
@@ -39,7 +38,7 @@ public class EffectRenderer {
 	private final List<EntityParticleEmitter> particleEmitters = Lists.newArrayList();
 	private final TextureManager renderer;
 	private final Random rand = new Random();
-	private final Map<Integer, IParticleFactory> particleTypes = Maps.newHashMap();
+	private final Int2ObjectOpenHashMap<IParticleFactory> particleTypes = new Int2ObjectOpenHashMap<>();
 
 	public EffectRenderer(World worldIn, TextureManager rendererIn) {
 		this.worldObj = worldIn;
@@ -106,7 +105,7 @@ public class EffectRenderer {
 	}
 
 	public void registerParticle(int id, IParticleFactory particleFactory) {
-		this.particleTypes.put(Integer.valueOf(id), particleFactory);
+		this.particleTypes.put(id, particleFactory);
 	}
 
 	public void emitParticleAtEntity(Entity entityIn, EnumParticleTypes particleTypes) {
@@ -115,7 +114,7 @@ public class EffectRenderer {
 
 	public EntityFX spawnEffectParticle(int particleId, double xCoord, double yCoord, double zCoord, double xSpeed,
 			double ySpeed, double zSpeed, int... parameters) {
-		IParticleFactory iparticlefactory = this.particleTypes.get(Integer.valueOf(particleId));
+		IParticleFactory iparticlefactory = this.particleTypes.get(particleId);
 
 		if (iparticlefactory != null) {
 			EntityFX entityfx = iparticlefactory.getEntityFX(particleId, this.worldObj, xCoord, yCoord, zCoord, xSpeed,
@@ -306,7 +305,7 @@ public class EffectRenderer {
 	}
 
 	public void renderLitParticles(Entity entityIn, float partialTick) {
-		float f = 0.017453292F;
+		
 		float f1 = MathHelper.cos(entityIn.rotationYaw * 0.017453292F);
 		float f2 = MathHelper.sin(entityIn.rotationYaw * 0.017453292F);
 		float f3 = -f2 * MathHelper.sin(entityIn.rotationPitch * 0.017453292F);

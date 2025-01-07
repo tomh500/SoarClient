@@ -2,12 +2,12 @@ package net.minecraft.enchantment;
 
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 import java.util.Random;
 
 import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
 
+import it.unimi.dsi.fastutil.ints.Int2IntLinkedOpenHashMap;
+import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.EnumCreatureAttribute;
@@ -50,8 +50,8 @@ public class EnchantmentHelper {
 		}
 	}
 
-	public static Map<Integer, Integer> getEnchantments(ItemStack stack) {
-		Map<Integer, Integer> map = Maps.newLinkedHashMap();
+	public static Int2IntLinkedOpenHashMap getEnchantments(ItemStack stack) {
+		Int2IntLinkedOpenHashMap map = new Int2IntLinkedOpenHashMap();
 		NBTTagList nbttaglist = stack.getItem() == Items.enchanted_book ? Items.enchanted_book.getEnchantments(stack)
 				: stack.getEnchantmentTagList();
 
@@ -59,14 +59,14 @@ public class EnchantmentHelper {
 			for (int i = 0; i < nbttaglist.tagCount(); ++i) {
 				int j = nbttaglist.getCompoundTagAt(i).getShort("id");
 				int k = nbttaglist.getCompoundTagAt(i).getShort("lvl");
-				map.put(Integer.valueOf(j), Integer.valueOf(k));
+				map.put(j, k);
 			}
 		}
 
 		return map;
 	}
 
-	public static void setEnchantments(Map<Integer, Integer> enchMap, ItemStack stack) {
+	public static void setEnchantments(Int2IntLinkedOpenHashMap enchMap, ItemStack stack) {
 		NBTTagList nbttaglist = new NBTTagList();
 		Iterator iterator = enchMap.keySet().iterator();
 
@@ -77,12 +77,12 @@ public class EnchantmentHelper {
 			if (enchantment != null) {
 				NBTTagCompound nbttagcompound = new NBTTagCompound();
 				nbttagcompound.setShort("id", (short) i);
-				nbttagcompound.setShort("lvl", (short) enchMap.get(Integer.valueOf(i)).intValue());
+				nbttagcompound.setShort("lvl", (short) enchMap.get(i));
 				nbttaglist.appendTag(nbttagcompound);
 
 				if (stack.getItem() == Items.enchanted_book) {
 					Items.enchanted_book.addEnchantment(stack,
-							new EnchantmentData(enchantment, enchMap.get(Integer.valueOf(i)).intValue()));
+							new EnchantmentData(enchantment, enchMap.get(i)));
 				}
 			}
 		}
@@ -294,7 +294,7 @@ public class EnchantmentHelper {
 			}
 
 			List<EnchantmentData> list = null;
-			Map<Integer, EnchantmentData> map = mapEnchantmentData(k, itemStackIn);
+			Int2ObjectOpenHashMap<EnchantmentData> map = mapEnchantmentData(k, itemStackIn);
 
 			if (map != null && !map.isEmpty()) {
 				EnchantmentData enchantmentdata = WeightedRandom.getRandomItem(randomIn, map.values());
@@ -335,9 +335,9 @@ public class EnchantmentHelper {
 		}
 	}
 
-	public static Map<Integer, EnchantmentData> mapEnchantmentData(int p_77505_0_, ItemStack p_77505_1_) {
+	public static Int2ObjectOpenHashMap<EnchantmentData> mapEnchantmentData(int p_77505_0_, ItemStack p_77505_1_) {
 		Item item = p_77505_1_.getItem();
-		Map<Integer, EnchantmentData> map = null;
+		Int2ObjectOpenHashMap<EnchantmentData> map = null;
 		boolean flag = p_77505_1_.getItem() == Items.book;
 
 		for (Enchantment enchantment : Enchantment.enchantmentsBookList) {
@@ -346,10 +346,10 @@ public class EnchantmentHelper {
 					if (p_77505_0_ >= enchantment.getMinEnchantability(i)
 							&& p_77505_0_ <= enchantment.getMaxEnchantability(i)) {
 						if (map == null) {
-							map = Maps.newHashMap();
+							map = new Int2ObjectOpenHashMap<>();
 						}
 
-						map.put(Integer.valueOf(enchantment.effectId), new EnchantmentData(enchantment, i));
+						map.put(enchantment.effectId, new EnchantmentData(enchantment, i));
 					}
 				}
 			}

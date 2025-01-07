@@ -6,9 +6,7 @@ import java.io.InputStream;
 import java.nio.ByteBuffer;
 import java.nio.IntBuffer;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.imageio.ImageIO;
 
@@ -16,6 +14,7 @@ import org.lwjgl.BufferUtils;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
 
+import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.texture.AbstractTexture;
@@ -40,7 +39,7 @@ public class ShadersTex {
 	public static final int defBaseTexColor = 0;
 	public static final int defNormTexColor = -8421377;
 	public static final int defSpecTexColor = 0;
-	public static Map<Integer, MultiTexID> multiTexMap = new HashMap();
+	public static Int2ObjectOpenHashMap<MultiTexID> multiTexMap = new Int2ObjectOpenHashMap<>();
 
 	public static IntBuffer getIntBuffer(int size) {
 		if (intBuffer.capacity() < size) {
@@ -133,11 +132,11 @@ public class ShadersTex {
 
 		if (multitexid == null) {
 			int i = tex.getGlTextureId();
-			multitexid = multiTexMap.get(Integer.valueOf(i));
+			multitexid = multiTexMap.get(i);
 
 			if (multitexid == null) {
 				multitexid = new MultiTexID(i, GL11.glGenTextures(), GL11.glGenTextures());
-				multiTexMap.put(Integer.valueOf(i), multitexid);
+				multiTexMap.put(i, multitexid);
 			}
 
 			tex.multiTex = multitexid;
@@ -151,7 +150,7 @@ public class ShadersTex {
 
 		if (multitexid != null) {
 			atex.multiTex = null;
-			multiTexMap.remove(Integer.valueOf(multitexid.base));
+			multiTexMap.remove(multitexid.base);
 			GlStateManager.deleteTexture(multitexid.norm);
 			GlStateManager.deleteTexture(multitexid.spec);
 
@@ -207,7 +206,7 @@ public class ShadersTex {
 	}
 
 	public static void bindTexture(ITextureObject tex) {
-		int i = tex.getGlTextureId();
+		
 		bindTextures(tex.getMultiTexID());
 
 		if (GlStateManager.getActiveTextureUnit() == 33984) {
@@ -229,7 +228,7 @@ public class ShadersTex {
 	}
 
 	public static void bindTextures(int baseTex) {
-		MultiTexID multitexid = multiTexMap.get(Integer.valueOf(baseTex));
+		MultiTexID multitexid = multiTexMap.get(baseTex);
 		bindTextures(multitexid);
 	}
 
@@ -335,7 +334,6 @@ public class ShadersTex {
 
 		if (bufferedimage != null) {
 			int i = bufferedimage.getWidth();
-			int j = bufferedimage.getHeight();
 
 			if (i + (border ? 16 : 0) == width) {
 				flag = true;
@@ -843,7 +841,6 @@ public class ShadersTex {
 	}
 
 	public static int[][] prepareAF(TextureAtlasSprite tas, int[][] src, int width, int height) {
-		boolean flag = true;
 		return src;
 	}
 

@@ -1,10 +1,8 @@
 package net.minecraft.item;
 
 import java.util.List;
-import java.util.Map;
 
-import com.google.common.collect.Maps;
-
+import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.potion.Potion;
@@ -68,7 +66,7 @@ public class ItemFishFood extends ItemFood {
 		COD(0, "cod", 2, 0.1F, 5, 0.6F), SALMON(1, "salmon", 2, 0.1F, 6, 0.8F), CLOWNFISH(2, "clownfish", 1, 0.1F),
 		PUFFERFISH(3, "pufferfish", 1, 0.1F);
 
-		private static final Map<Integer, ItemFishFood.FishType> META_LOOKUP = Maps.newHashMap();
+		private static final Int2ObjectOpenHashMap<ItemFishFood.FishType> META_LOOKUP = new Int2ObjectOpenHashMap<>();
 		private final int meta;
 		private final String unlocalizedName;
 		private final int uncookedHealAmount;
@@ -127,7 +125,7 @@ public class ItemFishFood extends ItemFood {
 		}
 
 		public static ItemFishFood.FishType byMetadata(int meta) {
-			ItemFishFood.FishType itemfishfood$fishtype = META_LOOKUP.get(Integer.valueOf(meta));
+			ItemFishFood.FishType itemfishfood$fishtype = META_LOOKUP.get(meta);
 			return itemfishfood$fishtype == null ? COD : itemfishfood$fishtype;
 		}
 
@@ -137,7 +135,7 @@ public class ItemFishFood extends ItemFood {
 
 		static {
 			for (ItemFishFood.FishType itemfishfood$fishtype : values()) {
-				META_LOOKUP.put(Integer.valueOf(itemfishfood$fishtype.getMetadata()), itemfishfood$fishtype);
+				META_LOOKUP.put(itemfishfood$fishtype.getMetadata(), itemfishfood$fishtype);
 			}
 		}
 	}

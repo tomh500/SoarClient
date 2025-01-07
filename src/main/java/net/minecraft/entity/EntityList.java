@@ -10,6 +10,8 @@ import org.apache.logging.log4j.Logger;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
+import it.unimi.dsi.fastutil.ints.Int2ObjectLinkedOpenHashMap;
+import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
 import net.minecraft.entity.ai.EntityMinecartMobSpawner;
 import net.minecraft.entity.boss.EntityDragon;
 import net.minecraft.entity.boss.EntityWither;
@@ -81,15 +83,15 @@ public class EntityList {
 	private static final Logger logger = LogManager.getLogger();
 	private static final Map<String, Class<? extends Entity>> stringToClassMapping = Maps.newHashMap();
 	private static final Map<Class<? extends Entity>, String> classToStringMapping = Maps.newHashMap();
-	private static final Map<Integer, Class<? extends Entity>> idToClassMapping = Maps.newHashMap();
+	private static final Int2ObjectOpenHashMap<Class<? extends Entity>> idToClassMapping = new Int2ObjectOpenHashMap<>();
 	private static final Map<Class<? extends Entity>, Integer> classToIDMapping = Maps.newHashMap();
 	private static final Map<String, Integer> stringToIDMapping = Maps.newHashMap();
-	public static final Map<Integer, EntityList.EntityEggInfo> entityEggs = Maps.newLinkedHashMap();
+	public static final Int2ObjectLinkedOpenHashMap<EntityList.EntityEggInfo> entityEggs = new Int2ObjectLinkedOpenHashMap<>();
 
 	private static void addMapping(Class<? extends Entity> entityClass, String entityName, int id) {
 		if (stringToClassMapping.containsKey(entityName)) {
 			throw new IllegalArgumentException("ID is already registered: " + entityName);
-		} else if (idToClassMapping.containsKey(Integer.valueOf(id))) {
+		} else if (idToClassMapping.containsKey(id)) {
 			throw new IllegalArgumentException("ID is already registered: " + id);
 		} else if (id == 0) {
 			throw new IllegalArgumentException("Cannot register to reserved id: " + id);
@@ -98,7 +100,7 @@ public class EntityList {
 		} else {
 			stringToClassMapping.put(entityName, entityClass);
 			classToStringMapping.put(entityClass, entityName);
-			idToClassMapping.put(Integer.valueOf(id), entityClass);
+			idToClassMapping.put(id, entityClass);
 			classToIDMapping.put(entityClass, Integer.valueOf(id));
 			stringToIDMapping.put(entityName, Integer.valueOf(id));
 		}
@@ -107,7 +109,7 @@ public class EntityList {
 	private static void addMapping(Class<? extends Entity> entityClass, String entityName, int entityID, int baseColor,
 			int spotColor) {
 		addMapping(entityClass, entityName, entityID);
-		entityEggs.put(Integer.valueOf(entityID), new EntityList.EntityEggInfo(entityID, baseColor, spotColor));
+		entityEggs.put(entityID, new EntityList.EntityEggInfo(entityID, baseColor, spotColor));
 	}
 
 	public static Entity createEntityByName(String entityName, World worldIn) {
@@ -179,7 +181,7 @@ public class EntityList {
 	}
 
 	public static Class<? extends Entity> getClassFromID(int entityID) {
-		return idToClassMapping.get(Integer.valueOf(entityID));
+		return idToClassMapping.get(entityID);
 	}
 
 	public static String getEntityString(Entity entityIn) {

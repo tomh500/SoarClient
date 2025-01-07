@@ -7,6 +7,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import it.unimi.dsi.fastutil.ints.Int2IntLinkedOpenHashMap;
 import net.minecraft.block.BlockAnvil;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.enchantment.Enchantment;
@@ -140,7 +141,7 @@ public class ContainerRepair extends Container {
 		} else {
 			ItemStack itemstack1 = itemstack.copy();
 			ItemStack itemstack2 = this.inputSlots.getStackInSlot(1);
-			Map<Integer, Integer> map = EnchantmentHelper.getEnchantments(itemstack1);
+			Int2IntLinkedOpenHashMap map = EnchantmentHelper.getEnchantments(itemstack1);
 			boolean flag = false;
 			i2 = i2 + itemstack.getRepairCost() + (itemstack2 == null ? 0 : itemstack2.getRepairCost());
 			this.materialCost = 0;
@@ -193,7 +194,7 @@ public class ContainerRepair extends Container {
 						}
 					}
 
-					Map<Integer, Integer> map1 = EnchantmentHelper.getEnchantments(itemstack2);
+					Int2IntLinkedOpenHashMap map1 = EnchantmentHelper.getEnchantments(itemstack2);
 					Iterator iterator1 = map1.keySet().iterator();
 
 					while (iterator1.hasNext()) {
@@ -201,8 +202,8 @@ public class ContainerRepair extends Container {
 						Enchantment enchantment = Enchantment.getEnchantmentById(i5);
 
 						if (enchantment != null) {
-							int k5 = map.containsKey(Integer.valueOf(i5)) ? map.get(Integer.valueOf(i5)).intValue() : 0;
-							int l3 = map1.get(Integer.valueOf(i5)).intValue();
+							int k5 = map.containsKey(i5) ? map.get(i5) : 0;
+							int l3 = map1.get(i5);
 							int i6;
 
 							if (k5 == l3) {
@@ -236,7 +237,7 @@ public class ContainerRepair extends Container {
 									l3 = enchantment.getMaxLevel();
 								}
 
-								map.put(Integer.valueOf(i5), Integer.valueOf(l3));
+								map.put(i5, l3);
 								int l5 = 0;
 
 								switch (enchantment.getWeight()) {

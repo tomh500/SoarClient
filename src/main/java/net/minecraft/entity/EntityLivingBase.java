@@ -3,14 +3,13 @@ package net.minecraft.entity;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 import java.util.Random;
 import java.util.UUID;
 
 import com.google.common.base.Predicate;
 import com.google.common.base.Predicates;
-import com.google.common.collect.Maps;
 
+import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
@@ -59,7 +58,7 @@ public abstract class EntityLivingBase extends Entity {
 			sprintingSpeedBoostModifierUUID, "Sprinting speed boost", 0.30000001192092896D, 2)).setSaved(false);
 	private BaseAttributeMap attributeMap;
 	private final CombatTracker _combatTracker = new CombatTracker(this);
-	private final Map<Integer, PotionEffect> activePotionsMap = Maps.newHashMap();
+	private final Int2ObjectOpenHashMap<PotionEffect> activePotionsMap = new Int2ObjectOpenHashMap<>();
 	private final ItemStack[] previousEquipment = new ItemStack[5];
 	public boolean isSwingInProgress;
 	public int swingProgressInt;
@@ -413,7 +412,7 @@ public abstract class EntityLivingBase extends Entity {
 				PotionEffect potioneffect = PotionEffect.readCustomPotionEffectFromNBT(nbttagcompound);
 
 				if (potioneffect != null) {
-					this.activePotionsMap.put(Integer.valueOf(potioneffect.getPotionID()), potioneffect);
+					this.activePotionsMap.put(potioneffect.getPotionID(), potioneffect);
 				}
 			}
 		}
@@ -441,7 +440,7 @@ public abstract class EntityLivingBase extends Entity {
 		Iterator<Integer> iterator = this.activePotionsMap.keySet().iterator();
 
 		while (iterator.hasNext()) {
-			Integer integer = iterator.next();
+			int integer = iterator.next();
 			PotionEffect potioneffect = this.activePotionsMap.get(integer);
 
 			if (!potioneffect.onUpdate(this)) {
@@ -512,7 +511,7 @@ public abstract class EntityLivingBase extends Entity {
 		Iterator<Integer> iterator = this.activePotionsMap.keySet().iterator();
 
 		while (iterator.hasNext()) {
-			Integer integer = iterator.next();
+			int integer = iterator.next();
 			PotionEffect potioneffect = this.activePotionsMap.get(integer);
 
 			if (!this.worldObj.isRemote) {
@@ -527,25 +526,25 @@ public abstract class EntityLivingBase extends Entity {
 	}
 
 	public boolean isPotionActive(int potionId) {
-		return this.activePotionsMap.containsKey(Integer.valueOf(potionId));
+		return this.activePotionsMap.containsKey(potionId);
 	}
 
 	public boolean isPotionActive(Potion potionIn) {
-		return this.activePotionsMap.containsKey(Integer.valueOf(potionIn.id));
+		return this.activePotionsMap.containsKey(potionIn.id);
 	}
 
 	public PotionEffect getActivePotionEffect(Potion potionIn) {
-		return this.activePotionsMap.get(Integer.valueOf(potionIn.id));
+		return this.activePotionsMap.get(potionIn.id);
 	}
 
 	public void addPotionEffect(PotionEffect potioneffectIn) {
 		if (this.isPotionApplicable(potioneffectIn)) {
-			if (this.activePotionsMap.containsKey(Integer.valueOf(potioneffectIn.getPotionID()))) {
-				this.activePotionsMap.get(Integer.valueOf(potioneffectIn.getPotionID())).combine(potioneffectIn);
-				this.onChangedPotionEffect(this.activePotionsMap.get(Integer.valueOf(potioneffectIn.getPotionID())),
+			if (this.activePotionsMap.containsKey(potioneffectIn.getPotionID())) {
+				this.activePotionsMap.get(potioneffectIn.getPotionID()).combine(potioneffectIn);
+				this.onChangedPotionEffect(this.activePotionsMap.get(potioneffectIn.getPotionID()),
 						true);
 			} else {
-				this.activePotionsMap.put(Integer.valueOf(potioneffectIn.getPotionID()), potioneffectIn);
+				this.activePotionsMap.put(potioneffectIn.getPotionID(), potioneffectIn);
 				this.onNewPotionEffect(potioneffectIn);
 			}
 		}
@@ -566,11 +565,11 @@ public abstract class EntityLivingBase extends Entity {
 	}
 
 	public void removePotionEffectClient(int potionId) {
-		this.activePotionsMap.remove(Integer.valueOf(potionId));
+		this.activePotionsMap.remove(potionId);
 	}
 
 	public void removePotionEffect(int potionId) {
-		PotionEffect potioneffect = this.activePotionsMap.remove(Integer.valueOf(potionId));
+		PotionEffect potioneffect = this.activePotionsMap.remove(potionId);
 
 		if (potioneffect != null) {
 			this.onFinishedPotionEffect(potioneffect);
