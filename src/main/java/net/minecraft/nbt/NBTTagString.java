@@ -5,7 +5,9 @@ import java.io.DataOutput;
 import java.io.IOException;
 
 public class NBTTagString extends NBTBase {
+	
 	private String data;
+	private String dataCache;
 
 	public NBTTagString() {
 		this.data = "";
@@ -24,6 +26,7 @@ public class NBTTagString extends NBTBase {
 	}
 
 	void read(DataInput input, int depth, NBTSizeTracker sizeTracker) throws IOException {
+		this.dataCache = null;
 		sizeTracker.read(288L);
 		this.data = input.readUTF();
 		sizeTracker.read(16L * this.data.length());
@@ -33,9 +36,14 @@ public class NBTTagString extends NBTBase {
 		return (byte) 8;
 	}
 
-	public String toString() {
-		return "\"" + this.data.replace("\"", "\\\"") + "\"";
-	}
+    public String toString() {
+    	
+        if (this.dataCache == null) {
+            this.dataCache = "\"" + this.data.replace("\"", "\\\"") + "\"";
+        }
+
+        return this.dataCache;
+    }
 
 	public NBTBase copy() {
 		return new NBTTagString(this.data);

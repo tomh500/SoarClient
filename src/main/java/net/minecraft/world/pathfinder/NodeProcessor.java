@@ -22,6 +22,7 @@ public abstract class NodeProcessor {
 	}
 
 	public void postProcess() {
+		this.blockaccess = null;
 	}
 
 	protected PathPoint openPoint(int x, int y, int z) {

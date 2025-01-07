@@ -97,6 +97,8 @@ public abstract class World implements IBlockAccess {
 	private final WorldBorder worldBorder;
 	int[] lightUpdateBlockList;
 
+	private int range = 17;
+	
 	protected World(ISaveHandler saveHandlerIn, WorldInfo info, WorldProvider providerIn, Profiler profilerIn,
 			boolean client) {
 		this.ambientTickCountdown = this.rand.nextInt(12000);
@@ -2129,11 +2131,13 @@ public abstract class World implements IBlockAccess {
 	}
 
 	public boolean checkLightFor(EnumSkyBlock lightType, BlockPos pos) {
-		if (!this.isAreaLoaded(pos, 17, false)) {
+		
+		if (!this.isAreaLoaded(pos, 16, false)) {
 			return false;
 		} else {
 			int i = 0;
 			int j = 0;
+			this.range = this.isAreaLoaded(pos, 18, false) ? 17 : 15;
 			this.theProfiler.startSection("getBrightness");
 			int k = this.getLightFor(lightType, pos);
 			int l = this.getRawLight(pos, lightType);
@@ -2163,7 +2167,7 @@ public abstract class World implements IBlockAccess {
 							int k3 = MathHelper.abs_int(j2 - j1);
 							int l3 = MathHelper.abs_int(k2 - k1);
 
-							if (j3 + k3 + l3 < 17) {
+							if (j3 + k3 + l3 < range) {
 								BlockPos.MutableBlockPos blockpos$mutableblockpos = new BlockPos.MutableBlockPos();
 
 								for (EnumFacing enumfacing : EnumFacing.values()) {

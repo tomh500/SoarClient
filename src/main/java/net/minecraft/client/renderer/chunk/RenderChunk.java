@@ -79,6 +79,8 @@ public class RenderChunk {
 			this, null, 0);
 	public AabbFrame boundingBoxParent;
 
+	private TileEntitySpecialRenderer<TileEntity> tileEntitySpecialRenderer;
+
 	public RenderChunk(World worldIn, RenderGlobal renderGlobalIn, BlockPos blockPosIn, int indexIn) {
 		this.world = worldIn;
 		this.renderGlobal = renderGlobalIn;
@@ -149,130 +151,132 @@ public class RenderChunk {
 	}
 
 	public void rebuildChunk(float x, float y, float z, ChunkCompileTaskGenerator generator) {
-		CompiledChunk compiledchunk = new CompiledChunk();
-		int i = 1;
-		BlockPos blockpos = new BlockPos(this.position);
-		BlockPos blockpos1 = blockpos.add(15, 15, 15);
-		generator.getLock().lock();
+	    CompiledChunk compiledchunk = new CompiledChunk();
+	    int i = 1;
+	    BlockPos blockpos = new BlockPos(this.position);
+	    BlockPos blockpos1 = blockpos.add(15, 15, 15);
+	    generator.getLock().lock();
 
-		try {
-			if (generator.getStatus() != ChunkCompileTaskGenerator.Status.COMPILING) {
-				return;
-			}
+	    try {
+	        if (generator.getStatus() != ChunkCompileTaskGenerator.Status.COMPILING) {
+	            return;
+	        }
 
-			generator.setCompiledChunk(compiledchunk);
-		} finally {
-			generator.getLock().unlock();
-		}
+	        generator.setCompiledChunk(compiledchunk);
+	    } finally {
+	        generator.getLock().unlock();
+	    }
 
-		VisGraph lvt_10_1_ = new VisGraph();
-		HashSet lvt_11_1_ = Sets.newHashSet();
+	    VisGraph lvt_10_1_ = new VisGraph();
+	    HashSet lvt_11_1_ = Sets.newHashSet();
 
-		if (!this.isChunkRegionEmpty(blockpos)) {
-			++renderChunksUpdated;
-			ChunkCacheOF chunkcacheof = this.makeChunkCacheOF(blockpos);
-			chunkcacheof.renderStart();
-			boolean[] aboolean = new boolean[ENUM_WORLD_BLOCK_LAYERS.length];
-			BlockRendererDispatcher blockrendererdispatcher = Minecraft.getMinecraft().getBlockRendererDispatcher();
+	    if (!this.isChunkRegionEmpty(blockpos)) {
+	        ++renderChunksUpdated;
+	        ChunkCacheOF chunkcacheof = this.makeChunkCacheOF(blockpos);
+	        chunkcacheof.renderStart();
+	        boolean[] aboolean = new boolean[ENUM_WORLD_BLOCK_LAYERS.length];
+	        BlockRendererDispatcher blockrendererdispatcher = Minecraft.getMinecraft().getBlockRendererDispatcher();
 
-			for (Object o : BlockPosM.getAllInBoxMutable(blockpos, blockpos1)) {
-				BlockPosM blockposm = (BlockPosM) o;
-				IBlockState iblockstate = chunkcacheof.getBlockState(blockposm);
-				Block block = iblockstate.getBlock();
+	        for (Object o : BlockPosM.getAllInBoxMutable(blockpos, blockpos1)) {
+	            BlockPosM blockposm = (BlockPosM) o;
+	            IBlockState iblockstate = chunkcacheof.getBlockState(blockposm);
+	            Block block = iblockstate.getBlock();
 
-				if (block.isOpaqueCube()) {
-					lvt_10_1_.func_178606_a(blockposm);
-				}
+	            if (block.isOpaqueCube()) {
+	                lvt_10_1_.func_178606_a(blockposm);
+	            }
 
-				if (block.hasTileEntity()) {
-					TileEntity tileentity = chunkcacheof.getTileEntity(new BlockPos(blockposm));
-					TileEntitySpecialRenderer<TileEntity> tileentityspecialrenderer = TileEntityRendererDispatcher.instance
-							.getSpecialRenderer(tileentity);
+	            if (block.hasTileEntity()) {
+	                TileEntity tileentity = chunkcacheof.getTileEntity(new BlockPos(blockposm));
+	                TileEntitySpecialRenderer<TileEntity> tileentityspecialrenderer = TileEntityRendererDispatcher.instance
+	                        .getSpecialRenderer(tileentity);
 
-					if (tileentity != null && tileentityspecialrenderer != null) {
-						compiledchunk.addTileEntity(tileentity);
+	                if (tileentity != null && tileentityspecialrenderer != null) {
+	                    if (tileentityspecialrenderer != null && !tileentityspecialrenderer.forceTileEntityRender()) {
+	                        compiledchunk.addTileEntity(tileentity);
+	                    }
 
-						if (tileentityspecialrenderer.forceTileEntityRender()) {
-							lvt_11_1_.add(tileentity);
-						}
-					}
-				}
+	                    if (tileentityspecialrenderer.forceTileEntityRender()) {
+	                        lvt_11_1_.add(tileentity);
+	                    }
+	                }
+	            }
 
-				EnumWorldBlockLayer[] aenumworldblocklayer;
+	            EnumWorldBlockLayer[] aenumworldblocklayer;
 
-				aenumworldblocklayer = this.blockLayersSingle;
-				aenumworldblocklayer[0] = block.getBlockLayer();
+	            aenumworldblocklayer = this.blockLayersSingle;
+	            aenumworldblocklayer[0] = block.getBlockLayer();
 
-				for (int j = 0; j < aenumworldblocklayer.length; ++j) {
-					EnumWorldBlockLayer enumworldblocklayer = aenumworldblocklayer[j];
+	            for (int j = 0; j < aenumworldblocklayer.length; ++j) {
+	                EnumWorldBlockLayer enumworldblocklayer = aenumworldblocklayer[j];
 
-					enumworldblocklayer = this.fixBlockLayer(iblockstate, enumworldblocklayer);
-					int k = enumworldblocklayer.ordinal();
+	                enumworldblocklayer = this.fixBlockLayer(iblockstate, enumworldblocklayer);
+	                int k = enumworldblocklayer.ordinal();
 
-					if (block.getRenderType() != -1) {
-						WorldRenderer worldrenderer = generator.getRegionRenderCacheBuilder()
-								.getWorldRendererByLayerId(k);
-						worldrenderer.setBlockLayer(enumworldblocklayer);
-						RenderEnv renderenv = worldrenderer.getRenderEnv(iblockstate, blockposm);
-						renderenv.setRegionRenderCacheBuilder(generator.getRegionRenderCacheBuilder());
+	                if (block.getRenderType() != -1) {
+	                    WorldRenderer worldrenderer = generator.getRegionRenderCacheBuilder()
+	                            .getWorldRendererByLayerId(k);
+	                    worldrenderer.setBlockLayer(enumworldblocklayer);
+	                    RenderEnv renderenv = worldrenderer.getRenderEnv(iblockstate, blockposm);
+	                    renderenv.setRegionRenderCacheBuilder(generator.getRegionRenderCacheBuilder());
 
-						if (!compiledchunk.isLayerStarted(enumworldblocklayer)) {
-							compiledchunk.setLayerStarted(enumworldblocklayer);
-							this.preRenderBlocks(worldrenderer, blockpos);
-						}
+	                    if (!compiledchunk.isLayerStarted(enumworldblocklayer)) {
+	                        compiledchunk.setLayerStarted(enumworldblocklayer);
+	                        this.preRenderBlocks(worldrenderer, blockpos);
+	                    }
 
-						aboolean[k] |= blockrendererdispatcher.renderBlock(iblockstate, blockposm, chunkcacheof,
-								worldrenderer);
+	                    aboolean[k] |= blockrendererdispatcher.renderBlock(iblockstate, blockposm, chunkcacheof,
+	                            worldrenderer);
 
-						if (renderenv.isOverlaysRendered()) {
-							this.postRenderOverlays(generator.getRegionRenderCacheBuilder(), compiledchunk, aboolean);
-							renderenv.setOverlaysRendered(false);
-						}
-					}
-				}
-			}
+	                    if (renderenv.isOverlaysRendered()) {
+	                        this.postRenderOverlays(generator.getRegionRenderCacheBuilder(), compiledchunk, aboolean);
+	                        renderenv.setOverlaysRendered(false);
+	                    }
+	                }
+	            }
+	        }
 
-			for (EnumWorldBlockLayer enumworldblocklayer1 : ENUM_WORLD_BLOCK_LAYERS) {
-				if (aboolean[enumworldblocklayer1.ordinal()]) {
-					compiledchunk.setLayerUsed(enumworldblocklayer1);
-				}
+	        for (EnumWorldBlockLayer enumworldblocklayer1 : ENUM_WORLD_BLOCK_LAYERS) {
+	            if (aboolean[enumworldblocklayer1.ordinal()]) {
+	                compiledchunk.setLayerUsed(enumworldblocklayer1);
+	            }
 
-				if (compiledchunk.isLayerStarted(enumworldblocklayer1)) {
-					if (Config.isShaders()) {
-						SVertexBuilder.calcNormalChunkLayer(
-								generator.getRegionRenderCacheBuilder().getWorldRendererByLayer(enumworldblocklayer1));
-					}
+	            if (compiledchunk.isLayerStarted(enumworldblocklayer1)) {
+	                if (Config.isShaders()) {
+	                    SVertexBuilder.calcNormalChunkLayer(
+	                            generator.getRegionRenderCacheBuilder().getWorldRendererByLayer(enumworldblocklayer1));
+	                }
 
-					WorldRenderer worldrenderer1 = generator.getRegionRenderCacheBuilder()
-							.getWorldRendererByLayer(enumworldblocklayer1);
-					this.postRenderBlocks(enumworldblocklayer1, x, y, z, worldrenderer1, compiledchunk);
+	                WorldRenderer worldrenderer1 = generator.getRegionRenderCacheBuilder()
+	                        .getWorldRendererByLayer(enumworldblocklayer1);
+	                this.postRenderBlocks(enumworldblocklayer1, x, y, z, worldrenderer1, compiledchunk);
 
-					if (worldrenderer1.animatedSprites != null) {
-						compiledchunk.setAnimatedSprites(enumworldblocklayer1,
-								(BitSet) worldrenderer1.animatedSprites.clone());
-					}
-				} else {
-					compiledchunk.setAnimatedSprites(enumworldblocklayer1, null);
-				}
-			}
+	                if (worldrenderer1.animatedSprites != null) {
+	                    compiledchunk.setAnimatedSprites(enumworldblocklayer1,
+	                            (BitSet) worldrenderer1.animatedSprites.clone());
+	                }
+	            } else {
+	                compiledchunk.setAnimatedSprites(enumworldblocklayer1, null);
+	            }
+	        }
 
-			chunkcacheof.renderFinish();
-		}
+	        chunkcacheof.renderFinish();
+	    }
 
-		compiledchunk.setVisibility(lvt_10_1_.computeVisibility());
-		this.lockCompileTask.lock();
+	    compiledchunk.setVisibility(lvt_10_1_.computeVisibility());
+	    this.lockCompileTask.lock();
 
-		try {
-			Set<TileEntity> set = Sets.newHashSet(lvt_11_1_);
-			Set<TileEntity> set1 = Sets.newHashSet(this.setTileEntities);
-			set.removeAll(this.setTileEntities);
-			set1.removeAll(lvt_11_1_);
-			this.setTileEntities.clear();
-			this.setTileEntities.addAll(lvt_11_1_);
-			this.renderGlobal.updateTileEntities(set1, set);
-		} finally {
-			this.lockCompileTask.unlock();
-		}
+	    try {
+	        Set<TileEntity> set = Sets.newHashSet(lvt_11_1_);
+	        Set<TileEntity> set1 = Sets.newHashSet(this.setTileEntities);
+	        set.removeAll(this.setTileEntities);
+	        set1.removeAll(lvt_11_1_);
+	        this.setTileEntities.clear();
+	        this.setTileEntities.addAll(lvt_11_1_);
+	        this.renderGlobal.updateTileEntities(set1, set);
+	    } finally {
+	        this.lockCompileTask.unlock();
+	    }
 	}
 
 	protected void finishCompileTask() {
