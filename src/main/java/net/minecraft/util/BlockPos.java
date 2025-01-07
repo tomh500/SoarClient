@@ -4,9 +4,11 @@ import java.util.Iterator;
 
 import com.google.common.collect.AbstractIterator;
 
+import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import net.minecraft.entity.Entity;
 
 public class BlockPos extends Vec3i {
+	
 	public static final BlockPos ORIGIN = new BlockPos(0, 0, 0);
 	private static final int NUM_X_BITS = 1 + MathHelper.calculateLogBaseTwo(MathHelper.roundUpToPowerOfTwo(30000000));
 	private static final int NUM_Z_BITS = NUM_X_BITS;
@@ -173,6 +175,10 @@ public class BlockPos extends Vec3i {
 		};
 	}
 
+	public BlockPos toImmutable() {
+		return this;
+	}
+
 	public static Iterable<BlockPos.MutableBlockPos> getAllInBoxMutable(BlockPos from, BlockPos to) {
 		final BlockPos blockpos = new BlockPos(Math.min(from.getX(), to.getX()), Math.min(from.getY(), to.getY()),
 				Math.min(from.getZ(), to.getZ()));
@@ -217,13 +223,18 @@ public class BlockPos extends Vec3i {
 		};
 	}
 
-	public static final class MutableBlockPos extends BlockPos {
-		private int x;
-		private int y;
-		private int z;
+	public static class MutableBlockPos extends BlockPos {
+
+		protected int x;
+		protected int y;
+		protected int z;
 
 		public MutableBlockPos() {
 			this(0, 0, 0);
+		}
+
+		public MutableBlockPos(BlockPos pos) {
+			this(pos.getX(), pos.getY(), pos.getZ());
 		}
 
 		public MutableBlockPos(int x_, int y_, int z_) {
@@ -231,6 +242,18 @@ public class BlockPos extends Vec3i {
 			this.x = x_;
 			this.y = y_;
 			this.z = z_;
+		}
+
+		public BlockPos add(double x, double y, double z) {
+			return super.add(x, y, z).toImmutable();
+		}
+
+		public BlockPos add(int x, int y, int z) {
+			return super.add(x, y, z).toImmutable();
+		}
+
+		public BlockPos offset(EnumFacing facing, int n) {
+			return super.offset(facing, n).toImmutable();
 		}
 
 		public int getX() {
@@ -251,5 +274,116 @@ public class BlockPos extends Vec3i {
 			this.z = zIn;
 			return this;
 		}
+
+		public BlockPos.MutableBlockPos set(Entity entityIn) {
+			return this.set(entityIn.posX, entityIn.posY, entityIn.posZ);
+		}
+
+		public BlockPos.MutableBlockPos set(double xIn, double yIn, double zIn) {
+			return this.set(MathHelper.floor_double(xIn), MathHelper.floor_double(yIn), MathHelper.floor_double(zIn));
+		}
+
+		public BlockPos.MutableBlockPos set(Vec3i vec) {
+			return this.set(vec.getX(), vec.getY(), vec.getZ());
+		}
+
+		public BlockPos.MutableBlockPos move(EnumFacing facing) {
+			return this.move(facing, 1);
+		}
+
+		public BlockPos.MutableBlockPos move(EnumFacing facing, int n) {
+			return this.set(this.x + facing.getFrontOffsetX() * n, this.y + facing.getFrontOffsetY() * n,
+					this.z + facing.getFrontOffsetZ() * n);
+		}
+
+		public void setY(int yIn) {
+			this.y = yIn;
+		}
+
+		public BlockPos toImmutable() {
+			return new BlockPos(this);
+		}
+	}
+
+	public static final class PooledMutableBlockPos extends BlockPos.MutableBlockPos {
+
+	    private boolean released;
+	    private static final ObjectArrayList<BlockPos.PooledMutableBlockPos> POOL = new ObjectArrayList<>();
+
+	    private PooledMutableBlockPos(int xIn, int yIn, int zIn) {
+	        super(xIn, yIn, zIn);
+	    }
+
+	    public static BlockPos.PooledMutableBlockPos retain() {
+	        return retain(0, 0, 0);
+	    }
+
+	    public static BlockPos.PooledMutableBlockPos retain(double xIn, double yIn, double zIn) {
+	        return retain(MathHelper.floor_double(xIn), MathHelper.floor_double(yIn), MathHelper.floor_double(zIn));
+	    }
+
+	    public static BlockPos.PooledMutableBlockPos retain(Vec3i vec) {
+	        return retain(vec.getX(), vec.getY(), vec.getZ());
+	    }
+
+	    public static BlockPos.PooledMutableBlockPos retain(int xIn, int yIn, int zIn) {
+	        synchronized (POOL) {
+	            if (!POOL.isEmpty()) {
+	                BlockPos.PooledMutableBlockPos blockpos$pooledmutableblockpos = POOL.remove(POOL.size() - 1);
+
+	                if (blockpos$pooledmutableblockpos != null && blockpos$pooledmutableblockpos.released) {
+	                    blockpos$pooledmutableblockpos.released = false;
+	                    blockpos$pooledmutableblockpos.set(xIn, yIn, zIn);
+	                    return blockpos$pooledmutableblockpos;
+	                }
+	            }
+	        }
+
+	        return new BlockPos.PooledMutableBlockPos(xIn, yIn, zIn);
+	    }
+
+	    public void release() {
+	        synchronized (POOL) {
+	            if (POOL.size() < 100) {
+	                POOL.add(this);
+	            }
+
+	            this.released = true;
+	        }
+	    }
+
+	    @Override
+	    public BlockPos.PooledMutableBlockPos set(int xIn, int yIn, int zIn) {
+	        if (this.released) {
+	            this.released = false;
+	        }
+
+	        return (BlockPos.PooledMutableBlockPos) super.set(xIn, yIn, zIn);
+	    }
+
+	    @Override
+	    public BlockPos.PooledMutableBlockPos set(Entity entityIn) {
+	        return (BlockPos.PooledMutableBlockPos) super.set(entityIn);
+	    }
+
+	    @Override
+	    public BlockPos.PooledMutableBlockPos set(double xIn, double yIn, double zIn) {
+	        return (BlockPos.PooledMutableBlockPos) super.set(xIn, yIn, zIn);
+	    }
+
+	    @Override
+	    public BlockPos.PooledMutableBlockPos set(Vec3i vec) {
+	        return (BlockPos.PooledMutableBlockPos) super.set(vec);
+	    }
+
+	    @Override
+	    public BlockPos.PooledMutableBlockPos move(EnumFacing facing) {
+	        return (BlockPos.PooledMutableBlockPos) super.move(facing);
+	    }
+
+	    @Override
+	    public BlockPos.PooledMutableBlockPos move(EnumFacing facing, int n) {
+	        return (BlockPos.PooledMutableBlockPos) super.move(facing, n);
+	    }
 	}
 }

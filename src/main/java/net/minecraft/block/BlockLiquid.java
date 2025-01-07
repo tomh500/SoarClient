@@ -114,42 +114,45 @@ public abstract class BlockLiquid extends Block {
 	}
 
 	protected Vec3 getFlowVector(IBlockAccess worldIn, BlockPos pos) {
+		
 		Vec3 vec3 = new Vec3(0.0D, 0.0D, 0.0D);
 		int i = this.getEffectiveFlowDecay(worldIn, pos);
-
+		BlockPos.PooledMutableBlockPos blockpos$pooledmutableblockpos = BlockPos.PooledMutableBlockPos.retain();
+		
 		for (EnumFacing enumfacing : EnumFacing.Plane.HORIZONTAL) {
-			BlockPos blockpos = pos.offset(enumfacing);
-			int j = this.getEffectiveFlowDecay(worldIn, blockpos);
+			blockpos$pooledmutableblockpos.set(pos).move(enumfacing);
+			int j = this.getEffectiveFlowDecay(worldIn, blockpos$pooledmutableblockpos);
 
 			if (j < 0) {
-				if (!worldIn.getBlockState(blockpos).getBlock().getMaterial().blocksMovement()) {
-					j = this.getEffectiveFlowDecay(worldIn, blockpos.down());
+				if (!worldIn.getBlockState(blockpos$pooledmutableblockpos).getBlock().getMaterial().blocksMovement()) {
+					j = this.getEffectiveFlowDecay(worldIn, blockpos$pooledmutableblockpos.down());
 
 					if (j >= 0) {
 						int k = j - (i - 8);
-						vec3 = vec3.addVector((blockpos.getX() - pos.getX()) * k, (blockpos.getY() - pos.getY()) * k,
-								(blockpos.getZ() - pos.getZ()) * k);
+						vec3 = vec3.addVector((blockpos$pooledmutableblockpos.getX() - pos.getX()) * k, (blockpos$pooledmutableblockpos.getY() - pos.getY()) * k,
+								(blockpos$pooledmutableblockpos.getZ() - pos.getZ()) * k);
 					}
 				}
 			} else if (j >= 0) {
 				int l = j - i;
-				vec3 = vec3.addVector((blockpos.getX() - pos.getX()) * l, (blockpos.getY() - pos.getY()) * l,
-						(blockpos.getZ() - pos.getZ()) * l);
+				vec3 = vec3.addVector((blockpos$pooledmutableblockpos.getX() - pos.getX()) * l, (blockpos$pooledmutableblockpos.getY() - pos.getY()) * l,
+						(blockpos$pooledmutableblockpos.getZ() - pos.getZ()) * l);
 			}
 		}
 
 		if (worldIn.getBlockState(pos).getValue(LEVEL).intValue() >= 8) {
 			for (EnumFacing enumfacing1 : EnumFacing.Plane.HORIZONTAL) {
-				BlockPos blockpos1 = pos.offset(enumfacing1);
+				blockpos$pooledmutableblockpos.set(pos).move(enumfacing1);
 
-				if (this.isBlockSolid(worldIn, blockpos1, enumfacing1)
-						|| this.isBlockSolid(worldIn, blockpos1.up(), enumfacing1)) {
+				if (this.isBlockSolid(worldIn, blockpos$pooledmutableblockpos, enumfacing1)
+						|| this.isBlockSolid(worldIn, blockpos$pooledmutableblockpos.up(), enumfacing1)) {
 					vec3 = vec3.normalize().addVector(0.0D, -6.0D, 0.0D);
 					break;
 				}
 			}
 		}
 
+		blockpos$pooledmutableblockpos.release();
 		return vec3.normalize();
 	}
 

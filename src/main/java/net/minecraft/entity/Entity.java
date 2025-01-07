@@ -677,33 +677,43 @@ public abstract class Entity implements ICommandSender {
 	}
 
 	protected void doBlockCollisions() {
-		BlockPos blockpos = new BlockPos(this.getEntityBoundingBox().minX + 0.001D,
-				this.getEntityBoundingBox().minY + 0.001D, this.getEntityBoundingBox().minZ + 0.001D);
-		BlockPos blockpos1 = new BlockPos(this.getEntityBoundingBox().maxX - 0.001D,
-				this.getEntityBoundingBox().maxY - 0.001D, this.getEntityBoundingBox().maxZ - 0.001D);
 
-		if (this.worldObj.isAreaLoaded(blockpos, blockpos1)) {
-			for (int i = blockpos.getX(); i <= blockpos1.getX(); ++i) {
-				for (int j = blockpos.getY(); j <= blockpos1.getY(); ++j) {
-					for (int k = blockpos.getZ(); k <= blockpos1.getZ(); ++k) {
-						BlockPos blockpos2 = new BlockPos(i, j, k);
-						IBlockState iblockstate = this.worldObj.getBlockState(blockpos2);
+		BlockPos.PooledMutableBlockPos blockpos$pooledmutableblockpos = BlockPos.PooledMutableBlockPos.retain(
+				this.getEntityBoundingBox().minX + 0.001D, this.getEntityBoundingBox().minY + 0.001D,
+				this.getEntityBoundingBox().minZ + 0.001D);
+		BlockPos.PooledMutableBlockPos blockpos$pooledmutableblockpos1 = BlockPos.PooledMutableBlockPos.retain(
+				this.getEntityBoundingBox().maxX - 0.001D, this.getEntityBoundingBox().maxY - 0.001D,
+				this.getEntityBoundingBox().maxZ - 0.001D);
+		BlockPos.PooledMutableBlockPos blockpos$pooledmutableblockpos2 = BlockPos.PooledMutableBlockPos.retain();
+
+		if (this.worldObj.isAreaLoaded(blockpos$pooledmutableblockpos, blockpos$pooledmutableblockpos1)) {
+			for (int i = blockpos$pooledmutableblockpos.getX(); i <= blockpos$pooledmutableblockpos1.getX(); ++i) {
+				for (int j = blockpos$pooledmutableblockpos.getY(); j <= blockpos$pooledmutableblockpos1.getY(); ++j) {
+					for (int k = blockpos$pooledmutableblockpos.getZ(); k <= blockpos$pooledmutableblockpos1
+							.getZ(); ++k) {
+						blockpos$pooledmutableblockpos2.set(i, j, k);
+						IBlockState iblockstate = this.worldObj.getBlockState(blockpos$pooledmutableblockpos2);
 
 						try {
-							iblockstate.getBlock().onEntityCollidedWithBlock(this.worldObj, blockpos2, iblockstate,
-									this);
+							iblockstate.getBlock().onEntityCollidedWithBlock(this.worldObj,
+									blockpos$pooledmutableblockpos2, iblockstate, this);
 						} catch (Throwable throwable) {
 							CrashReport crashreport = CrashReport.makeCrashReport(throwable,
 									"Colliding entity with block");
 							CrashReportCategory crashreportcategory = crashreport
 									.makeCategory("Block being collided with");
-							CrashReportCategory.addBlockInfo(crashreportcategory, blockpos2, iblockstate);
+							CrashReportCategory.addBlockInfo(crashreportcategory, blockpos$pooledmutableblockpos2,
+									iblockstate);
 							throw new ReportedException(crashreport);
 						}
 					}
 				}
 			}
 		}
+
+		blockpos$pooledmutableblockpos.release();
+		blockpos$pooledmutableblockpos1.release();
+		blockpos$pooledmutableblockpos2.release();
 	}
 
 	protected void playStepSound(BlockPos pos, Block blockIn) {
@@ -774,8 +784,21 @@ public abstract class Entity implements ICommandSender {
 	}
 
 	public boolean isWet() {
-		return this.inWater || this.worldObj.isRainingAt(new BlockPos(this.posX, this.posY, this.posZ))
-				|| this.worldObj.isRainingAt(new BlockPos(this.posX, this.posY + (double) this.height, this.posZ));
+		if (this.inWater) {
+			return true;
+		} else {
+			BlockPos.PooledMutableBlockPos blockpos$pooledmutableblockpos = BlockPos.PooledMutableBlockPos
+					.retain(this.posX, this.posY, this.posZ);
+
+			if (!this.worldObj.isRainingAt(blockpos$pooledmutableblockpos) && !this.worldObj.isRainingAt(
+					blockpos$pooledmutableblockpos.set(this.posX, this.posY + (double) this.height, this.posZ))) {
+				blockpos$pooledmutableblockpos.release();
+				return false;
+			} else {
+				blockpos$pooledmutableblockpos.release();
+				return true;
+			}
+		}
 	}
 
 	public boolean isInWater() {
@@ -1303,8 +1326,7 @@ public abstract class Entity implements ICommandSender {
 		if (this.noClip) {
 			return false;
 		} else {
-			BlockPos.MutableBlockPos blockpos$mutableblockpos = new BlockPos.MutableBlockPos(Integer.MIN_VALUE,
-					Integer.MIN_VALUE, Integer.MIN_VALUE);
+			BlockPos.PooledMutableBlockPos blockpos$pooledmutableblockpos = BlockPos.PooledMutableBlockPos.retain();
 
 			for (int i = 0; i < 8; ++i) {
 				int j = MathHelper.floor_double(
@@ -1314,16 +1336,18 @@ public abstract class Entity implements ICommandSender {
 				int l = MathHelper
 						.floor_double(this.posZ + (double) (((float) ((i >> 2) % 2) - 0.5F) * this.width * 0.8F));
 
-				if (blockpos$mutableblockpos.getX() != k || blockpos$mutableblockpos.getY() != j
-						|| blockpos$mutableblockpos.getZ() != l) {
-					blockpos$mutableblockpos.set(k, j, l);
+				if (blockpos$pooledmutableblockpos.getX() != k || blockpos$pooledmutableblockpos.getY() != j
+						|| blockpos$pooledmutableblockpos.getZ() != l) {
+					blockpos$pooledmutableblockpos.set(k, j, l);
 
-					if (this.worldObj.getBlockState(blockpos$mutableblockpos).getBlock().isVisuallyOpaque()) {
+					if (this.worldObj.getBlockState(blockpos$pooledmutableblockpos).getBlock().isVisuallyOpaque()) {
+						blockpos$pooledmutableblockpos.release();
 						return true;
 					}
 				}
 			}
 
+			blockpos$pooledmutableblockpos.release();
 			return false;
 		}
 	}

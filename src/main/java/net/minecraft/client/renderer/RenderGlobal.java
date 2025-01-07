@@ -1081,27 +1081,6 @@ public class RenderGlobal implements IWorldAccess, IResourceManagerReloadListene
 		}
 	}
 
-	private boolean isPositionInRenderChunk(BlockPos pos, RenderChunk renderChunkIn) {
-		BlockPos blockpos = renderChunkIn.getPosition();
-		return MathHelper.abs_int(pos.getX() - blockpos.getX()) <= 16
-				&& (MathHelper.abs_int(pos.getY() - blockpos.getY()) <= 16
-						&& MathHelper.abs_int(pos.getZ() - blockpos.getZ()) <= 16);
-	}
-
-	private Set<EnumFacing> getVisibleFacings(BlockPos pos) {
-		VisGraph visgraph = new VisGraph();
-		BlockPos blockpos = new BlockPos(pos.getX() >> 4 << 4, pos.getY() >> 4 << 4, pos.getZ() >> 4 << 4);
-		Chunk chunk = this.theWorld.getChunkFromBlockCoords(blockpos);
-
-		for (BlockPos.MutableBlockPos blockpos$mutableblockpos : BlockPos.getAllInBoxMutable(blockpos,
-				blockpos.add(15, 15, 15))) {
-			if (chunk.getBlock(blockpos$mutableblockpos).isOpaqueCube()) {
-				visgraph.func_178606_a(blockpos$mutableblockpos);
-			}
-		}
-		return visgraph.func_178609_b(pos);
-	}
-
 	private RenderChunk getRenderChunkOffset(BlockPos p_getRenderChunkOffset_1_, RenderChunk p_getRenderChunkOffset_2_,
 			EnumFacing p_getRenderChunkOffset_3_, boolean p_getRenderChunkOffset_4_, int p_getRenderChunkOffset_5_) {
 		RenderChunk renderchunk = p_getRenderChunkOffset_2_.getRenderChunkNeighbour(p_getRenderChunkOffset_3_);

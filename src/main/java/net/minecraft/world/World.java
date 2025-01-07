@@ -915,31 +915,35 @@ public abstract class World implements IBlockAccess {
 		boolean flag = entityIn.isOutsideBorder();
 		boolean flag1 = this.isInsideBorder(worldborder, entityIn);
 		IBlockState iblockstate = Blocks.stone.getDefaultState();
-		BlockPos.MutableBlockPos blockpos$mutableblockpos = new BlockPos.MutableBlockPos();
+		BlockPos.PooledMutableBlockPos blockpos$mutableblockpos = BlockPos.PooledMutableBlockPos.retain();
+		
+		try {
+			for (int k1 = i; k1 < j; ++k1) {
+				for (int l1 = i1; l1 < j1; ++l1) {
+					if (this.isBlockLoaded(blockpos$mutableblockpos.set(k1, 64, l1))) {
+						for (int i2 = k - 1; i2 < l; ++i2) {
+							blockpos$mutableblockpos.set(k1, i2, l1);
 
-		for (int k1 = i; k1 < j; ++k1) {
-			for (int l1 = i1; l1 < j1; ++l1) {
-				if (this.isBlockLoaded(blockpos$mutableblockpos.set(k1, 64, l1))) {
-					for (int i2 = k - 1; i2 < l; ++i2) {
-						blockpos$mutableblockpos.set(k1, i2, l1);
+							if (flag && flag1) {
+								entityIn.setOutsideBorder(false);
+							} else if (!flag && !flag1) {
+								entityIn.setOutsideBorder(true);
+							}
 
-						if (flag && flag1) {
-							entityIn.setOutsideBorder(false);
-						} else if (!flag && !flag1) {
-							entityIn.setOutsideBorder(true);
+							IBlockState iblockstate1 = iblockstate;
+
+							if (worldborder.contains(blockpos$mutableblockpos) || !flag1) {
+								iblockstate1 = this.getBlockState(blockpos$mutableblockpos);
+							}
+
+							iblockstate1.getBlock().addCollisionBoxesToList(this, blockpos$mutableblockpos, iblockstate1,
+									bb, list, entityIn);
 						}
-
-						IBlockState iblockstate1 = iblockstate;
-
-						if (worldborder.contains(blockpos$mutableblockpos) || !flag1) {
-							iblockstate1 = this.getBlockState(blockpos$mutableblockpos);
-						}
-
-						iblockstate1.getBlock().addCollisionBoxesToList(this, blockpos$mutableblockpos, iblockstate1,
-								bb, list, entityIn);
 					}
 				}
 			}
+		} finally {
+			blockpos$mutableblockpos.release();
 		}
 
 		double d0 = 0.25D;
@@ -993,26 +997,30 @@ public abstract class World implements IBlockAccess {
 		int l = MathHelper.floor_double(bb.maxY + 1.0D);
 		int i1 = MathHelper.floor_double(bb.minZ);
 		int j1 = MathHelper.floor_double(bb.maxZ + 1.0D);
-		BlockPos.MutableBlockPos blockpos$mutableblockpos = new BlockPos.MutableBlockPos();
+		BlockPos.PooledMutableBlockPos blockpos$mutableblockpos = BlockPos.PooledMutableBlockPos.retain();
+		
+		try {
+			for (int k1 = i; k1 < j; ++k1) {
+				for (int l1 = i1; l1 < j1; ++l1) {
+					if (this.isBlockLoaded(blockpos$mutableblockpos.set(k1, 64, l1))) {
+						for (int i2 = k - 1; i2 < l; ++i2) {
+							blockpos$mutableblockpos.set(k1, i2, l1);
+							IBlockState iblockstate;
 
-		for (int k1 = i; k1 < j; ++k1) {
-			for (int l1 = i1; l1 < j1; ++l1) {
-				if (this.isBlockLoaded(blockpos$mutableblockpos.set(k1, 64, l1))) {
-					for (int i2 = k - 1; i2 < l; ++i2) {
-						blockpos$mutableblockpos.set(k1, i2, l1);
-						IBlockState iblockstate;
+							if (k1 >= -30000000 && k1 < 30000000 && l1 >= -30000000 && l1 < 30000000) {
+								iblockstate = this.getBlockState(blockpos$mutableblockpos);
+							} else {
+								iblockstate = Blocks.bedrock.getDefaultState();
+							}
 
-						if (k1 >= -30000000 && k1 < 30000000 && l1 >= -30000000 && l1 < 30000000) {
-							iblockstate = this.getBlockState(blockpos$mutableblockpos);
-						} else {
-							iblockstate = Blocks.bedrock.getDefaultState();
+							iblockstate.getBlock().addCollisionBoxesToList(this, blockpos$mutableblockpos, iblockstate, bb,
+									list, null);
 						}
-
-						iblockstate.getBlock().addCollisionBoxesToList(this, blockpos$mutableblockpos, iblockstate, bb,
-								list, null);
 					}
 				}
 			}
+		} finally {
+			blockpos$mutableblockpos.release();
 		}
 
 		return list;
@@ -1474,7 +1482,7 @@ public abstract class World implements IBlockAccess {
 		int l = MathHelper.floor_double(bb.maxY);
 		int i1 = MathHelper.floor_double(bb.minZ);
 		int j1 = MathHelper.floor_double(bb.maxZ);
-		BlockPos.MutableBlockPos blockpos$mutableblockpos = new BlockPos.MutableBlockPos();
+		BlockPos.PooledMutableBlockPos blockpos$mutableblockpos = BlockPos.PooledMutableBlockPos.retain();
 
 		for (int k1 = i; k1 <= j; ++k1) {
 			for (int l1 = k; l1 <= l; ++l1) {
@@ -1482,12 +1490,14 @@ public abstract class World implements IBlockAccess {
 					Block block = this.getBlockState(blockpos$mutableblockpos.set(k1, l1, i2)).getBlock();
 
 					if (block.getMaterial() != Material.air) {
+						blockpos$mutableblockpos.release();
 						return true;
 					}
 				}
 			}
 		}
 
+		blockpos$mutableblockpos.release();
 		return false;
 	}
 
@@ -1498,7 +1508,7 @@ public abstract class World implements IBlockAccess {
 		int l = MathHelper.floor_double(bb.maxY);
 		int i1 = MathHelper.floor_double(bb.minZ);
 		int j1 = MathHelper.floor_double(bb.maxZ);
-		BlockPos.MutableBlockPos blockpos$mutableblockpos = new BlockPos.MutableBlockPos();
+		BlockPos.PooledMutableBlockPos blockpos$mutableblockpos = BlockPos.PooledMutableBlockPos.retain();
 
 		for (int k1 = i; k1 <= j; ++k1) {
 			for (int l1 = k; l1 <= l; ++l1) {
@@ -1506,12 +1516,14 @@ public abstract class World implements IBlockAccess {
 					Block block = this.getBlockState(blockpos$mutableblockpos.set(k1, l1, i2)).getBlock();
 
 					if (block.getMaterial().isLiquid()) {
+						blockpos$mutableblockpos.release();
 						return true;
 					}
 				}
 			}
 		}
 
+		blockpos$mutableblockpos.release();
 		return false;
 	}
 
@@ -1524,7 +1536,7 @@ public abstract class World implements IBlockAccess {
 		int j1 = MathHelper.floor_double(bb.maxZ + 1.0D);
 
 		if (this.isAreaLoaded(i, k, i1, j, l, j1, true)) {
-			BlockPos.MutableBlockPos blockpos$mutableblockpos = new BlockPos.MutableBlockPos();
+			BlockPos.PooledMutableBlockPos blockpos$mutableblockpos = BlockPos.PooledMutableBlockPos.retain();
 
 			for (int k1 = i; k1 < j; ++k1) {
 				for (int l1 = k; l1 < l; ++l1) {
@@ -1532,11 +1544,14 @@ public abstract class World implements IBlockAccess {
 						Block block = this.getBlockState(blockpos$mutableblockpos.set(k1, l1, i2)).getBlock();
 
 						if (block == Blocks.fire || block == Blocks.flowing_lava || block == Blocks.lava) {
+							blockpos$mutableblockpos.release();
 							return true;
 						}
 					}
 				}
 			}
+			
+			blockpos$mutableblockpos.release();
 		}
 
 		return false;
@@ -1555,7 +1570,7 @@ public abstract class World implements IBlockAccess {
 		} else {
 			boolean flag = false;
 			Vec3 vec3 = new Vec3(0.0D, 0.0D, 0.0D);
-			BlockPos.MutableBlockPos blockpos$mutableblockpos = new BlockPos.MutableBlockPos();
+			BlockPos.PooledMutableBlockPos blockpos$mutableblockpos = BlockPos.PooledMutableBlockPos.retain();
 
 			for (int k1 = i; k1 < j; ++k1) {
 				for (int l1 = k; l1 < l; ++l1) {
@@ -1577,6 +1592,8 @@ public abstract class World implements IBlockAccess {
 				}
 			}
 
+			blockpos$mutableblockpos.release();
+			
 			if (vec3.lengthVector() > 0.0D && entityIn.isPushedByWater()) {
 				vec3 = vec3.normalize();
 				double d1 = 0.014D;
@@ -1596,19 +1613,21 @@ public abstract class World implements IBlockAccess {
 		int l = MathHelper.floor_double(bb.maxY + 1.0D);
 		int i1 = MathHelper.floor_double(bb.minZ);
 		int j1 = MathHelper.floor_double(bb.maxZ + 1.0D);
-		BlockPos.MutableBlockPos blockpos$mutableblockpos = new BlockPos.MutableBlockPos();
+		BlockPos.PooledMutableBlockPos blockpos$mutableblockpos = BlockPos.PooledMutableBlockPos.retain();
 
 		for (int k1 = i; k1 < j; ++k1) {
 			for (int l1 = k; l1 < l; ++l1) {
 				for (int i2 = i1; i2 < j1; ++i2) {
 					if (this.getBlockState(blockpos$mutableblockpos.set(k1, l1, i2)).getBlock()
 							.getMaterial() == materialIn) {
+						blockpos$mutableblockpos.release();
 						return true;
 					}
 				}
 			}
 		}
 
+		blockpos$mutableblockpos.release();
 		return false;
 	}
 
@@ -1619,7 +1638,7 @@ public abstract class World implements IBlockAccess {
 		int l = MathHelper.floor_double(bb.maxY + 1.0D);
 		int i1 = MathHelper.floor_double(bb.minZ);
 		int j1 = MathHelper.floor_double(bb.maxZ + 1.0D);
-		BlockPos.MutableBlockPos blockpos$mutableblockpos = new BlockPos.MutableBlockPos();
+		BlockPos.PooledMutableBlockPos blockpos$mutableblockpos = BlockPos.PooledMutableBlockPos.retain();
 
 		for (int k1 = i; k1 < j; ++k1) {
 			for (int l1 = k; l1 < l; ++l1) {
@@ -1636,6 +1655,7 @@ public abstract class World implements IBlockAccess {
 						}
 
 						if (d0 >= bb.minY) {
+							blockpos$mutableblockpos.release();
 							return true;
 						}
 					}
@@ -1643,6 +1663,7 @@ public abstract class World implements IBlockAccess {
 			}
 		}
 
+		blockpos$mutableblockpos.release();
 		return false;
 	}
 

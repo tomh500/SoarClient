@@ -592,28 +592,26 @@ public class BlockModelRenderer {
 		public void updateVertexBrightness(IBlockAccess blockAccessIn, Block blockIn, BlockPos blockPosIn,
 				EnumFacing facingIn, float[] quadBounds, BitSet boundsFlags) {
 			BlockPos blockpos = boundsFlags.get(0) ? blockPosIn.offset(facingIn) : blockPosIn;
-			BlockModelRenderer.EnumNeighborInfo blockmodelrenderer$enumneighborinfo = BlockModelRenderer.EnumNeighborInfo
-					.getNeighbourInfo(facingIn);
-			BlockPos blockpos1 = blockpos.offset(blockmodelrenderer$enumneighborinfo.field_178276_g[0]);
-			BlockPos blockpos2 = blockpos.offset(blockmodelrenderer$enumneighborinfo.field_178276_g[1]);
-			BlockPos blockpos3 = blockpos.offset(blockmodelrenderer$enumneighborinfo.field_178276_g[2]);
-			BlockPos blockpos4 = blockpos.offset(blockmodelrenderer$enumneighborinfo.field_178276_g[3]);
-			int i = blockIn.getMixedBrightnessForBlock(blockAccessIn, blockpos1);
-			int j = blockIn.getMixedBrightnessForBlock(blockAccessIn, blockpos2);
-			int k = blockIn.getMixedBrightnessForBlock(blockAccessIn, blockpos3);
-			int l = blockIn.getMixedBrightnessForBlock(blockAccessIn, blockpos4);
-			float f = BlockModelRenderer
-					.fixAoLightValue(blockAccessIn.getBlockState(blockpos1).getBlock().getAmbientOcclusionLightValue());
-			float f1 = BlockModelRenderer
-					.fixAoLightValue(blockAccessIn.getBlockState(blockpos2).getBlock().getAmbientOcclusionLightValue());
-			float f2 = BlockModelRenderer
-					.fixAoLightValue(blockAccessIn.getBlockState(blockpos3).getBlock().getAmbientOcclusionLightValue());
-			float f3 = BlockModelRenderer
-					.fixAoLightValue(blockAccessIn.getBlockState(blockpos4).getBlock().getAmbientOcclusionLightValue());
-			boolean flag = blockAccessIn.getBlockState(blockpos1.offset(facingIn)).getBlock().isTranslucent();
-			boolean flag1 = blockAccessIn.getBlockState(blockpos2.offset(facingIn)).getBlock().isTranslucent();
-			boolean flag2 = blockAccessIn.getBlockState(blockpos3.offset(facingIn)).getBlock().isTranslucent();
-			boolean flag3 = blockAccessIn.getBlockState(blockpos4.offset(facingIn)).getBlock().isTranslucent();
+			
+            BlockPos.PooledMutableBlockPos blockpos$pooledmutableblockpos = BlockPos.PooledMutableBlockPos.retain();
+            BlockModelRenderer.EnumNeighborInfo blockmodelrenderer$enumneighborinfo = BlockModelRenderer.EnumNeighborInfo.getNeighbourInfo(facingIn);
+            BlockPos.PooledMutableBlockPos blockpos$pooledmutableblockpos1 = BlockPos.PooledMutableBlockPos.retain(blockpos).move(blockmodelrenderer$enumneighborinfo.field_178276_g[0]);
+            BlockPos.PooledMutableBlockPos blockpos$pooledmutableblockpos2 = BlockPos.PooledMutableBlockPos.retain(blockpos).move(blockmodelrenderer$enumneighborinfo.field_178276_g[1]);
+            BlockPos.PooledMutableBlockPos blockpos$pooledmutableblockpos3 = BlockPos.PooledMutableBlockPos.retain(blockpos).move(blockmodelrenderer$enumneighborinfo.field_178276_g[2]);
+            BlockPos.PooledMutableBlockPos blockpos$pooledmutableblockpos4 = BlockPos.PooledMutableBlockPos.retain(blockpos).move(blockmodelrenderer$enumneighborinfo.field_178276_g[3]);
+            int i = blockIn.getMixedBrightnessForBlock(blockAccessIn, blockpos$pooledmutableblockpos1);
+            int j = blockIn.getMixedBrightnessForBlock(blockAccessIn, blockpos$pooledmutableblockpos2);
+            int k = blockIn.getMixedBrightnessForBlock(blockAccessIn, blockpos$pooledmutableblockpos3);
+            int l = blockIn.getMixedBrightnessForBlock(blockAccessIn, blockpos$pooledmutableblockpos4);
+            float f = BlockModelRenderer.fixAoLightValue(blockAccessIn.getBlockState(blockpos$pooledmutableblockpos1).getBlock().getAmbientOcclusionLightValue());
+            float f1 = BlockModelRenderer.fixAoLightValue(blockAccessIn.getBlockState(blockpos$pooledmutableblockpos2).getBlock().getAmbientOcclusionLightValue());
+            float f2 = BlockModelRenderer.fixAoLightValue(blockAccessIn.getBlockState(blockpos$pooledmutableblockpos3).getBlock().getAmbientOcclusionLightValue());
+            float f3 = BlockModelRenderer.fixAoLightValue(blockAccessIn.getBlockState(blockpos$pooledmutableblockpos4).getBlock().getAmbientOcclusionLightValue());
+            boolean flag = blockAccessIn.getBlockState(blockpos$pooledmutableblockpos.set(blockpos$pooledmutableblockpos1).move(facingIn)).getBlock().isTranslucent();
+            boolean flag1 = blockAccessIn.getBlockState(blockpos$pooledmutableblockpos.set(blockpos$pooledmutableblockpos2).move(facingIn)).getBlock().isTranslucent();
+            boolean flag2 = blockAccessIn.getBlockState(blockpos$pooledmutableblockpos.set(blockpos$pooledmutableblockpos3).move(facingIn)).getBlock().isTranslucent();
+            boolean flag3 = blockAccessIn.getBlockState(blockpos$pooledmutableblockpos.set(blockpos$pooledmutableblockpos4).move(facingIn)).getBlock().isTranslucent();
+            
 			float f4;
 			int i1;
 
@@ -621,7 +619,7 @@ public class BlockModelRenderer {
 				f4 = f;
 				i1 = i;
 			} else {
-				BlockPos blockpos5 = blockpos1.offset(blockmodelrenderer$enumneighborinfo.field_178276_g[2]);
+				BlockPos blockpos5 = blockpos$pooledmutableblockpos1.offset(blockmodelrenderer$enumneighborinfo.field_178276_g[2]);
 				f4 = BlockModelRenderer.fixAoLightValue(
 						blockAccessIn.getBlockState(blockpos5).getBlock().getAmbientOcclusionLightValue());
 				i1 = blockIn.getMixedBrightnessForBlock(blockAccessIn, blockpos5);
@@ -634,7 +632,7 @@ public class BlockModelRenderer {
 				f26 = f;
 				j1 = i;
 			} else {
-				BlockPos blockpos6 = blockpos1.offset(blockmodelrenderer$enumneighborinfo.field_178276_g[3]);
+				BlockPos blockpos6 = blockpos$pooledmutableblockpos1.offset(blockmodelrenderer$enumneighborinfo.field_178276_g[3]);
 				f26 = BlockModelRenderer.fixAoLightValue(
 						blockAccessIn.getBlockState(blockpos6).getBlock().getAmbientOcclusionLightValue());
 				j1 = blockIn.getMixedBrightnessForBlock(blockAccessIn, blockpos6);
@@ -647,7 +645,7 @@ public class BlockModelRenderer {
 				f27 = f1;
 				k1 = j;
 			} else {
-				BlockPos blockpos7 = blockpos2.offset(blockmodelrenderer$enumneighborinfo.field_178276_g[2]);
+				BlockPos blockpos7 = blockpos$pooledmutableblockpos2.offset(blockmodelrenderer$enumneighborinfo.field_178276_g[2]);
 				f27 = BlockModelRenderer.fixAoLightValue(
 						blockAccessIn.getBlockState(blockpos7).getBlock().getAmbientOcclusionLightValue());
 				k1 = blockIn.getMixedBrightnessForBlock(blockAccessIn, blockpos7);
@@ -660,7 +658,7 @@ public class BlockModelRenderer {
 				f28 = f1;
 				l1 = j;
 			} else {
-				BlockPos blockpos8 = blockpos2.offset(blockmodelrenderer$enumneighborinfo.field_178276_g[3]);
+				BlockPos blockpos8 = blockpos$pooledmutableblockpos2.offset(blockmodelrenderer$enumneighborinfo.field_178276_g[3]);
 				f28 = BlockModelRenderer.fixAoLightValue(
 						blockAccessIn.getBlockState(blockpos8).getBlock().getAmbientOcclusionLightValue());
 				l1 = blockIn.getMixedBrightnessForBlock(blockAccessIn, blockpos8);

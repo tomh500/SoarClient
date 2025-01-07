@@ -1149,10 +1149,14 @@ public abstract class EntityLivingBase extends Entity {
 				if (!this.isInLava() || this instanceof EntityPlayer && ((EntityPlayer) this).capabilities.isFlying) {
 					float f4 = 0.91F;
 
+					BlockPos.PooledMutableBlockPos blockpos$pooledmutableblockpos = BlockPos.PooledMutableBlockPos
+							.retain(MathHelper.floor_double(this.posX),
+									MathHelper.floor_double(this.getEntityBoundingBox().minY) - 1,
+									MathHelper.floor_double(this.posZ));
+
 					if (this.onGround) {
-						f4 = this.worldObj.getBlockState(new BlockPos(MathHelper.floor_double(this.posX),
-								MathHelper.floor_double(this.getEntityBoundingBox().minY) - 1,
-								MathHelper.floor_double(this.posZ))).getBlock().slipperiness * 0.91F;
+						f4 = this.worldObj.getBlockState(blockpos$pooledmutableblockpos).getBlock().slipperiness
+								* 0.91F;
 					}
 
 					float f = 0.16277136F / (f4 * f4 * f4);
@@ -1168,9 +1172,11 @@ public abstract class EntityLivingBase extends Entity {
 					f4 = 0.91F;
 
 					if (this.onGround) {
-						f4 = this.worldObj.getBlockState(new BlockPos(MathHelper.floor_double(this.posX),
+						blockpos$pooledmutableblockpos.set(MathHelper.floor_double(this.posX),
 								MathHelper.floor_double(this.getEntityBoundingBox().minY) - 1,
-								MathHelper.floor_double(this.posZ))).getBlock().slipperiness * 0.91F;
+								MathHelper.floor_double(this.posZ));
+						f4 = this.worldObj.getBlockState(blockpos$pooledmutableblockpos).getBlock().slipperiness
+								* 0.91F;
 					}
 
 					if (this.isOnLadder()) {
@@ -1196,11 +1202,9 @@ public abstract class EntityLivingBase extends Entity {
 						this.motionY = 0.2D;
 					}
 
-					if (this.worldObj.isRemote
-							&& (!this.worldObj.isBlockLoaded(new BlockPos((int) this.posX, 0, (int) this.posZ))
-									|| !this.worldObj
-											.getChunkFromBlockCoords(new BlockPos((int) this.posX, 0, (int) this.posZ))
-											.isLoaded())) {
+					blockpos$pooledmutableblockpos.set((int) this.posX, 0, (int) this.posZ);
+					if (this.worldObj.isRemote && (!this.worldObj.isBlockLoaded(blockpos$pooledmutableblockpos)
+							|| !this.worldObj.getChunkFromBlockCoords(blockpos$pooledmutableblockpos).isLoaded())) {
 						if (this.posY > 0.0D) {
 							this.motionY = -0.1D;
 						} else {
@@ -1213,6 +1217,8 @@ public abstract class EntityLivingBase extends Entity {
 					this.motionY *= 0.9800000190734863D;
 					this.motionX *= f4;
 					this.motionZ *= f4;
+
+					blockpos$pooledmutableblockpos.release();
 				} else {
 					double d1 = this.posY;
 					this.moveFlying(strafe, forward, 0.02F);
