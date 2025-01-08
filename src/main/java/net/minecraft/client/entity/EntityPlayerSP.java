@@ -1,9 +1,9 @@
 package net.minecraft.client.entity;
 
 import com.soarclient.event.EventBus;
-import com.soarclient.event.impl.PlayerEventListener.MotionUpdateEvent;
-import com.soarclient.event.impl.PlayerEventListener.SendChatEvent;
-import com.soarclient.event.impl.PlayerEventListener.UpdateEvent;
+import com.soarclient.event.impl.MotionUpdateEventListener.MotionUpdateEvent;
+import com.soarclient.event.impl.SendChatEventListener.SendChatEvent;
+import com.soarclient.event.impl.UpdateEventListener.UpdateEvent;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.MovingSoundMinecartRiding;

@@ -50,12 +50,13 @@ import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.minecraft.MinecraftSessionService;
 import com.mojang.authlib.properties.PropertyMap;
 import com.mojang.authlib.yggdrasil.YggdrasilAuthenticationService;
+import com.soarclient.Soar;
 import com.soarclient.event.EventBus;
+import com.soarclient.event.impl.ClientTickEventListener.ClientTickEvent;
 import com.soarclient.event.impl.GameLoopEventListener.GameLoopEvent;
-import com.soarclient.event.impl.MouseEventListener.MouseClickEvent;
-import com.soarclient.event.impl.MouseEventListener.MouseScrollEvent;
-import com.soarclient.event.impl.TickEventListener.ClientTickEvent;
-import com.soarclient.event.impl.TickEventListener.RenderTickEvent;
+import com.soarclient.event.impl.MouseClickEventListener.MouseClickEvent;
+import com.soarclient.event.impl.MouseScrollEventListener.MouseScrollEvent;
+import com.soarclient.event.impl.RenderTickEventListener.RenderTickEvent;
 import com.soarclient.skia.context.SkiaContext;
 
 import net.minecraft.block.Block;
@@ -543,6 +544,7 @@ public class Minecraft implements IThreadListener {
 		this.effectRenderer = new EffectRenderer(this.theWorld, this.renderEngine);
 		this.checkGLError("Post startup");
 		this.ingameGUI = new GuiIngame(this);
+		Soar.getInstance().start();
 
 		if (this.serverName != null) {
 			this.displayGuiScreen(new GuiConnecting(new GuiMainMenu(), this, this.serverName, this.serverPort));
@@ -585,7 +587,8 @@ public class Minecraft implements IThreadListener {
 
 	private void createDisplay() throws LWJGLException {
 		Display.setResizable(true);
-		Display.setTitle("Minecraft 1.8.9");
+		Display.setTitle(
+				Soar.getInstance().getName() + " Client v" + Soar.getInstance().getVersion() + " for Minecraft 1.8.9");
 
 		try {
 			Display.create((new PixelFormat()).withDepthBits(24));
@@ -952,7 +955,8 @@ public class Minecraft implements IThreadListener {
 	public void shutdownMinecraftApplet() {
 		try {
 			logger.info("Stopping!");
-
+			Soar.getInstance().stop();
+			
 			try {
 				this.loadWorld(null);
 			} catch (Throwable var5) {
@@ -974,9 +978,9 @@ public class Minecraft implements IThreadListener {
 	 * Called repeatedly from run()
 	 */
 	private void runGameLoop() throws IOException {
-		
+
 		EventBus.getInstance().call(GameLoopEvent.ID, new GameLoopEvent());
-		
+
 		long i = System.nanoTime();
 		this.mcProfiler.startSection("root");
 
@@ -1461,7 +1465,7 @@ public class Minecraft implements IThreadListener {
 	 * Toggles fullscreen mode.
 	 */
 	public void toggleFullscreen() {
-		
+
 		try {
 			this.fullscreen = !this.fullscreen;
 			this.gameSettings.fullScreen = this.fullscreen;
@@ -1629,7 +1633,7 @@ public class Minecraft implements IThreadListener {
 				long i1 = getSystemTime() - this.systemTime;
 
 				if (i1 <= 200L) {
-					
+
 					int j = onScroll();
 
 					if (j != 0) {
@@ -2377,7 +2381,7 @@ public class Minecraft implements IThreadListener {
 			}
 		});
 	}
-	
+
 	/**
 	 * Used in the usage snooper.
 	 */
@@ -2577,7 +2581,7 @@ public class Minecraft implements IThreadListener {
 
 		return dWheel;
 	}
-	
+
 	public MinecraftSessionService getSessionService() {
 		return this.sessionService;
 	}

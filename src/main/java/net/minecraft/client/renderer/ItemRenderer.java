@@ -3,8 +3,8 @@ package net.minecraft.client.renderer;
 import org.lwjgl.opengl.GL11;
 
 import com.soarclient.event.EventBus;
-import com.soarclient.event.impl.OverlayEventListener.RenderFireOverlayEvent;
-import com.soarclient.event.impl.OverlayEventListener.RenderWaterOverlayEvent;
+import com.soarclient.event.impl.RenderFireOverlayEventListener.RenderFireOverlayEvent;
+import com.soarclient.event.impl.RenderWaterOverlayEventListener.RenderWaterOverlayEvent;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;

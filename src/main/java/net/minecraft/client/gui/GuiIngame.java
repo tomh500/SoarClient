@@ -8,9 +8,9 @@ import com.google.common.base.Predicate;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.soarclient.event.EventBus;
-import com.soarclient.event.impl.OverlayEventListener.RenderPumpkinOverlayEvent;
-import com.soarclient.event.impl.RenderEventListener.RenderGameOverlayEvent;
-import com.soarclient.event.impl.RenderEventListener.RenderSkiaEvent;
+import com.soarclient.event.impl.RenderGameOverlayEventListener.RenderGameOverlayEvent;
+import com.soarclient.event.impl.RenderPumpkinOverlayEventListener.RenderPumpkinOverlayEvent;
+import com.soarclient.event.impl.RenderSkiaEventListener.RenderSkiaEvent;
 import com.soarclient.skia.context.SkiaContext;
 
 import net.minecraft.block.material.Material;
@@ -337,10 +337,10 @@ public class GuiIngame extends Gui {
 		GlStateManager.enableAlpha();
 		
 		SkiaContext.draw((context) -> {
-			EventBus.getInstance().register(RenderSkiaEvent.ID, new RenderSkiaEvent());
+			EventBus.getInstance().call(RenderSkiaEvent.ID, new RenderSkiaEvent());
 		});
 		
-		EventBus.getInstance().register(RenderGameOverlayEvent.ID, new RenderGameOverlayEvent());
+		EventBus.getInstance().call(RenderGameOverlayEvent.ID, new RenderGameOverlayEvent());
 	}
 
 	protected void renderTooltip(ScaledResolution sr, float partialTicks) {

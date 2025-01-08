@@ -4,31 +4,28 @@ import io.github.humbleui.skija.Font;
 
 public class Fonts {
 
+	private static final String REGULAR = "Inter-Regular-CJKsc.ttf";
+	private static final String MEDIUM = "Inter-Medium-CJKsc.ttf";
+	private static final String ICON_FILL = "MaterialSymbolsRounded_Fill.ttf";
+	private static final String ICON = "MaterialSymbolsRounded.ttf";
+	
+	public static void loadAll() {
+		FontHelper.preloadFonts(REGULAR, MEDIUM, ICON_FILL, ICON);
+	}
+	
 	public static Font getRegular(float size) {
-		return FontHelper.load("Inter-Regular-CJKsc.ttf", size);
+		return FontHelper.load(REGULAR, size);
 	}
 
 	public static Font getMedium(float size) {
-		return FontHelper.load("Inter-Medium-CJKsc.ttf", size);
-	}
-
-	public static Font getLight(float size) {
-		return FontHelper.load("Inter-Light-CJKsc.ttf", size);
-	}
-
-	public static Font getBold(float size) {
-		return FontHelper.load("Inter-Bold-CJKsc.ttf", size);
+		return FontHelper.load(MEDIUM, size);
 	}
 
 	public static Font getIconFill(float size) {
-		return FontHelper.load("MaterialSymbolsRounded_Fill.ttf", size);
+		return FontHelper.load(ICON_FILL, size);
 	}
 
 	public static Font getIcon(float size) {
-		return FontHelper.load("MaterialSymbolsRounded.ttf", size);
-	}
-
-	public static Font getNotoColorEmoji(float size) {
-		return FontHelper.load("NotoColorEmoji.ttf", size);
+		return FontHelper.load(ICON, size);
 	}
 }

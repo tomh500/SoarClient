@@ -17,7 +17,7 @@ import com.google.common.util.concurrent.FutureCallback;
 import com.google.common.util.concurrent.Futures;
 import com.mojang.authlib.GameProfile;
 import com.soarclient.event.EventBus;
-import com.soarclient.event.impl.PlayerEventListener.DamageEntityEvent;
+import com.soarclient.event.impl.DamageEntityEventListener.DamageEntityEvent;
 
 import io.netty.buffer.Unpooled;
 import net.minecraft.block.Block;
@@ -61,7 +61,6 @@ import net.minecraft.entity.IMerchant;
 import net.minecraft.entity.NpcMerchant;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.ai.attributes.BaseAttributeMap;
-import net.minecraft.entity.ai.attributes.IAttribute;
 import net.minecraft.entity.ai.attributes.IAttributeInstance;
 import net.minecraft.entity.ai.attributes.RangedAttribute;
 import net.minecraft.entity.effect.EntityLightningBolt;

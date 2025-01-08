@@ -18,7 +18,7 @@ import com.google.common.base.Predicate;
 import com.google.common.base.Predicates;
 import com.google.gson.JsonSyntaxException;
 import com.soarclient.event.EventBus;
-import com.soarclient.event.impl.CameraEventListener.HurtCameraEvent;
+import com.soarclient.event.impl.HurtCameraEventListener.HurtCameraEvent;
 import com.soarclient.event.impl.ShaderEventListener.ShaderEvent;
 
 import net.minecraft.block.Block;

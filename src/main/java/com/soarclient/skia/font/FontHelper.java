@@ -41,4 +41,10 @@ public class FontHelper {
     public static void clearCache() {
         typefaceCache.clear();
     }
+    
+    public static void preloadFonts(String... fonts) {
+        for (String font : fonts) {
+            getTypeface(font, getFontType(font));
+        }
+    }
 }

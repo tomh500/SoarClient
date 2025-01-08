@@ -1,12 +1,13 @@
 package net.minecraft.client.multiplayer;
 
-import com.google.common.collect.Sets;
-import com.soarclient.event.EventBus;
-import com.soarclient.event.impl.ServerEventListener.LeaveServerEvent;
-
 import java.util.Random;
 import java.util.Set;
 import java.util.concurrent.Callable;
+
+import com.google.common.collect.Sets;
+import com.soarclient.event.EventBus;
+import com.soarclient.event.impl.ServerLeaveEventListener.LeaveServerEvent;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;

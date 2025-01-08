@@ -17,8 +17,8 @@ import org.apache.logging.log4j.MarkerManager;
 import com.google.common.collect.Queues;
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import com.soarclient.event.EventBus;
-import com.soarclient.event.impl.PacketEventListener.ReceivePacketEvent;
-import com.soarclient.event.impl.PacketEventListener.SendPacketEvent;
+import com.soarclient.event.impl.ReceivePacketEventListener.ReceivePacketEvent;
+import com.soarclient.event.impl.SendPacketEventListener.SendPacketEvent;
 
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.Channel;

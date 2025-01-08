@@ -8,8 +8,8 @@ import com.google.common.base.Charsets;
 import com.google.common.collect.Lists;
 import com.mojang.authlib.GameProfile;
 import com.soarclient.event.EventBus;
-import com.soarclient.event.impl.PlayerEventListener.AttackEntityEvent;
-import com.soarclient.event.impl.PlayerEventListener.JumpEvent;
+import com.soarclient.event.impl.AttackEntityEventListener.AttackEntityEvent;
+import com.soarclient.event.impl.JumpEventListener.JumpEvent;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockBed;

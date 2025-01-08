@@ -44,6 +44,12 @@ public class EventBus {
         }
     }
 
+    public void register(final Object object, final int... ids) {
+        for (int id : ids) {
+        	register(id, object);
+        }
+    }
+    
     public void register(final int id, final Object object) {
         if (registers.length <= id) setEventCapacity(id + 1);
 
