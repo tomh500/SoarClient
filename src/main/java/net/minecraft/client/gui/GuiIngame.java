@@ -1,13 +1,19 @@
 package net.minecraft.client.gui;
 
+import java.awt.Color;
 import java.util.Collection;
 import java.util.List;
 import java.util.Random;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.Future;
 
 import com.google.common.base.Predicate;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
+import com.soarclient.skia.context.SkiaContext;
 
+import io.github.humbleui.skija.Paint;
+import io.github.humbleui.types.Rect;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
@@ -102,7 +108,7 @@ public class GuiIngame extends Gui {
 
 	/** Used with updateCounter to make the heart bar flash */
 	private long healthUpdateCounter = 0L;
-
+	
 	public GuiIngame(Minecraft mcIn) {
 		this.mc = mcIn;
 		this.itemRenderer = mcIn.getRenderItem();
@@ -330,6 +336,13 @@ public class GuiIngame extends Gui {
 		GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
 		GlStateManager.disableLighting();
 		GlStateManager.enableAlpha();
+		
+		SkiaContext.draw((context) -> {
+    		Paint paint = new Paint();
+    		Color color = Color.WHITE;
+    		paint.setARGB(color.getAlpha(), color.getRed(), color.getGreen(), color.getBlue());
+    		SkiaContext.getCanvas().drawRect(Rect.makeXYWH(90, 0, 100, 100), paint);
+		});
 	}
 
 	protected void renderTooltip(ScaledResolution sr, float partialTicks) {

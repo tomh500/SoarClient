@@ -50,6 +50,7 @@ import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.minecraft.MinecraftSessionService;
 import com.mojang.authlib.properties.PropertyMap;
 import com.mojang.authlib.yggdrasil.YggdrasilAuthenticationService;
+import com.soarclient.skia.context.SkiaContext;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
@@ -559,6 +560,8 @@ public class Minecraft implements IThreadListener {
 		}
 
 		this.renderGlobal.makeEntityOutlineShader();
+		SkiaContext.initialize();
+		SkiaContext.createSurface();
 	}
 
 	private void registerMetadataSerializers() {
@@ -1507,6 +1510,7 @@ public class Minecraft implements IThreadListener {
 
 		this.loadingScreen = new LoadingScreenRenderer(this);
 		this.updateFramebufferSize();
+		SkiaContext.onResize(width, height);
 	}
 
 	private void updateFramebufferSize() {
