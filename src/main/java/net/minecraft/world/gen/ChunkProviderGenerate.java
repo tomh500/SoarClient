@@ -2,7 +2,6 @@ package net.minecraft.world.gen;
 
 import java.util.List;
 import java.util.Random;
-
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockFalling;
 import net.minecraft.entity.EnumCreatureType;
@@ -27,15 +26,24 @@ import net.minecraft.world.gen.structure.MapGenVillage;
 import net.minecraft.world.gen.structure.StructureOceanMonument;
 
 public class ChunkProviderGenerate implements IChunkProvider {
+	/** RNG. */
 	private final Random rand;
 	private final NoiseGeneratorOctaves field_147431_j;
 	private final NoiseGeneratorOctaves field_147432_k;
 	private final NoiseGeneratorOctaves field_147429_l;
 	private final NoiseGeneratorPerlin field_147430_m;
+
+	/** A NoiseGeneratorOctaves used in generating terrain */
 	public NoiseGeneratorOctaves noiseGen5;
+
+	/** A NoiseGeneratorOctaves used in generating terrain */
 	public NoiseGeneratorOctaves noiseGen6;
 	public NoiseGeneratorOctaves mobSpawnerNoise;
+
+	/** Reference to the World object. */
 	private final World worldObj;
+
+	/** are map structures going to be generated (e.g. strongholds) */
 	private final boolean mapFeaturesEnabled;
 	private final WorldType field_177475_o;
 	private final double[] field_147434_q;
@@ -44,12 +52,22 @@ public class ChunkProviderGenerate implements IChunkProvider {
 	private Block oceanBlockTmpl = Blocks.water;
 	private double[] stoneNoise = new double[256];
 	private final MapGenBase caveGenerator = new MapGenCaves();
+
+	/** Holds Stronghold Generator */
 	private final MapGenStronghold strongholdGenerator = new MapGenStronghold();
+
+	/** Holds Village Generator */
 	private final MapGenVillage villageGenerator = new MapGenVillage();
+
+	/** Holds Mineshaft Generator */
 	private final MapGenMineshaft mineshaftGenerator = new MapGenMineshaft();
 	private final MapGenScatteredFeature scatteredFeatureGenerator = new MapGenScatteredFeature();
+
+	/** Holds ravine generator */
 	private final MapGenBase ravineGenerator = new MapGenRavine();
 	private final StructureOceanMonument oceanMonumentGenerator = new StructureOceanMonument();
+
+	/** The biomes that are used to generate the chunk */
 	private BiomeGenBase[] biomesForGeneration;
 	double[] mainNoiseArray;
 	double[] lowerLimitNoiseArray;
@@ -85,6 +103,10 @@ public class ChunkProviderGenerate implements IChunkProvider {
 		}
 	}
 
+	/**
+	 * Generates a bare-bones chunk of nothing but stone or ocean blocks, formed,
+	 * but featureless.
+	 */
 	public void setBlocksInChunk(int x, int z, ChunkPrimer primer) {
 		this.biomesForGeneration = this.worldObj.getWorldChunkManager().getBiomesForGeneration(this.biomesForGeneration,
 				x * 4 - 2, z * 4 - 2, 10, 10);
@@ -147,6 +169,10 @@ public class ChunkProviderGenerate implements IChunkProvider {
 		}
 	}
 
+	/**
+	 * Possibly reshapes the biome if appropriate for the biome type, and replaces
+	 * some stone with things like dirt, grass, gravel, ice
+	 */
 	public void replaceBlocksForBiome(int x, int z, ChunkPrimer primer, BiomeGenBase[] biomeGens) {
 		double d0 = 0.03125D;
 		this.stoneNoise = this.field_147430_m.func_151599_a(this.stoneNoise, x * 16, z * 16, 16, 16, d0 * 2.0D,
@@ -161,6 +187,11 @@ public class ChunkProviderGenerate implements IChunkProvider {
 		}
 	}
 
+	/**
+	 * Will return back a chunk, if it doesn't exist and its not a MP client it will
+	 * generates all the blocks for the specified chunk from the map seed and chunk
+	 * seed
+	 */
 	public Chunk provideChunk(int x, int z) {
 		this.rand.setSeed((long) x * 341873128712L + (long) z * 132897987541L);
 		ChunkPrimer chunkprimer = new ChunkPrimer();
@@ -318,10 +349,16 @@ public class ChunkProviderGenerate implements IChunkProvider {
 		}
 	}
 
+	/**
+	 * Checks to see if a chunk exists at x, z
+	 */
 	public boolean chunkExists(int x, int z) {
 		return true;
 	}
 
+	/**
+	 * Populates chunk with ores etc etc
+	 */
 	public void populate(IChunkProvider chunkProvider, int x, int z) {
 		BlockFalling.fallInstantly = true;
 		int i = x * 16;
@@ -415,21 +452,39 @@ public class ChunkProviderGenerate implements IChunkProvider {
 		return flag;
 	}
 
+	/**
+	 * Two modes of operation: if passed true, save all Chunks in one go. If passed
+	 * false, save up to two chunks. Return true if all chunks have been saved.
+	 */
 	public boolean saveChunks(boolean saveAllChunks, IProgressUpdate progressCallback) {
 		return true;
 	}
 
+	/**
+	 * Save extra data not associated with any Chunk. Not saved during autosave,
+	 * only during world unload. Currently unimplemented.
+	 */
 	public void saveExtraData() {
 	}
 
+	/**
+	 * Unloads chunks that are marked to be unloaded. This is not guaranteed to
+	 * unload every such chunk.
+	 */
 	public boolean unloadQueuedChunks() {
 		return false;
 	}
 
+	/**
+	 * Returns if the IChunkProvider supports saving.
+	 */
 	public boolean canSave() {
 		return true;
 	}
 
+	/**
+	 * Converts the instance data to a readable string.
+	 */
 	public String makeString() {
 		return "RandomLevelSource";
 	}

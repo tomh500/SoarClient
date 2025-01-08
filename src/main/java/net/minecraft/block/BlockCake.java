@@ -1,7 +1,6 @@
 package net.minecraft.block;
 
 import java.util.Random;
-
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.properties.PropertyInteger;
@@ -34,6 +33,9 @@ public class BlockCake extends Block {
 		this.setBlockBounds(f1, 0.0F, f, 1.0F - f, f2, 1.0F - f);
 	}
 
+	/**
+	 * Sets the block's bounds for rendering it as an item
+	 */
 	public void setBlockBoundsForItemRender() {
 		float f = 0.0625F;
 		float f1 = 0.5F;
@@ -56,6 +58,10 @@ public class BlockCake extends Block {
 		return false;
 	}
 
+	/**
+	 * Used to determine ambient occlusion and culling when rebuilding chunks for
+	 * render
+	 */
 	public boolean isOpaqueCube() {
 		return false;
 	}
@@ -88,6 +94,9 @@ public class BlockCake extends Block {
 		return super.canPlaceBlockAt(worldIn, pos) && this.canBlockStay(worldIn, pos);
 	}
 
+	/**
+	 * Called when a neighboring block changes.
+	 */
 	public void onNeighborBlockChange(World worldIn, BlockPos pos, IBlockState state, Block neighborBlock) {
 		if (!this.canBlockStay(worldIn, pos)) {
 			worldIn.setBlockToAir(pos);
@@ -98,10 +107,16 @@ public class BlockCake extends Block {
 		return worldIn.getBlockState(pos.down()).getBlock().getMaterial().isSolid();
 	}
 
+	/**
+	 * Returns the quantity of items to drop on block destruction.
+	 */
 	public int quantityDropped(Random random) {
 		return 0;
 	}
 
+	/**
+	 * Get the Item that this Block should drop when harvested.
+	 */
 	public Item getItemDropped(IBlockState state, Random rand, int fortune) {
 		return null;
 	}
@@ -114,10 +129,16 @@ public class BlockCake extends Block {
 		return EnumWorldBlockLayer.CUTOUT;
 	}
 
+	/**
+	 * Convert the given metadata into a BlockState for this Block
+	 */
 	public IBlockState getStateFromMeta(int meta) {
 		return this.getDefaultState().withProperty(BITES, Integer.valueOf(meta));
 	}
 
+	/**
+	 * Convert the BlockState into the correct metadata value
+	 */
 	public int getMetaFromState(IBlockState state) {
 		return state.getValue(BITES).intValue();
 	}

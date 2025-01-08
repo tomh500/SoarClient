@@ -1,7 +1,6 @@
 package net.minecraft.world.gen.structure;
 
 import java.util.Random;
-
 import net.minecraft.world.World;
 
 public class StructureMineshaftStart extends StructureStart {

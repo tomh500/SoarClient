@@ -1,9 +1,5 @@
 package net.minecraft.util;
 
-import java.lang.reflect.Type;
-import java.util.List;
-import java.util.Map.Entry;
-
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonArray;
@@ -15,24 +11,48 @@ import com.google.gson.JsonParseException;
 import com.google.gson.JsonPrimitive;
 import com.google.gson.JsonSerializationContext;
 import com.google.gson.JsonSerializer;
+import java.lang.reflect.Type;
+import java.util.List;
+import java.util.Map.Entry;
 
 public interface IChatComponent extends Iterable<IChatComponent> {
 	IChatComponent setChatStyle(ChatStyle style);
 
 	ChatStyle getChatStyle();
 
+	/**
+	 * Appends the given text to the end of this component.
+	 */
 	IChatComponent appendText(String text);
 
+	/**
+	 * Appends the given component to the end of this one.
+	 */
 	IChatComponent appendSibling(IChatComponent component);
 
+	/**
+	 * Gets the text of this component, without any special formatting codes added,
+	 * for chat. TODO: why is this two different methods?
+	 */
 	String getUnformattedTextForChat();
 
+	/**
+	 * Get the text of this component, <em>and all child components</em>, with all
+	 * special formatting codes removed.
+	 */
 	String getUnformattedText();
 
+	/**
+	 * Gets the text of this component, with formatting codes added for rendering.
+	 */
 	String getFormattedText();
 
 	List<IChatComponent> getSiblings();
 
+	/**
+	 * Creates a copy of this component. Almost a deep copy, except the style is
+	 * shallow-copied.
+	 */
 	IChatComponent createCopy();
 
 	class Serializer implements JsonDeserializer<IChatComponent>, JsonSerializer<IChatComponent> {

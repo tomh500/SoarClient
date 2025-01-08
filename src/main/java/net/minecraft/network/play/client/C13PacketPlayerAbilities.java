@@ -1,7 +1,6 @@
 package net.minecraft.network.play.client;
 
 import java.io.IOException;
-
 import net.minecraft.entity.player.PlayerCapabilities;
 import net.minecraft.network.Packet;
 import net.minecraft.network.PacketBuffer;
@@ -27,6 +26,9 @@ public class C13PacketPlayerAbilities implements Packet<INetHandlerPlayServer> {
 		this.setWalkSpeed(capabilities.getWalkSpeed());
 	}
 
+	/**
+	 * Reads the raw packet data from the data stream.
+	 */
 	public void readPacketData(PacketBuffer buf) throws IOException {
 		byte b0 = buf.readByte();
 		this.setInvulnerable((b0 & 1) > 0);
@@ -37,6 +39,9 @@ public class C13PacketPlayerAbilities implements Packet<INetHandlerPlayServer> {
 		this.setWalkSpeed(buf.readFloat());
 	}
 
+	/**
+	 * Writes the raw packet data to the data stream.
+	 */
 	public void writePacketData(PacketBuffer buf) throws IOException {
 		byte b0 = 0;
 
@@ -61,6 +66,9 @@ public class C13PacketPlayerAbilities implements Packet<INetHandlerPlayServer> {
 		buf.writeFloat(this.walkSpeed);
 	}
 
+	/**
+	 * Passes this Packet on to the NetHandler for processing.
+	 */
 	public void processPacket(INetHandlerPlayServer handler) {
 		handler.processPlayerAbilities(this);
 	}

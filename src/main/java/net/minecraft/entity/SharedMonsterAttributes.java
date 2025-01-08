@@ -2,10 +2,6 @@ package net.minecraft.entity;
 
 import java.util.Collection;
 import java.util.UUID;
-
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
 import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.ai.attributes.BaseAttributeMap;
 import net.minecraft.entity.ai.attributes.IAttribute;
@@ -13,6 +9,8 @@ import net.minecraft.entity.ai.attributes.IAttributeInstance;
 import net.minecraft.entity.ai.attributes.RangedAttribute;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class SharedMonsterAttributes {
 	private static final Logger logger = LogManager.getLogger();
@@ -27,6 +25,10 @@ public class SharedMonsterAttributes {
 	public static final IAttribute attackDamage = new RangedAttribute(null, "generic.attackDamage", 2.0D, 0.0D,
 			2048.0D);
 
+	/**
+	 * Creates an NBTTagList from a BaseAttributeMap, including all its
+	 * AttributeInstances
+	 */
 	public static NBTTagList writeBaseAttributeMapToNBT(BaseAttributeMap map) {
 		NBTTagList nbttaglist = new NBTTagList();
 
@@ -37,6 +39,10 @@ public class SharedMonsterAttributes {
 		return nbttaglist;
 	}
 
+	/**
+	 * Creates an NBTTagCompound from an AttributeInstance, including its
+	 * AttributeModifiers
+	 */
 	private static NBTTagCompound writeAttributeInstanceToNBT(IAttributeInstance instance) {
 		NBTTagCompound nbttagcompound = new NBTTagCompound();
 		IAttribute iattribute = instance.getAttribute();
@@ -59,6 +65,9 @@ public class SharedMonsterAttributes {
 		return nbttagcompound;
 	}
 
+	/**
+	 * Creates an NBTTagCompound from an AttributeModifier
+	 */
 	private static NBTTagCompound writeAttributeModifierToNBT(AttributeModifier modifier) {
 		NBTTagCompound nbttagcompound = new NBTTagCompound();
 		nbttagcompound.setString("Name", modifier.getName());
@@ -104,6 +113,9 @@ public class SharedMonsterAttributes {
 		}
 	}
 
+	/**
+	 * Creates an AttributeModifier from an NBTTagCompound
+	 */
 	public static AttributeModifier readAttributeModifierFromNBT(NBTTagCompound compound) {
 		UUID uuid = new UUID(compound.getLong("UUIDMost"), compound.getLong("UUIDLeast"));
 

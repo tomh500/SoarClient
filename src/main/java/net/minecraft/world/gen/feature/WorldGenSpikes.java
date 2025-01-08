@@ -1,7 +1,6 @@
 package net.minecraft.world.gen.feature;
 
 import java.util.Random;
-
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityEnderCrystal;

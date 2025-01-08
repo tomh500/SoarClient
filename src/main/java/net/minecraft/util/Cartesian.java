@@ -1,16 +1,15 @@
 package net.minecraft.util;
 
+import com.google.common.base.Function;
+import com.google.common.collect.Iterables;
+import com.google.common.collect.Lists;
+import com.google.common.collect.UnmodifiableIterator;
 import java.lang.reflect.Array;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.NoSuchElementException;
-
-import com.google.common.base.Function;
-import com.google.common.collect.Iterables;
-import com.google.common.collect.Lists;
-import com.google.common.collect.UnmodifiableIterator;
 
 public class Cartesian {
 	public static <T> Iterable<T[]> cartesianProduct(Class<T> clazz, Iterable<? extends Iterable<? extends T>> sets) {
@@ -58,12 +57,9 @@ public class Cartesian {
 		}
 
 		public Iterator<T[]> iterator() {
-			if (this.iterables.length <= 0) {
-				T[] emptyArray = Cartesian.createArray(this.clazz, 0);
-				return Collections.singletonList(emptyArray).iterator();
-			} else {
-				return new ProductIterator<>(this.clazz, this.iterables);
-			}
+			return (Iterator<T[]>) (this.iterables.length <= 0
+					? Collections.singletonList((Object[]) Cartesian.createArray(this.clazz, 0)).iterator()
+					: new Cartesian.Product.ProductIterator(this.clazz, this.iterables));
 		}
 
 		static class ProductIterator<T> extends UnmodifiableIterator<T[]> {

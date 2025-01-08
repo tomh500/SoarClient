@@ -2,7 +2,6 @@ package net.minecraft.network.play.server;
 
 import java.io.IOException;
 import java.util.List;
-
 import net.minecraft.entity.DataWatcher;
 import net.minecraft.entity.EntityList;
 import net.minecraft.entity.EntityLivingBase;
@@ -73,6 +72,9 @@ public class S0FPacketSpawnMob implements Packet<INetHandlerPlayClient> {
 		this.field_149043_l = entityIn.getDataWatcher();
 	}
 
+	/**
+	 * Reads the raw packet data from the data stream.
+	 */
 	public void readPacketData(PacketBuffer buf) throws IOException {
 		this.entityId = buf.readVarIntFromBuffer();
 		this.type = buf.readByte() & 255;
@@ -88,6 +90,9 @@ public class S0FPacketSpawnMob implements Packet<INetHandlerPlayClient> {
 		this.watcher = DataWatcher.readWatchedListFromPacketBuffer(buf);
 	}
 
+	/**
+	 * Writes the raw packet data to the data stream.
+	 */
 	public void writePacketData(PacketBuffer buf) throws IOException {
 		buf.writeVarIntToBuffer(this.entityId);
 		buf.writeByte(this.type & 255);
@@ -103,6 +108,9 @@ public class S0FPacketSpawnMob implements Packet<INetHandlerPlayClient> {
 		this.field_149043_l.writeTo(buf);
 	}
 
+	/**
+	 * Passes this Packet on to the NetHandler for processing.
+	 */
 	public void processPacket(INetHandlerPlayClient handler) {
 		handler.handleSpawnMob(this);
 	}

@@ -1,8 +1,7 @@
 package net.minecraft.event;
 
-import java.util.Map;
-
 import com.google.common.collect.Maps;
+import java.util.Map;
 
 public class ClickEvent {
 	private final ClickEvent.Action action;
@@ -13,10 +12,17 @@ public class ClickEvent {
 		this.value = theValue;
 	}
 
+	/**
+	 * Gets the action to perform when this event is raised.
+	 */
 	public ClickEvent.Action getAction() {
 		return this.action;
 	}
 
+	/**
+	 * Gets the value to perform the action on when this event is raised. For
+	 * example, if the action is "open URL", this would be the URL to open.
+	 */
 	public String getValue() {
 		return this.value;
 	}

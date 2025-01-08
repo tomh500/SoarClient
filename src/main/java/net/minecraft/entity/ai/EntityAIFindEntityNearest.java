@@ -1,19 +1,16 @@
 package net.minecraft.entity.ai;
 
+import com.google.common.base.Predicate;
 import java.util.Collections;
 import java.util.List;
-
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
-import com.google.common.base.Predicate;
-
 import net.minecraft.entity.EntityCreature;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.attributes.IAttributeInstance;
 import net.minecraft.entity.player.EntityPlayerMP;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class EntityAIFindEntityNearest extends EntityAIBase {
 	private static final Logger LOGGER = LogManager.getLogger();
@@ -48,6 +45,9 @@ public class EntityAIFindEntityNearest extends EntityAIBase {
 		this.field_179440_d = new EntityAINearestAttackableTarget.Sorter(mobIn);
 	}
 
+	/**
+	 * Returns whether the EntityAIBase should begin execution.
+	 */
 	public boolean shouldExecute() {
 		double d0 = this.getFollowRange();
 		List<EntityLivingBase> list = this.mob.worldObj.getEntitiesWithinAABB(this.field_179439_f,
@@ -62,6 +62,9 @@ public class EntityAIFindEntityNearest extends EntityAIBase {
 		}
 	}
 
+	/**
+	 * Returns whether an in-progress EntityAIBase should continue executing
+	 */
 	public boolean continueExecuting() {
 		EntityLivingBase entitylivingbase = this.mob.getAttackTarget();
 
@@ -77,11 +80,17 @@ public class EntityAIFindEntityNearest extends EntityAIBase {
 		}
 	}
 
+	/**
+	 * Execute a one shot task or start executing a continuous task
+	 */
 	public void startExecuting() {
 		this.mob.setAttackTarget(this.target);
 		super.startExecuting();
 	}
 
+	/**
+	 * Resets the task
+	 */
 	public void resetTask() {
 		this.mob.setAttackTarget(null);
 		super.startExecuting();

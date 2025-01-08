@@ -1,15 +1,12 @@
 package net.minecraft.client.resources.data;
 
-import java.lang.reflect.Type;
-
-import org.apache.commons.lang3.Validate;
-
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
-
+import java.lang.reflect.Type;
 import net.minecraft.util.JsonUtils;
+import org.apache.commons.lang3.Validate;
 
 public class FontMetadataSectionSerializer extends BaseMetadataSectionSerializer<FontMetadataSection> {
 	public FontMetadataSection deserialize(JsonElement p_deserialize_1_, Type p_deserialize_2_,
@@ -70,6 +67,9 @@ public class FontMetadataSectionSerializer extends BaseMetadataSectionSerializer
 		return new FontMetadataSection(afloat, afloat2, afloat1);
 	}
 
+	/**
+	 * The name of this section type as it appears in JSON.
+	 */
 	public String getSectionName() {
 		return "font";
 	}

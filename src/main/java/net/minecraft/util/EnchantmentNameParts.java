@@ -12,21 +12,27 @@ public class EnchantmentNameParts {
 		return instance;
 	}
 
+	/**
+	 * Randomly generates a new name built up of 3 or 4 randomly selected words.
+	 */
 	public String generateNewRandomName() {
 		int i = this.rand.nextInt(2) + 3;
-		StringBuilder s = new StringBuilder();
+		String s = "";
 
 		for (int j = 0; j < i; ++j) {
 			if (j > 0) {
-				s.append(" ");
+				s = s + " ";
 			}
 
-			s.append(this.namePartsArray[this.rand.nextInt(this.namePartsArray.length)]);
+			s = s + this.namePartsArray[this.rand.nextInt(this.namePartsArray.length)];
 		}
 
-		return s.toString();
+		return s;
 	}
 
+	/**
+	 * Resets the underlying random number generator using a given seed.
+	 */
 	public void reseedRandomGenerator(long seed) {
 		this.rand.setSeed(seed);
 	}

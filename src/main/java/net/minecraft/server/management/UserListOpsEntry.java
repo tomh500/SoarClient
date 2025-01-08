@@ -1,9 +1,8 @@
 package net.minecraft.server.management;
 
-import java.util.UUID;
-
 import com.google.gson.JsonObject;
 import com.mojang.authlib.GameProfile;
+import java.util.UUID;
 
 public class UserListOpsEntry extends UserListEntry<GameProfile> {
 	private final int permissionLevel;
@@ -22,6 +21,10 @@ public class UserListOpsEntry extends UserListEntry<GameProfile> {
 				&& p_i1150_1_.get("bypassesPlayerLimit").getAsBoolean();
 	}
 
+	/**
+	 * Gets the permission level of the user, as defined in the "level" attribute of
+	 * the ops.json file
+	 */
 	public int getPermissionLevel() {
 		return this.permissionLevel;
 	}

@@ -1,7 +1,6 @@
 package net.minecraft.client.renderer.tileentity;
 
 import java.util.Calendar;
-
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockChest;
 import net.minecraft.client.model.ModelChest;
@@ -21,8 +20,8 @@ public class TileEntityChestRenderer extends TileEntitySpecialRenderer<TileEntit
 	private static final ResourceLocation textureChristmas = new ResourceLocation(
 			"textures/entity/chest/christmas.png");
 	private static final ResourceLocation textureNormal = new ResourceLocation("textures/entity/chest/normal.png");
-	public ModelChest simpleChest = new ModelChest();
-	public ModelChest largeChest = new ModelLargeChest();
+	private final ModelChest simpleChest = new ModelChest();
+	private final ModelChest largeChest = new ModelLargeChest();
 	private boolean isChristmas;
 
 	public TileEntityChestRenderer() {

@@ -1,7 +1,5 @@
 package net.minecraft.client.renderer.entity;
 
-import org.lwjgl.opengl.GL11;
-
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.WorldRenderer;
@@ -9,6 +7,7 @@ import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.entity.projectile.EntityArrow;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.ResourceLocation;
+import org.lwjgl.opengl.GL11;
 
 public class RenderArrow extends Render<EntityArrow> {
 	private static final ResourceLocation arrowTextures = new ResourceLocation("textures/entity/arrow.png");
@@ -17,6 +16,9 @@ public class RenderArrow extends Render<EntityArrow> {
 		super(renderManagerIn);
 	}
 
+	/**
+	 * Renders the desired {@code T} type Entity.
+	 */
 	public void doRender(EntityArrow entity, double x, double y, double z, float entityYaw, float partialTicks) {
 		this.bindEntityTexture(entity);
 		GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
@@ -82,6 +84,10 @@ public class RenderArrow extends Render<EntityArrow> {
 		super.doRender(entity, x, y, z, entityYaw, partialTicks);
 	}
 
+	/**
+	 * Returns the location of an entity's texture. Doesn't seem to be called unless
+	 * you call Render.bindEntityTexture.
+	 */
 	protected ResourceLocation getEntityTexture(EntityArrow entity) {
 		return arrowTextures;
 	}

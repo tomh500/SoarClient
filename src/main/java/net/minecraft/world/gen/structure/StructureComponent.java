@@ -2,7 +2,6 @@ package net.minecraft.world.gen.structure;
 
 import java.util.List;
 import java.util.Random;
-
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockDirectional;
 import net.minecraft.block.BlockDoor;
@@ -21,7 +20,11 @@ import net.minecraft.world.World;
 
 public abstract class StructureComponent {
 	protected StructureBoundingBox boundingBox;
+
+	/** switches the Coordinate System base off the Bounding Box */
 	protected EnumFacing coordBaseMode;
+
+	/** The type ID of this component. */
 	protected int componentType;
 
 	public StructureComponent() {
@@ -31,6 +34,13 @@ public abstract class StructureComponent {
 		this.componentType = type;
 	}
 
+	/**
+	 * Writes structure base data (id, boundingbox,
+	 * {@link net.minecraft.world.gen.structure.StructureComponent#coordBaseMode
+	 * coordBase} and
+	 * {@link net.minecraft.world.gen.structure.StructureComponent#componentType
+	 * componentType}) to new NBTTagCompound and returns it.
+	 */
 	public NBTTagCompound createStructureBaseNBT() {
 		NBTTagCompound nbttagcompound = new NBTTagCompound();
 		nbttagcompound.setString("id", MapGenStructureIO.getStructureComponentName(this));
@@ -41,8 +51,18 @@ public abstract class StructureComponent {
 		return nbttagcompound;
 	}
 
+	/**
+	 * (abstract) Helper method to write subclass data to NBT
+	 */
 	protected abstract void writeStructureToNBT(NBTTagCompound tagCompound);
 
+	/**
+	 * Reads and sets structure base data (boundingbox,
+	 * {@link net.minecraft.world.gen.structure.StructureComponent#coordBaseMode
+	 * coordBase} and
+	 * {@link net.minecraft.world.gen.structure.StructureComponent#componentType
+	 * componentType})
+	 */
 	public void readStructureBaseNBT(World worldIn, NBTTagCompound tagCompound) {
 		if (tagCompound.hasKey("BB")) {
 			this.boundingBox = new StructureBoundingBox(tagCompound.getIntArray("BB"));
@@ -54,11 +74,22 @@ public abstract class StructureComponent {
 		this.readStructureFromNBT(tagCompound);
 	}
 
+	/**
+	 * (abstract) Helper method to read subclass data from NBT
+	 */
 	protected abstract void readStructureFromNBT(NBTTagCompound tagCompound);
 
+	/**
+	 * Initiates construction of the Structure Component picked, at the current
+	 * Location of StructGen
+	 */
 	public void buildComponent(StructureComponent componentIn, List<StructureComponent> listIn, Random rand) {
 	}
 
+	/**
+	 * second Part of Structure generating, this for example places Spiderwebs, Mob
+	 * Spawners, it closes Mineshafts at the end, it adds Fences...
+	 */
 	public abstract boolean addComponentParts(World worldIn, Random randomIn,
 			StructureBoundingBox structureBoundingBoxIn);
 
@@ -66,10 +97,16 @@ public abstract class StructureComponent {
 		return this.boundingBox;
 	}
 
+	/**
+	 * Returns the component type ID of this component.
+	 */
 	public int getComponentType() {
 		return this.componentType;
 	}
 
+	/**
+	 * Discover if bounding box can fit within the current bounding box object.
+	 */
 	public static StructureComponent findIntersecting(List<StructureComponent> listIn,
 			StructureBoundingBox boundingboxIn) {
 		for (StructureComponent structurecomponent : listIn) {
@@ -86,6 +123,9 @@ public abstract class StructureComponent {
 		return new BlockPos(this.boundingBox.getCenter());
 	}
 
+	/**
+	 * checks the entire StructureBoundingBox for Liquids
+	 */
 	protected boolean isLiquidInStructureBoundingBox(World worldIn, StructureBoundingBox boundingboxIn) {
 		int i = Math.max(this.boundingBox.minX - 1, boundingboxIn.minX);
 		int j = Math.max(this.boundingBox.minY - 1, boundingboxIn.minY);
@@ -186,6 +226,10 @@ public abstract class StructureComponent {
 		}
 	}
 
+	/**
+	 * Returns the direction-shifted metadata for blocks that require orientation,
+	 * e.g. doors, stairs, ladders.
+	 */
 	protected int getMetadataWithOffset(Block blockIn, int meta) {
 		if (blockIn == Blocks.rail) {
 			if (this.coordBaseMode == EnumFacing.WEST || this.coordBaseMode == EnumFacing.EAST) {
@@ -444,6 +488,10 @@ public abstract class StructureComponent {
 		return !boundingboxIn.isVecInside(blockpos) ? Blocks.air.getDefaultState() : worldIn.getBlockState(blockpos);
 	}
 
+	/**
+	 * arguments: (World worldObj, StructureBoundingBox structBB, int minX, int
+	 * minY, int minZ, int maxX, int maxY, int maxZ)
+	 */
 	protected void fillWithAir(World worldIn, StructureBoundingBox structurebb, int minX, int minY, int minZ, int maxX,
 			int maxY, int maxZ) {
 		for (int i = minY; i <= maxY; ++i) {
@@ -455,6 +503,9 @@ public abstract class StructureComponent {
 		}
 	}
 
+	/**
+	 * Fill the given area with the selected blocks
+	 */
 	protected void fillWithBlocks(World worldIn, StructureBoundingBox boundingboxIn, int xMin, int yMin, int zMin,
 			int xMax, int yMax, int zMax, IBlockState boundaryBlockState, IBlockState insideBlockState,
 			boolean existingOnly) {
@@ -474,6 +525,11 @@ public abstract class StructureComponent {
 		}
 	}
 
+	/**
+	 * arguments: World worldObj, StructureBoundingBox structBB, int minX, int minY,
+	 * int minZ, int maxX, int maxY, int maxZ, boolean alwaysreplace, Random rand,
+	 * StructurePieceBlockSelector blockselector
+	 */
 	protected void fillWithRandomizedBlocks(World worldIn, StructureBoundingBox boundingboxIn, int minX, int minY,
 			int minZ, int maxX, int maxY, int maxZ, boolean alwaysReplace, Random rand,
 			StructureComponent.BlockSelector blockselector) {
@@ -548,6 +604,10 @@ public abstract class StructureComponent {
 		}
 	}
 
+	/**
+	 * Deletes all continuous blocks from selected position upwards. Stops at
+	 * hitting air.
+	 */
 	protected void clearCurrentPositionBlocksUpwards(World worldIn, int x, int y, int z,
 			StructureBoundingBox structurebb) {
 		BlockPos blockpos = new BlockPos(this.getXWithOffset(x, z), this.getYWithOffset(y), this.getZWithOffset(x, z));
@@ -560,6 +620,10 @@ public abstract class StructureComponent {
 		}
 	}
 
+	/**
+	 * Replaces air and liquid from given position downwards. Stops when hitting
+	 * anything else than air or liquid
+	 */
 	protected void replaceAirAndLiquidDownwards(World worldIn, IBlockState blockstateIn, int x, int y, int z,
 			StructureBoundingBox boundingboxIn) {
 		int i = this.getXWithOffset(x, z);
@@ -614,6 +678,9 @@ public abstract class StructureComponent {
 		}
 	}
 
+	/**
+	 * Places door on given position
+	 */
 	protected void placeDoorCurrentPosition(World worldIn, StructureBoundingBox boundingBoxIn, Random rand, int x,
 			int y, int z, EnumFacing facing) {
 		BlockPos blockpos = new BlockPos(this.getXWithOffset(x, z), this.getYWithOffset(y), this.getZWithOffset(x, z));

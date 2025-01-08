@@ -2,16 +2,14 @@ package net.minecraft.util;
 
 import org.apache.commons.lang3.Validate;
 
-import com.soarclient.libraries.patcher.cache.IdentifierCaches;
-
 public class ResourceLocation {
 	protected final String resourceDomain;
 	protected final String resourcePath;
 
 	protected ResourceLocation(int p_i45928_1_, String... resourceName) {
-        this.resourceDomain = IdentifierCaches.NAMESPACES.deduplicate(org.apache.commons.lang3.StringUtils.isEmpty(resourceName[0]) ? "minecraft"
-				: resourceName[0].toLowerCase());
-        this.resourcePath = IdentifierCaches.PATH.deduplicate(resourceName[1]);
+		this.resourceDomain = org.apache.commons.lang3.StringUtils.isEmpty(resourceName[0]) ? "minecraft"
+				: resourceName[0].toLowerCase();
+		this.resourcePath = resourceName[1];
 		Validate.notNull(this.resourcePath);
 	}
 
@@ -23,6 +21,11 @@ public class ResourceLocation {
 		this(0, resourceDomainIn, resourcePathIn);
 	}
 
+	/**
+	 * Splits an object name (such as minecraft:apple) into the domain and path
+	 * parts and returns these as an array of length 2. If no colon is present in
+	 * the passed value the returned array will contain {null, toSplit}.
+	 */
 	protected static String[] splitObjectName(String toSplit) {
 		String[] astring = new String[] { null, toSplit };
 		int i = toSplit.indexOf(58);

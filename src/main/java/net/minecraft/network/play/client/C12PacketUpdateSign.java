@@ -1,7 +1,6 @@
 package net.minecraft.network.play.client;
 
 import java.io.IOException;
-
 import net.minecraft.network.Packet;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.network.play.INetHandlerPlayServer;
@@ -20,6 +19,9 @@ public class C12PacketUpdateSign implements Packet<INetHandlerPlayServer> {
 		this.lines = new IChatComponent[] { lines[0], lines[1], lines[2], lines[3] };
 	}
 
+	/**
+	 * Reads the raw packet data from the data stream.
+	 */
 	public void readPacketData(PacketBuffer buf) throws IOException {
 		this.pos = buf.readBlockPos();
 		this.lines = new IChatComponent[4];
@@ -31,6 +33,9 @@ public class C12PacketUpdateSign implements Packet<INetHandlerPlayServer> {
 		}
 	}
 
+	/**
+	 * Writes the raw packet data to the data stream.
+	 */
 	public void writePacketData(PacketBuffer buf) throws IOException {
 		buf.writeBlockPos(this.pos);
 
@@ -41,6 +46,9 @@ public class C12PacketUpdateSign implements Packet<INetHandlerPlayServer> {
 		}
 	}
 
+	/**
+	 * Passes this Packet on to the NetHandler for processing.
+	 */
 	public void processPacket(INetHandlerPlayServer handler) {
 		handler.processUpdateSign(this);
 	}

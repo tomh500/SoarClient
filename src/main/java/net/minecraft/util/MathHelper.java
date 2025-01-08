@@ -3,29 +3,41 @@ package net.minecraft.util;
 import java.util.Random;
 import java.util.UUID;
 
-import net.optifine.util.MathUtils;
-
 public class MathHelper {
 	public static final float SQRT_2 = sqrt_float(2.0F);
-	public static final float PI = MathUtils.roundToFloat(Math.PI);
-	public static final float PI2 = MathUtils.roundToFloat((Math.PI * 2D));
-	public static final float PId2 = MathUtils.roundToFloat((Math.PI / 2D));
-	public static final float deg2Rad = MathUtils.roundToFloat(0.017453292519943295D);
+
+	/**
+	 * A table of sin values computed from 0 (inclusive) to 2*pi (exclusive), with
+	 * steps of 2*PI / 65536.
+	 */
 	private static final float[] SIN_TABLE = new float[65536];
+
+	/**
+	 * Though it looks like an array, this is really more like a mapping. Key (index
+	 * of this array) is the upper 5 bits of the result of multiplying a 32-bit
+	 * unsigned integer by the B(2, 5) De Bruijn sequence 0x077CB531. Value (value
+	 * stored in the array) is the unique index (from the right) of the leftmost
+	 * one-bit in a 32-bit unsigned integer that can cause the upper 5 bits to get
+	 * that value. Used for highly optimized "find the log-base-2 of this number"
+	 * calculations.
+	 */
 	private static final int[] multiplyDeBruijnBitPosition;
 	private static final double field_181163_d;
 	private static final double[] field_181164_e;
 	private static final double[] field_181165_f;
 
-	private static final int[] SINE_TABLE_INT = new int[16384 + 1];
-	private static final float SINE_TABLE_MIDPOINT;
-	
-	public static float sin(float f) {
-		return lookup((int) (f * 10430.378f) & 0xFFFF);
+	/**
+	 * sin looked up in a table
+	 */
+	public static float sin(float p_76126_0_) {
+		return SIN_TABLE[(int) (p_76126_0_ * 10430.378F) & 65535];
 	}
 
-	public static float cos(float f) {
-		return lookup((int) (f * 10430.378f + 16384.0f) & 0xFFFF);
+	/**
+	 * cos looked up in the sin table with the appropriate offset
+	 */
+	public static float cos(float value) {
+		return SIN_TABLE[(int) (value * 10430.378F + 16384.0F) & 65535];
 	}
 
 	public static float sqrt_float(float value) {
@@ -36,20 +48,32 @@ public class MathHelper {
 		return (float) Math.sqrt(value);
 	}
 
+	/**
+	 * Returns the greatest integer less than or equal to the float argument
+	 */
 	public static int floor_float(float value) {
 		int i = (int) value;
 		return value < (float) i ? i - 1 : i;
 	}
 
+	/**
+	 * returns par0 cast as an int, and no greater than Integer.MAX_VALUE-1024
+	 */
 	public static int truncateDoubleToInt(double value) {
 		return (int) (value + 1024.0D) - 1024;
 	}
 
+	/**
+	 * Returns the greatest integer less than or equal to the double argument
+	 */
 	public static int floor_double(double value) {
 		int i = (int) value;
 		return value < (double) i ? i - 1 : i;
 	}
 
+	/**
+	 * Long version of floor_double
+	 */
 	public static long floor_double_long(double value) {
 		long i = (long) value;
 		return value < (double) i ? i - 1L : i;
@@ -63,6 +87,9 @@ public class MathHelper {
 		return value >= 0.0F ? value : -value;
 	}
 
+	/**
+	 * Returns the unsigned value of an int.
+	 */
 	public static int abs_int(int value) {
 		return value >= 0 ? value : -value;
 	}
@@ -77,10 +104,18 @@ public class MathHelper {
 		return value > (double) i ? i + 1 : i;
 	}
 
+	/**
+	 * Returns the value of the first parameter, clamped to be within the lower and
+	 * upper limits given by the second and third parameters.
+	 */
 	public static int clamp_int(int num, int min, int max) {
 		return num < min ? min : (num > max ? max : num);
 	}
 
+	/**
+	 * Returns the value of the first parameter, clamped to be within the lower and
+	 * upper limits given by the second and third parameters
+	 */
 	public static float clamp_float(float num, float min, float max) {
 		return num < min ? min : (num > max ? max : num);
 	}
@@ -93,6 +128,9 @@ public class MathHelper {
 		return slide < 0.0D ? lowerBnd : (slide > 1.0D ? upperBnd : lowerBnd + (upperBnd - lowerBnd) * slide);
 	}
 
+	/**
+	 * Maximum of the absolute value of two numbers.
+	 */
 	public static double abs_max(double p_76132_0_, double p_76132_2_) {
 		if (p_76132_0_ < 0.0D) {
 			p_76132_0_ = -p_76132_0_;
@@ -105,6 +143,9 @@ public class MathHelper {
 		return p_76132_0_ > p_76132_2_ ? p_76132_0_ : p_76132_2_;
 	}
 
+	/**
+	 * Buckets an integer with specifed bucket sizes. Args: i, bucketSize
+	 */
 	public static int bucketInt(int p_76137_0_, int p_76137_1_) {
 		return p_76137_0_ < 0 ? -((-p_76137_0_ - 1) / p_76137_1_) - 1 : p_76137_0_ / p_76137_1_;
 	}
@@ -140,6 +181,10 @@ public class MathHelper {
 		return (p_180184_0_ % p_180184_1_ + p_180184_1_) % p_180184_1_;
 	}
 
+	/**
+	 * the angle is reduced to an angle between -180 and +180 by mod, and a 360
+	 * check
+	 */
 	public static float wrapAngleTo180_float(float value) {
 		value = value % 360.0F;
 
@@ -154,6 +199,10 @@ public class MathHelper {
 		return value;
 	}
 
+	/**
+	 * the angle is reduced to an angle between -180 and +180 by mod, and a 360
+	 * check
+	 */
 	public static double wrapAngleTo180_double(double value) {
 		value = value % 360.0D;
 
@@ -168,6 +217,9 @@ public class MathHelper {
 		return value;
 	}
 
+	/**
+	 * parses the string as integer or returns the second parameter if it fails
+	 */
 	public static int parseIntWithDefault(String p_82715_0_, int p_82715_1_) {
 		try {
 			return Integer.parseInt(p_82715_0_);
@@ -176,10 +228,17 @@ public class MathHelper {
 		}
 	}
 
+	/**
+	 * parses the string as integer or returns the second parameter if it fails.
+	 * this value is capped to par2
+	 */
 	public static int parseIntWithDefaultAndMax(String p_82714_0_, int p_82714_1_, int p_82714_2_) {
 		return Math.max(p_82714_2_, parseIntWithDefault(p_82714_0_, p_82714_1_));
 	}
 
+	/**
+	 * parses the string as double or returns the second parameter if it fails.
+	 */
 	public static double parseDoubleWithDefault(String p_82712_0_, double p_82712_1_) {
 		try {
 			return Double.parseDouble(p_82712_0_);
@@ -192,6 +251,9 @@ public class MathHelper {
 		return Math.max(p_82713_3_, parseDoubleWithDefault(p_82713_0_, p_82713_1_));
 	}
 
+	/**
+	 * Returns the input value rounded up to the next highest power of two.
+	 */
 	public static int roundUpToPowerOfTwo(int value) {
 		int i = value - 1;
 		i = i | i >> 1;
@@ -202,15 +264,29 @@ public class MathHelper {
 		return i + 1;
 	}
 
+	/**
+	 * Is the given value a power of two? (1, 2, 4, 8, 16, ...)
+	 */
 	private static boolean isPowerOfTwo(int value) {
 		return value != 0 && (value & value - 1) == 0;
 	}
 
+	/**
+	 * Uses a B(2, 5) De Bruijn sequence and a lookup table to efficiently calculate
+	 * the log-base-two of the given value. Optimized for cases where the input
+	 * value is a power-of-two. If the input value is not a power-of-two, then
+	 * subtract 1 from the return value.
+	 */
 	private static int calculateLogBaseTwoDeBruijn(int value) {
 		value = isPowerOfTwo(value) ? value : roundUpToPowerOfTwo(value);
 		return multiplyDeBruijnBitPosition[(int) ((long) value * 125613361L >> 27) & 31];
 	}
 
+	/**
+	 * Efficiently calculates the floor of the base-2 log of an integer value. This
+	 * is effectively the index of the highest bit that is set. For example, if the
+	 * number in binary is 0...100101, this will return 5.
+	 */
 	public static int calculateLogBaseTwo(int value) {
 		return calculateLogBaseTwoDeBruijn(value) - (isPowerOfTwo(value) ? 0 : 1);
 	}
@@ -236,9 +312,9 @@ public class MathHelper {
 	}
 
 	public static int func_180181_b(int p_180181_0_, int p_180181_1_, int p_180181_2_) {
-		int i = (p_180181_0_ << 8) + p_180181_1_;
-		i = (i << 8) + p_180181_2_;
-		return i;
+		int lvt_3_1_ = (p_180181_0_ << 8) + p_180181_1_;
+		lvt_3_1_ = (lvt_3_1_ << 8) + p_180181_2_;
+		return lvt_3_1_;
 	}
 
 	public static int func_180188_d(int p_180188_0_, int p_180188_1_) {
@@ -399,39 +475,9 @@ public class MathHelper {
 		return j << 16 | k << 8 | l;
 	}
 
-	private static float lookup(int index) {
-		
-		if (index == 32768) {
-			return SINE_TABLE_MIDPOINT;
-		}
-
-		int neg = (index & 0x8000) << 16;
-		int mask = (index << 17) >> 31;
-		int pos = (0x8001 & mask) + (index ^ mask);
-		pos &= 0x7fff;
-		return Float.intBitsToFloat(SINE_TABLE_INT[pos] ^ neg);
-	}
-	
 	static {
-		
 		for (int i = 0; i < 65536; ++i) {
 			SIN_TABLE[i] = (float) Math.sin((double) i * Math.PI * 2.0D / 65536.0D);
-		}
-		
-		for (int i = 0; i < SINE_TABLE_INT.length; i++) {
-			SINE_TABLE_INT[i] = Float.floatToRawIntBits(SIN_TABLE[i]);
-		}
-
-		SINE_TABLE_MIDPOINT = SIN_TABLE[SIN_TABLE.length / 2];
-
-		for (int i = 0; i < SIN_TABLE.length; i++) {
-			float expected = SIN_TABLE[i];
-			float value = lookup(i);
-
-			if (expected != value) {
-				throw new IllegalArgumentException(
-						String.format("LUT error at index %d (expected: %s, found: %s)", i, expected, value));
-			}
 		}
 
 		multiplyDeBruijnBitPosition = new int[] { 0, 1, 28, 2, 29, 14, 24, 3, 30, 22, 20, 15, 25, 17, 4, 8, 31, 27, 13,
@@ -440,11 +486,11 @@ public class MathHelper {
 		field_181164_e = new double[257];
 		field_181165_f = new double[257];
 
-		for (int k = 0; k < 257; ++k) {
-			double d0 = (double) k / 256.0D;
+		for (int j = 0; j < 257; ++j) {
+			double d0 = (double) j / 256.0D;
 			double d1 = Math.asin(d0);
-			field_181165_f[k] = Math.cos(d1);
-			field_181164_e[k] = d1;
+			field_181165_f[j] = Math.cos(d1);
+			field_181164_e[j] = d1;
 		}
 	}
 }

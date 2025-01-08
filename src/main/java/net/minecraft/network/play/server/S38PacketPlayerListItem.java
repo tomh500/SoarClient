@@ -1,13 +1,11 @@
 package net.minecraft.network.play.server;
 
-import java.io.IOException;
-import java.util.List;
-
 import com.google.common.base.Objects;
 import com.google.common.collect.Lists;
 import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.properties.Property;
-
+import java.io.IOException;
+import java.util.List;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.network.Packet;
 import net.minecraft.network.PacketBuffer;
@@ -42,6 +40,9 @@ public class S38PacketPlayerListItem implements Packet<INetHandlerPlayClient> {
 		}
 	}
 
+	/**
+	 * Reads the raw packet data from the data stream.
+	 */
 	public void readPacketData(PacketBuffer buf) throws IOException {
 		this.action = buf.readEnumValue(Action.class);
 		int i = buf.readVarIntFromBuffer();
@@ -106,6 +107,9 @@ public class S38PacketPlayerListItem implements Packet<INetHandlerPlayClient> {
 		}
 	}
 
+	/**
+	 * Writes the raw packet data to the data stream.
+	 */
 	public void writePacketData(PacketBuffer buf) throws IOException {
 		buf.writeEnumValue(this.action);
 		buf.writeVarIntToBuffer(this.players.size());
@@ -169,6 +173,9 @@ public class S38PacketPlayerListItem implements Packet<INetHandlerPlayClient> {
 		}
 	}
 
+	/**
+	 * Passes this Packet on to the NetHandler for processing.
+	 */
 	public void processPacket(INetHandlerPlayClient handler) {
 		handler.handlePlayerListItem(this);
 	}

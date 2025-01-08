@@ -1,7 +1,6 @@
 package net.minecraft.world.gen.feature;
 
 import java.util.Random;
-
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
@@ -10,8 +9,13 @@ import net.minecraft.util.BlockPos;
 import net.minecraft.world.World;
 
 public abstract class WorldGenHugeTrees extends WorldGenAbstractTree {
+	/** The base height of the tree */
 	protected final int baseHeight;
+
+	/** Sets the metadata for the wood blocks used */
 	protected final IBlockState woodMetadata;
+
+	/** Sets the metadata for the leaves used in huge trees */
 	protected final IBlockState leavesMetadata;
 	protected int extraRandomHeight;
 

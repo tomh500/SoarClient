@@ -1,32 +1,41 @@
 package net.minecraft.client.gui;
 
+import com.google.common.collect.Lists;
 import java.io.IOException;
 import java.util.List;
-
-import org.apache.commons.lang3.StringUtils;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-import org.lwjgl.input.Keyboard;
-import org.lwjgl.input.Mouse;
-
-import com.google.common.collect.Lists;
-
 import net.minecraft.network.play.client.C14PacketTabComplete;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.IChatComponent;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.MovingObjectPosition;
+import org.apache.commons.lang3.StringUtils;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.lwjgl.input.Keyboard;
+import org.lwjgl.input.Mouse;
 
 public class GuiChat extends GuiScreen {
 	private static final Logger logger = LogManager.getLogger();
 	private String historyBuffer = "";
+
+	/**
+	 * keeps position of which chat message you will select when you press up, (does
+	 * not increase for duplicated messages sent immediately after each other)
+	 */
 	private int sentHistoryCursor = -1;
 	private boolean playerNamesFound;
 	private boolean waitingOnAutocomplete;
 	private int autocompleteIndex;
 	private final List<String> foundPlayerNames = Lists.newArrayList();
+
+	/** Chat entry field */
 	protected GuiTextField inputField;
+
+	/**
+	 * is the text that appears when you press the chat key and the input box
+	 * appears pre-filled
+	 */
 	private String defaultInputFieldText = "";
 
 	public GuiChat() {
@@ -36,6 +45,11 @@ public class GuiChat extends GuiScreen {
 		this.defaultInputFieldText = defaultText;
 	}
 
+	/**
+	 * Adds the buttons (and other controls) to the screen in question. Called when
+	 * the GUI is displayed and when the window resizes, the buttonList is cleared
+	 * beforehand.
+	 */
 	public void initGui() {
 		Keyboard.enableRepeatEvents(true);
 		this.sentHistoryCursor = this.mc.ingameGUI.getChatGUI().getSentMessages().size();
@@ -47,15 +61,26 @@ public class GuiChat extends GuiScreen {
 		this.inputField.setCanLoseFocus(false);
 	}
 
+	/**
+	 * Called when the screen is unloaded. Used to disable keyboard repeat events
+	 */
 	public void onGuiClosed() {
 		Keyboard.enableRepeatEvents(false);
 		this.mc.ingameGUI.getChatGUI().resetScroll();
 	}
 
+	/**
+	 * Called from the main game loop to update the screen.
+	 */
 	public void updateScreen() {
 		this.inputField.updateCursorCounter();
 	}
 
+	/**
+	 * Fired when a key is typed (except F11 which toggles full screen). This is the
+	 * equivalent of KeyListener.keyTyped(KeyEvent e). Args : character (character
+	 * on the key), keyCode (lwjgl Keyboard key code)
+	 */
 	protected void keyTyped(char typedChar, int keyCode) throws IOException {
 		this.waitingOnAutocomplete = false;
 
@@ -90,6 +115,9 @@ public class GuiChat extends GuiScreen {
 		}
 	}
 
+	/**
+	 * Handles mouse input.
+	 */
 	public void handleMouseInput() throws IOException {
 		super.handleMouseInput();
 		int i = Mouse.getEventDWheel();
@@ -111,6 +139,9 @@ public class GuiChat extends GuiScreen {
 		}
 	}
 
+	/**
+	 * Called when the mouse is clicked. Args : mouseX, mouseY, clickedButton
+	 */
 	protected void mouseClicked(int mouseX, int mouseY, int mouseButton) throws IOException {
 		if (mouseButton == 0) {
 			IChatComponent ichatcomponent = this.mc.ingameGUI.getChatGUI().getChatComponent(Mouse.getX(), Mouse.getY());
@@ -124,6 +155,9 @@ public class GuiChat extends GuiScreen {
 		super.mouseClicked(mouseX, mouseY, mouseButton);
 	}
 
+	/**
+	 * Sets the text of the chat
+	 */
 	protected void setText(String newChatText, boolean shouldOverwrite) {
 		if (shouldOverwrite) {
 			this.inputField.setText(newChatText);
@@ -189,6 +223,10 @@ public class GuiChat extends GuiScreen {
 		}
 	}
 
+	/**
+	 * input is relative and is applied directly to the sentHistoryCursor so -1 is
+	 * the previous message, 1 is the next message from the current cursor position
+	 */
 	public void getSentHistory(int msgPos) {
 		int i = this.sentHistoryCursor + msgPos;
 		int j = this.mc.ingameGUI.getChatGUI().getSentMessages().size();
@@ -209,6 +247,10 @@ public class GuiChat extends GuiScreen {
 		}
 	}
 
+	/**
+	 * Draws the screen and all the components in it. Args : mouseX, mouseY,
+	 * renderPartialTicks
+	 */
 	public void drawScreen(int mouseX, int mouseY, float partialTicks) {
 		drawRect(2, this.height - 14, this.width - 2, this.height - 2, Integer.MIN_VALUE);
 		this.inputField.drawTextBox();
@@ -248,6 +290,10 @@ public class GuiChat extends GuiScreen {
 		}
 	}
 
+	/**
+	 * Returns true if this GUI should pause the game when it is displayed in
+	 * single-player
+	 */
 	public boolean doesGuiPauseGame() {
 		return false;
 	}

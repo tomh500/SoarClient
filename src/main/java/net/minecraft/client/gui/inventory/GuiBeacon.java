@@ -1,11 +1,7 @@
 package net.minecraft.client.gui.inventory;
 
-import java.io.IOException;
-
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
 import io.netty.buffer.Unpooled;
+import java.io.IOException;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
@@ -22,11 +18,13 @@ import net.minecraft.network.play.client.C17PacketCustomPayload;
 import net.minecraft.potion.Potion;
 import net.minecraft.tileentity.TileEntityBeacon;
 import net.minecraft.util.ResourceLocation;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class GuiBeacon extends GuiContainer {
 	private static final Logger logger = LogManager.getLogger();
 	private static final ResourceLocation beaconGuiTextures = new ResourceLocation("textures/gui/container/beacon.png");
-	public IInventory tileBeacon;
+	private final IInventory tileBeacon;
 	private GuiBeacon.ConfirmButton beaconConfirmButton;
 	private boolean buttonsNotDrawn;
 
@@ -37,6 +35,11 @@ public class GuiBeacon extends GuiContainer {
 		this.ySize = 219;
 	}
 
+	/**
+	 * Adds the buttons (and other controls) to the screen in question. Called when
+	 * the GUI is displayed and when the window resizes, the buttonList is cleared
+	 * beforehand.
+	 */
 	public void initGui() {
 		super.initGui();
 		this.buttonList
@@ -46,6 +49,9 @@ public class GuiBeacon extends GuiContainer {
 		this.beaconConfirmButton.enabled = false;
 	}
 
+	/**
+	 * Called from the main game loop to update the screen.
+	 */
 	public void updateScreen() {
 		super.updateScreen();
 		int i = this.tileBeacon.getField(0);
@@ -106,6 +112,10 @@ public class GuiBeacon extends GuiContainer {
 		this.beaconConfirmButton.enabled = this.tileBeacon.getStackInSlot(0) != null && j > 0;
 	}
 
+	/**
+	 * Called by the controls from the buttonList when activated. (Mouse pressed for
+	 * buttons)
+	 */
 	protected void actionPerformed(GuiButton button) throws IOException {
 		if (button.id == -2) {
 			this.mc.displayGuiScreen(null);
@@ -137,6 +147,10 @@ public class GuiBeacon extends GuiContainer {
 		}
 	}
 
+	/**
+	 * Draw the foreground layer for the GuiContainer (everything in front of the
+	 * items). Args : mouseX, mouseY
+	 */
 	protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
 		RenderHelper.disableStandardItemLighting();
 		this.drawCenteredString(this.fontRendererObj, I18n.format("tile.beacon.primary"), 62, 10, 14737632);
@@ -152,6 +166,9 @@ public class GuiBeacon extends GuiContainer {
 		RenderHelper.enableGUIStandardItemLighting();
 	}
 
+	/**
+	 * Args : renderPartialTicks, mouseX, mouseY
+	 */
 	protected void drawGuiContainerBackgroundLayer(float partialTicks, int mouseX, int mouseY) {
 		GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
 		this.mc.getTextureManager().bindTexture(beaconGuiTextures);

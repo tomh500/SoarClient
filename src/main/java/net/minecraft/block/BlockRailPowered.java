@@ -1,7 +1,6 @@
 package net.minecraft.block;
 
 import com.google.common.base.Predicate;
-
 import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.properties.PropertyBool;
 import net.minecraft.block.properties.PropertyEnum;
@@ -156,11 +155,17 @@ public class BlockRailPowered extends BlockRailBase {
 		return SHAPE;
 	}
 
+	/**
+	 * Convert the given metadata into a BlockState for this Block
+	 */
 	public IBlockState getStateFromMeta(int meta) {
 		return this.getDefaultState().withProperty(SHAPE, BlockRailBase.EnumRailDirection.byMetadata(meta & 7))
 				.withProperty(POWERED, Boolean.valueOf((meta & 8) > 0));
 	}
 
+	/**
+	 * Convert the BlockState into the correct metadata value
+	 */
 	public int getMetaFromState(IBlockState state) {
 		int i = 0;
 		i = i | state.getValue(SHAPE).getMetadata();

@@ -1,15 +1,13 @@
 package net.minecraft.client.resources.data;
 
-import java.lang.reflect.Type;
-import java.util.Map.Entry;
-import java.util.Set;
-
 import com.google.common.collect.Sets;
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
-
+import java.lang.reflect.Type;
+import java.util.Set;
+import java.util.Map.Entry;
 import net.minecraft.client.resources.Language;
 import net.minecraft.util.JsonUtils;
 
@@ -42,6 +40,9 @@ public class LanguageMetadataSectionSerializer extends BaseMetadataSectionSerial
 		return new LanguageMetadataSection(set);
 	}
 
+	/**
+	 * The name of this section type as it appears in JSON.
+	 */
 	public String getSectionName() {
 		return "language";
 	}

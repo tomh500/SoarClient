@@ -1,11 +1,10 @@
 package net.minecraft.util;
 
-import java.util.Map;
-import java.util.UUID;
-
 import com.google.common.collect.Maps;
 import com.mojang.authlib.GameProfile;
 import com.mojang.util.UUIDTypeAdapter;
+import java.util.Map;
+import java.util.UUID;
 
 public class Session {
 	private final String username;
@@ -45,6 +44,9 @@ public class Session {
 		}
 	}
 
+	/**
+	 * Returns either 'legacy' or 'mojang' whether the account is migrated or not
+	 */
 	public Session.Type getSessionType() {
 		return this.sessionType;
 	}

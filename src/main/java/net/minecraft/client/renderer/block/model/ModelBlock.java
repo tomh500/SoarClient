@@ -1,17 +1,5 @@
 package net.minecraft.client.renderer.block.model;
 
-import java.io.Reader;
-import java.io.StringReader;
-import java.lang.reflect.Type;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
-
-import org.apache.commons.lang3.StringUtils;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.gson.Gson;
@@ -21,9 +9,18 @@ import com.google.gson.JsonDeserializer;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
-
+import java.io.Reader;
+import java.io.StringReader;
+import java.lang.reflect.Type;
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 import net.minecraft.util.JsonUtils;
 import net.minecraft.util.ResourceLocation;
+import org.apache.commons.lang3.StringUtils;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class ModelBlock {
 	private static final Logger LOGGER = LogManager.getLogger();
@@ -145,14 +142,6 @@ public class ModelBlock {
 
 	public ModelBlock getRootModel() {
 		return this.hasParent() ? this.parent.getRootModel() : this;
-	}
-
-	public void setParentLocation(ResourceLocation parentLocation) {
-		this.parentLocation = parentLocation;
-	}
-
-	public Map<String, String> getTextures() {
-		return textures;
 	}
 
 	public ItemCameraTransforms getAllTransforms() {

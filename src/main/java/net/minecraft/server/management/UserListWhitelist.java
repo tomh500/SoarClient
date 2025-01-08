@@ -1,9 +1,8 @@
 package net.minecraft.server.management;
 
-import java.io.File;
-
 import com.google.gson.JsonObject;
 import com.mojang.authlib.GameProfile;
+import java.io.File;
 
 public class UserListWhitelist extends UserList<GameProfile, UserListWhitelistEntry> {
 	public UserListWhitelist(File p_i1132_1_) {
@@ -25,10 +24,17 @@ public class UserListWhitelist extends UserList<GameProfile, UserListWhitelistEn
 		return astring;
 	}
 
+	/**
+	 * Gets the key value for the given object
+	 */
 	protected String getObjectKey(GameProfile obj) {
 		return obj.getId().toString();
 	}
 
+	/**
+	 * Gets the GameProfile for the UserListBanEntry with the specified username, if
+	 * present
+	 */
 	public GameProfile getBannedProfile(String name) {
 		for (UserListWhitelistEntry userlistwhitelistentry : this.getValues().values()) {
 			if (name.equalsIgnoreCase(userlistwhitelistentry.getValue().getName())) {

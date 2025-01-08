@@ -1,12 +1,10 @@
 package net.minecraft.entity.ai;
 
+import com.google.common.base.Predicate;
+import com.google.common.base.Predicates;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
-
-import com.google.common.base.Predicate;
-import com.google.common.base.Predicates;
-
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityCreature;
 import net.minecraft.entity.EntityLivingBase;
@@ -16,6 +14,8 @@ import net.minecraft.util.EntitySelectors;
 public class EntityAINearestAttackableTarget<T extends EntityLivingBase> extends EntityAITarget {
 	protected final Class<T> targetClass;
 	private final int targetChance;
+
+	/** Instance of EntityAINearestAttackableTargetSorter. */
 	protected final EntityAINearestAttackableTarget.Sorter theNearestAttackableTargetSorter;
 	protected Predicate<? super T> targetEntitySelector;
 	protected EntityLivingBase targetEntity;
@@ -70,6 +70,9 @@ public class EntityAINearestAttackableTarget<T extends EntityLivingBase> extends
 		};
 	}
 
+	/**
+	 * Returns whether the EntityAIBase should begin execution.
+	 */
 	public boolean shouldExecute() {
 		if (this.targetChance > 0 && this.taskOwner.getRNG().nextInt(this.targetChance) != 0) {
 			return false;
@@ -89,6 +92,9 @@ public class EntityAINearestAttackableTarget<T extends EntityLivingBase> extends
 		}
 	}
 
+	/**
+	 * Execute a one shot task or start executing a continuous task
+	 */
 	public void startExecuting() {
 		this.taskOwner.setAttackTarget(this.targetEntity);
 		super.startExecuting();

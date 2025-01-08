@@ -1,18 +1,18 @@
 package net.minecraft.client.resources.model;
 
-import org.lwjgl.util.vector.Matrix4f;
-import org.lwjgl.util.vector.Vector3f;
-
-import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
+import com.google.common.collect.Maps;
+import java.util.Map;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.MathHelper;
+import org.lwjgl.util.vector.Matrix4f;
+import org.lwjgl.util.vector.Vector3f;
 
 public enum ModelRotation {
 	X0_Y0(0, 0), X0_Y90(0, 90), X0_Y180(0, 180), X0_Y270(0, 270), X90_Y0(90, 0), X90_Y90(90, 90), X90_Y180(90, 180),
 	X90_Y270(90, 270), X180_Y0(180, 0), X180_Y90(180, 90), X180_Y180(180, 180), X180_Y270(180, 270), X270_Y0(270, 0),
 	X270_Y90(270, 90), X270_Y180(270, 180), X270_Y270(270, 270);
 
-	private static final Int2ObjectOpenHashMap<ModelRotation> mapRotations = new Int2ObjectOpenHashMap<>();
+	private static final Map<Integer, ModelRotation> mapRotations = Maps.newHashMap();
 	private final int combinedXY;
 	private final Matrix4f matrix4d;
 	private final int quartersX;
@@ -77,25 +77,13 @@ public enum ModelRotation {
 	}
 
 	public static ModelRotation getModelRotation(int p_177524_0_, int p_177524_1_) {
-		return mapRotations.get(
-				combineXY(MathHelper.normalizeAngle(p_177524_0_, 360), MathHelper.normalizeAngle(p_177524_1_, 360)));
-	}
-
-	public javax.vecmath.Matrix4f getMatrix() {
-		return new javax.vecmath.Matrix4f(this.getMatrix4d());
-	}
-
-	public EnumFacing rotate(EnumFacing p_rotate_1_) {
-		return this.rotateFace(p_rotate_1_);
-	}
-
-	public int rotate(EnumFacing p_rotate_1_, int p_rotate_2_) {
-		return this.rotateVertex(p_rotate_1_, p_rotate_2_);
+		return mapRotations.get(Integer.valueOf(
+				combineXY(MathHelper.normalizeAngle(p_177524_0_, 360), MathHelper.normalizeAngle(p_177524_1_, 360))));
 	}
 
 	static {
 		for (ModelRotation modelrotation : values()) {
-			mapRotations.put(modelrotation.combinedXY, modelrotation);
+			mapRotations.put(Integer.valueOf(modelrotation.combinedXY), modelrotation);
 		}
 	}
 }

@@ -1,19 +1,22 @@
 package net.minecraft.util;
 
+import com.google.common.collect.Lists;
 import java.util.Collections;
 import java.util.List;
 import java.util.Random;
-
-import com.google.common.collect.Lists;
-
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntityDispenser;
 
 public class WeightedRandomChestContent extends WeightedRandom.Item {
+	/** The Item/Block ID to generate in the Chest. */
 	private final ItemStack theItemId;
+
+	/** The minimum stack size of generated item. */
 	private final int minStackSize;
+
+	/** The maximum stack size of generated item. */
 	private final int maxStackSize;
 
 	public WeightedRandomChestContent(Item p_i45311_1_, int p_i45311_2_, int minimumChance, int maximumChance,

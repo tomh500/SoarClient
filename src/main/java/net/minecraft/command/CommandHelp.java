@@ -5,7 +5,6 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.event.ClickEvent;
 import net.minecraft.server.MinecraftServer;
@@ -15,14 +14,23 @@ import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.MathHelper;
 
 public class CommandHelp extends CommandBase {
+	/**
+	 * Gets the name of the command
+	 */
 	public String getCommandName() {
 		return "help";
 	}
 
+	/**
+	 * Return the required permission level for this command.
+	 */
 	public int getRequiredPermissionLevel() {
 		return 0;
 	}
 
+	/**
+	 * Gets the usage string for the command.
+	 */
 	public String getCommandUsage(ICommandSender sender) {
 		return "commands.help.usage";
 	}
@@ -31,6 +39,9 @@ public class CommandHelp extends CommandBase {
 		return List.of("?");
 	}
 
+	/**
+	 * Callback when the command is invoked
+	 */
 	public void processCommand(ICommandSender sender, String[] args) throws CommandException {
 		List<ICommand> list = this.getSortedPossibleCommands(sender);
 		int i = 7;
@@ -89,7 +100,7 @@ public class CommandHelp extends CommandBase {
 	public List<String> addTabCompletionOptions(ICommandSender sender, String[] args, BlockPos pos) {
 		if (args.length == 1) {
 			Set<String> set = this.getCommands().keySet();
-			return getListOfStringsMatchingLastWord(args, set.toArray(new String[0]));
+			return getListOfStringsMatchingLastWord(args, set.toArray(new String[set.size()]));
 		} else {
 			return null;
 		}

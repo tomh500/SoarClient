@@ -1,6 +1,5 @@
 package net.minecraft.client.shader;
 
-import java.nio.ByteBuffer;
 import java.nio.IntBuffer;
 
 import org.lwjgl.opengl.GL11;

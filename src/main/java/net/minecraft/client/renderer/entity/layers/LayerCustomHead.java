@@ -1,9 +1,7 @@
 package net.minecraft.client.renderer.entity.layers;
 
-import java.util.UUID;
-
 import com.mojang.authlib.GameProfile;
-
+import java.util.UUID;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.client.renderer.GlStateManager;

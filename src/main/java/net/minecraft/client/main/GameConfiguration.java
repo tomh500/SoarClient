@@ -1,10 +1,8 @@
 package net.minecraft.client.main;
 
+import com.mojang.authlib.properties.PropertyMap;
 import java.io.File;
 import java.net.Proxy;
-
-import com.mojang.authlib.properties.PropertyMap;
-
 import net.minecraft.util.Session;
 
 public class GameConfiguration {

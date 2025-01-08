@@ -1,14 +1,10 @@
 package net.minecraft.client.gui;
 
+import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
-
-import org.lwjgl.input.Keyboard;
-
-import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
-
 import net.minecraft.block.BlockTallGrass;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.RenderHelper;
@@ -23,9 +19,12 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.world.biome.BiomeGenBase;
 import net.minecraft.world.gen.FlatGeneratorInfo;
 import net.minecraft.world.gen.FlatLayerInfo;
+import org.lwjgl.input.Keyboard;
 
 public class GuiFlatPresets extends GuiScreen {
 	private static final List<GuiFlatPresets.LayerItem> FLAT_WORLD_PRESETS = Lists.newArrayList();
+
+	/** The parent GUI */
 	private final GuiCreateFlatWorld parentScreen;
 	private String presetsTitle;
 	private String presetsShare;
@@ -38,6 +37,11 @@ public class GuiFlatPresets extends GuiScreen {
 		this.parentScreen = p_i46318_1_;
 	}
 
+	/**
+	 * Adds the buttons (and other controls) to the screen in question. Called when
+	 * the GUI is displayed and when the window resizes, the buttonList is cleared
+	 * beforehand.
+	 */
 	public void initGui() {
 		this.buttonList.clear();
 		Keyboard.enableRepeatEvents(true);
@@ -54,26 +58,44 @@ public class GuiFlatPresets extends GuiScreen {
 		this.func_146426_g();
 	}
 
+	/**
+	 * Handles mouse input.
+	 */
 	public void handleMouseInput() throws IOException {
 		super.handleMouseInput();
 		this.field_146435_s.handleMouseInput();
 	}
 
+	/**
+	 * Called when the screen is unloaded. Used to disable keyboard repeat events
+	 */
 	public void onGuiClosed() {
 		Keyboard.enableRepeatEvents(false);
 	}
 
+	/**
+	 * Called when the mouse is clicked. Args : mouseX, mouseY, clickedButton
+	 */
 	protected void mouseClicked(int mouseX, int mouseY, int mouseButton) throws IOException {
 		this.field_146433_u.mouseClicked(mouseX, mouseY, mouseButton);
 		super.mouseClicked(mouseX, mouseY, mouseButton);
 	}
 
+	/**
+	 * Fired when a key is typed (except F11 which toggles full screen). This is the
+	 * equivalent of KeyListener.keyTyped(KeyEvent e). Args : character (character
+	 * on the key), keyCode (lwjgl Keyboard key code)
+	 */
 	protected void keyTyped(char typedChar, int keyCode) throws IOException {
 		if (!this.field_146433_u.textboxKeyTyped(typedChar, keyCode)) {
 			super.keyTyped(typedChar, keyCode);
 		}
 	}
 
+	/**
+	 * Called by the controls from the buttonList when activated. (Mouse pressed for
+	 * buttons)
+	 */
 	protected void actionPerformed(GuiButton button) throws IOException {
 		if (button.id == 0 && this.func_146430_p()) {
 			this.parentScreen.func_146383_a(this.field_146433_u.getText());
@@ -83,6 +105,10 @@ public class GuiFlatPresets extends GuiScreen {
 		}
 	}
 
+	/**
+	 * Draws the screen and all the components in it. Args : mouseX, mouseY,
+	 * renderPartialTicks
+	 */
 	public void drawScreen(int mouseX, int mouseY, float partialTicks) {
 		this.drawDefaultBackground();
 		this.field_146435_s.drawScreen(mouseX, mouseY, partialTicks);
@@ -93,6 +119,9 @@ public class GuiFlatPresets extends GuiScreen {
 		super.drawScreen(mouseX, mouseY, partialTicks);
 	}
 
+	/**
+	 * Called from the main game loop to update the screen.
+	 */
 	public void updateScreen() {
 		this.field_146433_u.updateCursorCounter();
 		super.updateScreen();

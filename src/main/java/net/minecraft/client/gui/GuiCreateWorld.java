@@ -2,16 +2,14 @@ package net.minecraft.client.gui;
 
 import java.io.IOException;
 import java.util.Random;
-
-import org.apache.commons.lang3.StringUtils;
-import org.lwjgl.input.Keyboard;
-
 import net.minecraft.client.resources.I18n;
 import net.minecraft.util.ChatAllowedCharacters;
 import net.minecraft.world.WorldSettings;
 import net.minecraft.world.WorldType;
 import net.minecraft.world.storage.ISaveFormat;
 import net.minecraft.world.storage.WorldInfo;
+import org.apache.commons.lang3.StringUtils;
+import org.lwjgl.input.Keyboard;
 
 public class GuiCreateWorld extends GuiScreen {
 	private final GuiScreen parentScreen;
@@ -19,11 +17,25 @@ public class GuiCreateWorld extends GuiScreen {
 	private GuiTextField worldSeedField;
 	private String saveDirName;
 	private String gameMode = "survival";
+
+	/**
+	 * Used to save away the game mode when the current "debug" world type is chosen
+	 * (forcing it to spectator mode)
+	 */
 	private String savedGameMode;
 	private boolean generateStructuresEnabled = true;
+
+	/** If cheats are allowed */
 	private boolean allowCheats;
+
+	/**
+	 * User explicitly clicked "Allow Cheats" at some point Prevents value changes
+	 * due to changing game mode
+	 */
 	private boolean allowCheatsWasSetByUser;
 	private boolean bonusChestEnabled;
+
+	/** Set to true when "hardcore" is the currently-selected gamemode */
 	private boolean hardCoreMode;
 	private boolean alreadyGenerated;
 	private boolean inMoreWorldOptionsDisplay;
@@ -40,6 +52,8 @@ public class GuiCreateWorld extends GuiScreen {
 	private String worldName;
 	private int selectedIndex;
 	public String chunkProviderSettingsJson = "";
+
+	/** These filenames are known to be restricted on one or more OS's. */
 	private static final String[] disallowedFilenames = new String[] { "CON", "COM", "PRN", "AUX", "CLOCK$", "NUL",
 			"COM1", "COM2", "COM3", "COM4", "COM5", "COM6", "COM7", "COM8", "COM9", "LPT1", "LPT2", "LPT3", "LPT4",
 			"LPT5", "LPT6", "LPT7", "LPT8", "LPT9" };
@@ -50,11 +64,19 @@ public class GuiCreateWorld extends GuiScreen {
 		this.worldName = I18n.format("selectWorld.newWorld");
 	}
 
+	/**
+	 * Called from the main game loop to update the screen.
+	 */
 	public void updateScreen() {
 		this.worldNameField.updateCursorCounter();
 		this.worldSeedField.updateCursorCounter();
 	}
 
+	/**
+	 * Adds the buttons (and other controls) to the screen in question. Called when
+	 * the GUI is displayed and when the window resizes, the buttonList is cleared
+	 * beforehand.
+	 */
 	public void initGui() {
 		Keyboard.enableRepeatEvents(true);
 		this.buttonList.clear();
@@ -90,6 +112,9 @@ public class GuiCreateWorld extends GuiScreen {
 		this.updateDisplayState();
 	}
 
+	/**
+	 * Determine a save-directory name from the world name
+	 */
 	private void calcSaveDirName() {
 		this.saveDirName = this.worldNameField.getText().trim();
 
@@ -104,6 +129,9 @@ public class GuiCreateWorld extends GuiScreen {
 		this.saveDirName = getUncollidingSaveDirName(this.mc.getSaveLoader(), this.saveDirName);
 	}
 
+	/**
+	 * Sets displayed GUI elements according to the current settings state
+	 */
 	private void updateDisplayState() {
 		this.btnGameMode.displayString = I18n.format("selectWorld.gameMode") + ": "
 				+ I18n.format("selectWorld.gameMode." + this.gameMode);
@@ -136,15 +164,22 @@ public class GuiCreateWorld extends GuiScreen {
 		}
 	}
 
+	/**
+	 * Ensures that a proposed directory name doesn't collide with existing names.
+	 * Returns the name, possibly modified to avoid collisions.
+	 * 
+	 * @param saveLoader used to check against existing names
+	 * @param name       the name to check, and possibly adjust (via the method's
+	 *                   return)
+	 */
 	public static String getUncollidingSaveDirName(ISaveFormat saveLoader, String name) {
+		name = name.replaceAll("[\\./\"]", "_");
 
-		StringBuilder nameBuilder = new StringBuilder(name.replaceAll("[\\./\"]", "_"));
 		for (String s : disallowedFilenames) {
-			if (nameBuilder.toString().equalsIgnoreCase(s)) {
-				nameBuilder = new StringBuilder("_" + nameBuilder + "_");
+			if (name.equalsIgnoreCase(s)) {
+				name = "_" + name + "_";
 			}
 		}
-		name = nameBuilder.toString();
 
 		while (saveLoader.getWorldInfo(name) != null) {
 			name = name + "-";
@@ -153,10 +188,17 @@ public class GuiCreateWorld extends GuiScreen {
 		return name;
 	}
 
+	/**
+	 * Called when the screen is unloaded. Used to disable keyboard repeat events
+	 */
 	public void onGuiClosed() {
 		Keyboard.enableRepeatEvents(false);
 	}
 
+	/**
+	 * Called by the controls from the buttonList when activated. (Mouse pressed for
+	 * buttons)
+	 */
 	protected void actionPerformed(GuiButton button) throws IOException {
 		if (button.enabled) {
 			if (button.id == 1) {
@@ -274,16 +316,30 @@ public class GuiCreateWorld extends GuiScreen {
 		}
 	}
 
+	/**
+	 * Returns whether the currently-selected world type is actually acceptable for
+	 * selection Used to hide the "debug" world type unless the shift key is
+	 * depressed.
+	 */
 	private boolean canSelectCurWorldType() {
 		WorldType worldtype = WorldType.worldTypes[this.selectedIndex];
 		return worldtype != null && worldtype.getCanBeCreated()
 				&& (worldtype != WorldType.DEBUG_WORLD || isShiftKeyDown());
 	}
 
+	/**
+	 * Toggles between initial world-creation display, and "more options" display.
+	 * Called when user clicks "More World Options..." or "Done" (same button,
+	 * different labels depending on current display).
+	 */
 	private void toggleMoreWorldOptions() {
 		this.showMoreWorldOptions(!this.inMoreWorldOptionsDisplay);
 	}
 
+	/**
+	 * Shows additional world-creation options if toggle is true, otherwise shows
+	 * main world-creation elements
+	 */
 	private void showMoreWorldOptions(boolean toggle) {
 		this.inMoreWorldOptionsDisplay = toggle;
 
@@ -329,6 +385,11 @@ public class GuiCreateWorld extends GuiScreen {
 		}
 	}
 
+	/**
+	 * Fired when a key is typed (except F11 which toggles full screen). This is the
+	 * equivalent of KeyListener.keyTyped(KeyEvent e). Args : character (character
+	 * on the key), keyCode (lwjgl Keyboard key code)
+	 */
 	protected void keyTyped(char typedChar, int keyCode) throws IOException {
 		if (this.worldNameField.isFocused() && !this.inMoreWorldOptionsDisplay) {
 			this.worldNameField.textboxKeyTyped(typedChar, keyCode);
@@ -346,6 +407,9 @@ public class GuiCreateWorld extends GuiScreen {
 		this.calcSaveDirName();
 	}
 
+	/**
+	 * Called when the mouse is clicked. Args : mouseX, mouseY, clickedButton
+	 */
 	protected void mouseClicked(int mouseX, int mouseY, int mouseButton) throws IOException {
 		super.mouseClicked(mouseX, mouseY, mouseButton);
 
@@ -356,6 +420,10 @@ public class GuiCreateWorld extends GuiScreen {
 		}
 	}
 
+	/**
+	 * Draws the screen and all the components in it. Args : mouseX, mouseY,
+	 * renderPartialTicks
+	 */
 	public void drawScreen(int mouseX, int mouseY, float partialTicks) {
 		this.drawDefaultBackground();
 		this.drawCenteredString(this.fontRendererObj, I18n.format("selectWorld.create"), this.width / 2, 20, -1);
@@ -397,6 +465,14 @@ public class GuiCreateWorld extends GuiScreen {
 		super.drawScreen(mouseX, mouseY, partialTicks);
 	}
 
+	/**
+	 * Set the initial values of a new world to create, from the values from an
+	 * existing world.
+	 * 
+	 * Called after construction when a user selects the "Recreate" button.
+	 * 
+	 * @param original The world we're copying from
+	 */
 	public void recreateFromExistingWorld(WorldInfo original) {
 		this.worldName = I18n.format("selectWorld.newWorld.copyOf", original.getWorldName());
 		this.worldSeed = original.getSeed() + "";

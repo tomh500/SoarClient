@@ -1,7 +1,6 @@
 package net.minecraft.world.gen;
 
 import java.util.Random;
-
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.BlockPos;
@@ -182,6 +181,9 @@ public class MapGenRavine extends MapGenBase {
 		}
 	}
 
+	/**
+	 * Recursively called by generate()
+	 */
 	protected void recursiveGenerate(World worldIn, int chunkX, int chunkZ, int p_180701_4_, int p_180701_5_,
 			ChunkPrimer chunkPrimerIn) {
 		if (this.rand.nextInt(50) == 0) {

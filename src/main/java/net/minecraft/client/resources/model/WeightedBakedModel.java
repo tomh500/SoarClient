@@ -1,11 +1,9 @@
 package net.minecraft.client.resources.model;
 
-import java.util.Collections;
-import java.util.List;
-
 import com.google.common.collect.ComparisonChain;
 import com.google.common.collect.Lists;
-
+import java.util.Collections;
+import java.util.List;
 import net.minecraft.client.renderer.block.model.BakedQuad;
 import net.minecraft.client.renderer.block.model.ItemCameraTransforms;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;

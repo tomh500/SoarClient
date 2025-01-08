@@ -1,9 +1,7 @@
 package net.minecraft.command;
 
-import java.util.List;
-
 import com.google.common.collect.Lists;
-
+import java.util.List;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.scoreboard.IScoreObjectiveCriteria;
@@ -14,18 +12,30 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.BlockPos;
 
 public class CommandTrigger extends CommandBase {
+	/**
+	 * Gets the name of the command
+	 */
 	public String getCommandName() {
 		return "trigger";
 	}
 
+	/**
+	 * Return the required permission level for this command.
+	 */
 	public int getRequiredPermissionLevel() {
 		return 0;
 	}
 
+	/**
+	 * Gets the usage string for the command.
+	 */
 	public String getCommandUsage(ICommandSender sender) {
 		return "commands.trigger.usage";
 	}
 
+	/**
+	 * Callback when the command is invoked
+	 */
 	public void processCommand(ICommandSender sender, String[] args) throws CommandException {
 		if (args.length < 3) {
 			throw new WrongUsageException("commands.trigger.usage");
@@ -92,7 +102,7 @@ public class CommandTrigger extends CommandBase {
 				}
 			}
 
-			return getListOfStringsMatchingLastWord(args, list.toArray(new String[0]));
+			return getListOfStringsMatchingLastWord(args, list.toArray(new String[list.size()]));
 		} else {
 			return args.length == 2 ? getListOfStringsMatchingLastWord(args, "add", "set") : null;
 		}

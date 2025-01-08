@@ -2,7 +2,6 @@ package net.minecraft.item;
 
 import java.util.List;
 import java.util.Random;
-
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityArmorStand;
@@ -20,6 +19,9 @@ public class ItemArmorStand extends Item {
 		this.setCreativeTab(CreativeTabs.tabDecorations);
 	}
 
+	/**
+	 * Called when a Block is right-clicked with this Item
+	 */
 	public boolean onItemUse(ItemStack stack, EntityPlayer playerIn, World worldIn, BlockPos pos, EnumFacing side,
 			float hitX, float hitY, float hitZ) {
 		if (side == EnumFacing.DOWN) {

@@ -1,7 +1,6 @@
 package net.minecraft.command;
 
 import java.util.List;
-
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
@@ -12,18 +11,30 @@ import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 
 public class CommandExecuteAt extends CommandBase {
+	/**
+	 * Gets the name of the command
+	 */
 	public String getCommandName() {
 		return "execute";
 	}
 
+	/**
+	 * Return the required permission level for this command.
+	 */
 	public int getRequiredPermissionLevel() {
 		return 2;
 	}
 
+	/**
+	 * Gets the usage string for the command.
+	 */
 	public String getCommandUsage(ICommandSender sender) {
 		return "commands.execute.usage";
 	}
 
+	/**
+	 * Callback when the command is invoked
+	 */
 	public void processCommand(final ICommandSender sender, String[] args) throws CommandException {
 		if (args.length < 5) {
 			throw new WrongUsageException("commands.execute.usage");
@@ -120,6 +131,9 @@ public class CommandExecuteAt extends CommandBase {
 										: null)));
 	}
 
+	/**
+	 * Return whether the specified command parameter index is a username parameter.
+	 */
 	public boolean isUsernameIndex(String[] args, int index) {
 		return index == 0;
 	}

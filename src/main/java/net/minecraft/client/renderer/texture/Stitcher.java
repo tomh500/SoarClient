@@ -1,12 +1,10 @@
 package net.minecraft.client.renderer.texture;
 
+import com.google.common.collect.Lists;
+import com.google.common.collect.Sets;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
-
-import com.google.common.collect.Lists;
-import com.google.common.collect.Sets;
-
 import net.minecraft.client.renderer.StitcherException;
 import net.minecraft.util.MathHelper;
 
@@ -19,6 +17,8 @@ public class Stitcher {
 	private final int maxWidth;
 	private final int maxHeight;
 	private final boolean forcePowerOf2;
+
+	/** Max size (width or height) of a single tile */
 	private final int maxTileDimension;
 
 	public Stitcher(int maxTextureWidth, int maxTextureHeight, boolean p_i45095_3_, int p_i45095_4_, int mipmapLevel) {
@@ -48,18 +48,15 @@ public class Stitcher {
 	}
 
 	public void doStitch() {
-		Stitcher.Holder[] astitcher$holder = this.setStitchHolders.toArray(new Holder[0]);
+		Stitcher.Holder[] astitcher$holder = this.setStitchHolders.toArray(new Holder[this.setStitchHolders.size()]);
 		Arrays.sort(astitcher$holder);
 
 		for (Stitcher.Holder stitcher$holder : astitcher$holder) {
 			if (!this.allocateSlot(stitcher$holder)) {
-				String s = String.format(
-						"Unable to fit: %s, size: %dx%d, atlas: %dx%d, atlasMax: %dx%d - Maybe try a lower resolution resourcepack?",
+				String s = String.format("Unable to fit: %s - size: %dx%d - Maybe try a lowerresolution resourcepack?",
 						stitcher$holder.getAtlasSprite().getIconName(),
 						Integer.valueOf(stitcher$holder.getAtlasSprite().getIconWidth()),
-						Integer.valueOf(stitcher$holder.getAtlasSprite().getIconHeight()),
-						Integer.valueOf(this.currentWidth), Integer.valueOf(this.currentHeight),
-						Integer.valueOf(this.maxWidth), Integer.valueOf(this.maxHeight));
+						Integer.valueOf(stitcher$holder.getAtlasSprite().getIconHeight()));
 				throw new StitcherException(stitcher$holder, s);
 			}
 		}
@@ -94,6 +91,9 @@ public class Stitcher {
 		return (p_147969_0_ >> p_147969_1_) + ((p_147969_0_ & (1 << p_147969_1_) - 1) == 0 ? 0 : 1) << p_147969_1_;
 	}
 
+	/**
+	 * Attempts to find space for specified tile
+	 */
 	private boolean allocateSlot(Stitcher.Holder p_94310_1_) {
 		for (int i = 0; i < this.stitchSlots.size(); ++i) {
 			if (this.stitchSlots.get(i).addSlot(p_94310_1_)) {
@@ -112,6 +112,9 @@ public class Stitcher {
 		return this.expandAndAllocateSlot(p_94310_1_);
 	}
 
+	/**
+	 * Expand stitched texture in order to make space for specified tile
+	 */
 	private boolean expandAndAllocateSlot(Stitcher.Holder p_94311_1_) {
 		int i = Math.min(p_94311_1_.getWidth(), p_94311_1_.getHeight());
 		boolean flag = this.currentWidth == 0 && this.currentHeight == 0;
@@ -151,7 +154,7 @@ public class Stitcher {
 		int j1 = Math.max(p_94311_1_.getWidth(), p_94311_1_.getHeight());
 
 		if (MathHelper.roundUpToPowerOfTwo(
-				(!flag1 ? this.currentHeight : this.currentWidth) + j1) > (!flag1 ? this.maxHeight : this.maxWidth)) {
+				(flag1 ? this.currentHeight : this.currentWidth) + j1) > (flag1 ? this.maxHeight : this.maxWidth)) {
 			return false;
 		} else {
 			Stitcher.Slot stitcher$slot;

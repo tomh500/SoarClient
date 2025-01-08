@@ -1,9 +1,7 @@
 package net.minecraft.world.gen;
 
-import java.util.Random;
-
 import com.google.common.base.Objects;
-
+import java.util.Random;
 import net.minecraft.block.BlockSand;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
@@ -219,6 +217,9 @@ public class MapGenCaves extends MapGenBase {
 												&& p_175793_2_.getBlock().getMaterial() != Material.water))))))));
 	}
 
+	/**
+	 * Recursively called by generate()
+	 */
 	protected void recursiveGenerate(World worldIn, int chunkX, int chunkZ, int p_180701_4_, int p_180701_5_,
 			ChunkPrimer chunkPrimerIn) {
 		int i = this.rand.nextInt(this.rand.nextInt(this.rand.nextInt(15) + 1) + 1);

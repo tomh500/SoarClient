@@ -1,7 +1,6 @@
 package net.minecraft.block;
 
 import java.util.Random;
-
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.creativetab.CreativeTabs;
@@ -19,10 +18,17 @@ public class BlockWeb extends Block {
 		this.setCreativeTab(CreativeTabs.tabDecorations);
 	}
 
+	/**
+	 * Called When an Entity Collided with the Block
+	 */
 	public void onEntityCollidedWithBlock(World worldIn, BlockPos pos, IBlockState state, Entity entityIn) {
 		entityIn.setInWeb();
 	}
 
+	/**
+	 * Used to determine ambient occlusion and culling when rebuilding chunks for
+	 * render
+	 */
 	public boolean isOpaqueCube() {
 		return false;
 	}
@@ -35,6 +41,9 @@ public class BlockWeb extends Block {
 		return false;
 	}
 
+	/**
+	 * Get the Item that this Block should drop when harvested.
+	 */
 	public Item getItemDropped(IBlockState state, Random rand, int fortune) {
 		return Items.string;
 	}

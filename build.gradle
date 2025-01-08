@@ -9,7 +9,7 @@ plugins {
 group = 'com.soarclient'
 version = '1.0-SNAPSHOT'
 
-project.ext.lwjglVersion = "3.3.4"
+project.ext.lwjglVersion = "3.3.6"
 
 switch (OperatingSystem.current()) {
 	case OperatingSystem.LINUX:

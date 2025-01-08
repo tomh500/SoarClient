@@ -1,7 +1,6 @@
 package net.minecraft.block.state;
 
 import com.google.common.base.Predicate;
-
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.BlockPos;
 import net.minecraft.world.World;

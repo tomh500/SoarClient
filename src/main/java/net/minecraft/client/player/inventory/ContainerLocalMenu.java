@@ -1,6 +1,7 @@
 package net.minecraft.client.player.inventory;
 
-import it.unimi.dsi.fastutil.ints.Int2IntOpenHashMap;
+import com.google.common.collect.Maps;
+import java.util.Map;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
@@ -11,7 +12,7 @@ import net.minecraft.world.LockCode;
 
 public class ContainerLocalMenu extends InventoryBasic implements ILockableContainer {
 	private final String guiID;
-	private final Int2IntOpenHashMap field_174895_b = new Int2IntOpenHashMap();
+	private final Map<Integer, Integer> field_174895_b = Maps.newHashMap();
 
 	public ContainerLocalMenu(String id, IChatComponent title, int slotCount) {
 		super(title, slotCount);
@@ -19,13 +20,13 @@ public class ContainerLocalMenu extends InventoryBasic implements ILockableConta
 	}
 
 	public int getField(int id) {
-		return this.field_174895_b.containsKey(id)
-				? this.field_174895_b.get(id)
+		return this.field_174895_b.containsKey(Integer.valueOf(id))
+				? this.field_174895_b.get(Integer.valueOf(id)).intValue()
 				: 0;
 	}
 
 	public void setField(int id, int value) {
-		this.field_174895_b.put(id, value);
+		this.field_174895_b.put(Integer.valueOf(id), Integer.valueOf(value));
 	}
 
 	public int getFieldCount() {

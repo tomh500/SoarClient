@@ -1,7 +1,6 @@
 package net.minecraft.world.gen;
 
 import java.util.Random;
-
 import net.minecraft.block.BlockBush;
 import net.minecraft.util.BlockPos;
 import net.minecraft.world.World;

@@ -10,12 +10,26 @@ import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 
 public class EntityXPOrb extends Entity {
+	/**
+	 * A constantly increasing value that RenderXPOrb uses to control the colour
+	 * shifting (Green / yellow)
+	 */
 	public int xpColor;
+
+	/** The age of the XP orb in ticks. */
 	public int xpOrbAge;
 	public int delayBeforeCanPickup;
+
+	/** The health of this XP orb. */
 	private int xpOrbHealth = 5;
+
+	/** This is how much XP this orb has. */
 	private int xpValue;
+
+	/** The closest EntityPlayer to this orb. */
 	private EntityPlayer closestPlayer;
+
+	/** Threshold color for tracking players */
 	private int xpTargetColor;
 
 	public EntityXPOrb(World worldIn, double x, double y, double z, int expValue) {
@@ -29,6 +43,10 @@ public class EntityXPOrb extends Entity {
 		this.xpValue = expValue;
 	}
 
+	/**
+	 * returns if this entity triggers Block.onEntityWalking on the blocks they walk
+	 * on. used for spiders and wolves to prevent them from trampling crops
+	 */
 	protected boolean canTriggerWalking() {
 		return false;
 	}
@@ -56,6 +74,9 @@ public class EntityXPOrb extends Entity {
 		return j | k << 16;
 	}
 
+	/**
+	 * Called to update the entity's position/logic.
+	 */
 	public void onUpdate() {
 		super.onUpdate();
 
@@ -131,14 +152,25 @@ public class EntityXPOrb extends Entity {
 		}
 	}
 
+	/**
+	 * Returns if this entity is in water and will end up adding the waters velocity
+	 * to the entity
+	 */
 	public boolean handleWaterMovement() {
 		return this.worldObj.handleMaterialAcceleration(this.getEntityBoundingBox(), Material.water, this);
 	}
 
+	/**
+	 * Will deal the specified amount of damage to the entity if the entity isn't
+	 * immune to fire damage. Args: amountDamage
+	 */
 	protected void dealFireDamage(int amount) {
 		this.attackEntityFrom(DamageSource.inFire, (float) amount);
 	}
 
+	/**
+	 * Called when the entity is attacked.
+	 */
 	public boolean attackEntityFrom(DamageSource source, float amount) {
 		if (this.isEntityInvulnerable(source)) {
 			return false;
@@ -154,18 +186,27 @@ public class EntityXPOrb extends Entity {
 		}
 	}
 
+	/**
+	 * (abstract) Protected helper method to write subclass entity data to NBT.
+	 */
 	public void writeEntityToNBT(NBTTagCompound tagCompound) {
 		tagCompound.setShort("Health", (byte) this.xpOrbHealth);
 		tagCompound.setShort("Age", (short) this.xpOrbAge);
 		tagCompound.setShort("Value", (short) this.xpValue);
 	}
 
+	/**
+	 * (abstract) Protected helper method to read subclass entity data from NBT.
+	 */
 	public void readEntityFromNBT(NBTTagCompound tagCompund) {
 		this.xpOrbHealth = tagCompund.getShort("Health") & 255;
 		this.xpOrbAge = tagCompund.getShort("Age");
 		this.xpValue = tagCompund.getShort("Value");
 	}
 
+	/**
+	 * Called by a player entity when they collide with an entity
+	 */
 	public void onCollideWithPlayer(EntityPlayer entityIn) {
 		if (!this.worldObj.isRemote) {
 			if (this.delayBeforeCanPickup == 0 && entityIn.xpCooldown == 0) {
@@ -179,10 +220,17 @@ public class EntityXPOrb extends Entity {
 		}
 	}
 
+	/**
+	 * Returns the XP value of this XP orb.
+	 */
 	public int getXpValue() {
 		return this.xpValue;
 	}
 
+	/**
+	 * Returns a number from 1 to 10 based on how much XP this orb is worth. This is
+	 * used by RenderXPOrb to determine what texture to use.
+	 */
 	public int getTextureByXP() {
 		return this.xpValue >= 2477 ? 10
 				: (this.xpValue >= 1237 ? 9
@@ -196,6 +244,10 @@ public class EntityXPOrb extends Entity {
 																				: (this.xpValue >= 3 ? 1 : 0)))))))));
 	}
 
+	/**
+	 * Get a fragment of the maximum experience points value for the supplied value
+	 * of experience points value.
+	 */
 	public static int getXPSplit(int expValue) {
 		return expValue >= 2477 ? 2477
 				: (expValue >= 1237 ? 1237
@@ -209,6 +261,9 @@ public class EntityXPOrb extends Entity {
 																				: (expValue >= 3 ? 3 : 1)))))))));
 	}
 
+	/**
+	 * If returns false, the item will not inflict any damage against entities.
+	 */
 	public boolean canAttackWithItem() {
 		return false;
 	}

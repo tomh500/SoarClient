@@ -1,9 +1,8 @@
 package net.minecraft.server.management;
 
-import java.io.File;
-
 import com.google.gson.JsonObject;
 import com.mojang.authlib.GameProfile;
+import java.io.File;
 
 public class UserListOps extends UserList<GameProfile, UserListOpsEntry> {
 	public UserListOps(File saveFile) {
@@ -30,10 +29,16 @@ public class UserListOps extends UserList<GameProfile, UserListOpsEntry> {
 		return userlistopsentry != null && userlistopsentry.bypassesPlayerLimit();
 	}
 
+	/**
+	 * Gets the key value for the given object
+	 */
 	protected String getObjectKey(GameProfile obj) {
 		return obj.getId().toString();
 	}
 
+	/**
+	 * Gets the GameProfile of based on the provided username.
+	 */
 	public GameProfile getGameProfileFromName(String username) {
 		for (UserListOpsEntry userlistopsentry : this.getValues().values()) {
 			if (username.equalsIgnoreCase(userlistopsentry.getValue().getName())) {

@@ -5,7 +5,6 @@ import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.util.concurrent.atomic.AtomicInteger;
-
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -13,6 +12,8 @@ public class ThreadLanServerPing extends Thread {
 	private static final AtomicInteger field_148658_a = new AtomicInteger(0);
 	private static final Logger logger = LogManager.getLogger();
 	private final String motd;
+
+	/** The socket we're using to send packets on. */
 	private final DatagramSocket socket;
 	private boolean isStopping = true;
 	private final String address;

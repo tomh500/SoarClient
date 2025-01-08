@@ -1,12 +1,10 @@
 package net.minecraft.world.gen;
 
+import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-
-import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
-
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.MathHelper;
@@ -17,10 +15,16 @@ public class FlatGeneratorInfo {
 	private final Map<String, Map<String, String>> worldFeatures = Maps.newHashMap();
 	private int biomeToUse;
 
+	/**
+	 * Return the biome used on this preset.
+	 */
 	public int getBiome() {
 		return this.biomeToUse;
 	}
 
+	/**
+	 * Set the biome used on this preset.
+	 */
 	public void setBiome(int biome) {
 		this.biomeToUse = biome;
 	}

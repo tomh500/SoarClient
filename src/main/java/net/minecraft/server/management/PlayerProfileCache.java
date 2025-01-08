@@ -1,5 +1,22 @@
 package net.minecraft.server.management;
 
+import com.google.common.base.Charsets;
+import com.google.common.collect.Iterators;
+import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
+import com.google.common.io.Files;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonDeserializationContext;
+import com.google.gson.JsonDeserializer;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParseException;
+import com.google.gson.JsonSerializationContext;
+import com.google.gson.JsonSerializer;
+import com.mojang.authlib.Agent;
+import com.mojang.authlib.GameProfile;
+import com.mojang.authlib.ProfileLookupCallback;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -19,29 +36,9 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.UUID;
-
-import org.apache.commons.io.IOUtils;
-
-import com.google.common.base.Charsets;
-import com.google.common.collect.Iterators;
-import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
-import com.google.common.io.Files;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.JsonDeserializationContext;
-import com.google.gson.JsonDeserializer;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParseException;
-import com.google.gson.JsonSerializationContext;
-import com.google.gson.JsonSerializer;
-import com.mojang.authlib.Agent;
-import com.mojang.authlib.GameProfile;
-import com.mojang.authlib.ProfileLookupCallback;
-
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.server.MinecraftServer;
+import org.apache.commons.io.IOUtils;
 
 public class PlayerProfileCache {
 	public static final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss Z");
@@ -75,6 +72,12 @@ public class PlayerProfileCache {
 		this.load();
 	}
 
+	/**
+	 * Get a GameProfile given the MinecraftServer and the player's username.
+	 * 
+	 * The UUID of the GameProfile will <b>not</b> be null. If the server is
+	 * offline, a UUID based on the hash of the username will be used.
+	 */
 	private static GameProfile getGameProfile(MinecraftServer server, String username) {
 		final GameProfile[] agameprofile = new GameProfile[1];
 		ProfileLookupCallback profilelookupcallback = new ProfileLookupCallback() {
@@ -99,10 +102,16 @@ public class PlayerProfileCache {
 		return agameprofile[0];
 	}
 
+	/**
+	 * Add an entry to this cache
+	 */
 	public void addEntry(GameProfile gameProfile) {
 		this.addEntry(gameProfile, null);
 	}
 
+	/**
+	 * Add an entry to this cache
+	 */
 	private void addEntry(GameProfile gameProfile, Date expirationDate) {
 		UUID uuid = gameProfile.getId();
 
@@ -131,6 +140,10 @@ public class PlayerProfileCache {
 		this.save();
 	}
 
+	/**
+	 * Get a player's GameProfile given their username. Mojang's server's will be
+	 * contacted if the entry is not cached locally.
+	 */
 	public GameProfile getGameProfileForUsername(String username) {
 		String s = username.toLowerCase(Locale.ROOT);
 		PlayerProfileCache.ProfileEntry playerprofilecache$profileentry = this.usernameToProfileEntryMap.get(s);
@@ -161,16 +174,25 @@ public class PlayerProfileCache {
 		return playerprofilecache$profileentry == null ? null : playerprofilecache$profileentry.getGameProfile();
 	}
 
+	/**
+	 * Get an array of the usernames that are cached in this cache
+	 */
 	public String[] getUsernames() {
 		List<String> list = Lists.newArrayList(this.usernameToProfileEntryMap.keySet());
-		return list.toArray(new String[0]);
+		return list.toArray(new String[list.size()]);
 	}
 
+	/**
+	 * Get a player's {@link GameProfile} given their UUID
+	 */
 	public GameProfile getProfileByUUID(UUID uuid) {
 		PlayerProfileCache.ProfileEntry playerprofilecache$profileentry = this.uuidToProfileEntryMap.get(uuid);
 		return playerprofilecache$profileentry == null ? null : playerprofilecache$profileentry.getGameProfile();
 	}
 
+	/**
+	 * Get a {@link ProfileEntry} by UUID
+	 */
 	private PlayerProfileCache.ProfileEntry getByUUID(UUID uuid) {
 		PlayerProfileCache.ProfileEntry playerprofilecache$profileentry = this.uuidToProfileEntryMap.get(uuid);
 
@@ -183,6 +205,9 @@ public class PlayerProfileCache {
 		return playerprofilecache$profileentry;
 	}
 
+	/**
+	 * Load the cached profiles from disk
+	 */
 	public void load() {
 		BufferedReader bufferedreader = null;
 
@@ -206,6 +231,9 @@ public class PlayerProfileCache {
 		}
 	}
 
+	/**
+	 * Save the cached profiles to disk
+	 */
 	public void save() {
 		String s = this.gson.toJson(this.getEntriesWithLimit(1000));
 		BufferedWriter bufferedwriter = null;

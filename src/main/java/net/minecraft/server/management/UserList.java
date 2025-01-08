@@ -1,19 +1,5 @@
 package net.minecraft.server.management;
 
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.IOException;
-import java.io.Writer;
-import java.lang.reflect.ParameterizedType;
-import java.lang.reflect.Type;
-import java.util.Collection;
-import java.util.List;
-import java.util.Map;
-
-import org.apache.commons.io.IOUtils;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
 import com.google.common.base.Charsets;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
@@ -27,6 +13,18 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
 import com.google.gson.JsonSerializationContext;
 import com.google.gson.JsonSerializer;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.IOException;
+import java.io.Writer;
+import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
+import java.util.Collection;
+import java.util.List;
+import java.util.Map;
+import org.apache.commons.io.IOUtils;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class UserList<K, V extends UserListEntry<K>> {
 	protected static final Logger logger = LogManager.getLogger();
@@ -63,6 +61,9 @@ public class UserList<K, V extends UserListEntry<K>> {
 		this.lanServer = state;
 	}
 
+	/**
+	 * Adds an entry to the list
+	 */
 	public void addEntry(V entry) {
 		this.values.put(this.getObjectKey(entry.getValue()), entry);
 
@@ -89,9 +90,12 @@ public class UserList<K, V extends UserListEntry<K>> {
 	}
 
 	public String[] getKeys() {
-		return this.values.keySet().toArray(new String[0]);
+		return this.values.keySet().toArray(new String[this.values.size()]);
 	}
 
+	/**
+	 * Gets the key value for the given object
+	 */
 	protected String getObjectKey(K obj) {
 		return obj.toString();
 	}
@@ -100,6 +104,9 @@ public class UserList<K, V extends UserListEntry<K>> {
 		return this.values.containsKey(this.getObjectKey(entry));
 	}
 
+	/**
+	 * Removes expired bans from the list. See {@link BanEntry#hasBanExpired}
+	 */
 	private void removeExpired() {
 		List<K> list = Lists.newArrayList();
 

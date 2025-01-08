@@ -1,12 +1,10 @@
 package net.minecraft.world.gen.structure;
 
+import com.google.common.collect.Lists;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Random;
-
-import com.google.common.collect.Lists;
-
+import java.util.Map.Entry;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.ChunkCoordIntPair;
@@ -15,6 +13,11 @@ import net.minecraft.world.biome.BiomeGenBase;
 
 public class MapGenStronghold extends MapGenStructure {
 	private final List<BiomeGenBase> field_151546_e;
+
+	/**
+	 * is spawned false and set true once the defined BiomeGenBases were compared
+	 * with the present ones
+	 */
 	private boolean ranBiomeCheck;
 	private ChunkCoordIntPair[] structureCoords;
 	private double field_82671_h;

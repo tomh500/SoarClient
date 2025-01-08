@@ -1,7 +1,6 @@
 package net.minecraft.client.renderer.entity.layers;
 
 import java.util.Random;
-
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.Tessellator;

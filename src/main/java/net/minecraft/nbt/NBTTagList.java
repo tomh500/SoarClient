@@ -1,20 +1,26 @@
 package net.minecraft.nbt;
 
+import com.google.common.collect.Lists;
 import java.io.DataInput;
 import java.io.DataOutput;
 import java.io.IOException;
 import java.util.List;
-
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-
-import com.google.common.collect.Lists;
 
 public class NBTTagList extends NBTBase {
 	private static final Logger LOGGER = LogManager.getLogger();
 	private List<NBTBase> tagList = Lists.newArrayList();
+
+	/**
+	 * The type byte for the tags in the list - they must all be of the same type.
+	 */
 	private byte tagType = 0;
 
+	/**
+	 * Write the actual data contents of the tag, implemented in NBT extension
+	 * classes
+	 */
 	void write(DataOutput output) throws IOException {
 		if (!this.tagList.isEmpty()) {
 			this.tagType = this.tagList.get(0).getId();
@@ -54,6 +60,9 @@ public class NBTTagList extends NBTBase {
 		}
 	}
 
+	/**
+	 * Gets the type byte for the tag.
+	 */
 	public byte getId() {
 		return (byte) 9;
 	}
@@ -72,6 +81,10 @@ public class NBTTagList extends NBTBase {
 		return stringbuilder.append(']').toString();
 	}
 
+	/**
+	 * Adds the provided tag to the end of the list. There is no check to verify
+	 * this tag is of the same type as any previous tag.
+	 */
 	public void appendTag(NBTBase nbt) {
 		if (nbt.getId() == 0) {
 			LOGGER.warn("Invalid TagEnd added to ListTag");
@@ -87,6 +100,9 @@ public class NBTTagList extends NBTBase {
 		}
 	}
 
+	/**
+	 * Set the given index to the given tag
+	 */
 	public void set(int idx, NBTBase nbt) {
 		if (nbt.getId() == 0) {
 			LOGGER.warn("Invalid TagEnd added to ListTag");
@@ -104,14 +120,23 @@ public class NBTTagList extends NBTBase {
 		}
 	}
 
+	/**
+	 * Removes a tag at the given index.
+	 */
 	public NBTBase removeTag(int i) {
 		return this.tagList.remove(i);
 	}
 
+	/**
+	 * Return whether this compound has no tags.
+	 */
 	public boolean hasNoTags() {
 		return this.tagList.isEmpty();
 	}
 
+	/**
+	 * Retrieves the NBTTagCompound at the specified index in the list
+	 */
 	public NBTTagCompound getCompoundTagAt(int i) {
 		if (i >= 0 && i < this.tagList.size()) {
 			NBTBase nbtbase = this.tagList.get(i);
@@ -148,6 +173,9 @@ public class NBTTagList extends NBTBase {
 		}
 	}
 
+	/**
+	 * Retrieves the tag String value at the specified index in the list
+	 */
 	public String getStringTagAt(int i) {
 		if (i >= 0 && i < this.tagList.size()) {
 			NBTBase nbtbase = this.tagList.get(i);
@@ -157,14 +185,23 @@ public class NBTTagList extends NBTBase {
 		}
 	}
 
+	/**
+	 * Get the tag at the given position
+	 */
 	public NBTBase get(int idx) {
 		return idx >= 0 && idx < this.tagList.size() ? this.tagList.get(idx) : new NBTTagEnd();
 	}
 
+	/**
+	 * Returns the number of tags in the list.
+	 */
 	public int tagCount() {
 		return this.tagList.size();
 	}
 
+	/**
+	 * Creates a clone of the tag.
+	 */
 	public NBTBase copy() {
 		NBTTagList nbttaglist = new NBTTagList();
 		nbttaglist.tagType = this.tagType;

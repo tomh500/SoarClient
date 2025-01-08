@@ -1,13 +1,11 @@
 package net.minecraft.world.gen.structure;
 
+import com.google.common.collect.Maps;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
 import java.util.concurrent.Callable;
-
-import com.google.common.collect.Maps;
-
 import net.minecraft.crash.CrashReport;
 import net.minecraft.crash.CrashReportCategory;
 import net.minecraft.nbt.NBTBase;
@@ -25,6 +23,9 @@ public abstract class MapGenStructure extends MapGenBase {
 
 	public abstract String getStructureName();
 
+	/**
+	 * Recursively called by generate()
+	 */
 	protected final void recursiveGenerate(World worldIn, final int chunkX, final int chunkZ, int p_180701_4_,
 			int p_180701_5_, ChunkPrimer chunkPrimerIn) {
 		this.initializeStructureData(worldIn);

@@ -1,7 +1,6 @@
 package net.minecraft.network.play.server;
 
 import java.io.IOException;
-
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.network.Packet;
 import net.minecraft.network.PacketBuffer;
@@ -36,6 +35,9 @@ public class S42PacketCombatEvent implements Packet<INetHandlerPlayClient> {
 		}
 	}
 
+	/**
+	 * Reads the raw packet data from the data stream.
+	 */
 	public void readPacketData(PacketBuffer buf) throws IOException {
 		this.eventType = buf.readEnumValue(Event.class);
 
@@ -49,6 +51,9 @@ public class S42PacketCombatEvent implements Packet<INetHandlerPlayClient> {
 		}
 	}
 
+	/**
+	 * Writes the raw packet data to the data stream.
+	 */
 	public void writePacketData(PacketBuffer buf) throws IOException {
 		buf.writeEnumValue(this.eventType);
 
@@ -62,6 +67,9 @@ public class S42PacketCombatEvent implements Packet<INetHandlerPlayClient> {
 		}
 	}
 
+	/**
+	 * Passes this Packet on to the NetHandler for processing.
+	 */
 	public void processPacket(INetHandlerPlayClient handler) {
 		handler.handleCombatEvent(this);
 	}

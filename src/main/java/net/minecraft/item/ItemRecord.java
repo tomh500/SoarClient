@@ -1,10 +1,8 @@
 package net.minecraft.item;
 
+import com.google.common.collect.Maps;
 import java.util.List;
 import java.util.Map;
-
-import com.google.common.collect.Maps;
-
 import net.minecraft.block.BlockJukebox;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.creativetab.CreativeTabs;
@@ -18,6 +16,8 @@ import net.minecraft.world.World;
 
 public class ItemRecord extends Item {
 	private static final Map<String, ItemRecord> RECORDS = Maps.newHashMap();
+
+	/** The name of the record. */
 	public final String recordName;
 
 	protected ItemRecord(String name) {
@@ -27,6 +27,9 @@ public class ItemRecord extends Item {
 		RECORDS.put("records." + name, this);
 	}
 
+	/**
+	 * Called when a Block is right-clicked with this Item
+	 */
 	public boolean onItemUse(ItemStack stack, EntityPlayer playerIn, World worldIn, BlockPos pos, EnumFacing side,
 			float hitX, float hitY, float hitZ) {
 		IBlockState iblockstate = worldIn.getBlockState(pos);
@@ -46,6 +49,9 @@ public class ItemRecord extends Item {
 		}
 	}
 
+	/**
+	 * allows items to add custom lines of information to the mouseover description
+	 */
 	public void addInformation(ItemStack stack, EntityPlayer playerIn, List<String> tooltip, boolean advanced) {
 		tooltip.add(this.getRecordNameLocal());
 	}
@@ -54,10 +60,16 @@ public class ItemRecord extends Item {
 		return StatCollector.translateToLocal("item.record." + this.recordName + ".desc");
 	}
 
+	/**
+	 * Return an item rarity from EnumRarity
+	 */
 	public EnumRarity getRarity(ItemStack stack) {
 		return EnumRarity.RARE;
 	}
 
+	/**
+	 * Return the record item corresponding to the given name.
+	 */
 	public static ItemRecord getRecord(String name) {
 		return RECORDS.get(name);
 	}

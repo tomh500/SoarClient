@@ -1,7 +1,6 @@
 package net.minecraft.block.state.pattern;
 
 import com.google.common.base.Predicate;
-
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 

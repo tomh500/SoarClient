@@ -1,8 +1,7 @@
 package net.minecraft.client.resources.model;
 
-import org.apache.commons.lang3.StringUtils;
-
 import net.minecraft.util.ResourceLocation;
+import org.apache.commons.lang3.StringUtils;
 
 public class ModelResourceLocation extends ResourceLocation {
 	private final String variant;

@@ -2,25 +2,36 @@ package net.minecraft.command;
 
 import java.util.List;
 import java.util.Random;
-
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.BlockPos;
 import net.minecraft.world.World;
 import net.minecraft.world.storage.WorldInfo;
 
 public class CommandWeather extends CommandBase {
+	/**
+	 * Gets the name of the command
+	 */
 	public String getCommandName() {
 		return "weather";
 	}
 
+	/**
+	 * Return the required permission level for this command.
+	 */
 	public int getRequiredPermissionLevel() {
 		return 2;
 	}
 
+	/**
+	 * Gets the usage string for the command.
+	 */
 	public String getCommandUsage(ICommandSender sender) {
 		return "commands.weather.usage";
 	}
 
+	/**
+	 * Callback when the command is invoked
+	 */
 	public void processCommand(ICommandSender sender, String[] args) throws CommandException {
 		if (args.length >= 1 && args.length <= 2) {
 			int i = (300 + (new Random()).nextInt(600)) * 20;

@@ -1,12 +1,10 @@
 package net.minecraft.item;
 
-import java.util.List;
-
 import com.google.common.collect.HashMultiset;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Multiset;
 import com.google.common.collect.Multisets;
-
+import java.util.List;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockDirt;
 import net.minecraft.block.BlockStone;
@@ -204,6 +202,10 @@ public class ItemMap extends ItemMapBase {
 		}
 	}
 
+	/**
+	 * Called each tick as long the item is on a player inventory. Uses by maps to
+	 * check if is on a player hand and update it's contents.
+	 */
 	public void onUpdate(ItemStack stack, World worldIn, Entity entityIn, int itemSlot, boolean isSelected) {
 		if (!worldIn.isRemote) {
 			MapData mapdata = this.getMapData(stack, worldIn);
@@ -222,6 +224,9 @@ public class ItemMap extends ItemMapBase {
 		return this.getMapData(stack, worldIn).getMapPacket(stack, worldIn, player);
 	}
 
+	/**
+	 * Called when item is crafted/smelted. Used only by maps so far.
+	 */
 	public void onCreated(ItemStack stack, World worldIn, EntityPlayer playerIn) {
 		if (stack.hasTagCompound() && stack.getTagCompound().getBoolean("map_is_scaling")) {
 			MapData mapdata = Items.filled_map.getMapData(stack, worldIn);
@@ -240,6 +245,9 @@ public class ItemMap extends ItemMapBase {
 		}
 	}
 
+	/**
+	 * allows items to add custom lines of information to the mouseover description
+	 */
 	public void addInformation(ItemStack stack, EntityPlayer playerIn, List<String> tooltip, boolean advanced) {
 		MapData mapdata = this.getMapData(stack, playerIn.worldObj);
 

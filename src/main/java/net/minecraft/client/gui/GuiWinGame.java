@@ -1,18 +1,12 @@
 package net.minecraft.client.gui;
 
+import com.google.common.collect.Lists;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.List;
 import java.util.Random;
-
-import org.apache.commons.io.Charsets;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
-import com.google.common.collect.Lists;
-
 import net.minecraft.client.audio.MusicTicker;
 import net.minecraft.client.audio.SoundHandler;
 import net.minecraft.client.renderer.GlStateManager;
@@ -22,6 +16,9 @@ import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.network.play.client.C16PacketClientStatus;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.ResourceLocation;
+import org.apache.commons.io.Charsets;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class GuiWinGame extends GuiScreen {
 	private static final Logger logger = LogManager.getLogger();
@@ -32,6 +29,9 @@ public class GuiWinGame extends GuiScreen {
 	private int field_146579_r;
 	private final float field_146578_s = 0.5F;
 
+	/**
+	 * Called from the main game loop to update the screen.
+	 */
 	public void updateScreen() {
 		MusicTicker musicticker = this.mc.getMusicTicker();
 		SoundHandler soundhandler = this.mc.getSoundHandler();
@@ -51,6 +51,11 @@ public class GuiWinGame extends GuiScreen {
 		}
 	}
 
+	/**
+	 * Fired when a key is typed (except F11 which toggles full screen). This is the
+	 * equivalent of KeyListener.keyTyped(KeyEvent e). Args : character (character
+	 * on the key), keyCode (lwjgl Keyboard key code)
+	 */
 	protected void keyTyped(char typedChar, int keyCode) throws IOException {
 		if (keyCode == 1) {
 			this.sendRespawnPacket();
@@ -63,10 +68,19 @@ public class GuiWinGame extends GuiScreen {
 		this.mc.displayGuiScreen(null);
 	}
 
+	/**
+	 * Returns true if this GUI should pause the game when it is displayed in
+	 * single-player
+	 */
 	public boolean doesGuiPauseGame() {
 		return true;
 	}
 
+	/**
+	 * Adds the buttons (and other controls) to the screen in question. Called when
+	 * the GUI is displayed and when the window resizes, the buttonList is cleared
+	 * beforehand.
+	 */
 	public void initGui() {
 		if (this.field_146582_i == null) {
 			this.field_146582_i = Lists.newArrayList();
@@ -152,6 +166,10 @@ public class GuiWinGame extends GuiScreen {
 		tessellator.draw();
 	}
 
+	/**
+	 * Draws the screen and all the components in it. Args : mouseX, mouseY,
+	 * renderPartialTicks
+	 */
 	public void drawScreen(int mouseX, int mouseY, float partialTicks) {
 		this.drawWinGameScreen(mouseX, mouseY, partialTicks);
 		Tessellator tessellator = Tessellator.getInstance();

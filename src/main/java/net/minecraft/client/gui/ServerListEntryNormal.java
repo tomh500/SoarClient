@@ -1,22 +1,16 @@
 package net.minecraft.client.gui;
 
+import com.google.common.base.Charsets;
+import com.google.common.util.concurrent.ThreadFactoryBuilder;
+import io.netty.buffer.ByteBuf;
+import io.netty.buffer.ByteBufInputStream;
+import io.netty.buffer.Unpooled;
+import io.netty.handler.codec.base64.Base64;
 import java.awt.image.BufferedImage;
 import java.net.UnknownHostException;
 import java.util.List;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.ThreadPoolExecutor;
-
-import org.apache.commons.lang3.Validate;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
-import com.google.common.base.Charsets;
-import com.google.common.util.concurrent.ThreadFactoryBuilder;
-
-import io.netty.buffer.ByteBuf;
-import io.netty.buffer.ByteBufInputStream;
-import io.netty.buffer.Unpooled;
-import io.netty.handler.codec.base64.Base64;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ServerData;
 import net.minecraft.client.renderer.GlStateManager;
@@ -24,6 +18,9 @@ import net.minecraft.client.renderer.texture.DynamicTexture;
 import net.minecraft.client.renderer.texture.TextureUtil;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.ResourceLocation;
+import org.apache.commons.lang3.Validate;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class ServerListEntryNormal implements GuiListExtended.IGuiListEntry {
 	private static final Logger logger = LogManager.getLogger();
@@ -237,6 +234,9 @@ public class ServerListEntryNormal implements GuiListExtended.IGuiListEntry {
 		}
 	}
 
+	/**
+	 * Returns true if the mouse has been pressed on this control.
+	 */
 	public boolean mousePressed(int slotIndex, int p_148278_2_, int p_148278_3_, int p_148278_4_, int p_148278_5_,
 			int p_148278_6_) {
 		if (p_148278_5_ <= 32) {
@@ -270,6 +270,10 @@ public class ServerListEntryNormal implements GuiListExtended.IGuiListEntry {
 	public void setSelected(int p_178011_1_, int p_178011_2_, int p_178011_3_) {
 	}
 
+	/**
+	 * Fired when the mouse button is released. Arguments: index, x, y, mouseEvent,
+	 * relativeX, relativeY
+	 */
 	public void mouseReleased(int slotIndex, int x, int y, int mouseEvent, int relativeX, int relativeY) {
 	}
 

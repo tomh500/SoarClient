@@ -2,12 +2,6 @@ package net.minecraft.inventory;
 
 import java.util.Iterator;
 import java.util.Map;
-
-import org.apache.commons.lang3.StringUtils;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
-import it.unimi.dsi.fastutil.ints.Int2IntLinkedOpenHashMap;
 import net.minecraft.block.BlockAnvil;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.enchantment.Enchantment;
@@ -19,16 +13,31 @@ import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.BlockPos;
 import net.minecraft.world.World;
+import org.apache.commons.lang3.StringUtils;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class ContainerRepair extends Container {
 	private static final Logger logger = LogManager.getLogger();
+
+	/** Here comes out item you merged and/or renamed. */
 	private final IInventory outputSlot;
+
+	/**
+	 * The 2slots where you put your items in that you want to merge and/or rename.
+	 */
 	private final IInventory inputSlots;
 	private final World theWorld;
 	private final BlockPos selfPosition;
+
+	/** The maximum cost of repairing/renaming in the anvil. */
 	public int maximumCost;
+
+	/** determined by damage of input item and stackSize of repair materials */
 	private int materialCost;
 	private String repairedItemName;
+
+	/** The player that has this container open. */
 	private final EntityPlayer thePlayer;
 
 	public ContainerRepair(InventoryPlayer playerInventory, World worldIn, EntityPlayer player) {
@@ -113,6 +122,9 @@ public class ContainerRepair extends Container {
 		}
 	}
 
+	/**
+	 * Callback for when the crafting matrix is changed.
+	 */
 	public void onCraftMatrixChanged(IInventory inventoryIn) {
 		super.onCraftMatrixChanged(inventoryIn);
 
@@ -121,6 +133,10 @@ public class ContainerRepair extends Container {
 		}
 	}
 
+	/**
+	 * called when the Anvil Input Slot changes, calculates the new result and puts
+	 * it in the output slot
+	 */
 	public void updateRepairOutput() {
 		int i = 0;
 		int j = 1;
@@ -141,7 +157,7 @@ public class ContainerRepair extends Container {
 		} else {
 			ItemStack itemstack1 = itemstack.copy();
 			ItemStack itemstack2 = this.inputSlots.getStackInSlot(1);
-			Int2IntLinkedOpenHashMap map = EnchantmentHelper.getEnchantments(itemstack1);
+			Map<Integer, Integer> map = EnchantmentHelper.getEnchantments(itemstack1);
 			boolean flag = false;
 			i2 = i2 + itemstack.getRepairCost() + (itemstack2 == null ? 0 : itemstack2.getRepairCost());
 			this.materialCost = 0;
@@ -194,7 +210,7 @@ public class ContainerRepair extends Container {
 						}
 					}
 
-					Int2IntLinkedOpenHashMap map1 = EnchantmentHelper.getEnchantments(itemstack2);
+					Map<Integer, Integer> map1 = EnchantmentHelper.getEnchantments(itemstack2);
 					Iterator iterator1 = map1.keySet().iterator();
 
 					while (iterator1.hasNext()) {
@@ -202,8 +218,8 @@ public class ContainerRepair extends Container {
 						Enchantment enchantment = Enchantment.getEnchantmentById(i5);
 
 						if (enchantment != null) {
-							int k5 = map.containsKey(i5) ? map.get(i5) : 0;
-							int l3 = map1.get(i5);
+							int k5 = map.containsKey(Integer.valueOf(i5)) ? map.get(Integer.valueOf(i5)).intValue() : 0;
+							int l3 = map1.get(Integer.valueOf(i5)).intValue();
 							int i6;
 
 							if (k5 == l3) {
@@ -237,7 +253,7 @@ public class ContainerRepair extends Container {
 									l3 = enchantment.getMaxLevel();
 								}
 
-								map.put(i5, l3);
+								map.put(Integer.valueOf(i5), Integer.valueOf(l3));
 								int l5 = 0;
 
 								switch (enchantment.getWeight()) {
@@ -330,6 +346,9 @@ public class ContainerRepair extends Container {
 		}
 	}
 
+	/**
+	 * Called when the container is closed.
+	 */
 	public void onContainerClosed(EntityPlayer playerIn) {
 		super.onContainerClosed(playerIn);
 
@@ -350,6 +369,9 @@ public class ContainerRepair extends Container {
 						(double) this.selfPosition.getY() + 0.5D, (double) this.selfPosition.getZ() + 0.5D) <= 64.0D;
 	}
 
+	/**
+	 * Take a stack from the specified inventory slot.
+	 */
 	public ItemStack transferStackInSlot(EntityPlayer playerIn, int index) {
 		ItemStack itemstack = null;
 		Slot slot = this.inventorySlots.get(index);
@@ -388,6 +410,9 @@ public class ContainerRepair extends Container {
 		return itemstack;
 	}
 
+	/**
+	 * used by the Anvil GUI to update the Item Name being typed by the player
+	 */
 	public void updateItemName(String newName) {
 		this.repairedItemName = newName;
 

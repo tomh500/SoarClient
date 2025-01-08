@@ -1,21 +1,19 @@
 package net.minecraft.command;
 
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
-import java.util.Set;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 import com.google.common.base.Predicate;
 import com.google.common.base.Predicates;
 import com.google.common.collect.ComparisonChain;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
-
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.Map.Entry;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityList;
 import net.minecraft.entity.EntityLivingBase;
@@ -37,11 +35,29 @@ import net.minecraft.world.World;
 import net.minecraft.world.WorldSettings;
 
 public class PlayerSelector {
+	/**
+	 * This matches the at-tokens introduced for command blocks, including their
+	 * arguments, if any.
+	 */
 	private static final Pattern tokenPattern = Pattern.compile("^@([pare])(?:\\[([\\w=,!-]*)\\])?$");
+
+	/**
+	 * This matches things like "-1,,4", and is used for getting x,y,z,range from
+	 * the token's argument list.
+	 */
 	private static final Pattern intListPattern = Pattern.compile("\\G([-!]?[\\w-]*)(?:$|,)");
+
+	/**
+	 * This matches things like "rm=4,c=2" and is used for handling named token
+	 * arguments.
+	 */
 	private static final Pattern keyValueListPattern = Pattern.compile("\\G(\\w+)=([-!]?[\\w-]*)(?:$|,)");
 	private static final Set<String> WORLD_BINDING_ARGS = Sets.newHashSet("x", "y", "z", "dx", "dy", "dz", "rm", "r");
 
+	/**
+	 * Returns the one player that matches the given at-token. Returns null if more
+	 * than one player matches.
+	 */
 	public static EntityPlayerMP matchOnePlayer(ICommandSender sender, String token) {
 		return matchOneEntity(sender, token, EntityPlayerMP.class);
 	}
@@ -519,6 +535,9 @@ public class PlayerSelector {
 		return map;
 	}
 
+	/**
+	 * Returns whether the given pattern can match more than one player.
+	 */
 	public static boolean matchesMultiplePlayers(String p_82377_0_) {
 		Matcher matcher = tokenPattern.matcher(p_82377_0_);
 
@@ -532,6 +551,9 @@ public class PlayerSelector {
 		}
 	}
 
+	/**
+	 * Returns whether the given token has any arguments set.
+	 */
 	public static boolean hasArguments(String p_82378_0_) {
 		return tokenPattern.matcher(p_82378_0_).matches();
 	}

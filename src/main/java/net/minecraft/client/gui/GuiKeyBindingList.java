@@ -1,14 +1,12 @@
 package net.minecraft.client.gui;
 
 import java.util.Arrays;
-
-import org.apache.commons.lang3.ArrayUtils;
-
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.client.settings.GameSettings;
 import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.util.EnumChatFormatting;
+import org.apache.commons.lang3.ArrayUtils;
 
 public class GuiKeyBindingList extends GuiListExtended {
 	private final GuiControls field_148191_k;
@@ -48,6 +46,9 @@ public class GuiKeyBindingList extends GuiListExtended {
 		return this.listEntries.length;
 	}
 
+	/**
+	 * Gets the IGuiListEntry object for the given index
+	 */
 	public GuiListExtended.IGuiListEntry getListEntry(int index) {
 		return this.listEntries[index];
 	}
@@ -56,6 +57,9 @@ public class GuiKeyBindingList extends GuiListExtended {
 		return super.getScrollBarX() + 15;
 	}
 
+	/**
+	 * Gets the width of the list
+	 */
 	public int getListWidth() {
 		return super.getListWidth() + 32;
 	}

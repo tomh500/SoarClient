@@ -1,7 +1,6 @@
 package net.minecraft.client.audio;
 
 import java.util.Random;
-
 import net.minecraft.client.Minecraft;
 import net.minecraft.util.ITickable;
 import net.minecraft.util.MathHelper;
@@ -17,6 +16,9 @@ public class MusicTicker implements ITickable {
 		this.mc = mcIn;
 	}
 
+	/**
+	 * Like the old updateEntity(), except more generic.
+	 */
 	public void update() {
 		MusicTicker.MusicType musicticker$musictype = this.mc.getAmbientMusicType();
 

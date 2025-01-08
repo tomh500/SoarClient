@@ -1,7 +1,6 @@
 package net.minecraft.network.play.server;
 
 import java.io.IOException;
-
 import net.minecraft.network.Packet;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.network.play.INetHandlerPlayClient;
@@ -10,7 +9,11 @@ import net.minecraft.util.BlockPos;
 public class S28PacketEffect implements Packet<INetHandlerPlayClient> {
 	private int soundType;
 	private BlockPos soundPos;
+
+	/** can be a block/item id or other depending on the soundtype */
 	private int soundData;
+
+	/** If true the sound is played across the server */
 	private boolean serverWide;
 
 	public S28PacketEffect() {
@@ -23,6 +26,9 @@ public class S28PacketEffect implements Packet<INetHandlerPlayClient> {
 		this.serverWide = serverWideIn;
 	}
 
+	/**
+	 * Reads the raw packet data from the data stream.
+	 */
 	public void readPacketData(PacketBuffer buf) throws IOException {
 		this.soundType = buf.readInt();
 		this.soundPos = buf.readBlockPos();
@@ -30,6 +36,9 @@ public class S28PacketEffect implements Packet<INetHandlerPlayClient> {
 		this.serverWide = buf.readBoolean();
 	}
 
+	/**
+	 * Writes the raw packet data to the data stream.
+	 */
 	public void writePacketData(PacketBuffer buf) throws IOException {
 		buf.writeInt(this.soundType);
 		buf.writeBlockPos(this.soundPos);
@@ -37,6 +46,9 @@ public class S28PacketEffect implements Packet<INetHandlerPlayClient> {
 		buf.writeBoolean(this.serverWide);
 	}
 
+	/**
+	 * Passes this Packet on to the NetHandler for processing.
+	 */
 	public void processPacket(INetHandlerPlayClient handler) {
 		handler.handleEffect(this);
 	}

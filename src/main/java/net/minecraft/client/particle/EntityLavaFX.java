@@ -32,10 +32,16 @@ public class EntityLavaFX extends EntityFX {
 		return j | k << 16;
 	}
 
+	/**
+	 * Gets how bright this entity is.
+	 */
 	public float getBrightness(float partialTicks) {
 		return 1.0F;
 	}
 
+	/**
+	 * Renders the particle
+	 */
 	public void renderParticle(WorldRenderer worldRendererIn, Entity entityIn, float partialTicks, float rotationX,
 			float rotationZ, float rotationYZ, float rotationXY, float rotationXZ) {
 		float f = ((float) this.particleAge + partialTicks) / (float) this.particleMaxAge;
@@ -44,6 +50,9 @@ public class EntityLavaFX extends EntityFX {
 				rotationXZ);
 	}
 
+	/**
+	 * Called to update the entity's position/logic.
+	 */
 	public void onUpdate() {
 		this.prevPosX = this.posX;
 		this.prevPosY = this.posY;

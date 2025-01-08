@@ -1,13 +1,15 @@
 package net.minecraft.nbt;
 
-import java.util.UUID;
-
 import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.properties.Property;
-
+import java.util.UUID;
 import net.minecraft.util.StringUtils;
 
 public final class NBTUtil {
+	/**
+	 * Reads and returns a GameProfile that has been saved to the passed in
+	 * NBTTagCompound
+	 */
 	public static GameProfile readGameProfileFromNBT(NBTTagCompound compound) {
 		String s = null;
 		String s1 = null;
@@ -57,6 +59,9 @@ public final class NBTUtil {
 		}
 	}
 
+	/**
+	 * Writes a GameProfile to an NBTTagCompound.
+	 */
 	public static NBTTagCompound writeGameProfile(NBTTagCompound tagCompound, GameProfile profile) {
 		if (!StringUtils.isNullOrEmpty(profile.getName())) {
 			tagCompound.setString("Name", profile.getName());

@@ -15,6 +15,7 @@ import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
 
 public class ItemBucket extends Item {
+	/** field for checking if the bucket has been filled. */
 	private final Block isFull;
 
 	public ItemBucket(Block containedBlock) {
@@ -23,6 +24,10 @@ public class ItemBucket extends Item {
 		this.setCreativeTab(CreativeTabs.tabMisc);
 	}
 
+	/**
+	 * Called whenever this item is equipped and the right mouse button is pressed.
+	 * Args: itemStack, world, entityPlayer
+	 */
 	public ItemStack onItemRightClick(ItemStack itemStackIn, World worldIn, EntityPlayer playerIn) {
 		boolean flag = this.isFull == Blocks.air;
 		MovingObjectPosition movingobjectposition = this.getMovingObjectPositionFromPlayer(worldIn, playerIn, flag);

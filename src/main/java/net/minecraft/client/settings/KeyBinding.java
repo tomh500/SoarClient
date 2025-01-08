@@ -1,28 +1,28 @@
 package net.minecraft.client.settings;
 
-import java.util.List;
-import java.util.Set;
-
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
-
-import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
+import java.util.List;
+import java.util.Set;
 import net.minecraft.client.resources.I18n;
+import net.minecraft.util.IntHashMap;
 
 public class KeyBinding implements Comparable<KeyBinding> {
 	private static final List<KeyBinding> keybindArray = Lists.newArrayList();
-	private static final Int2ObjectOpenHashMap<KeyBinding> hash = new Int2ObjectOpenHashMap<>();
+	private static final IntHashMap<KeyBinding> hash = new IntHashMap();
 	private static final Set<String> keybindSet = Sets.newHashSet();
 	private final String keyDescription;
 	private final int keyCodeDefault;
 	private final String keyCategory;
 	private int keyCode;
+
+	/** Is the key held down? */
 	private boolean pressed;
 	private int pressTime;
 
 	public static void onTick(int keyCode) {
 		if (keyCode != 0) {
-			KeyBinding keybinding = hash.get(keyCode);
+			KeyBinding keybinding = hash.lookup(keyCode);
 
 			if (keybinding != null) {
 				++keybinding.pressTime;
@@ -32,7 +32,7 @@ public class KeyBinding implements Comparable<KeyBinding> {
 
 	public static void setKeyBindState(int keyCode, boolean pressed) {
 		if (keyCode != 0) {
-			KeyBinding keybinding = hash.get(keyCode);
+			KeyBinding keybinding = hash.lookup(keyCode);
 
 			if (keybinding != null) {
 				keybinding.pressed = pressed;
@@ -47,10 +47,10 @@ public class KeyBinding implements Comparable<KeyBinding> {
 	}
 
 	public static void resetKeyBindingArrayAndHash() {
-		hash.clear();
+		hash.clearMap();
 
 		for (KeyBinding keybinding : keybindArray) {
-			hash.put(keybinding.keyCode, keybinding);
+			hash.addKey(keybinding.keyCode, keybinding);
 		}
 	}
 
@@ -64,10 +64,14 @@ public class KeyBinding implements Comparable<KeyBinding> {
 		this.keyCodeDefault = keyCode;
 		this.keyCategory = category;
 		keybindArray.add(this);
-		hash.put(keyCode, this);
+		hash.addKey(keyCode, this);
 		keybindSet.add(category);
 	}
 
+	/**
+	 * Returns true if the key is pressed (used for continuous querying). Should be
+	 * used in tickers.
+	 */
 	public boolean isKeyDown() {
 		return this.pressed;
 	}
@@ -76,6 +80,10 @@ public class KeyBinding implements Comparable<KeyBinding> {
 		return this.keyCategory;
 	}
 
+	/**
+	 * Returns true on the initial key press. For continuous querying use
+	 * {@link isKeyDown()}. Should be used in key events.
+	 */
 	public boolean isPressed() {
 		if (this.pressTime == 0) {
 			return false;

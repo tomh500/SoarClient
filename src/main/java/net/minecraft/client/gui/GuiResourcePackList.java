@@ -1,7 +1,6 @@
 package net.minecraft.client.gui;
 
 import java.util.List;
-
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.resources.ResourcePackListEntry;
@@ -20,6 +19,9 @@ public abstract class GuiResourcePackList extends GuiListExtended {
 		this.setHasListHeader(true, (int) ((float) mcIn.fontRendererObj.FONT_HEIGHT * 1.5F));
 	}
 
+	/**
+	 * Handles drawing a list's header row.
+	 */
 	protected void drawListHeader(int p_148129_1_, int p_148129_2_, Tessellator p_148129_3_) {
 		String s = EnumChatFormatting.UNDERLINE + "" + EnumChatFormatting.BOLD + this.getListHeader();
 		this.mc.fontRendererObj.drawString(s,
@@ -37,10 +39,16 @@ public abstract class GuiResourcePackList extends GuiListExtended {
 		return this.getList().size();
 	}
 
+	/**
+	 * Gets the IGuiListEntry object for the given index
+	 */
 	public ResourcePackListEntry getListEntry(int index) {
 		return this.getList().get(index);
 	}
 
+	/**
+	 * Gets the width of the list
+	 */
 	public int getListWidth() {
 		return this.width;
 	}

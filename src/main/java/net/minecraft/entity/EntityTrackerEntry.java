@@ -1,14 +1,9 @@
 package net.minecraft.entity;
 
+import com.google.common.collect.Sets;
 import java.util.Collection;
 import java.util.List;
 import java.util.Set;
-
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
-import com.google.common.collect.Sets;
-
 import net.minecraft.block.Block;
 import net.minecraft.entity.ai.attributes.IAttributeInstance;
 import net.minecraft.entity.ai.attributes.ServersideAttributeMap;
@@ -62,16 +57,32 @@ import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.storage.MapData;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class EntityTrackerEntry {
 	private static final Logger logger = LogManager.getLogger();
+
+	/** The entity that this EntityTrackerEntry tracks. */
 	public Entity trackedEntity;
 	public int trackingDistanceThreshold;
+
+	/** check for sync when ticks % updateFrequency==0 */
 	public int updateFrequency;
+
+	/** The encoded entity X position. */
 	public int encodedPosX;
+
+	/** The encoded entity Y position. */
 	public int encodedPosY;
+
+	/** The encoded entity Z position. */
 	public int encodedPosZ;
+
+	/** The encoded entity yaw rotation. */
 	public int encodedRotationYaw;
+
+	/** The encoded entity pitch rotation. */
 	public int encodedRotationPitch;
 	public int lastHeadMotion;
 	public double lastTrackedEntityMotionX;
@@ -83,6 +94,11 @@ public class EntityTrackerEntry {
 	private double lastTrackedEntityPosZ;
 	private boolean firstUpdateDone;
 	private final boolean sendVelocityUpdates;
+
+	/**
+	 * every 400 ticks a full teleport packet is sent, rather than just a "move me
+	 * +x" command, so that position remains fully synced.
+	 */
 	private int ticksSinceLastForcedTeleport;
 	private Entity field_85178_v;
 	private boolean ridingEntity;
@@ -270,6 +286,10 @@ public class EntityTrackerEntry {
 		}
 	}
 
+	/**
+	 * Sends the entity metadata (DataWatcher) and attributes to all players
+	 * tracking this entity, including the entity itself if a player.
+	 */
 	private void sendMetadataToAllAssociatedPlayers() {
 		DataWatcher datawatcher = this.trackedEntity.getDataWatcher();
 
@@ -290,6 +310,9 @@ public class EntityTrackerEntry {
 		}
 	}
 
+	/**
+	 * Send the given packet to all players tracking this entity.
+	 */
 	public void sendPacketToTrackedPlayers(Packet packetIn) {
 		for (EntityPlayerMP entityplayermp : this.trackingPlayers) {
 			entityplayermp.playerNetServerHandler.sendPacket(packetIn);
@@ -423,6 +446,9 @@ public class EntityTrackerEntry {
 		}
 	}
 
+	/**
+	 * Creates a spawn packet for the entity managed by this entry.
+	 */
 	private Packet createSpawnPacket() {
 		if (this.trackedEntity.isDead) {
 			logger.warn("Fetching addPacket for removed entity");
@@ -515,6 +541,10 @@ public class EntityTrackerEntry {
 		}
 	}
 
+	/**
+	 * Remove a tracked player from our list and tell the tracked player to destroy
+	 * us from their world.
+	 */
 	public void removeTrackedPlayerSymmetric(EntityPlayerMP playerMP) {
 		if (this.trackingPlayers.contains(playerMP)) {
 			this.trackingPlayers.remove(playerMP);

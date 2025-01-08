@@ -1,7 +1,6 @@
 package net.minecraft.block;
 
 import java.util.List;
-
 import net.minecraft.block.material.MapColor;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.IProperty;
@@ -29,10 +28,17 @@ public class BlockCarpet extends Block {
 		this.setBlockBoundsFromMeta(0);
 	}
 
+	/**
+	 * Get the MapColor for this Block and the given BlockState
+	 */
 	public MapColor getMapColor(IBlockState state) {
 		return state.getValue(COLOR).getMapColor();
 	}
 
+	/**
+	 * Used to determine ambient occlusion and culling when rebuilding chunks for
+	 * render
+	 */
 	public boolean isOpaqueCube() {
 		return false;
 	}
@@ -41,6 +47,9 @@ public class BlockCarpet extends Block {
 		return false;
 	}
 
+	/**
+	 * Sets the block's bounds for rendering it as an item
+	 */
 	public void setBlockBoundsForItemRender() {
 		this.setBlockBoundsFromMeta(0);
 	}
@@ -59,6 +68,9 @@ public class BlockCarpet extends Block {
 		return super.canPlaceBlockAt(worldIn, pos) && this.canBlockStay(worldIn, pos);
 	}
 
+	/**
+	 * Called when a neighboring block changes.
+	 */
 	public void onNeighborBlockChange(World worldIn, BlockPos pos, IBlockState state, Block neighborBlock) {
 		this.checkForDrop(worldIn, pos, state);
 	}
@@ -81,20 +93,35 @@ public class BlockCarpet extends Block {
 		return side == EnumFacing.UP || super.shouldSideBeRendered(worldIn, pos, side);
 	}
 
+	/**
+	 * Gets the metadata of the item this Block can drop. This method is called when
+	 * the block gets destroyed. It returns the metadata of the dropped item based
+	 * on the old metadata of the block.
+	 */
 	public int damageDropped(IBlockState state) {
 		return state.getValue(COLOR).getMetadata();
 	}
 
+	/**
+	 * returns a list of blocks with the same ID, but different meta (eg: wood
+	 * returns 4 blocks)
+	 */
 	public void getSubBlocks(Item itemIn, CreativeTabs tab, List<ItemStack> list) {
 		for (int i = 0; i < 16; ++i) {
 			list.add(new ItemStack(itemIn, 1, i));
 		}
 	}
 
+	/**
+	 * Convert the given metadata into a BlockState for this Block
+	 */
 	public IBlockState getStateFromMeta(int meta) {
 		return this.getDefaultState().withProperty(COLOR, EnumDyeColor.byMetadata(meta));
 	}
 
+	/**
+	 * Convert the BlockState into the correct metadata value
+	 */
 	public int getMetaFromState(IBlockState state) {
 		return state.getValue(COLOR).getMetadata();
 	}

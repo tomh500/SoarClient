@@ -1,9 +1,7 @@
 package net.minecraft.block;
 
-import java.util.List;
-
 import com.google.common.collect.Lists;
-
+import java.util.List;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.creativetab.CreativeTabs;
@@ -24,6 +22,9 @@ public class BlockNote extends BlockContainer {
 		this.setCreativeTab(CreativeTabs.tabRedstone);
 	}
 
+	/**
+	 * Called when a neighboring block changes.
+	 */
 	public void onNeighborBlockChange(World worldIn, BlockPos pos, IBlockState state, Block neighborBlock) {
 		boolean flag = worldIn.isBlockPowered(pos);
 		TileEntity tileentity = worldIn.getTileEntity(pos);
@@ -68,6 +69,10 @@ public class BlockNote extends BlockContainer {
 		}
 	}
 
+	/**
+	 * Returns a new instance of a block's tile entity class. Called on placing the
+	 * block.
+	 */
 	public TileEntity createNewTileEntity(World worldIn, int meta) {
 		return new TileEntityNote();
 	}
@@ -80,6 +85,9 @@ public class BlockNote extends BlockContainer {
 		return INSTRUMENTS.get(id);
 	}
 
+	/**
+	 * Called on both Client and Server when World#addBlockEvent is called
+	 */
 	public boolean onBlockEventReceived(World worldIn, BlockPos pos, IBlockState state, int eventID, int eventParam) {
 		float f = (float) Math.pow(2.0D, (double) (eventParam - 12) / 12.0D);
 		worldIn.playSoundEffect((double) pos.getX() + 0.5D, (double) pos.getY() + 0.5D, (double) pos.getZ() + 0.5D,
@@ -89,6 +97,10 @@ public class BlockNote extends BlockContainer {
 		return true;
 	}
 
+	/**
+	 * The type of render function called. 3 for standard block models, 2 for
+	 * TESR's, 1 for liquids, -1 is no render
+	 */
 	public int getRenderType() {
 		return 3;
 	}

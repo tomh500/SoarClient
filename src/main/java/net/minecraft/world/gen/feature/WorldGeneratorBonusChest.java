@@ -2,7 +2,6 @@ package net.minecraft.world.gen.feature;
 
 import java.util.List;
 import java.util.Random;
-
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.init.Blocks;
@@ -14,6 +13,11 @@ import net.minecraft.world.World;
 
 public class WorldGeneratorBonusChest extends WorldGenerator {
 	private final List<WeightedRandomChestContent> chestItems;
+
+	/**
+	 * Value of this int will determine how much items gonna generate in Bonus
+	 * Chest.
+	 */
 	private final int itemsToGenerateInBonusChest;
 
 	public WorldGeneratorBonusChest(List<WeightedRandomChestContent> p_i45634_1_, int p_i45634_2_) {

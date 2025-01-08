@@ -16,16 +16,40 @@ import net.minecraft.world.gen.FlatGeneratorInfo;
 
 public abstract class WorldProvider {
 	public static final float[] moonPhaseFactors = new float[] { 1.0F, 0.75F, 0.5F, 0.25F, 0.0F, 0.25F, 0.5F, 0.75F };
+
+	/** world object being used */
 	protected World worldObj;
 	private WorldType terrainType;
 	private String generatorSettings;
+
+	/** World chunk manager being used to generate chunks */
 	protected WorldChunkManager worldChunkMgr;
+
+	/**
+	 * States whether the Hell world provider is used(true) or if the normal world
+	 * provider is used(false)
+	 */
 	protected boolean isHellWorld;
+
+	/**
+	 * A boolean that tells if a world does not have a sky. Used in calculating
+	 * weather and skylight
+	 */
 	protected boolean hasNoSky;
+
+	/** Light to brightness conversion table */
 	protected final float[] lightBrightnessTable = new float[16];
+
+	/** The id for the dimension (ex. -1: Nether, 0: Overworld, 1: The End) */
 	protected int dimensionId;
+
+	/** Array for sunrise/sunset colors (RGBA) */
 	private final float[] colorsSunriseSunset = new float[4];
 
+	/**
+	 * associate an existing world with a World provider, and setup its
+	 * lightbrightness table
+	 */
 	public final void registerWorld(World worldIn) {
 		this.worldObj = worldIn;
 		this.terrainType = worldIn.getWorldInfo().getTerrainType();
@@ -34,6 +58,9 @@ public abstract class WorldProvider {
 		this.generateLightBrightnessTable();
 	}
 
+	/**
+	 * Creates the light to brightness table
+	 */
 	protected void generateLightBrightnessTable() {
 		float f = 0.0F;
 
@@ -43,6 +70,9 @@ public abstract class WorldProvider {
 		}
 	}
 
+	/**
+	 * creates a new world chunk manager for WorldProvider
+	 */
 	protected void registerWorldChunkManager() {
 		WorldType worldtype = this.worldObj.getWorldInfo().getTerrainType();
 
@@ -59,6 +89,9 @@ public abstract class WorldProvider {
 		}
 	}
 
+	/**
+	 * Returns a new chunk provider which generates chunks for this world
+	 */
 	public IChunkProvider createChunkGenerator() {
 		return this.terrainType == WorldType.FLAT
 				? new ChunkProviderFlat(this.worldObj, this.worldObj.getSeed(),
@@ -68,10 +101,18 @@ public abstract class WorldProvider {
 								this.worldObj.getWorldInfo().isMapFeaturesEnabled(), this.generatorSettings)));
 	}
 
+	/**
+	 * Will check if the x, z position specified is alright to be set as the map
+	 * spawn point
+	 */
 	public boolean canCoordinateBeSpawn(int x, int z) {
 		return this.worldObj.getGroundAboveSeaLevel(new BlockPos(x, 0, z)) == Blocks.grass;
 	}
 
+	/**
+	 * Calculates the angle of sun and moon in the sky relative to a specified time
+	 * (usually worldTime)
+	 */
 	public float calculateCelestialAngle(long worldTime, float partialTicks) {
 		int i = (int) (worldTime % 24000L);
 		float f = ((float) i + partialTicks) / 24000.0F - 0.25F;
@@ -93,10 +134,17 @@ public abstract class WorldProvider {
 		return (int) (worldTime / 24000L % 8L + 8L) % 8;
 	}
 
+	/**
+	 * Returns 'true' if in the "main surface world", but 'false' if in the Nether
+	 * or End dimensions.
+	 */
 	public boolean isSurfaceWorld() {
 		return true;
 	}
 
+	/**
+	 * Returns array with sunrise/sunset colors
+	 */
 	public float[] calcSunriseSunsetColors(float celestialAngle, float partialTicks) {
 		float f = 0.4F;
 		float f1 = MathHelper.cos(celestialAngle * (float) Math.PI * 2.0F) - 0.0F;
@@ -116,6 +164,9 @@ public abstract class WorldProvider {
 		}
 	}
 
+	/**
+	 * Return Vec3D with biome specific fog color
+	 */
 	public Vec3 getFogColor(float p_76562_1_, float p_76562_2_) {
 		float f = MathHelper.cos(p_76562_1_ * (float) Math.PI * 2.0F) * 2.0F + 0.5F;
 		f = MathHelper.clamp_float(f, 0.0F, 1.0F);
@@ -128,6 +179,10 @@ public abstract class WorldProvider {
 		return new Vec3(f1, f2, f3);
 	}
 
+	/**
+	 * True if the player can respawn in this dimension (true = overworld, false =
+	 * nether).
+	 */
 	public boolean canRespawnHere() {
 		return true;
 	}
@@ -137,6 +192,9 @@ public abstract class WorldProvider {
 				: (dimension == 0 ? new WorldProviderSurface() : (dimension == 1 ? new WorldProviderEnd() : null));
 	}
 
+	/**
+	 * the y level at which clouds are rendered.
+	 */
 	public float getCloudHeight() {
 		return 128.0F;
 	}
@@ -153,14 +211,26 @@ public abstract class WorldProvider {
 		return this.terrainType == WorldType.FLAT ? 4 : this.worldObj.getSeaLevel() + 1;
 	}
 
+	/**
+	 * Returns a double value representing the Y value relative to the top of the
+	 * map at which void fog is at its maximum. The default factor of 0.03125
+	 * relative to 256, for example, means the void fog will be at its maximum at
+	 * (256*0.03125), or 8.
+	 */
 	public double getVoidFogYFactor() {
 		return this.terrainType == WorldType.FLAT ? 1.0D : 0.03125D;
 	}
 
+	/**
+	 * Returns true if the given X,Z coordinate should show environmental fog.
+	 */
 	public boolean doesXZShowFog(int x, int z) {
 		return false;
 	}
 
+	/**
+	 * Returns the dimension's name, e.g. "The End", "Nether", or "Overworld".
+	 */
 	public abstract String getDimensionName();
 
 	public abstract String getInternalNameSuffix();
@@ -181,6 +251,9 @@ public abstract class WorldProvider {
 		return this.lightBrightnessTable;
 	}
 
+	/**
+	 * Gets the dimension of the provider
+	 */
 	public int getDimensionId() {
 		return this.dimensionId;
 	}

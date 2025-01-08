@@ -19,6 +19,9 @@ public class EntityAIVillagerMate extends EntityAIBase {
 		this.setMutexBits(3);
 	}
 
+	/**
+	 * Returns whether the EntityAIBase should begin execution.
+	 */
 	public boolean shouldExecute() {
 		if (this.villagerObj.getGrowingAge() != 0) {
 			return false;
@@ -45,22 +48,34 @@ public class EntityAIVillagerMate extends EntityAIBase {
 		}
 	}
 
+	/**
+	 * Execute a one shot task or start executing a continuous task
+	 */
 	public void startExecuting() {
 		this.matingTimeout = 300;
 		this.villagerObj.setMating(true);
 	}
 
+	/**
+	 * Resets the task
+	 */
 	public void resetTask() {
 		this.villageObj = null;
 		this.mate = null;
 		this.villagerObj.setMating(false);
 	}
 
+	/**
+	 * Returns whether an in-progress EntityAIBase should continue executing
+	 */
 	public boolean continueExecuting() {
 		return this.matingTimeout >= 0 && this.checkSufficientDoorsPresentForNewVillager()
 				&& this.villagerObj.getGrowingAge() == 0 && this.villagerObj.getIsWillingToMate(false);
 	}
 
+	/**
+	 * Updates the task
+	 */
 	public void updateTask() {
 		--this.matingTimeout;
 		this.villagerObj.getLookHelper().setLookPositionWithEntity(this.mate, 10.0F, 30.0F);

@@ -1,7 +1,6 @@
 package net.minecraft.block;
 
 import java.util.Random;
-
 import net.minecraft.block.material.Material;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.util.EnumWorldBlockLayer;
@@ -12,6 +11,9 @@ public class BlockGlass extends BlockBreakable {
 		this.setCreativeTab(CreativeTabs.tabBlock);
 	}
 
+	/**
+	 * Returns the quantity of items to drop on block destruction.
+	 */
 	public int quantityDropped(Random random) {
 		return 0;
 	}

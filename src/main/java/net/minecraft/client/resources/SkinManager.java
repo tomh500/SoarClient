@@ -1,13 +1,5 @@
 package net.minecraft.client.resources;
 
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.util.Map;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.LinkedBlockingQueue;
-import java.util.concurrent.ThreadPoolExecutor;
-import java.util.concurrent.TimeUnit;
-
 import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
@@ -15,9 +7,15 @@ import com.google.common.collect.Maps;
 import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.minecraft.InsecureTextureException;
 import com.mojang.authlib.minecraft.MinecraftProfileTexture;
-import com.mojang.authlib.minecraft.MinecraftProfileTexture.Type;
 import com.mojang.authlib.minecraft.MinecraftSessionService;
-
+import com.mojang.authlib.minecraft.MinecraftProfileTexture.Type;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.util.Map;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.LinkedBlockingQueue;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.IImageBuffer;
 import net.minecraft.client.renderer.ImageBufferDownload;
@@ -47,10 +45,18 @@ public class SkinManager {
 				});
 	}
 
+	/**
+	 * Used in the Skull renderer to fetch a skin. May download the skin if it's not
+	 * in the cache
+	 */
 	public ResourceLocation loadSkin(MinecraftProfileTexture profileTexture, Type p_152792_2_) {
 		return this.loadSkin(profileTexture, p_152792_2_, null);
 	}
 
+	/**
+	 * May download the skin if its not in the cache, can be passed a
+	 * SkinManager#SkinAvailableCallback for handling
+	 */
 	public ResourceLocation loadSkin(final MinecraftProfileTexture profileTexture, final Type p_152789_2_,
 			final SkinManager.SkinAvailableCallback skinAvailableCallback) {
 		final ResourceLocation resourcelocation = new ResourceLocation("skins/" + profileTexture.getHash());

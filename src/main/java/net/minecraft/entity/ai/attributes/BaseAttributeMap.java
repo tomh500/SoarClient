@@ -1,13 +1,11 @@
 package net.minecraft.entity.ai.attributes;
 
-import java.util.Collection;
-import java.util.Map;
-import java.util.Map.Entry;
-
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Multimap;
-
+import java.util.Collection;
+import java.util.Map;
+import java.util.Map.Entry;
 import net.minecraft.server.management.LowerStringMap;
 
 public abstract class BaseAttributeMap {
@@ -23,6 +21,10 @@ public abstract class BaseAttributeMap {
 		return this.attributesByName.get(attributeName);
 	}
 
+	/**
+	 * Registers an attribute with this AttributeMap, returns a modifiable
+	 * AttributeInstance associated with this map
+	 */
 	public IAttributeInstance registerAttribute(IAttribute attribute) {
 		if (this.attributesByName.containsKey(attribute.getAttributeUnlocalizedName())) {
 			throw new IllegalArgumentException("Attribute is already registered!");

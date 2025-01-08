@@ -1,19 +1,16 @@
 package net.minecraft.client.gui;
 
+import com.google.common.collect.Lists;
 import java.util.Iterator;
 import java.util.List;
-
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
-import com.google.common.collect.Lists;
-
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.IChatComponent;
 import net.minecraft.util.MathHelper;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class GuiNewChat extends Gui {
 	private static final Logger logger = LogManager.getLogger();
@@ -104,6 +101,9 @@ public class GuiNewChat extends Gui {
 		}
 	}
 
+	/**
+	 * Clears the chat.
+	 */
 	public void clearChatMessages() {
 		this.drawnChatLines.clear();
 		this.chatLines.clear();
@@ -114,6 +114,10 @@ public class GuiNewChat extends Gui {
 		this.printChatMessageWithOptionalDeletion(chatComponent, 0);
 	}
 
+	/**
+	 * prints the ChatComponent to Chat. If the ID is not 0, deletes an existing
+	 * Chat Line of that ID from the GUI
+	 */
 	public void printChatMessageWithOptionalDeletion(IChatComponent chatComponent, int chatLineId) {
 		this.setChatLine(chatComponent, chatLineId, this.mc.ingameGUI.getUpdateCounter(), false);
 		logger.info("[CHAT] " + chatComponent.getUnformattedText());
@@ -165,17 +169,31 @@ public class GuiNewChat extends Gui {
 		return this.sentMessages;
 	}
 
+	/**
+	 * Adds this string to the list of sent messages, for recall using the up/down
+	 * arrow keys
+	 * 
+	 * @param message The message to add in the sendMessage List
+	 */
 	public void addToSentMessages(String message) {
 		if (this.sentMessages.isEmpty() || !this.sentMessages.get(this.sentMessages.size() - 1).equals(message)) {
 			this.sentMessages.add(message);
 		}
 	}
 
+	/**
+	 * Resets the chat scroll (executed when the GUI is closed, among others)
+	 */
 	public void resetScroll() {
 		this.scrollPos = 0;
 		this.isScrolled = false;
 	}
 
+	/**
+	 * Scrolls the chat by the given number of lines.
+	 * 
+	 * @param amount The amount to scroll
+	 */
 	public void scroll(int amount) {
 		this.scrollPos += amount;
 		int i = this.drawnChatLines.size();
@@ -190,6 +208,12 @@ public class GuiNewChat extends Gui {
 		}
 	}
 
+	/**
+	 * Gets the chat component under the mouse
+	 * 
+	 * @param mouseX The x position of the mouse
+	 * @param mouseY The y position of the mouse
+	 */
 	public IChatComponent getChatComponent(int mouseX, int mouseY) {
 		if (!this.getChatOpen()) {
 			return null;
@@ -235,10 +259,18 @@ public class GuiNewChat extends Gui {
 		}
 	}
 
+	/**
+	 * Returns true if the chat GUI is open
+	 */
 	public boolean getChatOpen() {
 		return this.mc.currentScreen instanceof GuiChat;
 	}
 
+	/**
+	 * finds and deletes a Chat line by ID
+	 * 
+	 * @param id The ChatLine's id to delete
+	 */
 	public void deleteChatLine(int id) {
 		Iterator<ChatLine> iterator = this.drawnChatLines.iterator();
 
@@ -271,6 +303,9 @@ public class GuiNewChat extends Gui {
 				this.getChatOpen() ? this.mc.gameSettings.chatHeightFocused : this.mc.gameSettings.chatHeightUnfocused);
 	}
 
+	/**
+	 * Returns the chatscale from mc.gameSettings.chatScale
+	 */
 	public float getChatScale() {
 		return this.mc.gameSettings.chatScale;
 	}

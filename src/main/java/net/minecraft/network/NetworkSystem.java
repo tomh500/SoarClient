@@ -1,19 +1,7 @@
 package net.minecraft.network;
 
-import java.io.IOException;
-import java.net.InetAddress;
-import java.net.SocketAddress;
-import java.util.Collections;
-import java.util.Iterator;
-import java.util.List;
-import java.util.concurrent.Callable;
-
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
 import com.google.common.collect.Lists;
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
-
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelException;
@@ -34,6 +22,13 @@ import io.netty.channel.socket.nio.NioServerSocketChannel;
 import io.netty.handler.timeout.ReadTimeoutHandler;
 import io.netty.util.concurrent.Future;
 import io.netty.util.concurrent.GenericFutureListener;
+import java.io.IOException;
+import java.net.InetAddress;
+import java.net.SocketAddress;
+import java.util.Collections;
+import java.util.Iterator;
+import java.util.List;
+import java.util.concurrent.Callable;
 import net.minecraft.client.network.NetHandlerHandshakeMemory;
 import net.minecraft.crash.CrashReport;
 import net.minecraft.crash.CrashReportCategory;
@@ -47,6 +42,8 @@ import net.minecraft.util.MessageDeserializer2;
 import net.minecraft.util.MessageSerializer;
 import net.minecraft.util.MessageSerializer2;
 import net.minecraft.util.ReportedException;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class NetworkSystem {
 	private static final Logger logger = LogManager.getLogger();
@@ -68,7 +65,11 @@ public class NetworkSystem {
 					(new ThreadFactoryBuilder()).setNameFormat("Netty Local Server IO #%d").setDaemon(true).build());
 		}
 	};
+
+	/** Reference to the MinecraftServer object. */
 	private final MinecraftServer mcServer;
+
+	/** True if this NetworkSystem has never had his endpoints terminated */
 	public volatile boolean isAlive;
 	private final List<ChannelFuture> endpoints = Collections.synchronizedList(Lists.newArrayList());
 	private final List<NetworkManager> networkManagers = Collections.synchronizedList(Lists.newArrayList());
@@ -78,6 +79,9 @@ public class NetworkSystem {
 		this.isAlive = true;
 	}
 
+	/**
+	 * Adds a channel that listens on publicly accessible network ports
+	 */
 	public void addLanEndpoint(InetAddress address, int port) throws IOException {
 		synchronized (this.endpoints) {
 			Class<? extends ServerSocketChannel> oclass;
@@ -116,6 +120,9 @@ public class NetworkSystem {
 		}
 	}
 
+	/**
+	 * Adds a channel that listens locally
+	 */
 	public SocketAddress addLocalEndpoint() {
 		ChannelFuture channelfuture;
 
@@ -136,6 +143,9 @@ public class NetworkSystem {
 		return channelfuture.channel().localAddress();
 	}
 
+	/**
+	 * Shuts down all open endpoints (with immediate effect?)
+	 */
 	public void terminateEndpoints() {
 		this.isAlive = false;
 
@@ -148,6 +158,10 @@ public class NetworkSystem {
 		}
 	}
 
+	/**
+	 * Will try to process the packets received by each NetworkManager, gracefully
+	 * manage processing failures and cleans up dead connections
+	 */
 	public void networkTick() {
 		synchronized (this.networkManagers) {
 			Iterator<NetworkManager> iterator = this.networkManagers.iterator();

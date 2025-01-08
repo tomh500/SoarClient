@@ -1,14 +1,13 @@
 package net.minecraft.util;
 
+import com.google.common.collect.Iterators;
+import com.google.common.collect.Lists;
 import java.util.Arrays;
 import java.util.IllegalFormatException;
 import java.util.Iterator;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import com.google.common.collect.Iterators;
-import com.google.common.collect.Lists;
 
 public class ChatComponentTranslation extends ChatComponentStyle {
 	private final String key;
@@ -29,6 +28,10 @@ public class ChatComponentTranslation extends ChatComponentStyle {
 		}
 	}
 
+	/**
+	 * ensures that our children are initialized from the most recent string
+	 * translation mapping.
+	 */
 	synchronized void ensureInitialized() {
 		synchronized (this.syncLock) {
 			long i = StatCollector.getLastTranslationUpdateTimeInMilliseconds();
@@ -54,6 +57,10 @@ public class ChatComponentTranslation extends ChatComponentStyle {
 		}
 	}
 
+	/**
+	 * initializes our children from a format string, using the format args to fill
+	 * in the placeholder variables.
+	 */
 	protected void initializeFromFormat(String format) {
 		boolean flag = false;
 		Matcher matcher = stringVariablePattern.matcher(format);
@@ -145,6 +152,10 @@ public class ChatComponentTranslation extends ChatComponentStyle {
 		return Iterators.concat(createDeepCopyIterator(this.children), createDeepCopyIterator(this.siblings));
 	}
 
+	/**
+	 * Gets the text of this component, without any special formatting codes added,
+	 * for chat. TODO: why is this two different methods?
+	 */
 	public String getUnformattedTextForChat() {
 		this.ensureInitialized();
 		StringBuilder stringbuilder = new StringBuilder();
@@ -156,6 +167,10 @@ public class ChatComponentTranslation extends ChatComponentStyle {
 		return stringbuilder.toString();
 	}
 
+	/**
+	 * Creates a copy of this component. Almost a deep copy, except the style is
+	 * shallow-copied.
+	 */
 	public ChatComponentTranslation createCopy() {
 		Object[] aobject = new Object[this.formatArgs.length];
 

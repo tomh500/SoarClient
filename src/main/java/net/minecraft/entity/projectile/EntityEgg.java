@@ -22,6 +22,9 @@ public class EntityEgg extends EntityThrowable {
 		super(worldIn, x, y, z);
 	}
 
+	/**
+	 * Called when this EntityThrowable hits a block or entity.
+	 */
 	protected void onImpact(MovingObjectPosition p_70184_1_) {
 		if (p_70184_1_.entityHit != null) {
 			p_70184_1_.entityHit.attackEntityFrom(DamageSource.causeThrownDamage(this, this.getThrower()), 0.0F);

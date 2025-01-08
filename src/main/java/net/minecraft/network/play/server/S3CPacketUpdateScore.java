@@ -1,7 +1,6 @@
 package net.minecraft.network.play.server;
 
 import java.io.IOException;
-
 import net.minecraft.network.Packet;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.network.play.INetHandlerPlayClient;
@@ -38,6 +37,9 @@ public class S3CPacketUpdateScore implements Packet<INetHandlerPlayClient> {
 		this.action = S3CPacketUpdateScore.Action.REMOVE;
 	}
 
+	/**
+	 * Reads the raw packet data from the data stream.
+	 */
 	public void readPacketData(PacketBuffer buf) throws IOException {
 		this.name = buf.readStringFromBuffer(40);
 		this.action = buf.readEnumValue(Action.class);
@@ -48,6 +50,9 @@ public class S3CPacketUpdateScore implements Packet<INetHandlerPlayClient> {
 		}
 	}
 
+	/**
+	 * Writes the raw packet data to the data stream.
+	 */
 	public void writePacketData(PacketBuffer buf) throws IOException {
 		buf.writeString(this.name);
 		buf.writeEnumValue(this.action);
@@ -58,6 +63,9 @@ public class S3CPacketUpdateScore implements Packet<INetHandlerPlayClient> {
 		}
 	}
 
+	/**
+	 * Passes this Packet on to the NetHandler for processing.
+	 */
 	public void processPacket(INetHandlerPlayClient handler) {
 		handler.handleUpdateScore(this);
 	}

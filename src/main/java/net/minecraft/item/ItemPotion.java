@@ -1,16 +1,13 @@
 package net.minecraft.item;
 
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
-
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Multimap;
-
-import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.ai.attributes.IAttribute;
@@ -28,7 +25,7 @@ import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
 
 public class ItemPotion extends Item {
-	private final Int2ObjectOpenHashMap<List<PotionEffect>> effectCache = new Int2ObjectOpenHashMap<>();
+	private final Map<Integer, List<PotionEffect>> effectCache = Maps.newHashMap();
 	private static final Map<List<PotionEffect>, Integer> SUB_ITEMS_CACHE = Maps.newLinkedHashMap();
 
 	public ItemPotion() {
@@ -54,11 +51,11 @@ public class ItemPotion extends Item {
 
 			return list1;
 		} else {
-			List<PotionEffect> list = this.effectCache.get(stack.getMetadata());
+			List<PotionEffect> list = this.effectCache.get(Integer.valueOf(stack.getMetadata()));
 
 			if (list == null) {
 				list = PotionHelper.getPotionEffects(stack.getMetadata(), false);
-				this.effectCache.put(stack.getMetadata(), list);
+				this.effectCache.put(Integer.valueOf(stack.getMetadata()), list);
 			}
 
 			return list;
@@ -66,16 +63,20 @@ public class ItemPotion extends Item {
 	}
 
 	public List<PotionEffect> getEffects(int meta) {
-		List<PotionEffect> list = this.effectCache.get(meta);
+		List<PotionEffect> list = this.effectCache.get(Integer.valueOf(meta));
 
 		if (list == null) {
 			list = PotionHelper.getPotionEffects(meta, false);
-			this.effectCache.put(meta, list);
+			this.effectCache.put(Integer.valueOf(meta), list);
 		}
 
 		return list;
 	}
 
+	/**
+	 * Called when the player finishes using this Item (E.g. finishes eating.). Not
+	 * called when the player stops using the Item before the action is complete.
+	 */
 	public ItemStack onItemUseFinish(ItemStack stack, World worldIn, EntityPlayer playerIn) {
 		if (!playerIn.capabilities.isCreativeMode) {
 			--stack.stackSize;
@@ -104,14 +105,25 @@ public class ItemPotion extends Item {
 		return stack;
 	}
 
+	/**
+	 * How long it takes to use or consume an item
+	 */
 	public int getMaxItemUseDuration(ItemStack stack) {
 		return 32;
 	}
 
+	/**
+	 * returns the action that specifies what animation to play when the items is
+	 * being used
+	 */
 	public EnumAction getItemUseAction(ItemStack stack) {
 		return EnumAction.DRINK;
 	}
 
+	/**
+	 * Called whenever this item is equipped and the right mouse button is pressed.
+	 * Args: itemStack, world, entityPlayer
+	 */
 	public ItemStack onItemRightClick(ItemStack itemStackIn, World worldIn, EntityPlayer playerIn) {
 		if (isSplash(itemStackIn.getMetadata())) {
 			if (!playerIn.capabilities.isCreativeMode) {
@@ -132,6 +144,10 @@ public class ItemPotion extends Item {
 		}
 	}
 
+	/**
+	 * returns wether or not a potion is a throwable splash potion based on damage
+	 * value
+	 */
 	public static boolean isSplash(int meta) {
 		return (meta & 16384) != 0;
 	}
@@ -183,6 +199,9 @@ public class ItemPotion extends Item {
 		}
 	}
 
+	/**
+	 * allows items to add custom lines of information to the mouseover description
+	 */
 	public void addInformation(ItemStack stack, EntityPlayer playerIn, List<String> tooltip, boolean advanced) {
 		if (stack.getMetadata() != 0) {
 			List<PotionEffect> list = Items.potionitem.getEffects(stack);
@@ -262,6 +281,10 @@ public class ItemPotion extends Item {
 		return list != null && !list.isEmpty();
 	}
 
+	/**
+	 * returns a list of items with the same ID, but different meta (eg: dye returns
+	 * 16 items)
+	 */
 	public void getSubItems(Item itemIn, CreativeTabs tab, List<ItemStack> subItems) {
 		super.getSubItems(itemIn, tab, subItems);
 

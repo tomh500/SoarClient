@@ -1,13 +1,11 @@
 package net.minecraft.item.crafting;
 
+import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
-
-import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
-
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockPlanks;
 import net.minecraft.block.BlockStone;
@@ -23,9 +21,13 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 
 public class CraftingManager {
+	/** The static instance of this class */
 	private static final CraftingManager instance = new CraftingManager();
 	private final List<IRecipe> recipes = Lists.newArrayList();
 
+	/**
+	 * Returns the static instance of this class
+	 */
 	public static CraftingManager getInstance() {
 		return instance;
 	}
@@ -263,8 +265,11 @@ public class CraftingManager {
 		});
 	}
 
+	/**
+	 * Adds a shaped recipe to the games recipe list.
+	 */
 	public ShapedRecipes addRecipe(ItemStack stack, Object... recipeComponents) {
-		StringBuilder s = new StringBuilder();
+		String s = "";
 		int i = 0;
 		int j = 0;
 		int k = 0;
@@ -276,14 +281,14 @@ public class CraftingManager {
 				String s2 = astring[l];
 				++k;
 				j = s2.length();
-				s.append(s2);
+				s = s + s2;
 			}
 		} else {
 			while (recipeComponents[i] instanceof String) {
 				String s1 = (String) recipeComponents[i++];
 				++k;
 				j = s1.length();
-				s.append(s1);
+				s = s + s1;
 			}
 		}
 
@@ -321,6 +326,9 @@ public class CraftingManager {
 		return shapedrecipes;
 	}
 
+	/**
+	 * Adds a shapeless crafting recipe to the the game.
+	 */
 	public void addShapelessRecipe(ItemStack stack, Object... recipeComponents) {
 		List<ItemStack> list = Lists.newArrayList();
 
@@ -342,10 +350,16 @@ public class CraftingManager {
 		this.recipes.add(new ShapelessRecipes(stack, list));
 	}
 
+	/**
+	 * Adds an IRecipe to the list of crafting recipes.
+	 */
 	public void addRecipe(IRecipe recipe) {
 		this.recipes.add(recipe);
 	}
 
+	/**
+	 * Retrieves an ItemStack that has multiple recipes for it.
+	 */
 	public ItemStack findMatchingRecipe(InventoryCrafting p_82787_1_, World worldIn) {
 		for (IRecipe irecipe : this.recipes) {
 			if (irecipe.matches(p_82787_1_, worldIn)) {

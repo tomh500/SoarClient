@@ -1,10 +1,8 @@
 package net.minecraft.world.gen.structure;
 
+import com.google.common.collect.Lists;
 import java.util.List;
 import java.util.Random;
-
-import com.google.common.collect.Lists;
-
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.item.EntityMinecartChest;
@@ -624,9 +622,9 @@ public class StructureMineshaftPieces {
 				j = 1;
 			}
 
-			int k = 0;
+			int k;
 
-			for (int lvt_5_1_ = 0; k < this.boundingBox.getXSize(); k = k + 4) {
+			for (k = 0; k < this.boundingBox.getXSize(); k = k + 4) {
 				k = k + rand.nextInt(this.boundingBox.getXSize());
 
 				if (k + 3 > this.boundingBox.getXSize()) {

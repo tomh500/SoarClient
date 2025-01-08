@@ -1,9 +1,7 @@
 package net.minecraft.client.gui.spectator.categories;
 
-import java.util.List;
-
 import com.google.common.base.Objects;
-
+import java.util.List;
 import net.minecraft.client.gui.spectator.ISpectatorMenuObject;
 import net.minecraft.client.gui.spectator.ISpectatorMenuView;
 import net.minecraft.client.gui.spectator.SpectatorMenu;

@@ -1,21 +1,15 @@
 package net.minecraft.client.network;
 
-import java.math.BigInteger;
-import java.security.PublicKey;
-
-import javax.crypto.SecretKey;
-
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
 import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.exceptions.AuthenticationException;
 import com.mojang.authlib.exceptions.AuthenticationUnavailableException;
 import com.mojang.authlib.exceptions.InvalidCredentialsException;
 import com.mojang.authlib.minecraft.MinecraftSessionService;
-
 import io.netty.util.concurrent.Future;
 import io.netty.util.concurrent.GenericFutureListener;
+import java.math.BigInteger;
+import java.security.PublicKey;
+import javax.crypto.SecretKey;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiDisconnected;
 import net.minecraft.client.gui.GuiScreen;
@@ -30,6 +24,8 @@ import net.minecraft.network.login.server.S03PacketEnableCompression;
 import net.minecraft.util.ChatComponentTranslation;
 import net.minecraft.util.CryptManager;
 import net.minecraft.util.IChatComponent;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class NetHandlerLoginClient implements INetHandlerLoginClient {
 	private static final Logger logger = LogManager.getLogger();
@@ -95,6 +91,10 @@ public class NetHandlerLoginClient implements INetHandlerLoginClient {
 				new NetHandlerPlayClient(this.mc, this.previousGuiScreen, this.networkManager, this.gameProfile));
 	}
 
+	/**
+	 * Invoked when disconnecting, the parameter is a ChatComponent describing the
+	 * reason for termination
+	 */
 	public void onDisconnect(IChatComponent reason) {
 		this.mc.displayGuiScreen(new GuiDisconnected(this.previousGuiScreen, "connect.failed", reason));
 	}

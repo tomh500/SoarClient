@@ -1,7 +1,6 @@
 package net.minecraft.world.gen.feature;
 
 import java.util.Random;
-
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockCocoa;
 import net.minecraft.block.BlockLeaves;
@@ -23,9 +22,17 @@ public class WorldGenTrees extends WorldGenAbstractTree {
 	private static final IBlockState field_181654_b = Blocks.leaves.getDefaultState()
 			.withProperty(BlockOldLeaf.VARIANT, BlockPlanks.EnumType.OAK)
 			.withProperty(BlockLeaves.CHECK_DECAY, Boolean.valueOf(false));
+
+	/** The minimum height of a generated tree. */
 	private final int minTreeHeight;
+
+	/** True if this tree should grow Vines. */
 	private final boolean vinesGrow;
+
+	/** The metadata value of the wood to use in tree generation. */
 	private final IBlockState metaWood;
+
+	/** The metadata value of the leaves to use in tree generation. */
 	private final IBlockState metaLeaves;
 
 	public WorldGenTrees(boolean p_i2027_1_) {

@@ -1,7 +1,6 @@
 package net.minecraft.network.play.server;
 
 import java.io.IOException;
-
 import net.minecraft.item.ItemStack;
 import net.minecraft.network.Packet;
 import net.minecraft.network.PacketBuffer;
@@ -21,18 +20,27 @@ public class S04PacketEntityEquipment implements Packet<INetHandlerPlayClient> {
 		this.itemStack = itemStackIn == null ? null : itemStackIn.copy();
 	}
 
+	/**
+	 * Reads the raw packet data from the data stream.
+	 */
 	public void readPacketData(PacketBuffer buf) throws IOException {
 		this.entityID = buf.readVarIntFromBuffer();
 		this.equipmentSlot = buf.readShort();
 		this.itemStack = buf.readItemStackFromBuffer();
 	}
 
+	/**
+	 * Writes the raw packet data to the data stream.
+	 */
 	public void writePacketData(PacketBuffer buf) throws IOException {
 		buf.writeVarIntToBuffer(this.entityID);
 		buf.writeShort(this.equipmentSlot);
 		buf.writeItemStackToBuffer(this.itemStack);
 	}
 
+	/**
+	 * Passes this Packet on to the NetHandler for processing.
+	 */
 	public void processPacket(INetHandlerPlayClient handler) {
 		handler.handleEntityEquipment(this);
 	}

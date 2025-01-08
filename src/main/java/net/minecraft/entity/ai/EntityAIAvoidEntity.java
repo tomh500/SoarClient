@@ -1,10 +1,8 @@
 package net.minecraft.entity.ai;
 
-import java.util.List;
-
 import com.google.common.base.Predicate;
 import com.google.common.base.Predicates;
-
+import java.util.List;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityCreature;
 import net.minecraft.pathfinding.PathEntity;
@@ -14,12 +12,18 @@ import net.minecraft.util.Vec3;
 
 public class EntityAIAvoidEntity<T extends Entity> extends EntityAIBase {
 	private final Predicate<Entity> canBeSeenSelector;
+
+	/** The entity we are attached to */
 	protected EntityCreature theEntity;
 	private final double farSpeed;
 	private final double nearSpeed;
 	protected T closestLivingEntity;
 	private final float avoidDistance;
+
+	/** The PathEntity of our entity */
 	private PathEntity entityPathEntity;
+
+	/** The PathNavigate of our entity */
 	private final PathNavigate entityPathNavigate;
 	private final Class<T> classToAvoid;
 	private final Predicate<? super T> avoidTargetSelector;
@@ -47,6 +51,9 @@ public class EntityAIAvoidEntity<T extends Entity> extends EntityAIBase {
 		this.setMutexBits(1);
 	}
 
+	/**
+	 * Returns whether the EntityAIBase should begin execution.
+	 */
 	public boolean shouldExecute() {
 		List<T> list = this.theEntity.worldObj.getEntitiesWithinAABB(this.classToAvoid,
 				this.theEntity.getEntityBoundingBox().expand(this.avoidDistance, 3.0D, this.avoidDistance),
@@ -71,18 +78,30 @@ public class EntityAIAvoidEntity<T extends Entity> extends EntityAIBase {
 		}
 	}
 
+	/**
+	 * Returns whether an in-progress EntityAIBase should continue executing
+	 */
 	public boolean continueExecuting() {
 		return !this.entityPathNavigate.noPath();
 	}
 
+	/**
+	 * Execute a one shot task or start executing a continuous task
+	 */
 	public void startExecuting() {
 		this.entityPathNavigate.setPath(this.entityPathEntity, this.farSpeed);
 	}
 
+	/**
+	 * Resets the task
+	 */
 	public void resetTask() {
 		this.closestLivingEntity = null;
 	}
 
+	/**
+	 * Updates the task
+	 */
 	public void updateTask() {
 		if (this.theEntity.getDistanceSqToEntity(this.closestLivingEntity) < 49.0D) {
 			this.theEntity.getNavigator().setSpeed(this.nearSpeed);

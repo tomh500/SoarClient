@@ -1,14 +1,12 @@
 package net.minecraft.command.server;
 
+import com.google.common.collect.Lists;
+import com.google.common.collect.Sets;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-
-import com.google.common.collect.Lists;
-import com.google.common.collect.Sets;
-
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.CommandException;
 import net.minecraft.command.CommandResultStats;
@@ -34,18 +32,30 @@ import net.minecraft.util.ChatComponentTranslation;
 import net.minecraft.util.EnumChatFormatting;
 
 public class CommandScoreboard extends CommandBase {
+	/**
+	 * Gets the name of the command
+	 */
 	public String getCommandName() {
 		return "scoreboard";
 	}
 
+	/**
+	 * Return the required permission level for this command.
+	 */
 	public int getRequiredPermissionLevel() {
 		return 2;
 	}
 
+	/**
+	 * Gets the usage string for the command.
+	 */
 	public String getCommandUsage(ICommandSender sender) {
 		return "commands.scoreboard.usage";
 	}
 
+	/**
+	 * Callback when the command is invoked
+	 */
 	public void processCommand(ICommandSender sender, String[] args) throws CommandException {
 		if (!this.func_175780_b(sender, args)) {
 			if (args.length < 1) {
@@ -521,12 +531,12 @@ public class CommandScoreboard extends CommandBase {
 		if (!set.isEmpty()) {
 			p_147190_1_.setCommandStat(CommandResultStats.Type.AFFECTED_ENTITIES, set.size());
 			notifyOperators(p_147190_1_, this, "commands.scoreboard.teams.join.success", Integer.valueOf(set.size()), s,
-					joinNiceString(set.toArray(new String[0])));
+					joinNiceString(set.toArray(new String[set.size()])));
 		}
 
 		if (!set1.isEmpty()) {
 			throw new CommandException("commands.scoreboard.teams.join.failure", Integer.valueOf(set1.size()), s,
-					joinNiceString(set1.toArray(new String[0])));
+					joinNiceString(set1.toArray(new String[set1.size()])));
 		}
 	}
 
@@ -573,12 +583,12 @@ public class CommandScoreboard extends CommandBase {
 		if (!set.isEmpty()) {
 			p_147199_1_.setCommandStat(CommandResultStats.Type.AFFECTED_ENTITIES, set.size());
 			notifyOperators(p_147199_1_, this, "commands.scoreboard.teams.leave.success", Integer.valueOf(set.size()),
-					joinNiceString(set.toArray(new String[0])));
+					joinNiceString(set.toArray(new String[set.size()])));
 		}
 
 		if (!set1.isEmpty()) {
 			throw new CommandException("commands.scoreboard.teams.leave.failure", Integer.valueOf(set1.size()),
-					joinNiceString(set1.toArray(new String[0])));
+					joinNiceString(set1.toArray(new String[set1.size()])));
 		}
 	}
 
@@ -1037,6 +1047,9 @@ public class CommandScoreboard extends CommandBase {
 		return list;
 	}
 
+	/**
+	 * Return whether the specified command parameter index is a username parameter.
+	 */
 	public boolean isUsernameIndex(String[] args, int index) {
 		return !args[0].equalsIgnoreCase("players") ? (args[0].equalsIgnoreCase("teams") && index == 2)
 				: (args.length > 1 && args[1].equalsIgnoreCase("operation") ? index == 2 || index == 5 : index == 2);

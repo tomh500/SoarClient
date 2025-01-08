@@ -1,7 +1,6 @@
 package net.minecraft.block;
 
 import java.util.Random;
-
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.properties.PropertyEnum;
@@ -37,20 +36,34 @@ public class BlockFlowerPot extends BlockContainer {
 		this.setBlockBoundsForItemRender();
 	}
 
+	/**
+	 * Gets the localized name of this block. Used for the statistics page.
+	 */
 	public String getLocalizedName() {
 		return StatCollector.translateToLocal("item.flowerPot.name");
 	}
 
+	/**
+	 * Sets the block's bounds for rendering it as an item
+	 */
 	public void setBlockBoundsForItemRender() {
 		float f = 0.375F;
 		float f1 = f / 2.0F;
 		this.setBlockBounds(0.5F - f1, 0.0F, 0.5F - f1, 0.5F + f1, f, 0.5F + f1);
 	}
 
+	/**
+	 * Used to determine ambient occlusion and culling when rebuilding chunks for
+	 * render
+	 */
 	public boolean isOpaqueCube() {
 		return false;
 	}
 
+	/**
+	 * The type of render function called. 3 for standard block models, 2 for
+	 * TESR's, 1 for liquids, -1 is no render
+	 */
 	public int getRenderType() {
 		return 3;
 	}
@@ -121,6 +134,9 @@ public class BlockFlowerPot extends BlockContainer {
 				: Items.flower_pot;
 	}
 
+	/**
+	 * Gets the meta to use for the Pick Block ItemStack result
+	 */
 	public int getDamageValue(World worldIn, BlockPos pos) {
 		TileEntityFlowerPot tileentityflowerpot = this.getTileEntity(worldIn, pos);
 		return tileentityflowerpot != null && tileentityflowerpot.getFlowerPotItem() != null
@@ -128,6 +144,9 @@ public class BlockFlowerPot extends BlockContainer {
 				: 0;
 	}
 
+	/**
+	 * Returns true only if block is flowerPot
+	 */
 	public boolean isFlowerPot() {
 		return true;
 	}
@@ -136,6 +155,9 @@ public class BlockFlowerPot extends BlockContainer {
 		return super.canPlaceBlockAt(worldIn, pos) && World.doesBlockHaveSolidTopSurface(worldIn, pos.down());
 	}
 
+	/**
+	 * Called when a neighboring block changes.
+	 */
 	public void onNeighborBlockChange(World worldIn, BlockPos pos, IBlockState state, Block neighborBlock) {
 		if (!World.doesBlockHaveSolidTopSurface(worldIn, pos.down())) {
 			this.dropBlockAsItem(worldIn, pos, state, 0);
@@ -166,6 +188,9 @@ public class BlockFlowerPot extends BlockContainer {
 		}
 	}
 
+	/**
+	 * Get the Item that this Block should drop when harvested.
+	 */
 	public Item getItemDropped(IBlockState state, Random rand, int fortune) {
 		return Items.flower_pot;
 	}
@@ -175,6 +200,10 @@ public class BlockFlowerPot extends BlockContainer {
 		return tileentity instanceof TileEntityFlowerPot ? (TileEntityFlowerPot) tileentity : null;
 	}
 
+	/**
+	 * Returns a new instance of a block's tile entity class. Called on placing the
+	 * block.
+	 */
 	public TileEntity createNewTileEntity(World worldIn, int meta) {
 		Block block = null;
 		int i = 0;
@@ -247,10 +276,17 @@ public class BlockFlowerPot extends BlockContainer {
 		return new BlockState(this, CONTENTS, LEGACY_DATA);
 	}
 
+	/**
+	 * Convert the BlockState into the correct metadata value
+	 */
 	public int getMetaFromState(IBlockState state) {
 		return state.getValue(LEGACY_DATA).intValue();
 	}
 
+	/**
+	 * Get the actual Block state of this Block at the given position. This applies
+	 * properties not visible in the metadata, such as fence connections.
+	 */
 	public IBlockState getActualState(IBlockState state, IBlockAccess worldIn, BlockPos pos) {
 		BlockFlowerPot.EnumFlowerType blockflowerpot$enumflowertype = BlockFlowerPot.EnumFlowerType.EMPTY;
 		TileEntity tileentity = worldIn.getTileEntity(pos);

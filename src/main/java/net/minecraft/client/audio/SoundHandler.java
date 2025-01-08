@@ -1,5 +1,8 @@
 package net.minecraft.client.audio;
 
+import com.google.common.collect.Lists;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
@@ -9,18 +12,8 @@ import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Random;
-
-import org.apache.commons.io.IOUtils;
-import org.apache.commons.lang3.ArrayUtils;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
-import com.google.common.collect.Lists;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-
+import java.util.Map.Entry;
 import net.minecraft.client.resources.IResource;
 import net.minecraft.client.resources.IResourceManager;
 import net.minecraft.client.resources.IResourceManagerReloadListener;
@@ -28,6 +21,10 @@ import net.minecraft.client.settings.GameSettings;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ITickable;
 import net.minecraft.util.ResourceLocation;
+import org.apache.commons.io.IOUtils;
+import org.apache.commons.lang3.ArrayUtils;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class SoundHandler implements IResourceManagerReloadListener, ITickable {
 	private static final Logger logger = LogManager.getLogger();
@@ -171,10 +168,16 @@ public class SoundHandler implements IResourceManagerReloadListener, ITickable {
 		return this.sndRegistry.getObject(location);
 	}
 
+	/**
+	 * Play a sound
+	 */
 	public void playSound(ISound sound) {
 		this.sndManager.playSound(sound);
 	}
 
+	/**
+	 * Plays the sound in n ticks
+	 */
 	public void playDelayedSound(ISound sound, int delay) {
 		this.sndManager.playDelayedSound(sound, delay);
 	}
@@ -195,6 +198,9 @@ public class SoundHandler implements IResourceManagerReloadListener, ITickable {
 		this.sndManager.unloadSoundSystem();
 	}
 
+	/**
+	 * Like the old updateEntity(), except more generic.
+	 */
 	public void update() {
 		this.sndManager.updateAllSounds();
 	}
@@ -215,6 +221,9 @@ public class SoundHandler implements IResourceManagerReloadListener, ITickable {
 		this.sndManager.stopSound(p_147683_1_);
 	}
 
+	/**
+	 * Returns a random sound from one or more categories
+	 */
 	public SoundEventAccessorComposite getRandomSoundFromCategories(SoundCategory... categories) {
 		List<SoundEventAccessorComposite> list = Lists.newArrayList();
 

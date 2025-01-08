@@ -2,7 +2,6 @@ package net.minecraft.village;
 
 import java.io.IOException;
 import java.util.ArrayList;
-
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
@@ -17,6 +16,9 @@ public class MerchantRecipeList extends ArrayList<MerchantRecipe> {
 		this.readRecipiesFromTags(compound);
 	}
 
+	/**
+	 * can par1,par2 be used to in crafting recipe par3
+	 */
 	public MerchantRecipe canRecipeBeUsed(ItemStack p_77203_1_, ItemStack p_77203_2_, int p_77203_3_) {
 		if (p_77203_3_ > 0 && p_77203_3_ < this.size()) {
 			MerchantRecipe merchantrecipe1 = this.get(p_77203_3_);

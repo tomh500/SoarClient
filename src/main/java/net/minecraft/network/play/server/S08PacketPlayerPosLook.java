@@ -3,7 +3,6 @@ package net.minecraft.network.play.server;
 import java.io.IOException;
 import java.util.EnumSet;
 import java.util.Set;
-
 import net.minecraft.network.Packet;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.network.play.INetHandlerPlayClient;
@@ -29,6 +28,9 @@ public class S08PacketPlayerPosLook implements Packet<INetHandlerPlayClient> {
 		this.field_179835_f = p_i45993_9_;
 	}
 
+	/**
+	 * Reads the raw packet data from the data stream.
+	 */
 	public void readPacketData(PacketBuffer buf) throws IOException {
 		this.x = buf.readDouble();
 		this.y = buf.readDouble();
@@ -38,6 +40,9 @@ public class S08PacketPlayerPosLook implements Packet<INetHandlerPlayClient> {
 		this.field_179835_f = S08PacketPlayerPosLook.EnumFlags.func_180053_a(buf.readUnsignedByte());
 	}
 
+	/**
+	 * Writes the raw packet data to the data stream.
+	 */
 	public void writePacketData(PacketBuffer buf) throws IOException {
 		buf.writeDouble(this.x);
 		buf.writeDouble(this.y);
@@ -47,6 +52,9 @@ public class S08PacketPlayerPosLook implements Packet<INetHandlerPlayClient> {
 		buf.writeByte(S08PacketPlayerPosLook.EnumFlags.func_180056_a(this.field_179835_f));
 	}
 
+	/**
+	 * Passes this Packet on to the NetHandler for processing.
+	 */
 	public void processPacket(INetHandlerPlayClient handler) {
 		handler.handlePlayerPosLook(this);
 	}

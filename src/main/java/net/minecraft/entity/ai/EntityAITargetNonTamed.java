@@ -1,7 +1,6 @@
 package net.minecraft.entity.ai;
 
 import com.google.common.base.Predicate;
-
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.passive.EntityTameable;
 
@@ -14,6 +13,9 @@ public class EntityAITargetNonTamed<T extends EntityLivingBase> extends EntityAI
 		this.theTameable = entityIn;
 	}
 
+	/**
+	 * Returns whether the EntityAIBase should begin execution.
+	 */
 	public boolean shouldExecute() {
 		return !this.theTameable.isTamed() && super.shouldExecute();
 	}

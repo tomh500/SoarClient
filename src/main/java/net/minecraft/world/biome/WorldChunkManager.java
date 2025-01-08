@@ -1,10 +1,8 @@
 package net.minecraft.world.biome;
 
+import com.google.common.collect.Lists;
 import java.util.List;
 import java.util.Random;
-
-import com.google.common.collect.Lists;
-
 import net.minecraft.crash.CrashReport;
 import net.minecraft.crash.CrashReportCategory;
 import net.minecraft.util.BlockPos;
@@ -16,7 +14,11 @@ import net.minecraft.world.gen.layer.IntCache;
 
 public class WorldChunkManager {
 	private GenLayer genBiomes;
+
+	/** A GenLayer containing the indices into BiomeGenBase.biomeList[] */
 	private GenLayer biomeIndexLayer;
+
+	/** The biome list. */
 	private final BiomeCache biomeCache;
 	private final List<BiomeGenBase> biomesToSpawnIn;
 	private String generatorOptions;
@@ -50,6 +52,9 @@ public class WorldChunkManager {
 		return this.biomesToSpawnIn;
 	}
 
+	/**
+	 * Returns the biome generator
+	 */
 	public BiomeGenBase getBiomeGenerator(BlockPos pos) {
 		return this.getBiomeGenerator(pos, null);
 	}
@@ -58,6 +63,10 @@ public class WorldChunkManager {
 		return this.biomeCache.func_180284_a(pos.getX(), pos.getZ(), biomeGenBaseIn);
 	}
 
+	/**
+	 * Returns a list of rainfall values for the specified blocks. Args:
+	 * listToReuse, x, z, width, length.
+	 */
 	public float[] getRainfall(float[] listToReuse, int x, int z, int width, int length) {
 		IntCache.resetIntCache();
 
@@ -93,10 +102,16 @@ public class WorldChunkManager {
 		return listToReuse;
 	}
 
+	/**
+	 * Return an adjusted version of a given temperature based on the y height
+	 */
 	public float getTemperatureAtHeight(float p_76939_1_, int p_76939_2_) {
 		return p_76939_1_;
 	}
 
+	/**
+	 * Returns an array of biomes for the location input.
+	 */
 	public BiomeGenBase[] getBiomesForGeneration(BiomeGenBase[] biomes, int x, int z, int width, int height) {
 		IntCache.resetIntCache();
 
@@ -124,10 +139,20 @@ public class WorldChunkManager {
 		}
 	}
 
+	/**
+	 * Returns biomes to use for the blocks and loads the other data like
+	 * temperature and humidity onto the WorldChunkManager Args: oldBiomeList, x, z,
+	 * width, depth
+	 */
 	public BiomeGenBase[] loadBlockGeneratorData(BiomeGenBase[] oldBiomeList, int x, int z, int width, int depth) {
 		return this.getBiomeGenAt(oldBiomeList, x, z, width, depth, true);
 	}
 
+	/**
+	 * Return a list of biomes for the specified blocks. Args: listToReuse, x, y,
+	 * width, length, cacheFlag (if false, don't check biomeCache to avoid infinite
+	 * loop in BiomeCacheBlock)
+	 */
 	public BiomeGenBase[] getBiomeGenAt(BiomeGenBase[] listToReuse, int x, int z, int width, int length,
 			boolean cacheFlag) {
 		IntCache.resetIntCache();
@@ -151,6 +176,9 @@ public class WorldChunkManager {
 		}
 	}
 
+	/**
+	 * checks given Chunk's Biomes against List of allowed ones
+	 */
 	public boolean areBiomesViable(int p_76940_1_, int p_76940_2_, int p_76940_3_, List<BiomeGenBase> p_76940_4_) {
 		IntCache.resetIntCache();
 		int i = p_76940_1_ - p_76940_3_ >> 2;
@@ -209,6 +237,9 @@ public class WorldChunkManager {
 		return blockpos;
 	}
 
+	/**
+	 * Calls the WorldChunkManager's biomeCache.cleanupCache()
+	 */
 	public void cleanupCache() {
 		this.biomeCache.cleanupCache();
 	}

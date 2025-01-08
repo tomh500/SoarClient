@@ -1,10 +1,8 @@
 package net.minecraft.network.play.server;
 
+import com.google.common.collect.Lists;
 import java.io.IOException;
 import java.util.List;
-
-import com.google.common.collect.Lists;
-
 import net.minecraft.network.Packet;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.network.play.INetHandlerPlayClient;
@@ -28,6 +26,9 @@ public class S21PacketChunkData implements Packet<INetHandlerPlayClient> {
 				p_i45196_3_);
 	}
 
+	/**
+	 * Reads the raw packet data from the data stream.
+	 */
 	public void readPacketData(PacketBuffer buf) throws IOException {
 		this.chunkX = buf.readInt();
 		this.chunkZ = buf.readInt();
@@ -37,6 +38,9 @@ public class S21PacketChunkData implements Packet<INetHandlerPlayClient> {
 		this.extractedData.data = buf.readByteArray();
 	}
 
+	/**
+	 * Writes the raw packet data to the data stream.
+	 */
 	public void writePacketData(PacketBuffer buf) throws IOException {
 		buf.writeInt(this.chunkX);
 		buf.writeInt(this.chunkZ);
@@ -45,6 +49,9 @@ public class S21PacketChunkData implements Packet<INetHandlerPlayClient> {
 		buf.writeByteArray(this.extractedData.data);
 	}
 
+	/**
+	 * Passes this Packet on to the NetHandler for processing.
+	 */
 	public void processPacket(INetHandlerPlayClient handler) {
 		handler.handleChunkData(this);
 	}

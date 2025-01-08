@@ -1,11 +1,10 @@
 package net.minecraft.client.renderer.chunk;
 
-import java.util.ArrayDeque;
+import com.google.common.collect.Lists;
 import java.util.BitSet;
 import java.util.EnumSet;
 import java.util.Queue;
 import java.util.Set;
-
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.IntegerCache;
@@ -55,7 +54,7 @@ public class VisGraph {
 
 	private Set<EnumFacing> func_178604_a(int p_178604_1_) {
 		Set<EnumFacing> set = EnumSet.noneOf(EnumFacing.class);
-		Queue<Integer> queue = new ArrayDeque(384);
+		Queue<Integer> queue = Lists.newLinkedList();
 		queue.add(IntegerCache.getInteger(p_178604_1_));
 		this.field_178612_d.set(p_178604_1_, true);
 
@@ -63,7 +62,7 @@ public class VisGraph {
 			int i = queue.poll().intValue();
 			this.func_178610_a(i, set);
 
-			for (EnumFacing enumfacing : EnumFacing.VALUES) {
+			for (EnumFacing enumfacing : EnumFacing.values()) {
 				int j = this.func_178603_a(i, enumfacing);
 
 				if (j >= 0 && !this.field_178612_d.get(j)) {

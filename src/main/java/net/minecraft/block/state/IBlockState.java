@@ -1,9 +1,7 @@
 package net.minecraft.block.state;
 
-import java.util.Collection;
-
 import com.google.common.collect.ImmutableMap;
-
+import java.util.Collection;
 import net.minecraft.block.Block;
 import net.minecraft.block.properties.IProperty;
 

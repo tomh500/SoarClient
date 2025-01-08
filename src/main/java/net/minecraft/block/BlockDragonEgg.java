@@ -1,7 +1,6 @@
 package net.minecraft.block;
 
 import java.util.Random;
-
 import net.minecraft.block.material.MapColor;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
@@ -24,6 +23,9 @@ public class BlockDragonEgg extends Block {
 		worldIn.scheduleUpdate(pos, this, this.tickRate(worldIn));
 	}
 
+	/**
+	 * Called when a neighboring block changes.
+	 */
 	public void onNeighborBlockChange(World worldIn, BlockPos pos, IBlockState state, Block neighborBlock) {
 		worldIn.scheduleUpdate(pos, this, this.tickRate(worldIn));
 	}
@@ -99,10 +101,17 @@ public class BlockDragonEgg extends Block {
 		}
 	}
 
+	/**
+	 * How many world ticks before ticking
+	 */
 	public int tickRate(World worldIn) {
 		return 5;
 	}
 
+	/**
+	 * Used to determine ambient occlusion and culling when rebuilding chunks for
+	 * render
+	 */
 	public boolean isOpaqueCube() {
 		return false;
 	}

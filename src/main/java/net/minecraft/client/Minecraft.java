@@ -50,15 +50,6 @@ import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.minecraft.MinecraftSessionService;
 import com.mojang.authlib.properties.PropertyMap;
 import com.mojang.authlib.yggdrasil.YggdrasilAuthenticationService;
-import com.soarclient.Soar;
-import com.soarclient.event.EventBus;
-import com.soarclient.event.impl.ClientTickEvent;
-import com.soarclient.event.impl.GameLoopEvent;
-import com.soarclient.event.impl.MouseClickEvent;
-import com.soarclient.event.impl.RenderTickEvent;
-import com.soarclient.event.impl.UpdateFramebufferSizeEvent;
-import com.soarclient.management.mod.settings.impl.KeybindSetting;
-import com.soarclient.skia.context.SkiaContext;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
@@ -187,23 +178,40 @@ public class Minecraft implements IThreadListener {
 	private static final Logger logger = LogManager.getLogger();
 	private static final ResourceLocation locationMojangPng = new ResourceLocation("textures/gui/title/mojang.png");
 	public static final boolean isRunningOnMac = Util.getOSType() == Util.EnumOS.OSX;
+
+	/** A 10MiB preallocation to ensure the heap is reasonably sized. */
 	public static byte[] memoryReserve = new byte[10485760];
 	private static final List<DisplayMode> macDisplayModes = Lists.newArrayList(new DisplayMode(2560, 1600),
 			new DisplayMode(2880, 1800));
 	private final File fileResourcepacks;
 	private final PropertyMap twitchDetails;
+
+	/** The player's GameProfile properties */
 	private final PropertyMap profileProperties;
 	private ServerData currentServerData;
+
+	/** The RenderEngine instance used by Minecraft */
 	private TextureManager renderEngine;
+
+	/**
+	 * Set to 'this' in Minecraft constructor; used by some settings get methods
+	 */
 	private static Minecraft theMinecraft;
 	public PlayerControllerMP playerController;
 	private boolean fullscreen;
 	private final boolean enableGLErrorChecking = true;
 	private boolean hasCrashed;
+
+	/** Instance of CrashReport. */
 	private CrashReport crashReporter;
 	public int displayWidth;
 	public int displayHeight;
+
+	/** True if the player is connected to a realms server */
+	private boolean connectedToRealms = false;
 	private final Timer timer = new Timer(20.0F);
+
+	/** Instance of PlayerUsageSnooper. */
 	public WorldClient theWorld;
 	public RenderGlobal renderGlobal;
 	private RenderManager renderManager;
@@ -215,40 +223,90 @@ public class Minecraft implements IThreadListener {
 	public EffectRenderer effectRenderer;
 	private final Session session;
 	private boolean isGamePaused;
+
+	/** The font renderer used for displaying and measuring text */
 	public FontRenderer fontRendererObj;
 	public FontRenderer standardGalacticFontRenderer;
+
+	/** The GuiScreen that's being displayed at the moment. */
 	public GuiScreen currentScreen;
 	public LoadingScreenRenderer loadingScreen;
 	public EntityRenderer entityRenderer;
+
+	/** Mouse left click counter */
 	private int leftClickCounter;
+
+	/** Display width */
 	private final int tempDisplayWidth;
+
+	/** Display height */
 	private final int tempDisplayHeight;
+
+	/** Instance of IntegratedServer. */
 	private IntegratedServer theIntegratedServer;
+
+	/** Gui achievement */
 	public GuiAchievement guiAchievement;
 	public GuiIngame ingameGUI;
+
+	/** Skip render world */
 	public boolean skipRenderWorld;
+
+	/** The ray trace hit that the mouse is over. */
 	public MovingObjectPosition objectMouseOver;
+
+	/** The game settings that currently hold effect. */
 	public GameSettings gameSettings;
+
+	/** Mouse helper instance. */
 	public MouseHelper mouseHelper;
 	public final File mcDataDir;
 	private final File fileAssets;
 	private final String launchedVersion;
 	private final Proxy proxy;
 	private ISaveFormat saveLoader;
+
+	/**
+	 * This is set to fpsCounter every debug screen update, and is shown on the
+	 * debug screen. It's also sent as part of the usage snooping.
+	 */
 	private static int debugFPS;
+
+	/**
+	 * When you place a block, it's set to 6, decremented once per tick, when it's
+	 * 0, you can place another block.
+	 */
 	private int rightClickDelayTimer;
 	private String serverName;
 	private int serverPort;
+
+	/**
+	 * Does the actual gameplay have focus. If so then mouse and keys will effect
+	 * the player instead of menus.
+	 */
 	public boolean inGameHasFocus;
 	long systemTime = getSystemTime();
+
+	/** Join player counter */
 	private int joinPlayerCounter;
+
+	/** The FrameTimer's instance */
 	public final FrameTimer frameTimer = new FrameTimer();
+
+	/** Time in nanoseconds of when the class is loaded */
 	long startNanoTime = System.nanoTime();
 	private final boolean jvm64bit;
 	private final boolean isDemo;
 	private NetworkManager myNetworkManager;
 	private boolean integratedServerIsRunning;
+
+	/** The profiler instance */
 	public final Profiler mcProfiler = new Profiler();
+
+	/**
+	 * Keeps track of how long the debug crash keycombo (F3+C) has been pressed for,
+	 * in order to crash after 10 seconds.
+	 */
 	private long debugCrashKeyPressTime = -1L;
 	private IReloadableResourceManager mcResourceManager;
 	private final IMetadataSerializer metadataSerializer_ = new IMetadataSerializer();
@@ -267,16 +325,33 @@ public class Minecraft implements IThreadListener {
 	private final long field_175615_aJ = 0L;
 	private final Thread mcThread = Thread.currentThread();
 	private ModelManager modelManager;
+
+	/**
+	 * The BlockRenderDispatcher instance that will be used based off gamesettings
+	 */
 	private BlockRendererDispatcher blockRenderDispatcher;
+
+	/**
+	 * Set to true to keep the game loop running. Set to false by shutdown() to
+	 * allow the game loop to exit cleanly.
+	 */
 	volatile boolean running = true;
+
+	/** String that shows the debug information */
 	public String debug = "";
 	public boolean field_175613_B = false;
 	public boolean field_175614_C = false;
 	public boolean field_175611_D = false;
 	public boolean renderChunksMany = true;
+
+	/** Approximate time (in ms) of last update to debug string */
 	long debugUpdateTime = getSystemTime();
+
+	/** holds the current fps */
 	int fpsCounter;
 	long prevFrameTime = -1L;
+
+	/** Profiler currently displayed in the debug screen pie chart */
 	private String debugProfilerName = "root";
 
 	public Minecraft(GameConfiguration gameConfig) {
@@ -315,15 +390,6 @@ public class Minecraft implements IThreadListener {
 	}
 
 	public void run() {
-
-		if (displayWidth < 1100) {
-			displayWidth = 1100;
-		}
-
-		if (displayHeight < 630) {
-			displayHeight = 630;
-		}
-
 		this.running = true;
 
 		try {
@@ -373,6 +439,9 @@ public class Minecraft implements IThreadListener {
 		}
 	}
 
+	/**
+	 * Starts the game: initializes the canvas, the title, the settings, etcetera.
+	 */
 	private void startGame() throws LWJGLException, IOException {
 		this.gameSettings = new GameSettings(this, this.mcDataDir);
 		this.defaultResourcePacks.add(this.mcDefaultResourcePack);
@@ -467,7 +536,6 @@ public class Minecraft implements IThreadListener {
 		this.effectRenderer = new EffectRenderer(this.theWorld, this.renderEngine);
 		this.checkGLError("Post startup");
 		this.ingameGUI = new GuiIngame(this);
-		Soar.getInstance().start();
 
 		if (this.serverName != null) {
 			this.displayGuiScreen(new GuiConnecting(new GuiMainMenu(), this, this.serverName, this.serverPort));
@@ -491,8 +559,6 @@ public class Minecraft implements IThreadListener {
 		}
 
 		this.renderGlobal.makeEntityOutlineShader();
-		SkiaContext.initialize();
-		SkiaContext.createSurface();
 	}
 
 	private void registerMetadataSerializers() {
@@ -510,8 +576,7 @@ public class Minecraft implements IThreadListener {
 
 	private void createDisplay() throws LWJGLException {
 		Display.setResizable(true);
-		Display.setTitle(
-				Soar.getInstance().getName() + " Client v" + Soar.getInstance().getVersion() + " for Minecraft 1.8.9");
+		Display.setTitle("Minecraft 1.8.9");
 
 		try {
 			Display.create((new PixelFormat()).withDepthBits(24));
@@ -610,6 +675,9 @@ public class Minecraft implements IThreadListener {
 		this.crashReporter = crash;
 	}
 
+	/**
+	 * Wrapper around displayCrashReportInternal
+	 */
 	public void displayCrashReport(CrashReport crashReportIn) {
 		File file1 = new File(getMinecraft().mcDataDir, "crash-reports");
 		File file2 = new File(file1,
@@ -778,6 +846,20 @@ public class Minecraft implements IThreadListener {
 		this.updateDisplay();
 	}
 
+	/**
+	 * Draw with the WorldRenderer
+	 * 
+	 * @param posX   X position for the render
+	 * @param posY   Y position for the render
+	 * @param texU   X position for the texture
+	 * @param texV   Y position for the texture
+	 * @param width  Width of the render
+	 * @param height Height of the render
+	 * @param red    The red component of the render's color
+	 * @param green  The green component of the render's color
+	 * @param blue   The blue component of the render's color
+	 * @param alpha  The alpha component of the render's color
+	 */
 	public void draw(int posX, int posY, int texU, int texV, int width, int height, int red, int green, int blue,
 			int alpha) {
 		float f = 0.00390625F;
@@ -796,10 +878,16 @@ public class Minecraft implements IThreadListener {
 		Tessellator.getInstance().draw();
 	}
 
+	/**
+	 * Returns the save loader that is currently being used
+	 */
 	public ISaveFormat getSaveLoader() {
 		return this.saveLoader;
 	}
 
+	/**
+	 * Sets the argument GuiScreen as the main (topmost visible) screen.
+	 */
 	public void displayGuiScreen(GuiScreen guiScreenIn) {
 		if (this.currentScreen != null) {
 			this.currentScreen.onGuiClosed();
@@ -831,6 +919,10 @@ public class Minecraft implements IThreadListener {
 		}
 	}
 
+	/**
+	 * Checks for an OpenGL error. If there is one, prints the error ID and error
+	 * string.
+	 */
 	private void checkGLError(String message) {
 		if (this.enableGLErrorChecking) {
 			int i = GL11.glGetError();
@@ -844,10 +936,13 @@ public class Minecraft implements IThreadListener {
 		}
 	}
 
+	/**
+	 * Shuts down the minecraft applet by stopping the resource downloads, and
+	 * clearing up GL stuff; called when the application (or web page) is exited.
+	 */
 	public void shutdownMinecraftApplet() {
 		try {
 			logger.info("Stopping!");
-			Soar.getInstance().stop();
 
 			try {
 				this.loadWorld(null);
@@ -866,10 +961,10 @@ public class Minecraft implements IThreadListener {
 		System.gc();
 	}
 
+	/**
+	 * Called repeatedly from run()
+	 */
 	private void runGameLoop() throws IOException {
-
-		EventBus.getInstance().post(new GameLoopEvent());
-
 		long i = System.nanoTime();
 		this.mcProfiler.startSection("root");
 
@@ -941,20 +1036,17 @@ public class Minecraft implements IThreadListener {
 		}
 
 		this.guiAchievement.updateAchievementWindow();
-		EventBus.getInstance().post(new RenderTickEvent());
 		this.framebufferMc.unbindFramebuffer();
 		GlStateManager.popMatrix();
 		GlStateManager.pushMatrix();
 		this.framebufferMc.framebufferRender(this.displayWidth, this.displayHeight);
-		GlStateManager.popMatrix();
-		GlStateManager.pushMatrix();
-		this.entityRenderer.renderStreamIndicator(this.timer.renderPartialTicks);
 		GlStateManager.popMatrix();
 		this.mcProfiler.startSection("root");
 		this.updateDisplay();
 		Thread.yield();
 		this.mcProfiler.startSection("stream");
 		this.mcProfiler.startSection("update");
+		this.mcProfiler.endStartSection("submit");
 		this.mcProfiler.endSection();
 		this.mcProfiler.endSection();
 		this.checkGLError("Post render");
@@ -1042,6 +1134,9 @@ public class Minecraft implements IThreadListener {
 		System.gc();
 	}
 
+	/**
+	 * Update debugProfilerName in response to number keys in debug screen
+	 */
 	private void updateDebugProfilerName(int keyCount) {
 		List<Profiler.Result> list = this.mcProfiler.getProfilingData(this.debugProfilerName);
 
@@ -1070,6 +1165,9 @@ public class Minecraft implements IThreadListener {
 		}
 	}
 
+	/**
+	 * Parameter appears to be unused
+	 */
 	private void displayDebugInfo(long elapsedTicksTime) {
 		if (this.mcProfiler.profilingEnabled) {
 			List<Profiler.Result> list = this.mcProfiler.getProfilingData(this.debugProfilerName);
@@ -1181,10 +1279,18 @@ public class Minecraft implements IThreadListener {
 		}
 	}
 
+	/**
+	 * Called when the window is closing. Sets 'running' to false which allows the
+	 * game loop to exit cleanly.
+	 */
 	public void shutdown() {
 		this.running = false;
 	}
 
+	/**
+	 * Will set the focus to ingame if the Minecraft window is the active with
+	 * focus. Also clears any GUI screen currently displayed
+	 */
 	public void setIngameFocus() {
 		if (Display.isActive()) {
 			if (!this.inGameHasFocus) {
@@ -1196,6 +1302,10 @@ public class Minecraft implements IThreadListener {
 		}
 	}
 
+	/**
+	 * Resets the player keystate, disables the ingame focus, and ungrabs the mouse
+	 * cursor.
+	 */
 	public void setIngameNotInFocus() {
 		if (this.inGameHasFocus) {
 			KeyBinding.unPressAllKeys();
@@ -1204,6 +1314,9 @@ public class Minecraft implements IThreadListener {
 		}
 	}
 
+	/**
+	 * Displays the ingame menu
+	 */
 	public void displayInGameMenu() {
 		if (this.currentScreen == null) {
 			this.displayGuiScreen(new GuiIngameMenu());
@@ -1270,6 +1383,10 @@ public class Minecraft implements IThreadListener {
 	}
 
 	@SuppressWarnings("incomplete-switch")
+
+	/**
+	 * Called when user clicked he's mouse right button (place)
+	 */
 	private void rightClickMouse() {
 		if (!this.playerController.getIsHittingBlock()) {
 			this.rightClickDelayTimer = 4;
@@ -1327,7 +1444,11 @@ public class Minecraft implements IThreadListener {
 		}
 	}
 
+	/**
+	 * Toggles fullscreen mode.
+	 */
 	public void toggleFullscreen() {
+		
 		try {
 			this.fullscreen = !this.fullscreen;
 			this.gameSettings.fullScreen = this.fullscreen;
@@ -1372,6 +1493,9 @@ public class Minecraft implements IThreadListener {
 		}
 	}
 
+	/**
+	 * Called to resize the current screen.
+	 */
 	private void resize(int width, int height) {
 		this.displayWidth = Math.max(1, width);
 		this.displayHeight = Math.max(1, height);
@@ -1383,13 +1507,9 @@ public class Minecraft implements IThreadListener {
 
 		this.loadingScreen = new LoadingScreenRenderer(this);
 		this.updateFramebufferSize();
-		SkiaContext.onResize(width, height);
 	}
 
 	private void updateFramebufferSize() {
-
-		EventBus.getInstance().post(new UpdateFramebufferSizeEvent());
-
 		this.framebufferMc.createBindFramebuffer(this.displayWidth, this.displayHeight);
 
 		if (this.entityRenderer != null) {
@@ -1397,10 +1517,16 @@ public class Minecraft implements IThreadListener {
 		}
 	}
 
+	/**
+	 * Return the musicTicker's instance
+	 */
 	public MusicTicker getMusicTicker() {
 		return this.mcMusicTicker;
 	}
 
+	/**
+	 * Runs the current tick.
+	 */
 	public void runTick() throws IOException {
 		if (this.rightClickDelayTimer > 0) {
 			--this.rightClickDelayTimer;
@@ -1474,30 +1600,15 @@ public class Minecraft implements IThreadListener {
 		if (this.currentScreen == null || this.currentScreen.allowUserInput) {
 			this.mcProfiler.endStartSection("mouse");
 
-			while (nextMouse()) {
-
+			while (Mouse.next()) {
 				int i = Mouse.getEventButton();
-				int mouseCode = i - 100;
-
-				KeyBinding.setKeyBindState(mouseCode, Mouse.getEventButtonState());
-
-				for (KeybindSetting s : Soar.getInstance().getModManager().getKeybindSettings()) {
-					if (s.getKeyCode() == mouseCode) {
-						s.setKeybindState(Mouse.getEventButtonState());
-					}
-				}
+				KeyBinding.setKeyBindState(i - 100, Mouse.getEventButtonState());
 
 				if (Mouse.getEventButtonState()) {
 					if (this.thePlayer.isSpectator() && i == 2) {
 						this.ingameGUI.getSpectatorGui().func_175261_b();
 					} else {
 						KeyBinding.onTick(i - 100);
-
-						for (KeybindSetting s : Soar.getInstance().getModManager().getKeybindSettings()) {
-							if (s.getKeyCode() == mouseCode) {
-								s.onTick();
-							}
-						}
 					}
 				}
 
@@ -1539,25 +1650,11 @@ public class Minecraft implements IThreadListener {
 			this.mcProfiler.endStartSection("keyboard");
 
 			while (Keyboard.next()) {
-
 				int k = Keyboard.getEventKey() == 0 ? Keyboard.getEventCharacter() + 256 : Keyboard.getEventKey();
 				KeyBinding.setKeyBindState(k, Keyboard.getEventKeyState());
 
-				for (KeybindSetting s : Soar.getInstance().getModManager().getKeybindSettings()) {
-					if (s.getKeyCode() == k) {
-						s.setKeybindState(Keyboard.getEventKeyState());
-					}
-				}
-
 				if (Keyboard.getEventKeyState()) {
-
 					KeyBinding.onTick(k);
-
-					for (KeybindSetting s : Soar.getInstance().getModManager().getKeybindSettings()) {
-						if (s.getKeyCode() == k) {
-							s.onTick();
-						}
-					}
 				}
 
 				if (this.debugCrashKeyPressTime > 0L) {
@@ -1832,9 +1929,11 @@ public class Minecraft implements IThreadListener {
 
 		this.mcProfiler.endSection();
 		this.systemTime = getSystemTime();
-		EventBus.getInstance().post(new ClientTickEvent());
 	}
 
+	/**
+	 * Arguments: World foldername, World ingame name, WorldSettings
+	 */
 	public void launchIntegratedServer(String folderName, String worldName, WorldSettings worldSettingsIn) {
 		this.loadWorld(null);
 		System.gc();
@@ -1888,16 +1987,18 @@ public class Minecraft implements IThreadListener {
 		this.myNetworkManager = networkmanager;
 	}
 
+	/**
+	 * unloads the current world first
+	 */
 	public void loadWorld(WorldClient worldClientIn) {
 		this.loadWorld(worldClientIn, "");
 	}
 
+	/**
+	 * par2Str is displayed on the loading screen to the user unloads the current
+	 * world first
+	 */
 	public void loadWorld(WorldClient worldClientIn, String loadingMessage) {
-		
-        if (worldClientIn != this.theWorld) {
-            this.entityRenderer.getMapItemRenderer().clearLoadedMaps();
-        }
-        
 		if (worldClientIn == null) {
 			NetHandlerPlayClient nethandlerplayclient = this.getNetHandler();
 
@@ -1957,6 +2058,7 @@ public class Minecraft implements IThreadListener {
 			this.thePlayer = null;
 		}
 
+		System.gc();
 		this.systemTime = 0L;
 	}
 
@@ -1993,6 +2095,9 @@ public class Minecraft implements IThreadListener {
 		}
 	}
 
+	/**
+	 * Gets whether this is a demo or not.
+	 */
 	public final boolean isDemo() {
 		return this.isDemo;
 	}
@@ -2009,10 +2114,16 @@ public class Minecraft implements IThreadListener {
 		return theMinecraft != null && theMinecraft.gameSettings.fancyGraphics;
 	}
 
+	/**
+	 * Returns if ambient occlusion is enabled
+	 */
 	public static boolean isAmbientOcclusionEnabled() {
 		return theMinecraft != null && theMinecraft.gameSettings.ambientOcclusion != 0;
 	}
 
+	/**
+	 * Called when user clicked he's mouse middle button (pick block)
+	 */
 	private void middleClickMouse() {
 		if (this.objectMouseOver != null) {
 			boolean flag = this.thePlayer.capabilities.isCreativeMode;
@@ -2119,6 +2230,14 @@ public class Minecraft implements IThreadListener {
 		}
 	}
 
+	/**
+	 * Return an ItemStack with the NBTTag of the TileEntity ("Owner" if the block
+	 * is a skull)
+	 * 
+	 * @param itemIn       The item from the block picked
+	 * @param meta         Metadata of the item
+	 * @param tileEntityIn TileEntity of the block picked
+	 */
 	private ItemStack pickBlockWithNBT(Item itemIn, int meta, TileEntity tileEntityIn) {
 		ItemStack itemstack = new ItemStack(itemIn, 1, meta);
 		NBTTagCompound nbttagcompound = new NBTTagCompound();
@@ -2141,6 +2260,10 @@ public class Minecraft implements IThreadListener {
 		}
 	}
 
+	/**
+	 * adds core server Info (GL version , Texture pack, isModded, type), and the
+	 * worldInfo to the crash report
+	 */
 	public CrashReport addGraphicsAndWorldToCrashReport(CrashReport theCrash) {
 		theCrash.getCategory().addCrashSectionCallable("Launched Version", new Callable<String>() {
 			public String call() throws Exception {
@@ -2224,6 +2347,9 @@ public class Minecraft implements IThreadListener {
 		return theCrash;
 	}
 
+	/**
+	 * Return the singleton Minecraft instance for the game
+	 */
 	public static Minecraft getMinecraft() {
 		return theMinecraft;
 	}
@@ -2235,7 +2361,10 @@ public class Minecraft implements IThreadListener {
 			}
 		});
 	}
-
+	
+	/**
+	 * Used in the usage snooper.
+	 */
 	public static int getGLMaximumTextureSize() {
 		for (int i = 16384; i > 0; i >>= 1) {
 			GL11.glTexImage2D(GL11.GL_PROXY_TEXTURE_2D, 0, GL11.GL_RGBA, i, i, 0, GL11.GL_RGBA, GL11.GL_UNSIGNED_BYTE,
@@ -2250,6 +2379,16 @@ public class Minecraft implements IThreadListener {
 		return -1;
 	}
 
+	/**
+	 * Returns whether snooping is enabled or not.
+	 */
+	public boolean isSnooperEnabled() {
+		return this.gameSettings.snooperEnabled;
+	}
+
+	/**
+	 * Set the current ServerData instance.
+	 */
 	public void setServerData(ServerData serverDataIn) {
 		this.currentServerData = serverDataIn;
 	}
@@ -2262,10 +2401,17 @@ public class Minecraft implements IThreadListener {
 		return this.integratedServerIsRunning;
 	}
 
+	/**
+	 * Returns true if there is only one player playing, and the current server is
+	 * the integrated one.
+	 */
 	public boolean isSingleplayer() {
 		return this.integratedServerIsRunning && this.theIntegratedServer != null;
 	}
 
+	/**
+	 * Returns the currently running integrated server
+	 */
 	public IntegratedServer getIntegratedServer() {
 		return this.theIntegratedServer;
 	}
@@ -2280,10 +2426,16 @@ public class Minecraft implements IThreadListener {
 		}
 	}
 
+	/**
+	 * Gets the system time in milliseconds.
+	 */
 	public static long getSystemTime() {
 		return Sys.getTime() * 1000L / Sys.getTimerResolution();
 	}
 
+	/**
+	 * Returns whether we're in full screen or not.
+	 */
 	public boolean isFullScreen() {
 		return this.fullscreen;
 	}
@@ -2296,6 +2448,9 @@ public class Minecraft implements IThreadListener {
 		return this.twitchDetails;
 	}
 
+	/**
+	 * Return the player's GameProfile properties
+	 */
 	public PropertyMap getProfileProperties() {
 		if (this.profileProperties.isEmpty()) {
 			GameProfile gameprofile = this.getSessionService().fillProfileProperties(this.session.getProfile(), false);
@@ -2436,6 +2591,9 @@ public class Minecraft implements IThreadListener {
 		return debugFPS;
 	}
 
+	/**
+	 * Return the FrameTimer's instance
+	 */
 	public FrameTimer getFrameTimer() {
 		return this.frameTimer;
 	}
@@ -2448,39 +2606,20 @@ public class Minecraft implements IThreadListener {
 		return map;
 	}
 
-	private boolean nextMouse() {
-
-		boolean next = Mouse.next();
-
-		if (next) {
-
-			int button = Mouse.getEventButton();
-
-			MouseClickEvent event = new MouseClickEvent(button);
-
-			EventBus.getInstance().post(event);
-
-			if (event.isCancelled()) {
-				next = nextMouse();
-			}
-		}
-
-		return next;
+	/**
+	 * Return true if the player is connected to a realms server
+	 */
+	public boolean isConnectedToRealms() {
+		return this.connectedToRealms;
 	}
 
-	public List<IResourcePack> getDefaultResourcePacks() {
-		return defaultResourcePacks;
-	}
-
-	public DefaultResourcePack getMcDefaultResourcePack() {
-		return mcDefaultResourcePack;
-	}
-
-	public Timer getTimer() {
-		return timer;
-	}
-
-	public boolean isRunning() {
-		return running;
+	/**
+	 * Set if the player is connected to a realms server
+	 * 
+	 * @param isConnected The value that set if the player is connected to a realms
+	 *                    server or not
+	 */
+	public void setConnectedToRealms(boolean isConnected) {
+		this.connectedToRealms = isConnected;
 	}
 }

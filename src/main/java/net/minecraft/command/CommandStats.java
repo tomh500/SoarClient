@@ -1,10 +1,8 @@
 package net.minecraft.command;
 
+import com.google.common.collect.Lists;
 import java.util.Collection;
 import java.util.List;
-
-import com.google.common.collect.Lists;
-
 import net.minecraft.entity.Entity;
 import net.minecraft.scoreboard.ScoreObjective;
 import net.minecraft.server.MinecraftServer;
@@ -15,18 +13,30 @@ import net.minecraft.util.BlockPos;
 import net.minecraft.world.World;
 
 public class CommandStats extends CommandBase {
+	/**
+	 * Gets the name of the command
+	 */
 	public String getCommandName() {
 		return "stats";
 	}
 
+	/**
+	 * Return the required permission level for this command.
+	 */
 	public int getRequiredPermissionLevel() {
 		return 2;
 	}
 
+	/**
+	 * Gets the usage string for the command.
+	 */
 	public String getCommandUsage(ICommandSender sender) {
 		return "commands.stats.usage";
 	}
 
+	/**
+	 * Callback when the command is invoked
+	 */
 	public void processCommand(ICommandSender sender, String[] args) throws CommandException {
 		if (args.length < 1) {
 			throw new WrongUsageException("commands.stats.usage");
@@ -177,6 +187,9 @@ public class CommandStats extends CommandBase {
 		return list;
 	}
 
+	/**
+	 * Return whether the specified command parameter index is a username parameter.
+	 */
 	public boolean isUsernameIndex(String[] args, int index) {
 		return args.length > 0 && args[0].equals("entity") && index == 1;
 	}

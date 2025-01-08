@@ -11,6 +11,9 @@ public class BlockNetherBrick extends Block {
 		this.setCreativeTab(CreativeTabs.tabBlock);
 	}
 
+	/**
+	 * Get the MapColor for this Block and the given BlockState
+	 */
 	public MapColor getMapColor(IBlockState state) {
 		return MapColor.netherrackColor;
 	}

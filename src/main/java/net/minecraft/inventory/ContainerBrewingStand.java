@@ -8,6 +8,8 @@ import net.minecraft.stats.AchievementList;
 
 public class ContainerBrewingStand extends Container {
 	private final IInventory tileBrewingStand;
+
+	/** Instance of Slot. */
 	private final Slot theSlot;
 	private int brewTime;
 
@@ -37,6 +39,9 @@ public class ContainerBrewingStand extends Container {
 		listener.sendAllWindowProperties(this, this.tileBrewingStand);
 	}
 
+	/**
+	 * Looks for changes made in the container, sends them to every listener.
+	 */
 	public void detectAndSendChanges() {
 		super.detectAndSendChanges();
 
@@ -59,6 +64,9 @@ public class ContainerBrewingStand extends Container {
 		return this.tileBrewingStand.isUseableByPlayer(playerIn);
 	}
 
+	/**
+	 * Take a stack from the specified inventory slot.
+	 */
 	public ItemStack transferStackInSlot(EntityPlayer playerIn, int index) {
 		ItemStack itemstack = null;
 		Slot slot = this.inventorySlots.get(index);

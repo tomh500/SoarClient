@@ -1,9 +1,7 @@
 package net.minecraft.world.gen.feature;
 
-import java.util.Random;
-
 import com.google.common.base.Predicate;
-
+import java.util.Random;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.block.state.pattern.BlockHelper;
 import net.minecraft.init.Blocks;
@@ -13,6 +11,8 @@ import net.minecraft.world.World;
 
 public class WorldGenMinable extends WorldGenerator {
 	private final IBlockState oreBlock;
+
+	/** The number of blocks to generate. */
 	private final int numberOfBlocks;
 	private final Predicate<IBlockState> predicate;
 

@@ -2,7 +2,6 @@ package net.minecraft.network.play.server;
 
 import java.io.IOException;
 import java.util.Collection;
-
 import net.minecraft.network.Packet;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.network.play.INetHandlerPlayClient;
@@ -26,7 +25,7 @@ public class S34PacketMaps implements Packet<INetHandlerPlayClient> {
 			int maxX, int maxY) {
 		this.mapId = mapIdIn;
 		this.mapScale = scale;
-		this.mapVisiblePlayersVec4b = visiblePlayers.toArray(new Vec4b[0]);
+		this.mapVisiblePlayersVec4b = visiblePlayers.toArray(new Vec4b[visiblePlayers.size()]);
 		this.mapMinX = minX;
 		this.mapMinY = minY;
 		this.mapMaxX = maxX;
@@ -40,6 +39,9 @@ public class S34PacketMaps implements Packet<INetHandlerPlayClient> {
 		}
 	}
 
+	/**
+	 * Reads the raw packet data from the data stream.
+	 */
 	public void readPacketData(PacketBuffer buf) throws IOException {
 		this.mapId = buf.readVarIntFromBuffer();
 		this.mapScale = buf.readByte();
@@ -61,6 +63,9 @@ public class S34PacketMaps implements Packet<INetHandlerPlayClient> {
 		}
 	}
 
+	/**
+	 * Writes the raw packet data to the data stream.
+	 */
 	public void writePacketData(PacketBuffer buf) throws IOException {
 		buf.writeVarIntToBuffer(this.mapId);
 		buf.writeByte(this.mapScale);
@@ -82,6 +87,9 @@ public class S34PacketMaps implements Packet<INetHandlerPlayClient> {
 		}
 	}
 
+	/**
+	 * Passes this Packet on to the NetHandler for processing.
+	 */
 	public void processPacket(INetHandlerPlayClient handler) {
 		handler.handleMaps(this);
 	}
@@ -90,6 +98,9 @@ public class S34PacketMaps implements Packet<INetHandlerPlayClient> {
 		return this.mapId;
 	}
 
+	/**
+	 * Sets new MapData from the packet to given MapData param
+	 */
 	public void setMapdataTo(MapData mapdataIn) {
 		mapdataIn.scale = this.mapScale;
 		mapdataIn.mapDecorations.clear();

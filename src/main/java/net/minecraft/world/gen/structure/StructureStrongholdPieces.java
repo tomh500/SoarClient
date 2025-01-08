@@ -1,10 +1,8 @@
 package net.minecraft.world.gen.structure;
 
+import com.google.common.collect.Lists;
 import java.util.List;
 import java.util.Random;
-
-import com.google.common.collect.Lists;
-
 import net.minecraft.block.BlockEndPortalFrame;
 import net.minecraft.block.BlockSilverfish;
 import net.minecraft.block.BlockStoneBrick;
@@ -61,6 +59,9 @@ public class StructureStrongholdPieces {
 		MapGenStructureIO.registerStructureComponent(StructureStrongholdPieces.StairsStraight.class, "SHSSD");
 	}
 
+	/**
+	 * sets up Arrays with the Structure pieces and their weights
+	 */
 	public static void prepareStructurePieces() {
 		structurePieceList = Lists.newArrayList();
 

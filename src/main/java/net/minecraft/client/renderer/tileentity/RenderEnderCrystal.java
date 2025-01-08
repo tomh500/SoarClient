@@ -12,13 +12,16 @@ import net.minecraft.util.ResourceLocation;
 public class RenderEnderCrystal extends Render<EntityEnderCrystal> {
 	private static final ResourceLocation enderCrystalTextures = new ResourceLocation(
 			"textures/entity/endercrystal/endercrystal.png");
-	public ModelBase modelEnderCrystal = new ModelEnderCrystal(0.0F, true);
+	private final ModelBase modelEnderCrystal = new ModelEnderCrystal(0.0F, true);
 
 	public RenderEnderCrystal(RenderManager renderManagerIn) {
 		super(renderManagerIn);
 		this.shadowSize = 0.5F;
 	}
 
+	/**
+	 * Renders the desired {@code T} type Entity.
+	 */
 	public void doRender(EntityEnderCrystal entity, double x, double y, double z, float entityYaw, float partialTicks) {
 		float f = (float) entity.innerRotation + partialTicks;
 		GlStateManager.pushMatrix();
@@ -31,6 +34,10 @@ public class RenderEnderCrystal extends Render<EntityEnderCrystal> {
 		super.doRender(entity, x, y, z, entityYaw, partialTicks);
 	}
 
+	/**
+	 * Returns the location of an entity's texture. Doesn't seem to be called unless
+	 * you call Render.bindEntityTexture.
+	 */
 	protected ResourceLocation getEntityTexture(EntityEnderCrystal entity) {
 		return enderCrystalTextures;
 	}

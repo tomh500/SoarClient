@@ -5,6 +5,8 @@ import net.minecraft.util.BlockPos;
 public class BlockEventData {
 	private final BlockPos position;
 	private final Block blockType;
+
+	/** Different for each blockID */
 	private final int eventID;
 	private final int eventParameter;
 
@@ -19,6 +21,9 @@ public class BlockEventData {
 		return this.position;
 	}
 
+	/**
+	 * Get the Event ID (different for each BlockID)
+	 */
 	public int getEventID() {
 		return this.eventID;
 	}

@@ -1,18 +1,29 @@
 package net.minecraft.potion;
 
+import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.nbt.NBTTagCompound;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.nbt.NBTTagCompound;
-
 public class PotionEffect {
 	private static final Logger LOGGER = LogManager.getLogger();
+
+	/** ID value of the potion this effect matches. */
 	private final int potionID;
+
+	/** The duration of the potion effect */
 	private int duration;
+
+	/** The amplifier of the potion effect */
 	private int amplifier;
+
+	/** Whether the potion is a splash potion */
 	private boolean isSplashPotion;
+
+	/** Whether the potion effect came from a beacon */
 	private boolean isAmbient;
+
+	/** True if potion effect duration is at maximum, false otherwise. */
 	private boolean isPotionDurationMax;
 	private boolean showParticles;
 
@@ -40,6 +51,11 @@ public class PotionEffect {
 		this.showParticles = other.showParticles;
 	}
 
+	/**
+	 * merges the input PotionEffect into this one if this.amplifier <=
+	 * tomerge.amplifier. The duration in the supplied potion effect is assumed to
+	 * be greater.
+	 */
 	public void combine(PotionEffect other) {
 		if (this.potionID != other.potionID) {
 			LOGGER.warn("This method should only be called for matching effects!");
@@ -57,6 +73,9 @@ public class PotionEffect {
 		this.showParticles = other.showParticles;
 	}
 
+	/**
+	 * Retrieve the ID of the potion this effect matches.
+	 */
 	public int getPotionID() {
 		return this.potionID;
 	}
@@ -69,10 +88,16 @@ public class PotionEffect {
 		return this.amplifier;
 	}
 
+	/**
+	 * Set whether this potion is a splash potion.
+	 */
 	public void setSplashPotion(boolean splashPotion) {
 		this.isSplashPotion = splashPotion;
 	}
 
+	/**
+	 * Gets whether this potion effect originated from a beacon
+	 */
 	public boolean getIsAmbient() {
 		return this.isAmbient;
 	}
@@ -141,6 +166,9 @@ public class PotionEffect {
 		}
 	}
 
+	/**
+	 * Write a custom potion effect to a potion item's NBT data.
+	 */
 	public NBTTagCompound writeCustomPotionEffectToNBT(NBTTagCompound nbt) {
 		nbt.setByte("Id", (byte) this.getPotionID());
 		nbt.setByte("Amplifier", (byte) this.getAmplifier());
@@ -150,6 +178,9 @@ public class PotionEffect {
 		return nbt;
 	}
 
+	/**
+	 * Read a custom potion effect from a potion item's NBT data.
+	 */
 	public static PotionEffect readCustomPotionEffectFromNBT(NBTTagCompound nbt) {
 		int i = nbt.getByte("Id");
 
@@ -169,6 +200,9 @@ public class PotionEffect {
 		}
 	}
 
+	/**
+	 * Toggle the isPotionDurationMax field.
+	 */
 	public void setPotionDurationMax(boolean maxDuration) {
 		this.isPotionDurationMax = maxDuration;
 	}

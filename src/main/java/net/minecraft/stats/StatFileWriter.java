@@ -1,9 +1,7 @@
 package net.minecraft.stats;
 
-import java.util.Map;
-
 import com.google.common.collect.Maps;
-
+import java.util.Map;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.IJsonSerializable;
 import net.minecraft.util.TupleIntJsonSerializable;
@@ -11,10 +9,16 @@ import net.minecraft.util.TupleIntJsonSerializable;
 public class StatFileWriter {
 	protected final Map<StatBase, TupleIntJsonSerializable> statsData = Maps.newConcurrentMap();
 
+	/**
+	 * Returns true if the achievement has been unlocked.
+	 */
 	public boolean hasAchievementUnlocked(Achievement achievementIn) {
 		return this.readStat(achievementIn) > 0;
 	}
 
+	/**
+	 * Returns true if the parent has been unlocked, or there is no parent
+	 */
 	public boolean canUnlockAchievement(Achievement achievementIn) {
 		return achievementIn.parentAchievement == null || this.hasAchievementUnlocked(achievementIn.parentAchievement);
 	}
@@ -40,6 +44,9 @@ public class StatFileWriter {
 		}
 	}
 
+	/**
+	 * Triggers the logging of an achievement and attempts to announce to server
+	 */
 	public void unlockAchievement(EntityPlayer playerIn, StatBase statIn, int p_150873_3_) {
 		TupleIntJsonSerializable tupleintjsonserializable = this.statsData.get(statIn);
 
@@ -51,6 +58,9 @@ public class StatFileWriter {
 		tupleintjsonserializable.setIntegerValue(p_150873_3_);
 	}
 
+	/**
+	 * Reads the given stat and returns its value as an int.
+	 */
 	public int readStat(StatBase stat) {
 		TupleIntJsonSerializable tupleintjsonserializable = this.statsData.get(stat);
 		return tupleintjsonserializable == null ? 0 : tupleintjsonserializable.getIntegerValue();

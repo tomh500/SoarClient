@@ -1,16 +1,16 @@
 package net.minecraft.client.renderer.vertex;
 
+import com.google.common.collect.Lists;
 import java.util.List;
-
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-
-import com.google.common.collect.Lists;
 
 public class VertexFormat {
 	private static final Logger LOGGER = LogManager.getLogger();
 	private final List<VertexFormatElement> elements;
 	private final List<Integer> offsets;
+
+	/** The next available offset in this vertex format */
 	private int nextOffset;
 	private int colorElementOffset;
 	private final List<Integer> uvOffsetsById;
@@ -97,17 +97,17 @@ public class VertexFormat {
 	}
 
 	public String toString() {
-		StringBuilder s = new StringBuilder("format: " + this.elements.size() + " elements: ");
+		String s = "format: " + this.elements.size() + " elements: ";
 
 		for (int i = 0; i < this.elements.size(); ++i) {
-			s.append(this.elements.get(i).toString());
+			s = s + this.elements.get(i).toString();
 
 			if (i != this.elements.size() - 1) {
-				s.append(" ");
+				s = s + " ";
 			}
 		}
 
-		return s.toString();
+		return s;
 	}
 
 	private boolean hasPosition() {

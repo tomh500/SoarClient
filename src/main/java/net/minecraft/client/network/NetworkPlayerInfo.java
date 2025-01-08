@@ -4,7 +4,6 @@ import com.google.common.base.Objects;
 import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.minecraft.MinecraftProfileTexture;
 import com.mojang.authlib.minecraft.MinecraftProfileTexture.Type;
-
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.resources.DefaultPlayerSkin;
 import net.minecraft.client.resources.SkinManager;
@@ -15,13 +14,22 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.WorldSettings;
 
 public class NetworkPlayerInfo {
+	/**
+	 * The GameProfile for the player represented by this NetworkPlayerInfo instance
+	 */
 	private final GameProfile gameProfile;
 	private WorldSettings.GameType gameType;
+
+	/** Player response time to server in milliseconds */
 	private int responseTime;
 	private boolean playerTexturesLoaded = false;
 	private ResourceLocation locationSkin;
 	private ResourceLocation locationCape;
 	private String skinType;
+
+	/**
+	 * When this is non-null, it is displayed instead of the player's real name
+	 */
 	private IChatComponent displayName;
 	private int field_178873_i = 0;
 	private int field_178870_j = 0;
@@ -40,6 +48,10 @@ public class NetworkPlayerInfo {
 		this.displayName = p_i46295_1_.getDisplayName();
 	}
 
+	/**
+	 * Returns the GameProfile for the player represented by this NetworkPlayerInfo
+	 * instance
+	 */
 	public GameProfile getGameProfile() {
 		return this.gameProfile;
 	}

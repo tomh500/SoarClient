@@ -1,9 +1,7 @@
 package net.minecraft.client.gui;
 
-import java.util.List;
-
 import com.google.common.collect.Lists;
-
+import java.util.List;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ServerList;
 import net.minecraft.client.network.LanServerDetector;
@@ -21,6 +19,9 @@ public class ServerSelectionList extends GuiListExtended {
 		this.owner = ownerIn;
 	}
 
+	/**
+	 * Gets the IGuiListEntry object for the given index
+	 */
 	public GuiListExtended.IGuiListEntry getListEntry(int index) {
 		if (index < this.serverListInternet.size()) {
 			return this.serverListInternet.get(index);
@@ -44,6 +45,9 @@ public class ServerSelectionList extends GuiListExtended {
 		this.selectedSlotIndex = selectedSlotIndexIn;
 	}
 
+	/**
+	 * Returns true if the element passed in is currently selected
+	 */
 	protected boolean isSelected(int slotIndex) {
 		return slotIndex == this.selectedSlotIndex;
 	}
@@ -72,6 +76,9 @@ public class ServerSelectionList extends GuiListExtended {
 		return super.getScrollBarX() + 30;
 	}
 
+	/**
+	 * Gets the width of the list
+	 */
 	public int getListWidth() {
 		return super.getListWidth() + 85;
 	}

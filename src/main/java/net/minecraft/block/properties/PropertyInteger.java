@@ -1,10 +1,9 @@
 package net.minecraft.block.properties;
 
-import java.util.Collection;
-import java.util.Set;
-
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Sets;
+import java.util.Collection;
+import java.util.Set;
 
 public class PropertyInteger extends PropertyHelper<Integer> {
 	private final ImmutableSet<Integer> allowedValues;
@@ -56,6 +55,9 @@ public class PropertyInteger extends PropertyHelper<Integer> {
 		return new PropertyInteger(name, min, max);
 	}
 
+	/**
+	 * Get the name for the given value.
+	 */
 	public String getName(Integer value) {
 		return value.toString();
 	}

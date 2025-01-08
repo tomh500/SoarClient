@@ -2,7 +2,6 @@ package net.minecraft.block;
 
 import java.util.List;
 import java.util.Random;
-
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.properties.PropertyBool;
@@ -66,6 +65,10 @@ public class BlockPistonExtension extends Block {
 		}
 	}
 
+	/**
+	 * Used to determine ambient occlusion and culling when rebuilding chunks for
+	 * render
+	 */
 	public boolean isOpaqueCube() {
 		return false;
 	}
@@ -78,14 +81,24 @@ public class BlockPistonExtension extends Block {
 		return false;
 	}
 
+	/**
+	 * Check whether this Block can be placed on the given side
+	 */
 	public boolean canPlaceBlockOnSide(World worldIn, BlockPos pos, EnumFacing side) {
 		return false;
 	}
 
+	/**
+	 * Returns the quantity of items to drop on block destruction.
+	 */
 	public int quantityDropped(Random random) {
 		return 0;
 	}
 
+	/**
+	 * Add all collision boxes of this Block to the list that intersect with the
+	 * given mask.
+	 */
 	public void addCollisionBoxesToList(World worldIn, BlockPos pos, IBlockState state, AxisAlignedBB mask,
 			List<AxisAlignedBB> list, Entity collidingEntity) {
 		this.applyHeadBounds(state);
@@ -164,6 +177,9 @@ public class BlockPistonExtension extends Block {
 		}
 	}
 
+	/**
+	 * Called when a neighboring block changes.
+	 */
 	public void onNeighborBlockChange(World worldIn, BlockPos pos, IBlockState state, Block neighborBlock) {
 		EnumFacing enumfacing = state.getValue(FACING);
 		BlockPos blockpos = pos.offset(enumfacing.getOpposite());
@@ -191,12 +207,18 @@ public class BlockPistonExtension extends Block {
 				: Item.getItemFromBlock(Blocks.piston);
 	}
 
+	/**
+	 * Convert the given metadata into a BlockState for this Block
+	 */
 	public IBlockState getStateFromMeta(int meta) {
 		return this.getDefaultState().withProperty(FACING, getFacing(meta)).withProperty(TYPE,
 				(meta & 8) > 0 ? BlockPistonExtension.EnumPistonType.STICKY
 						: BlockPistonExtension.EnumPistonType.DEFAULT);
 	}
 
+	/**
+	 * Convert the BlockState into the correct metadata value
+	 */
 	public int getMetaFromState(IBlockState state) {
 		int i = 0;
 		i = i | state.getValue(FACING).getIndex();

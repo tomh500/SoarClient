@@ -1,11 +1,11 @@
 package net.minecraft.world.storage;
 
+import com.google.common.collect.Lists;
 import java.util.Collections;
 import java.util.List;
 
-import com.google.common.collect.Lists;
-
 public class ThreadedFileIOBase implements Runnable {
+	/** Instance of ThreadedFileIOBase */
 	private static final ThreadedFileIOBase threadedIOInstance = new ThreadedFileIOBase();
 	private final List<IThreadedFileIO> threadedIOQueue = Collections.synchronizedList(Lists.newArrayList());
 	private volatile long writeQueuedCounter;
@@ -18,6 +18,9 @@ public class ThreadedFileIOBase implements Runnable {
 		thread.start();
 	}
 
+	/**
+	 * Retrieves an instance of the threadedFileIOBase.
+	 */
 	public static ThreadedFileIOBase getThreadedIOInstance() {
 		return threadedIOInstance;
 	}
@@ -28,6 +31,9 @@ public class ThreadedFileIOBase implements Runnable {
 		}
 	}
 
+	/**
+	 * Process the items that are in the queue
+	 */
 	private void processQueue() {
 		for (int i = 0; i < this.threadedIOQueue.size(); ++i) {
 			IThreadedFileIO ithreadedfileio = this.threadedIOQueue.get(i);
@@ -54,6 +60,9 @@ public class ThreadedFileIOBase implements Runnable {
 		}
 	}
 
+	/**
+	 * threaded io
+	 */
 	public void queueIO(IThreadedFileIO p_75735_1_) {
 		if (!this.threadedIOQueue.contains(p_75735_1_)) {
 			++this.writeQueuedCounter;

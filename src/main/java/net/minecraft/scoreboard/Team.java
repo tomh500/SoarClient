@@ -1,15 +1,20 @@
 package net.minecraft.scoreboard;
 
+import com.google.common.collect.Maps;
 import java.util.Collection;
 import java.util.Map;
 
-import com.google.common.collect.Maps;
-
 public abstract class Team {
+	/**
+	 * Same as ==
+	 */
 	public boolean isSameTeam(Team other) {
 		return other != null && this == other;
 	}
 
+	/**
+	 * Retrieve the name by which this team is registered in the scoreboard
+	 */
 	public abstract String getRegisteredName();
 
 	public abstract String formatString(String input);
@@ -33,7 +38,7 @@ public abstract class Team {
 		public final int id;
 
 		public static String[] func_178825_a() {
-			return field_178828_g.keySet().toArray(new String[0]);
+			return field_178828_g.keySet().toArray(new String[field_178828_g.size()]);
 		}
 
 		public static Team.EnumVisible func_178824_a(String p_178824_0_) {

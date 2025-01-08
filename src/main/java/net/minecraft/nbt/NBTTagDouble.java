@@ -3,10 +3,10 @@ package net.minecraft.nbt;
 import java.io.DataInput;
 import java.io.DataOutput;
 import java.io.IOException;
-
 import net.minecraft.util.MathHelper;
 
 public class NBTTagDouble extends NBTBase.NBTPrimitive {
+	/** The double value for the tag. */
 	private double data;
 
 	NBTTagDouble() {
@@ -16,6 +16,10 @@ public class NBTTagDouble extends NBTBase.NBTPrimitive {
 		this.data = data;
 	}
 
+	/**
+	 * Write the actual data contents of the tag, implemented in NBT extension
+	 * classes
+	 */
 	void write(DataOutput output) throws IOException {
 		output.writeDouble(this.data);
 	}
@@ -25,6 +29,9 @@ public class NBTTagDouble extends NBTBase.NBTPrimitive {
 		this.data = input.readDouble();
 	}
 
+	/**
+	 * Gets the type byte for the tag.
+	 */
 	public byte getId() {
 		return (byte) 6;
 	}
@@ -33,6 +40,9 @@ public class NBTTagDouble extends NBTBase.NBTPrimitive {
 		return this.data + "d";
 	}
 
+	/**
+	 * Creates a clone of the tag.
+	 */
 	public NBTBase copy() {
 		return new NBTTagDouble(this.data);
 	}

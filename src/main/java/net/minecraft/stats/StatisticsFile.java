@@ -1,23 +1,17 @@
 package net.minecraft.stats;
 
-import java.io.File;
-import java.io.IOException;
-import java.lang.reflect.Constructor;
-import java.util.Map;
-import java.util.Map.Entry;
-import java.util.Set;
-
-import org.apache.commons.io.FileUtils;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
 import com.google.gson.JsonParser;
-
+import java.io.File;
+import java.io.IOException;
+import java.lang.reflect.Constructor;
+import java.util.Map;
+import java.util.Set;
+import java.util.Map.Entry;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.network.play.server.S37PacketStatistics;
@@ -25,6 +19,9 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.ChatComponentTranslation;
 import net.minecraft.util.IJsonSerializable;
 import net.minecraft.util.TupleIntJsonSerializable;
+import org.apache.commons.io.FileUtils;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class StatisticsFile extends StatFileWriter {
 	private static final Logger logger = LogManager.getLogger();
@@ -60,6 +57,9 @@ public class StatisticsFile extends StatFileWriter {
 		}
 	}
 
+	/**
+	 * Triggers the logging of an achievement and attempts to announce to server
+	 */
 	public void unlockAchievement(EntityPlayer playerIn, StatBase statIn, int p_150873_3_) {
 		int i = statIn.isAchievement() ? this.readStat(statIn) : 0;
 		super.unlockAchievement(playerIn, statIn, p_150873_3_);
@@ -167,7 +167,9 @@ public class StatisticsFile extends StatFileWriter {
 	}
 
 	public void func_150877_d() {
-		this.field_150888_e.addAll(this.statsData.keySet());
+		for (StatBase statbase : this.statsData.keySet()) {
+			this.field_150888_e.add(statbase);
+		}
 	}
 
 	public void func_150876_a(EntityPlayerMP p_150876_1_) {

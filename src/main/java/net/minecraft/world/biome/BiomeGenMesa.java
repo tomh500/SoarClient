@@ -2,7 +2,6 @@ package net.minecraft.world.biome;
 
 import java.util.Arrays;
 import java.util.Random;
-
 import net.minecraft.block.BlockColored;
 import net.minecraft.block.BlockDirt;
 import net.minecraft.block.BlockSand;

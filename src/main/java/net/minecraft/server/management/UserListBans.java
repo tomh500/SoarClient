@@ -1,9 +1,8 @@
 package net.minecraft.server.management;
 
-import java.io.File;
-
 import com.google.gson.JsonObject;
 import com.mojang.authlib.GameProfile;
+import java.io.File;
 
 public class UserListBans extends UserList<GameProfile, UserListBansEntry> {
 	public UserListBans(File bansFile) {
@@ -29,6 +28,9 @@ public class UserListBans extends UserList<GameProfile, UserListBansEntry> {
 		return astring;
 	}
 
+	/**
+	 * Gets the key value for the given object
+	 */
 	protected String getObjectKey(GameProfile obj) {
 		return obj.getId().toString();
 	}

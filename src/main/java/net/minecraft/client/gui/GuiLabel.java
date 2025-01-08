@@ -1,9 +1,7 @@
 package net.minecraft.client.gui;
 
-import java.util.List;
-
 import com.google.common.collect.Lists;
-
+import java.util.List;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.resources.I18n;
@@ -47,6 +45,9 @@ public class GuiLabel extends Gui {
 		this.field_146173_k.add(I18n.format(p_175202_1_));
 	}
 
+	/**
+	 * Sets the Label to be centered
+	 */
 	public GuiLabel setCentered() {
 		this.centered = true;
 		return this;

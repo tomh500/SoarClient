@@ -3,9 +3,8 @@ package net.minecraft.world.gen.structure;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Random;
-
+import java.util.Map.Entry;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
@@ -14,6 +13,8 @@ import net.minecraft.world.biome.BiomeGenBase;
 public class MapGenVillage extends MapGenStructure {
 	public static final List<BiomeGenBase> villageSpawnBiomes = Arrays.asList(BiomeGenBase.plains, BiomeGenBase.desert,
 			BiomeGenBase.savanna);
+
+	/** World terrain type, 0 for normal, 1 for flat map */
 	private int terrainType;
 	private int field_82665_g;
 	private final int field_82666_h;

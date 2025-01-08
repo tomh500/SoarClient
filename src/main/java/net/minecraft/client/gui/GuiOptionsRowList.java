@@ -1,9 +1,7 @@
 package net.minecraft.client.gui;
 
-import java.util.List;
-
 import com.google.common.collect.Lists;
-
+import java.util.List;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.settings.GameSettings;
 
@@ -36,6 +34,9 @@ public class GuiOptionsRowList extends GuiListExtended {
 		}
 	}
 
+	/**
+	 * Gets the IGuiListEntry object for the given index
+	 */
 	public GuiOptionsRowList.Row getListEntry(int index) {
 		return this.field_148184_k.get(index);
 	}
@@ -44,6 +45,9 @@ public class GuiOptionsRowList extends GuiListExtended {
 		return this.field_148184_k.size();
 	}
 
+	/**
+	 * Gets the width of the list
+	 */
 	public int getListWidth() {
 		return 400;
 	}

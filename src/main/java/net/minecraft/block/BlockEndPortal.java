@@ -2,7 +2,6 @@ package net.minecraft.block;
 
 import java.util.List;
 import java.util.Random;
-
 import net.minecraft.block.material.MapColor;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
@@ -23,6 +22,10 @@ public class BlockEndPortal extends BlockContainer {
 		this.setLightLevel(1.0F);
 	}
 
+	/**
+	 * Returns a new instance of a block's tile entity class. Called on placing the
+	 * block.
+	 */
 	public TileEntity createNewTileEntity(World worldIn, int meta) {
 		return new TileEntityEndPortal();
 	}
@@ -36,10 +39,18 @@ public class BlockEndPortal extends BlockContainer {
 		return side == EnumFacing.DOWN && super.shouldSideBeRendered(worldIn, pos, side);
 	}
 
+	/**
+	 * Add all collision boxes of this Block to the list that intersect with the
+	 * given mask.
+	 */
 	public void addCollisionBoxesToList(World worldIn, BlockPos pos, IBlockState state, AxisAlignedBB mask,
 			List<AxisAlignedBB> list, Entity collidingEntity) {
 	}
 
+	/**
+	 * Used to determine ambient occlusion and culling when rebuilding chunks for
+	 * render
+	 */
 	public boolean isOpaqueCube() {
 		return false;
 	}
@@ -48,10 +59,16 @@ public class BlockEndPortal extends BlockContainer {
 		return false;
 	}
 
+	/**
+	 * Returns the quantity of items to drop on block destruction.
+	 */
 	public int quantityDropped(Random random) {
 		return 0;
 	}
 
+	/**
+	 * Called When an Entity Collided with the Block
+	 */
 	public void onEntityCollidedWithBlock(World worldIn, BlockPos pos, IBlockState state, Entity entityIn) {
 		if (entityIn.ridingEntity == null && entityIn.riddenByEntity == null && !worldIn.isRemote) {
 			entityIn.travelToDimension(1);
@@ -72,6 +89,9 @@ public class BlockEndPortal extends BlockContainer {
 		return null;
 	}
 
+	/**
+	 * Get the MapColor for this Block and the given BlockState
+	 */
 	public MapColor getMapColor(IBlockState state) {
 		return MapColor.blackColor;
 	}

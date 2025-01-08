@@ -1,7 +1,6 @@
 package net.minecraft.entity.item;
 
 import java.util.List;
-
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.Entity;
@@ -20,6 +19,7 @@ import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 
 public class EntityBoat extends Entity {
+	/** true if no player in boat */
 	private boolean isBoatEmpty;
 	private double speedMultiplier;
 	private int boatPosRotationIncrements;
@@ -40,6 +40,10 @@ public class EntityBoat extends Entity {
 		this.setSize(1.5F, 0.6F);
 	}
 
+	/**
+	 * returns if this entity triggers Block.onEntityWalking on the blocks they walk
+	 * on. used for spiders and wolves to prevent them from trampling crops
+	 */
 	protected boolean canTriggerWalking() {
 		return false;
 	}
@@ -50,14 +54,26 @@ public class EntityBoat extends Entity {
 		this.dataWatcher.addObject(19, new Float(0.0F));
 	}
 
+	/**
+	 * Returns a boundingBox used to collide the entity with other entities and
+	 * blocks. This enables the entity to be pushable on contact, like boats or
+	 * minecarts.
+	 */
 	public AxisAlignedBB getCollisionBox(Entity entityIn) {
 		return entityIn.getEntityBoundingBox();
 	}
 
+	/**
+	 * Returns the collision bounding box for this entity
+	 */
 	public AxisAlignedBB getCollisionBoundingBox() {
 		return this.getEntityBoundingBox();
 	}
 
+	/**
+	 * Returns true if this entity should push and be pushed by other entities when
+	 * colliding.
+	 */
 	public boolean canBePushed() {
 		return true;
 	}
@@ -73,10 +89,17 @@ public class EntityBoat extends Entity {
 		this.prevPosZ = p_i1705_6_;
 	}
 
+	/**
+	 * Returns the Y offset from the entity's position for any entity riding this
+	 * one.
+	 */
 	public double getMountedYOffset() {
 		return -0.3D;
 	}
 
+	/**
+	 * Called when the entity is attacked.
+	 */
 	public boolean attackEntityFrom(DamageSource source, float amount) {
 		if (this.isEntityInvulnerable(source)) {
 			return false;
@@ -111,12 +134,20 @@ public class EntityBoat extends Entity {
 		}
 	}
 
+	/**
+	 * Setups the entity to do the hurt animation. Only used by packets in
+	 * multiplayer.
+	 */
 	public void performHurtAnimation() {
 		this.setForwardDirection(-this.getForwardDirection());
 		this.setTimeSinceHit(10);
 		this.setDamageTaken(this.getDamageTaken() * 11.0F);
 	}
 
+	/**
+	 * Returns true if other Entities should be prevented from moving through this
+	 * Entity.
+	 */
 	public boolean canBeCollidedWith() {
 		return !this.isDead;
 	}
@@ -161,12 +192,18 @@ public class EntityBoat extends Entity {
 		}
 	}
 
+	/**
+	 * Sets the velocity to the args. Args: x, y, z
+	 */
 	public void setVelocity(double x, double y, double z) {
 		this.velocityX = this.motionX = x;
 		this.velocityY = this.motionY = y;
 		this.velocityZ = this.motionZ = z;
 	}
 
+	/**
+	 * Called to update the entity's position/logic.
+	 */
 	public void onUpdate() {
 		super.onUpdate();
 
@@ -395,12 +432,21 @@ public class EntityBoat extends Entity {
 		}
 	}
 
+	/**
+	 * (abstract) Protected helper method to write subclass entity data to NBT.
+	 */
 	protected void writeEntityToNBT(NBTTagCompound tagCompound) {
 	}
 
+	/**
+	 * (abstract) Protected helper method to read subclass entity data from NBT.
+	 */
 	protected void readEntityFromNBT(NBTTagCompound tagCompund) {
 	}
 
+	/**
+	 * First layer of player interaction
+	 */
 	public boolean interactFirst(EntityPlayer playerIn) {
 		if (this.riddenByEntity != null && this.riddenByEntity instanceof EntityPlayer
 				&& this.riddenByEntity != playerIn) {
@@ -441,30 +487,51 @@ public class EntityBoat extends Entity {
 		}
 	}
 
+	/**
+	 * Sets the damage taken from the last hit.
+	 */
 	public void setDamageTaken(float p_70266_1_) {
 		this.dataWatcher.updateObject(19, Float.valueOf(p_70266_1_));
 	}
 
+	/**
+	 * Gets the damage taken from the last hit.
+	 */
 	public float getDamageTaken() {
 		return this.dataWatcher.getWatchableObjectFloat(19);
 	}
 
+	/**
+	 * Sets the time to count down from since the last time entity was hit.
+	 */
 	public void setTimeSinceHit(int p_70265_1_) {
 		this.dataWatcher.updateObject(17, Integer.valueOf(p_70265_1_));
 	}
 
+	/**
+	 * Gets the time since the last hit.
+	 */
 	public int getTimeSinceHit() {
 		return this.dataWatcher.getWatchableObjectInt(17);
 	}
 
+	/**
+	 * Sets the forward direction of the entity.
+	 */
 	public void setForwardDirection(int p_70269_1_) {
 		this.dataWatcher.updateObject(18, Integer.valueOf(p_70269_1_));
 	}
 
+	/**
+	 * Gets the forward direction of the entity.
+	 */
 	public int getForwardDirection() {
 		return this.dataWatcher.getWatchableObjectInt(18);
 	}
 
+	/**
+	 * true if no player in boat
+	 */
 	public void setIsBoatEmpty(boolean p_70270_1_) {
 		this.isBoatEmpty = p_70270_1_;
 	}

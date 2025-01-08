@@ -1,9 +1,7 @@
 package net.minecraft.tileentity;
 
-import java.util.List;
-
 import com.google.common.collect.Lists;
-
+import java.util.List;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityList;
 import net.minecraft.entity.EntityLiving;
@@ -21,20 +19,34 @@ import net.minecraft.util.WeightedRandom;
 import net.minecraft.world.World;
 
 public abstract class MobSpawnerBaseLogic {
+	/** The delay to spawn. */
 	private int spawnDelay = 20;
 	private String mobID = "Pig";
 	private final List<MobSpawnerBaseLogic.WeightedRandomMinecart> minecartToSpawn = Lists.newArrayList();
 	private MobSpawnerBaseLogic.WeightedRandomMinecart randomEntity;
+
+	/** The rotation of the mob inside the mob spawner */
 	private double mobRotation;
+
+	/** the previous rotation of the mob inside the mob spawner */
 	private double prevMobRotation;
 	private int minSpawnDelay = 200;
 	private int maxSpawnDelay = 800;
 	private int spawnCount = 4;
+
+	/** Cached instance of the entity to render inside the spawner. */
 	private Entity cachedEntity;
 	private int maxNearbyEntities = 6;
+
+	/** The distance from which a player activates the spawner. */
 	private int activatingRangeFromPlayer = 16;
+
+	/** The range coefficient for spawning entities around. */
 	private int spawnRange = 4;
 
+	/**
+	 * Gets the entity name that should be spawned.
+	 */
 	private String getEntityNameToSpawn() {
 		if (this.getRandomEntity() == null) {
 			if (this.mobID != null && this.mobID.equals("Minecart")) {
@@ -51,6 +63,10 @@ public abstract class MobSpawnerBaseLogic {
 		this.mobID = name;
 	}
 
+	/**
+	 * Returns true if there's a player close enough to this mob spawner to activate
+	 * it.
+	 */
 	private boolean isActivated() {
 		BlockPos blockpos = this.getSpawnerPosition();
 		return this.getSpawnerWorld().isAnyPlayerWithinRangeAt((double) blockpos.getX() + 0.5D,
@@ -295,6 +311,9 @@ public abstract class MobSpawnerBaseLogic {
 		return this.cachedEntity;
 	}
 
+	/**
+	 * Sets the delay to minDelay if parameter given is 1, else return false.
+	 */
 	public boolean setDelayToMin(int delay) {
 		if (delay == 1 && this.getSpawnerWorld().isRemote) {
 			this.spawnDelay = this.minSpawnDelay;

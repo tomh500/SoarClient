@@ -1,11 +1,9 @@
 package net.minecraft.tileentity;
 
-import java.util.UUID;
-
 import com.google.common.collect.Iterables;
 import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.properties.Property;
-
+import java.util.UUID;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTUtil;
 import net.minecraft.network.Packet;
@@ -53,6 +51,11 @@ public class TileEntitySkull extends TileEntity {
 		return this.playerProfile;
 	}
 
+	/**
+	 * Allows for a specialized description packet to be created. This is often used
+	 * to sync tile entity data from the server to the client easily. For example
+	 * this is used by signs to synchronise the text to be displayed.
+	 */
 	public Packet getDescriptionPacket() {
 		NBTTagCompound nbttagcompound = new NBTTagCompound();
 		this.writeToNBT(nbttagcompound);

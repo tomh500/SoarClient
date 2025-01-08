@@ -1,14 +1,12 @@
 package net.minecraft.world;
 
+import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
+import com.google.common.collect.Sets;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
 import java.util.Set;
-
-import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
-import com.google.common.collect.Sets;
-
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
@@ -26,7 +24,10 @@ import net.minecraft.util.MathHelper;
 import net.minecraft.util.Vec3;
 
 public class Explosion {
+	/** whether or not the explosion sets fire to blocks around it */
 	private final boolean isFlaming;
+
+	/** whether or not this explosion spawns smoke particles */
 	private final boolean isSmoking;
 	private final Random explosionRNG;
 	private final World worldObj;
@@ -64,6 +65,9 @@ public class Explosion {
 		this.isSmoking = smoking;
 	}
 
+	/**
+	 * Does the first part of the explosion (destroy blocks)
+	 */
 	public void doExplosionA() {
 		Set<BlockPos> set = Sets.newHashSet();
 		int i = 16;
@@ -156,6 +160,9 @@ public class Explosion {
 		}
 	}
 
+	/**
+	 * Does the second part of the explosion (sound, particles, drop spawn)
+	 */
 	public void doExplosionB(boolean spawnParticles) {
 		this.worldObj.playSoundEffect(this.explosionX, this.explosionY, this.explosionZ, "random.explode", 4.0F,
 				(1.0F + (this.worldObj.rand.nextFloat() - this.worldObj.rand.nextFloat()) * 0.2F) * 0.7F);
@@ -220,6 +227,10 @@ public class Explosion {
 		return this.playerKnockbackMap;
 	}
 
+	/**
+	 * Returns either the entity that placed the explosive block, the entity that
+	 * caused the explosion or null.
+	 */
 	public EntityLivingBase getExplosivePlacedBy() {
 		return this.exploder == null ? null
 				: (this.exploder instanceof EntityTNTPrimed ? ((EntityTNTPrimed) this.exploder).getTntPlacedBy()

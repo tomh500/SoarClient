@@ -5,8 +5,13 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.util.MathHelper;
 
 public class EntityAILeapAtTarget extends EntityAIBase {
+	/** The entity that is leaping. */
 	EntityLiving leaper;
+
+	/** The entity that the leaper is leaping towards. */
 	EntityLivingBase leapTarget;
+
+	/** The entity's motionY after leaping. */
 	float leapMotionY;
 
 	public EntityAILeapAtTarget(EntityLiving leapingEntity, float leapMotionYIn) {
@@ -15,6 +20,9 @@ public class EntityAILeapAtTarget extends EntityAIBase {
 		this.setMutexBits(5);
 	}
 
+	/**
+	 * Returns whether the EntityAIBase should begin execution.
+	 */
 	public boolean shouldExecute() {
 		this.leapTarget = this.leaper.getAttackTarget();
 
@@ -26,10 +34,16 @@ public class EntityAILeapAtTarget extends EntityAIBase {
 		}
 	}
 
+	/**
+	 * Returns whether an in-progress EntityAIBase should continue executing
+	 */
 	public boolean continueExecuting() {
 		return !this.leaper.onGround;
 	}
 
+	/**
+	 * Execute a one shot task or start executing a continuous task
+	 */
 	public void startExecuting() {
 		double d0 = this.leapTarget.posX - this.leaper.posX;
 		double d1 = this.leapTarget.posZ - this.leaper.posZ;

@@ -1,17 +1,20 @@
 package net.minecraft.entity.ai.attributes;
 
-import java.util.UUID;
-
-import org.apache.commons.lang3.Validate;
-
 import io.netty.util.internal.ThreadLocalRandom;
+import java.util.UUID;
 import net.minecraft.util.MathHelper;
+import org.apache.commons.lang3.Validate;
 
 public class AttributeModifier {
 	private final double amount;
 	private final int operation;
 	private final String name;
 	private final UUID id;
+
+	/**
+	 * If false, this modifier is not saved in NBT. Used for "natural" modifiers
+	 * like speed boost from sprinting
+	 */
 	private boolean isSaved;
 
 	public AttributeModifier(String nameIn, double amountIn, int operationIn) {
@@ -44,10 +47,16 @@ public class AttributeModifier {
 		return this.amount;
 	}
 
+	/**
+	 * @see #isSaved
+	 */
 	public boolean isSaved() {
 		return this.isSaved;
 	}
 
+	/**
+	 * @see #isSaved
+	 */
 	public AttributeModifier setSaved(boolean saved) {
 		this.isSaved = saved;
 		return this;

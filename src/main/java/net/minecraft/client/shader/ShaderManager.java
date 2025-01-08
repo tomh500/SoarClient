@@ -1,14 +1,5 @@
 package net.minecraft.client.shader;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.List;
-import java.util.Map;
-
-import org.apache.commons.io.IOUtils;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
 import com.google.common.base.Charsets;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
@@ -16,7 +7,10 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.List;
+import java.util.Map;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.texture.ITextureObject;
@@ -25,6 +19,9 @@ import net.minecraft.client.util.JsonBlendingMode;
 import net.minecraft.client.util.JsonException;
 import net.minecraft.util.JsonUtils;
 import net.minecraft.util.ResourceLocation;
+import org.apache.commons.io.IOUtils;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class ShaderManager {
 	private static final Logger logger = LogManager.getLogger();
@@ -209,15 +206,26 @@ public class ShaderManager {
 		this.isDirty = true;
 	}
 
+	/**
+	 * gets a shader uniform for the name given. null if not found.
+	 */
 	public ShaderUniform getShaderUniform(String p_147991_1_) {
 		return this.mappedShaderUniforms.containsKey(p_147991_1_) ? this.mappedShaderUniforms.get(p_147991_1_) : null;
 	}
 
+	/**
+	 * gets a shader uniform for the name given. if not found, returns a default
+	 * not-null value
+	 */
 	public ShaderUniform getShaderUniformOrDefault(String p_147984_1_) {
 		return this.mappedShaderUniforms.containsKey(p_147984_1_) ? this.mappedShaderUniforms.get(p_147984_1_)
 				: defaultShaderUniform;
 	}
 
+	/**
+	 * goes through the parsed uniforms and samplers and connects them to their GL
+	 * counterparts.
+	 */
 	private void setupUniforms() {
 		int i = 0;
 
@@ -264,6 +272,9 @@ public class ShaderManager {
 		}
 	}
 
+	/**
+	 * adds a shader sampler texture. if it already exists, replaces it.
+	 */
 	public void addSamplerTexture(String p_147992_1_, Object p_147992_2_) {
 		this.shaderSamplers.remove(p_147992_1_);
 

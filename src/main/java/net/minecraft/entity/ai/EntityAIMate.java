@@ -2,7 +2,6 @@ package net.minecraft.entity.ai;
 
 import java.util.List;
 import java.util.Random;
-
 import net.minecraft.entity.EntityAgeable;
 import net.minecraft.entity.item.EntityXPOrb;
 import net.minecraft.entity.passive.EntityAnimal;
@@ -17,7 +16,14 @@ public class EntityAIMate extends EntityAIBase {
 	private final EntityAnimal theAnimal;
 	World theWorld;
 	private EntityAnimal targetMate;
+
+	/**
+	 * Delay preventing a baby from spawning immediately when two mate-able animals
+	 * find each other.
+	 */
 	int spawnBabyDelay;
+
+	/** The speed the creature moves at during mating behavior. */
 	double moveSpeed;
 
 	public EntityAIMate(EntityAnimal animal, double speedIn) {
@@ -27,6 +33,9 @@ public class EntityAIMate extends EntityAIBase {
 		this.setMutexBits(3);
 	}
 
+	/**
+	 * Returns whether the EntityAIBase should begin execution.
+	 */
 	public boolean shouldExecute() {
 		if (!this.theAnimal.isInLove()) {
 			return false;
@@ -36,15 +45,24 @@ public class EntityAIMate extends EntityAIBase {
 		}
 	}
 
+	/**
+	 * Returns whether an in-progress EntityAIBase should continue executing
+	 */
 	public boolean continueExecuting() {
 		return this.targetMate.isEntityAlive() && this.targetMate.isInLove() && this.spawnBabyDelay < 60;
 	}
 
+	/**
+	 * Resets the task
+	 */
 	public void resetTask() {
 		this.targetMate = null;
 		this.spawnBabyDelay = 0;
 	}
 
+	/**
+	 * Updates the task
+	 */
 	public void updateTask() {
 		this.theAnimal.getLookHelper().setLookPositionWithEntity(this.targetMate, 10.0F,
 				(float) this.theAnimal.getVerticalFaceSpeed());
@@ -56,6 +74,10 @@ public class EntityAIMate extends EntityAIBase {
 		}
 	}
 
+	/**
+	 * Loops through nearby animals and finds another animal of the same type that
+	 * can be mated with. Returns the first valid mate found.
+	 */
 	private EntityAnimal getNearbyMate() {
 		float f = 8.0F;
 		List<EntityAnimal> list = this.theWorld.getEntitiesWithinAABB(this.theAnimal.getClass(),
@@ -73,6 +95,9 @@ public class EntityAIMate extends EntityAIBase {
 		return entityanimal;
 	}
 
+	/**
+	 * Spawns a baby animal of the same type.
+	 */
 	private void spawnBaby() {
 		EntityAgeable entityageable = this.theAnimal.createChild(this.targetMate);
 

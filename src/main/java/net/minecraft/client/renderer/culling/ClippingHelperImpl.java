@@ -1,7 +1,6 @@
 package net.minecraft.client.renderer.culling;
 
 import java.nio.FloatBuffer;
-
 import net.minecraft.client.renderer.GLAllocation;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.util.MathHelper;
@@ -12,6 +11,9 @@ public class ClippingHelperImpl extends ClippingHelper {
 	private final FloatBuffer modelviewMatrixBuffer = GLAllocation.createDirectFloatBuffer(16);
 	private final FloatBuffer field_78564_h = GLAllocation.createDirectFloatBuffer(16);
 
+	/**
+	 * Initialises the ClippingHelper object then returns an instance of it.
+	 */
 	public static ClippingHelper getInstance() {
 		instance.init();
 		return instance;

@@ -1,21 +1,18 @@
 package net.minecraft.client.gui;
 
-import java.io.IOException;
-import java.util.List;
-
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-import org.lwjgl.input.Keyboard;
-
 import com.google.common.base.Splitter;
 import com.google.common.collect.Lists;
-
+import java.io.IOException;
+import java.util.List;
 import net.minecraft.client.multiplayer.GuiConnecting;
 import net.minecraft.client.multiplayer.ServerData;
 import net.minecraft.client.multiplayer.ServerList;
 import net.minecraft.client.network.LanServerDetector;
 import net.minecraft.client.network.OldServerPinger;
 import net.minecraft.client.resources.I18n;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.lwjgl.input.Keyboard;
 
 public class GuiMultiplayer extends GuiScreen implements GuiYesNoCallback {
 	private static final Logger logger = LogManager.getLogger();
@@ -30,6 +27,11 @@ public class GuiMultiplayer extends GuiScreen implements GuiYesNoCallback {
 	private boolean addingServer;
 	private boolean editingServer;
 	private boolean directConnect;
+
+	/**
+	 * The text to be displayed when the player's cursor hovers over a server
+	 * listing.
+	 */
 	private String hoveringText;
 	private ServerData selectedServer;
 	private LanServerDetector.LanServerList lanServerList;
@@ -40,6 +42,11 @@ public class GuiMultiplayer extends GuiScreen implements GuiYesNoCallback {
 		this.parentScreen = parentScreen;
 	}
 
+	/**
+	 * Adds the buttons (and other controls) to the screen in question. Called when
+	 * the GUI is displayed and when the window resizes, the buttonList is cleared
+	 * beforehand.
+	 */
 	public void initGui() {
 		Keyboard.enableRepeatEvents(true);
 		this.buttonList.clear();
@@ -67,6 +74,9 @@ public class GuiMultiplayer extends GuiScreen implements GuiYesNoCallback {
 		this.createButtons();
 	}
 
+	/**
+	 * Handles mouse input.
+	 */
 	public void handleMouseInput() throws IOException {
 		super.handleMouseInput();
 		this.serverListSelector.handleMouseInput();
@@ -90,6 +100,9 @@ public class GuiMultiplayer extends GuiScreen implements GuiYesNoCallback {
 		this.selectServer(this.serverListSelector.func_148193_k());
 	}
 
+	/**
+	 * Called from the main game loop to update the screen.
+	 */
 	public void updateScreen() {
 		super.updateScreen();
 
@@ -102,6 +115,9 @@ public class GuiMultiplayer extends GuiScreen implements GuiYesNoCallback {
 		this.oldServerPinger.pingPendingNetworks();
 	}
 
+	/**
+	 * Called when the screen is unloaded. Used to disable keyboard repeat events
+	 */
 	public void onGuiClosed() {
 		Keyboard.enableRepeatEvents(false);
 
@@ -113,6 +129,10 @@ public class GuiMultiplayer extends GuiScreen implements GuiYesNoCallback {
 		this.oldServerPinger.clearPendingNetworks();
 	}
 
+	/**
+	 * Called by the controls from the buttonList when activated. (Mouse pressed for
+	 * buttons)
+	 */
 	protected void actionPerformed(GuiButton button) throws IOException {
 		if (button.enabled) {
 			GuiListExtended.IGuiListEntry guilistextended$iguilistentry = this.serverListSelector.func_148193_k() < 0
@@ -209,6 +229,11 @@ public class GuiMultiplayer extends GuiScreen implements GuiYesNoCallback {
 		}
 	}
 
+	/**
+	 * Fired when a key is typed (except F11 which toggles full screen). This is the
+	 * equivalent of KeyListener.keyTyped(KeyEvent e). Args : character (character
+	 * on the key), keyCode (lwjgl Keyboard key code)
+	 */
 	protected void keyTyped(char typedChar, int keyCode) throws IOException {
 		int i = this.serverListSelector.func_148193_k();
 		GuiListExtended.IGuiListEntry guilistextended$iguilistentry = i < 0 ? null
@@ -277,6 +302,10 @@ public class GuiMultiplayer extends GuiScreen implements GuiYesNoCallback {
 		}
 	}
 
+	/**
+	 * Draws the screen and all the components in it. Args : mouseX, mouseY,
+	 * renderPartialTicks
+	 */
 	public void drawScreen(int mouseX, int mouseY, float partialTicks) {
 		this.hoveringText = null;
 		this.drawDefaultBackground();
@@ -334,11 +363,17 @@ public class GuiMultiplayer extends GuiScreen implements GuiYesNoCallback {
 		this.hoveringText = p_146793_1_;
 	}
 
+	/**
+	 * Called when the mouse is clicked. Args : mouseX, mouseY, clickedButton
+	 */
 	protected void mouseClicked(int mouseX, int mouseY, int mouseButton) throws IOException {
 		super.mouseClicked(mouseX, mouseY, mouseButton);
 		this.serverListSelector.mouseClicked(mouseX, mouseY, mouseButton);
 	}
 
+	/**
+	 * Called when a mouse button is released. Args : mouseX, mouseY, releaseButton
+	 */
 	protected void mouseReleased(int mouseX, int mouseY, int state) {
 		super.mouseReleased(mouseX, mouseY, state);
 		this.serverListSelector.mouseReleased(mouseX, mouseY, state);

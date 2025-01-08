@@ -1,9 +1,7 @@
 package net.minecraft.item;
 
-import java.util.Set;
-
 import com.google.common.collect.Sets;
-
+import java.util.Set;
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
 
@@ -16,6 +14,9 @@ public class ItemSpade extends ItemTool {
 		super(1.0F, material, EFFECTIVE_ON);
 	}
 
+	/**
+	 * Check whether this Item can harvest the given Block
+	 */
 	public boolean canHarvestBlock(Block blockIn) {
 		return blockIn == Blocks.snow_layer || blockIn == Blocks.snow;
 	}

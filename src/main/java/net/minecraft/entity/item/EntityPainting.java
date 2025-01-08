@@ -1,9 +1,7 @@
 package net.minecraft.entity.item;
 
-import java.util.List;
-
 import com.google.common.collect.Lists;
-
+import java.util.List;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityHanging;
 import net.minecraft.entity.player.EntityPlayer;
@@ -54,11 +52,17 @@ public class EntityPainting extends EntityHanging {
 		this.updateFacingWithBoundingBox(facing);
 	}
 
+	/**
+	 * (abstract) Protected helper method to write subclass entity data to NBT.
+	 */
 	public void writeEntityToNBT(NBTTagCompound tagCompound) {
 		tagCompound.setString("Motive", this.art.title);
 		super.writeEntityToNBT(tagCompound);
 	}
 
+	/**
+	 * (abstract) Protected helper method to read subclass entity data from NBT.
+	 */
 	public void readEntityFromNBT(NBTTagCompound tagCompund) {
 		String s = tagCompund.getString("Motive");
 
@@ -83,6 +87,9 @@ public class EntityPainting extends EntityHanging {
 		return this.art.sizeY;
 	}
 
+	/**
+	 * Called when this entity is broken. Entity parameter may be null.
+	 */
 	public void onBroken(Entity brokenEntity) {
 		if (this.worldObj.getGameRules().getBoolean("doEntityDrops")) {
 			if (brokenEntity instanceof EntityPlayer entityplayer) {
@@ -96,6 +103,9 @@ public class EntityPainting extends EntityHanging {
 		}
 	}
 
+	/**
+	 * Sets the location and Yaw/Pitch of an entity in the world
+	 */
 	public void setLocationAndAngles(double x, double y, double z, float yaw, float pitch) {
 		BlockPos blockpos = this.hangingPosition.add(x - this.posX, y - this.posY, z - this.posZ);
 		this.setPosition(blockpos.getX(), blockpos.getY(), blockpos.getZ());

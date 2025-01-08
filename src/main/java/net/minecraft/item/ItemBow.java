@@ -18,6 +18,10 @@ public class ItemBow extends Item {
 		this.setCreativeTab(CreativeTabs.tabCombat);
 	}
 
+	/**
+	 * Called when the player stops using an Item (stops holding the right mouse
+	 * button).
+	 */
 	public void onPlayerStoppedUsing(ItemStack stack, World worldIn, EntityPlayer playerIn, int timeLeft) {
 		boolean flag = playerIn.capabilities.isCreativeMode
 				|| EnchantmentHelper.getEnchantmentLevel(Enchantment.infinity.effectId, stack) > 0;
@@ -75,18 +79,33 @@ public class ItemBow extends Item {
 		}
 	}
 
+	/**
+	 * Called when the player finishes using this Item (E.g. finishes eating.). Not
+	 * called when the player stops using the Item before the action is complete.
+	 */
 	public ItemStack onItemUseFinish(ItemStack stack, World worldIn, EntityPlayer playerIn) {
 		return stack;
 	}
 
+	/**
+	 * How long it takes to use or consume an item
+	 */
 	public int getMaxItemUseDuration(ItemStack stack) {
 		return 72000;
 	}
 
+	/**
+	 * returns the action that specifies what animation to play when the items is
+	 * being used
+	 */
 	public EnumAction getItemUseAction(ItemStack stack) {
 		return EnumAction.BOW;
 	}
 
+	/**
+	 * Called whenever this item is equipped and the right mouse button is pressed.
+	 * Args: itemStack, world, entityPlayer
+	 */
 	public ItemStack onItemRightClick(ItemStack itemStackIn, World worldIn, EntityPlayer playerIn) {
 		if (playerIn.capabilities.isCreativeMode || playerIn.inventory.hasItem(Items.arrow)) {
 			playerIn.setItemInUse(itemStackIn, this.getMaxItemUseDuration(itemStackIn));
@@ -95,6 +114,10 @@ public class ItemBow extends Item {
 		return itemStackIn;
 	}
 
+	/**
+	 * Return the enchantability factor of the item, most of the time is based on
+	 * material.
+	 */
 	public int getItemEnchantability() {
 		return 1;
 	}

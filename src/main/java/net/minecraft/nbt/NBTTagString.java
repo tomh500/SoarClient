@@ -5,9 +5,8 @@ import java.io.DataOutput;
 import java.io.IOException;
 
 public class NBTTagString extends NBTBase {
-	
+	/** The string value for the tag (cannot be empty). */
 	private String data;
-	private String dataCache;
 
 	public NBTTagString() {
 		this.data = "";
@@ -21,34 +20,41 @@ public class NBTTagString extends NBTBase {
 		}
 	}
 
+	/**
+	 * Write the actual data contents of the tag, implemented in NBT extension
+	 * classes
+	 */
 	void write(DataOutput output) throws IOException {
 		output.writeUTF(this.data);
 	}
 
 	void read(DataInput input, int depth, NBTSizeTracker sizeTracker) throws IOException {
-		this.dataCache = null;
 		sizeTracker.read(288L);
 		this.data = input.readUTF();
 		sizeTracker.read(16L * this.data.length());
 	}
 
+	/**
+	 * Gets the type byte for the tag.
+	 */
 	public byte getId() {
 		return (byte) 8;
 	}
 
-    public String toString() {
-    	
-        if (this.dataCache == null) {
-            this.dataCache = "\"" + this.data.replace("\"", "\\\"") + "\"";
-        }
+	public String toString() {
+		return "\"" + this.data.replace("\"", "\\\"") + "\"";
+	}
 
-        return this.dataCache;
-    }
-
+	/**
+	 * Creates a clone of the tag.
+	 */
 	public NBTBase copy() {
 		return new NBTTagString(this.data);
 	}
 
+	/**
+	 * Return whether this compound has no tags.
+	 */
 	public boolean hasNoTags() {
 		return this.data.isEmpty();
 	}

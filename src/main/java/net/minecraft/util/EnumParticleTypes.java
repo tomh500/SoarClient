@@ -1,10 +1,9 @@
 package net.minecraft.util;
 
-import java.util.List;
-
 import com.google.common.collect.Lists;
-
-import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
+import com.google.common.collect.Maps;
+import java.util.List;
+import java.util.Map;
 
 public enum EnumParticleTypes {
 	EXPLOSION_NORMAL("explode", 0, true), EXPLOSION_LARGE("largeexplode", 1, true),
@@ -27,7 +26,7 @@ public enum EnumParticleTypes {
 	private final int particleID;
 	private final boolean shouldIgnoreRange;
 	private final int argumentCount;
-	private static final Int2ObjectOpenHashMap<EnumParticleTypes> PARTICLES = new Int2ObjectOpenHashMap<>();
+	private static final Map<Integer, EnumParticleTypes> PARTICLES = Maps.newHashMap();
 	private static final String[] PARTICLE_NAMES;
 
 	EnumParticleTypes(String particleNameIn, int particleIDIn, boolean p_i46011_5_, int argumentCountIn) {
@@ -65,21 +64,24 @@ public enum EnumParticleTypes {
 		return this.argumentCount > 0;
 	}
 
+	/**
+	 * Gets the relative EnumParticleTypes by id.
+	 */
 	public static EnumParticleTypes getParticleFromId(int particleId) {
-		return PARTICLES.get(particleId);
+		return PARTICLES.get(Integer.valueOf(particleId));
 	}
 
 	static {
 		List<String> list = Lists.newArrayList();
 
 		for (EnumParticleTypes enumparticletypes : values()) {
-			PARTICLES.put(enumparticletypes.getParticleID(), enumparticletypes);
+			PARTICLES.put(Integer.valueOf(enumparticletypes.getParticleID()), enumparticletypes);
 
 			if (!enumparticletypes.getParticleName().endsWith("_")) {
 				list.add(enumparticletypes.getParticleName());
 			}
 		}
 
-		PARTICLE_NAMES = list.toArray(new String[0]);
+		PARTICLE_NAMES = list.toArray(new String[list.size()]);
 	}
 }

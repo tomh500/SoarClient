@@ -1,13 +1,12 @@
 package net.minecraft.scoreboard;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.nbt.NBTTagString;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.world.WorldSavedData;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class ScoreboardSaveData extends WorldSavedData {
 	private static final Logger logger = LogManager.getLogger();
@@ -30,6 +29,9 @@ public class ScoreboardSaveData extends WorldSavedData {
 		}
 	}
 
+	/**
+	 * reads in data from the NBTTagCompound into this MapDataBase
+	 */
 	public void readFromNBT(NBTTagCompound nbt) {
 		if (this.theScoreboard == null) {
 			this.delayedInitNbt = nbt;
@@ -158,6 +160,10 @@ public class ScoreboardSaveData extends WorldSavedData {
 		}
 	}
 
+	/**
+	 * write data to NBTTagCompound from this MapDataBase, similar to Entities and
+	 * TileEntities
+	 */
 	public void writeToNBT(NBTTagCompound nbt) {
 		if (this.theScoreboard == null) {
 			logger.warn("Tried to save scoreboard without having a scoreboard...");

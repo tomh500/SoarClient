@@ -1,10 +1,8 @@
 package net.minecraft.world.chunk;
 
+import com.google.common.base.Predicate;
 import java.util.List;
 import java.util.Random;
-
-import com.google.common.base.Predicate;
-
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.init.Blocks;
@@ -19,17 +17,29 @@ public class EmptyChunk extends Chunk {
 		super(worldIn, x, z);
 	}
 
+	/**
+	 * Checks whether the chunk is at the X/Z location specified
+	 */
 	public boolean isAtLocation(int x, int z) {
 		return x == this.xPosition && z == this.zPosition;
 	}
 
+	/**
+	 * Returns the value in the height map at this x, z coordinate in the chunk
+	 */
 	public int getHeightValue(int x, int z) {
 		return 0;
 	}
 
+	/**
+	 * Generates the height map for a chunk from scratch
+	 */
 	public void generateHeightMap() {
 	}
 
+	/**
+	 * Generates the initial skylight map for the chunk upon generation or load.
+	 */
 	public void generateSkylightMap() {
 	}
 
@@ -56,12 +66,21 @@ public class EmptyChunk extends Chunk {
 		return 0;
 	}
 
+	/**
+	 * Adds an entity to the chunk. Args: entity
+	 */
 	public void addEntity(Entity entityIn) {
 	}
 
+	/**
+	 * removes entity using its y chunk coordinate as its index
+	 */
 	public void removeEntity(Entity entityIn) {
 	}
 
+	/**
+	 * Removes entity at the specified index from the entity array.
+	 */
 	public void removeEntityAtIndex(Entity entityIn, int p_76608_2_) {
 	}
 
@@ -82,15 +101,28 @@ public class EmptyChunk extends Chunk {
 	public void removeTileEntity(BlockPos pos) {
 	}
 
+	/**
+	 * Called when this Chunk is loaded by the ChunkProvider
+	 */
 	public void onChunkLoad() {
 	}
 
+	/**
+	 * Called when this Chunk is unloaded by the ChunkProvider
+	 */
 	public void onChunkUnload() {
 	}
 
+	/**
+	 * Sets the isModified flag for this Chunk
+	 */
 	public void setChunkModified() {
 	}
 
+	/**
+	 * Fills the given list of all entities that intersect within the given bounding
+	 * box that aren't the passed entity.
+	 */
 	public void getEntitiesWithinAABBForEntity(Entity entityIn, AxisAlignedBB aabb, List<Entity> listToFill,
 			Predicate<? super Entity> p_177414_4_) {
 	}
@@ -99,6 +131,9 @@ public class EmptyChunk extends Chunk {
 			List<T> listToFill, Predicate<? super T> p_177430_4_) {
 	}
 
+	/**
+	 * Returns true if this Chunk needs to be saved
+	 */
 	public boolean needsSaving(boolean p_76601_1_) {
 		return false;
 	}
@@ -113,6 +148,10 @@ public class EmptyChunk extends Chunk {
 		return true;
 	}
 
+	/**
+	 * Returns whether the ExtendedBlockStorages containing levels (in blocks) from
+	 * arg 1 to arg 2 are fully empty (true) or not (false).
+	 */
 	public boolean getAreLevelsEmpty(int startY, int endY) {
 		return true;
 	}

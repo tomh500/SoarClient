@@ -1,7 +1,6 @@
 package net.minecraft.world.biome;
 
 import java.util.Random;
-
 import net.minecraft.block.BlockFlower;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.monster.EntitySlime;

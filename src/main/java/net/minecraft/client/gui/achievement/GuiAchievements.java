@@ -2,9 +2,6 @@ package net.minecraft.client.gui.achievement;
 
 import java.io.IOException;
 import java.util.Random;
-
-import org.lwjgl.input.Mouse;
-
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
@@ -24,6 +21,7 @@ import net.minecraft.stats.StatFileWriter;
 import net.minecraft.util.ChatComponentTranslation;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.ResourceLocation;
+import org.lwjgl.input.Mouse;
 
 public class GuiAchievements extends GuiScreen implements IProgressMeter {
 	private static final int field_146572_y = AchievementList.minDisplayColumn * 24 - 112;
@@ -59,6 +57,11 @@ public class GuiAchievements extends GuiScreen implements IProgressMeter {
 				- j / 2;
 	}
 
+	/**
+	 * Adds the buttons (and other controls) to the screen in question. Called when
+	 * the GUI is displayed and when the window resizes, the buttonList is cleared
+	 * beforehand.
+	 */
 	public void initGui() {
 		this.mc.getNetHandler()
 				.addToSendQueue(new C16PacketClientStatus(C16PacketClientStatus.EnumState.REQUEST_STATS));
@@ -67,6 +70,10 @@ public class GuiAchievements extends GuiScreen implements IProgressMeter {
 				new GuiOptionButton(1, this.width / 2 + 24, this.height / 2 + 74, 80, 20, I18n.format("gui.done")));
 	}
 
+	/**
+	 * Called by the controls from the buttonList when activated. (Mouse pressed for
+	 * buttons)
+	 */
 	protected void actionPerformed(GuiButton button) throws IOException {
 		if (!this.loadingAchievements) {
 			if (button.id == 1) {
@@ -75,6 +82,11 @@ public class GuiAchievements extends GuiScreen implements IProgressMeter {
 		}
 	}
 
+	/**
+	 * Fired when a key is typed (except F11 which toggles full screen). This is the
+	 * equivalent of KeyListener.keyTyped(KeyEvent e). Args : character (character
+	 * on the key), keyCode (lwjgl Keyboard key code)
+	 */
 	protected void keyTyped(char typedChar, int keyCode) throws IOException {
 		if (keyCode == this.mc.gameSettings.keyBindInventory.getKeyCode()) {
 			this.mc.displayGuiScreen(null);
@@ -84,6 +96,10 @@ public class GuiAchievements extends GuiScreen implements IProgressMeter {
 		}
 	}
 
+	/**
+	 * Draws the screen and all the components in it. Args : mouseX, mouseY,
+	 * renderPartialTicks
+	 */
 	public void drawScreen(int mouseX, int mouseY, float partialTicks) {
 		if (this.loadingAchievements) {
 			this.drawDefaultBackground();
@@ -172,6 +188,9 @@ public class GuiAchievements extends GuiScreen implements IProgressMeter {
 		}
 	}
 
+	/**
+	 * Called from the main game loop to update the screen.
+	 */
 	public void updateScreen() {
 		if (!this.loadingAchievements) {
 			this.field_146569_s = this.field_146567_u;
@@ -459,6 +478,10 @@ public class GuiAchievements extends GuiScreen implements IProgressMeter {
 				.getTexture(p_175371_1_.getDefaultState());
 	}
 
+	/**
+	 * Returns true if this GUI should pause the game when it is displayed in
+	 * single-player
+	 */
 	public boolean doesGuiPauseGame() {
 		return !this.loadingAchievements;
 	}

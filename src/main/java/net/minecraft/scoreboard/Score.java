@@ -2,7 +2,6 @@ package net.minecraft.scoreboard;
 
 import java.util.Comparator;
 import java.util.List;
-
 import net.minecraft.entity.player.EntityPlayer;
 
 public class Score {
@@ -69,6 +68,9 @@ public class Score {
 		return this.theScoreObjective;
 	}
 
+	/**
+	 * Returns the name of the player this score belongs to
+	 */
 	public String getPlayerName() {
 		return this.scorePlayerName;
 	}

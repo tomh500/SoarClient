@@ -1,7 +1,6 @@
 package net.minecraft.command;
 
 import java.util.List;
-
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.network.play.server.S19PacketEntityStatus;
 import net.minecraft.server.MinecraftServer;
@@ -10,18 +9,30 @@ import net.minecraft.util.ChatComponentText;
 import net.minecraft.world.GameRules;
 
 public class CommandGameRule extends CommandBase {
+	/**
+	 * Gets the name of the command
+	 */
 	public String getCommandName() {
 		return "gamerule";
 	}
 
+	/**
+	 * Return the required permission level for this command.
+	 */
 	public int getRequiredPermissionLevel() {
 		return 2;
 	}
 
+	/**
+	 * Gets the usage string for the command.
+	 */
 	public String getCommandUsage(ICommandSender sender) {
 		return "commands.gamerule.usage";
 	}
 
+	/**
+	 * Callback when the command is invoked
+	 */
 	public void processCommand(ICommandSender sender, String[] args) throws CommandException {
 		GameRules gamerules = this.getGameRules();
 		String s = args.length > 0 ? args[0] : "";
@@ -81,6 +92,9 @@ public class CommandGameRule extends CommandBase {
 		}
 	}
 
+	/**
+	 * Return the game rule set this command should be able to manipulate.
+	 */
 	private GameRules getGameRules() {
 		return MinecraftServer.getServer().worldServerForDimension(0).getGameRules();
 	}

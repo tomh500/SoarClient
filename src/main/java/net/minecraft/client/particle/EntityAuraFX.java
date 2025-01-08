@@ -20,6 +20,9 @@ public class EntityAuraFX extends EntityFX {
 		this.noClip = true;
 	}
 
+	/**
+	 * Called to update the entity's position/logic.
+	 */
 	public void onUpdate() {
 		this.prevPosX = this.posX;
 		this.prevPosY = this.posY;

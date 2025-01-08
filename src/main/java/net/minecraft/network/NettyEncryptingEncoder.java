@@ -1,11 +1,10 @@
 package net.minecraft.network;
 
-import javax.crypto.Cipher;
-import javax.crypto.ShortBufferException;
-
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.MessageToByteEncoder;
+import javax.crypto.Cipher;
+import javax.crypto.ShortBufferException;
 
 public class NettyEncryptingEncoder extends MessageToByteEncoder<ByteBuf> {
 	private final NettyEncryptionTranslator encryptionCodec;

@@ -1,7 +1,6 @@
 package net.minecraft.world.gen.feature;
 
 import java.util.Random;
-
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.init.Blocks;
@@ -10,6 +9,8 @@ import net.minecraft.world.World;
 
 public class WorldGenSand extends WorldGenerator {
 	private final Block block;
+
+	/** The maximum radius used when generating a patch of blocks. */
 	private final int radius;
 
 	public WorldGenSand(Block p_i45462_1_, int p_i45462_2_) {

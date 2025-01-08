@@ -1,9 +1,7 @@
 package net.minecraft.client.renderer.tileentity;
 
-import java.util.UUID;
-
 import com.mojang.authlib.GameProfile;
-
+import java.util.UUID;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.init.Blocks;

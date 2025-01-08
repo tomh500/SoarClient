@@ -4,7 +4,6 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-
 import net.minecraft.util.ChatStyle;
 import net.minecraft.util.EnumTypeAdapterFactory;
 import net.minecraft.util.IChatComponent;
@@ -14,6 +13,11 @@ import net.minecraft.util.RegistrySimple;
 public class IMetadataSerializer {
 	private final IRegistry<String, IMetadataSerializer.Registration<? extends IMetadataSection>> metadataSectionSerializerRegistry = new RegistrySimple();
 	private final GsonBuilder gsonBuilder = new GsonBuilder();
+
+	/**
+	 * Cached Gson instance. Set to null when more sections are registered, and then
+	 * re-created from the builder.
+	 */
 	private Gson gson;
 
 	public IMetadataSerializer() {
@@ -50,6 +54,9 @@ public class IMetadataSerializer {
 		}
 	}
 
+	/**
+	 * Returns a Gson instance with type adapters registered for metadata sections.
+	 */
 	private Gson getGson() {
 		if (this.gson == null) {
 			this.gson = this.gsonBuilder.create();

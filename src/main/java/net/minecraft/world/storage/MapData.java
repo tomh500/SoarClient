@@ -1,11 +1,9 @@
 package net.minecraft.world.storage;
 
-import java.util.List;
-import java.util.Map;
-
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
-
+import java.util.List;
+import java.util.Map;
 import net.minecraft.entity.item.EntityItemFrame;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -24,6 +22,8 @@ public class MapData extends WorldSavedData {
 	public int zCenter;
 	public byte dimension;
 	public byte scale;
+
+	/** colours */
 	public byte[] colors = new byte[16384];
 	public List<MapData.MapInfo> playersArrayList = Lists.newArrayList();
 	private final Map<EntityPlayer, MapData.MapInfo> playersHashMap = Maps.newHashMap();
@@ -41,6 +41,9 @@ public class MapData extends WorldSavedData {
 		this.zCenter = k * i + i / 2 - 64;
 	}
 
+	/**
+	 * reads in data from the NBTTagCompound into this MapDataBase
+	 */
 	public void readFromNBT(NBTTagCompound nbt) {
 		this.dimension = nbt.getByte("dimension");
 		this.xCenter = nbt.getInteger("xCenter");
@@ -74,6 +77,10 @@ public class MapData extends WorldSavedData {
 		}
 	}
 
+	/**
+	 * write data to NBTTagCompound from this MapDataBase, similar to Entities and
+	 * TileEntities
+	 */
 	public void writeToNBT(NBTTagCompound nbt) {
 		nbt.setByte("dimension", this.dimension);
 		nbt.setInteger("xCenter", this.xCenter);
@@ -84,6 +91,10 @@ public class MapData extends WorldSavedData {
 		nbt.setByteArray("colors", this.colors);
 	}
 
+	/**
+	 * Adds the player passed to the list of visible players and checks to see which
+	 * players are visible
+	 */
 	public void updateVisiblePlayers(EntityPlayer player, ItemStack mapStack) {
 		if (!this.playersHashMap.containsKey(player)) {
 			MapData.MapInfo mapdata$mapinfo = new MapData.MapInfo(player);

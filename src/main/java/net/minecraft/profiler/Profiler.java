@@ -1,99 +1,73 @@
 package net.minecraft.profiler;
 
+import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
-
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-
-import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
-
-import net.minecraft.src.Config;
-import net.optifine.Lagometer;
 
 public class Profiler {
 	private static final Logger logger = LogManager.getLogger();
 	private final List<String> sectionList = Lists.newArrayList();
 	private final List<Long> timestampList = Lists.newArrayList();
+
+	/** Flag profiling enabled */
 	public boolean profilingEnabled;
+
+	/** Current profiling section */
 	private String profilingSection = "";
 	private final Map<String, Long> profilingMap = Maps.newHashMap();
-	public boolean profilerGlobalEnabled = true;
-	private boolean profilerLocalEnabled;
-	private static final String SCHEDULED_EXECUTABLES = "scheduledExecutables";
-	private static final String TICK = "tick";
-	private static final String PRE_RENDER_ERRORS = "preRenderErrors";
-	private static final String RENDER = "render";
-	private static final String DISPLAY = "display";
-	private static final int HASH_SCHEDULED_EXECUTABLES = "scheduledExecutables".hashCode();
-	private static final int HASH_TICK = "tick".hashCode();
-	private static final int HASH_PRE_RENDER_ERRORS = "preRenderErrors".hashCode();
-	private static final int HASH_RENDER = "render".hashCode();
-	private static final int HASH_DISPLAY = "display".hashCode();
 
-	public Profiler() {
-		this.profilerLocalEnabled = this.profilerGlobalEnabled;
-	}
-
+	/**
+	 * Clear profiling.
+	 */
 	public void clearProfiling() {
 		this.profilingMap.clear();
 		this.profilingSection = "";
 		this.sectionList.clear();
-		this.profilerLocalEnabled = this.profilerGlobalEnabled;
 	}
 
+	/**
+	 * Start section
+	 */
 	public void startSection(String name) {
-		if (Lagometer.isActive()) {
-			int i = name.hashCode();
-
-			if (i == HASH_SCHEDULED_EXECUTABLES && name.equals("scheduledExecutables")) {
-				Lagometer.timerScheduledExecutables.start();
-			} else if (i == HASH_TICK && name.equals("tick") && Config.isMinecraftThread()) {
-				Lagometer.timerScheduledExecutables.end();
-				Lagometer.timerTick.start();
-			} else if (i == HASH_PRE_RENDER_ERRORS && name.equals("preRenderErrors")) {
-				Lagometer.timerTick.end();
+		if (this.profilingEnabled) {
+			if (this.profilingSection.length() > 0) {
+				this.profilingSection = this.profilingSection + ".";
 			}
-		}
 
-		if (this.profilerLocalEnabled) {
-			if (this.profilingEnabled) {
-				if (this.profilingSection.length() > 0) {
-					this.profilingSection = this.profilingSection + ".";
-				}
-
-				this.profilingSection = this.profilingSection + name;
-				this.sectionList.add(this.profilingSection);
-				this.timestampList.add(Long.valueOf(System.nanoTime()));
-			}
+			this.profilingSection = this.profilingSection + name;
+			this.sectionList.add(this.profilingSection);
+			this.timestampList.add(Long.valueOf(System.nanoTime()));
 		}
 	}
 
+	/**
+	 * End section
+	 */
 	public void endSection() {
-		if (this.profilerLocalEnabled) {
-			if (this.profilingEnabled) {
-				long i = System.nanoTime();
-				long j = this.timestampList.remove(this.timestampList.size() - 1).longValue();
-				this.sectionList.remove(this.sectionList.size() - 1);
-				long k = i - j;
+		if (this.profilingEnabled) {
+			long i = System.nanoTime();
+			long j = this.timestampList.remove(this.timestampList.size() - 1).longValue();
+			this.sectionList.remove(this.sectionList.size() - 1);
+			long k = i - j;
 
-				if (this.profilingMap.containsKey(this.profilingSection)) {
-					this.profilingMap.put(this.profilingSection,
-							Long.valueOf(this.profilingMap.get(this.profilingSection).longValue() + k));
-				} else {
-					this.profilingMap.put(this.profilingSection, Long.valueOf(k));
-				}
-
-				if (k > 100000000L) {
-					logger.warn("Something's taking too long! '" + this.profilingSection + "' took aprox "
-							+ (double) k / 1000000.0D + " ms");
-				}
-
-				this.profilingSection = !this.sectionList.isEmpty() ? this.sectionList.get(this.sectionList.size() - 1)
-						: "";
+			if (this.profilingMap.containsKey(this.profilingSection)) {
+				this.profilingMap.put(this.profilingSection,
+						Long.valueOf(this.profilingMap.get(this.profilingSection).longValue() + k));
+			} else {
+				this.profilingMap.put(this.profilingSection, Long.valueOf(k));
 			}
+
+			if (k > 100000000L) {
+				logger.warn("Something's taking too long! '" + this.profilingSection + "' took aprox "
+						+ (double) k / 1000000.0D + " ms");
+			}
+
+			this.profilingSection = !this.sectionList.isEmpty() ? this.sectionList.get(this.sectionList.size() - 1)
+					: "";
 		}
 	}
 
@@ -141,7 +115,7 @@ public class Profiler {
 			}
 
 			for (String s3 : this.profilingMap.keySet()) {
-				this.profilingMap.put(s3, Long.valueOf(this.profilingMap.get(s3).longValue() * 950L / 1000L));
+				this.profilingMap.put(s3, Long.valueOf(this.profilingMap.get(s3).longValue() * 999L / 1000L));
 			}
 
 			if ((float) k > f) {
@@ -155,21 +129,16 @@ public class Profiler {
 		}
 	}
 
+	/**
+	 * End current section and start a new section
+	 */
 	public void endStartSection(String name) {
-		if (this.profilerLocalEnabled) {
-			this.endSection();
-			this.startSection(name);
-		}
+		this.endSection();
+		this.startSection(name);
 	}
 
 	public String getNameOfLastSection() {
 		return this.sectionList.size() == 0 ? "[UNKNOWN]" : this.sectionList.get(this.sectionList.size() - 1);
-	}
-
-	public void startSection(Class<?> p_startSection_1_) {
-		if (this.profilingEnabled) {
-			this.startSection(p_startSection_1_.getSimpleName());
-		}
 	}
 
 	public static final class Result implements Comparable<Profiler.Result> {

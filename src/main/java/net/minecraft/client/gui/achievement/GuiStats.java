@@ -1,14 +1,10 @@
 package net.minecraft.client.gui.achievement;
 
+import com.google.common.collect.Lists;
 import java.io.IOException;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
-
-import org.lwjgl.input.Mouse;
-
-import com.google.common.collect.Lists;
-
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.PositionedSoundRecord;
 import net.minecraft.client.gui.GuiButton;
@@ -30,6 +26,7 @@ import net.minecraft.stats.StatCrafting;
 import net.minecraft.stats.StatFileWriter;
 import net.minecraft.stats.StatList;
 import net.minecraft.util.ResourceLocation;
+import org.lwjgl.input.Mouse;
 
 public class GuiStats extends GuiScreen implements IProgressMeter {
 	protected GuiScreen parentScreen;
@@ -40,6 +37,8 @@ public class GuiStats extends GuiScreen implements IProgressMeter {
 	private GuiStats.StatsMobsList mobStats;
 	private final StatFileWriter field_146546_t;
 	private GuiSlot displaySlot;
+
+	/** When true, the game will be paused when the gui is shown */
 	private boolean doesGuiPauseGame = true;
 
 	public GuiStats(GuiScreen p_i1071_1_, StatFileWriter p_i1071_2_) {
@@ -47,6 +46,11 @@ public class GuiStats extends GuiScreen implements IProgressMeter {
 		this.field_146546_t = p_i1071_2_;
 	}
 
+	/**
+	 * Adds the buttons (and other controls) to the screen in question. Called when
+	 * the GUI is displayed and when the window resizes, the buttonList is cleared
+	 * beforehand.
+	 */
 	public void initGui() {
 		this.screenTitle = I18n.format("gui.stats");
 		this.doesGuiPauseGame = true;
@@ -54,6 +58,9 @@ public class GuiStats extends GuiScreen implements IProgressMeter {
 				.addToSendQueue(new C16PacketClientStatus(C16PacketClientStatus.EnumState.REQUEST_STATS));
 	}
 
+	/**
+	 * Handles mouse input.
+	 */
 	public void handleMouseInput() throws IOException {
 		super.handleMouseInput();
 
@@ -100,6 +107,10 @@ public class GuiStats extends GuiScreen implements IProgressMeter {
 		}
 	}
 
+	/**
+	 * Called by the controls from the buttonList when activated. (Mouse pressed for
+	 * buttons)
+	 */
 	protected void actionPerformed(GuiButton button) throws IOException {
 		if (button.enabled) {
 			if (button.id == 0) {
@@ -118,6 +129,10 @@ public class GuiStats extends GuiScreen implements IProgressMeter {
 		}
 	}
 
+	/**
+	 * Draws the screen and all the components in it. Args : mouseX, mouseY,
+	 * renderPartialTicks
+	 */
 	public void drawScreen(int mouseX, int mouseY, float partialTicks) {
 		if (this.doesGuiPauseGame) {
 			this.drawDefaultBackground();
@@ -142,6 +157,10 @@ public class GuiStats extends GuiScreen implements IProgressMeter {
 		}
 	}
 
+	/**
+	 * Returns true if this GUI should pause the game when it is displayed in
+	 * single-player
+	 */
 	public boolean doesGuiPauseGame() {
 		return !this.doesGuiPauseGame;
 	}
@@ -155,10 +174,16 @@ public class GuiStats extends GuiScreen implements IProgressMeter {
 		GlStateManager.disableRescaleNormal();
 	}
 
+	/**
+	 * Draws a gray box that serves as a button background.
+	 */
 	private void drawButtonBackground(int p_146531_1_, int p_146531_2_) {
 		this.drawSprite(p_146531_1_, p_146531_2_, 0, 0);
 	}
 
+	/**
+	 * Draws a sprite from assets/textures/gui/container/stats_icons.png
+	 */
 	private void drawSprite(int p_146527_1_, int p_146527_2_, int p_146527_3_, int p_146527_4_) {
 		GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
 		this.mc.getTextureManager().bindTexture(statIcons);

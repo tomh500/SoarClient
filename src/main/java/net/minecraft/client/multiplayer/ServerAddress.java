@@ -2,7 +2,6 @@ package net.minecraft.client.multiplayer;
 
 import java.net.IDN;
 import java.util.Hashtable;
-
 import javax.naming.directory.Attributes;
 import javax.naming.directory.DirContext;
 import javax.naming.directory.InitialDirContext;
@@ -63,6 +62,10 @@ public class ServerAddress {
 		}
 	}
 
+	/**
+	 * Returns a server's address and port for the specified hostname, looking up
+	 * the SRV record if possible
+	 */
 	private static String[] getServerAddress(String p_78863_0_) {
 		try {
 			String s = "com.sun.jndi.dns.DnsContextFactory";

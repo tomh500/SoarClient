@@ -1,14 +1,9 @@
 package net.minecraft.init;
 
+import com.mojang.authlib.GameProfile;
 import java.io.PrintStream;
 import java.util.Random;
 import java.util.UUID;
-
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
-import com.mojang.authlib.GameProfile;
-
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockDispenser;
 import net.minecraft.block.BlockFire;
@@ -54,12 +49,19 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.LoggingPrintStream;
 import net.minecraft.util.StringUtils;
 import net.minecraft.world.World;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class Bootstrap {
 	private static final PrintStream SYSOUT = System.out;
+
+	/** Whether the blocks, items, etc have already been registered */
 	private static boolean alreadyRegistered = false;
 	private static final Logger LOGGER = LogManager.getLogger();
 
+	/**
+	 * Is Bootstrap registration already done?
+	 */
 	public static boolean isRegistered() {
 		return alreadyRegistered;
 	}
@@ -427,6 +429,9 @@ public class Bootstrap {
 				});
 	}
 
+	/**
+	 * Registers blocks, items, stats, etc.
+	 */
 	public static void register() {
 		if (!alreadyRegistered) {
 			alreadyRegistered = true;
@@ -443,6 +448,9 @@ public class Bootstrap {
 		}
 	}
 
+	/**
+	 * redirect standard streams to logger
+	 */
 	private static void redirectOutputToLog() {
 		System.setErr(new LoggingPrintStream("STDERR", System.err));
 		System.setOut(new LoggingPrintStream("STDOUT", SYSOUT));

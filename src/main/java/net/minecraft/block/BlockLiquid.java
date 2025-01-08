@@ -1,7 +1,6 @@
 package net.minecraft.block;
 
 import java.util.Random;
-
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.properties.PropertyInteger;
@@ -39,6 +38,10 @@ public abstract class BlockLiquid extends Block {
 		return this.blockMaterial == Material.water ? BiomeColorHelper.getWaterColorAtPos(worldIn, pos) : 16777215;
 	}
 
+	/**
+	 * Returns the percentage of the liquid block that is air, based on the given
+	 * flow decay of the liquid
+	 */
 	public static float getLiquidHeightPercent(int meta) {
 		if (meta >= 8) {
 			meta = 0;
@@ -62,6 +65,10 @@ public abstract class BlockLiquid extends Block {
 		return false;
 	}
 
+	/**
+	 * Used to determine ambient occlusion and culling when rebuilding chunks for
+	 * render
+	 */
 	public boolean isOpaqueCube() {
 		return false;
 	}
@@ -70,6 +77,9 @@ public abstract class BlockLiquid extends Block {
 		return hitIfLiquid && state.getValue(LEVEL).intValue() == 0;
 	}
 
+	/**
+	 * Whether this Block is solid on the given Side
+	 */
 	public boolean isBlockSolid(IBlockAccess worldIn, BlockPos pos, EnumFacing side) {
 		Material material = worldIn.getBlockState(pos).getBlock().getMaterial();
 		return material != this.blockMaterial
@@ -101,58 +111,65 @@ public abstract class BlockLiquid extends Block {
 		return null;
 	}
 
+	/**
+	 * The type of render function called. 3 for standard block models, 2 for
+	 * TESR's, 1 for liquids, -1 is no render
+	 */
 	public int getRenderType() {
 		return 1;
 	}
 
+	/**
+	 * Get the Item that this Block should drop when harvested.
+	 */
 	public Item getItemDropped(IBlockState state, Random rand, int fortune) {
 		return null;
 	}
 
+	/**
+	 * Returns the quantity of items to drop on block destruction.
+	 */
 	public int quantityDropped(Random random) {
 		return 0;
 	}
 
 	protected Vec3 getFlowVector(IBlockAccess worldIn, BlockPos pos) {
-		
 		Vec3 vec3 = new Vec3(0.0D, 0.0D, 0.0D);
 		int i = this.getEffectiveFlowDecay(worldIn, pos);
-		BlockPos.PooledMutableBlockPos blockpos$pooledmutableblockpos = BlockPos.PooledMutableBlockPos.retain();
-		
+
 		for (EnumFacing enumfacing : EnumFacing.Plane.HORIZONTAL) {
-			blockpos$pooledmutableblockpos.set(pos).move(enumfacing);
-			int j = this.getEffectiveFlowDecay(worldIn, blockpos$pooledmutableblockpos);
+			BlockPos blockpos = pos.offset(enumfacing);
+			int j = this.getEffectiveFlowDecay(worldIn, blockpos);
 
 			if (j < 0) {
-				if (!worldIn.getBlockState(blockpos$pooledmutableblockpos).getBlock().getMaterial().blocksMovement()) {
-					j = this.getEffectiveFlowDecay(worldIn, blockpos$pooledmutableblockpos.down());
+				if (!worldIn.getBlockState(blockpos).getBlock().getMaterial().blocksMovement()) {
+					j = this.getEffectiveFlowDecay(worldIn, blockpos.down());
 
 					if (j >= 0) {
 						int k = j - (i - 8);
-						vec3 = vec3.addVector((blockpos$pooledmutableblockpos.getX() - pos.getX()) * k, (blockpos$pooledmutableblockpos.getY() - pos.getY()) * k,
-								(blockpos$pooledmutableblockpos.getZ() - pos.getZ()) * k);
+						vec3 = vec3.addVector((blockpos.getX() - pos.getX()) * k, (blockpos.getY() - pos.getY()) * k,
+								(blockpos.getZ() - pos.getZ()) * k);
 					}
 				}
 			} else if (j >= 0) {
 				int l = j - i;
-				vec3 = vec3.addVector((blockpos$pooledmutableblockpos.getX() - pos.getX()) * l, (blockpos$pooledmutableblockpos.getY() - pos.getY()) * l,
-						(blockpos$pooledmutableblockpos.getZ() - pos.getZ()) * l);
+				vec3 = vec3.addVector((blockpos.getX() - pos.getX()) * l, (blockpos.getY() - pos.getY()) * l,
+						(blockpos.getZ() - pos.getZ()) * l);
 			}
 		}
 
 		if (worldIn.getBlockState(pos).getValue(LEVEL).intValue() >= 8) {
 			for (EnumFacing enumfacing1 : EnumFacing.Plane.HORIZONTAL) {
-				blockpos$pooledmutableblockpos.set(pos).move(enumfacing1);
+				BlockPos blockpos1 = pos.offset(enumfacing1);
 
-				if (this.isBlockSolid(worldIn, blockpos$pooledmutableblockpos, enumfacing1)
-						|| this.isBlockSolid(worldIn, blockpos$pooledmutableblockpos.up(), enumfacing1)) {
+				if (this.isBlockSolid(worldIn, blockpos1, enumfacing1)
+						|| this.isBlockSolid(worldIn, blockpos1.up(), enumfacing1)) {
 					vec3 = vec3.normalize().addVector(0.0D, -6.0D, 0.0D);
 					break;
 				}
 			}
 		}
 
-		blockpos$pooledmutableblockpos.release();
 		return vec3.normalize();
 	}
 
@@ -160,6 +177,9 @@ public abstract class BlockLiquid extends Block {
 		return motion.add(this.getFlowVector(worldIn, pos));
 	}
 
+	/**
+	 * How many world ticks before ticking
+	 */
 	public int tickRate(World worldIn) {
 		return this.blockMaterial == Material.water ? 5
 				: (this.blockMaterial == Material.lava ? (worldIn.provider.getHasNoSky() ? 10 : 30) : 0);
@@ -243,6 +263,9 @@ public abstract class BlockLiquid extends Block {
 		this.checkForMixing(worldIn, pos, state);
 	}
 
+	/**
+	 * Called when a neighboring block changes.
+	 */
 	public void onNeighborBlockChange(World worldIn, BlockPos pos, IBlockState state, Block neighborBlock) {
 		this.checkForMixing(worldIn, pos, state);
 	}
@@ -292,10 +315,16 @@ public abstract class BlockLiquid extends Block {
 		}
 	}
 
+	/**
+	 * Convert the given metadata into a BlockState for this Block
+	 */
 	public IBlockState getStateFromMeta(int meta) {
 		return this.getDefaultState().withProperty(LEVEL, Integer.valueOf(meta));
 	}
 
+	/**
+	 * Convert the BlockState into the correct metadata value
+	 */
 	public int getMetaFromState(IBlockState state) {
 		return state.getValue(LEVEL).intValue();
 	}

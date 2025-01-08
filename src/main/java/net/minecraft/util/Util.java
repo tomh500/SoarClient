@@ -2,7 +2,6 @@ package net.minecraft.util;
 
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.FutureTask;
-
 import org.apache.logging.log4j.Logger;
 
 public class Util {
@@ -22,10 +21,6 @@ public class Util {
 			return task.get();
 		} catch (ExecutionException executionexception) {
 			logger.fatal("Error executing task", executionexception);
-
-			if (executionexception.getCause() instanceof OutOfMemoryError outofmemoryerror) {
-				throw outofmemoryerror;
-			}
 		} catch (InterruptedException interruptedexception) {
 			logger.fatal("Error executing task", interruptedexception);
 		}

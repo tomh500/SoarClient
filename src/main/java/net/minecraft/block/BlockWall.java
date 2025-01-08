@@ -1,7 +1,6 @@
 package net.minecraft.block;
 
 import java.util.List;
-
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.properties.PropertyBool;
@@ -41,6 +40,9 @@ public class BlockWall extends Block {
 		this.setCreativeTab(CreativeTabs.tabBlock);
 	}
 
+	/**
+	 * Gets the localized name of this block. Used for the statistics page.
+	 */
 	public String getLocalizedName() {
 		return StatCollector.translateToLocal(
 				this.getUnlocalizedName() + "." + BlockWall.EnumType.NORMAL.getUnlocalizedName() + ".name");
@@ -54,6 +56,10 @@ public class BlockWall extends Block {
 		return false;
 	}
 
+	/**
+	 * Used to determine ambient occlusion and culling when rebuilding chunks for
+	 * render
+	 */
 	public boolean isOpaqueCube() {
 		return false;
 	}
@@ -110,12 +116,21 @@ public class BlockWall extends Block {
 				|| (block.blockMaterial.isOpaque() && block.isFullCube() && block.blockMaterial != Material.gourd));
 	}
 
+	/**
+	 * returns a list of blocks with the same ID, but different meta (eg: wood
+	 * returns 4 blocks)
+	 */
 	public void getSubBlocks(Item itemIn, CreativeTabs tab, List<ItemStack> list) {
 		for (BlockWall.EnumType blockwall$enumtype : BlockWall.EnumType.values()) {
 			list.add(new ItemStack(itemIn, 1, blockwall$enumtype.getMetadata()));
 		}
 	}
 
+	/**
+	 * Gets the metadata of the item this Block can drop. This method is called when
+	 * the block gets destroyed. It returns the metadata of the dropped item based
+	 * on the old metadata of the block.
+	 */
 	public int damageDropped(IBlockState state) {
 		return state.getValue(VARIANT).getMetadata();
 	}
@@ -124,14 +139,24 @@ public class BlockWall extends Block {
 		return side != EnumFacing.DOWN || super.shouldSideBeRendered(worldIn, pos, side);
 	}
 
+	/**
+	 * Convert the given metadata into a BlockState for this Block
+	 */
 	public IBlockState getStateFromMeta(int meta) {
 		return this.getDefaultState().withProperty(VARIANT, BlockWall.EnumType.byMetadata(meta));
 	}
 
+	/**
+	 * Convert the BlockState into the correct metadata value
+	 */
 	public int getMetaFromState(IBlockState state) {
 		return state.getValue(VARIANT).getMetadata();
 	}
 
+	/**
+	 * Get the actual Block state of this Block at the given position. This applies
+	 * properties not visible in the metadata, such as fence connections.
+	 */
 	public IBlockState getActualState(IBlockState state, IBlockAccess worldIn, BlockPos pos) {
 		return state.withProperty(UP, Boolean.valueOf(!worldIn.isAirBlock(pos.up())))
 				.withProperty(NORTH, Boolean.valueOf(this.canConnectTo(worldIn, pos.north())))

@@ -1,13 +1,8 @@
 package net.minecraft.world.gen.feature;
 
+import com.google.common.collect.Lists;
 import java.util.List;
 import java.util.Random;
-
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
-import com.google.common.collect.Lists;
-
 import net.minecraft.block.material.Material;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
@@ -18,6 +13,8 @@ import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.WeightedRandomChestContent;
 import net.minecraft.world.World;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class WorldGenDungeons extends WorldGenerator {
 	private static final Logger field_175918_a = LogManager.getLogger();
@@ -150,6 +147,9 @@ public class WorldGenDungeons extends WorldGenerator {
 		}
 	}
 
+	/**
+	 * Randomly decides which spawner to use in a dungeon
+	 */
 	private String pickMobSpawner(Random p_76543_1_) {
 		return SPAWNERTYPES[p_76543_1_.nextInt(SPAWNERTYPES.length)];
 	}

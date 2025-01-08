@@ -1,9 +1,7 @@
 package net.minecraft.event;
 
-import java.util.Map;
-
 import com.google.common.collect.Maps;
-
+import java.util.Map;
 import net.minecraft.util.IChatComponent;
 
 public class HoverEvent {
@@ -15,10 +13,17 @@ public class HoverEvent {
 		this.value = valueIn;
 	}
 
+	/**
+	 * Gets the action to perform when this event is raised.
+	 */
 	public HoverEvent.Action getAction() {
 		return this.action;
 	}
 
+	/**
+	 * Gets the value to perform the action on when this event is raised. For
+	 * example, if the action is "show item", this would be the item to show.
+	 */
 	public IChatComponent getValue() {
 		return this.value;
 	}

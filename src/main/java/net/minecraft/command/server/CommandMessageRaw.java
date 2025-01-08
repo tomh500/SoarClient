@@ -1,11 +1,7 @@
 package net.minecraft.command.server;
 
-import java.util.List;
-
-import org.apache.commons.lang3.exception.ExceptionUtils;
-
 import com.google.gson.JsonParseException;
-
+import java.util.List;
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;
@@ -16,20 +12,33 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.ChatComponentProcessor;
 import net.minecraft.util.IChatComponent;
+import org.apache.commons.lang3.exception.ExceptionUtils;
 
 public class CommandMessageRaw extends CommandBase {
+	/**
+	 * Gets the name of the command
+	 */
 	public String getCommandName() {
 		return "tellraw";
 	}
 
+	/**
+	 * Return the required permission level for this command.
+	 */
 	public int getRequiredPermissionLevel() {
 		return 2;
 	}
 
+	/**
+	 * Gets the usage string for the command.
+	 */
 	public String getCommandUsage(ICommandSender sender) {
 		return "commands.tellraw.usage";
 	}
 
+	/**
+	 * Callback when the command is invoked
+	 */
 	public void processCommand(ICommandSender sender, String[] args) throws CommandException {
 		if (args.length < 2) {
 			throw new WrongUsageException("commands.tellraw.usage");
@@ -54,6 +63,9 @@ public class CommandMessageRaw extends CommandBase {
 				: null;
 	}
 
+	/**
+	 * Return whether the specified command parameter index is a username parameter.
+	 */
 	public boolean isUsernameIndex(String[] args, int index) {
 		return index == 0;
 	}

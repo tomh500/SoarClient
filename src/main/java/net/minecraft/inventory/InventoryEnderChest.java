@@ -49,6 +49,10 @@ public class InventoryEnderChest extends InventoryBasic {
 		return nbttaglist;
 	}
 
+	/**
+	 * Do not make give this method the name canInteractWith because it clashes with
+	 * Container
+	 */
 	public boolean isUseableByPlayer(EntityPlayer player) {
 		return (this.associatedChest == null || this.associatedChest.canBeUsed(player))
 				&& super.isUseableByPlayer(player);

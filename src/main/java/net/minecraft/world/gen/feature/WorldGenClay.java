@@ -1,7 +1,6 @@
 package net.minecraft.world.gen.feature;
 
 import java.util.Random;
-
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.init.Blocks;
@@ -10,6 +9,8 @@ import net.minecraft.world.World;
 
 public class WorldGenClay extends WorldGenerator {
 	private final Block field_150546_a = Blocks.clay;
+
+	/** The number of blocks to generate. */
 	private final int numberOfBlocks;
 
 	public WorldGenClay(int p_i2011_1_) {

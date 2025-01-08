@@ -1,7 +1,6 @@
 package net.minecraft.entity;
 
 import java.util.UUID;
-
 import net.minecraft.entity.ai.EntityAIBase;
 import net.minecraft.entity.ai.EntityAIMoveTowardsRestriction;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
@@ -15,6 +14,8 @@ public abstract class EntityCreature extends EntityLiving {
 	public static final AttributeModifier FLEEING_SPEED_MODIFIER = (new AttributeModifier(FLEEING_SPEED_MODIFIER_UUID,
 			"Fleeing speed bonus", 2.0D, 2)).setSaved(false);
 	private BlockPos homePosition = BlockPos.ORIGIN;
+
+	/** If -1 there is no maximum distance */
 	private float maximumHomeDistance = -1.0F;
 	private final EntityAIBase aiBase = new EntityAIMoveTowardsRestriction(this, 1.0D);
 	private boolean isMovementAITaskSet;
@@ -27,11 +28,18 @@ public abstract class EntityCreature extends EntityLiving {
 		return 0.0F;
 	}
 
+	/**
+	 * Checks if the entity's current position is a valid location to spawn this
+	 * entity.
+	 */
 	public boolean getCanSpawnHere() {
 		return super.getCanSpawnHere() && this
 				.getBlockPathWeight(new BlockPos(this.posX, this.getEntityBoundingBox().minY, this.posZ)) >= 0.0F;
 	}
 
+	/**
+	 * if the entity got a PathEntity it returns true, else false
+	 */
 	public boolean hasPath() {
 		return !this.navigator.noPath();
 	}
@@ -45,6 +53,9 @@ public abstract class EntityCreature extends EntityLiving {
 				|| this.homePosition.distanceSq(pos) < (double) (this.maximumHomeDistance * this.maximumHomeDistance);
 	}
 
+	/**
+	 * Sets home position and max distance for it
+	 */
 	public void setHomePosAndDistance(BlockPos pos, int distance) {
 		this.homePosition = pos;
 		this.maximumHomeDistance = (float) distance;
@@ -62,10 +73,17 @@ public abstract class EntityCreature extends EntityLiving {
 		this.maximumHomeDistance = -1.0F;
 	}
 
+	/**
+	 * Returns whether a home area is defined for this entity.
+	 */
 	public boolean hasHome() {
 		return this.maximumHomeDistance != -1.0F;
 	}
 
+	/**
+	 * Applies logic related to leashes, for example dragging the entity or breaking
+	 * the leash.
+	 */
 	protected void updateLeashedState() {
 		super.updateLeashedState();
 

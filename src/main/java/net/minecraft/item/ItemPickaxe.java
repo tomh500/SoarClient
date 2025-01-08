@@ -1,9 +1,7 @@
 package net.minecraft.item;
 
-import java.util.Set;
-
 import com.google.common.collect.Sets;
-
+import java.util.Set;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.init.Blocks;
@@ -20,6 +18,9 @@ public class ItemPickaxe extends ItemTool {
 		super(2.0F, material, EFFECTIVE_ON);
 	}
 
+	/**
+	 * Check whether this Item can harvest the given Block
+	 */
 	public boolean canHarvestBlock(Block blockIn) {
 		return blockIn == Blocks.obsidian ? this.toolMaterial.getHarvestLevel() == 3
 				: (blockIn != Blocks.diamond_block && blockIn != Blocks.diamond_ore

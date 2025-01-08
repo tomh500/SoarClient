@@ -1,12 +1,10 @@
 package net.minecraft.client.renderer.tileentity;
 
-import java.util.Map;
-import java.util.UUID;
-
 import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.minecraft.MinecraftProfileTexture;
 import com.mojang.authlib.minecraft.MinecraftProfileTexture.Type;
-
+import java.util.Map;
+import java.util.UUID;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.model.ModelHumanoidHead;
@@ -29,7 +27,7 @@ public class TileEntitySkullRenderer extends TileEntitySpecialRenderer<TileEntit
 			"textures/entity/creeper/creeper.png");
 	public static TileEntitySkullRenderer instance;
 	private final ModelSkeletonHead skeletonHead = new ModelSkeletonHead(0, 0, 64, 32);
-	public ModelSkeletonHead humanoidHead = new ModelHumanoidHead();
+	private final ModelSkeletonHead humanoidHead = new ModelHumanoidHead();
 
 	public void renderTileEntityAt(TileEntitySkull te, double x, double y, double z, float partialTicks,
 			int destroyStage) {

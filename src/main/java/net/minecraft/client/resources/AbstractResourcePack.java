@@ -1,5 +1,9 @@
 package net.minecraft.client.resources;
 
+import com.google.common.base.Charsets;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParseException;
+import com.google.gson.JsonParser;
 import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
 import java.io.File;
@@ -7,24 +11,17 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
-
-import org.apache.commons.io.IOUtils;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
-import com.google.common.base.Charsets;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParseException;
-import com.google.gson.JsonParser;
-
 import net.minecraft.client.renderer.texture.TextureUtil;
 import net.minecraft.client.resources.data.IMetadataSection;
 import net.minecraft.client.resources.data.IMetadataSerializer;
 import net.minecraft.util.ResourceLocation;
+import org.apache.commons.io.IOUtils;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public abstract class AbstractResourcePack implements IResourcePack {
 	private static final Logger resourceLog = LogManager.getLogger();
-	public final File resourcePackFile;
+	protected final File resourcePackFile;
 
 	public AbstractResourcePack(File resourcePackFileIn) {
 		this.resourcePackFile = resourcePackFileIn;
@@ -51,7 +48,7 @@ public abstract class AbstractResourcePack implements IResourcePack {
 	protected abstract boolean hasResourceName(String name);
 
 	protected void logNameNotLowercase(String name) {
-		resourceLog.warn("ResourcePack: ignored non-lowercase namespace: {} in {}", name, this.resourcePackFile);
+		resourceLog.warn("ResourcePack: ignored non-lowercase namespace: %s in %s", name, this.resourcePackFile);
 	}
 
 	public <T extends IMetadataSection> T getPackMetadata(IMetadataSerializer metadataSerializer,

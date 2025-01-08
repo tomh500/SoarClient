@@ -1,15 +1,13 @@
 package net.minecraft.client.resources.data;
 
-import java.lang.reflect.Type;
-import java.util.List;
-
 import com.google.common.collect.Lists;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
-
+import java.lang.reflect.Type;
+import java.util.List;
 import net.minecraft.util.JsonUtils;
 
 public class TextureMetadataSectionSerializer extends BaseMetadataSectionSerializer<TextureMetadataSection> {
@@ -50,6 +48,9 @@ public class TextureMetadataSectionSerializer extends BaseMetadataSectionSeriali
 		return new TextureMetadataSection(flag, flag1, list);
 	}
 
+	/**
+	 * The name of this section type as it appears in JSON.
+	 */
 	public String getSectionName() {
 		return "texture";
 	}

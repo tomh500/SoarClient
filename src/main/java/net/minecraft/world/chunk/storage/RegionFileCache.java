@@ -1,12 +1,11 @@
 package net.minecraft.world.chunk.storage;
 
+import com.google.common.collect.Maps;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.util.Map;
-
-import com.google.common.collect.Maps;
 
 public class RegionFileCache {
 	private static final Map<File, RegionFile> regionsByFilename = Maps.newHashMap();
@@ -33,6 +32,9 @@ public class RegionFileCache {
 		}
 	}
 
+	/**
+	 * clears region file references
+	 */
 	public static synchronized void clearRegionFileReferences() {
 		for (RegionFile regionfile : regionsByFilename.values()) {
 			try {
@@ -47,11 +49,19 @@ public class RegionFileCache {
 		regionsByFilename.clear();
 	}
 
+	/**
+	 * Returns an input stream for the specified chunk. Args: worldDir, chunkX,
+	 * chunkZ
+	 */
 	public static DataInputStream getChunkInputStream(File worldDir, int chunkX, int chunkZ) {
 		RegionFile regionfile = createOrLoadRegionFile(worldDir, chunkX, chunkZ);
 		return regionfile.getChunkDataInputStream(chunkX & 31, chunkZ & 31);
 	}
 
+	/**
+	 * Returns an output stream for the specified chunk. Args: worldDir, chunkX,
+	 * chunkZ
+	 */
 	public static DataOutputStream getChunkOutputStream(File worldDir, int chunkX, int chunkZ) {
 		RegionFile regionfile = createOrLoadRegionFile(worldDir, chunkX, chunkZ);
 		return regionfile.getChunkDataOutputStream(chunkX & 31, chunkZ & 31);

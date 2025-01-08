@@ -7,8 +7,11 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 
 public class ContainerMerchant extends Container {
+	/** Instance of Merchant. */
 	private final IMerchant theMerchant;
 	private final InventoryMerchant merchantInventory;
+
+	/** Instance of World. */
 	private final World theWorld;
 
 	public ContainerMerchant(InventoryPlayer playerInventory, IMerchant merchant, World worldIn) {
@@ -39,10 +42,16 @@ public class ContainerMerchant extends Container {
 		super.onCraftGuiOpened(listener);
 	}
 
+	/**
+	 * Looks for changes made in the container, sends them to every listener.
+	 */
 	public void detectAndSendChanges() {
 		super.detectAndSendChanges();
 	}
 
+	/**
+	 * Callback for when the crafting matrix is changed.
+	 */
 	public void onCraftMatrixChanged(IInventory inventoryIn) {
 		this.merchantInventory.resetRecipeAndSlots();
 		super.onCraftMatrixChanged(inventoryIn);
@@ -59,6 +68,9 @@ public class ContainerMerchant extends Container {
 		return this.theMerchant.getCustomer() == playerIn;
 	}
 
+	/**
+	 * Take a stack from the specified inventory slot.
+	 */
 	public ItemStack transferStackInSlot(EntityPlayer playerIn, int index) {
 		ItemStack itemstack = null;
 		Slot slot = this.inventorySlots.get(index);
@@ -101,6 +113,9 @@ public class ContainerMerchant extends Container {
 		return itemstack;
 	}
 
+	/**
+	 * Called when the container is closed.
+	 */
 	public void onContainerClosed(EntityPlayer playerIn) {
 		super.onContainerClosed(playerIn);
 		this.theMerchant.setCustomer(null);

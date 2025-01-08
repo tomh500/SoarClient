@@ -3,6 +3,8 @@ package net.minecraft.client.renderer;
 public class Tessellator {
 	private final WorldRenderer worldRenderer;
 	private final WorldVertexBufferUploader vboUploader = new WorldVertexBufferUploader();
+
+	/** The static instance of the Tessellator. */
 	private static final Tessellator instance = new Tessellator(2097152);
 
 	public static Tessellator getInstance() {
@@ -13,6 +15,10 @@ public class Tessellator {
 		this.worldRenderer = new WorldRenderer(bufferSize);
 	}
 
+	/**
+	 * Draws the data set up in this tessellator and resets the state to prepare for
+	 * new drawing.
+	 */
 	public void draw() {
 		this.worldRenderer.finishDrawing();
 		this.vboUploader.draw(this.worldRenderer);

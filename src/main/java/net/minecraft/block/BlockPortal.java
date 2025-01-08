@@ -1,9 +1,7 @@
 package net.minecraft.block;
 
-import java.util.Random;
-
 import com.google.common.cache.LoadingCache;
-
+import java.util.Random;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.properties.PropertyEnum;
@@ -102,6 +100,9 @@ public class BlockPortal extends BlockBreakable {
 		}
 	}
 
+	/**
+	 * Called when a neighboring block changes.
+	 */
 	public void onNeighborBlockChange(World worldIn, BlockPos pos, IBlockState state, Block neighborBlock) {
 		EnumFacing.Axis enumfacing$axis = state.getValue(AXIS);
 
@@ -157,6 +158,9 @@ public class BlockPortal extends BlockBreakable {
 				|| (flag5 && side == EnumFacing.NORTH || flag5 && side == EnumFacing.SOUTH));
 	}
 
+	/**
+	 * Returns the quantity of items to drop on block destruction.
+	 */
 	public int quantityDropped(Random random) {
 		return 0;
 	}
@@ -165,6 +169,9 @@ public class BlockPortal extends BlockBreakable {
 		return EnumWorldBlockLayer.TRANSLUCENT;
 	}
 
+	/**
+	 * Called When an Entity Collided with the Block
+	 */
 	public void onEntityCollidedWithBlock(World worldIn, BlockPos pos, IBlockState state, Entity entityIn) {
 		if (entityIn.ridingEntity == null && entityIn.riddenByEntity == null) {
 			entityIn.setPortal(pos);
@@ -203,10 +210,16 @@ public class BlockPortal extends BlockBreakable {
 		return null;
 	}
 
+	/**
+	 * Convert the given metadata into a BlockState for this Block
+	 */
 	public IBlockState getStateFromMeta(int meta) {
 		return this.getDefaultState().withProperty(AXIS, (meta & 3) == 2 ? EnumFacing.Axis.Z : EnumFacing.Axis.X);
 	}
 
+	/**
+	 * Convert the BlockState into the correct metadata value
+	 */
 	public int getMetaFromState(IBlockState state) {
 		return getMetaForAxis(state.getValue(AXIS));
 	}

@@ -1,19 +1,18 @@
 package net.minecraft.entity.ai;
 
+import com.google.common.collect.Lists;
 import java.util.Iterator;
 import java.util.List;
-
+import net.minecraft.profiler.Profiler;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-
-import com.google.common.collect.Lists;
-
-import net.minecraft.profiler.Profiler;
 
 public class EntityAITasks {
 	private static final Logger logger = LogManager.getLogger();
 	private final List<EntityAITasks.EntityAITaskEntry> taskEntries = Lists.newArrayList();
 	private final List<EntityAITasks.EntityAITaskEntry> executingTaskEntries = Lists.newArrayList();
+
+	/** Instance of Profiler. */
 	private final Profiler theProfiler;
 	private int tickCount;
 	private final int tickRate = 3;
@@ -22,10 +21,16 @@ public class EntityAITasks {
 		this.theProfiler = profilerIn;
 	}
 
+	/**
+	 * Add a now AITask. Args : priority, task
+	 */
 	public void addTask(int priority, EntityAIBase task) {
 		this.taskEntries.add(new EntityAITasks.EntityAITaskEntry(priority, task));
 	}
 
+	/**
+	 * removes the indicated task from the entity's AI tasks.
+	 */
 	public void removeTask(EntityAIBase task) {
 		Iterator<EntityAITasks.EntityAITaskEntry> iterator = this.taskEntries.iterator();
 
@@ -103,11 +108,19 @@ public class EntityAITasks {
 		this.theProfiler.endSection();
 	}
 
+	/**
+	 * Determine if a specific AI Task should continue being executed.
+	 */
 	private boolean canContinue(EntityAITasks.EntityAITaskEntry taskEntry) {
 		boolean flag = taskEntry.action.continueExecuting();
 		return flag;
 	}
 
+	/**
+	 * Determine if a specific AI Task can be executed, which means that all running
+	 * higher (= lower int value) priority tasks are compatible with it or all lower
+	 * priority tasks can be interrupted.
+	 */
 	private boolean canUse(EntityAITasks.EntityAITaskEntry taskEntry) {
 		for (EntityAITasks.EntityAITaskEntry entityaitasks$entityaitaskentry : this.taskEntries) {
 			if (entityaitasks$entityaitaskentry != taskEntry) {
@@ -126,6 +139,9 @@ public class EntityAITasks {
 		return true;
 	}
 
+	/**
+	 * Returns whether two EntityAITaskEntries can be executed concurrently
+	 */
 	private boolean areTasksCompatible(EntityAITasks.EntityAITaskEntry taskEntry1,
 			EntityAITasks.EntityAITaskEntry taskEntry2) {
 		return (taskEntry1.action.getMutexBits() & taskEntry2.action.getMutexBits()) == 0;

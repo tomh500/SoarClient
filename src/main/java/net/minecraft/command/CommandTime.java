@@ -1,24 +1,35 @@
 package net.minecraft.command;
 
 import java.util.List;
-
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.BlockPos;
 import net.minecraft.world.WorldServer;
 
 public class CommandTime extends CommandBase {
+	/**
+	 * Gets the name of the command
+	 */
 	public String getCommandName() {
 		return "time";
 	}
 
+	/**
+	 * Return the required permission level for this command.
+	 */
 	public int getRequiredPermissionLevel() {
 		return 2;
 	}
 
+	/**
+	 * Gets the usage string for the command.
+	 */
 	public String getCommandUsage(ICommandSender sender) {
 		return "commands.time.usage";
 	}
 
+	/**
+	 * Callback when the command is invoked
+	 */
 	public void processCommand(ICommandSender sender, String[] args) throws CommandException {
 		if (args.length > 1) {
 			if (args[0].equals("set")) {
@@ -72,12 +83,18 @@ public class CommandTime extends CommandBase {
 								: null));
 	}
 
+	/**
+	 * Set the time in the server object.
+	 */
 	protected void setTime(ICommandSender sender, int time) {
 		for (int i = 0; i < MinecraftServer.getServer().worldServers.length; ++i) {
 			MinecraftServer.getServer().worldServers[i].setWorldTime(time);
 		}
 	}
 
+	/**
+	 * Adds (or removes) time in the server object.
+	 */
 	protected void addTime(ICommandSender sender, int time) {
 		for (int i = 0; i < MinecraftServer.getServer().worldServers.length; ++i) {
 			WorldServer worldserver = MinecraftServer.getServer().worldServers[i];
