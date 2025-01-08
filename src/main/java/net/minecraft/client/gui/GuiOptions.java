@@ -81,21 +81,25 @@ public class GuiOptions extends GuiScreen implements GuiYesNoCallback {
 
 		this.buttonList.add(new GuiButton(110, this.width / 2 - 155, this.height / 6 + 48 - 6, 150, 20,
 				I18n.format("options.skinCustomisation")));
-		this.buttonList.add(new GuiButton(8675309, this.width / 2 + 5, this.height / 6 + 48 - 6, 150, 20,
-				"Super Secret Settings...") {
-			public void playPressSound(SoundHandler soundHandlerIn) {
-				SoundEventAccessorComposite soundeventaccessorcomposite = soundHandlerIn.getRandomSoundFromCategories(
-						SoundCategory.ANIMALS, SoundCategory.BLOCKS, SoundCategory.MOBS, SoundCategory.PLAYERS,
-						SoundCategory.WEATHER);
 
-				if (soundeventaccessorcomposite != null) {
-					soundHandlerIn.playSound(
-							PositionedSoundRecord.create(soundeventaccessorcomposite.getSoundEventLocation(), 0.5F));
-				}
-			}
-		});
+		GuiButton secret = new GuiButton(8675309, this.width / 2 + 5, this.height / 6 + 48 - 6, 150, 20,
+				"Super Secret Settings...");
+
+		secret.enabled = false;
+
+		this.buttonList.add(secret);
+
+		GuiButton snooper = new GuiButton(104, this.width / 2 + 5, this.height / 6 + 144 - 6, 150, 20,
+				I18n.format("options.snooper.view", new Object[0]));
+		GuiButton stream = new GuiButton(107, this.width / 2 + 5, this.height / 6 + 72 - 6, 150, 20,
+				I18n.format("options.stream", new Object[0]));
+
+		stream.enabled = false;
+		snooper.enabled = false;
+
 		this.buttonList.add(new GuiButton(106, this.width / 2 - 155, this.height / 6 + 72 - 6, 150, 20,
 				I18n.format("options.sounds", new Object[0])));
+		this.buttonList.add(stream);
 		this.buttonList.add(new GuiButton(101, this.width / 2 - 155, this.height / 6 + 96 - 6, 150, 20,
 				I18n.format("options.video", new Object[0])));
 		this.buttonList.add(new GuiButton(100, this.width / 2 + 5, this.height / 6 + 96 - 6, 150, 20,
@@ -106,6 +110,7 @@ public class GuiOptions extends GuiScreen implements GuiYesNoCallback {
 				I18n.format("options.chat.title", new Object[0])));
 		this.buttonList.add(new GuiButton(105, this.width / 2 - 155, this.height / 6 + 144 - 6, 150, 20,
 				I18n.format("options.resourcepack", new Object[0])));
+		this.buttonList.add(snooper);
 		this.buttonList.add(new GuiButton(200, this.width / 2 - 100, this.height / 6 + 168,
 				I18n.format("gui.done", new Object[0])));
 	}
@@ -160,10 +165,6 @@ public class GuiOptions extends GuiScreen implements GuiYesNoCallback {
 			if (button.id == 110) {
 				this.mc.gameSettings.saveOptions();
 				this.mc.displayGuiScreen(new GuiCustomizeSkin(this));
-			}
-
-			if (button.id == 8675309) {
-				this.mc.entityRenderer.activateNextShader();
 			}
 
 			if (button.id == 101) {
