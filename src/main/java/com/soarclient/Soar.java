@@ -1,12 +1,13 @@
 package com.soarclient;
 
-import com.soarclient.event.EventBus;
-import com.soarclient.event.impl.RenderSkiaEventListener.RenderSkiaEvent;
+import com.soarclient.management.mod.ModManager;
 
 public class Soar {
 
 	private final static Soar instance = new Soar();
 	private final String name, version;
+	
+	private ModManager modManager;
 	
 	public Soar() {
 		name = "Soar Client";
@@ -14,7 +15,7 @@ public class Soar {
 	}
 	
 	public void start() {
-		
+		modManager = new ModManager();
 	}
 	
 	public void stop() {
@@ -31,5 +32,9 @@ public class Soar {
 
 	public String getVersion() {
 		return version;
+	}
+
+	public ModManager getModManager() {
+		return modManager;
 	}
 }
