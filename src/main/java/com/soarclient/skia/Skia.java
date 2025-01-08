@@ -42,7 +42,35 @@ public class Skia {
 
 		getCanvas().drawRRect(RRect.makeComplexXYWH(x, y, width, height, corners), getPaint(color));
 	}
+	
+	public static void drawShadow(float x, float y, float width, float height, float radius) {
 
+		int strength = 8;
+		Paint paint = getPaint(Color.BLACK);
+		int alpha = 1;
+
+		save();
+		clip(x, y, width, height, radius, ClipMode.DIFFERENCE);
+		for (float f = strength; f > 0; f--) {
+			paint.setAlphaf(alpha / 255f);
+			drawShadowOutline(x - (f / 2), y - (f / 2), width + f, height + f, radius + 2, f, paint);
+
+			alpha += 2;
+		}
+		restore();
+	}
+	
+	private static void drawShadowOutline(float x, float y, float width, float height, float radius, float strokeWidth,
+			Paint paint) {
+
+		Path path = new Path();
+		path.addRRect(RRect.makeXYWH(x, y, width, height, radius));
+
+		paint.setStrokeWidth(strokeWidth);
+
+		getCanvas().drawPath(path, paint);
+	}
+	
 	public static void drawImage(String path, float x, float y, float width, float height) {
 
 		path = "/assets/soar/" + path;

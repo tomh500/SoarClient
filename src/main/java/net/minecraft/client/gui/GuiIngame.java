@@ -11,6 +11,7 @@ import com.soarclient.event.EventBus;
 import com.soarclient.event.impl.RenderGameOverlayEventListener.RenderGameOverlayEvent;
 import com.soarclient.event.impl.RenderPumpkinOverlayEventListener.RenderPumpkinOverlayEvent;
 import com.soarclient.event.impl.RenderSkiaEventListener.RenderSkiaEvent;
+import com.soarclient.skia.Skia;
 import com.soarclient.skia.context.SkiaContext;
 
 import net.minecraft.block.material.Material;

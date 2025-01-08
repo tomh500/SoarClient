@@ -1,6 +1,8 @@
 package com.soarclient;
 
 import com.soarclient.management.mod.ModManager;
+import com.soarclient.utils.language.I18n;
+import com.soarclient.utils.language.Language;
 
 public class Soar {
 
@@ -15,6 +17,9 @@ public class Soar {
 	}
 	
 	public void start() {
+		
+		I18n.setLanguage(Language.ENGLISH);
+		
 		modManager = new ModManager();
 	}
 	
