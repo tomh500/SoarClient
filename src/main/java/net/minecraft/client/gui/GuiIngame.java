@@ -1,19 +1,18 @@
 package net.minecraft.client.gui;
 
-import java.awt.Color;
 import java.util.Collection;
 import java.util.List;
 import java.util.Random;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.Future;
 
 import com.google.common.base.Predicate;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
+import com.soarclient.event.EventBus;
+import com.soarclient.event.impl.OverlayEventListener.RenderPumpkinOverlayEvent;
+import com.soarclient.event.impl.RenderEventListener.RenderGameOverlayEvent;
+import com.soarclient.event.impl.RenderEventListener.RenderSkiaEvent;
 import com.soarclient.skia.context.SkiaContext;
 
-import io.github.humbleui.skija.Paint;
-import io.github.humbleui.types.Rect;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
@@ -338,11 +337,10 @@ public class GuiIngame extends Gui {
 		GlStateManager.enableAlpha();
 		
 		SkiaContext.draw((context) -> {
-    		Paint paint = new Paint();
-    		Color color = Color.WHITE;
-    		paint.setARGB(color.getAlpha(), color.getRed(), color.getGreen(), color.getBlue());
-    		SkiaContext.getCanvas().drawRect(Rect.makeXYWH(90, 0, 100, 100), paint);
+			EventBus.getInstance().register(RenderSkiaEvent.ID, new RenderSkiaEvent());
 		});
+		
+		EventBus.getInstance().register(RenderGameOverlayEvent.ID, new RenderGameOverlayEvent());
 	}
 
 	protected void renderTooltip(ScaledResolution sr, float partialTicks) {
@@ -812,6 +810,15 @@ public class GuiIngame extends Gui {
 	}
 
 	private void renderPumpkinOverlay(ScaledResolution scaledRes) {
+		
+		RenderPumpkinOverlayEvent event = new RenderPumpkinOverlayEvent();
+		
+		EventBus.getInstance().call(RenderPumpkinOverlayEvent.ID, event);
+		
+		if(event.isCancelled()) {
+			return;
+		}
+		
 		GlStateManager.disableDepth();
 		GlStateManager.depthMask(false);
 		GlStateManager.tryBlendFuncSeparate(770, 771, 1, 0);

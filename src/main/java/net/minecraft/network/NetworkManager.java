@@ -1,13 +1,30 @@
 package net.minecraft.network;
 
+import java.net.InetAddress;
+import java.net.SocketAddress;
+import java.util.Queue;
+import java.util.concurrent.locks.ReentrantReadWriteLock;
+
+import javax.crypto.SecretKey;
+
+import org.apache.commons.lang3.ArrayUtils;
+import org.apache.commons.lang3.Validate;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.Marker;
+import org.apache.logging.log4j.MarkerManager;
+
 import com.google.common.collect.Queues;
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
+import com.soarclient.event.EventBus;
+import com.soarclient.event.impl.PacketEventListener.ReceivePacketEvent;
+import com.soarclient.event.impl.PacketEventListener.SendPacketEvent;
+
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelException;
 import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelFutureListener;
-import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.ChannelOption;
@@ -27,11 +44,6 @@ import io.netty.handler.timeout.TimeoutException;
 import io.netty.util.AttributeKey;
 import io.netty.util.concurrent.Future;
 import io.netty.util.concurrent.GenericFutureListener;
-import java.net.InetAddress;
-import java.net.SocketAddress;
-import java.util.Queue;
-import java.util.concurrent.locks.ReentrantReadWriteLock;
-import javax.crypto.SecretKey;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.ChatComponentTranslation;
 import net.minecraft.util.CryptManager;
@@ -42,12 +54,6 @@ import net.minecraft.util.MessageDeserializer;
 import net.minecraft.util.MessageDeserializer2;
 import net.minecraft.util.MessageSerializer;
 import net.minecraft.util.MessageSerializer2;
-import org.apache.commons.lang3.ArrayUtils;
-import org.apache.commons.lang3.Validate;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-import org.apache.logging.log4j.Marker;
-import org.apache.logging.log4j.MarkerManager;
 
 public class NetworkManager extends SimpleChannelInboundHandler<Packet> {
 	private static final Logger logger = LogManager.getLogger();
@@ -136,6 +142,14 @@ public class NetworkManager extends SimpleChannelInboundHandler<Packet> {
 	}
 
 	protected void channelRead0(ChannelHandlerContext p_channelRead0_1_, Packet p_channelRead0_2_) throws Exception {
+		
+		ReceivePacketEvent event = new ReceivePacketEvent(p_channelRead0_2_);
+		EventBus.getInstance().call(ReceivePacketEvent.ID, event);
+		
+		if(event.isCancelled()) {
+			return;
+		}
+		
 		if (this.channel.isOpen()) {
 			try {
 				p_channelRead0_2_.processPacket(this.packetListener);
@@ -155,6 +169,14 @@ public class NetworkManager extends SimpleChannelInboundHandler<Packet> {
 	}
 
 	public void sendPacket(Packet packetIn) {
+		
+		SendPacketEvent event = new SendPacketEvent(packetIn);
+		EventBus.getInstance().call(SendPacketEvent.ID, event);
+		
+		if(event.isCancelled()) {
+			return;
+		}
+		
 		if (this.isChannelOpen()) {
 			this.flushOutboundQueue();
 			this.dispatchPacket(packetIn, null);

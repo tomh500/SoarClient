@@ -1,13 +1,26 @@
 package net.minecraft.client.renderer;
 
-import com.google.common.base.Predicate;
-import com.google.common.base.Predicates;
-import com.google.gson.JsonSyntaxException;
 import java.io.IOException;
 import java.nio.FloatBuffer;
 import java.util.List;
 import java.util.Random;
 import java.util.concurrent.Callable;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.lwjgl.input.Mouse;
+import org.lwjgl.opengl.Display;
+import org.lwjgl.opengl.GL11;
+import org.lwjgl.opengl.GLContext;
+import org.lwjgl.util.glu.Project;
+
+import com.google.common.base.Predicate;
+import com.google.common.base.Predicates;
+import com.google.gson.JsonSyntaxException;
+import com.soarclient.event.EventBus;
+import com.soarclient.event.impl.CameraEventListener.HurtCameraEvent;
+import com.soarclient.event.impl.ShaderEventListener.ShaderEvent;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockBed;
 import net.minecraft.block.material.Material;
@@ -46,7 +59,6 @@ import net.minecraft.potion.Potion;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.EntitySelectors;
-import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.EnumWorldBlockLayer;
 import net.minecraft.util.MathHelper;
@@ -58,13 +70,6 @@ import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldSettings;
 import net.minecraft.world.biome.BiomeGenBase;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-import org.lwjgl.input.Mouse;
-import org.lwjgl.opengl.Display;
-import org.lwjgl.opengl.GL11;
-import org.lwjgl.opengl.GLContext;
-import org.lwjgl.util.glu.Project;
 
 public class EntityRenderer implements IResourceManagerReloadListener {
 	private static final Logger logger = LogManager.getLogger();
@@ -523,6 +528,15 @@ public class EntityRenderer implements IResourceManagerReloadListener {
 	}
 
 	private void hurtCameraEffect(float partialTicks) {
+		
+		HurtCameraEvent event = new HurtCameraEvent();
+		
+		EventBus.getInstance().call(HurtCameraEvent.ID, event);
+		
+		if(event.getIntensity() <= 0.0F) {
+			return;
+		}
+		
 		if (this.mc.getRenderViewEntity() instanceof EntityLivingBase entitylivingbase) {
 			float f = (float) entitylivingbase.hurtTime - partialTicks;
 
@@ -539,7 +553,7 @@ public class EntityRenderer implements IResourceManagerReloadListener {
 			f = MathHelper.sin(f * f * f * f * (float) Math.PI);
 			float f2 = entitylivingbase.attackedAtYaw;
 			GlStateManager.rotate(-f2, 0.0F, 1.0F, 0.0F);
-			GlStateManager.rotate(-f * 14.0F, 0.0F, 0.0F, 1.0F);
+			GlStateManager.rotate((-f * event.getIntensity()) * 14.0F, 0.0F, 0.0F, 1.0F);
 			GlStateManager.rotate(f2, 0.0F, 1.0F, 0.0F);
 		}
 	}
@@ -1040,6 +1054,18 @@ public class EntityRenderer implements IResourceManagerReloadListener {
 						GlStateManager.popMatrix();
 					}
 
+					ShaderEvent event = new ShaderEvent();
+					
+					EventBus.getInstance().call(ShaderEvent.ID, event);
+					
+					for (ShaderGroup group : event.getGroups()) {
+						GlStateManager.matrixMode(5890);
+						GlStateManager.pushMatrix();
+						GlStateManager.loadIdentity();
+						group.loadShaderGroup(mc.getTimer().renderPartialTicks);
+						GlStateManager.popMatrix();
+					}
+					
 					this.mc.getFramebuffer().bindFramebuffer(true);
 				}
 

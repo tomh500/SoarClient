@@ -1,5 +1,10 @@
 package net.minecraft.client.entity;
 
+import com.soarclient.event.EventBus;
+import com.soarclient.event.impl.PlayerEventListener.MotionUpdateEvent;
+import com.soarclient.event.impl.PlayerEventListener.SendChatEvent;
+import com.soarclient.event.impl.PlayerEventListener.UpdateEvent;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.MovingSoundMinecartRiding;
 import net.minecraft.client.audio.PositionedSoundRecord;
@@ -8,7 +13,6 @@ import net.minecraft.client.gui.GuiEnchantment;
 import net.minecraft.client.gui.GuiHopper;
 import net.minecraft.client.gui.GuiMerchant;
 import net.minecraft.client.gui.GuiRepair;
-import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.GuiScreenBook;
 import net.minecraft.client.gui.inventory.GuiBeacon;
 import net.minecraft.client.gui.inventory.GuiBrewingStand;
@@ -160,6 +164,9 @@ public class EntityPlayerSP extends AbstractClientPlayer {
 	 * Called to update the entity's position/logic.
 	 */
 	public void onUpdate() {
+		
+		EventBus.getInstance().call(UpdateEvent.ID, new UpdateEvent());
+		
 		if (this.worldObj.isBlockLoaded(new BlockPos(this.posX, 0.0D, this.posZ))) {
 			super.onUpdate();
 
@@ -179,8 +186,11 @@ public class EntityPlayerSP extends AbstractClientPlayer {
 	 * normally happen during movement.
 	 */
 	public void onUpdateWalkingPlayer() {
+		
 		boolean flag = this.isSprinting();
 
+		EventBus.getInstance().call(MotionUpdateEvent.ID, new MotionUpdateEvent());
+		
 		if (flag != this.serverSprintState) {
 			if (flag) {
 				this.sendQueue
@@ -274,6 +284,15 @@ public class EntityPlayerSP extends AbstractClientPlayer {
 	 * Sends a chat message from the player. Args: chatMessage
 	 */
 	public void sendChatMessage(String message) {
+		
+		SendChatEvent event = new SendChatEvent(message);
+		
+		EventBus.getInstance().call(SendChatEvent.ID, event);
+		
+		if(event.isCancelled()) {
+			return;
+		}
+		
 		this.sendQueue.addToSendQueue(new C01PacketChatMessage(message));
 	}
 

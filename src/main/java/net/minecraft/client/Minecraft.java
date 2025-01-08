@@ -50,6 +50,12 @@ import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.minecraft.MinecraftSessionService;
 import com.mojang.authlib.properties.PropertyMap;
 import com.mojang.authlib.yggdrasil.YggdrasilAuthenticationService;
+import com.soarclient.event.EventBus;
+import com.soarclient.event.impl.GameLoopEventListener.GameLoopEvent;
+import com.soarclient.event.impl.MouseEventListener.MouseClickEvent;
+import com.soarclient.event.impl.MouseEventListener.MouseScrollEvent;
+import com.soarclient.event.impl.TickEventListener.ClientTickEvent;
+import com.soarclient.event.impl.TickEventListener.RenderTickEvent;
 import com.soarclient.skia.context.SkiaContext;
 
 import net.minecraft.block.Block;
@@ -222,7 +228,7 @@ public class Minecraft implements IThreadListener {
 	private Entity renderViewEntity;
 	public Entity pointedEntity;
 	public EffectRenderer effectRenderer;
-	private final Session session;
+	private Session session;
 	private boolean isGamePaused;
 
 	/** The font renderer used for displaying and measuring text */
@@ -968,6 +974,9 @@ public class Minecraft implements IThreadListener {
 	 * Called repeatedly from run()
 	 */
 	private void runGameLoop() throws IOException {
+		
+		EventBus.getInstance().call(GameLoopEvent.ID, new GameLoopEvent());
+		
 		long i = System.nanoTime();
 		this.mcProfiler.startSection("root");
 
@@ -1039,6 +1048,7 @@ public class Minecraft implements IThreadListener {
 		}
 
 		this.guiAchievement.updateAchievementWindow();
+		EventBus.getInstance().call(RenderTickEvent.ID, new RenderTickEvent());
 		this.framebufferMc.unbindFramebuffer();
 		GlStateManager.popMatrix();
 		GlStateManager.pushMatrix();
@@ -1604,7 +1614,7 @@ public class Minecraft implements IThreadListener {
 		if (this.currentScreen == null || this.currentScreen.allowUserInput) {
 			this.mcProfiler.endStartSection("mouse");
 
-			while (Mouse.next()) {
+			while (nextMouse()) {
 				int i = Mouse.getEventButton();
 				KeyBinding.setKeyBindState(i - 100, Mouse.getEventButtonState());
 
@@ -1619,7 +1629,8 @@ public class Minecraft implements IThreadListener {
 				long i1 = getSystemTime() - this.systemTime;
 
 				if (i1 <= 200L) {
-					int j = Mouse.getEventDWheel();
+					
+					int j = onScroll();
 
 					if (j != 0) {
 						if (this.thePlayer.isSpectator()) {
@@ -1933,6 +1944,7 @@ public class Minecraft implements IThreadListener {
 
 		this.mcProfiler.endSection();
 		this.systemTime = getSystemTime();
+		EventBus.getInstance().call(ClientTickEvent.ID, new ClientTickEvent());
 	}
 
 	/**
@@ -2530,6 +2542,42 @@ public class Minecraft implements IThreadListener {
 		}
 	}
 
+	private boolean nextMouse() {
+
+		boolean next = Mouse.next();
+
+		if (next) {
+
+			int button = Mouse.getEventButton();
+
+			MouseClickEvent event = new MouseClickEvent(button);
+
+			EventBus.getInstance().call(MouseClickEvent.ID, event);
+
+			if (event.isCancelled()) {
+				next = nextMouse();
+			}
+		}
+
+		return next;
+	}
+
+	private int onScroll() {
+
+		int dWheel = Mouse.getEventDWheel();
+
+		MouseScrollEvent event = new MouseScrollEvent(dWheel);
+		EventBus.getInstance().call(MouseScrollEvent.ID, event);
+
+		if (dWheel != 0) {
+			if (event.isCancelled()) {
+				dWheel = 0;
+			}
+		}
+
+		return dWheel;
+	}
+	
 	public MinecraftSessionService getSessionService() {
 		return this.sessionService;
 	}
@@ -2625,5 +2673,13 @@ public class Minecraft implements IThreadListener {
 	 */
 	public void setConnectedToRealms(boolean isConnected) {
 		this.connectedToRealms = isConnected;
+	}
+
+	public Timer getTimer() {
+		return timer;
+	}
+
+	public void setSession(Session session) {
+		this.session = session;
 	}
 }

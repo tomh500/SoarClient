@@ -1,7 +1,9 @@
 package net.minecraft.client.entity;
 
 import com.mojang.authlib.GameProfile;
-import java.io.File;
+import com.soarclient.event.EventBus;
+import com.soarclient.event.impl.FovEventListener.FovUpdateEvent;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.network.NetworkPlayerInfo;
 import net.minecraft.client.renderer.ImageBufferDownload;
@@ -127,7 +129,10 @@ public abstract class AbstractClientPlayer extends EntityPlayer {
 
 			f *= 1.0F - f1 * 0.15F;
 		}
+		
+		FovUpdateEvent event = new FovUpdateEvent(this, f);
+		EventBus.getInstance().call(FovUpdateEvent.ID, event);
 
-		return f;
+		return event.getFov();
 	}
 }

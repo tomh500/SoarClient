@@ -1,6 +1,9 @@
 package net.minecraft.client.multiplayer;
 
 import com.google.common.collect.Sets;
+import com.soarclient.event.EventBus;
+import com.soarclient.event.impl.ServerEventListener.LeaveServerEvent;
+
 import java.util.Random;
 import java.util.Set;
 import java.util.concurrent.Callable;
@@ -252,6 +255,7 @@ public class WorldClient extends World {
 	 * If on MP, sends a quitting packet.
 	 */
 	public void sendQuittingDisconnectingPacket() {
+		EventBus.getInstance().call(LeaveServerEvent.ID, new LeaveServerEvent());
 		this.sendQueue.getNetworkManager().closeChannel(new ChatComponentText("Quitting"));
 	}
 

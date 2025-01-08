@@ -1,5 +1,11 @@
 package net.minecraft.client.renderer;
 
+import org.lwjgl.opengl.GL11;
+
+import com.soarclient.event.EventBus;
+import com.soarclient.event.impl.OverlayEventListener.RenderFireOverlayEvent;
+import com.soarclient.event.impl.OverlayEventListener.RenderWaterOverlayEvent;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
@@ -25,7 +31,6 @@ import net.minecraft.util.EnumWorldBlockLayer;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.storage.MapData;
-import org.lwjgl.opengl.GL11;
 
 public class ItemRenderer {
 	private static final ResourceLocation RES_MAP_BACKGROUND = new ResourceLocation("textures/map/map_background.png");
@@ -470,6 +475,15 @@ public class ItemRenderer {
 	 * @param partialTicks Partial ticks
 	 */
 	private void renderWaterOverlayTexture(float partialTicks) {
+		
+		RenderWaterOverlayEvent event = new RenderWaterOverlayEvent();
+		
+		EventBus.getInstance().call(RenderWaterOverlayEvent.ID, event);
+		
+		if(event.isCancelled()) {
+			return;
+		}
+		
 		this.mc.getTextureManager().bindTexture(RES_UNDERWATER_OVERLAY);
 		Tessellator tessellator = Tessellator.getInstance();
 		WorldRenderer worldrenderer = tessellator.getWorldRenderer();
@@ -503,6 +517,15 @@ public class ItemRenderer {
 	 * @param partialTicks Partial ticks
 	 */
 	private void renderFireInFirstPerson(float partialTicks) {
+		
+		RenderFireOverlayEvent event = new RenderFireOverlayEvent();
+		
+		EventBus.getInstance().call(RenderFireOverlayEvent.ID, event);
+		
+		if(event.isCancelled()) {
+			return;
+		}
+		
 		Tessellator tessellator = Tessellator.getInstance();
 		WorldRenderer worldrenderer = tessellator.getWorldRenderer();
 		GlStateManager.color(1.0F, 1.0F, 1.0F, 0.9F);

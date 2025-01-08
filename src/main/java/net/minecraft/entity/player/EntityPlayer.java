@@ -1,11 +1,16 @@
 package net.minecraft.entity.player;
 
-import com.google.common.base.Charsets;
-import com.google.common.collect.Lists;
-import com.mojang.authlib.GameProfile;
 import java.util.Collection;
 import java.util.List;
 import java.util.UUID;
+
+import com.google.common.base.Charsets;
+import com.google.common.collect.Lists;
+import com.mojang.authlib.GameProfile;
+import com.soarclient.event.EventBus;
+import com.soarclient.event.impl.PlayerEventListener.AttackEntityEvent;
+import com.soarclient.event.impl.PlayerEventListener.JumpEvent;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockBed;
 import net.minecraft.block.BlockDirectional;
@@ -1134,6 +1139,9 @@ public abstract class EntityPlayer extends EntityLivingBase {
 	 */
 	public void attackTargetEntityWithCurrentItem(Entity targetEntity) {
 		if (targetEntity.canAttackWithItem()) {
+			
+			EventBus.getInstance().call(AttackEntityEvent.ID, new AttackEntityEvent(targetEntity));
+			
 			if (!targetEntity.hitByEntity(this)) {
 				float f = (float) this.getEntityAttribute(SharedMonsterAttributes.attackDamage).getAttributeValue();
 				int i = 0;
@@ -1538,6 +1546,7 @@ public abstract class EntityPlayer extends EntityLivingBase {
 	 * Causes this entity to do an upwards motion (jumping).
 	 */
 	public void jump() {
+		EventBus.getInstance().call(JumpEvent.ID, new JumpEvent());
 		super.jump();
 		this.triggerAchievement(StatList.jumpStat);
 

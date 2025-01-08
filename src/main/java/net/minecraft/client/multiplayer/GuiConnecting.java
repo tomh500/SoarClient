@@ -19,6 +19,9 @@ import net.minecraft.util.ChatComponentTranslation;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import com.soarclient.event.EventBus;
+import com.soarclient.event.impl.ServerEventListener.JoinServerEvent;
+
 public class GuiConnecting extends GuiScreen {
 	private static final AtomicInteger CONNECTION_ID = new AtomicInteger(0);
 	private static final Logger logger = LogManager.getLogger();
@@ -43,6 +46,9 @@ public class GuiConnecting extends GuiScreen {
 	}
 
 	private void connect(final String ip, final int port) {
+		
+		EventBus.getInstance().call(JoinServerEvent.ID, new JoinServerEvent());
+		
 		logger.info("Connecting to " + ip + ", " + port);
 		(new Thread("Server Connector #" + CONNECTION_ID.incrementAndGet()) {
 			public void run() {
