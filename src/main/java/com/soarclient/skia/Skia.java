@@ -3,6 +3,7 @@ package com.soarclient.skia;
 import java.awt.Color;
 import java.io.File;
 
+import com.soarclient.logger.SoarLogger;
 import com.soarclient.skia.context.SkiaContext;
 import com.soarclient.skia.image.ImageHelper;
 
@@ -108,7 +109,7 @@ public class Skia {
 			if (!imageHelper.getLoadingFutures().containsKey(filePath)) {
 				imageHelper.loadAsync(filePath).thenAccept(success -> {
 					if (!success) {
-						System.out.println("Failed to load image " + filePath);
+						SoarLogger.error("Failed to load image " + filePath);
 					}
 				});
 			}
@@ -128,7 +129,7 @@ public class Skia {
 			if (!imageHelper.getLoadingFutures().containsKey(filePath)) {
 				imageHelper.loadAsync(file).thenAccept(success -> {
 					if (!success) {
-						System.out.println("Failed to load image " + filePath);
+						SoarLogger.error("Failed to load image " + filePath);
 					}
 				});
 			}
