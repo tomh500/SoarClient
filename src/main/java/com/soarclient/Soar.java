@@ -4,8 +4,10 @@ import com.soarclient.animation.Delta;
 import com.soarclient.event.EventBus;
 import com.soarclient.event.impl.GameLoopEventListener.GameLoopEvent;
 import com.soarclient.management.color.ColorManager;
+import com.soarclient.management.config.ConfigManager;
 import com.soarclient.management.mod.ModManager;
 import com.soarclient.management.music.MusicManager;
+import com.soarclient.utils.file.FileLocation;
 import com.soarclient.utils.language.I18n;
 import com.soarclient.utils.language.Language;
 
@@ -17,6 +19,7 @@ public class Soar {
 	private ModManager modManager;
 	private ColorManager colorManager;
 	private MusicManager musicManager;
+	private ConfigManager configManager;
 
 	public Soar() {
 		name = "Soar Client";
@@ -26,11 +29,13 @@ public class Soar {
 	public void start() {
 
 		I18n.setLanguage(Language.ENGLISH);
+		FileLocation.init();
 
 		modManager = new ModManager();
 		modManager.init();
 		colorManager = new ColorManager();
 		musicManager = new MusicManager();
+		configManager = new ConfigManager();
 
 		EventBus.getInstance().register(new Delta(), GameLoopEvent.ID);
 	}
@@ -61,5 +66,9 @@ public class Soar {
 
 	public MusicManager getMusicManager() {
 		return musicManager;
+	}
+
+	public ConfigManager getConfigManager() {
+		return configManager;
 	}
 }
