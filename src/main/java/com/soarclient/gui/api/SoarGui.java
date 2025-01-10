@@ -62,6 +62,7 @@ public abstract class SoarGui extends SimpleSoarGui {
 		}
 
 		if (background) {
+			Skia.clip(getX(), getY(), getWidth(), getHeight(), 35);
 			Skia.drawRoundedRect(getX(), getY(), getWidth(), getHeight(), 35, palette.getBackground());
 		}
 
