@@ -1,29 +1,30 @@
 package com.soarclient.management.mod.impl.hud;
 
 import com.soarclient.event.EventBus;
-import com.soarclient.event.impl.RenderGameOverlayEventListener;
+import com.soarclient.event.impl.RenderSkiaEventListener;
 import com.soarclient.management.mod.api.hud.SimpleHUDMod;
 import com.soarclient.skia.font.Icon;
 
-public class CoordsMod extends SimpleHUDMod implements RenderGameOverlayEventListener {
+public class CoordsMod extends SimpleHUDMod implements RenderSkiaEventListener {
 
 	public CoordsMod() {
 		super("mod.coords.name", "mod.coords.description", Icon.PIN_DROP);
+		this.setEnabled(true);
 	}
 
 	@Override
-	public void onRenderGameOverlay() {
+	public void onRenderSkia() {
 		super.draw();
 	}
 	
 	@Override
 	public void onEnable() {
-		EventBus.getInstance().register(this, RenderGameOverlayEvent.ID);
+		EventBus.getInstance().register(this, RenderSkiaEvent.ID);
 	}
 
 	@Override
 	public void onDisable() {
-		EventBus.getInstance().unregister(this, RenderGameOverlayEvent.ID);
+		EventBus.getInstance().unregister(this, RenderSkiaEvent.ID);
 	}
 	
 	@Override

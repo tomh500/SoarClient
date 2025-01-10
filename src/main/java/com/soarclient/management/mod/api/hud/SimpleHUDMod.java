@@ -28,7 +28,8 @@ public abstract class SimpleHUDMod extends HUDMod {
 		FontMetrics metrics = Fonts.getRegular(fontSize).getMetrics();
 		float width = textBounds.getWidth() + (padding * 2) + (hasIcon ? iconBounds.getWidth() + 4 : 0);
 		float height = fontSize + (padding * 2) - 1.5F;
-
+	    float textCenterY = (metrics.getAscent() - metrics.getDescent()) / 2 - metrics.getAscent();
+	    
 		this.begin();
 		this.drawBackground(getX(), getY(), width, height);
 
@@ -38,7 +39,7 @@ public abstract class SimpleHUDMod extends HUDMod {
 		}
 
 		this.drawText(getText(), getX() + padding + (hasIcon ? iconBounds.getWidth() + 4 : 0),
-				getY() + (height / 2) + (metrics.getAscent() - metrics.getDescent()) / 2 - metrics.getAscent(),
+				getY() + (height / 2) - textCenterY,
 				Fonts.getRegular(fontSize));
 		this.finish();
 
