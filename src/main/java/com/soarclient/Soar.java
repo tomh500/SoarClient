@@ -3,6 +3,7 @@ package com.soarclient;
 import com.soarclient.animation.Delta;
 import com.soarclient.event.EventBus;
 import com.soarclient.event.impl.GameLoopEventListener.GameLoopEvent;
+import com.soarclient.management.account.AccountManager;
 import com.soarclient.management.color.ColorManager;
 import com.soarclient.management.config.ConfigManager;
 import com.soarclient.management.mod.ModManager;
@@ -19,6 +20,7 @@ public class Soar {
 	private ModManager modManager;
 	private ColorManager colorManager;
 	private MusicManager musicManager;
+	private AccountManager accountManager;
 	private ConfigManager configManager;
 
 	public Soar() {
@@ -35,6 +37,7 @@ public class Soar {
 		modManager.init();
 		colorManager = new ColorManager();
 		musicManager = new MusicManager();
+		accountManager = new AccountManager();
 		configManager = new ConfigManager();
 
 		EventBus.getInstance().register(new Delta(), GameLoopEvent.ID);
@@ -66,6 +69,10 @@ public class Soar {
 
 	public MusicManager getMusicManager() {
 		return musicManager;
+	}
+
+	public AccountManager getAccountManager() {
+		return accountManager;
 	}
 
 	public ConfigManager getConfigManager() {
