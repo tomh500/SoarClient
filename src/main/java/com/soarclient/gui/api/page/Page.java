@@ -3,6 +3,7 @@ package com.soarclient.gui.api.page;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.soarclient.gui.api.GuiTransition;
 import com.soarclient.ui.component.Component;
 
 import net.minecraft.client.Minecraft;
@@ -16,9 +17,9 @@ public class Page {
 	protected float x, y, width, height;
 	private String title, icon;
 	private PageGui parent;
-	private PageTransition transition;
+	private GuiTransition transition;
 
-	public Page(PageGui parent, String title, String icon, PageTransition transition) {
+	public Page(PageGui parent, String title, String icon, GuiTransition transition) {
 		this.parent = parent;
 		this.title = title;
 		this.icon = icon;
@@ -111,7 +112,7 @@ public class Page {
 		parent.setCurrentPage(clazz);
 	}
 
-	public PageTransition getTransition() {
+	public GuiTransition getTransition() {
 		return transition;
 	}
 }

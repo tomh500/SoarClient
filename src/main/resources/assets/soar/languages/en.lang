@@ -3,3 +3,9 @@
 #
 setting.icon=Icon
 setting.icon.descroption=Set the icon to display
+setting.darkmode=Dark Mode
+setting.darkmode.description=Enable dark mode
+setting.color=Color
+setting.color.description=Select a color
+setting.keybind=Keybind
+setting.keybind.description=Set keybind

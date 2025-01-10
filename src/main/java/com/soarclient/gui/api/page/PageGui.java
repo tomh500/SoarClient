@@ -3,20 +3,23 @@ package com.soarclient.gui.api.page;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.soarclient.animation.Animation;
+import com.soarclient.gui.api.GuiTransition;
 import com.soarclient.gui.api.SoarGui;
 import com.soarclient.ui.component.Component;
 
 public abstract class PageGui extends SoarGui {
 
-	protected List<Component> components = new ArrayList<>();
-
+	protected final List<Component> components = new ArrayList<>();
 	protected List<Page> pages;
+
+	private Animation pageAnimation;
 
 	protected Page currentPage;
 	protected Page lastPage;
-	
-	public PageGui() {
-		super(false);
+
+	public PageGui(GuiTransition transition, boolean background, boolean blur) {
+		super(transition, background, blur);
 		this.pages = createPages();
 
 		if (!pages.isEmpty()) {
@@ -33,8 +36,17 @@ public abstract class PageGui extends SoarGui {
 			p.setWidth(getWidth());
 			p.setHeight(getHeight());
 		}
+		
+		super.init();
 	}
 	
+	@Override
+	public void drawSkia(int mouseX, int mouseY) {
+		for (Component c : components) {
+			c.draw(mouseX, mouseY);
+		}
+	}
+
 	@Override
 	public void mousePressed(int mouseX, int mouseY, int mouseButton) {
 
@@ -45,6 +57,8 @@ public abstract class PageGui extends SoarGui {
 		for (Component c : components) {
 			c.mousePressed(mouseX, mouseY, mouseButton);
 		}
+		
+		super.mousePressed(mouseX, mouseY, mouseButton);
 	}
 
 	@Override
@@ -57,6 +71,8 @@ public abstract class PageGui extends SoarGui {
 		for (Component c : components) {
 			c.mouseReleased(mouseX, mouseY, mouseButton);
 		}
+		
+		super.mouseReleased(mouseX, mouseY, mouseButton);
 	}
 
 	@Override
@@ -69,11 +85,15 @@ public abstract class PageGui extends SoarGui {
 		for (Component c : components) {
 			c.keyTyped(typedChar, keyCode);
 		}
+		
+		super.keyTyped(typedChar, keyCode);
 	}
 
 	@Override
 	public void onClosed() {
-
+		for (Page p : pages) {
+			p.onClosed();
+		}
 	}
 
 	public Page getCurrentPage() {
@@ -111,14 +131,6 @@ public abstract class PageGui extends SoarGui {
 	}
 
 	public abstract List<Page> createPages();
-
-	public abstract float getX();
-
-	public abstract float getY();
-
-	public abstract float getWidth();
-
-	public abstract float getHeight();
 
 	public List<Page> getPages() {
 		return pages;
