@@ -9,7 +9,6 @@ public class CoordsMod extends SimpleHUDMod implements RenderSkiaEventListener {
 
 	public CoordsMod() {
 		super("mod.coords.name", "mod.coords.description", Icon.PIN_DROP);
-		this.setEnabled(true);
 	}
 
 	@Override
