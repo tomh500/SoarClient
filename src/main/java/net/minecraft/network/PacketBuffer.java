@@ -5,6 +5,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
+import java.nio.channels.FileChannel;
 import java.nio.channels.GatheringByteChannel;
 import java.nio.channels.ScatteringByteChannel;
 import java.nio.charset.Charset;
@@ -15,9 +16,9 @@ import io.netty.buffer.ByteBuf;
 import io.netty.buffer.ByteBufAllocator;
 import io.netty.buffer.ByteBufInputStream;
 import io.netty.buffer.ByteBufOutputStream;
-import io.netty.buffer.ByteBufProcessor;
 import io.netty.handler.codec.DecoderException;
 import io.netty.handler.codec.EncoderException;
+import io.netty.util.ByteProcessor;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompressedStreamTools;
@@ -233,25 +234,26 @@ public class PacketBuffer extends ByteBuf {
 	 * length. Will throw IOException if string length exceeds this value!
 	 */
 	public String readStringFromBuffer(int maxLength) {
-		int i = this.readVarIntFromBuffer();
+	    int i = this.readVarIntFromBuffer();
 
-		if (i > maxLength * 4) {
-			throw new DecoderException("The received encoded string buffer length is longer than maximum allowed (" + i
-					+ " > " + maxLength * 4 + ")");
-		} else if (i < 0) {
-			throw new DecoderException("The received encoded string buffer length is less than zero! Weird string!");
-		} else {
-			String s = new String(this.readBytes(i).array(), StandardCharsets.UTF_8);
+	    if (i > maxLength * 4) {
+	        throw new DecoderException("The received encoded string buffer length is longer than maximum allowed (" + i
+	                + " > " + maxLength * 4 + ")");
+	    } else if (i < 0) {
+	        throw new DecoderException("The received encoded string buffer length is less than zero! Weird string!");
+	    } else {
+	        byte[] bytes = new byte[i];
+	        this.readBytes(bytes);
+	        String s = new String(bytes, StandardCharsets.UTF_8);
 
-			if (s.length() > maxLength) {
-				throw new DecoderException(
-						"The received string length is longer than maximum allowed (" + i + " > " + maxLength + ")");
-			} else {
-				return s;
-			}
-		}
+	        if (s.length() > maxLength) {
+	            throw new DecoderException(
+	                    "The received string length is longer than maximum allowed (" + s.length() + " > " + maxLength + ")");
+	        } else {
+	            return s;
+	        }
+	    }
 	}
-
 	public PacketBuffer writeString(String string) {
 		byte[] abyte = string.getBytes(StandardCharsets.UTF_8);
 
@@ -720,23 +722,6 @@ public class PacketBuffer extends ByteBuf {
 		return this.buf.bytesBefore(p_bytesBefore_1_, p_bytesBefore_2_, p_bytesBefore_3_);
 	}
 
-	public int forEachByte(ByteBufProcessor p_forEachByte_1_) {
-		return this.buf.forEachByte(p_forEachByte_1_);
-	}
-
-	public int forEachByte(int p_forEachByte_1_, int p_forEachByte_2_, ByteBufProcessor p_forEachByte_3_) {
-		return this.buf.forEachByte(p_forEachByte_1_, p_forEachByte_2_, p_forEachByte_3_);
-	}
-
-	public int forEachByteDesc(ByteBufProcessor p_forEachByteDesc_1_) {
-		return this.buf.forEachByteDesc(p_forEachByteDesc_1_);
-	}
-
-	public int forEachByteDesc(int p_forEachByteDesc_1_, int p_forEachByteDesc_2_,
-			ByteBufProcessor p_forEachByteDesc_3_) {
-		return this.buf.forEachByteDesc(p_forEachByteDesc_1_, p_forEachByteDesc_2_, p_forEachByteDesc_3_);
-	}
-
 	public ByteBuf copy() {
 		return this.buf.copy();
 	}
@@ -843,5 +828,265 @@ public class PacketBuffer extends ByteBuf {
 
 	public boolean release(int p_release_1_) {
 		return this.buf.release(p_release_1_);
+	}
+	
+	@Override
+	public boolean isReadOnly() {
+		return buf.isReadOnly();
+	}
+
+	@Override
+	public ByteBuf asReadOnly() {
+		return buf.asReadOnly();
+	}
+
+	@Override
+	public int maxFastWritableBytes() {
+		return buf.maxFastWritableBytes();
+	}
+
+	@Override
+	public short getShortLE(int index) {
+		return buf.getShortLE(index);
+	}
+
+	@Override
+	public int getUnsignedShortLE(int index) {
+		return buf.getUnsignedShortLE(index);
+	}
+
+	@Override
+	public int getMediumLE(int index) {
+		return buf.getMediumLE(index);
+	}
+
+	@Override
+	public int getUnsignedMediumLE(int index) {
+		return buf.getUnsignedMediumLE(index);
+	}
+
+	@Override
+	public int getIntLE(int index) {
+		return buf.getIntLE(index);
+	}
+
+	@Override
+	public long getUnsignedIntLE(int index) {
+		return buf.getUnsignedIntLE(index);
+	}
+
+	@Override
+	public long getLongLE(int index) {
+		return buf.getLongLE(index);
+	}
+
+	@Override
+	public float getFloatLE(int index) {
+		return buf.getFloatLE(index);
+	}
+
+	@Override
+	public double getDoubleLE(int index) {
+		return buf.getDoubleLE(index);
+	}
+
+	@Override
+	public int getBytes(int index, FileChannel out, long position, int length) throws IOException {
+		return buf.getBytes(index, out, position, length);
+	}
+
+	@Override
+	public CharSequence getCharSequence(int index, int length, Charset charset) {
+		return buf.getCharSequence(index, length, charset);
+	}
+
+	@Override
+	public ByteBuf setShortLE(int index, int value) {
+		return buf.setShortLE(index, value);
+	}
+
+	@Override
+	public ByteBuf setMediumLE(int index, int value) {
+		return buf.setMediumLE(index, value);
+	}
+
+	@Override
+	public ByteBuf setIntLE(int index, int value) {
+		return buf.setIntLE(index, value);
+	}
+
+	@Override
+	public ByteBuf setLongLE(int index, long value) {
+		return buf.setLongLE(index, value);
+	}
+
+	@Override
+	public ByteBuf setFloatLE(int index, float value) {
+		return buf.setFloatLE(index, value);
+	}
+
+	@Override
+	public ByteBuf setDoubleLE(int index, double value) {
+		return buf.setDoubleLE(index, value);
+	}
+
+	@Override
+	public int setBytes(int index, FileChannel in, long position, int length) throws IOException {
+		return buf.setBytes(index, in, position, length);
+	}
+
+	@Override
+	public int setCharSequence(int index, CharSequence sequence, Charset charset) {
+		return buf.setCharSequence(index, sequence, charset);
+	}
+
+	@Override
+	public short readShortLE() {
+		return buf.readShortLE();
+	}
+
+	@Override
+	public int readUnsignedShortLE() {
+		return buf.readUnsignedShortLE();
+	}
+
+	@Override
+	public int readMediumLE() {
+		return buf.readMediumLE();
+	}
+
+	@Override
+	public int readUnsignedMediumLE() {
+		return buf.readUnsignedMediumLE();
+	}
+
+	@Override
+	public int readIntLE() {
+		return buf.readIntLE();
+	}
+
+	@Override
+	public long readUnsignedIntLE() {
+		return buf.readUnsignedIntLE();
+	}
+
+	@Override
+	public long readLongLE() {
+		return buf.readLongLE();
+	}
+
+	@Override
+	public float readFloatLE() {
+		return buf.readFloatLE();
+	}
+
+	@Override
+	public double readDoubleLE() {
+		return buf.readDoubleLE();
+	}
+
+	@Override
+	public ByteBuf readRetainedSlice(int length) {
+		return buf.readRetainedSlice(length);
+	}
+
+	@Override
+	public CharSequence readCharSequence(int length, Charset charset) {
+		return buf.readCharSequence(length, charset);
+	}
+
+	@Override
+	public int readBytes(FileChannel out, long position, int length) throws IOException {
+		return buf.readBytes(out, position, length);
+	}
+
+	@Override
+	public ByteBuf writeShortLE(int value) {
+		return buf.writeShortLE(value);
+	}
+
+	@Override
+	public ByteBuf writeMediumLE(int value) {
+		return buf.writeMediumLE(value);
+	}
+
+	@Override
+	public ByteBuf writeIntLE(int value) {
+		return buf.writeIntLE(value);
+	}
+
+	@Override
+	public ByteBuf writeLongLE(long value) {
+		return buf.writeLongLE(value);
+	}
+
+	@Override
+	public ByteBuf writeFloatLE(float value) {
+		return buf.writeFloatLE(value);
+	}
+
+	@Override
+	public ByteBuf writeDoubleLE(double value) {
+		return buf.writeDoubleLE(value);
+	}
+
+	@Override
+	public int writeBytes(FileChannel in, long position, int length) throws IOException {
+		return buf.writeBytes(in, position, length);
+	}
+
+	@Override
+	public int writeCharSequence(CharSequence sequence, Charset charset) {
+		return buf.writeCharSequence(sequence, charset);
+	}
+
+	@Override
+	public int forEachByte(ByteProcessor processor) {
+		return buf.forEachByte(processor);
+	}
+
+	@Override
+	public int forEachByte(int index, int length, ByteProcessor processor) {
+		return buf.forEachByte(index, length, processor);
+	}
+
+	@Override
+	public int forEachByteDesc(ByteProcessor processor) {
+		return buf.forEachByteDesc(processor);
+	}
+
+	@Override
+	public int forEachByteDesc(int index, int length, ByteProcessor processor) {
+		return buf.forEachByteDesc(index, length, processor);
+	}
+
+	@Override
+	public ByteBuf retainedSlice() {
+		return buf.retainedSlice();
+	}
+
+	@Override
+	public ByteBuf retainedSlice(int index, int length) {
+		return buf.retainedSlice(index, length);
+	}
+
+	@Override
+	public ByteBuf retainedDuplicate() {
+		return buf.retainedDuplicate();
+	}
+
+	@Override
+	public boolean isContiguous() {
+		return buf.isContiguous();
+	}
+
+	@Override
+	public ByteBuf touch() {
+		return buf.touch();
+	}
+
+	@Override
+	public ByteBuf touch(Object hint) {
+		return buf.touch(hint);
 	}
 }
