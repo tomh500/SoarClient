@@ -15,6 +15,7 @@ import org.apache.logging.log4j.Logger;
 import com.google.common.collect.Maps;
 import com.google.common.util.concurrent.FutureCallback;
 import com.google.common.util.concurrent.Futures;
+import com.google.common.util.concurrent.MoreExecutors;
 import com.mojang.authlib.GameProfile;
 import com.soarclient.event.EventBus;
 import com.soarclient.event.impl.DamageEntityEventListener.DamageEntityEvent;
@@ -35,7 +36,6 @@ import net.minecraft.client.gui.GuiMultiplayer;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.GuiScreenBook;
 import net.minecraft.client.gui.GuiScreenDemo;
-import net.minecraft.client.gui.GuiScreenRealmsProxy;
 import net.minecraft.client.gui.GuiWinGame;
 import net.minecraft.client.gui.GuiYesNo;
 import net.minecraft.client.gui.GuiYesNoCallback;
@@ -179,7 +179,6 @@ import net.minecraft.network.play.server.S47PacketPlayerListHeaderFooter;
 import net.minecraft.network.play.server.S48PacketResourcePackSend;
 import net.minecraft.network.play.server.S49PacketUpdateEntityNBT;
 import net.minecraft.potion.PotionEffect;
-import net.minecraft.realms.DisconnectedRealmsScreen;
 import net.minecraft.scoreboard.IScoreObjectiveCriteria;
 import net.minecraft.scoreboard.Score;
 import net.minecraft.scoreboard.ScoreObjective;
@@ -741,14 +740,7 @@ public class NetHandlerPlayClient implements INetHandlerPlayClient {
 		this.gameController.loadWorld(null);
 
 		if (this.guiScreenServer != null) {
-			if (this.guiScreenServer instanceof GuiScreenRealmsProxy) {
-				this.gameController.displayGuiScreen(
-						(new DisconnectedRealmsScreen(((GuiScreenRealmsProxy) this.guiScreenServer).func_154321_a(),
-								"disconnect.lost", reason)).getProxy());
-			} else {
-				this.gameController
-						.displayGuiScreen(new GuiDisconnected(this.guiScreenServer, "disconnect.lost", reason));
-			}
+			this.gameController.displayGuiScreen(new GuiDisconnected(this.guiScreenServer, "disconnect.lost", reason));
 		} else {
 			this.gameController.displayGuiScreen(
 					new GuiDisconnected(new GuiMultiplayer(new GuiMainMenu()), "disconnect.lost", reason));
@@ -1540,7 +1532,7 @@ public class NetHandlerPlayClient implements INetHandlerPlayClient {
 								NetHandlerPlayClient.this.netManager.sendPacket(new C19PacketResourcePackStatus(s1,
 										C19PacketResourcePackStatus.Action.FAILED_DOWNLOAD));
 							}
-						});
+						}, MoreExecutors.directExecutor());
 			} else {
 				this.netManager.sendPacket(
 						new C19PacketResourcePackStatus(s1, C19PacketResourcePackStatus.Action.FAILED_DOWNLOAD));
@@ -1561,7 +1553,7 @@ public class NetHandlerPlayClient implements INetHandlerPlayClient {
 								NetHandlerPlayClient.this.netManager.sendPacket(new C19PacketResourcePackStatus(s1,
 										C19PacketResourcePackStatus.Action.FAILED_DOWNLOAD));
 							}
-						});
+						}, MoreExecutors.directExecutor());
 			} else if (this.gameController.getCurrentServerData() != null && this.gameController.getCurrentServerData()
 					.getResourceMode() != ServerData.ServerResourceMode.PROMPT) {
 				this.netManager
@@ -1595,7 +1587,7 @@ public class NetHandlerPlayClient implements INetHandlerPlayClient {
 															.sendPacket(new C19PacketResourcePackStatus(s1,
 																	C19PacketResourcePackStatus.Action.FAILED_DOWNLOAD));
 												}
-											});
+											}, MoreExecutors.directExecutor());
 								} else {
 									if (NetHandlerPlayClient.this.gameController.getCurrentServerData() != null) {
 										NetHandlerPlayClient.this.gameController.getCurrentServerData()

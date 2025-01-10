@@ -1,15 +1,23 @@
 package net.minecraft.client.gui;
 
-import com.google.common.collect.Lists;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URI;
+import java.nio.charset.StandardCharsets;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Random;
-import java.util.concurrent.atomic.AtomicInteger;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.lwjgl.opengl.GL11;
+import org.lwjgl.opengl.GLContext;
+import org.lwjgl.util.glu.Project;
+
+import com.google.common.collect.Lists;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.OpenGlHelper;
@@ -18,23 +26,14 @@ import net.minecraft.client.renderer.WorldRenderer;
 import net.minecraft.client.renderer.texture.DynamicTexture;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.client.resources.I18n;
-import net.minecraft.client.settings.GameSettings;
-import net.minecraft.realms.RealmsBridge;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.world.demo.DemoWorldServer;
 import net.minecraft.world.storage.ISaveFormat;
 import net.minecraft.world.storage.WorldInfo;
-import org.apache.commons.io.Charsets;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-import org.lwjgl.opengl.GL11;
-import org.lwjgl.opengl.GLContext;
-import org.lwjgl.util.glu.Project;
 
 public class GuiMainMenu extends GuiScreen implements GuiYesNoCallback {
-	private static final AtomicInteger field_175373_f = new AtomicInteger(0);
+	
 	private static final Logger logger = LogManager.getLogger();
 	private static final Random RANDOM = new Random();
 
@@ -43,7 +42,6 @@ public class GuiMainMenu extends GuiScreen implements GuiYesNoCallback {
 
 	/** The splash message. */
 	private String splashText;
-	private GuiButton buttonResetDemo;
 
 	/** Timer used to rotate the panorama, increases every tick. */
 	private int panoramaTimer;
@@ -53,7 +51,6 @@ public class GuiMainMenu extends GuiScreen implements GuiYesNoCallback {
 	 * background.
 	 */
 	private DynamicTexture viewportTexture;
-	private final boolean field_175375_v = true;
 
 	/**
 	 * The Object object utilized as a thread lock when performing non thread-safe
@@ -93,12 +90,10 @@ public class GuiMainMenu extends GuiScreen implements GuiYesNoCallback {
 
 	/** Minecraft Realms button. */
 	private GuiButton realmsButton;
-	private boolean field_183502_L;
 	private GuiScreen field_183503_M;
 
 	public GuiMainMenu() {
 		this.openGLWarning2 = field_96138_a;
-		this.field_183502_L = false;
 		this.splashText = "missingno";
 		BufferedReader bufferedreader = null;
 
@@ -106,7 +101,7 @@ public class GuiMainMenu extends GuiScreen implements GuiYesNoCallback {
 			List<String> list = Lists.newArrayList();
 			bufferedreader = new BufferedReader(new InputStreamReader(
 					Minecraft.getMinecraft().getResourceManager().getResource(splashTexts).getInputStream(),
-					Charsets.UTF_8));
+					StandardCharsets.UTF_8));
 			String s;
 
 			while ((s = bufferedreader.readLine()) != null) {
@@ -146,20 +141,11 @@ public class GuiMainMenu extends GuiScreen implements GuiYesNoCallback {
 		}
 	}
 
-	private boolean func_183501_a() {
-		return Minecraft.getMinecraft().gameSettings.getOptionOrdinalValue(GameSettings.Options.REALMS_NOTIFICATIONS)
-				&& this.field_183503_M != null;
-	}
-
 	/**
 	 * Called from the main game loop to update the screen.
 	 */
 	public void updateScreen() {
 		++this.panoramaTimer;
-
-		if (this.func_183501_a()) {
-			this.field_183503_M.updateScreen();
-		}
 	}
 
 	/**
@@ -198,14 +184,9 @@ public class GuiMainMenu extends GuiScreen implements GuiYesNoCallback {
 			this.splashText = "OOoooOOOoooo! Spooky!";
 		}
 
-		int i = 24;
 		int j = this.height / 4 + 48;
-
-		if (this.mc.isDemo()) {
-			this.addDemoButtons(j, 24);
-		} else {
-			this.addSingleplayerMultiplayerButtons(j, 24);
-		}
+		
+		this.addSingleplayerMultiplayerButtons(j, 24);
 
 		this.buttonList.add(new GuiButton(0, this.width / 2 - 100, j + 72 + 12, 98, 20, I18n.format("menu.options")));
 		this.buttonList.add(new GuiButton(4, this.width / 2 + 2, j + 72 + 12, 98, 20, I18n.format("menu.quit")));
@@ -220,20 +201,6 @@ public class GuiMainMenu extends GuiScreen implements GuiYesNoCallback {
 			this.field_92020_v = this.field_92022_t + k;
 			this.field_92019_w = this.field_92021_u + 24;
 		}
-
-		this.mc.setConnectedToRealms(false);
-
-		if (Minecraft.getMinecraft().gameSettings.getOptionOrdinalValue(GameSettings.Options.REALMS_NOTIFICATIONS)
-				&& !this.field_183502_L) {
-			RealmsBridge realmsbridge = new RealmsBridge();
-			this.field_183503_M = realmsbridge.getNotificationScreen(this);
-			this.field_183502_L = true;
-		}
-
-		if (this.func_183501_a()) {
-			this.field_183503_M.setGuiSize(this.width, this.height);
-			this.field_183503_M.initGui();
-		}
 	}
 
 	/**
@@ -246,21 +213,6 @@ public class GuiMainMenu extends GuiScreen implements GuiYesNoCallback {
 				.add(new GuiButton(2, this.width / 2 - 100, p_73969_1_ + p_73969_2_, I18n.format("menu.multiplayer")));
 		this.buttonList.add(this.realmsButton = new GuiButton(14, this.width / 2 - 100, p_73969_1_ + p_73969_2_ * 2,
 				I18n.format("menu.online")));
-	}
-
-	/**
-	 * Adds Demo buttons on Main Menu for players who are playing Demo.
-	 */
-	private void addDemoButtons(int p_73972_1_, int p_73972_2_) {
-		this.buttonList.add(new GuiButton(11, this.width / 2 - 100, p_73972_1_, I18n.format("menu.playdemo")));
-		this.buttonList.add(this.buttonResetDemo = new GuiButton(12, this.width / 2 - 100, p_73972_1_ + p_73972_2_,
-				I18n.format("menu.resetdemo")));
-		ISaveFormat isaveformat = this.mc.getSaveLoader();
-		WorldInfo worldinfo = isaveformat.getWorldInfo("Demo_World");
-
-		if (worldinfo == null) {
-			this.buttonResetDemo.enabled = false;
-		}
 	}
 
 	/**
@@ -285,15 +237,10 @@ public class GuiMainMenu extends GuiScreen implements GuiYesNoCallback {
 		}
 
 		if (button.id == 14 && this.realmsButton.visible) {
-			this.switchToRealms();
 		}
 
 		if (button.id == 4) {
 			this.mc.shutdown();
-		}
-
-		if (button.id == 11) {
-			this.mc.launchIntegratedServer("Demo_World", "Demo_World", DemoWorldServer.demoWorldSettings);
 		}
 
 		if (button.id == 12) {
@@ -305,11 +252,6 @@ public class GuiMainMenu extends GuiScreen implements GuiYesNoCallback {
 				this.mc.displayGuiScreen(guiyesno);
 			}
 		}
-	}
-
-	private void switchToRealms() {
-		RealmsBridge realmsbridge = new RealmsBridge();
-		realmsbridge.switchToRealms(this);
 	}
 
 	public void confirmClicked(boolean result, int id) {
@@ -392,7 +334,6 @@ public class GuiMainMenu extends GuiScreen implements GuiYesNoCallback {
 				this.mc.getTextureManager().bindTexture(titlePanoramaPaths[k]);
 				worldrenderer.begin(7, DefaultVertexFormats.POSITION_TEX_COLOR);
 				int l = 255 / (j + 1);
-				float f3 = 0.0F;
 				worldrenderer.pos(-1.0D, -1.0D, 1.0D).tex(0.0D, 0.0D).color(255, 255, 255, l).endVertex();
 				worldrenderer.pos(1.0D, -1.0D, 1.0D).tex(1.0D, 0.0D).color(255, 255, 255, l).endVertex();
 				worldrenderer.pos(1.0D, 1.0D, 1.0D).tex(1.0D, 1.0D).color(255, 255, 255, l).endVertex();
@@ -488,8 +429,6 @@ public class GuiMainMenu extends GuiScreen implements GuiYesNoCallback {
 		GlStateManager.disableAlpha();
 		this.renderSkybox(mouseX, mouseY, partialTicks);
 		GlStateManager.enableAlpha();
-		Tessellator tessellator = Tessellator.getInstance();
-		WorldRenderer worldrenderer = tessellator.getWorldRenderer();
 		int i = 274;
 		int j = this.width / 2 - i / 2;
 		int k = 30;
@@ -520,10 +459,6 @@ public class GuiMainMenu extends GuiScreen implements GuiYesNoCallback {
 		GlStateManager.popMatrix();
 		String s = "Minecraft 1.8.9";
 
-		if (this.mc.isDemo()) {
-			s = s + " Demo";
-		}
-
 		this.drawString(this.fontRendererObj, s, 2, this.height - 10, -1);
 		String s1 = "Copyright Mojang AB. Do not distribute!";
 		this.drawString(this.fontRendererObj, s1, this.width - this.fontRendererObj.getStringWidth(s1) - 2,
@@ -538,10 +473,6 @@ public class GuiMainMenu extends GuiScreen implements GuiYesNoCallback {
 		}
 
 		super.drawScreen(mouseX, mouseY, partialTicks);
-
-		if (this.func_183501_a()) {
-			this.field_183503_M.drawScreen(mouseX, mouseY, partialTicks);
-		}
 	}
 
 	/**
@@ -557,10 +488,6 @@ public class GuiMainMenu extends GuiScreen implements GuiYesNoCallback {
 				guiconfirmopenlink.disableSecurityWarning();
 				this.mc.displayGuiScreen(guiconfirmopenlink);
 			}
-		}
-
-		if (this.func_183501_a()) {
-			this.field_183503_M.mouseClicked(mouseX, mouseY, mouseButton);
 		}
 	}
 

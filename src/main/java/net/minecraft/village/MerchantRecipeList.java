@@ -9,6 +9,8 @@ import net.minecraft.nbt.NBTUtil;
 import net.minecraft.network.PacketBuffer;
 
 public class MerchantRecipeList extends ArrayList<MerchantRecipe> {
+	private static final long serialVersionUID = 1L;
+
 	public MerchantRecipeList() {
 	}
 

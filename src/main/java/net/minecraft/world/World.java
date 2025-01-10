@@ -1,8 +1,5 @@
 package net.minecraft.world;
 
-import com.google.common.base.Predicate;
-import com.google.common.collect.Lists;
-import com.google.common.collect.Sets;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.Iterator;
@@ -11,6 +8,12 @@ import java.util.Random;
 import java.util.Set;
 import java.util.UUID;
 import java.util.concurrent.Callable;
+
+import com.google.common.base.Predicate;
+import com.google.common.collect.Lists;
+import com.google.common.collect.Sets;
+
+import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockHopper;
 import net.minecraft.block.BlockLiquid;
@@ -37,7 +40,6 @@ import net.minecraft.util.EntitySelectors;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.ITickable;
-import net.minecraft.util.IntHashMap;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.ReportedException;
@@ -68,7 +70,7 @@ public abstract class World implements IBlockAccess {
 	private final List<TileEntity> tileEntitiesToBeRemoved = Lists.newArrayList();
 	public final List<EntityPlayer> playerEntities = Lists.newArrayList();
 	public final List<Entity> weatherEffects = Lists.newArrayList();
-	protected final IntHashMap<Entity> entitiesById = new IntHashMap();
+	protected final Int2ObjectOpenHashMap<Entity> entitiesById = new Int2ObjectOpenHashMap<>();
 	private final long cloudColour = 16777215L;
 
 	/** How much light is subtracted from full daylight */
@@ -2529,6 +2531,7 @@ public abstract class World implements IBlockAccess {
 		return list;
 	}
 
+	@SuppressWarnings("unchecked")
 	public <T extends Entity> List<T> getEntities(Class<? extends T> entityType, Predicate<? super T> filter) {
 		List<T> list = Lists.newArrayList();
 
@@ -2541,6 +2544,7 @@ public abstract class World implements IBlockAccess {
 		return list;
 	}
 
+	@SuppressWarnings("unchecked")
 	public <T extends Entity> List<T> getPlayers(Class<? extends T> playerType, Predicate<? super T> filter) {
 		List<T> list = Lists.newArrayList();
 
@@ -2603,7 +2607,7 @@ public abstract class World implements IBlockAccess {
 	 * World.
 	 */
 	public Entity getEntityByID(int id) {
-		return this.entitiesById.lookup(id);
+		return this.entitiesById.get(id);
 	}
 
 	public List<Entity> getLoadedEntityList() {

@@ -192,7 +192,7 @@ public class MapData extends WorldSavedData {
 		this.mapDecorations.put(entityIdentifier, new Vec4b((byte) type, b0, b1, b2));
 	}
 
-	public Packet getMapPacket(ItemStack mapStack, World worldIn, EntityPlayer player) {
+	public Packet<?> getMapPacket(ItemStack mapStack, World worldIn, EntityPlayer player) {
 		MapData.MapInfo mapdata$mapinfo = this.playersHashMap.get(player);
 		return mapdata$mapinfo == null ? null : mapdata$mapinfo.getPacket(mapStack);
 	}
@@ -231,7 +231,7 @@ public class MapData extends WorldSavedData {
 			this.entityplayerObj = player;
 		}
 
-		public Packet getPacket(ItemStack stack) {
+		public Packet<?> getPacket(ItemStack stack) {
 			if (this.field_176105_d) {
 				this.field_176105_d = false;
 				return new S34PacketMaps(stack.getMetadata(), MapData.this.scale, MapData.this.mapDecorations.values(),

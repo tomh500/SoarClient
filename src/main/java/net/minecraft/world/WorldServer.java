@@ -1,10 +1,5 @@
 package net.minecraft.world;
 
-import com.google.common.base.Predicate;
-import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
-import com.google.common.collect.Sets;
-import com.google.common.util.concurrent.ListenableFuture;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -13,6 +8,16 @@ import java.util.Random;
 import java.util.Set;
 import java.util.TreeSet;
 import java.util.UUID;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+import com.google.common.base.Predicate;
+import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
+import com.google.common.collect.Sets;
+import com.google.common.util.concurrent.ListenableFuture;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockEventData;
 import net.minecraft.block.material.Material;
@@ -51,7 +56,6 @@ import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.IProgressUpdate;
 import net.minecraft.util.IThreadListener;
 import net.minecraft.util.ReportedException;
-import net.minecraft.util.Vec3;
 import net.minecraft.util.WeightedRandom;
 import net.minecraft.util.WeightedRandomChestContent;
 import net.minecraft.village.VillageCollection;
@@ -68,8 +72,6 @@ import net.minecraft.world.gen.structure.StructureBoundingBox;
 import net.minecraft.world.storage.ISaveHandler;
 import net.minecraft.world.storage.MapStorage;
 import net.minecraft.world.storage.WorldInfo;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 public class WorldServer extends World implements IThreadListener {
 	private static final Logger logger = LogManager.getLogger();
@@ -77,7 +79,7 @@ public class WorldServer extends World implements IThreadListener {
 	private final EntityTracker theEntityTracker;
 	private final PlayerManager thePlayerManager;
 	private final Set<NextTickListEntry> pendingTickListEntriesHashSet = Sets.newHashSet();
-	private final TreeSet<NextTickListEntry> pendingTickListEntriesTreeSet = new TreeSet();
+	private final TreeSet<NextTickListEntry> pendingTickListEntriesTreeSet = new TreeSet<>();
 	private final Map<UUID, Entity> entitiesByUuid = Maps.newHashMap();
 	public ChunkProviderServer theChunkProviderServer;
 
@@ -325,8 +327,6 @@ public class WorldServer extends World implements IThreadListener {
 						.func_150804_b(false);
 			}
 		} else {
-			int i = 0;
-			int j = 0;
 
 			for (ChunkCoordIntPair chunkcoordintpair : this.activeChunkSet) {
 				int k = chunkcoordintpair.chunkXPos * 16;
@@ -384,12 +384,11 @@ public class WorldServer extends World implements IThreadListener {
 								int l1 = k1 & 15;
 								int i2 = k1 >> 8 & 15;
 								int j2 = k1 >> 16 & 15;
-								++j;
+								
 								IBlockState iblockstate = extendedblockstorage.get(l1, j2, i2);
 								Block block = iblockstate.getBlock();
 
 								if (block.getTickRandomly()) {
-									++i;
 									block.randomTick(this,
 											new BlockPos(l1 + k, j2 + extendedblockstorage.getYLocation(), i2 + l),
 											iblockstate, this.rand);
@@ -833,26 +832,26 @@ public class WorldServer extends World implements IThreadListener {
 
 	protected void onEntityAdded(Entity entityIn) {
 		super.onEntityAdded(entityIn);
-		this.entitiesById.addKey(entityIn.getEntityId(), entityIn);
+		this.entitiesById.put(entityIn.getEntityId(), entityIn);
 		this.entitiesByUuid.put(entityIn.getUniqueID(), entityIn);
 		Entity[] aentity = entityIn.getParts();
 
 		if (aentity != null) {
 			for (int i = 0; i < aentity.length; ++i) {
-				this.entitiesById.addKey(aentity[i].getEntityId(), aentity[i]);
+				this.entitiesById.put(aentity[i].getEntityId(), aentity[i]);
 			}
 		}
 	}
 
 	protected void onEntityRemoved(Entity entityIn) {
 		super.onEntityRemoved(entityIn);
-		this.entitiesById.removeObject(entityIn.getEntityId());
+		this.entitiesById.remove(entityIn.getEntityId());
 		this.entitiesByUuid.remove(entityIn.getUniqueID());
 		Entity[] aentity = entityIn.getParts();
 
 		if (aentity != null) {
 			for (int i = 0; i < aentity.length; ++i) {
-				this.entitiesById.removeObject(aentity[i].getEntityId());
+				this.entitiesById.remove(aentity[i].getEntityId());
 			}
 		}
 	}
@@ -1018,7 +1017,7 @@ public class WorldServer extends World implements IThreadListener {
 	public void spawnParticle(EnumParticleTypes particleType, boolean longDistance, double xCoord, double yCoord,
 			double zCoord, int numberOfParticles, double xOffset, double yOffset, double zOffset, double particleSpeed,
 			int... particleArguments) {
-		Packet packet = new S2APacketParticles(particleType, longDistance, (float) xCoord, (float) yCoord,
+		Packet<?> packet = new S2APacketParticles(particleType, longDistance, (float) xCoord, (float) yCoord,
 				(float) zCoord, (float) xOffset, (float) yOffset, (float) zOffset, (float) particleSpeed,
 				numberOfParticles, particleArguments);
 
@@ -1046,6 +1045,8 @@ public class WorldServer extends World implements IThreadListener {
 	}
 
 	static class ServerBlockEventList extends ArrayList<BlockEventData> {
+		private static final long serialVersionUID = 1L;
+
 		private ServerBlockEventList() {
 		}
 	}

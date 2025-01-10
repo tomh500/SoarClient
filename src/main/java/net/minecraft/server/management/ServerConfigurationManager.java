@@ -1,10 +1,5 @@
 package net.minecraft.server.management;
 
-import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
-import com.google.common.collect.Sets;
-import com.mojang.authlib.GameProfile;
-import io.netty.buffer.Unpooled;
 import java.io.File;
 import java.net.SocketAddress;
 import java.text.SimpleDateFormat;
@@ -12,6 +7,16 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
+import com.google.common.collect.Sets;
+import com.mojang.authlib.GameProfile;
+
+import io.netty.buffer.Unpooled;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityList;
 import net.minecraft.entity.player.EntityPlayer;
@@ -54,11 +59,8 @@ import net.minecraft.world.WorldServer;
 import net.minecraft.world.WorldSettings;
 import net.minecraft.world.border.IBorderListener;
 import net.minecraft.world.border.WorldBorder;
-import net.minecraft.world.demo.DemoWorldManager;
 import net.minecraft.world.storage.IPlayerFileData;
 import net.minecraft.world.storage.WorldInfo;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 public abstract class ServerConfigurationManager {
 	public static final File FILE_PLAYERBANS = new File("banned-players.json");
@@ -203,7 +205,7 @@ public abstract class ServerConfigurationManager {
 			ScoreObjective scoreobjective = scoreboardIn.getObjectiveInDisplaySlot(i);
 
 			if (scoreobjective != null && !set.contains(scoreobjective)) {
-				for (Packet packet : scoreboardIn.func_96550_d(scoreobjective)) {
+				for (Packet<?> packet : scoreboardIn.func_96550_d(scoreobjective)) {
 					playerIn.playerNetServerHandler.sendPacket(packet);
 				}
 
@@ -409,13 +411,7 @@ public abstract class ServerConfigurationManager {
 			entityplayermp1.playerNetServerHandler.kickPlayerFromServer("You logged in from another location");
 		}
 
-		ItemInWorldManager iteminworldmanager;
-
-		if (this.mcServer.isDemo()) {
-			iteminworldmanager = new DemoWorldManager(this.mcServer.worldServerForDimension(0));
-		} else {
-			iteminworldmanager = new ItemInWorldManager(this.mcServer.worldServerForDimension(0));
-		}
+		ItemInWorldManager iteminworldmanager = new ItemInWorldManager(this.mcServer.worldServerForDimension(0));
 
 		return new EntityPlayerMP(this.mcServer, this.mcServer.worldServerForDimension(0), profile, iteminworldmanager);
 	}
@@ -432,13 +428,8 @@ public abstract class ServerConfigurationManager {
 		BlockPos blockpos = playerIn.getBedLocation();
 		boolean flag = playerIn.isSpawnForced();
 		playerIn.dimension = dimension;
-		ItemInWorldManager iteminworldmanager;
-
-		if (this.mcServer.isDemo()) {
-			iteminworldmanager = new DemoWorldManager(this.mcServer.worldServerForDimension(playerIn.dimension));
-		} else {
-			iteminworldmanager = new ItemInWorldManager(this.mcServer.worldServerForDimension(playerIn.dimension));
-		}
+		ItemInWorldManager iteminworldmanager = new ItemInWorldManager(
+				this.mcServer.worldServerForDimension(playerIn.dimension));
 
 		EntityPlayerMP entityplayermp = new EntityPlayerMP(this.mcServer,
 				this.mcServer.worldServerForDimension(playerIn.dimension), playerIn.getGameProfile(),
@@ -598,13 +589,13 @@ public abstract class ServerConfigurationManager {
 		}
 	}
 
-	public void sendPacketToAllPlayers(Packet packetIn) {
+	public void sendPacketToAllPlayers(Packet<?> packetIn) {
 		for (int i = 0; i < this.playerEntityList.size(); ++i) {
 			this.playerEntityList.get(i).playerNetServerHandler.sendPacket(packetIn);
 		}
 	}
 
-	public void sendPacketToAllPlayersInDimension(Packet packetIn, int dimension) {
+	public void sendPacketToAllPlayersInDimension(Packet<?> packetIn, int dimension) {
 		for (int i = 0; i < this.playerEntityList.size(); ++i) {
 			EntityPlayerMP entityplayermp = this.playerEntityList.get(i);
 
@@ -728,7 +719,7 @@ public abstract class ServerConfigurationManager {
 	 * params: x,y,z,r,dimension. The packet is sent to all players within r radius
 	 * of x,y,z (r^2>x^2+y^2+z^2)
 	 */
-	public void sendToAllNear(double x, double y, double z, double radius, int dimension, Packet packetIn) {
+	public void sendToAllNear(double x, double y, double z, double radius, int dimension, Packet<?> packetIn) {
 		this.sendToAllNearExcept(null, x, y, z, radius, dimension, packetIn);
 	}
 
@@ -737,7 +728,7 @@ public abstract class ServerConfigurationManager {
 	 * but all other players within the search radius
 	 */
 	public void sendToAllNearExcept(EntityPlayer p_148543_1_, double x, double y, double z, double radius,
-			int dimension, Packet p_148543_11_) {
+			int dimension, Packet<?> p_148543_11_) {
 		for (int i = 0; i < this.playerEntityList.size(); ++i) {
 			EntityPlayerMP entityplayermp = this.playerEntityList.get(i);
 

@@ -1,14 +1,15 @@
 package net.minecraft.world.gen.structure;
 
-import com.google.common.collect.Lists;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
+
+import com.google.common.collect.Lists;
+
 import net.minecraft.block.BlockPrismarine;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.entity.IEntityLivingData;
 import net.minecraft.entity.monster.EntityGuardian;
 import net.minecraft.init.Blocks;
 import net.minecraft.nbt.NBTTagCompound;
@@ -760,7 +761,7 @@ public class StructureOceanMonumentPieces {
 			for (StructureOceanMonumentPieces.RoomDefinition structureoceanmonumentpieces$roomdefinition : list) {
 				if (!structureoceanmonumentpieces$roomdefinition.field_175963_d
 						&& !structureoceanmonumentpieces$roomdefinition.func_175961_b()) {
-					Iterator iterator = list1.iterator();
+					Iterator<MonumentRoomFitHelper> iterator = list1.iterator();
 					StructureOceanMonumentPieces.MonumentRoomFitHelper structureoceanmonumentpieces$monumentroomfithelper;
 
 					while (true) {
@@ -1004,7 +1005,6 @@ public class StructureOceanMonumentPieces {
 
 		private void func_175840_a(boolean p_175840_1_, int p_175840_2_, World worldIn, Random p_175840_4_,
 				StructureBoundingBox p_175840_5_) {
-			int i = 24;
 
 			if (this.func_175818_a(p_175840_5_, p_175840_2_, 0, p_175840_2_ + 23, 20)) {
 				this.fillWithBlocks(worldIn, p_175840_5_, p_175840_2_, 0, 0, p_175840_2_ + 24, 0, 20, field_175828_a,

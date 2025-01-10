@@ -1,6 +1,5 @@
 package net.minecraft.world.chunk.storage;
 
-import com.google.common.collect.Lists;
 import java.io.BufferedInputStream;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -13,28 +12,22 @@ import java.util.List;
 import java.util.zip.DeflaterOutputStream;
 import java.util.zip.GZIPInputStream;
 import java.util.zip.InflaterInputStream;
+
+import com.google.common.collect.Lists;
+
 import net.minecraft.server.MinecraftServer;
 
 public class RegionFile {
+	
 	private static final byte[] emptySector = new byte[4096];
-	private final File fileName;
 	private RandomAccessFile dataFile;
 	private final int[] offsets = new int[1024];
 	private final int[] chunkTimestamps = new int[1024];
 	private List<Boolean> sectorFree;
 
-	/** McRegion sizeDelta */
-	private int sizeDelta;
-	private long lastModified;
-
 	public RegionFile(File fileNameIn) {
-		this.fileName = fileNameIn;
-		this.sizeDelta = 0;
 
 		try {
-			if (fileNameIn.exists()) {
-				this.lastModified = fileNameIn.lastModified();
-			}
 
 			this.dataFile = new RandomAccessFile(fileNameIn, "rw");
 
@@ -46,8 +39,6 @@ public class RegionFile {
 				for (int i1 = 0; i1 < 1024; ++i1) {
 					this.dataFile.writeInt(0);
 				}
-
-				this.sizeDelta += 8192;
 			}
 
 			if ((this.dataFile.length() & 4095L) != 0L) {
@@ -208,7 +199,6 @@ public class RegionFile {
 						this.sectorFree.add(Boolean.valueOf(false));
 					}
 
-					this.sizeDelta += 4096 * l;
 					this.write(j, data, length);
 					this.setOffset(x, z, j << 8 | l);
 				}

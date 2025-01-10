@@ -1,6 +1,8 @@
 package net.minecraft.util;
 
 public class ChatComponentTranslationFormatException extends IllegalArgumentException {
+	private static final long serialVersionUID = 1L;
+
 	public ChatComponentTranslationFormatException(ChatComponentTranslation component, String message) {
 		super(String.format("Error parsing: %s: %s", component, message));
 	}

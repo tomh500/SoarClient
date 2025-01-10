@@ -21,11 +21,9 @@ public class WorldChunkManager {
 	/** The biome list. */
 	private final BiomeCache biomeCache;
 	private final List<BiomeGenBase> biomesToSpawnIn;
-	private String generatorOptions;
 
 	protected WorldChunkManager() {
 		this.biomeCache = new BiomeCache(this);
-		this.generatorOptions = "";
 		this.biomesToSpawnIn = Lists.newArrayList();
 		this.biomesToSpawnIn.add(BiomeGenBase.forest);
 		this.biomesToSpawnIn.add(BiomeGenBase.plains);
@@ -38,7 +36,6 @@ public class WorldChunkManager {
 
 	public WorldChunkManager(long seed, WorldType worldTypeIn, String options) {
 		this();
-		this.generatorOptions = options;
 		GenLayer[] agenlayer = GenLayer.initializeAllBiomeGenerators(seed, worldTypeIn, options);
 		this.genBiomes = agenlayer[0];
 		this.biomeIndexLayer = agenlayer[1];

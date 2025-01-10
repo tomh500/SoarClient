@@ -3,6 +3,8 @@ package net.minecraft.network;
 import com.google.common.collect.BiMap;
 import com.google.common.collect.HashBiMap;
 import com.google.common.collect.Maps;
+
+import java.lang.reflect.InvocationTargetException;
 import java.util.Map;
 import net.minecraft.network.handshake.client.C00Handshake;
 import net.minecraft.network.login.client.C00PacketLoginStart;
@@ -111,6 +113,7 @@ import net.minecraft.network.status.server.S00PacketServerInfo;
 import net.minecraft.network.status.server.S01PacketPong;
 import org.apache.logging.log4j.LogManager;
 
+@SuppressWarnings("rawtypes")
 public enum EnumConnectionState {
 	HANDSHAKING(-1) {
 		{
@@ -272,15 +275,16 @@ public enum EnumConnectionState {
 		}
 	}
 
-	public Integer getPacketId(EnumPacketDirection direction, Packet packetIn) {
+	public Integer getPacketId(EnumPacketDirection direction, Packet<?> packetIn) {
 		return (Integer) ((BiMap) this.directionMaps.get(direction)).inverse().get(packetIn.getClass());
 	}
 
-	public Packet getPacket(EnumPacketDirection direction, int packetId)
-			throws InstantiationException, IllegalAccessException {
-		Class<? extends Packet> oclass = (Class) ((BiMap) this.directionMaps.get(direction))
+	@SuppressWarnings({ "unchecked" })
+	public Packet<?> getPacket(EnumPacketDirection direction, int packetId)
+			throws InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException, NoSuchMethodException, SecurityException {
+		Class<? extends Packet<?>> oclass = (Class<? extends Packet<?>>) ((BiMap) this.directionMaps.get(direction))
 				.get(Integer.valueOf(packetId));
-		return oclass == null ? null : oclass.newInstance();
+		return oclass == null ? null : oclass.getDeclaredConstructor().newInstance();
 	}
 
 	public int getId() {
@@ -291,7 +295,7 @@ public enum EnumConnectionState {
 		return stateId >= field_181136_e && stateId <= field_181137_f ? STATES_BY_ID[stateId - field_181136_e] : null;
 	}
 
-	public static EnumConnectionState getFromPacket(Packet packetIn) {
+	public static EnumConnectionState getFromPacket(Packet<?> packetIn) {
 		return STATES_BY_CLASS.get(packetIn.getClass());
 	}
 
@@ -314,7 +318,7 @@ public enum EnumConnectionState {
 					}
 
 					try {
-						oclass.newInstance();
+						oclass.getDeclaredConstructor().newInstance();
 					} catch (Throwable var10) {
 						throw new Error("Packet " + oclass + " fails instantiation checks! " + oclass);
 					}

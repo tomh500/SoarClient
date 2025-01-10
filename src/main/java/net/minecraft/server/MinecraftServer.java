@@ -4,12 +4,14 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.net.Proxy;
+import java.nio.charset.StandardCharsets;
 import java.security.KeyPair;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 import java.util.Queue;
 import java.util.Random;
 import java.util.UUID;
@@ -23,7 +25,6 @@ import org.apache.commons.lang3.Validate;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import com.google.common.base.Charsets;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Queues;
 import com.google.common.util.concurrent.Futures;
@@ -71,7 +72,6 @@ import net.minecraft.world.WorldServerMulti;
 import net.minecraft.world.WorldSettings;
 import net.minecraft.world.WorldType;
 import net.minecraft.world.chunk.storage.AnvilSaveConverter;
-import net.minecraft.world.demo.DemoWorldServer;
 import net.minecraft.world.storage.ISaveFormat;
 import net.minecraft.world.storage.ISaveHandler;
 import net.minecraft.world.storage.WorldInfo;
@@ -150,7 +150,6 @@ public abstract class MinecraftServer implements Runnable, ICommandSender, IThre
 	private String serverOwner;
 	private String folderName;
 	private String worldName;
-	private boolean isDemo;
 	private boolean enableBonusChest;
 
 	/**
@@ -266,16 +265,12 @@ public abstract class MinecraftServer implements Runnable, ICommandSender, IThre
 		WorldSettings worldsettings;
 
 		if (worldinfo == null) {
-			if (this.isDemo()) {
-				worldsettings = DemoWorldServer.demoWorldSettings;
-			} else {
-				worldsettings = new WorldSettings(seed, this.getGameType(), this.canStructuresSpawn(),
-						this.isHardcore(), type);
-				worldsettings.setWorldName(worldNameIn2);
+			worldsettings = new WorldSettings(seed, this.getGameType(), this.canStructuresSpawn(),
+					this.isHardcore(), type);
+			worldsettings.setWorldName(worldNameIn2);
 
-				if (this.enableBonusChest) {
-					worldsettings.enableBonusChest();
-				}
+			if (this.enableBonusChest) {
+				worldsettings.enableBonusChest();
 			}
 
 			worldinfo = new WorldInfo(worldsettings, worldNameIn);
@@ -296,14 +291,8 @@ public abstract class MinecraftServer implements Runnable, ICommandSender, IThre
 			}
 
 			if (i == 0) {
-				if (this.isDemo()) {
-					this.worldServers[i] = (WorldServer) (new DemoWorldServer(this, isavehandler, worldinfo, j,
-							this.theProfiler)).init();
-				} else {
-					this.worldServers[i] = (WorldServer) (new WorldServer(this, isavehandler, worldinfo, j,
-							this.theProfiler)).init();
-				}
-
+				this.worldServers[i] = (WorldServer) (new WorldServer(this, isavehandler, worldinfo, j,
+						this.theProfiler)).init();
 				this.worldServers[i].initialize(worldsettings);
 			} else {
 				this.worldServers[i] = (WorldServer) (new WorldServerMulti(this, isavehandler, j, this.worldServers[0],
@@ -557,7 +546,7 @@ public abstract class MinecraftServer implements Runnable, ICommandSender, IThre
 				Validate.validState(bufferedimage.getHeight() == 64, "Must be 64 pixels high");
 				ImageIO.write(bufferedimage, "PNG", new ByteBufOutputStream(bytebuf));
 				ByteBuf bytebuf1 = Base64.encode(bytebuf);
-				response.setFavicon("data:image/png;base64," + bytebuf1.toString(Charsets.UTF_8));
+				response.setFavicon("data:image/png;base64," + bytebuf1.toString(StandardCharsets.UTF_8));
 			} catch (Exception exception) {
 				logger.error("Couldn't load server icon", exception);
 			} finally {
@@ -635,7 +624,7 @@ public abstract class MinecraftServer implements Runnable, ICommandSender, IThre
 
 		synchronized (this.futureTaskQueue) {
 			while (!this.futureTaskQueue.isEmpty()) {
-				Util.runTask((FutureTask) this.futureTaskQueue.poll(), logger);
+				Util.runTask((FutureTask<?>) this.futureTaskQueue.poll(), logger);
 			}
 		}
 
@@ -932,20 +921,6 @@ public abstract class MinecraftServer implements Runnable, ICommandSender, IThre
 		return true;
 	}
 
-	/**
-	 * Gets whether this is a demo or not.
-	 */
-	public boolean isDemo() {
-		return this.isDemo;
-	}
-
-	/**
-	 * Sets whether this is a demo or not.
-	 */
-	public void setDemo(boolean demo) {
-		this.isDemo = demo;
-	}
-
 	public void canCreateBonusChest(boolean enable) {
 		this.enableBonusChest = enable;
 	}
@@ -1235,7 +1210,7 @@ public abstract class MinecraftServer implements Runnable, ICommandSender, IThre
 	}
 
 	public <V> ListenableFuture<V> callFromMainThread(Callable<V> callable) {
-		Validate.notNull(callable);
+		Objects.requireNonNull(callable);
 
 		if (!this.isCallingFromMinecraftThread() && !this.isServerStopped()) {
 			ListenableFutureTask<V> listenablefuturetask = ListenableFutureTask.create(callable);
@@ -1248,13 +1223,13 @@ public abstract class MinecraftServer implements Runnable, ICommandSender, IThre
 			try {
 				return Futures.immediateFuture(callable.call());
 			} catch (Exception exception) {
-				return Futures.immediateFailedCheckedFuture(exception);
+				return Futures.immediateFailedFuture(exception);
 			}
 		}
 	}
 
 	public ListenableFuture<Object> addScheduledTask(Runnable runnableToSchedule) {
-		Validate.notNull(runnableToSchedule);
+		Objects.requireNonNull(runnableToSchedule);
 		return this.callFromMainThread(Executors.callable(runnableToSchedule));
 	}
 

@@ -2,8 +2,8 @@ package net.minecraft.village;
 
 import java.util.Iterator;
 import java.util.List;
+
 import net.minecraft.entity.EntityLiving;
-import net.minecraft.entity.IEntityLivingData;
 import net.minecraft.entity.monster.EntityZombie;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.BlockPos;
@@ -78,7 +78,7 @@ public class VillageSiege {
 
 	private boolean func_75529_b() {
 		List<EntityPlayer> list = this.worldObj.playerEntities;
-		Iterator iterator = list.iterator();
+		Iterator<EntityPlayer> iterator = list.iterator();
 
 		while (true) {
 			if (!iterator.hasNext()) {

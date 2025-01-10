@@ -1,17 +1,22 @@
 package net.minecraft.world.gen;
 
-import com.google.common.collect.Lists;
 import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+import com.google.common.collect.Lists;
+
+import it.unimi.dsi.fastutil.longs.Long2ObjectOpenHashMap;
 import net.minecraft.crash.CrashReport;
 import net.minecraft.crash.CrashReportCategory;
 import net.minecraft.entity.EnumCreatureType;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.IProgressUpdate;
-import net.minecraft.util.LongHashMap;
 import net.minecraft.util.ReportedException;
 import net.minecraft.world.ChunkCoordIntPair;
 import net.minecraft.world.MinecraftException;
@@ -22,12 +27,10 @@ import net.minecraft.world.chunk.Chunk;
 import net.minecraft.world.chunk.EmptyChunk;
 import net.minecraft.world.chunk.IChunkProvider;
 import net.minecraft.world.chunk.storage.IChunkLoader;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 public class ChunkProviderServer implements IChunkProvider {
 	private static final Logger logger = LogManager.getLogger();
-	private final Set<Long> droppedChunksSet = Collections.<Long>newSetFromMap(new ConcurrentHashMap());
+	private final Set<Long> droppedChunksSet = Collections.<Long>newSetFromMap(new ConcurrentHashMap<>());
 
 	/** a dummy chunk, returned in place of an actual chunk. */
 	private final Chunk dummyChunk;
@@ -44,7 +47,7 @@ public class ChunkProviderServer implements IChunkProvider {
 	 * than defaulting to the dummy if possible
 	 */
 	public boolean chunkLoadOverride = true;
-	private final LongHashMap<Chunk> id2ChunkMap = new LongHashMap();
+	private final Long2ObjectOpenHashMap<Chunk> id2ChunkMap = new Long2ObjectOpenHashMap<>();
 	private final List<Chunk> loadedChunks = Lists.newArrayList();
 	private final WorldServer worldObj;
 
@@ -59,7 +62,7 @@ public class ChunkProviderServer implements IChunkProvider {
 	 * Checks to see if a chunk exists at x, z
 	 */
 	public boolean chunkExists(int x, int z) {
-		return this.id2ChunkMap.containsItem(ChunkCoordIntPair.chunkXZ2Int(x, z));
+		return this.id2ChunkMap.containsKey(ChunkCoordIntPair.chunkXZ2Int(x, z));
 	}
 
 	public List<Chunk> func_152380_a() {
@@ -94,7 +97,7 @@ public class ChunkProviderServer implements IChunkProvider {
 	public Chunk loadChunk(int chunkX, int chunkZ) {
 		long i = ChunkCoordIntPair.chunkXZ2Int(chunkX, chunkZ);
 		this.droppedChunksSet.remove(Long.valueOf(i));
-		Chunk chunk = this.id2ChunkMap.getValueByKey(i);
+		Chunk chunk = this.id2ChunkMap.get(i);
 
 		if (chunk == null) {
 			chunk = this.loadChunkFromFile(chunkX, chunkZ);
@@ -118,7 +121,7 @@ public class ChunkProviderServer implements IChunkProvider {
 				}
 			}
 
-			this.id2ChunkMap.add(i, chunk);
+			this.id2ChunkMap.put(i, chunk);
 			this.loadedChunks.add(chunk);
 			chunk.onChunkLoad();
 			chunk.populateChunk(this, this, chunkX, chunkZ);
@@ -133,7 +136,7 @@ public class ChunkProviderServer implements IChunkProvider {
 	 * seed
 	 */
 	public Chunk provideChunk(int x, int z) {
-		Chunk chunk = this.id2ChunkMap.getValueByKey(ChunkCoordIntPair.chunkXZ2Int(x, z));
+		Chunk chunk = this.id2ChunkMap.get(ChunkCoordIntPair.chunkXZ2Int(x, z));
 		return chunk == null ? (!this.worldObj.isFindingSpawnPoint() && !this.chunkLoadOverride ? this.dummyChunk
 				: this.loadChunk(x, z)) : chunk;
 	}
@@ -260,7 +263,7 @@ public class ChunkProviderServer implements IChunkProvider {
 			for (int i = 0; i < 100; ++i) {
 				if (!this.droppedChunksSet.isEmpty()) {
 					Long olong = this.droppedChunksSet.iterator().next();
-					Chunk chunk = this.id2ChunkMap.getValueByKey(olong.longValue());
+					Chunk chunk = this.id2ChunkMap.get(olong.longValue());
 
 					if (chunk != null) {
 						chunk.onChunkUnload();
@@ -293,7 +296,7 @@ public class ChunkProviderServer implements IChunkProvider {
 	 * Converts the instance data to a readable string.
 	 */
 	public String makeString() {
-		return "ServerChunkCache: " + this.id2ChunkMap.getNumHashElements() + " Drop: " + this.droppedChunksSet.size();
+		return "ServerChunkCache: " + this.id2ChunkMap.size() + " Drop: " + this.droppedChunksSet.size();
 	}
 
 	public List<BiomeGenBase.SpawnListEntry> getPossibleCreatures(EnumCreatureType creatureType, BlockPos pos) {
@@ -305,7 +308,7 @@ public class ChunkProviderServer implements IChunkProvider {
 	}
 
 	public int getLoadedChunkCount() {
-		return this.id2ChunkMap.getNumHashElements();
+		return this.id2ChunkMap.size();
 	}
 
 	public void recreateStructures(Chunk chunkIn, int x, int z) {

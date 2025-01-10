@@ -62,7 +62,6 @@ public class ChatComponentTranslation extends ChatComponentStyle {
 	 * in the placeholder variables.
 	 */
 	protected void initializeFromFormat(String format) {
-		boolean flag = false;
 		Matcher matcher = stringVariablePattern.matcher(format);
 		int i = 0;
 		int j = 0;

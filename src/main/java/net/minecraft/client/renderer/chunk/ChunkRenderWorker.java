@@ -1,19 +1,23 @@
 package net.minecraft.client.renderer.chunk;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.CancellationException;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import com.google.common.collect.Lists;
 import com.google.common.util.concurrent.FutureCallback;
 import com.google.common.util.concurrent.Futures;
 import com.google.common.util.concurrent.ListenableFuture;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.concurrent.CancellationException;
+import com.google.common.util.concurrent.MoreExecutors;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.RegionRenderCacheBuilder;
 import net.minecraft.crash.CrashReport;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.EnumWorldBlockLayer;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 public class ChunkRenderWorker implements Runnable {
 	private static final Logger LOGGER = LogManager.getLogger();
@@ -46,6 +50,7 @@ public class ChunkRenderWorker implements Runnable {
 		}
 	}
 
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	protected void processTask(final ChunkCompileTaskGenerator generator) throws InterruptedException {
 		generator.getLock().lock();
 
@@ -100,6 +105,7 @@ public class ChunkRenderWorker implements Runnable {
 			}
 
 			final CompiledChunk lvt_7_1_ = generator.getCompiledChunk();
+			
 			ArrayList lvt_8_1_ = Lists.newArrayList();
 
 			if (chunkcompiletaskgenerator$type == ChunkCompileTaskGenerator.Type.REBUILD_CHUNK) {
@@ -156,7 +162,7 @@ public class ChunkRenderWorker implements Runnable {
 								.crashed(CrashReport.makeCrashReport(p_onFailure_1_, "Rendering chunk"));
 					}
 				}
-			});
+			}, MoreExecutors.directExecutor());
 		}
 	}
 

@@ -5,7 +5,7 @@ import java.util.TreeMap;
 import net.minecraft.nbt.NBTTagCompound;
 
 public class GameRules {
-	private final TreeMap<String, GameRules.Value> theGameRules = new TreeMap();
+	private final TreeMap<String, GameRules.Value> theGameRules = new TreeMap<>();
 
 	public GameRules() {
 		this.addGameRule("doFireTick", "true", GameRules.ValueType.BOOLEAN_VALUE);
@@ -109,7 +109,6 @@ public class GameRules {
 		private String valueString;
 		private boolean valueBoolean;
 		private int valueInteger;
-		private double valueDouble;
 		private final GameRules.ValueType type;
 
 		public Value(String value, GameRules.ValueType type) {
@@ -125,11 +124,6 @@ public class GameRules {
 			try {
 				this.valueInteger = Integer.parseInt(value);
 			} catch (NumberFormatException var4) {
-			}
-
-			try {
-				this.valueDouble = Double.parseDouble(value);
-			} catch (NumberFormatException var3) {
 			}
 		}
 

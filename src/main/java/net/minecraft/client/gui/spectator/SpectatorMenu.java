@@ -1,8 +1,10 @@
 package net.minecraft.client.gui.spectator;
 
-import com.google.common.base.Objects;
-import com.google.common.collect.Lists;
 import java.util.List;
+
+import com.google.common.base.MoreObjects;
+import com.google.common.collect.Lists;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.GuiSpectator;
@@ -49,7 +51,7 @@ public class SpectatorMenu {
 								? (i < this.field_178659_h.func_178669_a().size() ? field_178653_d : field_178654_e)
 								: (p_178643_1_ == 8 ? field_178655_b
 										: (i >= 0 && i < this.field_178659_h.func_178669_a().size()
-												? Objects.firstNonNull(this.field_178659_h.func_178669_a().get(i),
+												? MoreObjects.firstNonNull(this.field_178659_h.func_178669_a().get(i),
 														field_178657_a)
 												: field_178657_a)));
 	}

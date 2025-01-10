@@ -15,6 +15,7 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Queue;
 import java.util.Set;
 import java.util.UUID;
@@ -25,7 +26,6 @@ import java.util.concurrent.FutureTask;
 import javax.imageio.ImageIO;
 
 import org.apache.commons.io.IOUtils;
-import org.apache.commons.lang3.Validate;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.lwjgl.LWJGLException;
@@ -217,7 +217,6 @@ public class Minecraft implements IThreadListener {
 	public int displayHeight;
 
 	/** True if the player is connected to a realms server */
-	private boolean connectedToRealms = false;
 	private final Timer timer = new Timer(20.0F);
 
 	/** Instance of PlayerUsageSnooper. */
@@ -305,7 +304,6 @@ public class Minecraft implements IThreadListener {
 	/** Time in nanoseconds of when the class is loaded */
 	long startNanoTime = System.nanoTime();
 	private final boolean jvm64bit;
-	private final boolean isDemo;
 	private NetworkManager myNetworkManager;
 	private boolean integratedServerIsRunning;
 
@@ -331,7 +329,6 @@ public class Minecraft implements IThreadListener {
 	private final MinecraftSessionService sessionService;
 	private SkinManager skinManager;
 	private final Queue<FutureTask<?>> scheduledTasks = Queues.newArrayDeque();
-	private final long field_175615_aJ = 0L;
 	private final Thread mcThread = Thread.currentThread();
 	private ModelManager modelManager;
 
@@ -380,7 +377,6 @@ public class Minecraft implements IThreadListener {
 		this.session = gameConfig.userInfo.session;
 		logger.info("Setting user: " + this.session.getUsername());
 		logger.info("(Session ID is " + this.session.getSessionID() + ")");
-		this.isDemo = gameConfig.gameInfo.isDemo;
 		this.displayWidth = gameConfig.displayInfo.width > 0 ? gameConfig.displayInfo.width : 1;
 		this.displayHeight = gameConfig.displayInfo.height > 0 ? gameConfig.displayInfo.height : 1;
 		this.tempDisplayWidth = gameConfig.displayInfo.width;
@@ -788,7 +784,7 @@ public class Minecraft implements IThreadListener {
 				}
 
 				if (!flag) {
-					Iterator iterator = set.iterator();
+					Iterator<DisplayMode> iterator = set.iterator();
 					DisplayMode displaymode3;
 
 					while (true) {
@@ -1010,7 +1006,7 @@ public class Minecraft implements IThreadListener {
 
 		synchronized (this.scheduledTasks) {
 			while (!this.scheduledTasks.isEmpty()) {
-				Util.runTask((FutureTask) this.scheduledTasks.poll(), logger);
+				Util.runTask((FutureTask<?>) this.scheduledTasks.poll(), logger);
 			}
 		}
 
@@ -2154,13 +2150,6 @@ public class Minecraft implements IThreadListener {
 		}
 	}
 
-	/**
-	 * Gets whether this is a demo or not.
-	 */
-	public final boolean isDemo() {
-		return this.isDemo;
-	}
-
 	public NetHandlerPlayClient getNetHandler() {
 		return this.thePlayer != null ? this.thePlayer.sendQueue : null;
 	}
@@ -2639,7 +2628,7 @@ public class Minecraft implements IThreadListener {
 	}
 
 	public <V> ListenableFuture<V> addScheduledTask(Callable<V> callableToSchedule) {
-		Validate.notNull(callableToSchedule);
+		Objects.requireNonNull(callableToSchedule);
 
 		if (!this.isCallingFromMinecraftThread()) {
 			ListenableFutureTask<V> listenablefuturetask = ListenableFutureTask.create(callableToSchedule);
@@ -2652,13 +2641,13 @@ public class Minecraft implements IThreadListener {
 			try {
 				return Futures.immediateFuture(callableToSchedule.call());
 			} catch (Exception exception) {
-				return Futures.immediateFailedCheckedFuture(exception);
+				return Futures.immediateFailedFuture(exception);
 			}
 		}
 	}
 
 	public ListenableFuture<Object> addScheduledTask(Runnable runnableToSchedule) {
-		Validate.notNull(runnableToSchedule);
+		Objects.requireNonNull(runnableToSchedule);
 		return this.addScheduledTask(Executors.callable(runnableToSchedule));
 	}
 
@@ -2699,23 +2688,6 @@ public class Minecraft implements IThreadListener {
 		map.put("X-Minecraft-UUID", getMinecraft().getSession().getPlayerID());
 		map.put("X-Minecraft-Version", "1.8.9");
 		return map;
-	}
-
-	/**
-	 * Return true if the player is connected to a realms server
-	 */
-	public boolean isConnectedToRealms() {
-		return this.connectedToRealms;
-	}
-
-	/**
-	 * Set if the player is connected to a realms server
-	 * 
-	 * @param isConnected The value that set if the player is connected to a realms
-	 *                    server or not
-	 */
-	public void setConnectedToRealms(boolean isConnected) {
-		this.connectedToRealms = isConnected;
 	}
 
 	public Timer getTimer() {

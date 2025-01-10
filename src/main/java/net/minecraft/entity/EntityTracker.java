@@ -1,10 +1,16 @@
 package net.minecraft.entity;
 
-import com.google.common.collect.Lists;
-import com.google.common.collect.Sets;
 import java.util.List;
 import java.util.Set;
 import java.util.concurrent.Callable;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+import com.google.common.collect.Lists;
+import com.google.common.collect.Sets;
+
+import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
 import net.minecraft.crash.CrashReport;
 import net.minecraft.crash.CrashReportCategory;
 import net.minecraft.entity.boss.EntityDragon;
@@ -33,18 +39,15 @@ import net.minecraft.entity.projectile.EntityPotion;
 import net.minecraft.entity.projectile.EntitySmallFireball;
 import net.minecraft.entity.projectile.EntitySnowball;
 import net.minecraft.network.Packet;
-import net.minecraft.util.IntHashMap;
 import net.minecraft.util.ReportedException;
 import net.minecraft.world.WorldServer;
 import net.minecraft.world.chunk.Chunk;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 public class EntityTracker {
 	private static final Logger logger = LogManager.getLogger();
 	private final WorldServer theWorld;
 	private final Set<EntityTrackerEntry> trackedEntities = Sets.newHashSet();
-	private final IntHashMap<EntityTrackerEntry> trackedEntityHashTable = new IntHashMap();
+	private final Int2ObjectOpenHashMap<EntityTrackerEntry> trackedEntityHashTable = new Int2ObjectOpenHashMap<>();
 	private final int maxTrackingDistanceThreshold;
 
 	public EntityTracker(WorldServer theWorldIn) {
@@ -129,14 +132,14 @@ public class EntityTracker {
 		}
 
 		try {
-			if (this.trackedEntityHashTable.containsItem(entityIn.getEntityId())) {
+			if (this.trackedEntityHashTable.containsKey(entityIn.getEntityId())) {
 				throw new IllegalStateException("Entity is already tracked!");
 			}
 
 			EntityTrackerEntry entitytrackerentry = new EntityTrackerEntry(entityIn, trackingRange, updateFrequency,
 					sendVelocityUpdates);
 			this.trackedEntities.add(entitytrackerentry);
-			this.trackedEntityHashTable.addKey(entityIn.getEntityId(), entitytrackerentry);
+			this.trackedEntityHashTable.put(entityIn.getEntityId(), entitytrackerentry);
 			entitytrackerentry.updatePlayerEntities(this.theWorld.playerEntities);
 		} catch (Throwable throwable) {
 			CrashReport crashreport = CrashReport.makeCrashReport(throwable, "Adding entity to track");
@@ -155,7 +158,7 @@ public class EntityTracker {
 			});
 			entityIn.addEntityCrashInfo(crashreportcategory);
 			CrashReportCategory crashreportcategory1 = crashreport.makeCategory("Entity That Is Already Tracked");
-			this.trackedEntityHashTable.lookup(entityIn.getEntityId()).trackedEntity
+			this.trackedEntityHashTable.get(entityIn.getEntityId()).trackedEntity
 					.addEntityCrashInfo(crashreportcategory1);
 
 			try {
@@ -174,7 +177,7 @@ public class EntityTracker {
 			}
 		}
 
-		EntityTrackerEntry entitytrackerentry1 = this.trackedEntityHashTable.removeObject(entityIn.getEntityId());
+		EntityTrackerEntry entitytrackerentry1 = this.trackedEntityHashTable.remove(entityIn.getEntityId());
 
 		if (entitytrackerentry1 != null) {
 			this.trackedEntities.remove(entitytrackerentry1);
@@ -215,16 +218,16 @@ public class EntityTracker {
 		}
 	}
 
-	public void sendToAllTrackingEntity(Entity entityIn, Packet p_151247_2_) {
-		EntityTrackerEntry entitytrackerentry = this.trackedEntityHashTable.lookup(entityIn.getEntityId());
+	public void sendToAllTrackingEntity(Entity entityIn, Packet<?> p_151247_2_) {
+		EntityTrackerEntry entitytrackerentry = this.trackedEntityHashTable.get(entityIn.getEntityId());
 
 		if (entitytrackerentry != null) {
 			entitytrackerentry.sendPacketToTrackedPlayers(p_151247_2_);
 		}
 	}
 
-	public void func_151248_b(Entity entityIn, Packet p_151248_2_) {
-		EntityTrackerEntry entitytrackerentry = this.trackedEntityHashTable.lookup(entityIn.getEntityId());
+	public void func_151248_b(Entity entityIn, Packet<?> p_151248_2_) {
+		EntityTrackerEntry entitytrackerentry = this.trackedEntityHashTable.get(entityIn.getEntityId());
 
 		if (entitytrackerentry != null) {
 			entitytrackerentry.func_151261_b(p_151248_2_);

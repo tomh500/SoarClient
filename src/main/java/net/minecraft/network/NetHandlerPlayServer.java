@@ -1,19 +1,24 @@
 package net.minecraft.network;
 
+import java.io.IOException;
+import java.util.Collections;
+import java.util.List;
+import java.util.Set;
+import java.util.concurrent.Callable;
+
+import org.apache.commons.lang3.StringUtils;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import com.google.common.collect.Lists;
 import com.google.common.primitives.Doubles;
 import com.google.common.primitives.Floats;
 import com.google.common.util.concurrent.Futures;
-import io.netty.buffer.ByteBuf;
+
 import io.netty.buffer.Unpooled;
 import io.netty.util.concurrent.Future;
 import io.netty.util.concurrent.GenericFutureListener;
-import java.io.IOException;
-import java.util.Collections;
-import java.util.Date;
-import java.util.List;
-import java.util.Set;
-import java.util.concurrent.Callable;
+import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
 import net.minecraft.block.material.Material;
 import net.minecraft.command.server.CommandBlockLogic;
 import net.minecraft.crash.CrashReport;
@@ -88,12 +93,8 @@ import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.IChatComponent;
 import net.minecraft.util.ITickable;
-import net.minecraft.util.IntHashMap;
 import net.minecraft.util.ReportedException;
 import net.minecraft.world.WorldServer;
-import org.apache.commons.lang3.StringUtils;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 public class NetHandlerPlayServer implements INetHandlerPlayServer, ITickable {
 	private static final Logger logger = LogManager.getLogger();
@@ -108,7 +109,6 @@ public class NetHandlerPlayServer implements INetHandlerPlayServer, ITickable {
 	 * prevent that. Surpassing 80 ticks means kick
 	 */
 	private int floatingTickCount;
-	private boolean field_147366_g;
 	private int field_147378_h;
 	private long lastPingTime;
 	private long lastSentPingPacket;
@@ -119,7 +119,7 @@ public class NetHandlerPlayServer implements INetHandlerPlayServer, ITickable {
 	 */
 	private int chatSpamThresholdCount;
 	private int itemDropThreshold;
-	private final IntHashMap<Short> field_147372_n = new IntHashMap();
+	private final Int2ObjectOpenHashMap<Short> field_147372_n = new Int2ObjectOpenHashMap<>();
 	private double lastPosX;
 	private double lastPosY;
 	private double lastPosZ;
@@ -137,7 +137,6 @@ public class NetHandlerPlayServer implements INetHandlerPlayServer, ITickable {
 	 * Like the old updateEntity(), except more generic.
 	 */
 	public void update() {
-		this.field_147366_g = false;
 		++this.networkTickCount;
 		this.serverController.theProfiler.startSection("keepAlive");
 
@@ -172,6 +171,7 @@ public class NetHandlerPlayServer implements INetHandlerPlayServer, ITickable {
 	/**
 	 * Kick a player from the server with a reason
 	 */
+	@SuppressWarnings("unchecked")
 	public void kickPlayerFromServer(String reason) {
 		final ChatComponentText chatcomponenttext = new ChatComponentText(reason);
 		this.netManager.sendPacket(new S40PacketDisconnect(chatcomponenttext),
@@ -214,7 +214,6 @@ public class NetHandlerPlayServer implements INetHandlerPlayServer, ITickable {
 			this.kickPlayerFromServer("Invalid move packet received");
 		} else {
 			WorldServer worldserver = this.serverController.worldServerForDimension(this.playerEntity.dimension);
-			this.field_147366_g = true;
 
 			if (!this.playerEntity.playerConqueredTheEnd) {
 				double d0 = this.playerEntity.posX;
@@ -671,7 +670,7 @@ public class NetHandlerPlayServer implements INetHandlerPlayServer, ITickable {
 		}
 	}
 
-	public void sendPacket(final Packet packetIn) {
+	public void sendPacket(final Packet<?> packetIn) {
 		if (packetIn instanceof S02PacketChat s02packetchat) {
 			EntityPlayer.EnumChatVisibility entityplayer$enumchatvisibility = this.playerEntity.getChatVisibility();
 
@@ -939,7 +938,7 @@ public class NetHandlerPlayServer implements INetHandlerPlayServer, ITickable {
 					this.playerEntity.updateHeldItem();
 					this.playerEntity.isChangingQuantityOnly = false;
 				} else {
-					this.field_147372_n.addKey(this.playerEntity.openContainer.windowId,
+					this.field_147372_n.put(this.playerEntity.openContainer.windowId,
 							Short.valueOf(packetIn.getActionNumber()));
 					this.playerEntity.playerNetServerHandler.sendPacket(
 							new S32PacketConfirmTransaction(packetIn.getWindowId(), packetIn.getActionNumber(), false));
@@ -1029,7 +1028,7 @@ public class NetHandlerPlayServer implements INetHandlerPlayServer, ITickable {
 	 */
 	public void processConfirmTransaction(C0FPacketConfirmTransaction packetIn) {
 		PacketThreadUtil.checkThreadAndEnqueue(packetIn, this, this.playerEntity.getServerForPlayer());
-		Short oshort = this.field_147372_n.lookup(this.playerEntity.openContainer.windowId);
+		Short oshort = this.field_147372_n.get(this.playerEntity.openContainer.windowId);
 
 		if (oshort != null && packetIn.getUid() == oshort.shortValue()
 				&& this.playerEntity.openContainer.windowId == packetIn.getWindowId()

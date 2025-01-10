@@ -9,7 +9,7 @@ import net.minecraft.world.ChunkCoordIntPair;
 import net.minecraft.world.World;
 
 public abstract class StructureStart {
-	protected LinkedList<StructureComponent> components = new LinkedList();
+	protected LinkedList<StructureComponent> components = new LinkedList<>();
 	protected StructureBoundingBox boundingBox;
 	private int chunkPosX;
 	private int chunkPosZ;

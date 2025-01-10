@@ -190,12 +190,10 @@ public class WorldClient extends World {
 
 	protected void onEntityRemoved(Entity entityIn) {
 		super.onEntityRemoved(entityIn);
-		boolean flag = false;
 
 		if (this.entityList.contains(entityIn)) {
 			if (entityIn.isEntityAlive()) {
 				this.entitySpawnQueue.add(entityIn);
-				flag = true;
 			} else {
 				this.entityList.remove(entityIn);
 			}
@@ -222,7 +220,7 @@ public class WorldClient extends World {
 			this.entitySpawnQueue.add(entityToSpawn);
 		}
 
-		this.entitiesById.addKey(entityID, entityToSpawn);
+		this.entitiesById.put(entityID, entityToSpawn);
 	}
 
 	/**
@@ -234,7 +232,7 @@ public class WorldClient extends World {
 	}
 
 	public Entity removeEntityFromWorld(int entityID) {
-		Entity entity = this.entitiesById.removeObject(entityID);
+		Entity entity = this.entitiesById.remove(entityID);
 
 		if (entity != null) {
 			this.entityList.remove(entity);

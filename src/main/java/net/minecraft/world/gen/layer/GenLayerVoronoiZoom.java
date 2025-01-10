@@ -28,7 +28,6 @@ public class GenLayerVoronoiZoom extends GenLayer {
 			int i2 = aint[l1 + (k1) * k];
 
 			for (int j2 = aint[l1 + (k1 + 1) * k]; l1 < k - 1; ++l1) {
-				double d0 = 3.6D;
 				this.initChunkSeed((long) l1 + i << 2, (long) k1 + j << 2);
 				double d1 = ((double) this.nextInt(1024) / 1024.0D - 0.5D) * 3.6D;
 				double d2 = ((double) this.nextInt(1024) / 1024.0D - 0.5D) * 3.6D;

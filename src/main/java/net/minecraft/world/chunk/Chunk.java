@@ -107,6 +107,7 @@ public class Chunk {
 	private int queuedLightChecks;
 	private final ConcurrentLinkedQueue<BlockPos> tileEntityPosQueue;
 
+	@SuppressWarnings("unchecked")
 	public Chunk(World worldIn, int x, int z) {
 		this.storageArrays = new ExtendedBlockStorage[16];
 		this.blockBiomeArray = new byte[256];
@@ -122,7 +123,7 @@ public class Chunk {
 		this.heightMap = new int[256];
 
 		for (int i = 0; i < this.entityLists.length; ++i) {
-			this.entityLists[i] = new ClassInheritanceMultiMap(Entity.class);
+			this.entityLists[i] = new ClassInheritanceMultiMap<Entity>(Entity.class);
 		}
 
 		Arrays.fill(this.precipitationHeightMap, -999);
@@ -1141,7 +1142,6 @@ public class Chunk {
 
 		if (p_177439_3_) {
 			System.arraycopy(p_177439_1_, i, this.blockBiomeArray, 0, this.blockBiomeArray.length);
-			int k1 = i + this.blockBiomeArray.length;
 		}
 
 		for (int j1 = 0; j1 < this.storageArrays.length; ++j1) {

@@ -13,6 +13,7 @@ import java.util.Locale;
 import java.util.Map;
 
 public class EnumTypeAdapterFactory implements TypeAdapterFactory {
+	@SuppressWarnings("unchecked")
 	public <T> TypeAdapter<T> create(Gson p_create_1_, TypeToken<T> p_create_2_) {
 		Class<T> oclass = (Class<T>) p_create_2_.getRawType();
 
@@ -46,6 +47,7 @@ public class EnumTypeAdapterFactory implements TypeAdapterFactory {
 		}
 	}
 
+	@SuppressWarnings("rawtypes")
 	private String func_151232_a(Object p_151232_1_) {
 		return p_151232_1_ instanceof Enum ? ((Enum) p_151232_1_).name().toLowerCase(Locale.US)
 				: p_151232_1_.toString().toLowerCase(Locale.US);

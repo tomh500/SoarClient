@@ -120,15 +120,7 @@ public class FlacFormatConversionProvider extends FormatConversionProvider {
 	public AudioFormat.Encoding[] getTargetEncodings(AudioFormat sourceFormat) {
 		boolean bitSizeOK = isBitSizeOK(sourceFormat, true);
 		boolean channelsOK = isChannelsOK(sourceFormat, true);
-		if (HAS_ENCODING && bitSizeOK && channelsOK && !sourceFormat.isBigEndian()
-				&& sourceFormat.getEncoding().equals(AudioFormat.Encoding.PCM_SIGNED)) {
-			// encoder
-			if (DEBUG) {
-				System.out.println("FLAC converter: can encode to PCM: " + sourceFormat);
-			}
-			AudioFormat.Encoding[] encodings = { FlacEncoding.FLAC };
-			return encodings;
-		} else if (bitSizeOK && channelsOK && sourceFormat.getEncoding().equals(FlacEncoding.FLAC)) {
+		if (bitSizeOK && channelsOK && sourceFormat.getEncoding().equals(FlacEncoding.FLAC)) {
 			// decoder
 			if (DEBUG) {
 				System.out.println("FLAC converter: can decode to FLAC: " + sourceFormat);
@@ -170,23 +162,7 @@ public class FlacFormatConversionProvider extends FormatConversionProvider {
 			boolean notSpecifiedOK) {
 		boolean bitSizeOK = isBitSizeOK(sourceFormat, notSpecifiedOK);
 		boolean channelsOK = isChannelsOK(sourceFormat, notSpecifiedOK);
-		if (HAS_ENCODING && bitSizeOK && channelsOK && !sourceFormat.isBigEndian()
-				&& sourceFormat.getEncoding().equals(AudioFormat.Encoding.PCM_SIGNED)
-				&& targetEncoding.equals(FlacEncoding.FLAC)) {
-			// encode to FLAC
-			if (DEBUG) {
-				System.out.println("FLAC converter: can encode: " + sourceFormat + " to " + targetEncoding);
-			}
-			AudioFormat[] formats = { //
-					new AudioFormat(FlacEncoding.FLAC, sourceFormat.getSampleRate(), //
-							-1, // sample size in bits
-							sourceFormat.getChannels(), //
-							-1, // frame size
-							-1, // frame rate
-							false) }; // little endian
-			return formats;
-
-		} else if (bitSizeOK && channelsOK && sourceFormat.getEncoding().equals(FlacEncoding.FLAC)
+		if (bitSizeOK && channelsOK && sourceFormat.getEncoding().equals(FlacEncoding.FLAC)
 				&& targetEncoding.equals(AudioFormat.Encoding.PCM_SIGNED)) {
 			// decode to PCM
 			if (DEBUG) {

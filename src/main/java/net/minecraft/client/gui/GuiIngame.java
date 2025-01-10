@@ -47,7 +47,6 @@ import net.minecraft.util.IChatComponent;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.StringUtils;
 import net.minecraft.world.border.WorldBorder;
 
 public class GuiIngame extends Gui {
@@ -215,10 +214,6 @@ public class GuiIngame extends Gui {
 			this.renderSelectedItem(scaledresolution);
 		} else if (this.mc.thePlayer.isSpectator()) {
 			this.spectatorGui.renderSelectedItem(scaledresolution);
-		}
-
-		if (this.mc.isDemo()) {
-			this.renderDemo(scaledresolution);
 		}
 
 		if (this.mc.gameSettings.showDebugInfo) {
@@ -415,7 +410,6 @@ public class GuiIngame extends Gui {
 			String s = "" + this.mc.thePlayer.experienceLevel;
 			int l1 = (scaledRes.getScaledWidth() - this.getFontRenderer().getStringWidth(s)) / 2;
 			int i1 = scaledRes.getScaledHeight() - 31 - 4;
-			int j1 = 0;
 			this.getFontRenderer().drawString(s, l1 + 1, i1, 0);
 			this.getFontRenderer().drawString(s, l1 - 1, i1, 0);
 			this.getFontRenderer().drawString(s, l1, i1 + 1, 0);
@@ -458,22 +452,6 @@ public class GuiIngame extends Gui {
 			}
 		}
 
-		this.mc.mcProfiler.endSection();
-	}
-
-	public void renderDemo(ScaledResolution scaledRes) {
-		this.mc.mcProfiler.startSection("demo");
-		String s = "";
-
-		if (this.mc.theWorld.getTotalWorldTime() >= 120500L) {
-			s = I18n.format("demo.demoExpired");
-		} else {
-			s = I18n.format("demo.remainingTime",
-					StringUtils.ticksToElapsedTime((int) (120500L - this.mc.theWorld.getTotalWorldTime())));
-		}
-
-		int i = this.getFontRenderer().getStringWidth(s);
-		this.getFontRenderer().drawStringWithShadow(s, (float) (scaledRes.getScaledWidth() - i - 10), 5.0F, 16777215);
 		this.mc.mcProfiler.endSection();
 	}
 
@@ -791,7 +769,6 @@ public class GuiIngame extends Gui {
 	private void renderBossHealth() {
 		if (BossStatus.bossName != null && BossStatus.statusBarTime > 0) {
 			--BossStatus.statusBarTime;
-			FontRenderer fontrenderer = this.mc.fontRendererObj;
 			ScaledResolution scaledresolution = new ScaledResolution(this.mc);
 			int i = scaledresolution.getScaledWidth();
 			int j = 182;

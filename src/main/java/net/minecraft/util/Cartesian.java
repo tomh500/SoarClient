@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.NoSuchElementException;
 
 public class Cartesian {
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public static <T> Iterable<T[]> cartesianProduct(Class<T> clazz, Iterable<? extends Iterable<? extends T>> sets) {
 		return new Cartesian.Product(clazz, toArray(Iterable.class, sets));
 	}
@@ -20,6 +21,7 @@ public class Cartesian {
 		return arraysAsLists(cartesianProduct(Object.class, sets));
 	}
 
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	private static <T> Iterable<List<T>> arraysAsLists(Iterable<Object[]> arrays) {
 		return Iterables.transform(arrays, new Cartesian.GetList());
 	}
@@ -34,6 +36,7 @@ public class Cartesian {
 		return list.toArray(createArray(clazz, list.size()));
 	}
 
+	@SuppressWarnings("unchecked")
 	private static <T> T[] createArray(Class<? super T> p_179319_0_, int p_179319_1_) {
 		return (T[]) Array.newInstance(p_179319_0_, p_179319_1_);
 	}
@@ -42,6 +45,7 @@ public class Cartesian {
 		private GetList() {
 		}
 
+		@SuppressWarnings("unchecked")
 		public List<T> apply(Object[] p_apply_1_) {
 			return Arrays.asList((T[]) p_apply_1_);
 		}
@@ -56,6 +60,7 @@ public class Cartesian {
 			this.iterables = iterables;
 		}
 
+		@SuppressWarnings({ "unchecked", "rawtypes" })
 		public Iterator<T[]> iterator() {
 			return (Iterator<T[]>) (this.iterables.length <= 0
 					? Collections.singletonList((Object[]) Cartesian.createArray(this.clazz, 0)).iterator()

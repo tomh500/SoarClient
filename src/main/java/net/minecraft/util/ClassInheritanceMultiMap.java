@@ -1,14 +1,16 @@
 package net.minecraft.util;
 
-import com.google.common.collect.Iterators;
-import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
-import com.google.common.collect.Sets;
 import java.util.AbstractSet;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+
+import com.google.common.collect.Iterators;
+import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
+import com.google.common.collect.Sets;
 
 public class ClassInheritanceMultiMap<T> extends AbstractSet<T> {
 	private static final Set<Class<?>> field_181158_a = Sets.newHashSet();
@@ -72,6 +74,7 @@ public class ClassInheritanceMultiMap<T> extends AbstractSet<T> {
 	}
 
 	public boolean remove(Object p_remove_1_) {
+		@SuppressWarnings("unchecked")
 		T t = (T) p_remove_1_;
 		boolean flag = false;
 
@@ -99,7 +102,7 @@ public class ClassInheritanceMultiMap<T> extends AbstractSet<T> {
 						.get(ClassInheritanceMultiMap.this.initializeClassLookup(clazz));
 
 				if (list == null) {
-					return Iterators.emptyIterator();
+					return Collections.emptyIterator();
 				} else {
 					Iterator<T> iterator = list.iterator();
 					return Iterators.filter(iterator, clazz);
@@ -109,7 +112,7 @@ public class ClassInheritanceMultiMap<T> extends AbstractSet<T> {
 	}
 
 	public Iterator<T> iterator() {
-		return this.values.isEmpty() ? Iterators.emptyIterator()
+		return this.values.isEmpty() ? Collections.emptyIterator()
 				: Iterators.unmodifiableIterator(this.values.iterator());
 	}
 

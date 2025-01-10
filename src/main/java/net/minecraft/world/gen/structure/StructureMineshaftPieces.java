@@ -291,10 +291,6 @@ public class StructureMineshaftPieces {
 			if (this.isLiquidInStructureBoundingBox(worldIn, structureBoundingBoxIn)) {
 				return false;
 			} else {
-				int i = 0;
-				int j = 2;
-				int k = 0;
-				int l = 2;
 				int i1 = this.sectionCount * 5 - 1;
 				this.fillWithBlocks(worldIn, structureBoundingBoxIn, 0, 0, 0, 2, 1, i1, Blocks.air.getDefaultState(),
 						Blocks.air.getDefaultState(), false);

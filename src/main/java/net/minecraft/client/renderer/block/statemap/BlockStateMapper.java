@@ -1,11 +1,13 @@
 package net.minecraft.client.renderer.block.statemap;
 
-import com.google.common.base.Objects;
-import com.google.common.collect.Maps;
-import com.google.common.collect.Sets;
 import java.util.Collections;
 import java.util.Map;
 import java.util.Set;
+
+import com.google.common.base.MoreObjects;
+import com.google.common.collect.Maps;
+import com.google.common.collect.Sets;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.resources.model.ModelResourceLocation;
@@ -27,7 +29,7 @@ public class BlockStateMapper {
 
 		for (Block block : Block.blockRegistry) {
 			if (!this.setBuiltInBlocks.contains(block)) {
-				map.putAll(Objects.firstNonNull(this.blockStateMap.get(block), new DefaultStateMapper())
+				map.putAll(MoreObjects.firstNonNull(this.blockStateMap.get(block), new DefaultStateMapper())
 						.putStateModelLocations(block));
 			}
 		}
