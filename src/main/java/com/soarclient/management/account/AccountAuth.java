@@ -9,6 +9,7 @@ import javax.swing.SwingUtilities;
 import com.soarclient.Soar;
 import com.soarclient.management.account.impl.BedrockAccount;
 import com.soarclient.management.account.impl.MicrosoftAccount;
+import com.soarclient.management.config.ConfigType;
 import com.soarclient.utils.TFunction;
 
 import net.minecraft.client.Minecraft;
@@ -67,7 +68,7 @@ public class AccountAuth {
 				Minecraft.getMinecraft().setSession(new Session(profile.getName(), profile.getId().toString(),
 						profile.getMcToken().getAccessToken(), "legacy"));
 				accountManager.setCurrentAccount(msAccount.getUUID().toString().replace("-", ""));
-				accountManager.save();
+				Soar.getInstance().getConfigManager().save(ConfigType.ACCOUNT);
 			}
 		} catch (Throwable e) {
 			e.printStackTrace();
