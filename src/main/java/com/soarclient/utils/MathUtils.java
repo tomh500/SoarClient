@@ -5,10 +5,6 @@ import java.math.RoundingMode;
 
 public class MathUtils {
 
-	public static float calculateMaxRadius(float x, float y, float width, float height) {
-		return (float) Math.sqrt(Math.pow(width, 2) + Math.pow(height, 2));
-	}
-
 	public static float roundToPlace(double value, int places) {
 
 		if (places < 0) {

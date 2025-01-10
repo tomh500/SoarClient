@@ -1,5 +1,8 @@
 package com.soarclient.gui.api;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.lwjgl.input.Keyboard;
 
 import com.soarclient.Soar;
@@ -10,11 +13,14 @@ import com.soarclient.animation.other.DummyAnimation;
 import com.soarclient.management.color.api.ColorPalette;
 import com.soarclient.shaders.impl.GaussianBlur;
 import com.soarclient.skia.Skia;
+import com.soarclient.ui.component.Component;
 
 import net.minecraft.client.gui.GuiScreen;
 
 public abstract class SoarGui extends SimpleSoarGui {
 
+	protected final List<Component> components = new ArrayList<>();
+	
 	private final GuiTransition transition;
 	private Animation inOutAnimation;
 	private GuiScreen nextScreen;
@@ -63,11 +69,15 @@ public abstract class SoarGui extends SimpleSoarGui {
 
 		if (background) {
 			Skia.clip(getX(), getY(), getWidth(), getHeight(), 35);
-			Skia.drawRoundedRect(getX(), getY(), getWidth(), getHeight(), 35, palette.getBackground());
+			Skia.drawRoundedRect(getX(), getY(), getWidth(), getHeight(), 35, palette.getSurfaceContainer());
 		}
 
 		drawSkia(mouseX, mouseY);
 
+		for (Component c : components) {
+			c.draw(mouseX, mouseY);
+		}
+		
 		Skia.restore();
 
 		if (inOutAnimation.getEnd() == 0 && inOutAnimation.isFinished()) {
@@ -78,11 +88,31 @@ public abstract class SoarGui extends SimpleSoarGui {
 
 	public void drawSkia(int mouseX, int mouseY) {
 	}
+	
+	@Override
+	public void mousePressed(int mouseX, int mouseY, int mouseButton) {
+		for (Component c : components) {
+			c.mousePressed(mouseX, mouseY, mouseButton);
+		}
+	}
+	
+	@Override
+	public void mouseReleased(int mouseX, int mouseY, int mouseButton) {
+		for (Component c : components) {
+			c.mouseReleased(mouseX, mouseY, mouseButton);
+		}
+	}
 
 	@Override
 	public void keyTyped(char typedChar, int keyCode) {
+		
 		if (keyCode == Keyboard.KEY_ESCAPE && inOutAnimation.getEnd() == 1) {
 			close();
+			return;
+		}
+		
+		for (Component c : components) {
+			c.keyTyped(typedChar, keyCode);
 		}
 	}
 

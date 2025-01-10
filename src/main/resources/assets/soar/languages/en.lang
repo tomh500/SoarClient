@@ -1,6 +1,18 @@
 #
 # Version 8.0
 #
+text.all=All
+text.hud=HUD
+text.render=Render
+text.player=Player
+text.misc=Misc
+text.home=Home
+text.mods=Mods
+text.music=Music
+text.profile=Profile
+text.settings=Settings
+text.search=Search
+
 setting.icon=Icon
 setting.icon.descroption=Set the icon to display
 setting.darkmode=Dark Mode

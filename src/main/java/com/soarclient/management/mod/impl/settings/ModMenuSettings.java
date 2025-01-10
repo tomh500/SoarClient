@@ -4,6 +4,7 @@ import org.lwjgl.input.Keyboard;
 
 import com.soarclient.event.EventBus;
 import com.soarclient.event.impl.ClientTickEventListener;
+import com.soarclient.gui.modmenu.GuiModMenu;
 import com.soarclient.libraries.material3.hct.Hct;
 import com.soarclient.management.mod.Mod;
 import com.soarclient.management.mod.ModCategory;
@@ -40,10 +41,10 @@ public class ModMenuSettings extends Mod implements ClientTickEventListener {
 		if (keybindSetting.isPressed()) {
 
 			if (modMenu == null) {
-				//modMenu = new GuiModMenu().build();
+				modMenu = new GuiModMenu().build();
 			}
-
-			//mc.displayGuiScreen(new TestGui().build());
+			
+			mc.displayGuiScreen(modMenu);
 		}
 	}
 	

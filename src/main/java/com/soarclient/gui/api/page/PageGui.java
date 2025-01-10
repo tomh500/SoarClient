@@ -1,16 +1,13 @@
 package com.soarclient.gui.api.page;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import com.soarclient.animation.Animation;
 import com.soarclient.gui.api.GuiTransition;
 import com.soarclient.gui.api.SoarGui;
-import com.soarclient.ui.component.Component;
 
 public abstract class PageGui extends SoarGui {
 
-	protected final List<Component> components = new ArrayList<>();
 	protected List<Page> pages;
 
 	private Animation pageAnimation;
@@ -29,21 +26,24 @@ public abstract class PageGui extends SoarGui {
 
 	@Override
 	public void init() {
-
+		setPageSize();
+		super.init();
+	}
+	
+	public void setPageSize() {
 		for (Page p : pages) {
 			p.setX(getX());
 			p.setY(getY());
 			p.setWidth(getWidth());
 			p.setHeight(getHeight());
 		}
-		
-		super.init();
 	}
 	
 	@Override
 	public void drawSkia(int mouseX, int mouseY) {
-		for (Component c : components) {
-			c.draw(mouseX, mouseY);
+
+		if (currentPage != null) {
+			currentPage.draw(mouseX, mouseY);
 		}
 	}
 
@@ -52,10 +52,6 @@ public abstract class PageGui extends SoarGui {
 
 		if (currentPage != null) {
 			currentPage.mousePressed(mouseX, mouseY, mouseButton);
-		}
-
-		for (Component c : components) {
-			c.mousePressed(mouseX, mouseY, mouseButton);
 		}
 		
 		super.mousePressed(mouseX, mouseY, mouseButton);
@@ -67,10 +63,6 @@ public abstract class PageGui extends SoarGui {
 		if (currentPage != null) {
 			currentPage.mouseReleased(mouseX, mouseY, mouseButton);
 		}
-
-		for (Component c : components) {
-			c.mouseReleased(mouseX, mouseY, mouseButton);
-		}
 		
 		super.mouseReleased(mouseX, mouseY, mouseButton);
 	}
@@ -80,10 +72,6 @@ public abstract class PageGui extends SoarGui {
 
 		if (currentPage != null) {
 			currentPage.keyTyped(typedChar, keyCode);
-		}
-
-		for (Component c : components) {
-			c.keyTyped(typedChar, keyCode);
 		}
 		
 		super.keyTyped(typedChar, keyCode);
