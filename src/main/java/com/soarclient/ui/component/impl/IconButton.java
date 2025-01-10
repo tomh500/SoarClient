@@ -23,7 +23,6 @@ public class IconButton extends Component {
 	private String icon;
 	private Size size;
 	private Style style;
-	private boolean pressed;
 	private int[] pressedPos;
 
 	public IconButton(String icon, float x, float y, Size size, Style style) {
@@ -36,7 +35,6 @@ public class IconButton extends Component {
 
 		width = s[0];
 		height = s[1];
-		pressed = false;
 		pressedPos = new int[] { 0, 0 };
 		pressAnimation = new PressAnimation();
 	}
@@ -65,7 +63,6 @@ public class IconButton extends Component {
 	@Override
 	public void mousePressed(int mouseX, int mouseY, int mouseButton) {
 		if (MouseUtils.isInside(mouseX, mouseY, x, y, width, height) && mouseButton == 0) {
-			pressed = true;
 			pressedPos = new int[] { mouseX - (int) x, mouseY - (int) y };
 			pressAnimation.mousePressed();
 		}
@@ -79,7 +76,6 @@ public class IconButton extends Component {
 			}
 		}
 		pressAnimation.mouseReleased();
-		pressed = false;
 	}
 
 	@Override
