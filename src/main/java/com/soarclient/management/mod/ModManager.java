@@ -1,8 +1,6 @@
 package com.soarclient.management.mod;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -79,26 +77,13 @@ public class ModManager {
 	}
 
 	public HUDDesign getDesignByName(String name) {
-
-		for (HUDDesign design : designs) {
-			if (design.getName().equals(name)) {
-				return design;
-			}
-		}
-
-		return getDesignByName("design.simple");
+	    return designs.stream()
+	                  .filter(design -> design.getName().equals(name))
+	                  .findFirst()
+	                  .orElseGet(() -> getDesignByName("design.simple"));
 	}
 
 	private void sortMods() {
-
-		Comparator<Mod> nameComparator = new Comparator<Mod>() {
-
-			@Override
-			public int compare(Mod mod1, Mod mod2) {
-				return mod1.getName().compareTo(mod2.getName());
-			}
-		};
-
-		Collections.sort(mods, nameComparator);
+	    mods.sort((mod1, mod2) -> mod1.getName().compareTo(mod2.getName()));
 	}
 }
