@@ -45,7 +45,9 @@ public class PressAnimation {
 	}
 	
 	public void mouseReleased() {
-		animation = new EaseEmphasizedDecelerate(Duration.EXTRA_LONG_2, animation.getValue(), 2);
+		if(animation.getEnd() == 1) {
+			animation = new EaseEmphasizedDecelerate(Duration.EXTRA_LONG_2, animation.getValue(), 2);
+		}
 	}
 
 	private float calculateMaxRadius(float width, float height) {
