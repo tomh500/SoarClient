@@ -9,7 +9,7 @@ import com.soarclient.Soar;
 import com.soarclient.animation.SimpleAnimation;
 import com.soarclient.gui.api.page.Page;
 import com.soarclient.gui.api.page.PageGui;
-import com.soarclient.gui.api.page.impl.LeftTransition;
+import com.soarclient.gui.api.page.impl.RightLeftTransition;
 import com.soarclient.gui.modmenu.pages.music.MusicControlBar;
 import com.soarclient.management.color.api.ColorPalette;
 import com.soarclient.management.music.Music;
@@ -42,7 +42,7 @@ public class MusicPage extends Page {
 	private SearchBar searchBar;
 
 	public MusicPage(PageGui parent) {
-		super(parent, "text.music", Icon.MUSIC_NOTE, new LeftTransition(true));
+		super(parent, "text.music", Icon.MUSIC_NOTE, new RightLeftTransition(true));
 
 		for (Music m : Soar.getInstance().getMusicManager().getMusics()) {
 			items.add(new Item(m));

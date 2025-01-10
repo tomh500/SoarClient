@@ -1,5 +1,7 @@
 package com.soarclient.gui.api.page;
 
+import com.soarclient.animation.Animation;
+import com.soarclient.animation.other.DummyAnimation;
 import com.soarclient.gui.api.GuiTransition;
 
 import net.minecraft.client.Minecraft;
@@ -11,6 +13,7 @@ public class Page {
 	protected float x, y, width, height;
 	private String title, icon;
 	private PageGui parent;
+	private Animation animation;
 	private GuiTransition transition;
 
 	public Page(PageGui parent, String title, String icon, GuiTransition transition) {
@@ -22,6 +25,7 @@ public class Page {
 		this.y = 0;
 		this.width = 0;
 		this.height = 0;
+		this.animation = new DummyAnimation(1);
 	}
 
 	public void init() {
@@ -92,5 +96,13 @@ public class Page {
 
 	public GuiTransition getTransition() {
 		return transition;
+	}
+
+	public Animation getAnimation() {
+		return animation;
+	}
+
+	public void setAnimation(Animation animation) {
+		this.animation = animation;
 	}
 }

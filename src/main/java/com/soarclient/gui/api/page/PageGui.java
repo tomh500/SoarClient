@@ -2,15 +2,16 @@ package com.soarclient.gui.api.page;
 
 import java.util.List;
 
-import com.soarclient.animation.Animation;
+import com.soarclient.animation.Duration;
+import com.soarclient.animation.cubicbezier.impl.EaseEmphasizedDecelerate;
+import com.soarclient.animation.other.DummyAnimation;
 import com.soarclient.gui.api.GuiTransition;
 import com.soarclient.gui.api.SoarGui;
+import com.soarclient.skia.Skia;
 
 public abstract class PageGui extends SoarGui {
 
 	protected List<Page> pages;
-
-	private Animation pageAnimation;
 
 	protected Page currentPage;
 	protected Page lastPage;
@@ -28,6 +29,8 @@ public abstract class PageGui extends SoarGui {
 	public void init() {
 		setPageSize();
 		super.init();
+		currentPage.init();
+		currentPage.setAnimation(new DummyAnimation(1));
 	}
 	
 	public void setPageSize() {
@@ -42,8 +45,43 @@ public abstract class PageGui extends SoarGui {
 	@Override
 	public void drawSkia(int mouseX, int mouseY) {
 
-		if (currentPage != null) {
+		if (currentPage != null && lastPage == null) {
 			currentPage.draw(mouseX, mouseY);
+		}
+		
+		if(lastPage != null) {
+			
+			GuiTransition transition = lastPage.getTransition();
+			
+			if(currentPage.getTransition().isConsecutive()) {
+				Skia.save();
+				
+				if(transition != null) {
+					float[] result = transition.onTransition(lastPage.getAnimation());
+					Skia.translate(result[0] * getWidth(), result[1] * getHeight());
+					Skia.scale(getX(), getY(), getWidth(), getHeight(), result[2]);
+				}
+				
+				lastPage.draw(mouseX, mouseY);
+				Skia.restore();
+			}
+			
+			Skia.save();
+			
+			transition = currentPage.getTransition();
+			
+			if(transition != null) {
+				float[] result = transition.onTransition(currentPage.getAnimation());
+				Skia.translate(result[0] * getWidth(), result[1] * getHeight());
+				Skia.scale(getX(), getY(), getWidth(), getHeight(), result[2]);
+			}
+			
+			currentPage.draw(mouseX, mouseY);
+			Skia.restore();
+			
+			if (lastPage.getAnimation().isFinished()) {
+				lastPage = null;
+			}
 		}
 	}
 
@@ -96,7 +134,9 @@ public abstract class PageGui extends SoarGui {
 		}
 
 		this.currentPage = page;
-
+		currentPage.setAnimation(new EaseEmphasizedDecelerate(Duration.MEDIUM_1, 0, 1));
+		lastPage.setAnimation(new EaseEmphasizedDecelerate(Duration.MEDIUM_1, 1, 0));
+		
 		if (currentPage != null) {
 			currentPage.init();
 		}

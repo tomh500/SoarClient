@@ -7,12 +7,13 @@ import com.soarclient.Soar;
 import com.soarclient.animation.SimpleAnimation;
 import com.soarclient.gui.api.page.Page;
 import com.soarclient.gui.api.page.PageGui;
-import com.soarclient.gui.api.page.impl.LeftTransition;
+import com.soarclient.gui.api.page.impl.RightLeftTransition;
 import com.soarclient.management.color.api.ColorPalette;
 import com.soarclient.management.mod.Mod;
 import com.soarclient.skia.Skia;
 import com.soarclient.skia.font.Fonts;
 import com.soarclient.skia.font.Icon;
+import com.soarclient.ui.component.api.PressAnimation;
 import com.soarclient.ui.component.impl.text.SearchBar;
 import com.soarclient.utils.ColorUtils;
 import com.soarclient.utils.SearchUtils;
@@ -25,15 +26,15 @@ public class ModsPage extends Page {
 	private List<Item> items = new ArrayList<>();
 	private ScrollHelper scrollHelper = new ScrollHelper();
 	private SearchBar searchBar;
-	
+
 	public ModsPage(PageGui parent) {
-		super(parent, "text.mods", Icon.INVENTORY_2, new LeftTransition(true));
-		
+		super(parent, "text.mods", Icon.INVENTORY_2, new RightLeftTransition(true));
+
 		for (Mod m : Soar.getInstance().getModManager().getMods()) {
 			items.add(new Item(m));
 		}
 	}
-	
+
 	@Override
 	public void init() {
 
@@ -67,7 +68,6 @@ public class ModsPage extends Page {
 		for (Item i : items) {
 
 			Mod m = i.mod;
-			SimpleAnimation enableAnimation = i.enableAnimation;
 			SimpleAnimation focusAnimation = i.focusAnimation;
 			SimpleAnimation xAnimation = i.xAnimation;
 			SimpleAnimation yAnimation = i.yAnimation;
@@ -86,7 +86,6 @@ public class ModsPage extends Page {
 			focusAnimation.onTick(
 					MouseUtils.isInside(mouseX, mouseY, itemX, itemY, 244, 116 + 35) ? i.pressed ? 0.12F : 0.08F : 0,
 					8);
-			enableAnimation.onTick(m.isEnabled() ? 1 : 0, 10);
 			xAnimation.onTick(itemX, 14);
 			yAnimation.onTick(itemY, 14);
 
@@ -101,9 +100,8 @@ public class ModsPage extends Page {
 
 			Skia.save();
 			Skia.clip(itemX, itemY + 116, 244, 35, 0, 0, 26, 26);
-			/*Skia.drawCircle(itemX + i.pressedPos[0], itemY + 116 + i.pressedPos[1],
-					MathUtils.calculateMaxRadius(itemX, itemY, 244, 35) * enableAnimation.getValue(),
-					ColorUtils.applyAlpha(palette.getPrimaryContainer(), enableAnimation.getValue()));*/
+			i.pressAnimation.draw(itemX + i.pressedPos[0], itemY + 116 + i.pressedPos[1], 224, 35,
+					palette.getPrimaryContainer(), 1);
 			Skia.restore();
 
 			Skia.drawFullCenteredText(I18n.get(m.getName()), itemX + (244 / 2), itemY + 116 + (35 / 2),
@@ -164,6 +162,12 @@ public class ModsPage extends Page {
 					i.pressedPos[0] = mouseX - itemX;
 					i.pressedPos[1] = mouseY - (itemY + 116);
 					m.toggle();
+
+					if (m.isEnabled()) {
+						i.pressAnimation.mousePressed();
+					} else {
+						i.pressAnimation.mouseReleased();
+					}
 				}
 			}
 
@@ -184,9 +188,9 @@ public class ModsPage extends Page {
 
 		private Mod mod;
 		private SimpleAnimation focusAnimation = new SimpleAnimation();
-		private SimpleAnimation enableAnimation = new SimpleAnimation();
 		private SimpleAnimation xAnimation = new SimpleAnimation();
 		private SimpleAnimation yAnimation = new SimpleAnimation();
+		private PressAnimation pressAnimation = new PressAnimation();
 		private float[] pressedPos = new float[] { 0, 0 };
 		private boolean pressed;
 
