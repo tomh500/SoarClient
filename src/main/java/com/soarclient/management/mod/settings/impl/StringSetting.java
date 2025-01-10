@@ -6,28 +6,28 @@ import com.soarclient.management.mod.settings.Setting;
 
 public class StringSetting extends Setting {
 
-	private String defaultValue, string;
+	private String defaultValue, value;
 
 	public StringSetting(String name, String description, String icon, Mod parent, String string) {
 		super(name, description, icon, parent);
 
 		this.defaultValue = string;
-		this.string = string;
+		this.value = string;
 
 		Soar.getInstance().getModManager().addSetting(this);
 	}
 
 	@Override
 	public void reset() {
-		this.string = defaultValue;
+		this.value = defaultValue;
 	}
 
-	public String getString() {
-		return string;
+	public String getValue() {
+		return value;
 	}
 
-	public void setString(String string) {
-		this.string = string;
+	public void setValue(String string) {
+		this.value = string;
 	}
 
 	public String getDefaultValue() {
