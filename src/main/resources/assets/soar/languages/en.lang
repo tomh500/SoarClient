@@ -13,6 +13,12 @@ text.profile=Profile
 text.settings=Settings
 text.search=Search
 
+mod.combocounter.name=Combo Counter
+mod.combocounter.description=Display Combo
+
+mod.coords.name=Coords
+mod.coords.description=Display your coordnates
+
 setting.icon=Icon
 setting.icon.descroption=Set the icon to display
 setting.darkmode=Dark Mode

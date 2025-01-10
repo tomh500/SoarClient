@@ -44,13 +44,13 @@ public class EventBus {
         }
     }
 
-    public void register(final Object object, final int... ids) {
+    public void registers(final Object object, final int... ids) {
         for (int id : ids) {
-        	register(id, object);
+        	register(object, id);
         }
     }
     
-    public void register(final int id, final Object object) {
+    public void register(final Object object, final int id) {
         if (registers.length <= id) setEventCapacity(id + 1);
 
         final Object[] subscriberArr = registers[id];
@@ -62,13 +62,13 @@ public class EventBus {
         registers[id] = newSubscriberArr;
     }
 
-    public void unregister(final Object object, final int... ids) {
+    public void unregisters(final Object object, final int... ids) {
         for (int id : ids) {
-            unregister(id, object);
+            unregister(object, id);
         }
     }
 
-    public void unregister(final int id, final Object object) {
+    public void unregister(final Object object, final int id) {
         Object[] subscriberArr = registers[id];
 
         int removeIndex = -1;

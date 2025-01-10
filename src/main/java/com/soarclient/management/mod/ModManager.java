@@ -9,6 +9,8 @@ import java.util.stream.Collectors;
 import com.soarclient.management.mod.api.hud.HUDMod;
 import com.soarclient.management.mod.api.hud.design.HUDDesign;
 import com.soarclient.management.mod.api.hud.design.impl.SimpleDesign;
+import com.soarclient.management.mod.impl.hud.ComboCounterMod;
+import com.soarclient.management.mod.impl.hud.CoordsMod;
 import com.soarclient.management.mod.impl.settings.ModMenuSettings;
 import com.soarclient.management.mod.settings.Setting;
 import com.soarclient.management.mod.settings.impl.KeybindSetting;
@@ -27,6 +29,10 @@ public class ModManager {
 	}
 
 	private void initMods() {
+		
+		// HUD
+		mods.add(new ComboCounterMod());
+		mods.add(new CoordsMod());
 		
 		// Settings
 		mods.add(new ModMenuSettings());

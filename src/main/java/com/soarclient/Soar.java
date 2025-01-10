@@ -29,7 +29,7 @@ public class Soar {
 		modManager.init();
 		colorManager = new ColorManager();
 
-		EventBus.getInstance().register(GameLoopEvent.ID, new Delta());
+		EventBus.getInstance().register(new Delta(), GameLoopEvent.ID);
 	}
 
 	public void stop() {
