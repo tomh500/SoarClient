@@ -34,28 +34,24 @@ public class Page {
 	}
 
 	public void draw(int mouseX, int mouseY) {
-
 		for (Component c : components) {
 			c.draw(mouseX, mouseY);
 		}
 	}
 
 	public void mousePressed(int mouseX, int mouseY, int mouseButton) {
-
 		for (Component c : components) {
 			c.mousePressed(mouseX, mouseY, mouseButton);
 		}
 	}
 
 	public void mouseReleased(int mouseX, int mouseY, int mouseButton) {
-
 		for (Component c : components) {
 			c.mouseReleased(mouseX, mouseY, mouseButton);
 		}
 	}
 
 	public void keyTyped(char typedChar, int keyCode) {
-
 		for (Component c : components) {
 			c.keyTyped(typedChar, keyCode);
 		}
