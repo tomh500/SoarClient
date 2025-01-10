@@ -241,10 +241,11 @@ public class Skia {
 	public static void drawHeightCenteredText(String text, float x, float y, Color color, Font font) {
 		
 	    FontMetrics metrics = font.getMetrics();
-
+	    Rect bounds = font.measureText(text);
+	    
 	    float textCenterY = y + (metrics.getAscent() - metrics.getDescent()) / 2 - metrics.getAscent();
 
-	    getCanvas().drawString(text, x, textCenterY, font, getPaint(color));
+	    getCanvas().drawString(text, x - bounds.getLeft(), textCenterY, font, getPaint(color));
 	}
 
 	public static void drawFullCenteredText(String text, float x, float y, Color color, Font font) {
@@ -253,7 +254,7 @@ public class Skia {
 	    
 	    FontMetrics metrics = font.getMetrics();
 
-	    float textCenterX = x - bounds.getWidth() / 2;
+	    float textCenterX = x - bounds.getLeft() - (bounds.getWidth() / 2);
 	    float textCenterY = y + (metrics.getAscent() - metrics.getDescent()) / 2 - metrics.getAscent();
 
 	    getCanvas().drawString(text, textCenterX, textCenterY, font, getPaint(color));
