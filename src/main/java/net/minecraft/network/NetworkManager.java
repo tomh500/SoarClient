@@ -21,6 +21,7 @@ import com.soarclient.event.impl.ReceivePacketEventListener.ReceivePacketEvent;
 import com.soarclient.event.impl.SendPacketEventListener.SendPacketEvent;
 
 import io.netty.bootstrap.Bootstrap;
+import io.netty.buffer.UnpooledByteBufAllocator;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelException;
 import io.netty.channel.ChannelFuture;
@@ -142,14 +143,14 @@ public class NetworkManager extends SimpleChannelInboundHandler<Packet> {
 	}
 
 	protected void channelRead0(ChannelHandlerContext p_channelRead0_1_, Packet p_channelRead0_2_) throws Exception {
-		
+
 		ReceivePacketEvent event = new ReceivePacketEvent(p_channelRead0_2_);
 		EventBus.getInstance().call(event, ReceivePacketEvent.ID);
-		
-		if(event.isCancelled()) {
+
+		if (event.isCancelled()) {
 			return;
 		}
-		
+
 		if (this.channel.isOpen()) {
 			try {
 				p_channelRead0_2_.processPacket(this.packetListener);
@@ -169,14 +170,14 @@ public class NetworkManager extends SimpleChannelInboundHandler<Packet> {
 	}
 
 	public void sendPacket(Packet packetIn) {
-		
+
 		SendPacketEvent event = new SendPacketEvent(packetIn);
 		EventBus.getInstance().call(event, SendPacketEvent.ID);
-		
-		if(event.isCancelled()) {
+
+		if (event.isCancelled()) {
 			return;
 		}
-		
+
 		if (this.isChannelOpen()) {
 			this.flushOutboundQueue();
 			this.dispatchPacket(packetIn, null);
@@ -336,21 +337,24 @@ public class NetworkManager extends SimpleChannelInboundHandler<Packet> {
 			lazyloadbase = CLIENT_NIO_EVENTLOOP;
 		}
 
-		(new Bootstrap()).group(lazyloadbase.getValue()).handler(new ChannelInitializer<Channel>() {
-			protected void initChannel(Channel p_initChannel_1_) throws Exception {
-				try {
-					p_initChannel_1_.config().setOption(ChannelOption.TCP_NODELAY, Boolean.valueOf(true));
-				} catch (ChannelException var3) {
-				}
+		(new Bootstrap()).group(lazyloadbase.getValue()).channel(oclass)
+				.option(ChannelOption.ALLOCATOR, UnpooledByteBufAllocator.DEFAULT)
+				.handler(new ChannelInitializer<Channel>() {
+					protected void initChannel(Channel p_initChannel_1_) throws Exception {
+						try {
+							p_initChannel_1_.config().setOption(ChannelOption.TCP_NODELAY, Boolean.valueOf(true));
+						} catch (ChannelException var3) {
+						}
 
-				p_initChannel_1_.pipeline().addLast("timeout", new ReadTimeoutHandler(30))
-						.addLast("splitter", new MessageDeserializer2())
-						.addLast("decoder", new MessageDeserializer(EnumPacketDirection.CLIENTBOUND))
-						.addLast("prepender", new MessageSerializer2())
-						.addLast("encoder", new MessageSerializer(EnumPacketDirection.SERVERBOUND))
-						.addLast("packet_handler", networkmanager);
-			}
-		}).channel(oclass).connect(address, serverPort).syncUninterruptibly();
+						p_initChannel_1_.pipeline().addLast("timeout", new ReadTimeoutHandler(30))
+								.addLast("splitter", new MessageDeserializer2())
+								.addLast("decoder", new MessageDeserializer(EnumPacketDirection.CLIENTBOUND))
+								.addLast("prepender", new MessageSerializer2())
+								.addLast("encoder", new MessageSerializer(EnumPacketDirection.SERVERBOUND))
+								.addLast("packet_handler", networkmanager);
+					}
+				}).connect(address, serverPort).syncUninterruptibly();
+
 		return networkmanager;
 	}
 
