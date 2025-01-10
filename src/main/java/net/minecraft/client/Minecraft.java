@@ -2725,4 +2725,8 @@ public class Minecraft implements IThreadListener {
 	public void setSession(Session session) {
 		this.session = session;
 	}
+
+	public boolean isRunning() {
+		return running;
+	}
 }
