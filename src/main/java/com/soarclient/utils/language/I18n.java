@@ -9,19 +9,19 @@ import java.util.Map;
 public final class I18n {
 
 	private static final Map<String, String> translateMap = new HashMap<>();
-	private static String currentLanguage;
+	private static Language currentLanguage;
 
 	private I18n() {
 	}
 
-	public static void setLanguage(String language) {
+	public static void setLanguage(Language language) {
 		currentLanguage = language;
 		load(language);
 	}
 
-	private static void load(String language) {
+	private static void load(Language language) {
 
-		String resourcePath = String.format("assets/soar/languages/%s.lang", language);
+		String resourcePath = String.format("assets/soar/languages/%s.lang", language.getId());
 		translateMap.clear();
 
 		try (BufferedReader reader = new BufferedReader(new InputStreamReader(
@@ -39,7 +39,7 @@ public final class I18n {
 		return translateMap.getOrDefault(key, "null");
 	}
 
-	public static String getCurrentLanguage() {
+	public static Language getCurrentLanguage() {
 		return currentLanguage;
 	}
 }
