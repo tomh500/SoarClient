@@ -78,6 +78,7 @@ dependencies {
 	implementation 'net.raphimc:viaaprilfools-common:3.0.5-SNAPSHOT'
 	implementation 'net.raphimc:ViaLegacy:3.0.6-SNAPSHOT'
 	implementation 'io.github.humbleui:types:0.2.0'
+	implementation 'com.alibaba.fastjson2:fastjson2:2.0.53'
 
 	implementation fileTree('libs')
 }
