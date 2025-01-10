@@ -44,7 +44,7 @@ public class ModMenuSettings extends Mod implements ClientTickEventListener {
 				//modMenu = new GuiModMenu().build();
 			}
 
-			mc.displayGuiScreen(new TestGui().build());
+			//mc.displayGuiScreen(new TestGui().build());
 		}
 	}
 	
