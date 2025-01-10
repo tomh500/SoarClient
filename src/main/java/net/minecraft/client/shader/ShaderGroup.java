@@ -1,6 +1,16 @@
 package net.minecraft.client.shader;
 
-import com.google.common.base.Charsets;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
+import java.util.List;
+import java.util.Map;
+
+import org.apache.commons.io.IOUtils;
+import org.lwjgl.opengl.GL11;
+import org.lwjgl.util.vector.Matrix4f;
+
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.gson.JsonArray;
@@ -8,11 +18,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.google.gson.JsonSyntaxException;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.List;
-import java.util.Map;
+
 import net.minecraft.client.renderer.texture.ITextureObject;
 import net.minecraft.client.renderer.texture.TextureManager;
 import net.minecraft.client.resources.IResource;
@@ -20,9 +26,6 @@ import net.minecraft.client.resources.IResourceManager;
 import net.minecraft.client.util.JsonException;
 import net.minecraft.util.JsonUtils;
 import net.minecraft.util.ResourceLocation;
-import org.apache.commons.io.IOUtils;
-import org.lwjgl.opengl.GL11;
-import org.lwjgl.util.vector.Matrix4f;
 
 public class ShaderGroup {
 	private final Framebuffer mainFramebuffer;
@@ -52,13 +55,13 @@ public class ShaderGroup {
 
 	public void parseGroup(TextureManager p_152765_1_, ResourceLocation p_152765_2_)
 			throws IOException, JsonSyntaxException {
-		JsonParser jsonparser = new JsonParser();
+		
 		InputStream inputstream = null;
 
 		try {
 			IResource iresource = this.resourceManager.getResource(p_152765_2_);
 			inputstream = iresource.getInputStream();
-			JsonObject jsonobject = jsonparser.parse(IOUtils.toString(inputstream, Charsets.UTF_8)).getAsJsonObject();
+			JsonObject jsonobject = JsonParser.parseString(IOUtils.toString(inputstream, StandardCharsets.UTF_8)).getAsJsonObject();
 
 			if (JsonUtils.isJsonArray(jsonobject, "targets")) {
 				JsonArray jsonarray = jsonobject.getAsJsonArray("targets");

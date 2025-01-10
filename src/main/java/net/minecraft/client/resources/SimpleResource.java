@@ -6,7 +6,6 @@ import com.google.gson.JsonParser;
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.Reader;
 import java.util.Map;
 import net.minecraft.client.resources.data.IMetadataSection;
 import net.minecraft.client.resources.data.IMetadataSerializer;
@@ -55,7 +54,7 @@ public class SimpleResource implements IResource {
 
 				try {
 					bufferedreader = new BufferedReader(new InputStreamReader(this.mcmetaInputStream));
-					this.mcmetaJson = (new JsonParser()).parse(bufferedreader).getAsJsonObject();
+					this.mcmetaJson = JsonParser.parseReader(bufferedreader).getAsJsonObject();
 				} finally {
 					IOUtils.closeQuietly(bufferedreader);
 				}

@@ -1,6 +1,6 @@
 package net.minecraft.util;
 
-import org.apache.commons.lang3.Validate;
+import java.util.Objects;
 
 public class ResourceLocation {
 	protected final String resourceDomain;
@@ -10,7 +10,7 @@ public class ResourceLocation {
 		this.resourceDomain = org.apache.commons.lang3.StringUtils.isEmpty(resourceName[0]) ? "minecraft"
 				: resourceName[0].toLowerCase();
 		this.resourcePath = resourceName[1];
-		Validate.notNull(this.resourcePath);
+		Objects.nonNull(this.resourcePath);
 	}
 
 	public ResourceLocation(String resourceName) {

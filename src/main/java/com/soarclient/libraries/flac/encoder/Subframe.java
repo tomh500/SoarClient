@@ -46,14 +46,6 @@ public abstract class Subframe {
 	protected int lastEncodedSize;
 
 	/**
-	 * Constructor is private to prevenet it's use, as a subframe is not usable
-	 * without first setting a StreamConfiguration(therefore, use other constructor.
-	 */
-	private Subframe() {
-
-	}
-
-	/**
 	 * Constructor. Sets StreamConfiguration to use. If the StreamConfiguration must
 	 * later be changed, a new Subframe object must be created as well. A default
 	 * EncodingConfiguration is created using EncodingConfiguration's default

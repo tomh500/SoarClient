@@ -1,6 +1,26 @@
 package net.minecraft.server.management;
 
-import com.google.common.base.Charsets;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
+import java.nio.charset.StandardCharsets;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+import java.util.UUID;
+
+import org.apache.commons.io.IOUtils;
+
 import com.google.common.collect.Iterators;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
@@ -17,28 +37,9 @@ import com.google.gson.JsonSerializer;
 import com.mojang.authlib.Agent;
 import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.ProfileLookupCallback;
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.Reader;
-import java.io.Writer;
-import java.lang.reflect.ParameterizedType;
-import java.lang.reflect.Type;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-import java.util.UUID;
+
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.server.MinecraftServer;
-import org.apache.commons.io.IOUtils;
 
 public class PlayerProfileCache {
 	public static final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss Z");
@@ -212,7 +213,7 @@ public class PlayerProfileCache {
 		BufferedReader bufferedreader = null;
 
 		try {
-			bufferedreader = Files.newReader(this.usercacheFile, Charsets.UTF_8);
+			bufferedreader = Files.newReader(this.usercacheFile, StandardCharsets.UTF_8);
 			List<PlayerProfileCache.ProfileEntry> list = this.gson.fromJson(bufferedreader, TYPE);
 			this.usernameToProfileEntryMap.clear();
 			this.uuidToProfileEntryMap.clear();
@@ -239,7 +240,7 @@ public class PlayerProfileCache {
 		BufferedWriter bufferedwriter = null;
 
 		try {
-			bufferedwriter = Files.newWriter(this.usercacheFile, Charsets.UTF_8);
+			bufferedwriter = Files.newWriter(this.usercacheFile, StandardCharsets.UTF_8);
 			bufferedwriter.write(s);
 		} catch (FileNotFoundException var8) {
 		} catch (IOException var9) {

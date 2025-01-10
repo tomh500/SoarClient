@@ -24,7 +24,7 @@ public class Soar {
 	private ConfigManager configManager;
 
 	public Soar() {
-		name = "Soar Client";
+		name = "Soar";
 		version = "8.0";
 	}
 

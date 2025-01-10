@@ -92,7 +92,7 @@ public class MusicPage extends Page {
 			SimpleAnimation focusAnimation = i.focusAnimation;
 
 			if (!searchBar.getText().isEmpty()
-					&& !SearchUtils.isSimillar(m.getTitle() + " " + m.getArtist(), searchBar.getText())) {
+					&& !SearchUtils.isSimilar(m.getTitle() + " " + m.getArtist(), searchBar.getText())) {
 				continue;
 			}
 

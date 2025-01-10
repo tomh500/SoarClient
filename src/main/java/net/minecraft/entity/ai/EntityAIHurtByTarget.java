@@ -9,9 +9,10 @@ public class EntityAIHurtByTarget extends EntityAITarget {
 
 	/** Store the previous revengeTimer value */
 	private int revengeTimerOld;
+	@SuppressWarnings("rawtypes")
 	private final Class[] targetClasses;
 
-	public EntityAIHurtByTarget(EntityCreature creatureIn, boolean entityCallsForHelpIn, Class... targetClassesIn) {
+	public EntityAIHurtByTarget(EntityCreature creatureIn, boolean entityCallsForHelpIn, Class<?>... targetClassesIn) {
 		super(creatureIn, false);
 		this.entityCallsForHelp = entityCallsForHelpIn;
 		this.targetClasses = targetClassesIn;
@@ -45,7 +46,7 @@ public class EntityAIHurtByTarget extends EntityAITarget {
 						&& !entitycreature.isOnSameTeam(this.taskOwner.getAITarget())) {
 					boolean flag = false;
 
-					for (Class oclass : this.targetClasses) {
+					for (Class<?> oclass : this.targetClasses) {
 						if (entitycreature.getClass() == oclass) {
 							flag = true;
 							break;

@@ -1,16 +1,22 @@
 package net.minecraft.client.shader;
 
-import com.google.common.base.Charsets;
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
+import java.util.List;
+import java.util.Map;
+
+import org.apache.commons.io.IOUtils;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.List;
-import java.util.Map;
+
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.texture.ITextureObject;
@@ -19,9 +25,6 @@ import net.minecraft.client.util.JsonBlendingMode;
 import net.minecraft.client.util.JsonException;
 import net.minecraft.util.JsonUtils;
 import net.minecraft.util.ResourceLocation;
-import org.apache.commons.io.IOUtils;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 public class ShaderManager {
 	private static final Logger logger = LogManager.getLogger();
@@ -46,14 +49,14 @@ public class ShaderManager {
 	private final ShaderLoader fragmentShaderLoader;
 
 	public ShaderManager(IResourceManager resourceManager, String programName) throws IOException {
-		JsonParser jsonparser = new JsonParser();
+		
 		ResourceLocation resourcelocation = new ResourceLocation("shaders/program/" + programName + ".json");
 		this.programFilename = programName;
 		InputStream inputstream = null;
 
 		try {
 			inputstream = resourceManager.getResource(resourcelocation).getInputStream();
-			JsonObject jsonobject = jsonparser.parse(IOUtils.toString(inputstream, Charsets.UTF_8)).getAsJsonObject();
+			JsonObject jsonobject = JsonParser.parseString(IOUtils.toString(inputstream, StandardCharsets.UTF_8)).getAsJsonObject();
 			String s = JsonUtils.getString(jsonobject, "vertex");
 			String s1 = JsonUtils.getString(jsonobject, "fragment");
 			JsonArray jsonarray = JsonUtils.getJsonArray(jsonobject, "samplers", null);

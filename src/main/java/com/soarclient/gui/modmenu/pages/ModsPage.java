@@ -76,7 +76,7 @@ public class ModsPage extends Page {
 				continue;
 			}
 
-			if (!searchBar.getText().isEmpty() && !SearchUtils.isSimillar(I18n.get(m.getName()), searchBar.getText())) {
+			if (!searchBar.getText().isEmpty() && !SearchUtils.isSimilar(I18n.get(m.getName()), searchBar.getText())) {
 				continue;
 			}
 

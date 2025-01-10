@@ -34,13 +34,6 @@ public class FrameThread implements Runnable {
 	BlockThreadManager manager = null;
 
 	/**
-	 * Constructor. Private to prevent it's use, as a Frame must be provided for
-	 * this FrameThread to be of any use.
-	 */
-	private FrameThread() {
-	}
-
-	/**
 	 * Constructor. Sets the Frame object that this FrameThread will use for
 	 * encodings.
 	 *

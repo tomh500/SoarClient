@@ -73,13 +73,6 @@ public class Frame {
 	long[] r_sums = new long[4];
 
 	/**
-	 * Constructor. Private to prevent it's use(if a StreamConfiguration isn't set,
-	 * then most methods will fail in an undefined fashion.
-	 */
-	private Frame() {
-	}
-
-	/**
 	 * Constructor. Sets the StreamConfiguration to use at creation of object. If
 	 * the StreamConfiguration needs to be changed, you *MUST* create a new Frame
 	 * object.
