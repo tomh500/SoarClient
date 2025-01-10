@@ -131,7 +131,7 @@ public abstract class AbstractClientPlayer extends EntityPlayer {
 		}
 		
 		FovUpdateEvent event = new FovUpdateEvent(this, f);
-		EventBus.getInstance().call(FovUpdateEvent.ID, event);
+		EventBus.getInstance().call(event, FovUpdateEvent.ID);
 
 		return event.getFov();
 	}

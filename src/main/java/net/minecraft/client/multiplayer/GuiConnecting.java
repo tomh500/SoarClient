@@ -49,7 +49,7 @@ public class GuiConnecting extends GuiScreen {
 
 	private void connect(final String ip, final int port) {
 		
-		EventBus.getInstance().call(JoinServerEvent.ID, new JoinServerEvent());
+		EventBus.getInstance().call(new JoinServerEvent(), JoinServerEvent.ID);
 		
 		logger.info("Connecting to " + ip + ", " + port);
 		(new Thread("Server Connector #" + CONNECTION_ID.incrementAndGet()) {

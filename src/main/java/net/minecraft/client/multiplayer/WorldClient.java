@@ -256,7 +256,7 @@ public class WorldClient extends World {
 	 * If on MP, sends a quitting packet.
 	 */
 	public void sendQuittingDisconnectingPacket() {
-		EventBus.getInstance().call(LeaveServerEvent.ID, new LeaveServerEvent());
+		EventBus.getInstance().call(new LeaveServerEvent(), LeaveServerEvent.ID);
 		this.sendQueue.getNetworkManager().closeChannel(new ChatComponentText("Quitting"));
 	}
 

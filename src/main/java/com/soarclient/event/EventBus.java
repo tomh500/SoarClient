@@ -91,10 +91,10 @@ public class EventBus {
     }
 
     @SuppressWarnings("rawtypes")
-    public void call(final int id, final AbstractEvent event) {
+    public void call(final AbstractEvent event, final int id) {
         if (registers.length > id) {
             try {
-                callUnsafe(id, event);
+                callUnsafe(event, id);
             } catch (final Throwable t) {
                 this.errorHandler.accept(t);
             }
@@ -102,7 +102,7 @@ public class EventBus {
     }
 
     @SuppressWarnings({ "rawtypes", "unchecked" })
-    public void callUnsafe(final int id, final AbstractEvent event) {
+    public void callUnsafe(final AbstractEvent event, final int id) {
         final Object[] subscriber = registers[id];
 
         for (Object o : subscriber) {

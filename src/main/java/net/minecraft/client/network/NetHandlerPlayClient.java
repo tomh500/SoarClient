@@ -947,8 +947,8 @@ public class NetHandlerPlayClient implements INetHandlerPlayClient {
 		}
 
 		if (packetIn.getOpCode() == 2) {
-			EventBus.getInstance().call(DamageEntityEvent.ID,
-					new DamageEntityEvent(packetIn.getEntity(clientWorldController)));
+			EventBus.getInstance().call(new DamageEntityEvent(packetIn.getEntity(clientWorldController)),
+					DamageEntityEvent.ID);
 		}
 	}
 

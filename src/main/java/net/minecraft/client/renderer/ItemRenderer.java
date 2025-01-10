@@ -478,7 +478,7 @@ public class ItemRenderer {
 		
 		RenderWaterOverlayEvent event = new RenderWaterOverlayEvent();
 		
-		EventBus.getInstance().call(RenderWaterOverlayEvent.ID, event);
+		EventBus.getInstance().call(event, RenderWaterOverlayEvent.ID);
 		
 		if(event.isCancelled()) {
 			return;
@@ -520,7 +520,7 @@ public class ItemRenderer {
 		
 		RenderFireOverlayEvent event = new RenderFireOverlayEvent();
 		
-		EventBus.getInstance().call(RenderFireOverlayEvent.ID, event);
+		EventBus.getInstance().call(event, RenderFireOverlayEvent.ID);
 		
 		if(event.isCancelled()) {
 			return;

@@ -980,7 +980,7 @@ public class Minecraft implements IThreadListener {
 	 */
 	private void runGameLoop() throws IOException {
 
-		EventBus.getInstance().call(GameLoopEvent.ID, new GameLoopEvent());
+		EventBus.getInstance().call(new GameLoopEvent(), GameLoopEvent.ID);
 
 		long i = System.nanoTime();
 		this.mcProfiler.startSection("root");
@@ -1053,7 +1053,7 @@ public class Minecraft implements IThreadListener {
 		}
 
 		this.guiAchievement.updateAchievementWindow();
-		EventBus.getInstance().call(RenderTickEvent.ID, new RenderTickEvent());
+		EventBus.getInstance().call(new RenderTickEvent(), RenderTickEvent.ID);
 		this.framebufferMc.unbindFramebuffer();
 		GlStateManager.popMatrix();
 		GlStateManager.pushMatrix();
@@ -1978,7 +1978,7 @@ public class Minecraft implements IThreadListener {
 
 		this.mcProfiler.endSection();
 		this.systemTime = getSystemTime();
-		EventBus.getInstance().call(ClientTickEvent.ID, new ClientTickEvent());
+		EventBus.getInstance().call(new ClientTickEvent(), ClientTickEvent.ID);
 	}
 
 	/**
@@ -2586,7 +2586,7 @@ public class Minecraft implements IThreadListener {
 
 			MouseClickEvent event = new MouseClickEvent(button);
 
-			EventBus.getInstance().call(MouseClickEvent.ID, event);
+			EventBus.getInstance().call(event, MouseClickEvent.ID);
 
 			if (event.isCancelled()) {
 				next = nextMouse();
@@ -2601,7 +2601,7 @@ public class Minecraft implements IThreadListener {
 		int dWheel = Mouse.getEventDWheel();
 
 		MouseScrollEvent event = new MouseScrollEvent(dWheel);
-		EventBus.getInstance().call(MouseScrollEvent.ID, event);
+		EventBus.getInstance().call(event, MouseScrollEvent.ID);
 
 		if (dWheel != 0) {
 			if (event.isCancelled()) {

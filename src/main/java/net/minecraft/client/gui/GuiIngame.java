@@ -338,10 +338,13 @@ public class GuiIngame extends Gui {
 		GlStateManager.enableAlpha();
 		
 		SkiaContext.draw((context) -> {
-			EventBus.getInstance().call(RenderSkiaEvent.ID, new RenderSkiaEvent());
+			Skia.save();
+			Skia.scale(scaledresolution.getScaleFactor());
+			EventBus.getInstance().call(new RenderSkiaEvent(), RenderSkiaEvent.ID);
+			Skia.restore();
 		});
 		
-		EventBus.getInstance().call(RenderGameOverlayEvent.ID, new RenderGameOverlayEvent());
+		EventBus.getInstance().call(new RenderGameOverlayEvent(), RenderGameOverlayEvent.ID);
 	}
 
 	protected void renderTooltip(ScaledResolution sr, float partialTicks) {
@@ -814,7 +817,7 @@ public class GuiIngame extends Gui {
 		
 		RenderPumpkinOverlayEvent event = new RenderPumpkinOverlayEvent();
 		
-		EventBus.getInstance().call(RenderPumpkinOverlayEvent.ID, event);
+		EventBus.getInstance().call(event, RenderPumpkinOverlayEvent.ID);
 		
 		if(event.isCancelled()) {
 			return;

@@ -165,7 +165,7 @@ public class EntityPlayerSP extends AbstractClientPlayer {
 	 */
 	public void onUpdate() {
 		
-		EventBus.getInstance().call(UpdateEvent.ID, new UpdateEvent());
+		EventBus.getInstance().call(new UpdateEvent(), UpdateEvent.ID);
 		
 		if (this.worldObj.isBlockLoaded(new BlockPos(this.posX, 0.0D, this.posZ))) {
 			super.onUpdate();
@@ -189,7 +189,7 @@ public class EntityPlayerSP extends AbstractClientPlayer {
 		
 		boolean flag = this.isSprinting();
 
-		EventBus.getInstance().call(MotionUpdateEvent.ID, new MotionUpdateEvent());
+		EventBus.getInstance().call(new MotionUpdateEvent(), MotionUpdateEvent.ID);
 		
 		if (flag != this.serverSprintState) {
 			if (flag) {
@@ -287,7 +287,7 @@ public class EntityPlayerSP extends AbstractClientPlayer {
 		
 		SendChatEvent event = new SendChatEvent(message);
 		
-		EventBus.getInstance().call(SendChatEvent.ID, event);
+		EventBus.getInstance().call(event, SendChatEvent.ID);
 		
 		if(event.isCancelled()) {
 			return;

@@ -531,7 +531,7 @@ public class EntityRenderer implements IResourceManagerReloadListener {
 		
 		HurtCameraEvent event = new HurtCameraEvent();
 		
-		EventBus.getInstance().call(HurtCameraEvent.ID, event);
+		EventBus.getInstance().call(event, HurtCameraEvent.ID);
 		
 		if(event.getIntensity() <= 0.0F) {
 			return;
@@ -1056,7 +1056,7 @@ public class EntityRenderer implements IResourceManagerReloadListener {
 
 					ShaderEvent event = new ShaderEvent();
 					
-					EventBus.getInstance().call(ShaderEvent.ID, event);
+					EventBus.getInstance().call(event, ShaderEvent.ID);
 					
 					for (ShaderGroup group : event.getGroups()) {
 						GlStateManager.matrixMode(5890);

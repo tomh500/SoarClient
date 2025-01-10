@@ -1140,7 +1140,7 @@ public abstract class EntityPlayer extends EntityLivingBase {
 	public void attackTargetEntityWithCurrentItem(Entity targetEntity) {
 		if (targetEntity.canAttackWithItem()) {
 			
-			EventBus.getInstance().call(AttackEntityEvent.ID, new AttackEntityEvent(targetEntity));
+			EventBus.getInstance().call(new AttackEntityEvent(targetEntity), AttackEntityEvent.ID);
 			
 			if (!targetEntity.hitByEntity(this)) {
 				float f = (float) this.getEntityAttribute(SharedMonsterAttributes.attackDamage).getAttributeValue();
@@ -1546,7 +1546,7 @@ public abstract class EntityPlayer extends EntityLivingBase {
 	 * Causes this entity to do an upwards motion (jumping).
 	 */
 	public void jump() {
-		EventBus.getInstance().call(JumpEvent.ID, new JumpEvent());
+		EventBus.getInstance().call(new JumpEvent(), JumpEvent.ID);
 		super.jump();
 		this.triggerAchievement(StatList.jumpStat);
 
