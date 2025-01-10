@@ -3,7 +3,6 @@ package com.soarclient.skia;
 import java.awt.Color;
 import java.io.File;
 
-import com.soarclient.logger.SoarLogger;
 import com.soarclient.skia.context.SkiaContext;
 import com.soarclient.skia.image.ImageHelper;
 
@@ -11,7 +10,6 @@ import io.github.humbleui.skija.Canvas;
 import io.github.humbleui.skija.ClipMode;
 import io.github.humbleui.skija.Font;
 import io.github.humbleui.skija.FontMetrics;
-import io.github.humbleui.skija.Image;
 import io.github.humbleui.skija.Paint;
 import io.github.humbleui.skija.Path;
 import io.github.humbleui.skija.SurfaceOrigin;
@@ -98,46 +96,6 @@ public class Skia {
 		drawImage(textureId, x, y, width, height, SurfaceOrigin.TOP_LEFT);
 	}
 
-	public static void drawImageAsync(String filePath, float x, float y, float width, float height,
-			Color fallbackColor) {
-
-		Image image = imageHelper.get(filePath);
-
-		if (image != null) {
-			getCanvas().drawImageRect(image, Rect.makeXYWH(x, y, width, height));
-		} else {
-			if (!imageHelper.getLoadingFutures().containsKey(filePath)) {
-				imageHelper.loadAsync(filePath).thenAccept(success -> {
-					if (!success) {
-						SoarLogger.error("Failed to load image " + filePath);
-					}
-				});
-			}
-
-			getCanvas().drawRect(Rect.makeXYWH(x, y, width, height), getPaint(fallbackColor));
-		}
-	}
-
-	public static void drawImageAsync(File file, float x, float y, float width, float height, Color fallbackColor) {
-
-		String filePath = file.getAbsolutePath();
-		Image image = imageHelper.get(filePath);
-
-		if (image != null) {
-			getCanvas().drawImageRect(image, Rect.makeXYWH(x, y, width, height));
-		} else {
-			if (!imageHelper.getLoadingFutures().containsKey(filePath)) {
-				imageHelper.loadAsync(file).thenAccept(success -> {
-					if (!success) {
-						SoarLogger.error("Failed to load image " + filePath);
-					}
-				});
-			}
-
-			getCanvas().drawRect(Rect.makeXYWH(x, y, width, height), getPaint(fallbackColor));
-		}
-	}
-
 	public static void drawRoundedImage(int textureId, float x, float y, float width, float height, float radius) {
 
 		Path path = new Path();
@@ -168,30 +126,6 @@ public class Skia {
 		save();
 		getCanvas().clipPath(path, ClipMode.INTERSECT, true);
 		drawImage(file, x, y, width, height);
-		restore();
-	}
-
-	public static void drawRoundedImageAsync(String filePath, float x, float y, float width, float height, float radius,
-			Color fallbackColor) {
-
-		Path path = new Path();
-		path.addRRect(RRect.makeXYWH(x, y, width, height, radius));
-
-		save();
-		getCanvas().clipPath(path, ClipMode.INTERSECT, true);
-		drawImageAsync(filePath, x, y, width, height, fallbackColor);
-		restore();
-	}
-
-	public static void drawRoundedImageAsync(File file, float x, float y, float width, float height, float radius,
-			Color fallbackColor) {
-
-		Path path = new Path();
-		path.addRRect(RRect.makeXYWH(x, y, width, height, radius));
-
-		save();
-		getCanvas().clipPath(path, ClipMode.INTERSECT, true);
-		drawImageAsync(file, x, y, width, height, fallbackColor);
 		restore();
 	}
 

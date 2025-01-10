@@ -6,8 +6,6 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
-import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.ConcurrentHashMap;
 
 import org.lwjgl.opengl.GL11;
 
@@ -23,56 +21,6 @@ public class ImageHelper {
 
 	private Map<String, Image> images = new HashMap<>();
 	private Int2ObjectOpenHashMap<Image> textures = new Int2ObjectOpenHashMap<>();
-	private Map<String, CompletableFuture<Boolean>> loadingFutures = new ConcurrentHashMap<>();
-	
-    public CompletableFuture<Boolean> loadAsync(String filePath) {
-    	
-        if (loadingFutures.containsKey(filePath)) {
-            return loadingFutures.get(filePath);
-        }
-
-        CompletableFuture<Boolean> future = CompletableFuture.supplyAsync(() -> {
-            if (!images.containsKey(filePath)) {
-                Optional<byte[]> encodedBytes = SkiaUtils.convertToBytes(filePath);
-                if (encodedBytes.isPresent()) {
-                    images.put(filePath, Image.makeDeferredFromEncodedBytes(encodedBytes.get()));
-                    return true;
-                } else {
-                    return false;
-                }
-            }
-            return true;
-        });
-
-        loadingFutures.put(filePath, future);
-        return future;
-    }
-
-    public CompletableFuture<Boolean> loadAsync(File file) {
-    	
-        String filePath = file.getAbsolutePath();
-
-        if (loadingFutures.containsKey(filePath)) {
-            return loadingFutures.get(filePath);
-        }
-
-        CompletableFuture<Boolean> future = CompletableFuture.supplyAsync(() -> {
-            if (!images.containsKey(filePath)) {
-                try {
-                    byte[] encoded = org.apache.commons.io.IOUtils.toByteArray(new FileInputStream(file));
-                    images.put(filePath, Image.makeDeferredFromEncodedBytes(encoded));
-                    return true;
-                } catch (IOException e) {
-                    e.printStackTrace();
-                    return false;
-                }
-            }
-            return true;
-        });
-
-        loadingFutures.put(filePath, future);
-        return future;
-    }
     
 	public boolean load(int texture, float width, float height, SurfaceOrigin origin) {
 		if (!textures.containsKey(texture)) {
@@ -128,9 +76,5 @@ public class ImageHelper {
 		}
 
 		return null;
-	}
-
-	public Map<String, CompletableFuture<Boolean>> getLoadingFutures() {
-		return loadingFutures;
 	}
 }
