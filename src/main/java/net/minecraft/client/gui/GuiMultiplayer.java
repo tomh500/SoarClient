@@ -1,18 +1,19 @@
 package net.minecraft.client.gui;
 
-import com.google.common.base.Splitter;
-import com.google.common.collect.Lists;
 import java.io.IOException;
-import java.util.List;
-import net.minecraft.client.multiplayer.GuiConnecting;
-import net.minecraft.client.multiplayer.ServerData;
-import net.minecraft.client.multiplayer.ServerList;
-import net.minecraft.client.network.LanServerDetector;
-import net.minecraft.client.network.OldServerPinger;
-import net.minecraft.client.resources.I18n;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.lwjgl.input.Keyboard;
+
+import com.google.common.base.Splitter;
+import com.google.common.collect.Lists;
+
+import net.minecraft.client.multiplayer.GuiConnecting;
+import net.minecraft.client.multiplayer.ServerData;
+import net.minecraft.client.multiplayer.ServerList;
+import net.minecraft.client.network.OldServerPinger;
+import net.minecraft.client.resources.I18n;
 
 public class GuiMultiplayer extends GuiScreen implements GuiYesNoCallback {
 	private static final Logger logger = LogManager.getLogger();
@@ -34,8 +35,6 @@ public class GuiMultiplayer extends GuiScreen implements GuiYesNoCallback {
 	 */
 	private String hoveringText;
 	private ServerData selectedServer;
-	private LanServerDetector.LanServerList lanServerList;
-	private LanServerDetector.ThreadLanServerFind lanServerDetector;
 	private boolean initialized;
 
 	public GuiMultiplayer(GuiScreen parentScreen) {
@@ -55,14 +54,6 @@ public class GuiMultiplayer extends GuiScreen implements GuiYesNoCallback {
 			this.initialized = true;
 			this.savedServerList = new ServerList(this.mc);
 			this.savedServerList.loadServerList();
-			this.lanServerList = new LanServerDetector.LanServerList();
-
-			try {
-				this.lanServerDetector = new LanServerDetector.ThreadLanServerFind(this.lanServerList);
-				this.lanServerDetector.start();
-			} catch (Exception exception) {
-				logger.warn("Unable to start LAN server detection: " + exception.getMessage());
-			}
 
 			this.serverListSelector = new ServerSelectionList(this, this.mc, this.width, this.height, 32,
 					this.height - 64, 36);
@@ -106,12 +97,6 @@ public class GuiMultiplayer extends GuiScreen implements GuiYesNoCallback {
 	public void updateScreen() {
 		super.updateScreen();
 
-		if (this.lanServerList.getWasUpdated()) {
-			List<LanServerDetector.LanServer> list = this.lanServerList.getLanServers();
-			this.lanServerList.setWasNotUpdated();
-			this.serverListSelector.func_148194_a(list);
-		}
-
 		this.oldServerPinger.pingPendingNetworks();
 	}
 
@@ -120,11 +105,6 @@ public class GuiMultiplayer extends GuiScreen implements GuiYesNoCallback {
 	 */
 	public void onGuiClosed() {
 		Keyboard.enableRepeatEvents(false);
-
-		if (this.lanServerDetector != null) {
-			this.lanServerDetector.interrupt();
-			this.lanServerDetector = null;
-		}
 
 		this.oldServerPinger.clearPendingNetworks();
 	}
@@ -254,16 +234,6 @@ public class GuiMultiplayer extends GuiScreen implements GuiYesNoCallback {
 					} else if (i > 0) {
 						this.selectServer(this.serverListSelector.func_148193_k() - 1);
 						this.serverListSelector.scrollBy(-this.serverListSelector.getSlotHeight());
-
-						if (this.serverListSelector.getListEntry(
-								this.serverListSelector.func_148193_k()) instanceof ServerListEntryLanScan) {
-							if (this.serverListSelector.func_148193_k() > 0) {
-								this.selectServer(this.serverListSelector.getSize() - 1);
-								this.serverListSelector.scrollBy(-this.serverListSelector.getSlotHeight());
-							} else {
-								this.selectServer(-1);
-							}
-						}
 					} else {
 						this.selectServer(-1);
 					}
@@ -278,16 +248,6 @@ public class GuiMultiplayer extends GuiScreen implements GuiYesNoCallback {
 					} else if (i < this.serverListSelector.getSize()) {
 						this.selectServer(this.serverListSelector.func_148193_k() + 1);
 						this.serverListSelector.scrollBy(this.serverListSelector.getSlotHeight());
-
-						if (this.serverListSelector.getListEntry(
-								this.serverListSelector.func_148193_k()) instanceof ServerListEntryLanScan) {
-							if (this.serverListSelector.func_148193_k() < this.serverListSelector.getSize() - 1) {
-								this.selectServer(this.serverListSelector.getSize() + 1);
-								this.serverListSelector.scrollBy(this.serverListSelector.getSlotHeight());
-							} else {
-								this.selectServer(-1);
-							}
-						}
 					} else {
 						this.selectServer(-1);
 					}
@@ -324,11 +284,6 @@ public class GuiMultiplayer extends GuiScreen implements GuiYesNoCallback {
 
 		if (guilistextended$iguilistentry instanceof ServerListEntryNormal) {
 			this.connectToServer(((ServerListEntryNormal) guilistextended$iguilistentry).getServerData());
-		} else if (guilistextended$iguilistentry instanceof ServerListEntryLanDetected) {
-			LanServerDetector.LanServer lanserverdetector$lanserver = ((ServerListEntryLanDetected) guilistextended$iguilistentry)
-					.getLanServer();
-			this.connectToServer(new ServerData(lanserverdetector$lanserver.getServerMotd(),
-					lanserverdetector$lanserver.getServerIpPort(), true));
 		}
 	}
 
@@ -344,8 +299,7 @@ public class GuiMultiplayer extends GuiScreen implements GuiYesNoCallback {
 		this.btnEditServer.enabled = false;
 		this.btnDeleteServer.enabled = false;
 
-		if (guilistextended$iguilistentry != null
-				&& !(guilistextended$iguilistentry instanceof ServerListEntryLanScan)) {
+		if (guilistextended$iguilistentry != null) {
 			this.btnSelectServer.enabled = true;
 
 			if (guilistextended$iguilistentry instanceof ServerListEntryNormal) {
