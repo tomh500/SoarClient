@@ -11,6 +11,7 @@ import com.soarclient.animation.SimpleAnimation;
 import com.soarclient.animation.cubicbezier.impl.EaseStandard;
 import com.soarclient.animation.other.DummyAnimation;
 import com.soarclient.gui.api.page.Page;
+import com.soarclient.gui.edithud.GuiEditHUD;
 import com.soarclient.management.color.api.ColorPalette;
 import com.soarclient.skia.Skia;
 import com.soarclient.skia.font.Fonts;
@@ -59,7 +60,7 @@ public class NavigationRail extends Component {
 
 			@Override
 			public void onAction() {
-				//parent.setNextScreen(new GuiEditHUD(mc.currentScreen).build());
+				parent.close(new GuiEditHUD(mc.currentScreen).build());
 			}
 		});
 	}
