@@ -8,6 +8,7 @@ import java.util.List;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.soarclient.management.config.impl.AccountConfig;
+import com.soarclient.management.config.impl.ModConfig;
 import com.soarclient.utils.file.FileUtils;
 
 public class ConfigManager {
@@ -16,6 +17,7 @@ public class ConfigManager {
 
 	public ConfigManager() {
 		configs.add(new AccountConfig());
+		configs.add(new ModConfig());
 	}
 
 	public void save(ConfigType type) {
