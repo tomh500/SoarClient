@@ -8,6 +8,7 @@ import com.soarclient.gui.mainmenu.GuiSoarMainMenu;
 import com.soarclient.management.account.AccountManager;
 import com.soarclient.management.color.ColorManager;
 import com.soarclient.management.config.ConfigManager;
+import com.soarclient.management.config.ConfigType;
 import com.soarclient.management.mod.ModManager;
 import com.soarclient.management.music.MusicManager;
 import com.soarclient.utils.file.FileLocation;
@@ -28,7 +29,8 @@ public class Soar {
 	private ConfigManager configManager;
 	
 	private GuiScreen mainMenu;
-
+	private long launchTime;
+	
 	public Soar() {
 		name = "Soar";
 		version = "8.0";
@@ -38,6 +40,7 @@ public class Soar {
 
 		I18n.setLanguage(Language.ENGLISH);
 		FileLocation.init();
+		launchTime = System.currentTimeMillis();
 
 		modManager = new ModManager();
 		modManager.init();
@@ -52,7 +55,7 @@ public class Soar {
 	}
 
 	public void stop() {
-
+		Soar.getInstance().getConfigManager().save(ConfigType.MOD);
 	}
 
 	public static Soar getInstance() {
@@ -65,6 +68,10 @@ public class Soar {
 
 	public String getVersion() {
 		return version;
+	}
+
+	public long getLaunchTime() {
+		return launchTime;
 	}
 
 	public ModManager getModManager() {

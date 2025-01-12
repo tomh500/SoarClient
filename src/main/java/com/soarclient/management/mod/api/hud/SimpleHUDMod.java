@@ -10,7 +10,7 @@ import io.github.humbleui.types.Rect;
 
 public abstract class SimpleHUDMod extends HUDMod {
 
-	private BooleanSetting iconSetting = new BooleanSetting("setting.icon", "setting.icon.description",
+	protected BooleanSetting iconSetting = new BooleanSetting("setting.icon", "setting.icon.description",
 			Icon.NEW_RELEASES, this, true);
 
 	public SimpleHUDMod(String name, String description, String icon) {

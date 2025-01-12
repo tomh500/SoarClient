@@ -8,7 +8,7 @@ public class Fonts {
 	private static final String MEDIUM = "Inter-Medium-CJKsc.ttf";
 	private static final String ICON_FILL = "MaterialSymbolsRounded_Fill.ttf";
 	private static final String ICON = "MaterialSymbolsRounded.ttf";
-	private static final String MINECRAFT = "Minecraft.ttf";
+	private static final String MINECRAFT = "Minecraft.otf";
 	
 	public static void loadAll() {
 		FontHelper.preloadFonts(REGULAR, MEDIUM, ICON_FILL, ICON);

@@ -13,20 +13,90 @@ text.profile=Profile
 text.settings=Settings
 text.search=Search
 
+design.simple=Simple
+
+mod.fpsdisplay.name=FPS Display
+mod.fpsdisplay.description=Display Minecraft FPS
+
+mod.modmenu.name=Mod Menu
+mod.modmenu.description=Customize Mod Menu related settings
+
+mod.rearview.name=Rearview
+mod.rearview.description=Display behind you
+
+mod.cpsdisplay.name=CPS Display
+mod.cpsdisplay.description=Display click per seconds
+
 mod.combocounter.name=Combo Counter
 mod.combocounter.description=Display Combo
 
 mod.coords.name=Coords
 mod.coords.description=Display your coordnates
 
-setting.icon=Icon
-setting.icon.descroption=Set the icon to display
+mod.daycounter.name=Day Counter
+mod.daycounter.description=Count Minecraft day
+
+mod.gamemodedisplay.name=Game Mode Display
+mod.gamemodedisplay.description=Display your game mode
+
+mod.healthdisplay.name=Health Display
+mod.healthdisplay.description=Display your health
+
+mod.namedisplay.name=Name Display
+mod.namedisplay.description=Display your name
+
+mod.pingdisplay.name=Ping Display
+mod.pingdisplay.description=Display your ping
+
+mod.pitchdisplay.name=Pitch Display
+mod.pitchdisplay.description=Display pitch of you
+
+mod.playtimedisplay.name=Play Time Display
+mod.playtimedisplay.description=Display playing time
+
+mod.playercounter.name=Player Counter
+mod.playercounter.description=Display the number of players
+
+mod.potioncounter.name=Potion Counter
+mod.potioncounter.description=Display the number of potions
+
+mod.reachdisplay.name=Reach Display
+mod.reachdisplay.description=Display reach
+
+mod.serveripdisplay.name=Server IP Display
+mod.serveripdisplay.description=Display the IP of the server you are joining
+
+mod.stopwatch.name=Stopwatch
+mod.stopwatch.description=Measure the time
+
+mod.weatherdisplay.name=Weather Display
+mod.weatherdisplay.description=Display world weather
+
+mod.yawdisplay.name=Yaw Display
+mod.yawdisplay.description=Display yaw of you
+
+mod.minimap.name=Minimap
+mod.minimap.description=Display map in a smaller size
+mod.minimap.name=Minimap
+mod.minimap.description=Display map in a smaller size
 setting.darkmode=Dark Mode
 setting.darkmode.description=Enable dark mode
 setting.color=Color
 setting.color.description=Select a color
+setting.width=Width
+setting.width.description=Set the width
+setting.height=Height
+setting.height.description=Set the height
+setting.alpha=Alpha
+setting.alpha.description=Set the alpha
+setting.fps=FPS
+setting.fps.description=Set the fps
+setting.rightclick=Right Click
+setting.cps.rightclick.description=Display right click cps
 setting.keybind=Keybind
 setting.keybind.description=Set keybind
+setting.icon=Icon
+setting.icon.descroption=Set the icon to display
 
 mainmenu.singleplayer=Singleplayer
 mainmenu.multiplayer=Multiplayer
