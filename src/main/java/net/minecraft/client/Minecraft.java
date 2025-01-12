@@ -2324,8 +2324,7 @@ public class Minecraft implements IThreadListener {
 		});
 		theCrash.getCategory().addCrashSectionCallable("OpenGL", new Callable<String>() {
 			public String call() {
-				return GL11.glGetString(GL11.GL_RENDERER) + " GL version " + GL11.glGetString(GL11.GL_VERSION) + ", "
-						+ GL11.glGetString(GL11.GL_VENDOR);
+				return GL11.glGetString(GL11.GL_RENDERER) + " GL version " + GL11.glGetString(GL11.GL_VERSION);
 			}
 		});
 		theCrash.getCategory().addCrashSectionCallable("GL Caps", new Callable<String>() {

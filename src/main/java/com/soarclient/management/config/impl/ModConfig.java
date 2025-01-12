@@ -57,8 +57,6 @@ public class ModConfig extends Config {
 						position.setAnchor(
 								AnchorPosition.get(JsonUtils.getIntProperty(modImplJsonObject, "anchor", 0)));
 						position.setScale(JsonUtils.getFloatProperty(modImplJsonObject, "scale", 1));
-						position.setSize(JsonUtils.getFloatProperty(modImplJsonObject, "width", 0),
-								JsonUtils.getFloatProperty(modImplJsonObject, "height", 0));
 						position.setRawPosition(JsonUtils.getFloatProperty(modImplJsonObject, "x", 0),
 								JsonUtils.getFloatProperty(modImplJsonObject, "y", 0));
 					}
@@ -154,9 +152,7 @@ public class ModConfig extends Config {
 				Position position = hudMod.getPosition();
 
 				modImplJsonObject.addProperty("x", position.getRawX());
-				modImplJsonObject.addProperty("u", position.getRawY());
-				modImplJsonObject.addProperty("width", position.getWidth());
-				modImplJsonObject.addProperty("height", position.getHeight());
+				modImplJsonObject.addProperty("y", position.getRawY());
 				modImplJsonObject.addProperty("scale", position.getScale());
 				modImplJsonObject.addProperty("anchor", position.getAnchor().getId());
 			}
