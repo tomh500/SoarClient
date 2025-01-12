@@ -2,6 +2,8 @@ package net.minecraft.client.gui;
 
 import java.io.IOException;
 
+import com.soarclient.Soar;
+
 import net.minecraft.client.gui.achievement.GuiAchievements;
 import net.minecraft.client.gui.achievement.GuiStats;
 import net.minecraft.client.resources.I18n;
@@ -58,9 +60,9 @@ public class GuiIngameMenu extends GuiScreen {
 			this.mc.loadWorld(null);
 
 			if (flag) {
-				this.mc.displayGuiScreen(new GuiMainMenu());
+				this.mc.displayGuiScreen(Soar.getInstance().getMainMenu());
 			} else {
-				this.mc.displayGuiScreen(new GuiMultiplayer(new GuiMainMenu()));
+				this.mc.displayGuiScreen(new GuiMultiplayer(Soar.getInstance().getMainMenu()));
 			}
 
 		case 2:

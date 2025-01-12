@@ -91,15 +91,21 @@ public abstract class SoarGui extends SimpleSoarGui {
 	
 	@Override
 	public void mousePressed(int mouseX, int mouseY, int mouseButton) {
-		for (Component c : components) {
-			c.mousePressed(mouseX, mouseY, mouseButton);
+		
+		if(inOutAnimation.isFinished()) {
+			for (Component c : components) {
+				c.mousePressed(mouseX, mouseY, mouseButton);
+			}
 		}
 	}
 	
 	@Override
 	public void mouseReleased(int mouseX, int mouseY, int mouseButton) {
-		for (Component c : components) {
-			c.mouseReleased(mouseX, mouseY, mouseButton);
+		
+		if(inOutAnimation.isFinished()) {
+			for (Component c : components) {
+				c.mouseReleased(mouseX, mouseY, mouseButton);
+			}
 		}
 	}
 
@@ -129,6 +135,10 @@ public abstract class SoarGui extends SimpleSoarGui {
 
 	public void close() {
 		close(null);
+	}
+
+	public Animation getInOutAnimation() {
+		return inOutAnimation;
 	}
 
 	public abstract float getX();

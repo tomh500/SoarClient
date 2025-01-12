@@ -27,3 +27,9 @@ setting.color=Color
 setting.color.description=Select a color
 setting.keybind=Keybind
 setting.keybind.description=Set keybind
+
+mainmenu.singleplayer=Singleplayer
+mainmenu.multiplayer=Multiplayer
+mainmenu.settings=Settings
+mainmanu.exit=Exit
+mainmenu.accountmanager=Account Manager

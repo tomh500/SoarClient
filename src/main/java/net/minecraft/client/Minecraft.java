@@ -71,7 +71,6 @@ import net.minecraft.client.gui.GuiControls;
 import net.minecraft.client.gui.GuiGameOver;
 import net.minecraft.client.gui.GuiIngame;
 import net.minecraft.client.gui.GuiIngameMenu;
-import net.minecraft.client.gui.GuiMainMenu;
 import net.minecraft.client.gui.GuiMemoryErrorScreen;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.GuiSleepMP;
@@ -553,9 +552,9 @@ public class Minecraft implements IThreadListener {
 		Soar.getInstance().start();
 
 		if (this.serverName != null) {
-			this.displayGuiScreen(new GuiConnecting(new GuiMainMenu(), this, this.serverName, this.serverPort));
+			this.displayGuiScreen(new GuiConnecting(Soar.getInstance().getMainMenu(), this, this.serverName, this.serverPort));
 		} else {
-			this.displayGuiScreen(new GuiMainMenu());
+			this.displayGuiScreen(Soar.getInstance().getMainMenu());
 		}
 
 		this.renderEngine.deleteTexture(this.mojangLogo);
@@ -912,12 +911,12 @@ public class Minecraft implements IThreadListener {
 		}
 
 		if (guiScreenIn == null && this.theWorld == null) {
-			guiScreenIn = new GuiMainMenu();
+			guiScreenIn = Soar.getInstance().getMainMenu();
 		} else if (guiScreenIn == null && this.thePlayer.getHealth() <= 0.0F) {
 			guiScreenIn = new GuiGameOver();
 		}
 
-		if (guiScreenIn instanceof GuiMainMenu) {
+		if (guiScreenIn != null && guiScreenIn.equals(Soar.getInstance().getMainMenu())) {
 			this.gameSettings.showDebugInfo = false;
 			this.ingameGUI.getChatGUI().clearChatMessages();
 		}
@@ -1134,7 +1133,7 @@ public class Minecraft implements IThreadListener {
 	}
 
 	public int getLimitFramerate() {
-		return this.theWorld == null && this.currentScreen != null ? 30 : this.gameSettings.limitFramerate;
+		return this.gameSettings.limitFramerate;
 	}
 
 	public boolean isFramerateLimitBelowMax() {

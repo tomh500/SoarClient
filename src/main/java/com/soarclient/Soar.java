@@ -2,7 +2,9 @@ package com.soarclient;
 
 import com.soarclient.animation.Delta;
 import com.soarclient.event.EventBus;
+import com.soarclient.event.impl.ClientTickEventListener.ClientTickEvent;
 import com.soarclient.event.impl.GameLoopEventListener.GameLoopEvent;
+import com.soarclient.gui.mainmenu.GuiSoarMainMenu;
 import com.soarclient.management.account.AccountManager;
 import com.soarclient.management.color.ColorManager;
 import com.soarclient.management.config.ConfigManager;
@@ -11,6 +13,8 @@ import com.soarclient.management.music.MusicManager;
 import com.soarclient.utils.file.FileLocation;
 import com.soarclient.utils.language.I18n;
 import com.soarclient.utils.language.Language;
+
+import net.minecraft.client.gui.GuiScreen;
 
 public class Soar {
 
@@ -22,6 +26,8 @@ public class Soar {
 	private MusicManager musicManager;
 	private AccountManager accountManager;
 	private ConfigManager configManager;
+	
+	private GuiScreen mainMenu;
 
 	public Soar() {
 		name = "Soar";
@@ -41,6 +47,8 @@ public class Soar {
 		configManager = new ConfigManager();
 
 		EventBus.getInstance().register(new Delta(), GameLoopEvent.ID);
+		EventBus.getInstance().register(new SoarListener(), ClientTickEvent.ID);
+		mainMenu = new GuiSoarMainMenu().build();
 	}
 
 	public void stop() {
@@ -77,5 +85,9 @@ public class Soar {
 
 	public ConfigManager getConfigManager() {
 		return configManager;
+	}
+
+	public GuiScreen getMainMenu() {
+		return mainMenu;
 	}
 }

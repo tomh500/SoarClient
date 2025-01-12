@@ -20,7 +20,7 @@ public class PressAnimation {
 	
 	public void draw(float x, float y, float width, float height, Color color, float alpha) {
 
-		float radius = calculateMaxRadius(width, height) * 1.2F;
+		float radius = calculateMaxRadius(width, height) * 1.1F;
 
 		float resultAlpha = alpha;
 		

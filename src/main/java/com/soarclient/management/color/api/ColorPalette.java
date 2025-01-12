@@ -15,11 +15,15 @@ public class ColorPalette {
 	private boolean dark;
 	private Hct hct;
 
-	public ColorPalette(Hct hct, boolean dark) {
+	public ColorPalette(Hct hct, boolean dark, float contrast) {
 		this.hct = hct;
 		this.dark = dark;
-		scheme = Material3.getDynamicScheme(hct, dark, 0);
+		scheme = Material3.getDynamicScheme(hct, dark, contrast);
 		colors = new MaterialDynamicColors();
+	}
+	
+	public ColorPalette(Hct hct, boolean dark) {
+		this(hct, dark, 0);
 	}
 
 	public Color getPrimary() {

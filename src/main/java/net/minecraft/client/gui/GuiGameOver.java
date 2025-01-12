@@ -1,6 +1,9 @@
 package net.minecraft.client.gui;
 
 import java.io.IOException;
+
+import com.soarclient.Soar;
+
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.util.EnumChatFormatting;
@@ -66,7 +69,7 @@ public class GuiGameOver extends GuiScreen implements GuiYesNoCallback {
 
 		case 1:
 			if (this.mc.theWorld.getWorldInfo().isHardcoreModeEnabled()) {
-				this.mc.displayGuiScreen(new GuiMainMenu());
+				this.mc.displayGuiScreen(Soar.getInstance().getMainMenu());
 			} else {
 				GuiYesNo guiyesno = new GuiYesNo(this, I18n.format("deathScreen.quit.confirm"), "",
 						I18n.format("deathScreen.titleScreen"), I18n.format("deathScreen.respawn"), 0);
@@ -80,7 +83,7 @@ public class GuiGameOver extends GuiScreen implements GuiYesNoCallback {
 		if (result) {
 			this.mc.theWorld.sendQuittingDisconnectingPacket();
 			this.mc.loadWorld(null);
-			this.mc.displayGuiScreen(new GuiMainMenu());
+			this.mc.displayGuiScreen(Soar.getInstance().getMainMenu());
 		} else {
 			this.mc.thePlayer.respawnPlayer();
 			this.mc.displayGuiScreen(null);

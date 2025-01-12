@@ -8,11 +8,14 @@ import com.soarclient.skia.image.ImageHelper;
 
 import io.github.humbleui.skija.Canvas;
 import io.github.humbleui.skija.ClipMode;
+import io.github.humbleui.skija.FilterTileMode;
 import io.github.humbleui.skija.Font;
 import io.github.humbleui.skija.FontMetrics;
 import io.github.humbleui.skija.Paint;
 import io.github.humbleui.skija.Path;
+import io.github.humbleui.skija.Shader;
 import io.github.humbleui.skija.SurfaceOrigin;
+import io.github.humbleui.types.Point;
 import io.github.humbleui.types.RRect;
 import io.github.humbleui.types.Rect;
 
@@ -138,6 +141,43 @@ public class Skia {
 		paint.setAntiAlias(true);
 
 		getCanvas().drawLine(x, y, endX, endY, paint);
+	}
+	
+	public static void drawGradientRoundedRect(float x, float y, float width, float height, float radius, Color color1, Color color2) {
+	    
+	    long currentTime = System.nanoTime();
+	    double speed = 0.0000000006;
+	    double tick = (currentTime * speed) % (2 * Math.PI);
+	    float max = Math.max(width, height);
+
+	    Path path = new Path();
+	    
+	    path.addRRect(RRect.makeXYWH(x, y, width, height, radius));
+
+	    float startX = x + width / 2 - (max / 2) * (float) Math.cos(tick);
+	    float startY = y + height / 2 - (max / 2) * (float) Math.sin(tick);
+	    float endX = x + width / 2 + (max / 2) * (float) Math.cos(tick);
+	    float endY = y + height / 2 + (max / 2) * (float) Math.sin(tick);
+
+	    int skColor1 = io.github.humbleui.skija.Color.makeRGB(color1.getRed(), color1.getGreen(), color1.getBlue());
+	    int skColor2 = io.github.humbleui.skija.Color.makeRGB(color2.getRed(), color2.getGreen(), color2.getBlue());
+
+	    int skColorMid = io.github.humbleui.skija.Color.makeRGB(
+	        (color1.getRed() + color2.getRed()) / 2,
+	        (color1.getGreen() + color2.getGreen()) / 2,
+	        (color1.getBlue() + color2.getBlue()) / 2
+	    );
+
+	    Paint paint = new Paint();
+	    
+	    paint.setShader(Shader.makeLinearGradient(
+	            new Point(startX, startY),
+	            new Point(endX, endY),
+	            new int[]{skColor1, skColorMid, skColor2},
+	            new float[]{0, 0.5f, 1}
+	    ));
+
+	    getCanvas().drawPath(path, paint);
 	}
 	
 	public static void clipPath(Path path, ClipMode mode, boolean arg) {
