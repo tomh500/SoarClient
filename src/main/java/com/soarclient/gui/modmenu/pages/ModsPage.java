@@ -9,6 +9,7 @@ import com.soarclient.gui.api.page.Page;
 import com.soarclient.gui.api.page.PageGui;
 import com.soarclient.gui.api.page.impl.RightLeftTransition;
 import com.soarclient.management.color.api.ColorPalette;
+import com.soarclient.management.config.ConfigType;
 import com.soarclient.management.mod.Mod;
 import com.soarclient.skia.Skia;
 import com.soarclient.skia.font.Fonts;
@@ -31,7 +32,14 @@ public class ModsPage extends Page {
 		super(parent, "text.mods", Icon.INVENTORY_2, new RightLeftTransition(true));
 
 		for (Mod m : Soar.getInstance().getModManager().getMods()) {
-			items.add(new Item(m));
+			
+			Item i = new Item(m);
+			
+			if (m.isEnabled()) {
+				i.pressAnimation.setPressed();
+			}
+			
+			items.add(i);
 		}
 	}
 
@@ -182,6 +190,7 @@ public class ModsPage extends Page {
 
 	@Override
 	public void onClosed() {
+		Soar.getInstance().getConfigManager().save(ConfigType.MOD);
 	}
 
 	private class Item {

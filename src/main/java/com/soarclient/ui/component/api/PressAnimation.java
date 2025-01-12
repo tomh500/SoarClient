@@ -18,6 +18,10 @@ public class PressAnimation {
 		animation = new DummyAnimation();
 	}
 	
+	public void setPressed() {
+		animation = new DummyAnimation(1);
+	}
+	
 	public void draw(float x, float y, float width, float height, Color color, float alpha) {
 
 		float radius = calculateMaxRadius(width, height) * 1.1F;
