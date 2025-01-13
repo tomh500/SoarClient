@@ -28,9 +28,10 @@ public class ProfileManager {
 	private List<Profile> profiles = new ArrayList<>();
 
 	public ProfileManager() {
+		readProfiles();
 	}
 
-	public void save(String name, String author, File iconFile, ConfigType[] types) {
+	public void save(String name, String author, Object icon, ConfigType[] types) {
 
 		File zipFile = new File(FileLocation.PROFILE_DIR, name + ".zip");
 		ConfigManager configManager = Soar.getInstance().getConfigManager();
@@ -42,6 +43,10 @@ public class ProfileManager {
 			jsonObject.addProperty("name", name);
 			jsonObject.addProperty("author", author);
 			
+			if(icon instanceof String) {
+				jsonObject.addProperty("icon", (String) icon);
+			}
+			
 			addJsonToZip("info.json", jsonObject, zipOut);
 			
 			for (ConfigType t : types) {
@@ -50,7 +55,12 @@ public class ProfileManager {
 				addJsonToZip(t.getId() + ".josn", c.getJsonObject(), zipOut);
 			}
 
-			addFileToZip("icon.png", iconFile, zipOut);
+			if(icon instanceof File) {
+				
+				File iconFile = (File) icon;
+				
+				addFileToZip("icon.png", iconFile, zipOut);
+			}
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -78,7 +88,7 @@ public class ProfileManager {
 				List<Pair<ConfigType, JsonObject>> configs = new ArrayList<>();
 				String name = "null";
 				String author = "null";
-				File iconFile = null;
+				Object icon = null;
 				
 				try (FileInputStream fis = new FileInputStream(f); ZipInputStream zipIn = new ZipInputStream(fis)) {
 
@@ -95,6 +105,7 @@ public class ProfileManager {
 									
 									name = JsonUtils.getStringProperty(infoJsonObject, "name", "null");
 									author = JsonUtils.getStringProperty(infoJsonObject, "author", "null");
+									icon = JsonUtils.getStringProperty(infoJsonObject, "icon", null);
 									
 									continue;
 								}
@@ -112,7 +123,7 @@ public class ProfileManager {
 										saveFileFromZip(zipIn, pngFile);
 									}
 									
-									iconFile = pngFile;
+									icon = pngFile;
 								} catch (NoSuchAlgorithmException e) {
 									e.printStackTrace();
 								}
@@ -121,7 +132,7 @@ public class ProfileManager {
 						zipIn.closeEntry();
 					}
 					
-					profiles.add(new Profile(name, author, configs, iconFile));
+					profiles.add(new Profile(name, author, configs, icon));
 				} catch (IOException e) {
 					e.printStackTrace();
 				}

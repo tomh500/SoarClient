@@ -1,6 +1,5 @@
 package com.soarclient.management.profile;
 
-import java.io.File;
 import java.util.List;
 
 import com.google.gson.JsonObject;
@@ -11,9 +10,9 @@ public class Profile {
 
 	private final String name, author;
 	private final List<Pair<ConfigType, JsonObject>> configs;
-	private final File icon;
+	private final Object icon;
 	
-	public Profile(String name, String author, List<Pair<ConfigType, JsonObject>> configs, File icon) {
+	public Profile(String name, String author, List<Pair<ConfigType, JsonObject>> configs, Object icon) {
 		this.name = name;
 		this.author = author;
 		this.configs = configs;
@@ -32,7 +31,7 @@ public class Profile {
 		return configs;
 	}
 
-	public File getIcon() {
+	public Object getIcon() {
 		return icon;
 	}
 }
