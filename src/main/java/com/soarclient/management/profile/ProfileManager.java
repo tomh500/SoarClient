@@ -31,7 +31,7 @@ public class ProfileManager {
 		readProfiles();
 	}
 
-	public void save(String name, String author, Object icon, ConfigType[] types) {
+	public void save(String name, String author, String serverIp, Object icon, ConfigType[] types) {
 
 		File zipFile = new File(FileLocation.PROFILE_DIR, name + ".zip");
 		ConfigManager configManager = Soar.getInstance().getConfigManager();
@@ -42,6 +42,7 @@ public class ProfileManager {
 			
 			jsonObject.addProperty("name", name);
 			jsonObject.addProperty("author", author);
+			jsonObject.addProperty("serverIp", serverIp);
 			
 			if(icon instanceof String) {
 				jsonObject.addProperty("icon", (String) icon);
@@ -86,8 +87,10 @@ public class ProfileManager {
 			if (f.getName().endsWith(".zip")) {
 
 				List<Pair<ConfigType, JsonObject>> configs = new ArrayList<>();
+				
 				String name = "null";
 				String author = "null";
+				String serverIp = "";
 				Object icon = null;
 				
 				try (FileInputStream fis = new FileInputStream(f); ZipInputStream zipIn = new ZipInputStream(fis)) {
@@ -106,6 +109,7 @@ public class ProfileManager {
 									name = JsonUtils.getStringProperty(infoJsonObject, "name", "null");
 									author = JsonUtils.getStringProperty(infoJsonObject, "author", "null");
 									icon = JsonUtils.getStringProperty(infoJsonObject, "icon", null);
+									serverIp = JsonUtils.getStringProperty(infoJsonObject, "serverIp", "");
 									
 									continue;
 								}
@@ -132,7 +136,7 @@ public class ProfileManager {
 						zipIn.closeEntry();
 					}
 					
-					profiles.add(new Profile(name, author, configs, icon));
+					profiles.add(new Profile(name, author, configs, icon == null ? "" : icon, serverIp));
 				} catch (IOException e) {
 					e.printStackTrace();
 				}

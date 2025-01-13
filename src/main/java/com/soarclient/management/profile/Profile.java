@@ -11,12 +11,14 @@ public class Profile {
 	private final String name, author;
 	private final List<Pair<ConfigType, JsonObject>> configs;
 	private final Object icon;
+	private final String serverIp;
 	
-	public Profile(String name, String author, List<Pair<ConfigType, JsonObject>> configs, Object icon) {
+	public Profile(String name, String author, List<Pair<ConfigType, JsonObject>> configs, Object icon, String serverIp) {
 		this.name = name;
 		this.author = author;
 		this.configs = configs;
 		this.icon = icon;
+		this.serverIp = serverIp;
 	}
 
 	public String getName() {
@@ -33,5 +35,9 @@ public class Profile {
 
 	public Object getIcon() {
 		return icon;
+	}
+
+	public String getServerIp() {
+		return serverIp;
 	}
 }
