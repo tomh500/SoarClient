@@ -31,7 +31,7 @@ public class ProfileManager {
 		readProfiles();
 	}
 
-	public void save(String name, String author, String serverIp, Object icon, ConfigType[] types) {
+	public void save(String name, String author, String serverIp, Object icon, ConfigType... types) {
 
 		File zipFile = new File(FileLocation.PROFILE_DIR, name + ".zip");
 		ConfigManager configManager = Soar.getInstance().getConfigManager();
@@ -44,8 +44,8 @@ public class ProfileManager {
 			jsonObject.addProperty("author", author);
 			jsonObject.addProperty("serverIp", serverIp);
 			
-			if(icon instanceof String) {
-				jsonObject.addProperty("icon", (String) icon);
+			if(icon instanceof ProfileIcon) {
+				jsonObject.addProperty("icon", ((ProfileIcon) icon).getId());
 			}
 			
 			addJsonToZip("info.json", jsonObject, zipOut);
