@@ -35,25 +35,6 @@ public class FileUtils {
 		return result.toString();
 	}
 
-	public static String getExtension(String fileName) {
-
-		if (fileName == null) {
-			return null;
-		}
-
-		int lastIndexOf = fileName.lastIndexOf(".");
-
-		if (lastIndexOf == -1) {
-			return "null";
-		}
-
-		return fileName.substring(lastIndexOf + 1);
-	}
-
-	public static String getExtension(File file) {
-		return getExtension(file.getName());
-	}
-
 	public static void createFile(File file) {
 		try {
 			file.createNewFile();

@@ -11,6 +11,7 @@ import com.soarclient.management.config.ConfigManager;
 import com.soarclient.management.config.ConfigType;
 import com.soarclient.management.mod.ModManager;
 import com.soarclient.management.music.MusicManager;
+import com.soarclient.management.profile.ProfileManager;
 import com.soarclient.utils.file.FileLocation;
 import com.soarclient.utils.language.I18n;
 import com.soarclient.utils.language.Language;
@@ -27,6 +28,7 @@ public class Soar {
 	private MusicManager musicManager;
 	private AccountManager accountManager;
 	private ConfigManager configManager;
+	private ProfileManager profileManager;
 	
 	private GuiScreen mainMenu;
 	private long launchTime;
@@ -48,6 +50,7 @@ public class Soar {
 		musicManager = new MusicManager();
 		accountManager = new AccountManager();
 		configManager = new ConfigManager();
+		profileManager = new ProfileManager();
 
 		EventBus.getInstance().register(new Delta(), GameLoopEvent.ID);
 		EventBus.getInstance().register(new SoarListener(), ClientTickEvent.ID);
@@ -92,6 +95,10 @@ public class Soar {
 
 	public ConfigManager getConfigManager() {
 		return configManager;
+	}
+
+	public ProfileManager getProfileManager() {
+		return profileManager;
 	}
 
 	public GuiScreen getMainMenu() {

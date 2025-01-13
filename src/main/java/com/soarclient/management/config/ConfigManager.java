@@ -39,7 +39,7 @@ public class ConfigManager {
 			e.printStackTrace();
 		}
 	}
-
+	
 	public void load(ConfigType type) {
 		
 		Config config = getConfig(type);
@@ -57,7 +57,7 @@ public class ConfigManager {
 		}
 	}
 
-	private Config getConfig(ConfigType type) {
+	public Config getConfig(ConfigType type) {
 		return configs.stream().filter(config -> config.getType().equals(type)).findFirst().get();
 	}
 }

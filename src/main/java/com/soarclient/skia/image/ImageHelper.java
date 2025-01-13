@@ -29,7 +29,7 @@ public class ImageHelper {
 		}
 		return true;
 	}
-
+	
 	public boolean load(String filePath) {
 		if (!images.containsKey(filePath)) {
 			Optional<byte[]> encodedBytes = SkiaUtils.convertToBytes(filePath);
