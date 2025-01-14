@@ -4,8 +4,14 @@ import java.awt.image.BufferedImage;
 import java.net.UnknownHostException;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
+import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
 
 import org.apache.commons.lang3.Validate;
 import org.apache.logging.log4j.LogManager;
@@ -19,6 +25,7 @@ import io.netty.buffer.Unpooled;
 import io.netty.handler.codec.base64.Base64;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ServerData;
+import net.minecraft.client.multiplayer.ServerList;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.texture.DynamicTexture;
 import net.minecraft.client.renderer.texture.TextureUtil;
@@ -27,8 +34,7 @@ import net.minecraft.util.ResourceLocation;
 
 public class ServerListEntryNormal implements GuiListExtended.IGuiListEntry {
 	private static final Logger logger = LogManager.getLogger();
-	private static final ThreadPoolExecutor field_148302_b = new ScheduledThreadPoolExecutor(5,
-			(new ThreadFactoryBuilder()).setNameFormat("Server Pinger #%d").setDaemon(true).build());
+	private static final ThreadPoolExecutor field_148302_b;
 	private static final ResourceLocation UNKNOWN_SERVER = new ResourceLocation("textures/misc/unknown_server.png");
 	private static final ResourceLocation SERVER_SELECTION_BUTTONS = new ResourceLocation(
 			"textures/gui/server_selection.png");
@@ -40,12 +46,46 @@ public class ServerListEntryNormal implements GuiListExtended.IGuiListEntry {
 	private DynamicTexture field_148305_h;
 	private long field_148298_f;
 
+	private static final int MAX_THREAD_COUNT_PINGER = 50;
+	private static final int MAX_THREAD_COUNT_TIMEOUT = 100;
+
+	private static final int serverCountCache;
+
+	static {
+		serverCountCache = new ServerList(Minecraft.getMinecraft()).countServers();
+		field_148302_b = new ScheduledThreadPoolExecutor(Math.min(serverCountCache + 5, MAX_THREAD_COUNT_PINGER),
+				(new ThreadFactoryBuilder()).setNameFormat("Server Pinger #%d").setDaemon(true).build());
+	}
+
+	private final ScheduledExecutorService timeoutExecutor = Executors
+			.newScheduledThreadPool(Math.min(serverCountCache + 5, MAX_THREAD_COUNT_TIMEOUT));
+
+	private static int runningTaskCount = 0;
+	
 	protected ServerListEntryNormal(GuiMultiplayer p_i45048_1_, ServerData serverIn) {
 		this.owner = p_i45048_1_;
 		this.server = serverIn;
 		this.mc = Minecraft.getMinecraft();
 		this.serverIcon = new ResourceLocation("servers/" + serverIn.serverIP + "/icon");
 		this.field_148305_h = (DynamicTexture) this.mc.getTextureManager().getTexture(this.serverIcon);
+	}
+
+	private Runnable getPingTask() {
+		return new Thread() {
+			@Override
+			public void run() {
+				try {
+					owner.getOldServerPinger().ping(server);
+				} catch (UnknownHostException e) {
+					e.printStackTrace();
+				}
+			}
+		};
+	}
+
+	private void setServerFail(String error) {
+		server.pingToServer = -1L;
+		server.serverMOTD = error;
 	}
 
 	public void drawEntry(int slotIndex, int x, int y, int listWidth, int slotHeight, int mouseX, int mouseY,
@@ -55,21 +95,34 @@ public class ServerListEntryNormal implements GuiListExtended.IGuiListEntry {
 			this.server.pingToServer = -2L;
 			this.server.serverMOTD = "";
 			this.server.populationInfo = "";
-			field_148302_b.submit(new Runnable() {
-				public void run() {
-					try {
-						ServerListEntryNormal.this.owner.getOldServerPinger().ping(ServerListEntryNormal.this.server);
-					} catch (UnknownHostException var2) {
-						ServerListEntryNormal.this.server.pingToServer = -1L;
-						ServerListEntryNormal.this.server.serverMOTD = EnumChatFormatting.DARK_RED
-								+ "Can't resolve hostname";
-					} catch (Exception var3) {
-						ServerListEntryNormal.this.server.pingToServer = -1L;
-						ServerListEntryNormal.this.server.serverMOTD = EnumChatFormatting.DARK_RED
-								+ "Can't connect to server.";
+
+			if (runningTaskCount > serverCountCache * 2) {
+				setServerFail(EnumChatFormatting.GRAY + "Spamming...");
+				field_148302_b.submit(() -> {
+				});
+			} else {
+				final Future<?> future = timeoutExecutor.submit(getPingTask());
+				runningTaskCount++;
+
+				field_148302_b.submit(new Runnable() {
+					public void run() {
+						try {
+							future.get(100, TimeUnit.SECONDS);
+						} catch (TimeoutException e1) {
+							setServerFail(EnumChatFormatting.RED + "Timed out");
+						} catch (ExecutionException e2) {
+							if (e2.getCause() instanceof UnknownHostException)
+								setServerFail(EnumChatFormatting.DARK_RED + "Can't resolve hostname");
+							else
+								setServerFail(EnumChatFormatting.DARK_RED + "Can't connect to server.");
+
+						} catch (Exception e3) {
+							setServerFail(EnumChatFormatting.DARK_RED + "Can't connect to server.");
+						}
+						runningTaskCount--;
 					}
-				}
-			});
+				});
+			}
 		}
 
 		boolean flag = this.server.version > 47;
