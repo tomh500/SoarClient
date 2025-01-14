@@ -4,7 +4,7 @@ import com.soarclient.event.EventBus;
 import com.soarclient.event.impl.RenderSkiaEventListener;
 import com.soarclient.management.mod.api.hud.SimpleHUDMod;
 import com.soarclient.skia.font.Icon;
-import com.soarclient.utils.ServerUtils;
+import com.soarclient.utils.network.ServerUtils;
 
 public class PingDisplayMod extends SimpleHUDMod implements RenderSkiaEventListener {
 

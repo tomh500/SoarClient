@@ -1,4 +1,4 @@
-package com.soarclient.utils;
+package com.soarclient.utils.network;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.network.NetworkPlayerInfo;
