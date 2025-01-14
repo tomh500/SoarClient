@@ -34,6 +34,10 @@ public class AccountManager {
 	
 	public Account getByUuid(String inputUuid) {
 		
+		if(inputUuid == null) {
+			return null;
+		}
+		
 		for(Account acc : accounts) {
 			
 			String pUuid = acc.getUUID().toString().replace("-", "");

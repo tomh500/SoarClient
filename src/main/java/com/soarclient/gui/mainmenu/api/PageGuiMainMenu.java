@@ -16,6 +16,11 @@ public abstract class PageGuiMainMenu extends PageGui {
 
 	@Override
 	public void keyTyped(char typedChar, int keyCode) {
+		
+		if (currentPage != null) {
+			currentPage.keyTyped(typedChar, keyCode);
+		}
+		
 		for (Component c : components) {
 			c.keyTyped(typedChar, keyCode);
 		}

@@ -85,7 +85,7 @@ public class IconButton extends Component {
 	private float[] getPanelSize() {
 		switch (size) {
 		case LARGE:
-			return new float[] { 96, 96 };
+			return new float[] { 64, 64 };
 		case NORMAL:
 			return new float[] { 56, 56 };
 		case SMALL:
@@ -98,7 +98,7 @@ public class IconButton extends Component {
 	private float getFontSize() {
 		switch (size) {
 		case LARGE:
-			return 36;
+			return 30;
 		case NORMAL:
 			return 24;
 		case SMALL:
@@ -111,7 +111,7 @@ public class IconButton extends Component {
 	private float getRadius() {
 		switch (size) {
 		case LARGE:
-			return 28;
+			return 18;
 		case NORMAL:
 			return 16;
 		case SMALL:

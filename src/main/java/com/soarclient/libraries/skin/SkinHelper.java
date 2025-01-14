@@ -26,7 +26,7 @@ public class SkinHelper {
 		if (textureId != null) {
 
 			String url = "https://textures.minecraft.net/texture/" + textureId;
-
+			
 			try {
 				downloadImage(url, file);
 			} catch (IOException | URISyntaxException e) {

@@ -10,7 +10,7 @@ public class SearchUtils {
     private static final LevenshteinDistance LEVENSHTEIN_DISTANCE = LevenshteinDistance.getDefaultInstance();
     
 	public static boolean isSimilar(String s1, String s2) {
-		return isSimilar(s1, s2, 1);
+		return isSimilar(s1, s2, 5);
 	}
 
     public static boolean isSimilar(String s1, String s2, int searchDistance) {

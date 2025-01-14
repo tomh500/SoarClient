@@ -1,16 +1,19 @@
 package com.soarclient.management.account;
 
 import java.awt.Desktop;
+import java.io.File;
 import java.net.URI;
 import java.util.function.Consumer;
 
 import javax.swing.SwingUtilities;
 
 import com.soarclient.Soar;
+import com.soarclient.libraries.skin.SkinHelper;
 import com.soarclient.management.account.impl.BedrockAccount;
 import com.soarclient.management.account.impl.MicrosoftAccount;
 import com.soarclient.management.config.ConfigType;
 import com.soarclient.utils.TFunction;
+import com.soarclient.utils.file.FileLocation;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.util.Session;
@@ -37,24 +40,35 @@ public class AccountAuth {
 
 	public static void handleLogin(Account account) {
 		try {
-			if(account instanceof MicrosoftAccount) {
+			if (account instanceof MicrosoftAccount) {
 				MicrosoftAccount msAccount = (MicrosoftAccount) account;
 				MCProfile profile = msAccount.getMcProfile();
-				
+
 				msAccount.refresh();
 				Minecraft.getMinecraft().setSession(new Session(profile.getName(), profile.getId().toString(),
 						profile.getMcToken().getAccessToken(), "legacy"));
 			}
+			
+			if (account instanceof BedrockAccount) {
+				
+				BedrockAccount beAccount = (BedrockAccount) account;
+				
+				beAccount.refresh();
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		
+		if(Soar.getInstance().getConfigManager() != null) {
+			Soar.getInstance().getConfigManager().save(ConfigType.ACCOUNT);
+		}
 	}
-	
+
 	private static void handleLogin(
 			final TFunction<Consumer<StepMsaDeviceCode.MsaDeviceCode>, Account> requestHandler) {
 
 		AccountManager accountManager = Soar.getInstance().getAccountManager();
-		
+
 		try {
 			final Account account = requestHandler
 					.apply(msaDeviceCode -> SwingUtilities.invokeLater(() -> login(msaDeviceCode)));
@@ -65,10 +79,21 @@ public class AccountAuth {
 				MCProfile profile = msAccount.getMcProfile();
 
 				accountManager.getAccounts().add(msAccount);
+				SkinHelper.downloadJavaSkin(msAccount.getUUID().toString().replace("-", ""),
+						new File(FileLocation.CACHE_DIR, msAccount.getUUID().toString().replace("-", "")));
 				Minecraft.getMinecraft().setSession(new Session(profile.getName(), profile.getId().toString(),
 						profile.getMcToken().getAccessToken(), "legacy"));
 				accountManager.setCurrentAccount(msAccount.getUUID().toString().replace("-", ""));
 				Soar.getInstance().getConfigManager().save(ConfigType.ACCOUNT);
+			}
+
+			if (account instanceof BedrockAccount) {
+
+				BedrockAccount beAccount = (BedrockAccount) account;
+
+				accountManager.getAccounts().add(beAccount);
+				SkinHelper.downloadBedrockSkin(beAccount.getMcChain().getXuid(),
+						new File(FileLocation.CACHE_DIR, beAccount.getMcChain().getXuid()));
 			}
 		} catch (Throwable e) {
 			e.printStackTrace();

@@ -6,7 +6,10 @@ import java.util.List;
 import com.soarclient.Soar;
 import com.soarclient.gui.api.SimpleSoarGui;
 import com.soarclient.gui.api.SoarGui;
-import com.soarclient.gui.mainmenu.pages.MainGui;
+import com.soarclient.gui.mainmenu.gui.MainGui;
+import com.soarclient.gui.mainmenu.gui.account.AccountGui;
+import com.soarclient.management.account.Account;
+import com.soarclient.management.account.AccountManager;
 import com.soarclient.management.color.api.ColorPalette;
 import com.soarclient.skia.Skia;
 
@@ -17,8 +20,9 @@ public class GuiSoarMainMenu extends SimpleSoarGui {
 
 	public GuiSoarMainMenu() {
 		super(false);
-		
+
 		guis.add(new MainGui(this));
+		guis.add(new AccountGui(this));
 		currentGui = guis.get(0);
 	}
 
@@ -32,11 +36,18 @@ public class GuiSoarMainMenu extends SimpleSoarGui {
 	@Override
 	public void draw(int mouseX, int mouseY) {
 
-		ColorPalette palette = Soar.getInstance().getColorManager().getPalette();
+		Soar instance = Soar.getInstance();
+		AccountManager accountManager = instance.getAccountManager();
+		Account currentAccount = accountManager.getCurrentAccount();
+		ColorPalette palette = instance.getColorManager().getPalette();
 
 		Skia.drawGradientRoundedRect(0, 0, mc.displayWidth, mc.displayHeight, 0, palette.getPrimaryContainer(),
 				palette.getTertiaryContainer());
 
+		if(currentAccount != null) {
+			
+		}
+		
 		if (currentGui != null) {
 			currentGui.draw(mouseX, mouseY);
 		}

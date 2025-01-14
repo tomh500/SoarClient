@@ -1,10 +1,11 @@
-package com.soarclient.gui.mainmenu.pages;
+package com.soarclient.gui.mainmenu.gui;
 
 import com.soarclient.Soar;
 import com.soarclient.gui.api.page.impl.UpTransition;
 import com.soarclient.gui.mainmenu.GuiSoarMainMenu;
 import com.soarclient.gui.mainmenu.api.SoarGuiMainMenu;
 import com.soarclient.gui.mainmenu.component.MainMenuButton;
+import com.soarclient.gui.mainmenu.gui.account.AccountGui;
 import com.soarclient.skia.Skia;
 import com.soarclient.skia.font.Icon;
 import com.soarclient.ui.component.handler.impl.ButtonHandler;
@@ -58,6 +59,7 @@ public class MainGui extends SoarGuiMainMenu {
 
 			@Override
 			public void onAction() {
+				parent.setCurrentGui(AccountGui.class);
 			}
 		});
 
