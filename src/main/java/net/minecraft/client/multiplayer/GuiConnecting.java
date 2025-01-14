@@ -10,6 +10,7 @@ import org.apache.logging.log4j.Logger;
 
 import com.soarclient.event.EventBus;
 import com.soarclient.event.impl.ServerJoinEventListener.JoinServerEvent;
+import com.soarclient.utils.network.InetAddressPatcher;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
@@ -62,6 +63,7 @@ public class GuiConnecting extends GuiScreen {
 					}
 
 					inetaddress = InetAddress.getByName(ip);
+					inetaddress = InetAddressPatcher.patch(ip, inetaddress);
 					GuiConnecting.this.networkManager = NetworkManager.createNetworkManagerAndConnect(inetaddress, port,
 							GuiConnecting.this.mc.gameSettings.isUsingNativeTransport());
 					GuiConnecting.this.networkManager

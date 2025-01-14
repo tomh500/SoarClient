@@ -8,6 +8,8 @@ import java.util.concurrent.atomic.AtomicInteger;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import com.soarclient.utils.network.InetAddressPatcher;
+
 public class ThreadLanServerPing extends Thread {
 	private static final AtomicInteger field_148658_a = new AtomicInteger(0);
 	private static final Logger logger = LogManager.getLogger();
@@ -33,6 +35,7 @@ public class ThreadLanServerPing extends Thread {
 		while (!this.isInterrupted() && this.isStopping) {
 			try {
 				InetAddress inetaddress = InetAddress.getByName("224.0.2.60");
+				inetaddress = InetAddressPatcher.patch("224.0.2.60", inetaddress);
 				DatagramPacket datagrampacket = new DatagramPacket(abyte, abyte.length, inetaddress, 4445);
 				this.socket.send(datagrampacket);
 			} catch (IOException ioexception) {
