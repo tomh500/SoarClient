@@ -10,7 +10,6 @@ import com.soarclient.gui.api.page.Page;
 import com.soarclient.gui.api.page.PageGui;
 import com.soarclient.gui.api.page.impl.LeftTransition;
 import com.soarclient.management.account.Account;
-import com.soarclient.management.account.AccountAuth;
 import com.soarclient.management.account.AccountManager;
 import com.soarclient.management.account.impl.BedrockAccount;
 import com.soarclient.management.color.api.ColorPalette;
@@ -48,7 +47,7 @@ public class AccountListPage extends Page {
 
 	public void init() {
 
-		searchBar = new SearchBar(x + width - 260 - 23, y + 23, 260, () -> {
+		searchBar = new SearchBar(x + width - 260 - 22, y + 23, 260, () -> {
 			scrollHelper.reset();
 		});
 
@@ -57,12 +56,11 @@ public class AccountListPage extends Page {
 
 			@Override
 			public void onAction() {
-				AccountAuth.handleMicrosoftLogin();
 			}
 		});
 
-		addButton.setX(x + width - addButton.getWidth() - 23);
-		addButton.setY(y + height - addButton.getHeight() - 23);
+		addButton.setX(x + width - addButton.getWidth() - 22);
+		addButton.setY(y + height - addButton.getHeight() - 22);
 
 		for (Item i : items) {
 			i.xAnimation.setFirstTick(true);
@@ -84,7 +82,7 @@ public class AccountListPage extends Page {
 			}
 		}
 
-		float offsetX = 23;
+		float offsetX = 22;
 		float offsetY = 88;
 
 		scrollHelper.onScroll();
@@ -102,7 +100,10 @@ public class AccountListPage extends Page {
 			float itemX = x + offsetX;
 			float itemY = y + offsetY;
 
-			if (!searchBar.getText().isEmpty() && !SearchUtils.isSimilar(acc.getName(), searchBar.getText())) {
+			String uuid = acc instanceof BedrockAccount ? ((BedrockAccount) acc).getMcChain().getXuid()
+					: acc.getUUID().toString().replace("-", "");
+			
+			if (!searchBar.getText().isEmpty() && !SearchUtils.isSimilar(acc.getDisplayString() + " " + uuid, searchBar.getText())) {
 				continue;
 			}
 
@@ -112,15 +113,12 @@ public class AccountListPage extends Page {
 			itemX = xAnimation.getValue();
 			itemY = yAnimation.getValue();
 
-			String uuid = acc instanceof BedrockAccount ? ((BedrockAccount) acc).getMcChain().getXuid()
-					: acc.getUUID().toString().replace("-", "");
+			Skia.drawRoundedRect(itemX, itemY, width - (22 * 2), 82, 20, palette.getSurface());
+			Skia.drawPlayerHead(new File(FileLocation.CACHE_DIR, uuid), itemX + 12, itemY + 12, 58, 58, 12);
+			Skia.drawText(acc.getDisplayString(), itemX + 82, itemY + 24, palette.getOnSurface(), Fonts.getRegular(20));
+			Skia.drawText(uuid, itemX + 82, itemY + 47, palette.getOnSurface(), Fonts.getRegular(15));
 
-			Skia.drawRoundedRect(itemX, itemY, width - (23 * 2), 88, 20, palette.getSurface());
-			Skia.drawPlayerHead(new File(FileLocation.CACHE_DIR, uuid), itemX + 12, itemY + 12, 64, 64, 12);
-			Skia.drawText(acc.getDisplayString(), itemX + 88, itemY + 26, palette.getOnSurface(), Fonts.getRegular(21));
-			Skia.drawText(uuid, itemX + 88, itemY + 49, palette.getOnSurface(), Fonts.getRegular(16));
-
-			offsetY += 88 + 23;
+			offsetY += 82 + 22;
 		}
 
 		searchBar.draw(mouseX, mouseY);
