@@ -6,30 +6,44 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
+import java.util.concurrent.TimeUnit;
 
 import org.lwjgl.opengl.GL11;
 
+import com.github.benmanes.caffeine.cache.Cache;
+import com.github.benmanes.caffeine.cache.Caffeine;
+import com.github.benmanes.caffeine.cache.RemovalCause;
+import com.github.benmanes.caffeine.cache.RemovalListener;
 import com.soarclient.skia.context.SkiaContext;
 import com.soarclient.skia.utils.SkiaUtils;
 
 import io.github.humbleui.skija.ColorType;
 import io.github.humbleui.skija.Image;
 import io.github.humbleui.skija.SurfaceOrigin;
-import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
 
 public class ImageHelper {
 
 	private Map<String, Image> images = new HashMap<>();
-	private Int2ObjectOpenHashMap<Image> textures = new Int2ObjectOpenHashMap<>();
-    
+
+	private Cache<Integer, Image> textures = Caffeine.newBuilder().expireAfterAccess(3, TimeUnit.MINUTES)
+			.removalListener(new RemovalListener<Integer, Image>() {
+				@Override
+				public void onRemoval(Integer key, Image value, RemovalCause cause) {
+					if (value != null) {
+						value.close();
+					}
+				}
+			}).build();
+
 	public boolean load(int texture, float width, float height, SurfaceOrigin origin) {
-		if (!textures.containsKey(texture)) {
-			textures.put(texture, Image.adoptTextureFrom(SkiaContext.getContext(), texture, GL11.GL_TEXTURE_2D,
-					(int) width, (int) height, GL11.GL_RGBA8, origin, ColorType.RGBA_8888));
-		}
+		textures.get(texture, key -> {
+			Image image = Image.adoptTextureFrom(SkiaContext.getContext(), texture, GL11.GL_TEXTURE_2D, (int) width,
+					(int) height, GL11.GL_RGBA8, origin, ColorType.RGBA_8888);
+			return image;
+		});
 		return true;
 	}
-	
+
 	public boolean load(String filePath) {
 		if (!images.containsKey(filePath)) {
 			Optional<byte[]> encodedBytes = SkiaUtils.convertToBytes(filePath);
@@ -70,11 +84,6 @@ public class ImageHelper {
 	}
 
 	public Image get(int texture) {
-
-		if (textures.containsKey(texture)) {
-			return textures.get(texture);
-		}
-
-		return null;
+		return textures.getIfPresent(texture);
 	}
 }
