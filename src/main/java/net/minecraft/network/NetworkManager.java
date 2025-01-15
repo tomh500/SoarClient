@@ -4,6 +4,7 @@ import java.net.InetAddress;
 import java.net.SocketAddress;
 import java.util.Queue;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
+import java.util.function.Supplier;
 
 import javax.crypto.SecretKey;
 
@@ -14,11 +15,15 @@ import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.Marker;
 import org.apache.logging.log4j.MarkerManager;
 
+import com.google.common.base.Suppliers;
 import com.google.common.collect.Queues;
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import com.soarclient.event.EventBus;
 import com.soarclient.event.impl.ReceivePacketEventListener.ReceivePacketEvent;
 import com.soarclient.event.impl.SendPacketEventListener.SendPacketEvent;
+import com.soarclient.viasoar.ViaSoar;
+import com.soarclient.viasoar.api.VSNetworkManager;
+import com.viaversion.viaversion.api.protocol.version.ProtocolVersion;
 
 import io.netty.bootstrap.Bootstrap;
 import io.netty.buffer.UnpooledByteBufAllocator;
@@ -29,13 +34,13 @@ import io.netty.channel.ChannelFutureListener;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.ChannelOption;
+import io.netty.channel.DefaultEventLoopGroup;
 import io.netty.channel.EventLoopGroup;
 import io.netty.channel.SimpleChannelInboundHandler;
 import io.netty.channel.epoll.Epoll;
 import io.netty.channel.epoll.EpollEventLoopGroup;
 import io.netty.channel.epoll.EpollSocketChannel;
 import io.netty.channel.local.LocalChannel;
-import io.netty.channel.local.LocalEventLoopGroup;
 import io.netty.channel.local.LocalServerChannel;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
@@ -50,35 +55,25 @@ import net.minecraft.util.ChatComponentTranslation;
 import net.minecraft.util.CryptManager;
 import net.minecraft.util.IChatComponent;
 import net.minecraft.util.ITickable;
-import net.minecraft.util.LazyLoadBase;
 import net.minecraft.util.MessageDeserializer;
 import net.minecraft.util.MessageDeserializer2;
 import net.minecraft.util.MessageSerializer;
 import net.minecraft.util.MessageSerializer2;
 
-public class NetworkManager extends SimpleChannelInboundHandler<Packet> {
+public class NetworkManager extends SimpleChannelInboundHandler<Packet> implements VSNetworkManager {
 	private static final Logger logger = LogManager.getLogger();
 	public static final Marker logMarkerNetwork = MarkerManager.getMarker("NETWORK");
 	public static final Marker logMarkerPackets = MarkerManager.getMarker("NETWORK_PACKETS", logMarkerNetwork);
 	public static final AttributeKey<EnumConnectionState> attrKeyConnectionState = AttributeKey.valueOf("protocol");
-	public static final LazyLoadBase<NioEventLoopGroup> CLIENT_NIO_EVENTLOOP = new LazyLoadBase<NioEventLoopGroup>() {
-		protected NioEventLoopGroup load() {
-			return new NioEventLoopGroup(0,
-					(new ThreadFactoryBuilder()).setNameFormat("Netty Client IO #%d").setDaemon(true).build());
-		}
-	};
-	public static final LazyLoadBase<EpollEventLoopGroup> CLIENT_EPOLL_EVENTLOOP = new LazyLoadBase<EpollEventLoopGroup>() {
-		protected EpollEventLoopGroup load() {
-			return new EpollEventLoopGroup(0,
-					(new ThreadFactoryBuilder()).setNameFormat("Netty Epoll Client IO #%d").setDaemon(true).build());
-		}
-	};
-	public static final LazyLoadBase<LocalEventLoopGroup> CLIENT_LOCAL_EVENTLOOP = new LazyLoadBase<LocalEventLoopGroup>() {
-		protected LocalEventLoopGroup load() {
-			return new LocalEventLoopGroup(0,
-					(new ThreadFactoryBuilder()).setNameFormat("Netty Local Client IO #%d").setDaemon(true).build());
-		}
-	};
+	public static final Supplier<NioEventLoopGroup> NETWORK_WORKER_GROUP = Suppliers
+			.memoize(() -> new NioEventLoopGroup(0,
+					new ThreadFactoryBuilder().setNameFormat("Netty Client IO #%d").setDaemon(true).build()));
+	public static final Supplier<EpollEventLoopGroup> NETWORK_EPOLL_WORKER_GROUP = Suppliers
+			.memoize(() -> new EpollEventLoopGroup(0,
+					new ThreadFactoryBuilder().setNameFormat("Netty Epoll Client IO #%d").setDaemon(true).build()));
+	public static final Supplier<DefaultEventLoopGroup> LOCAL_WORKER_GROUP = Suppliers
+			.memoize(() -> new DefaultEventLoopGroup(0,
+					new ThreadFactoryBuilder().setNameFormat("Netty Local Client IO #%d").setDaemon(true).build()));
 	private final EnumPacketDirection direction;
 	private final Queue<NetworkManager.InboundHandlerTuplePacketListener> outboundPacketsQueue = Queues
 			.newConcurrentLinkedQueue();
@@ -98,12 +93,16 @@ public class NetworkManager extends SimpleChannelInboundHandler<Packet> {
 	private boolean isEncrypted;
 	private boolean disconnected;
 
+	private ProtocolVersion targetVersion;
+
 	public NetworkManager(EnumPacketDirection packetDirection) {
 		this.direction = packetDirection;
 	}
 
 	public void channelActive(ChannelHandlerContext p_channelActive_1_) throws Exception {
+
 		super.channelActive(p_channelActive_1_);
+
 		this.channel = p_channelActive_1_.channel();
 		this.socketAddress = this.channel.remoteAddress();
 
@@ -327,17 +326,19 @@ public class NetworkManager extends SimpleChannelInboundHandler<Packet> {
 			boolean useNativeTransport) {
 		final NetworkManager networkmanager = new NetworkManager(EnumPacketDirection.CLIENTBOUND);
 		Class<? extends SocketChannel> oclass;
-		LazyLoadBase<? extends EventLoopGroup> lazyloadbase;
+		EventLoopGroup eventLoopGroup;
 
 		if (Epoll.isAvailable() && useNativeTransport) {
 			oclass = EpollSocketChannel.class;
-			lazyloadbase = CLIENT_EPOLL_EVENTLOOP;
+			eventLoopGroup = NETWORK_EPOLL_WORKER_GROUP.get();
 		} else {
 			oclass = NioSocketChannel.class;
-			lazyloadbase = CLIENT_NIO_EVENTLOOP;
+			eventLoopGroup = NETWORK_WORKER_GROUP.get();
 		}
 
-		(new Bootstrap()).group(lazyloadbase.getValue()).channel(oclass)
+		((VSNetworkManager) networkmanager).setTrackedVersion(ViaSoar.getManager().getTargetVersion());
+
+		(new Bootstrap()).group(eventLoopGroup).channel(oclass)
 				.option(ChannelOption.ALLOCATOR, UnpooledByteBufAllocator.DEFAULT)
 				.handler(new ChannelInitializer<Channel>() {
 					protected void initChannel(Channel p_initChannel_1_) throws Exception {
@@ -352,6 +353,7 @@ public class NetworkManager extends SimpleChannelInboundHandler<Packet> {
 								.addLast("prepender", new MessageSerializer2())
 								.addLast("encoder", new MessageSerializer(EnumPacketDirection.SERVERBOUND))
 								.addLast("packet_handler", networkmanager);
+						ViaSoar.getManager().inject(p_initChannel_1_, (VSNetworkManager) networkmanager);
 					}
 				}).connect(address, serverPort).syncUninterruptibly();
 
@@ -365,7 +367,7 @@ public class NetworkManager extends SimpleChannelInboundHandler<Packet> {
 	 */
 	public static NetworkManager provideLocalClient(SocketAddress address) {
 		final NetworkManager networkmanager = new NetworkManager(EnumPacketDirection.CLIENTBOUND);
-		(new Bootstrap()).group(CLIENT_LOCAL_EVENTLOOP.getValue()).handler(new ChannelInitializer<Channel>() {
+		(new Bootstrap()).group(LOCAL_WORKER_GROUP.get()).handler(new ChannelInitializer<Channel>() {
 			protected void initChannel(Channel p_initChannel_1_) throws Exception {
 				p_initChannel_1_.pipeline().addLast("packet_handler", networkmanager);
 			}
@@ -443,6 +445,18 @@ public class NetworkManager extends SimpleChannelInboundHandler<Packet> {
 				this.channel.pipeline().remove("compress");
 			}
 		}
+
+		ViaSoar.getManager().reorderCompression(channel);
+	}
+
+	@Override
+	public ProtocolVersion getTrackedVersion() {
+		return targetVersion;
+	}
+
+	@Override
+	public void setTrackedVersion(final ProtocolVersion version) {
+		targetVersion = version;
 	}
 
 	public void checkDisconnected() {

@@ -1,9 +1,16 @@
 package net.minecraft.client.gui;
 
-import com.google.common.base.Strings;
-import com.google.common.collect.Lists;
 import java.util.List;
 import java.util.Map.Entry;
+
+import org.lwjgl.opengl.Display;
+import org.lwjgl.opengl.GL11;
+
+import com.google.common.base.Strings;
+import com.google.common.collect.Lists;
+import com.soarclient.viasoar.ViaSoar;
+import com.viaversion.viaversion.api.protocol.version.ProtocolVersion;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.state.IBlockState;
@@ -23,8 +30,6 @@ import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.EnumSkyBlock;
 import net.minecraft.world.WorldType;
 import net.minecraft.world.chunk.Chunk;
-import org.lwjgl.opengl.Display;
-import org.lwjgl.opengl.GL11;
 
 public class GuiOverlayDebug extends Gui {
 	private final Minecraft mc;
@@ -199,6 +204,7 @@ public class GuiOverlayDebug extends Gui {
 				GL11.glGetString(GL11.GL_RENDERER), GL11.glGetString(GL11.GL_VERSION));
 
 		if (this.isReducedDebug()) {
+			addCustomDebugRight(list);
 			return list;
 		} else {
 			if (this.mc.objectMouseOver != null
@@ -227,7 +233,21 @@ public class GuiOverlayDebug extends Gui {
 				}
 			}
 
+			addCustomDebugRight(list);
 			return list;
+		}
+	}
+	
+	private void addCustomDebugRight(List<String> list) {
+		
+        final ProtocolVersion version = ViaSoar.getManager().getTargetVersion();
+        
+		list.add("");
+		
+		if(!mc.isIntegratedServerRunning()) {
+			list.add("Protocol: " + version.getName());
+		} else {
+			list.add("Protocol: 1.8.x");
 		}
 	}
 

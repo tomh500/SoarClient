@@ -37,10 +37,9 @@ switch (OperatingSystem.current()) {
 repositories {
     maven { url 'https://www.jitpack.io' }
 	maven { url "https://repo.viaversion.com" }
-	maven {
-        name = "Lenni0451"
-        url = "https://maven.lenni0451.net/everything"
-    }
+	maven { url "https://maven.lenni0451.net/everything"}
+	maven { url 'https://repo.opencollab.dev/maven-snapshots/' }
+	maven { url 'https://libraries.minecraft.net' }
     mavenCentral()
 }
 
@@ -67,14 +66,15 @@ dependencies {
 		exclude group: "org.slf4j", module: "slf4j-api"
     }
 
-	implementation('net.raphimc:ViaLoader:3.0.5-SNAPSHOT') {
+	implementation('com.viaversion:vialoader:4.0.0') {
 		exclude group: "com.google.guava", module: "guava"
 		exclude group: "org.slf4j", module: "slf4j-api"
     }
 
-	implementation 'com.viaversion:viaversion-common:5.2.1-SNAPSHOT'
-	implementation 'com.viaversion:viarewind-common:4.0.5'
-	implementation 'com.viaversion:viabackwards-common:5.2.1-SNAPSHOT'
+	implementation "com.viaversion:viaversion-common:5.2.1"
+	implementation "com.viaversion:viabackwards-common:5.2.1"
+	implementation "com.viaversion:viarewind-common:4.0.5"
+
 	implementation 'io.github.humbleui:types:0.2.0'
 
 	implementation 'com.google.code.gson:gson:2.11.0'
@@ -89,7 +89,7 @@ dependencies {
 	implementation 'org.apache.httpcomponents.client5:httpclient5:5.4.1'
 	implementation 'org.apache.commons:commons-text:1.13.0'
 	implementation 'io.netty:netty-all:4.1.116.Final'
-	
+
 	implementation fileTree('libs')
 }
 

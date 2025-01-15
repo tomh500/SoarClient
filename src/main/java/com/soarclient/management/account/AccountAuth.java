@@ -94,6 +94,7 @@ public class AccountAuth {
 				accountManager.getAccounts().add(beAccount);
 				SkinHelper.downloadBedrockSkin(beAccount.getMcChain().getXuid(),
 						new File(FileLocation.CACHE_DIR, beAccount.getMcChain().getXuid()));
+				Soar.getInstance().getConfigManager().save(ConfigType.ACCOUNT);
 			}
 		} catch (Throwable e) {
 			e.printStackTrace();

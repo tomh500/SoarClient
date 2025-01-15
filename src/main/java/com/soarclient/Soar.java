@@ -15,6 +15,8 @@ import com.soarclient.management.profile.ProfileManager;
 import com.soarclient.utils.file.FileLocation;
 import com.soarclient.utils.language.I18n;
 import com.soarclient.utils.language.Language;
+import com.soarclient.viasoar.ViaSoar;
+import com.soarclient.viasoar.platform.ViaSoarPlatform;
 
 import net.minecraft.client.gui.GuiScreen;
 
@@ -44,6 +46,8 @@ public class Soar {
 		FileLocation.init();
 		launchTime = System.currentTimeMillis();
 
+		ViaSoar.init(ViaSoarPlatform.INSTANCE);
+		
 		modManager = new ModManager();
 		modManager.init();
 		colorManager = new ColorManager();

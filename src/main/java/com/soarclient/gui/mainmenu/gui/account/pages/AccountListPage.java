@@ -10,6 +10,7 @@ import com.soarclient.gui.api.page.Page;
 import com.soarclient.gui.api.page.PageGui;
 import com.soarclient.gui.api.page.impl.LeftTransition;
 import com.soarclient.management.account.Account;
+import com.soarclient.management.account.AccountAuth;
 import com.soarclient.management.account.AccountManager;
 import com.soarclient.management.account.impl.BedrockAccount;
 import com.soarclient.management.color.api.ColorPalette;
@@ -56,6 +57,7 @@ public class AccountListPage extends Page {
 
 			@Override
 			public void onAction() {
+				AccountAuth.handleBedrockLogin();
 			}
 		});
 
