@@ -10,9 +10,7 @@ import com.soarclient.gui.api.page.Page;
 import com.soarclient.gui.api.page.PageGui;
 import com.soarclient.gui.api.page.impl.LeftTransition;
 import com.soarclient.management.account.Account;
-import com.soarclient.management.account.AccountAuth;
 import com.soarclient.management.account.AccountManager;
-import com.soarclient.management.account.impl.BedrockAccount;
 import com.soarclient.management.color.api.ColorPalette;
 import com.soarclient.skia.Skia;
 import com.soarclient.skia.font.Fonts;
@@ -22,9 +20,12 @@ import com.soarclient.ui.component.api.Style;
 import com.soarclient.ui.component.handler.impl.ButtonHandler;
 import com.soarclient.ui.component.impl.IconButton;
 import com.soarclient.ui.component.impl.text.SearchBar;
+import com.soarclient.utils.ColorUtils;
 import com.soarclient.utils.SearchUtils;
 import com.soarclient.utils.file.FileLocation;
 import com.soarclient.utils.mouse.ScrollHelper;
+
+import io.github.humbleui.types.Rect;
 
 public class AccountListPage extends Page {
 
@@ -57,7 +58,6 @@ public class AccountListPage extends Page {
 
 			@Override
 			public void onAction() {
-				AccountAuth.handleBedrockLogin();
 			}
 		});
 
@@ -98,14 +98,15 @@ public class AccountListPage extends Page {
 			Account acc = i.account;
 			SimpleAnimation xAnimation = i.xAnimation;
 			SimpleAnimation yAnimation = i.yAnimation;
+			SimpleAnimation selectAnimation = i.selectAnimation;
 
 			float itemX = x + offsetX;
 			float itemY = y + offsetY;
 
-			String uuid = acc instanceof BedrockAccount ? ((BedrockAccount) acc).getMcChain().getXuid()
-					: acc.getUUID().toString().replace("-", "");
-			
-			if (!searchBar.getText().isEmpty() && !SearchUtils.isSimilar(acc.getDisplayString() + " " + uuid, searchBar.getText())) {
+			String uuid = acc.getUUID().toString();
+
+			if (!searchBar.getText().isEmpty()
+					&& !SearchUtils.isSimilar(acc.getDisplayString() + " " + uuid, searchBar.getText())) {
 				continue;
 			}
 
@@ -116,9 +117,16 @@ public class AccountListPage extends Page {
 			itemY = yAnimation.getValue();
 
 			Skia.drawRoundedRect(itemX, itemY, width - (22 * 2), 82, 20, palette.getSurface());
-			Skia.drawPlayerHead(new File(FileLocation.CACHE_DIR, uuid), itemX + 12, itemY + 12, 58, 58, 12);
+			Skia.drawPlayerHead(new File(FileLocation.CACHE_DIR, uuid.replace("-", "")), itemX + 12, itemY + 12, 58, 58, 12);
 			Skia.drawText(acc.getDisplayString(), itemX + 82, itemY + 24, palette.getOnSurface(), Fonts.getRegular(20));
 			Skia.drawText(uuid, itemX + 82, itemY + 47, palette.getOnSurface(), Fonts.getRegular(15));
+
+			selectAnimation.onTick(accountManager.getCurrentAccount().equals(acc) ? 1 : 0, 10);
+			
+			Rect iconBounds = Skia.getTextBounds(Icon.CHECK, Fonts.getIconFill(30));
+
+			Skia.drawHeightCenteredText(Icon.CHECK, itemX + (width - (22 * 2)) - iconBounds.getWidth() - 12,
+					itemY + (82 / 2), ColorUtils.applyAlpha(palette.getPrimary(), selectAnimation.getValue()), Fonts.getIconFill(30));
 
 			offsetY += 82 + 22;
 		}
@@ -159,6 +167,7 @@ public class AccountListPage extends Page {
 		private Account account;
 		private SimpleAnimation xAnimation = new SimpleAnimation();
 		private SimpleAnimation yAnimation = new SimpleAnimation();
+		private SimpleAnimation selectAnimation = new SimpleAnimation();
 
 		private Item(Account account) {
 			this.account = account;

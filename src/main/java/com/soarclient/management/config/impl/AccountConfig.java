@@ -11,7 +11,6 @@ import com.soarclient.management.account.Account;
 import com.soarclient.management.account.AccountAuth;
 import com.soarclient.management.account.AccountManager;
 import com.soarclient.management.account.AccountType;
-import com.soarclient.management.account.impl.BedrockAccount;
 import com.soarclient.management.account.impl.MicrosoftAccount;
 import com.soarclient.management.account.impl.OfflineAccount;
 import com.soarclient.management.config.Config;
@@ -44,9 +43,7 @@ public class AccountConfig extends Config {
 
 				final AccountType type = AccountType.getById(accJsonObject.get("type").getAsString());
 
-				if (type.equals(AccountType.BEDROCK)) {
-					accountManager.getAccounts().add(new BedrockAccount(accJsonObject));
-				} else if (type.equals(AccountType.MICROSOFT)) {
+				if (type.equals(AccountType.MICROSOFT)) {
 					accountManager.getAccounts().add(new MicrosoftAccount(accJsonObject));
 				} else if (type.equals(AccountType.OFFLINE)) {
 					accountManager.getAccounts().add(new OfflineAccount(accJsonObject));

@@ -2,11 +2,6 @@ package com.soarclient.management.account;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
-
-import com.soarclient.management.account.impl.BedrockAccount;
-import com.soarclient.management.account.impl.MicrosoftAccount;
-import com.soarclient.management.account.impl.OfflineAccount;
 
 public class AccountManager {
 
@@ -17,21 +12,6 @@ public class AccountManager {
 		return accounts;
 	}
 
-	public List<OfflineAccount> getOfflineAccounts() {
-		return accounts.stream().filter(a -> a instanceof OfflineAccount).map(a -> (OfflineAccount) a)
-				.collect(Collectors.toList());
-	}
-
-	public List<MicrosoftAccount> getMicrosoftAccounts() {
-		return accounts.stream().filter(a -> a instanceof MicrosoftAccount).map(a -> (MicrosoftAccount) a)
-				.collect(Collectors.toList());
-	}
-
-	public List<BedrockAccount> getBedrockAccounts() {
-		return accounts.stream().filter(a -> a instanceof BedrockAccount).map(a -> (BedrockAccount) a)
-				.collect(Collectors.toList());
-	}
-	
 	public Account getByUuid(String inputUuid) {
 		
 		if(inputUuid == null) {

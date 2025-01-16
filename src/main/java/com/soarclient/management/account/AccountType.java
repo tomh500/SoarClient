@@ -1,7 +1,7 @@
 package com.soarclient.management.account;
 
 public enum AccountType {
-	BEDROCK("bedrock"), MICROSOFT("microsoft"), OFFLINE("offline"), NULL("null");
+	MICROSOFT("microsoft"), OFFLINE("offline");
 	
 	private String id;
 	
@@ -21,6 +21,6 @@ public enum AccountType {
 			}
 		}
 		
-		return NULL;
+		return OFFLINE;
 	}
 }

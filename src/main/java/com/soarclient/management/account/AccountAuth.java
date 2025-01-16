@@ -9,7 +9,6 @@ import javax.swing.SwingUtilities;
 
 import com.soarclient.Soar;
 import com.soarclient.libraries.skin.SkinHelper;
-import com.soarclient.management.account.impl.BedrockAccount;
 import com.soarclient.management.account.impl.MicrosoftAccount;
 import com.soarclient.management.config.ConfigType;
 import com.soarclient.utils.TFunction;
@@ -31,13 +30,6 @@ public class AccountAuth {
 		});
 	}
 
-	public static void handleBedrockLogin() {
-		handleLogin(msaDeviceCodeConsumer -> {
-			return new BedrockAccount(BedrockAccount.DEVICE_CODE_LOGIN.getFromInput(MinecraftAuth.createHttpClient(),
-					new StepMsaDeviceCode.MsaDeviceCodeCallback(msaDeviceCodeConsumer)));
-		});
-	}
-
 	public static void handleLogin(Account account) {
 		try {
 			if (account instanceof MicrosoftAccount) {
@@ -47,13 +39,6 @@ public class AccountAuth {
 				msAccount.refresh();
 				Minecraft.getMinecraft().setSession(new Session(profile.getName(), profile.getId().toString(),
 						profile.getMcToken().getAccessToken(), "legacy"));
-			}
-			
-			if (account instanceof BedrockAccount) {
-				
-				BedrockAccount beAccount = (BedrockAccount) account;
-				
-				beAccount.refresh();
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -84,16 +69,6 @@ public class AccountAuth {
 				Minecraft.getMinecraft().setSession(new Session(profile.getName(), profile.getId().toString(),
 						profile.getMcToken().getAccessToken(), "legacy"));
 				accountManager.setCurrentAccount(msAccount.getUUID().toString().replace("-", ""));
-				Soar.getInstance().getConfigManager().save(ConfigType.ACCOUNT);
-			}
-
-			if (account instanceof BedrockAccount) {
-
-				BedrockAccount beAccount = (BedrockAccount) account;
-
-				accountManager.getAccounts().add(beAccount);
-				SkinHelper.downloadBedrockSkin(beAccount.getMcChain().getXuid(),
-						new File(FileLocation.CACHE_DIR, beAccount.getMcChain().getXuid()));
 				Soar.getInstance().getConfigManager().save(ConfigType.ACCOUNT);
 			}
 		} catch (Throwable e) {
