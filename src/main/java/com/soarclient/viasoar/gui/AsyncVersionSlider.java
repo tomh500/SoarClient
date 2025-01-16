@@ -1,6 +1,5 @@
 package com.soarclient.viasoar.gui;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import com.soarclient.viasoar.ViaSoar;
@@ -89,7 +88,6 @@ public class AsyncVersionSlider extends GuiButton {
 	}
 	
     private static List<ProtocolVersion> getProtocols() {
-        final List<ProtocolVersion> protocolVersions = ViaSoar.getVersions();
-        return protocolVersions;
+        return ViaSoar.getVersions();
     }
 }

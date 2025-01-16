@@ -13,7 +13,6 @@ import com.soarclient.viasoar.api.VSPlatform;
 import com.soarclient.viasoar.gui.AsyncVersionSlider;
 import com.viaversion.vialoader.ViaLoader;
 import com.viaversion.vialoader.impl.platform.ViaBackwardsPlatformImpl;
-import com.viaversion.vialoader.impl.platform.ViaBedrockPlatformImpl;
 import com.viaversion.vialoader.impl.platform.ViaRewindPlatformImpl;
 import com.viaversion.vialoader.impl.platform.ViaVersionPlatformImpl;
 import com.viaversion.vialoader.netty.CompressionReorderEvent;
@@ -56,7 +55,8 @@ public class ViaSoar {
 
 	public void inject(final Channel channel, final VSNetworkManager networkManager) {
 
-		if (channel instanceof SocketChannel) {
+		if (channel instanceof SocketChannel && !targetVersion.equals(ProtocolVersion.v1_8)) {
+			
 			final UserConnection user = new UserConnectionImpl(channel, true);
 
 			new ProtocolPipelineImpl(user);
