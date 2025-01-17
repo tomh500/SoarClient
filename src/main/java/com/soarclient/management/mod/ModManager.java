@@ -25,6 +25,7 @@ import com.soarclient.management.mod.impl.hud.ServerIPDisplayMod;
 import com.soarclient.management.mod.impl.hud.StopwatchMod;
 import com.soarclient.management.mod.impl.hud.WeatherDisplayMod;
 import com.soarclient.management.mod.impl.hud.YawDisplayMod;
+import com.soarclient.management.mod.impl.misc.SnapTapMod;
 import com.soarclient.management.mod.impl.settings.ModMenuSettings;
 import com.soarclient.management.mod.settings.Setting;
 import com.soarclient.management.mod.settings.impl.KeybindSetting;
@@ -63,6 +64,9 @@ public class ModManager {
 		mods.add(new StopwatchMod());
 		mods.add(new WeatherDisplayMod());
 		mods.add(new YawDisplayMod());
+		
+		// Misc
+		mods.add(new SnapTapMod());
 		
 		// Settings
 		mods.add(new ModMenuSettings());

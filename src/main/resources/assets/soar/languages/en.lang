@@ -82,6 +82,9 @@ mod.weatherdisplay.description=Display world weather
 mod.yawdisplay.name=Yaw Display
 mod.yawdisplay.description=Display yaw of you
 
+mod.snaptap.name=Snap Tap
+mod.snaptap.description=The last key pressed takes precedence
+
 mod.minimap.name=Minimap
 mod.minimap.description=Display map in a smaller size
 mod.minimap.name=Minimap

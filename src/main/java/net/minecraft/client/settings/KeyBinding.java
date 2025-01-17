@@ -3,10 +3,14 @@ package net.minecraft.client.settings;
 import java.util.List;
 import java.util.Set;
 
+import org.lwjgl.input.Keyboard;
+
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
+import com.soarclient.management.mod.impl.misc.SnapTapMod;
 
 import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.resources.I18n;
 
 public class KeyBinding implements Comparable<KeyBinding> {
@@ -33,6 +37,38 @@ public class KeyBinding implements Comparable<KeyBinding> {
 	}
 
 	public static void setKeyBindState(int keyCode, boolean pressed) {
+
+		Minecraft mc = Minecraft.getMinecraft();
+		SnapTapMod mod = SnapTapMod.getInstance();
+
+		if (mod.isEnabled()) {
+			if (keyCode == mc.gameSettings.keyBindLeft.getKeyCode()) {
+				if (pressed) {
+					mod.setLeftPressTime(System.currentTimeMillis());
+				} else {
+					mod.setLeftPressTime(0);
+				}
+			} else if (keyCode == mc.gameSettings.keyBindRight.getKeyCode()) {
+				if (pressed) {
+					mod.setRightPressTime(System.currentTimeMillis());
+				} else {
+					mod.setRightPressTime(0);
+				}
+			} else if (keyCode == mc.gameSettings.keyBindForward.getKeyCode()) {
+				if (pressed) {
+					mod.setForwardPressTime(System.currentTimeMillis());
+				} else {
+					mod.setForwardPressTime(0);
+				}
+			} else if (keyCode == mc.gameSettings.keyBindBack.getKeyCode()) {
+				if (pressed) {
+					mod.setBackPressTime(System.currentTimeMillis());
+				} else {
+					mod.setBackPressTime(0);
+				}
+			}
+		}
+
 		if (keyCode != 0) {
 			KeyBinding keybinding = hash.get(keyCode);
 
@@ -75,6 +111,54 @@ public class KeyBinding implements Comparable<KeyBinding> {
 	 * used in tickers.
 	 */
 	public boolean isKeyDown() {
+
+		SnapTapMod mod = SnapTapMod.getInstance();
+
+		if (mod.isEnabled()) {
+
+			if (this.keyCodeDefault == Keyboard.KEY_A) {
+
+				if (this.pressed) {
+					if (mod.getRightPressTime() == 0) {
+						return true;
+					}
+
+					return mod.getRightPressTime() <= mod.getLeftPressTime();
+				}
+			} else if (this.keyCodeDefault == Keyboard.KEY_D) {
+
+				if (this.pressed) {
+					if (mod.getLeftPressTime() == 0) {
+						return true;
+					}
+
+					return mod.getLeftPressTime() <= mod.getRightPressTime();
+				}
+			} else if (this.keyCodeDefault == Keyboard.KEY_W) {
+
+				if (this.pressed) {
+					if (mod.getBackPressTime() == 0) {
+						return true;
+					}
+
+					return mod.getBackPressTime() <= mod.getForwardPressTime();
+				}
+			} else if (this.keyCodeDefault == Keyboard.KEY_S) {
+
+				if (this.pressed) {
+					if (mod.getForwardPressTime() == 0) {
+						return true;
+					}
+
+					return mod.getForwardPressTime() <= mod.getBackPressTime();
+				}
+			}
+		}
+
+		return this.pressed;
+	}
+	
+	public boolean getRealIsKeyDown() {
 		return this.pressed;
 	}
 
