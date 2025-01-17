@@ -141,6 +141,14 @@ public class ModsPage extends Page {
 			float itemX = i.xAnimation.getValue();
 			float itemY = i.yAnimation.getValue();
 
+			if (i.mod.isHidden()) {
+				continue;
+			}
+
+			if (!searchBar.getText().isEmpty() && !SearchUtils.isSimilar(I18n.get(i.mod.getName()), searchBar.getText())) {
+				continue;
+			}
+			
 			if (mouseButton == 0) {
 
 				if (MouseUtils.isInside(mouseX, mouseY, itemX, itemY + 116, 244, 35)) {
@@ -164,6 +172,14 @@ public class ModsPage extends Page {
 			float itemX = i.xAnimation.getValue();
 			float itemY = i.yAnimation.getValue();
 
+			if (i.mod.isHidden()) {
+				continue;
+			}
+
+			if (!searchBar.getText().isEmpty() && !SearchUtils.isSimilar(I18n.get(i.mod.getName()), searchBar.getText())) {
+				continue;
+			}
+			
 			if (mouseButton == 0) {
 
 				if (MouseUtils.isInside(mouseX, mouseY, itemX, itemY + 116, 244, 35)) {

@@ -183,6 +183,11 @@ public class MusicPage extends Page {
 			float itemX = i.xAnimation.getValue();
 			float itemY = i.yAnimation.getValue();
 
+			if (!searchBar.getText().isEmpty()
+					&& !SearchUtils.isSimilar(m.getTitle() + " " + m.getArtist(), searchBar.getText())) {
+				continue;
+			}
+			
 			if (MouseUtils.isInside(mouseX, mouseY, itemX, itemY, 174, 174) && mouseButton == 0) {
 
 				if (musicManager.getCurrentMusic() != m) {
