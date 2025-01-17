@@ -59,7 +59,7 @@ public class MicrosoftAccount extends Account {
 
 	@Override
 	public String getDisplayString() {
-		return this.getName() + " (Microsoft)";
+		return this.getName();
 	}
 
 	@Override

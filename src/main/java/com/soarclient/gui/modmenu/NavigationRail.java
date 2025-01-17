@@ -17,8 +17,6 @@ import com.soarclient.skia.Skia;
 import com.soarclient.skia.font.Fonts;
 import com.soarclient.skia.font.Icon;
 import com.soarclient.ui.component.Component;
-import com.soarclient.ui.component.api.Size;
-import com.soarclient.ui.component.api.Style;
 import com.soarclient.ui.component.handler.impl.ButtonHandler;
 import com.soarclient.ui.component.impl.IconButton;
 import com.soarclient.utils.ColorUtils;
@@ -54,7 +52,7 @@ public class NavigationRail extends Component {
 			navigations.add(n);
 		}
 
-		editButton = new IconButton(Icon.EDIT, x, y + 44, Size.NORMAL, Style.TERTIARY);
+		editButton = new IconButton(Icon.EDIT, x, y + 44, IconButton.Size.NORMAL, IconButton.Style.TERTIARY);
 		editButton.setX(x + (width / 2) - (editButton.getWidth() / 2));
 		editButton.setHandler(new ButtonHandler() {
 

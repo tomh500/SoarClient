@@ -59,6 +59,7 @@ public class Soar {
 		EventBus.getInstance().register(new Delta(), GameLoopEvent.ID);
 		EventBus.getInstance().register(new SoarListener(), ClientTickEvent.ID);
 		mainMenu = new GuiSoarMainMenu().build();
+		configManager.load(ConfigType.ACCOUNT);
 	}
 
 	public void stop() {

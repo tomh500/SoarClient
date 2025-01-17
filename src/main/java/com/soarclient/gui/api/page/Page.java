@@ -86,6 +86,10 @@ public class Page {
 		return icon;
 	}
 
+	public Page getCurrentPage(){
+		return parent.getCurrentPage();
+	}
+	
 	public void setCurrentPage(Page page) {
 		parent.setCurrentPage(page);
 	}

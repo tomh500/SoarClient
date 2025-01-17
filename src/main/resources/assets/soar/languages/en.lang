@@ -12,6 +12,13 @@ text.music=Music
 text.profile=Profile
 text.settings=Settings
 text.search=Search
+text.microsoft=Microsoft
+text.offline=Offline
+text.login=Microsoft Login
+text.login.message1=Your browser should have opened!
+text.login.message2=Closing this screen will cancel the process
+text.cancel=Cancel
+text.copylink=Copy link
 
 design.simple=Simple
 

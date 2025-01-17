@@ -19,7 +19,6 @@ public class ConfigManager {
 		configs.add(new AccountConfig());
 		configs.add(new ModConfig());
 		load(ConfigType.MOD);
-		load(ConfigType.ACCOUNT);
 	}
 
 	public void save(ConfigType type) {

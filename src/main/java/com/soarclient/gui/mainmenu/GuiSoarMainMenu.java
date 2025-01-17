@@ -1,5 +1,6 @@
 package com.soarclient.gui.mainmenu;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,6 +13,10 @@ import com.soarclient.management.account.Account;
 import com.soarclient.management.account.AccountManager;
 import com.soarclient.management.color.api.ColorPalette;
 import com.soarclient.skia.Skia;
+import com.soarclient.skia.font.Fonts;
+import com.soarclient.utils.file.FileLocation;
+
+import io.github.humbleui.types.Rect;
 
 public class GuiSoarMainMenu extends SimpleSoarGui {
 
@@ -44,10 +49,17 @@ public class GuiSoarMainMenu extends SimpleSoarGui {
 		Skia.drawGradientRoundedRect(0, 0, mc.displayWidth, mc.displayHeight, 0, palette.getPrimaryContainer(),
 				palette.getTertiaryContainer());
 
-		if(currentAccount != null) {
-			
+		if (currentAccount != null) {
+
+			String name = currentAccount.getName();
+			Rect bounds = Skia.getTextBounds(name, Fonts.getRegular(16));
+
+			Skia.drawRoundedRect(10, 10, 38 + bounds.getWidth() + 6, 38, 12, palette.getSurface());
+			Skia.drawPlayerHead(new File(FileLocation.CACHE_DIR, currentAccount.getUUID().toString().replace("-", "")),
+					16, 16, 26, 26, 6);
+			Skia.drawHeightCenteredText(name, 48, 10 + 38 / 2, palette.getOnSurface(), Fonts.getRegular(16));
 		}
-		
+
 		if (currentGui != null) {
 			currentGui.draw(mouseX, mouseY);
 		}

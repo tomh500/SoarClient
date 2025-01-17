@@ -6,7 +6,7 @@ import java.util.List;
 public class AccountManager {
 
 	private List<Account> accounts = new ArrayList<>();
-	private String currentAccount;
+	private Account currentAccount;
 	
 	public List<Account> getAccounts() {
 		return accounts;
@@ -32,10 +32,10 @@ public class AccountManager {
 	}
 
 	public Account getCurrentAccount() {
-		return getByUuid(currentAccount);
+		return currentAccount;
 	}
 
-	public void setCurrentAccount(String currentAccount) {
+	public void setCurrentAccount(Account currentAccount) {
 		this.currentAccount = currentAccount;
 	}
 }

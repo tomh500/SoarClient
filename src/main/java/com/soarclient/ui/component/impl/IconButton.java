@@ -9,8 +9,6 @@ import com.soarclient.skia.Skia;
 import com.soarclient.skia.font.Fonts;
 import com.soarclient.ui.component.Component;
 import com.soarclient.ui.component.api.PressAnimation;
-import com.soarclient.ui.component.api.Size;
-import com.soarclient.ui.component.api.Style;
 import com.soarclient.ui.component.handler.impl.ButtonHandler;
 import com.soarclient.utils.ColorUtils;
 import com.soarclient.utils.mouse.MouseUtils;
@@ -137,5 +135,13 @@ public class IconButton extends Component {
 		default:
 			return new Color[] { Color.RED, Color.RED };
 		}
+	}
+	
+	public enum Size {
+		SMALL, NORMAL, LARGE;
+	}
+	
+	public enum Style {
+		SURFACE, PRIMARY, SECONDARY, TERTIARY;
 	}
 }

@@ -11,8 +11,7 @@ import com.soarclient.gui.mainmenu.GuiSoarMainMenu;
 import com.soarclient.gui.mainmenu.api.PageGuiMainMenu;
 import com.soarclient.gui.mainmenu.gui.MainGui;
 import com.soarclient.gui.mainmenu.gui.account.pages.AccountListPage;
-import com.soarclient.gui.mainmenu.gui.account.pages.AccountLoginPage;
-import com.soarclient.gui.mainmenu.gui.account.pages.OfflineLoginPage;
+import com.soarclient.gui.mainmenu.gui.account.pages.WaitAuthPage;
 
 public class AccountGui extends PageGuiMainMenu {
 
@@ -37,8 +36,7 @@ public class AccountGui extends PageGuiMainMenu {
 		List<Page> pages = new ArrayList<>();
 		
 		pages.add(new AccountListPage(this));
-		pages.add(new AccountLoginPage(this));
-		pages.add(new OfflineLoginPage(this));
+		pages.add(new WaitAuthPage(this));
 		
 		return pages;
 	}

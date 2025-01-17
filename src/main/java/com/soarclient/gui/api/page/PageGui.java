@@ -50,7 +50,7 @@ public abstract class PageGui extends SoarGui {
 		}
 		
 		if(lastPage != null) {
-			
+
 			GuiTransition transition = lastPage.getTransition();
 			
 			if(currentPage.getTransition().isConsecutive()) {

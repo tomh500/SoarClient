@@ -22,20 +22,20 @@ public class MainGui extends SoarGuiMainMenu {
 
 	@Override
 	public void init() {
-		
+
 		components.clear();
-		
+
 		int y = mc.displayHeight / 4 + 112;
 		int space = 48;
-		
+
 		MainMenuButton singleplayer = new MainMenuButton("mainmenu.singleplayer", Icon.PERSON,
 				(mc.displayWidth / 2) - 200, y, 400);
 		MainMenuButton multiplayer = new MainMenuButton("mainmenu.multiplayer", Icon.GROUPS,
 				(mc.displayWidth / 2) - 200, y + space, 400);
 		MainMenuButton accountManager = new MainMenuButton("mainmenu.accountmanager", Icon.ACCOUNT_CIRCLE,
 				(mc.displayWidth / 2) - 200, y + (space * 2), 400);
-		MainMenuButton settings = new MainMenuButton("mainmenu.settings", Icon.SETTINGS,
-				(mc.displayWidth / 2) - 200, y + (space * 3), 196);
+		MainMenuButton settings = new MainMenuButton("mainmenu.settings", Icon.SETTINGS, (mc.displayWidth / 2) - 200,
+				y + (space * 3), 196);
 		MainMenuButton exit = new MainMenuButton("mainmanu.exit", Icon.EXIT_TO_APP, (mc.displayWidth / 2) + 2,
 				y + (space * 3), 196);
 
@@ -78,7 +78,7 @@ public class MainGui extends SoarGuiMainMenu {
 				mc.shutdown();
 			}
 		});
-		
+
 		components.add(singleplayer);
 		components.add(multiplayer);
 		components.add(accountManager);
@@ -86,16 +86,16 @@ public class MainGui extends SoarGuiMainMenu {
 		components.add(exit);
 		super.init();
 	}
-	
+
 	@Override
 	public void drawSkia(int mouseX, int mouseY) {
 
-	    float size = 152;
+		float size = 152;
 
-	    Skia.drawImage("logo.png", (mc.displayWidth / 2) - (size / 2),
-				mc.displayHeight / 4 + (112) - size - 4, size, size);
+		Skia.drawImage("logo.png", (mc.displayWidth / 2) - (size / 2), mc.displayHeight / 4 + (112) - size - 4, size,
+				size);
 	}
-	
+
 	@Override
 	public float getX() {
 		return 0;
