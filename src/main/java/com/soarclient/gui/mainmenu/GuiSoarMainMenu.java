@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.soarclient.Soar;
+import com.soarclient.animation.SimpleAnimation;
 import com.soarclient.gui.api.SimpleSoarGui;
 import com.soarclient.gui.api.SoarGui;
 import com.soarclient.gui.mainmenu.gui.MainGui;
@@ -14,13 +15,16 @@ import com.soarclient.management.account.AccountManager;
 import com.soarclient.management.color.api.ColorPalette;
 import com.soarclient.skia.Skia;
 import com.soarclient.skia.font.Fonts;
+import com.soarclient.utils.ColorUtils;
 import com.soarclient.utils.file.FileLocation;
+import com.soarclient.utils.mouse.MouseUtils;
 
 import io.github.humbleui.types.Rect;
 
 public class GuiSoarMainMenu extends SimpleSoarGui {
 
 	private final List<SoarGui> guis = new ArrayList<>();
+	private SimpleAnimation focusHeadAnimation = new SimpleAnimation();
 	private SoarGui currentGui;
 
 	public GuiSoarMainMenu() {
@@ -53,11 +57,17 @@ public class GuiSoarMainMenu extends SimpleSoarGui {
 
 			String name = currentAccount.getName();
 			Rect bounds = Skia.getTextBounds(name, Fonts.getRegular(16));
+			float addWidth = bounds.getWidth() + 6;
+			boolean focus = MouseUtils.isInside(mouseX, mouseY, 10, 10, 38 + (focusHeadAnimation.getValue() * addWidth),
+					38);
 
-			Skia.drawRoundedRect(10, 10, 38 + bounds.getWidth() + 6, 38, 12, palette.getSurface());
+			focusHeadAnimation.onTick(focus ? 1 : 0, 12);
+
+			Skia.drawRoundedRect(10, 10, 38 + (focusHeadAnimation.getValue() * addWidth), 38, 12, palette.getSurface());
+			Skia.drawHeightCenteredText(name, 48 + (-30 + (30 * focusHeadAnimation.getValue())), 10 + 38 / 2,
+					ColorUtils.applyAlpha(palette.getOnSurface(), focusHeadAnimation.getValue()), Fonts.getRegular(16));
 			Skia.drawPlayerHead(new File(FileLocation.CACHE_DIR, currentAccount.getUUID().toString().replace("-", "")),
 					16, 16, 26, 26, 6);
-			Skia.drawHeightCenteredText(name, 48, 10 + 38 / 2, palette.getOnSurface(), Fonts.getRegular(16));
 		}
 
 		if (currentGui != null) {

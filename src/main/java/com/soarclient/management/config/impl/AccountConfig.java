@@ -30,9 +30,6 @@ public class AccountConfig extends Config {
 		AccountManager accountManager = Soar.getInstance().getAccountManager();
 		JsonArray jsonArray = JsonUtils.getArrayProperty(jsonObject, "accounts");
 
-		accountManager.setCurrentAccount(
-				accountManager.getByUuid(JsonUtils.getStringProperty(jsonObject, "currentAccount", "null")));
-
 		if (jsonArray != null) {
 
 			Iterator<JsonElement> iterator = jsonArray.iterator();
@@ -52,6 +49,9 @@ public class AccountConfig extends Config {
 			}
 		}
 
+		accountManager.setCurrentAccount(
+				accountManager.getByUuid(JsonUtils.getStringProperty(jsonObject, "currentAccount", "null")));
+		
 		Account acc = accountManager.getCurrentAccount();
 
 		if (acc != null) {
