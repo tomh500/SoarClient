@@ -4,7 +4,7 @@ import com.soarclient.event.api.CancellableEvent;
 
 public interface RenderFireOverlayEventListener {
 
-	void onRenderFireOverlay();
+	void onRenderFireOverlay(RenderFireOverlayEvent event);
 	
 	class RenderFireOverlayEvent extends CancellableEvent<RenderFireOverlayEventListener> {
 
@@ -12,7 +12,7 @@ public interface RenderFireOverlayEventListener {
 		
 		@Override
 		public void call(RenderFireOverlayEventListener listener) {
-			listener.onRenderFireOverlay();
+			listener.onRenderFireOverlay(this);
 		}
 	}
 }

@@ -4,7 +4,7 @@ import com.soarclient.event.api.CancellableEvent;
 
 public interface RenderPumpkinOverlayEventListener {
 
-	void onRenderPumpkinOverlay();
+	void onRenderPumpkinOverlay(RenderPumpkinOverlayEvent event);
 	
 	class RenderPumpkinOverlayEvent extends CancellableEvent<RenderPumpkinOverlayEventListener> {
 
@@ -12,7 +12,7 @@ public interface RenderPumpkinOverlayEventListener {
 		
 		@Override
 		public void call(RenderPumpkinOverlayEventListener listener) {
-			listener.onRenderPumpkinOverlay();
+			listener.onRenderPumpkinOverlay(this);
 		}
 	}
 }

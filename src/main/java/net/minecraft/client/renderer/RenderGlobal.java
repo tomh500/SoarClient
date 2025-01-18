@@ -2321,6 +2321,10 @@ public class RenderGlobal implements IWorldAccess, IResourceManagerReloadListene
 		}
 	}
 
+	public WorldClient getTheWorld() {
+		return theWorld;
+	}
+
 	class ContainerLocalRenderInformation {
 		final RenderChunk renderChunk;
 		final EnumFacing facing;

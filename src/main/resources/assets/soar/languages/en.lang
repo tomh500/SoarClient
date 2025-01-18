@@ -109,6 +109,9 @@ mod.mousedelayfix.description=Fix the mouse delay
 mod.minimap.name=Minimap
 mod.minimap.description=Display map in a smaller size
 
+mod.rearview.name=Rearview
+mod.rearview.description=Display behind you
+
 setting.darkmode=Dark Mode
 setting.darkmode.description=Enable dark mode
 setting.color=Color

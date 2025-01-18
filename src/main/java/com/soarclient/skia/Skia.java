@@ -145,6 +145,22 @@ public class Skia {
 		restore();
 	}
 
+	public static void drawRoundedImage(int textureId, float x, float y, float width, float height, float radius,
+			float alpha, SurfaceOrigin origin) {
+		Path path = new Path();
+		path.addRRect(RRect.makeXYWH(x, y, width, height, radius));
+
+		save();
+		getCanvas().clipPath(path, ClipMode.INTERSECT, true);
+		drawImage(textureId, x, y, width, height, alpha, origin);
+		restore();
+	}
+
+	public static void drawRoundedImage(int textureId, float x, float y, float width, float height, float radius,
+			float alpha) {
+		drawRoundedImage(textureId, x, y, width, height, radius, alpha, SurfaceOrigin.TOP_LEFT);
+	}
+	
 	public static void drawPlayerHead(File file, float x, float y, float width, float height, float radius) {
 		if (imageHelper.load(file)) {
 

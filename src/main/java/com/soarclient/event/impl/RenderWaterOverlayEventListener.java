@@ -4,7 +4,7 @@ import com.soarclient.event.api.CancellableEvent;
 
 public interface RenderWaterOverlayEventListener {
 
-	void onRenderWaterOverlay();
+	void onRenderWaterOverlay(RenderWaterOverlayEvent event);
 	
 	class RenderWaterOverlayEvent extends CancellableEvent<RenderWaterOverlayEventListener> {
 
@@ -12,7 +12,7 @@ public interface RenderWaterOverlayEventListener {
 		
 		@Override
 		public void call(RenderWaterOverlayEventListener listener) {
-			listener.onRenderWaterOverlay();
+			listener.onRenderWaterOverlay(this);
 		}
 	}
 }
