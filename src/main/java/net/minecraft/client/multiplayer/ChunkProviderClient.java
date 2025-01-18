@@ -5,6 +5,7 @@ import java.util.List;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import com.google.common.base.MoreObjects;
 import com.google.common.collect.Lists;
 
 import it.unimi.dsi.fastutil.longs.Long2ObjectOpenHashMap;
@@ -79,8 +80,7 @@ public class ChunkProviderClient implements IChunkProvider {
 	 * seed
 	 */
 	public Chunk provideChunk(int x, int z) {
-		Chunk chunk = this.chunkMapping.get(ChunkCoordIntPair.chunkXZ2Int(x, z));
-		return chunk == null ? this.blankChunk : chunk;
+		return MoreObjects.firstNonNull(this.chunkMapping.get(ChunkCoordIntPair.chunkXZ2Int(x, z)), this.blankChunk);
 	}
 
 	/**
