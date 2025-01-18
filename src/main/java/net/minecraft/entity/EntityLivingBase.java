@@ -1,17 +1,19 @@
 package net.minecraft.entity;
 
-import com.google.common.base.Predicate;
-import com.google.common.base.Predicates;
-import com.google.common.collect.Maps;
-import com.soarclient.viasoar.fixes.ViaHelper;
-import com.viaversion.viaversion.api.protocol.version.ProtocolVersion;
-
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
 import java.util.UUID;
+
+import com.google.common.base.Predicate;
+import com.google.common.base.Predicates;
+import com.google.common.collect.Maps;
+import com.soarclient.management.mod.impl.misc.NoJumpDelayMod;
+import com.soarclient.viasoar.fixes.ViaHelper;
+import com.viaversion.viaversion.api.protocol.version.ProtocolVersion;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
@@ -1568,6 +1570,11 @@ public abstract class EntityLivingBase extends Entity {
 	 * Called to update the entity's position/logic.
 	 */
 	public void onUpdate() {
+		
+		if (NoJumpDelayMod.getInstance().isEnabled()) {
+			jumpTicks = 0;
+		}
+		
 		super.onUpdate();
 
 		if (!this.worldObj.isRemote) {
