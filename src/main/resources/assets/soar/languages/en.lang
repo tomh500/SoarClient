@@ -91,6 +91,9 @@ mod.keystrokes.description=Display pressed keys
 mod.viaversion.name=Via Version
 mod.viaversion.description=Client side ViaVersion
 
+mod.hitdelayfix.name=Hit Delay Fix
+mod.hitdelayfix.description=Fix the hit delay
+
 mod.minimap.name=Minimap
 mod.minimap.description=Display map in a smaller size
 mod.minimap.name=Minimap

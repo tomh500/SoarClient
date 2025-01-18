@@ -57,6 +57,7 @@ import com.soarclient.event.impl.GameLoopEventListener.GameLoopEvent;
 import com.soarclient.event.impl.MouseClickEventListener.MouseClickEvent;
 import com.soarclient.event.impl.MouseScrollEventListener.MouseScrollEvent;
 import com.soarclient.event.impl.RenderTickEventListener.RenderTickEvent;
+import com.soarclient.management.mod.impl.misc.HitDelayFixMod;
 import com.soarclient.management.mod.settings.impl.KeybindSetting;
 import com.soarclient.skia.context.SkiaContext;
 import com.soarclient.viasoar.fixes.AttackOrder;
@@ -1373,6 +1374,11 @@ public class Minecraft implements IThreadListener {
 	}
 
 	private void clickMouse() {
+
+		if (HitDelayFixMod.getInstance().isEnabled()) {
+			leftClickCounter = 0;
+		}
+
 		if (this.leftClickCounter <= 0) {
 
 			AttackOrder.sendConditionalSwing(objectMouseOver);
