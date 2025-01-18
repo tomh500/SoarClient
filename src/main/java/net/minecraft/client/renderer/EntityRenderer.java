@@ -19,6 +19,7 @@ import com.google.common.base.Predicates;
 import com.google.gson.JsonSyntaxException;
 import com.soarclient.event.EventBus;
 import com.soarclient.event.impl.HurtCameraEventListener.HurtCameraEvent;
+import com.soarclient.event.impl.Render3DEventListener.Render3DEvent;
 import com.soarclient.event.impl.ShaderEventListener.ShaderEvent;
 import com.soarclient.management.mod.impl.player.LeftHandMod;
 import com.soarclient.viasoar.fixes.ViaHelper;
@@ -1387,6 +1388,7 @@ public class EntityRenderer implements IResourceManagerReloadListener {
 
 		if (this.renderHand) {
 			GlStateManager.clear(256);
+			EventBus.getInstance().call(new Render3DEvent(partialTicks), Render3DEvent.ID);
 			this.renderHand(partialTicks, pass);
 			this.renderWorldDirections(partialTicks);
 		}
