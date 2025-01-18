@@ -20,6 +20,7 @@ import com.google.gson.JsonSyntaxException;
 import com.soarclient.event.EventBus;
 import com.soarclient.event.impl.HurtCameraEventListener.HurtCameraEvent;
 import com.soarclient.event.impl.ShaderEventListener.ShaderEvent;
+import com.soarclient.management.mod.impl.misc.LeftHandMod;
 import com.soarclient.viasoar.fixes.ViaHelper;
 import com.viaversion.viaversion.api.protocol.version.ProtocolVersion;
 
@@ -56,6 +57,7 @@ import net.minecraft.entity.passive.EntityAnimal;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.inventory.IInventory;
+import net.minecraft.item.ItemMap;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.Potion;
 import net.minecraft.util.AxisAlignedBB;
@@ -804,8 +806,24 @@ public class EntityRenderer implements IResourceManagerReloadListener {
 
 			if (this.mc.gameSettings.thirdPersonView == 0 && !flag && !this.mc.gameSettings.hideGUI
 					&& !this.mc.playerController.isSpectator()) {
+				
+				LeftHandMod.getInstance().setRenderingItemInFirstPerson(true);
+				
+				if (LeftHandMod.getInstance().isEnabled()) {
+					ItemStack itemToRender = itemRenderer.getItemToRender();
+					if (itemToRender == null || !(itemToRender.getItem() instanceof ItemMap)) {
+						GlStateManager.scale(-1, 1, 1);
+						GL11.glFrontFace(GL11.GL_CW);
+					}
+				}
+				
 				this.enableLightmap();
 				this.itemRenderer.renderItemInFirstPerson(partialTicks);
+				
+				if (LeftHandMod.getInstance().isEnabled()) {
+					GL11.glFrontFace(GL11.GL_CCW);
+				}
+				
 				this.disableLightmap();
 			}
 

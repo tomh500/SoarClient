@@ -2,6 +2,11 @@ package net.minecraft.client.renderer.entity;
 
 import java.util.List;
 import java.util.concurrent.Callable;
+
+import org.lwjgl.opengl.GL11;
+
+import com.soarclient.management.mod.impl.misc.LeftHandMod;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockDirt;
 import net.minecraft.block.BlockDoublePlant;
@@ -49,6 +54,7 @@ import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.EnumDyeColor;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemBow;
 import net.minecraft.item.ItemFishFood;
 import net.minecraft.item.ItemPotion;
 import net.minecraft.item.ItemStack;
@@ -286,6 +292,17 @@ public class RenderItem implements IResourceManagerReloadListener {
 
 		if (this.isThereOneNegativeScale(itemcameratransforms.getTransform(cameraTransformType))) {
 			GlStateManager.cullFace(1028);
+		}
+
+		if (LeftHandMod.getInstance().isRenderingItemInFirstPerson()) {
+
+			LeftHandMod.getInstance().setRenderingItemInFirstPerson(false);
+
+			if (LeftHandMod.getInstance().isEnabled()
+					&& !(stack.getItem().isFull3D() || stack.getItem() instanceof ItemBow)) {
+				GlStateManager.scale(-1, 1, 1);
+				GL11.glFrontFace(GL11.GL_CCW);
+			}
 		}
 
 		this.renderItem(stack, model);

@@ -603,4 +603,8 @@ public class ItemRenderer {
 	public void resetEquippedProgress2() {
 		this.equippedProgress = 0.0F;
 	}
+
+	public ItemStack getItemToRender() {
+		return itemToRender;
+	}
 }

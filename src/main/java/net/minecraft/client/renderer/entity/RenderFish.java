@@ -1,5 +1,7 @@
 package net.minecraft.client.renderer.entity;
 
+import com.soarclient.management.mod.impl.misc.LeftHandMod;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
@@ -52,6 +54,11 @@ public class RenderFish extends Render<EntityFishHook> {
 			float f7 = entity.angler.getSwingProgress(partialTicks);
 			float f8 = MathHelper.sin(MathHelper.sqrt_float(f7) * (float) Math.PI);
 			Vec3 vec3 = new Vec3(-0.36D, 0.03D, 0.35D);
+			
+			if (LeftHandMod.getInstance().isEnabled()) {
+				vec3 = new Vec3(-vec3.xCoord, vec3.yCoord, vec3.zCoord);
+			}
+			
 			vec3 = vec3.rotatePitch(-(entity.angler.prevRotationPitch
 					+ (entity.angler.rotationPitch - entity.angler.prevRotationPitch) * partialTicks) * (float) Math.PI
 					/ 180.0F);

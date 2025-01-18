@@ -100,10 +100,12 @@ mod.nojumpdelay.description=Remove jump delays
 mod.togglesneak.name=Toggle Sneak
 mod.togglesneak.description=Sneak with a single key press
 
+mod.lefthand.name=Left Hand
+mod.lefthand.description=Change to left hand
+
 mod.minimap.name=Minimap
 mod.minimap.description=Display map in a smaller size
-mod.minimap.name=Minimap
-mod.minimap.description=Display map in a smaller size
+
 setting.darkmode=Dark Mode
 setting.darkmode.description=Enable dark mode
 setting.color=Color
