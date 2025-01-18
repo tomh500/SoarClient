@@ -112,6 +112,9 @@ mod.minimap.description=Display map in a smaller size
 mod.rearview.name=Rearview
 mod.rearview.description=Display behind you
 
+mod.rawinput.name=Raw Input
+mod.rawinput.description=Set mouse input to raw
+
 setting.darkmode=Dark Mode
 setting.darkmode.description=Enable dark mode
 setting.color=Color
