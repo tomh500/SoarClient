@@ -41,7 +41,7 @@ public class NativeBackedImage extends BufferedImage implements AutoCloseable {
 		for (int z = startY; z < h; z++) {
 			for (int x = startX; x < w; x++) {
 				int color = MemoryUtil.memGetInt(this.pointer + ((x + z * width) * 4));
-				// ABGR -> ARGB
+				
 				int a = (color >> 24) & 0xFF;
 				int b = (color >> 16) & 0xFF;
 				int g = (color >> 8) & 0xFF;
