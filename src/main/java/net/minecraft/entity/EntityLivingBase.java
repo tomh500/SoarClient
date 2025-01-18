@@ -10,6 +10,7 @@ import java.util.UUID;
 import com.google.common.base.Predicate;
 import com.google.common.base.Predicates;
 import com.google.common.collect.Maps;
+import com.soarclient.management.mod.impl.player.MouseDelayFixMod;
 import com.soarclient.management.mod.impl.player.NoJumpDelayMod;
 import com.soarclient.viasoar.fixes.ViaHelper;
 import com.viaversion.viaversion.api.protocol.version.ProtocolVersion;
@@ -17,6 +18,7 @@ import com.viaversion.viaversion.api.protocol.version.ProtocolVersion;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.ai.attributes.BaseAttributeMap;
@@ -1906,6 +1908,11 @@ public abstract class EntityLivingBase extends Entity {
 	 * interpolated look vector
 	 */
 	public Vec3 getLook(float partialTicks) {
+		
+		if (MouseDelayFixMod.getInstance().isEnabled() && this instanceof EntityPlayerSP) {
+			return super.getLook(partialTicks);
+		}
+		
 		if (partialTicks == 1.0F) {
 			return this.getVectorForRotation(this.rotationPitch, this.rotationYawHead);
 		} else {

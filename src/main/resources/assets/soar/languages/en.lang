@@ -103,6 +103,9 @@ mod.togglesneak.description=Sneak with a single key press
 mod.lefthand.name=Left Hand
 mod.lefthand.description=Change to left hand
 
+mod.mousedelayfix.name=Mouse Delay Fix
+mod.mousedelayfix.description=Fix the mouse delay
+
 mod.minimap.name=Minimap
 mod.minimap.description=Display map in a smaller size
 
