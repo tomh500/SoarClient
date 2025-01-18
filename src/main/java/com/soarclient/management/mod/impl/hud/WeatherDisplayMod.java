@@ -15,7 +15,7 @@ public class WeatherDisplayMod extends SimpleHUDMod implements RenderSkiaEventLi
 	}
 
 	@Override
-	public void onRenderSkia() {
+	public void onRenderSkia(float partialTicks) {
 		super.draw();
 	}
 

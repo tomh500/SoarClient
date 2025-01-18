@@ -12,7 +12,7 @@ public class DayCounterMod extends SimpleHUDMod implements RenderSkiaEventListen
 	}
 
 	@Override
-	public void onRenderSkia() {
+	public void onRenderSkia(float partialTicks) {
 		super.draw();
 	}
 

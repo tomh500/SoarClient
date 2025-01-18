@@ -16,7 +16,7 @@ public class PitchDisplayMod extends SimpleHUDMod implements RenderSkiaEventList
 	}
 
 	@Override
-	public void onRenderSkia() {
+	public void onRenderSkia(float partialTicks) {
 		super.draw();
 	}
 

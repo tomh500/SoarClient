@@ -80,7 +80,21 @@ public class Skia {
 			getCanvas().drawImageRect(imageHelper.get(path), Rect.makeXYWH(x, y, width, height));
 		}
 	}
+	
+	public static void drawImage(int textureId, float x, float y, float width, float height, float alpha,
+			SurfaceOrigin origin) {
 
+		if (imageHelper.load(textureId, width, height, origin)) {
+			Paint paint = new Paint();
+			paint.setAlpha((int) (255 * alpha));
+			getCanvas().drawImageRect(imageHelper.get(textureId), Rect.makeXYWH(x, y, width, height), paint);
+		}
+	}
+
+	public static void drawImage(int textureId, float x, float y, float width, float height, float alpha) {
+		drawImage(textureId, x, y, width, height, alpha, SurfaceOrigin.TOP_LEFT);
+	}
+	
 	public static void drawImage(File file, float x, float y, float width, float height) {
 		if (imageHelper.load(file)) {
 			getCanvas().drawImageRect(imageHelper.get(file.getName()), Rect.makeXYWH(x, y, width, height));
@@ -397,6 +411,16 @@ public class Skia {
 		getCanvas().translate(x, y);
 	}
 
+	public static void rotate(float x, float y, float width, float height, float rotate) {
+
+		float centerX = x + width / 2;
+		float centerY = y + height / 2;
+
+		getCanvas().translate(centerX, centerY);
+		getCanvas().rotate(rotate);
+		getCanvas().translate(-centerX, -centerY);
+	}
+	
 	public static void setAlpha(int alpha) {
 
 		Paint paint = new Paint();

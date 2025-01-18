@@ -42,7 +42,7 @@ public class KeystrokesMod extends HUDMod implements RenderSkiaEventListener {
 	}
 
 	@Override
-	public void onRenderSkia() {
+	public void onRenderSkia(float partialTicks) {
 		this.begin();
 		draw();
 		this.finish();

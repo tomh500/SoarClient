@@ -335,11 +335,11 @@ public class GuiIngame extends Gui {
 		SkiaContext.draw((context) -> {
 			Skia.save();
 			Skia.scale(scaledresolution.getScaleFactor());
-			EventBus.getInstance().call(new RenderSkiaEvent(), RenderSkiaEvent.ID);
+			EventBus.getInstance().call(new RenderSkiaEvent(partialTicks), RenderSkiaEvent.ID);
 			Skia.restore();
 		});
 		
-		EventBus.getInstance().call(new RenderGameOverlayEvent(), RenderGameOverlayEvent.ID);
+		EventBus.getInstance().call(new RenderGameOverlayEvent(partialTicks), RenderGameOverlayEvent.ID);
 	}
 
 	protected void renderTooltip(ScaledResolution sr, float partialTicks) {

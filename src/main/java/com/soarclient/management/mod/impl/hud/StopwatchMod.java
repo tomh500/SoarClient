@@ -27,7 +27,7 @@ public class StopwatchMod extends SimpleHUDMod implements RenderSkiaEventListene
 	}
 
 	@Override
-	public void onRenderSkia() {
+	public void onRenderSkia(float partialTicks) {
 		super.draw();
 	}
 

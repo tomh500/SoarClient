@@ -12,7 +12,7 @@ public class PlayerCounterMod extends SimpleHUDMod implements RenderSkiaEventLis
 	}
 
 	@Override
-	public void onRenderSkia() {
+	public void onRenderSkia(float partialTicks) {
 		super.draw();
 	}
 

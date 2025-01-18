@@ -12,7 +12,7 @@ public class CoordsMod extends SimpleHUDMod implements RenderSkiaEventListener {
 	}
 
 	@Override
-	public void onRenderSkia() {
+	public void onRenderSkia(float partialTicks) {
 		super.draw();
 	}
 	

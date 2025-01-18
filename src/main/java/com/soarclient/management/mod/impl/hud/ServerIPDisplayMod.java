@@ -13,7 +13,7 @@ public class ServerIPDisplayMod extends SimpleHUDMod implements RenderSkiaEventL
 	}
 
 	@Override
-	public void onRenderSkia() {
+	public void onRenderSkia(float partialTicks) {
 		super.draw();
 	}
 

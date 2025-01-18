@@ -29,7 +29,7 @@ public class CPSDisplayMod extends SimpleHUDMod implements RenderSkiaEventListen
 	}
 
 	@Override
-	public void onRenderSkia() {
+	public void onRenderSkia(float partialTicks) {
 		
 		float fontSize = 9;
 		float iconSize = 10.5F;

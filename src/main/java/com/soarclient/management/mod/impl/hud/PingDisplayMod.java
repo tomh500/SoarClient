@@ -13,7 +13,7 @@ public class PingDisplayMod extends SimpleHUDMod implements RenderSkiaEventListe
 	}
 
 	@Override
-	public void onRenderSkia() {
+	public void onRenderSkia(float partialTicks) {
 		super.draw();
 	}
 
