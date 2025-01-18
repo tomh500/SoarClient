@@ -240,14 +240,17 @@ public class GuiOverlayDebug extends Gui {
 	
 	private void addCustomDebugRight(List<String> list) {
 		
-        final ProtocolVersion version = ViaSoar.getManager().getTargetVersion();
-        
-		list.add("");
-		
-		if(!mc.isIntegratedServerRunning()) {
-			list.add("Protocol: " + version.getName());
-		} else {
-			list.add("Protocol: 1.8.x");
+		if(ViaSoar.getManager() != null) {
+			
+	        final ProtocolVersion version = ViaSoar.getManager().getTargetVersion();
+	        
+			list.add("");
+			
+			if(!mc.isIntegratedServerRunning()) {
+				list.add("Protocol: " + version.getName());
+			} else {
+				list.add("Protocol: 1.8.x");
+			}
 		}
 	}
 
