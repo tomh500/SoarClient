@@ -291,6 +291,16 @@ public class TextureAtlasSprite {
 						meta.getFrameTime(), meta.isInterpolate());
 			}
 		}
+		
+        for (BufferedImage img : images) {
+            if (img instanceof AutoCloseable) {
+                try {
+                    ((AutoCloseable) img).close();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }
 	}
 
 	public void generateMipmaps(int level) {

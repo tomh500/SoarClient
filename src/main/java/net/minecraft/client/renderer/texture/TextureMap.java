@@ -255,7 +255,7 @@ public class TextureMap extends AbstractTexture implements ITickableTextureObjec
 		if (location == null) {
 			throw new IllegalArgumentException("Location cannot be null!");
 		} else {
-			TextureAtlasSprite textureatlassprite = this.mapRegisteredSprites.get(location);
+			TextureAtlasSprite textureatlassprite = this.mapRegisteredSprites.get(location.toString());
 
 			if (textureatlassprite == null) {
 				textureatlassprite = TextureAtlasSprite.makeAtlasSprite(location);
