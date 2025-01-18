@@ -19,6 +19,7 @@ import com.google.common.base.Predicates;
 import com.google.gson.JsonSyntaxException;
 import com.soarclient.event.EventBus;
 import com.soarclient.event.impl.HurtCameraEventListener.HurtCameraEvent;
+import com.soarclient.event.impl.PlayerHeadRotationEventListener.PlayerHeadRotationEvent;
 import com.soarclient.event.impl.Render3DEventListener.Render3DEvent;
 import com.soarclient.event.impl.ShaderEventListener.ShaderEvent;
 import com.soarclient.management.mod.impl.player.LeftHandMod;
@@ -1043,11 +1044,17 @@ public class EntityRenderer implements IResourceManagerReloadListener {
 				this.smoothCamPartialTicks = partialTicks;
 				f2 = this.smoothCamFilterX * f4;
 				f3 = this.smoothCamFilterY * f4;
-				this.mc.thePlayer.setAngles(f2, f3 * (float) i);
 			} else {
 				this.smoothCamYaw = 0.0F;
 				this.smoothCamPitch = 0.0F;
-				this.mc.thePlayer.setAngles(f2, f3 * (float) i);
+			}
+			
+			PlayerHeadRotationEvent event = new PlayerHeadRotationEvent(f2, f3 * (float) i);
+			
+			EventBus.getInstance().call(event, PlayerHeadRotationEvent.ID);
+			
+			if(!event.isCancelled()) {
+				mc.thePlayer.setAngles(event.getYaw(), event.getPitch());
 			}
 		}
 

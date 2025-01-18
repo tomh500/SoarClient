@@ -115,6 +115,9 @@ mod.rearview.description=Display behind you
 mod.rawinput.name=Raw Input
 mod.rawinput.description=Set mouse input to raw
 
+mod.mousestrokes.name=Mouse Strokes
+mod.mousestrokes.description=Display mouse movements
+
 setting.darkmode=Dark Mode
 setting.darkmode.description=Enable dark mode
 setting.color=Color
