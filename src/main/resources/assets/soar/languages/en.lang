@@ -85,6 +85,9 @@ mod.yawdisplay.description=Display yaw of you
 mod.snaptap.name=Snap Tap
 mod.snaptap.description=The last key pressed takes precedence
 
+mod.keystrokes.name=Keystrokes
+mod.keystrokes.description=Display pressed keys
+
 mod.minimap.name=Minimap
 mod.minimap.description=Display map in a smaller size
 mod.minimap.name=Minimap
@@ -107,6 +110,12 @@ setting.keybind=Keybind
 setting.keybind.description=Set keybind
 setting.icon=Icon
 setting.icon.descroption=Set the icon to display
+setting.spacekey=Space Key
+setting.spacekey.description=Display the space key
+setting.unmarked=Unmarked
+setting.unmarked.description=Hide the mark
+setting.snaptapcompatibility=Compatibility with SnapTap
+setting.snaptapcompatibility.description=Reflects keys released by Snap Tap
 
 mainmenu.singleplayer=Singleplayer
 mainmenu.multiplayer=Multiplayer

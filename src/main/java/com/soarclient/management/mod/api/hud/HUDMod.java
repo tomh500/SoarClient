@@ -38,7 +38,7 @@ public abstract class HUDMod extends Mod {
 
 	public abstract float getRadius();
 
-	private HUDDesign getDesign() {
+	public HUDDesign getDesign() {
 		return Soar.getInstance().getModManager().getCurrentDesign();
 	}
 

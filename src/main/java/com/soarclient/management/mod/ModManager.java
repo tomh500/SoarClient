@@ -14,6 +14,7 @@ import com.soarclient.management.mod.impl.hud.DayCounterMod;
 import com.soarclient.management.mod.impl.hud.FPSDisplayMod;
 import com.soarclient.management.mod.impl.hud.GameModeDisplayMod;
 import com.soarclient.management.mod.impl.hud.HealthDisplayMod;
+import com.soarclient.management.mod.impl.hud.KeystrokesMod;
 import com.soarclient.management.mod.impl.hud.NameDisplayMod;
 import com.soarclient.management.mod.impl.hud.PingDisplayMod;
 import com.soarclient.management.mod.impl.hud.PitchDisplayMod;
@@ -53,6 +54,7 @@ public class ModManager {
 		mods.add(new FPSDisplayMod());
 		mods.add(new GameModeDisplayMod());
 		mods.add(new HealthDisplayMod());
+		mods.add(new KeystrokesMod());
 		mods.add(new NameDisplayMod());
 		mods.add(new PingDisplayMod());
 		mods.add(new PitchDisplayMod());
