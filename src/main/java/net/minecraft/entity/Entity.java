@@ -4,6 +4,10 @@ import java.util.List;
 import java.util.Random;
 import java.util.UUID;
 import java.util.concurrent.Callable;
+
+import com.soarclient.viasoar.fixes.ViaHelper;
+import com.viaversion.viaversion.api.protocol.version.ProtocolVersion;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockFence;
 import net.minecraft.block.BlockFenceGate;
@@ -1819,6 +1823,11 @@ public abstract class Entity implements ICommandSender {
 	}
 
 	public float getCollisionBorderSize() {
+		
+        if (ViaHelper.newerThanOrEqualsTo(ProtocolVersion.v1_12)) {
+            return 0F;
+        }
+		
 		return 0.1F;
 	}
 

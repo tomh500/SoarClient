@@ -10,12 +10,15 @@ import com.mojang.authlib.GameProfile;
 import com.soarclient.event.EventBus;
 import com.soarclient.event.impl.AttackEntityEventListener.AttackEntityEvent;
 import com.soarclient.event.impl.JumpEventListener.JumpEvent;
+import com.soarclient.viasoar.fixes.ViaHelper;
+import com.viaversion.viaversion.api.protocol.version.ProtocolVersion;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockBed;
 import net.minecraft.block.BlockDirectional;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.client.Minecraft;
 import net.minecraft.command.server.CommandBlockLogic;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
@@ -51,6 +54,7 @@ import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
+import net.minecraft.network.play.client.C0APacketAnimation;
 import net.minecraft.network.play.server.S12PacketEntityVelocity;
 import net.minecraft.potion.Potion;
 import net.minecraft.scoreboard.IScoreObjectiveCriteria;
@@ -183,6 +187,9 @@ public abstract class EntityPlayer extends EntityLivingBase {
 	 * the fishing rod is slightly different
 	 */
 	public EntityFishHook fishEntity;
+
+	private final ItemStack[] mainInventory = new ItemStack[36];
+	private final ItemStack[] armorInventory = new ItemStack[4];
 
 	public EntityPlayer(World worldIn, GameProfile gameProfileIn) {
 		super(worldIn);
@@ -746,11 +753,35 @@ public abstract class EntityPlayer extends EntityLivingBase {
 	}
 
 	public EntityItem dropItem(ItemStack droppedItem, boolean dropAround, boolean traceItem) {
+
+		for (int i = 0; i < this.mainInventory.length; ++i) {
+			
+			if (ViaHelper.newerThanOrEqualsTo(ProtocolVersion.v1_16)) {
+				Minecraft.getMinecraft().getNetHandler().addToSendQueue(new C0APacketAnimation());
+			}
+
+			if (this.mainInventory[i] != null) {
+				this.mainInventory[i] = null;
+			}
+		}
+
+		for (int j = 0; j < this.armorInventory.length; ++j) {
+			
+			if (ViaHelper.newerThanOrEqualsTo(ProtocolVersion.v1_16)) {
+				Minecraft.getMinecraft().getNetHandler().addToSendQueue(new C0APacketAnimation());
+			}
+			
+			if (this.armorInventory[j] != null) {
+				this.armorInventory[j] = null;
+			}
+		}
+
 		if (droppedItem == null) {
 			return null;
 		} else if (droppedItem.stackSize == 0) {
 			return null;
 		} else {
+
 			double d0 = this.posY - 0.30000001192092896D + (double) this.getEyeHeight();
 			EntityItem entityitem = new EntityItem(this.worldObj, this.posX, d0, this.posZ, droppedItem);
 			entityitem.setPickupDelay(40);
@@ -1139,9 +1170,9 @@ public abstract class EntityPlayer extends EntityLivingBase {
 	 */
 	public void attackTargetEntityWithCurrentItem(Entity targetEntity) {
 		if (targetEntity.canAttackWithItem()) {
-			
+
 			EventBus.getInstance().call(new AttackEntityEvent(targetEntity), AttackEntityEvent.ID);
-			
+
 			if (!targetEntity.hitByEntity(this)) {
 				float f = (float) this.getEntityAttribute(SharedMonsterAttributes.attackDamage).getAttributeValue();
 				int i = 0;

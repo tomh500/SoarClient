@@ -20,6 +20,8 @@ import com.mojang.authlib.GameProfile;
 import com.soarclient.Soar;
 import com.soarclient.event.EventBus;
 import com.soarclient.event.impl.DamageEntityEventListener.DamageEntityEvent;
+import com.soarclient.viasoar.fixes.ViaHelper;
+import com.viaversion.viaversion.api.protocol.version.ProtocolVersion;
 
 import io.netty.buffer.Unpooled;
 import net.minecraft.block.Block;
@@ -1063,6 +1065,11 @@ public class NetHandlerPlayClient implements INetHandlerPlayClient {
 	 */
 	public void handleConfirmTransaction(S32PacketConfirmTransaction packetIn) {
 		PacketThreadUtil.checkThreadAndEnqueue(packetIn, this, this.gameController);
+		
+        if (ViaHelper.newerThanOrEqualsTo(ProtocolVersion.v1_17)) {
+            Minecraft.getMinecraft().getNetHandler().addToSendQueue(new C0FPacketConfirmTransaction(packetIn.getWindowId(), (short) 0, false));
+        }
+        
 		Container container = null;
 		EntityPlayer entityplayer = this.gameController.thePlayer;
 

@@ -1,6 +1,10 @@
 package net.minecraft.block;
 
 import java.util.Random;
+
+import com.soarclient.viasoar.fixes.ViaHelper;
+import com.viaversion.viaversion.api.protocol.version.ProtocolVersion;
+
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.PropertyInteger;
 import net.minecraft.block.state.BlockState;
@@ -28,7 +32,14 @@ public class BlockFarmland extends Block {
 	}
 
 	public AxisAlignedBB getCollisionBoundingBox(World worldIn, BlockPos pos, IBlockState state) {
-		return new AxisAlignedBB(pos.getX(), pos.getY(), pos.getZ(), pos.getX() + 1, pos.getY() + 1, pos.getZ() + 1);
+		
+		float mod = 1F;
+		
+		if(ViaHelper.newerThanOrEqualsTo(ProtocolVersion.v1_12)) {
+			mod = 0.9375f;
+		}
+		
+		return new AxisAlignedBB(pos.getX(), pos.getY(), pos.getZ(), pos.getX() + mod, pos.getY() + mod, pos.getZ() + mod);
 	}
 
 	/**

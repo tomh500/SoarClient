@@ -1,5 +1,8 @@
 package net.minecraft.block;
 
+import com.soarclient.viasoar.fixes.ViaHelper;
+import com.viaversion.viaversion.api.protocol.version.ProtocolVersion;
+
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.PropertyDirection;
 import net.minecraft.block.state.BlockState;
@@ -36,7 +39,8 @@ public class BlockLadder extends Block {
 		IBlockState iblockstate = worldIn.getBlockState(pos);
 
 		if (iblockstate.getBlock() == this) {
-			float f = 0.125F;
+
+			float f = ViaHelper.newerThan(ProtocolVersion.v1_8) ? 0.1875F : 0.125F;
 
 			switch (iblockstate.getValue(FACING)) {
 			case NORTH:

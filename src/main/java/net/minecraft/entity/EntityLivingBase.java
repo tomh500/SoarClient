@@ -3,6 +3,9 @@ package net.minecraft.entity;
 import com.google.common.base.Predicate;
 import com.google.common.base.Predicates;
 import com.google.common.collect.Maps;
+import com.soarclient.viasoar.fixes.ViaHelper;
+import com.viaversion.viaversion.api.protocol.version.ProtocolVersion;
+
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
@@ -1726,15 +1729,17 @@ public abstract class EntityLivingBase extends Entity {
 			this.motionZ *= 0.98D;
 		}
 
-		if (Math.abs(this.motionX) < 0.005D) {
+		double d = ViaHelper.newerThan(ProtocolVersion.v1_8) ? 0.003D : 0.005D;
+
+		if (Math.abs(this.motionX) < d) {
 			this.motionX = 0.0D;
 		}
 
-		if (Math.abs(this.motionY) < 0.005D) {
+		if (Math.abs(this.motionY) < d) {
 			this.motionY = 0.0D;
 		}
 
-		if (Math.abs(this.motionZ) < 0.005D) {
+		if (Math.abs(this.motionZ) < d) {
 			this.motionZ = 0.0D;
 		}
 

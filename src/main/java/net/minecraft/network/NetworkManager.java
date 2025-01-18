@@ -21,6 +21,7 @@ import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import com.soarclient.event.EventBus;
 import com.soarclient.event.impl.ReceivePacketEventListener.ReceivePacketEvent;
 import com.soarclient.event.impl.SendPacketEventListener.SendPacketEvent;
+import com.soarclient.management.mod.impl.misc.ViaVersionMod;
 import com.soarclient.viasoar.ViaSoar;
 import com.soarclient.viasoar.api.VSNetworkManager;
 import com.viaversion.viaversion.api.protocol.version.ProtocolVersion;
@@ -336,7 +337,9 @@ public class NetworkManager extends SimpleChannelInboundHandler<Packet> implemen
 			eventLoopGroup = NETWORK_WORKER_GROUP.get();
 		}
 
-		((VSNetworkManager) networkmanager).setTrackedVersion(ViaSoar.getManager().getTargetVersion());
+		if (ViaVersionMod.getInstance().isEnabled() && ViaSoar.getManager() != null) {
+			((VSNetworkManager) networkmanager).setTrackedVersion(ViaSoar.getManager().getTargetVersion());
+		}
 
 		(new Bootstrap()).group(eventLoopGroup).channel(oclass)
 				.option(ChannelOption.ALLOCATOR, UnpooledByteBufAllocator.DEFAULT)
@@ -353,7 +356,10 @@ public class NetworkManager extends SimpleChannelInboundHandler<Packet> implemen
 								.addLast("prepender", new MessageSerializer2())
 								.addLast("encoder", new MessageSerializer(EnumPacketDirection.SERVERBOUND))
 								.addLast("packet_handler", networkmanager);
-						ViaSoar.getManager().inject(p_initChannel_1_, (VSNetworkManager) networkmanager);
+
+						if (ViaVersionMod.getInstance().isEnabled() && ViaSoar.getManager() != null) {
+							ViaSoar.getManager().inject(p_initChannel_1_, (VSNetworkManager) networkmanager);
+						}
 					}
 				}).connect(address, serverPort).syncUninterruptibly();
 
@@ -446,7 +452,9 @@ public class NetworkManager extends SimpleChannelInboundHandler<Packet> implemen
 			}
 		}
 
-		ViaSoar.getManager().reorderCompression(channel);
+		if (ViaVersionMod.getInstance().isEnabled() && ViaSoar.getManager() != null) {
+			ViaSoar.getManager().reorderCompression(channel);
+		}
 	}
 
 	@Override

@@ -88,6 +88,9 @@ mod.snaptap.description=The last key pressed takes precedence
 mod.keystrokes.name=Keystrokes
 mod.keystrokes.description=Display pressed keys
 
+mod.viaversion.name=Via Version
+mod.viaversion.description=Client side ViaVersion
+
 mod.minimap.name=Minimap
 mod.minimap.description=Display map in a smaller size
 mod.minimap.name=Minimap

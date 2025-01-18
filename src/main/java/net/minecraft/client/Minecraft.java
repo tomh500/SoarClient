@@ -59,6 +59,7 @@ import com.soarclient.event.impl.MouseScrollEventListener.MouseScrollEvent;
 import com.soarclient.event.impl.RenderTickEventListener.RenderTickEvent;
 import com.soarclient.management.mod.settings.impl.KeybindSetting;
 import com.soarclient.skia.context.SkiaContext;
+import com.soarclient.viasoar.fixes.AttackOrder;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
@@ -394,7 +395,7 @@ public class Minecraft implements IThreadListener {
 	}
 
 	public void run() {
-		
+
 		if (displayWidth < 1100) {
 			displayWidth = 1100;
 		}
@@ -402,7 +403,7 @@ public class Minecraft implements IThreadListener {
 		if (displayHeight < 630) {
 			displayHeight = 630;
 		}
-		
+
 		this.running = true;
 
 		try {
@@ -552,7 +553,8 @@ public class Minecraft implements IThreadListener {
 		Soar.getInstance().start();
 
 		if (this.serverName != null) {
-			this.displayGuiScreen(new GuiConnecting(Soar.getInstance().getMainMenu(), this, this.serverName, this.serverPort));
+			this.displayGuiScreen(
+					new GuiConnecting(Soar.getInstance().getMainMenu(), this, this.serverName, this.serverPort));
 		} else {
 			this.displayGuiScreen(Soar.getInstance().getMainMenu());
 		}
@@ -961,7 +963,7 @@ public class Minecraft implements IThreadListener {
 		try {
 			logger.info("Stopping!");
 			Soar.getInstance().stop();
-			
+
 			try {
 				this.loadWorld(null);
 			} catch (Throwable var5) {
@@ -1372,7 +1374,8 @@ public class Minecraft implements IThreadListener {
 
 	private void clickMouse() {
 		if (this.leftClickCounter <= 0) {
-			this.thePlayer.swingItem();
+
+			AttackOrder.sendConditionalSwing(objectMouseOver);
 
 			if (this.objectMouseOver == null) {
 				logger.error("Null returned as 'hitResult', this shouldn't happen!");
@@ -1383,7 +1386,7 @@ public class Minecraft implements IThreadListener {
 			} else {
 				switch (this.objectMouseOver.typeOfHit) {
 				case ENTITY:
-					this.playerController.attackEntity(this.thePlayer, this.objectMouseOver.entityHit);
+					AttackOrder.sendFixedAttack(this.thePlayer, this.objectMouseOver.entityHit);
 					break;
 
 				case BLOCK:
@@ -1624,7 +1627,7 @@ public class Minecraft implements IThreadListener {
 			this.mcProfiler.endStartSection("mouse");
 
 			while (nextMouse()) {
-				
+
 				int i = Mouse.getEventButton();
 				int mouseCode = i - 100;
 
@@ -1635,13 +1638,13 @@ public class Minecraft implements IThreadListener {
 						s.setKeybindState(Mouse.getEventButtonState());
 					}
 				}
-				
+
 				if (Mouse.getEventButtonState()) {
 					if (this.thePlayer.isSpectator() && i == 2) {
 						this.ingameGUI.getSpectatorGui().func_175261_b();
 					} else {
 						KeyBinding.onTick(i - 100);
-						
+
 						for (KeybindSetting s : Soar.getInstance().getModManager().getKeybindSettings()) {
 							if (s.getKeyCode() == mouseCode) {
 								s.onTick();
@@ -1689,7 +1692,7 @@ public class Minecraft implements IThreadListener {
 			this.mcProfiler.endStartSection("keyboard");
 
 			while (Keyboard.next()) {
-				
+
 				int k = Keyboard.getEventKey() == 0 ? Keyboard.getEventCharacter() + 256 : Keyboard.getEventKey();
 				KeyBinding.setKeyBindState(k, Keyboard.getEventKeyState());
 
@@ -1698,9 +1701,9 @@ public class Minecraft implements IThreadListener {
 						s.setKeybindState(Keyboard.getEventKeyState());
 					}
 				}
-				
+
 				if (Keyboard.getEventKeyState()) {
-					
+
 					KeyBinding.onTick(k);
 
 					for (KeybindSetting s : Soar.getInstance().getModManager().getKeybindSettings()) {

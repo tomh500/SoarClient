@@ -8,6 +8,7 @@ import org.lwjgl.input.Keyboard;
 
 import com.google.common.base.Splitter;
 import com.google.common.collect.Lists;
+import com.soarclient.management.mod.impl.misc.ViaVersionMod;
 import com.soarclient.viasoar.ViaSoar;
 
 import net.minecraft.client.multiplayer.GuiConnecting;
@@ -64,7 +65,10 @@ public class GuiMultiplayer extends GuiScreen implements GuiYesNoCallback {
 		}
 
 		this.createButtons();
-		buttonList.add(ViaSoar.getAsyncVersionSlider());
+		
+		if(ViaVersionMod.getInstance().isEnabled() && ViaVersionMod.getInstance().isLoaded()) {
+			buttonList.add(ViaSoar.getAsyncVersionSlider());
+		}
 	}
 
 	/**

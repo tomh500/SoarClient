@@ -20,6 +20,8 @@ import com.google.gson.JsonSyntaxException;
 import com.soarclient.event.EventBus;
 import com.soarclient.event.impl.HurtCameraEventListener.HurtCameraEvent;
 import com.soarclient.event.impl.ShaderEventListener.ShaderEvent;
+import com.soarclient.viasoar.fixes.ViaHelper;
+import com.viaversion.viaversion.api.protocol.version.ProtocolVersion;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockBed;
@@ -451,7 +453,13 @@ public class EntityRenderer implements IResourceManagerReloadListener {
 					}
 				}
 
-				if (this.pointedEntity != null && flag && vec3.distanceTo(vec33) > 3.0D) {
+				double distance = 3.0D;
+
+				if (ViaHelper.newerThanOrEqualsTo(ProtocolVersion.v1_12)) {
+					distance = 2.9D;
+				}
+
+				if (this.pointedEntity != null && flag && vec3.distanceTo(vec33) > distance) {
 					this.pointedEntity = null;
 					this.mc.objectMouseOver = new MovingObjectPosition(MovingObjectPosition.MovingObjectType.MISS,
 							vec33, null, new BlockPos(vec33));
@@ -528,15 +536,15 @@ public class EntityRenderer implements IResourceManagerReloadListener {
 	}
 
 	private void hurtCameraEffect(float partialTicks) {
-		
+
 		HurtCameraEvent event = new HurtCameraEvent();
-		
+
 		EventBus.getInstance().call(event, HurtCameraEvent.ID);
-		
-		if(event.getIntensity() <= 0.0F) {
+
+		if (event.getIntensity() <= 0.0F) {
 			return;
 		}
-		
+
 		if (this.mc.getRenderViewEntity() instanceof EntityLivingBase entitylivingbase) {
 			float f = (float) entitylivingbase.hurtTime - partialTicks;
 
@@ -1055,9 +1063,9 @@ public class EntityRenderer implements IResourceManagerReloadListener {
 					}
 
 					ShaderEvent event = new ShaderEvent();
-					
+
 					EventBus.getInstance().call(event, ShaderEvent.ID);
-					
+
 					for (ShaderGroup group : event.getGroups()) {
 						GlStateManager.matrixMode(5890);
 						GlStateManager.pushMatrix();
@@ -1065,7 +1073,7 @@ public class EntityRenderer implements IResourceManagerReloadListener {
 						group.loadShaderGroup(mc.getTimer().renderPartialTicks);
 						GlStateManager.popMatrix();
 					}
-					
+
 					this.mc.getFramebuffer().bindFramebuffer(true);
 				}
 
