@@ -8,6 +8,7 @@ import org.apache.logging.log4j.Logger;
 import com.google.common.base.MoreObjects;
 import com.google.common.collect.Lists;
 
+import it.unimi.dsi.fastutil.longs.Long2ObjectMap;
 import it.unimi.dsi.fastutil.longs.Long2ObjectOpenHashMap;
 import net.minecraft.entity.EnumCreatureType;
 import net.minecraft.util.BlockPos;
@@ -27,9 +28,20 @@ public class ChunkProviderClient implements IChunkProvider {
 	 * doesn't contain the requested coordinates.
 	 */
 	private final Chunk blankChunk;
-	private final Long2ObjectOpenHashMap<Chunk> chunkMapping = new Long2ObjectOpenHashMap<>();
-	private final List<Chunk> chunkListing = Lists.newArrayList();
+    private final Long2ObjectMap<Chunk> loadedChunks = new Long2ObjectOpenHashMap<Chunk>(8192)
+    {
+        private static final long serialVersionUID = 1L;
 
+		protected void rehash(int p_rehash_1_)
+        {
+            if (p_rehash_1_ > this.key.length)
+            {
+                super.rehash(p_rehash_1_);
+            }
+        }
+    };
+
+	private final List<Chunk> chunkListing = Lists.newArrayList();
 	/** Reference to the World object. */
 	private final World worldObj;
 
@@ -56,7 +68,7 @@ public class ChunkProviderClient implements IChunkProvider {
 			chunk.onChunkUnload();
 		}
 
-		this.chunkMapping.remove(ChunkCoordIntPair.chunkXZ2Int(x, z));
+		this.loadedChunks.remove(ChunkCoordIntPair.chunkXZ2Int(x, z));
 		this.chunkListing.remove(chunk);
 	}
 
@@ -68,7 +80,7 @@ public class ChunkProviderClient implements IChunkProvider {
 	 */
 	public Chunk loadChunk(int chunkX, int chunkZ) {
 		Chunk chunk = new Chunk(this.worldObj, chunkX, chunkZ);
-		this.chunkMapping.put(ChunkCoordIntPair.chunkXZ2Int(chunkX, chunkZ), chunk);
+		this.loadedChunks.put(ChunkCoordIntPair.chunkXZ2Int(chunkX, chunkZ), chunk);
 		this.chunkListing.add(chunk);
 		chunk.setChunkLoaded(true);
 		return chunk;
@@ -80,7 +92,7 @@ public class ChunkProviderClient implements IChunkProvider {
 	 * seed
 	 */
 	public Chunk provideChunk(int x, int z) {
-		return MoreObjects.firstNonNull(this.chunkMapping.get(ChunkCoordIntPair.chunkXZ2Int(x, z)), this.blankChunk);
+		return MoreObjects.firstNonNull(this.loadedChunks.get(ChunkCoordIntPair.chunkXZ2Int(x, z)), this.blankChunk);
 	}
 
 	/**
@@ -137,7 +149,7 @@ public class ChunkProviderClient implements IChunkProvider {
 	 * Converts the instance data to a readable string.
 	 */
 	public String makeString() {
-		return "MultiplayerChunkCache: " + this.chunkMapping.size() + ", " + this.chunkListing.size();
+		return "MultiplayerChunkCache: " + this.loadedChunks.size() + ", " + this.chunkListing.size();
 	}
 
 	public List<BiomeGenBase.SpawnListEntry> getPossibleCreatures(EnumCreatureType creatureType, BlockPos pos) {
