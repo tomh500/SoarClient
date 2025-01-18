@@ -1,6 +1,6 @@
 package net.minecraft.client.renderer.entity;
 
-import com.soarclient.management.mod.impl.misc.LeftHandMod;
+import com.soarclient.management.mod.impl.player.LeftHandMod;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;

@@ -10,7 +10,7 @@ import java.util.UUID;
 import com.google.common.base.Predicate;
 import com.google.common.base.Predicates;
 import com.google.common.collect.Maps;
-import com.soarclient.management.mod.impl.misc.NoJumpDelayMod;
+import com.soarclient.management.mod.impl.player.NoJumpDelayMod;
 import com.soarclient.viasoar.fixes.ViaHelper;
 import com.viaversion.viaversion.api.protocol.version.ProtocolVersion;
 

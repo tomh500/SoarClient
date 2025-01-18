@@ -20,7 +20,7 @@ import com.google.gson.JsonSyntaxException;
 import com.soarclient.event.EventBus;
 import com.soarclient.event.impl.HurtCameraEventListener.HurtCameraEvent;
 import com.soarclient.event.impl.ShaderEventListener.ShaderEvent;
-import com.soarclient.management.mod.impl.misc.LeftHandMod;
+import com.soarclient.management.mod.impl.player.LeftHandMod;
 import com.soarclient.viasoar.fixes.ViaHelper;
 import com.viaversion.viaversion.api.protocol.version.ProtocolVersion;
 

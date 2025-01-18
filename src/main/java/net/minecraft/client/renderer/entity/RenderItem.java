@@ -5,7 +5,7 @@ import java.util.concurrent.Callable;
 
 import org.lwjgl.opengl.GL11;
 
-import com.soarclient.management.mod.impl.misc.LeftHandMod;
+import com.soarclient.management.mod.impl.player.LeftHandMod;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockDirt;

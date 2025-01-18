@@ -1,4 +1,4 @@
-package com.soarclient.management.mod.impl.misc;
+package com.soarclient.management.mod.impl.player;
 
 import com.soarclient.management.mod.Mod;
 import com.soarclient.management.mod.ModCategory;
@@ -10,7 +10,7 @@ public class SnapTapMod extends Mod {
 	private long leftPressTime, rightPressTime, forwardPressTime, backPressTime;
 	
 	public SnapTapMod() {
-		super("mod.snaptap.name", "mod.snaptap.description", Icon.KEYBOARD_KEYS, ModCategory.MISC);
+		super("mod.snaptap.name", "mod.snaptap.description", Icon.KEYBOARD_KEYS, ModCategory.PLAYER);
 		instance = this;
 	}
 	

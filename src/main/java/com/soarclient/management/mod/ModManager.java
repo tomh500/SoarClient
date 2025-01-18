@@ -26,12 +26,12 @@ import com.soarclient.management.mod.impl.hud.ServerIPDisplayMod;
 import com.soarclient.management.mod.impl.hud.StopwatchMod;
 import com.soarclient.management.mod.impl.hud.WeatherDisplayMod;
 import com.soarclient.management.mod.impl.hud.YawDisplayMod;
-import com.soarclient.management.mod.impl.misc.HitDelayFixMod;
-import com.soarclient.management.mod.impl.misc.LeftHandMod;
-import com.soarclient.management.mod.impl.misc.NoJumpDelayMod;
-import com.soarclient.management.mod.impl.misc.SnapTapMod;
-import com.soarclient.management.mod.impl.misc.ToggleSneakMod;
 import com.soarclient.management.mod.impl.misc.ViaVersionMod;
+import com.soarclient.management.mod.impl.player.HitDelayFixMod;
+import com.soarclient.management.mod.impl.player.LeftHandMod;
+import com.soarclient.management.mod.impl.player.NoJumpDelayMod;
+import com.soarclient.management.mod.impl.player.SnapTapMod;
+import com.soarclient.management.mod.impl.player.ToggleSneakMod;
 import com.soarclient.management.mod.impl.settings.ModMenuSettings;
 import com.soarclient.management.mod.settings.Setting;
 import com.soarclient.management.mod.settings.impl.KeybindSetting;
@@ -73,12 +73,14 @@ public class ModManager {
 		mods.add(new YawDisplayMod());
 		
 		// Misc
+		mods.add(new ViaVersionMod());
+		
+		// Player
 		mods.add(new HitDelayFixMod());
 		mods.add(new LeftHandMod());
 		mods.add(new NoJumpDelayMod());
 		mods.add(new SnapTapMod());
 		mods.add(new ToggleSneakMod());
-		mods.add(new ViaVersionMod());
 		
 		// Settings
 		mods.add(new ModMenuSettings());

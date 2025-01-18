@@ -1,4 +1,4 @@
-package com.soarclient.management.mod.impl.misc;
+package com.soarclient.management.mod.impl.player;
 
 import com.soarclient.event.EventBus;
 import com.soarclient.event.impl.KeyEventListener;

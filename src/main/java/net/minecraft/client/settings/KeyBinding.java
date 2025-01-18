@@ -7,7 +7,7 @@ import org.lwjgl.input.Keyboard;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
-import com.soarclient.management.mod.impl.misc.SnapTapMod;
+import com.soarclient.management.mod.impl.player.SnapTapMod;
 
 import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
 import net.minecraft.client.Minecraft;

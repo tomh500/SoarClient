@@ -1,4 +1,4 @@
-package com.soarclient.management.mod.impl.misc;
+package com.soarclient.management.mod.impl.player;
 
 import com.soarclient.management.mod.Mod;
 import com.soarclient.management.mod.ModCategory;
