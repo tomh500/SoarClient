@@ -29,6 +29,7 @@ import com.soarclient.management.mod.impl.hud.YawDisplayMod;
 import com.soarclient.management.mod.impl.misc.HitDelayFixMod;
 import com.soarclient.management.mod.impl.misc.NoJumpDelayMod;
 import com.soarclient.management.mod.impl.misc.SnapTapMod;
+import com.soarclient.management.mod.impl.misc.ToggleSneakMod;
 import com.soarclient.management.mod.impl.misc.ViaVersionMod;
 import com.soarclient.management.mod.impl.settings.ModMenuSettings;
 import com.soarclient.management.mod.settings.Setting;
@@ -74,6 +75,7 @@ public class ModManager {
 		mods.add(new HitDelayFixMod());
 		mods.add(new NoJumpDelayMod());
 		mods.add(new SnapTapMod());
+		mods.add(new ToggleSneakMod());
 		mods.add(new ViaVersionMod());
 		
 		// Settings

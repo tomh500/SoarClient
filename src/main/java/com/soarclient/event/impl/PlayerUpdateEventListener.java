@@ -2,16 +2,16 @@ package com.soarclient.event.impl;
 
 import com.soarclient.event.api.AbstractEvent;
 
-public interface UpdateEventListener {
+public interface PlayerUpdateEventListener {
 
 	void onUpdate();
 	
-	class UpdateEvent extends AbstractEvent<UpdateEventListener> {
+	class PlayerUpdateEvent extends AbstractEvent<PlayerUpdateEventListener> {
 
 		public static final int ID = 10;
 		
 		@Override
-		public void call(UpdateEventListener listener) {
+		public void call(PlayerUpdateEventListener listener) {
 			listener.onUpdate();
 		}
 	}

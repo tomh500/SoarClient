@@ -3,7 +3,7 @@ package net.minecraft.client.entity;
 import com.soarclient.event.EventBus;
 import com.soarclient.event.impl.MotionUpdateEventListener.MotionUpdateEvent;
 import com.soarclient.event.impl.SendChatEventListener.SendChatEvent;
-import com.soarclient.event.impl.UpdateEventListener.UpdateEvent;
+import com.soarclient.event.impl.PlayerUpdateEventListener.PlayerUpdateEvent;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.MovingSoundMinecartRiding;
@@ -165,7 +165,7 @@ public class EntityPlayerSP extends AbstractClientPlayer {
 	 */
 	public void onUpdate() {
 		
-		EventBus.getInstance().call(new UpdateEvent(), UpdateEvent.ID);
+		EventBus.getInstance().call(new PlayerUpdateEvent(), PlayerUpdateEvent.ID);
 		
 		if (this.worldObj.isBlockLoaded(new BlockPos(this.posX, 0.0D, this.posZ))) {
 			super.onUpdate();

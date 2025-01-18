@@ -54,6 +54,7 @@ import com.soarclient.Soar;
 import com.soarclient.event.EventBus;
 import com.soarclient.event.impl.ClientTickEventListener.ClientTickEvent;
 import com.soarclient.event.impl.GameLoopEventListener.GameLoopEvent;
+import com.soarclient.event.impl.KeyEventListener.KeyEvent;
 import com.soarclient.event.impl.MouseClickEventListener.MouseClickEvent;
 import com.soarclient.event.impl.MouseScrollEventListener.MouseScrollEvent;
 import com.soarclient.event.impl.RenderTickEventListener.RenderTickEvent;
@@ -1733,6 +1734,17 @@ public class Minecraft implements IThreadListener {
 
 				this.dispatchKeypresses();
 
+				if (Keyboard.getEventKeyState() && Minecraft.getMinecraft().currentScreen == null) {
+
+					KeyEvent event = new KeyEvent(k);
+
+					EventBus.getInstance().call(event, KeyEvent.ID);
+
+					if (event.isCancelled()) {
+						return;
+					}
+				}
+				
 				if (Keyboard.getEventKeyState()) {
 					if (k == 62 && this.entityRenderer != null) {
 						this.entityRenderer.switchUseShader();
