@@ -62,7 +62,7 @@ public class ModsPage extends Page {
 		ColorPalette palette = Soar.getInstance().getColorManager().getPalette();
 
 		int index = 0;
-		float offsetX = 32;
+		float offsetX = 26;
 		float offsetY = 0;
 
 		scrollHelper.onScroll();
@@ -121,7 +121,7 @@ public class ModsPage extends Page {
 			offsetX += 32 + 244;
 
 			if (index % 3 == 0) {
-				offsetX = 32;
+				offsetX = 26;
 				offsetY += 22 + 151;
 			}
 		}

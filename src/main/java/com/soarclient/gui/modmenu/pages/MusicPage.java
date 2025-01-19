@@ -70,7 +70,7 @@ public class MusicPage extends Page {
 		ColorPalette palette = Soar.getInstance().getColorManager().getPalette();
 
 		int index = 0;
-		float offsetX = 32;
+		float offsetX = 28;
 		float offsetY = 96;
 
 		controlBarAnimation.onTick(MouseUtils.isInside(mouseX, mouseY, controlBar.getX(), controlBar.getY(),
@@ -133,7 +133,7 @@ public class MusicPage extends Page {
 			index++;
 
 			if (index % 4 == 0) {
-				offsetX = 32;
+				offsetX = 28;
 				offsetY += 206 + 23;
 			}
 		}
