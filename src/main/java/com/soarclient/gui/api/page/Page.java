@@ -102,6 +102,10 @@ public class Page {
 		return transition;
 	}
 
+	public void setTransition(GuiTransition transition) {
+		this.transition = transition;
+	}
+
 	public Animation getAnimation() {
 		return animation;
 	}
