@@ -60,7 +60,7 @@ public class AccountListPage extends Page {
 
 			@Override
 			public void onAction() {
-				AccountListPage.this.setCurrentPage(WaitAuthPage.class);
+				AccountListPage.this.parent.setCurrentPage(WaitAuthPage.class);
 			}
 		});
 

@@ -10,7 +10,7 @@ import com.soarclient.animation.SimpleAnimation;
 import com.soarclient.gui.api.page.Page;
 import com.soarclient.gui.api.page.PageGui;
 import com.soarclient.gui.api.page.impl.RightLeftTransition;
-import com.soarclient.gui.modmenu.pages.music.MusicControlBar;
+import com.soarclient.gui.modmenu.component.MusicControlBar;
 import com.soarclient.management.color.api.ColorPalette;
 import com.soarclient.management.music.Music;
 import com.soarclient.management.music.MusicManager;

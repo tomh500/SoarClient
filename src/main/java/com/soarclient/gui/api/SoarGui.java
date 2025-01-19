@@ -26,6 +26,7 @@ public abstract class SoarGui extends SimpleSoarGui {
 	private GuiScreen nextScreen;
 	private final boolean background;
 	private GaussianBlur gaussianBlur;
+	private boolean closable;
 
 	public SoarGui(GuiTransition transition, boolean background, boolean blur) {
 		super(false);
@@ -44,6 +45,8 @@ public abstract class SoarGui extends SimpleSoarGui {
 		} else {
 			inOutAnimation = new DummyAnimation(1);
 		}
+		
+		closable = true;
 	}
 
 	@Override
@@ -112,13 +115,13 @@ public abstract class SoarGui extends SimpleSoarGui {
 	@Override
 	public void keyTyped(char typedChar, int keyCode) {
 		
-		if (keyCode == Keyboard.KEY_ESCAPE && inOutAnimation.getEnd() == 1) {
-			close();
-			return;
-		}
-		
 		for (Component c : components) {
 			c.keyTyped(typedChar, keyCode);
+		}
+		
+		if (keyCode == Keyboard.KEY_ESCAPE && inOutAnimation.getEnd() == 1 && closable) {
+			close();
+			return;
 		}
 	}
 
@@ -139,6 +142,14 @@ public abstract class SoarGui extends SimpleSoarGui {
 
 	public Animation getInOutAnimation() {
 		return inOutAnimation;
+	}
+
+	public boolean isClosable() {
+		return closable;
+	}
+
+	public void setClosable(boolean closable) {
+		this.closable = closable;
 	}
 
 	public abstract float getX();

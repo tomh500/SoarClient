@@ -11,6 +11,7 @@ import io.github.humbleui.skija.ClipMode;
 import io.github.humbleui.skija.Font;
 import io.github.humbleui.skija.FontMetrics;
 import io.github.humbleui.skija.Paint;
+import io.github.humbleui.skija.PaintMode;
 import io.github.humbleui.skija.Path;
 import io.github.humbleui.skija.Shader;
 import io.github.humbleui.skija.SurfaceOrigin;
@@ -31,6 +32,13 @@ public class Skia {
 		getCanvas().drawCircle(x, y, radius, paint);
 	}
 
+	public static void drawCircle(float x, float y, float radius, float strokeWidth, Color color) {
+	    Paint paint = getPaint(color);
+	    paint.setMode(PaintMode.STROKE);
+	    paint.setStrokeWidth(strokeWidth);
+	    getCanvas().drawCircle(x, y, radius, paint);
+	}
+	
 	public static void drawRoundedRect(float x, float y, float width, float height, float radius, Color color) {
 		getCanvas().drawRRect(RRect.makeXYWH(x, y, width, height, radius), getPaint(color));
 	}
@@ -50,15 +58,12 @@ public class Skia {
 		Paint paint = getPaint(Color.BLACK);
 		int alpha = 1;
 
-		save();
-		clip(x, y, width, height, radius, ClipMode.DIFFERENCE);
 		for (float f = strength; f > 0; f--) {
 			paint.setAlphaf(alpha / 255f);
 			drawShadowOutline(x - (f / 2), y - (f / 2), width + f, height + f, radius + 2, f, paint);
 
 			alpha += 2;
 		}
-		restore();
 	}
 
 	private static void drawShadowOutline(float x, float y, float width, float height, float radius, float strokeWidth,
@@ -68,8 +73,29 @@ public class Skia {
 		path.addRRect(RRect.makeXYWH(x, y, width, height, radius));
 
 		paint.setStrokeWidth(strokeWidth);
-
+		paint.setMode(PaintMode.STROKE);
+		
 		getCanvas().drawPath(path, paint);
+	}
+	
+	public static void drawOutline(float x, float y, float width, float height, float radius, float strokeWidth, Color color) {
+		
+	    float halfStroke = strokeWidth / 2;
+
+	    Path path = new Path();
+	    path.addRRect(RRect.makeXYWH(
+	        x + halfStroke,
+	        y + halfStroke,
+	        width - strokeWidth,
+	        height - strokeWidth,
+	        radius - halfStroke
+	    ));
+
+	    Paint paint = getPaint(color);
+	    paint.setStrokeWidth(strokeWidth);
+	    paint.setMode(PaintMode.STROKE);
+
+	    getCanvas().drawPath(path, paint);
 	}
 
 	public static void drawImage(String path, float x, float y, float width, float height) {
@@ -301,7 +327,7 @@ public class Skia {
 
 		getCanvas().drawPath(path, paint);
 	}
-
+	
 	public static void clipPath(Path path, ClipMode mode, boolean arg) {
 		getCanvas().clipPath(path, mode, arg);
 	}

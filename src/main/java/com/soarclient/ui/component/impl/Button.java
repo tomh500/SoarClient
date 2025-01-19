@@ -62,8 +62,8 @@ public class Button extends Component {
 			if(handler instanceof ButtonHandler) {
 				((ButtonHandler) handler).onAction();
 			}
-			pressAnimation.mouseReleased();
 		}
+		pressAnimation.mouseReleased();
 	}
 
 	@Override

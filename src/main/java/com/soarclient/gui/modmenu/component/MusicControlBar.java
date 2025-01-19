@@ -1,4 +1,4 @@
-package com.soarclient.gui.modmenu.pages.music;
+package com.soarclient.gui.modmenu.component;
 
 import java.awt.Color;
 import java.io.File;

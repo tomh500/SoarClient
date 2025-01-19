@@ -12,7 +12,7 @@ public class Page {
 
 	protected float x, y, width, height;
 	private String title, icon;
-	private PageGui parent;
+	protected PageGui parent;
 	private Animation animation;
 	private GuiTransition transition;
 
@@ -84,18 +84,6 @@ public class Page {
 
 	public String getIcon() {
 		return icon;
-	}
-
-	public Page getCurrentPage(){
-		return parent.getCurrentPage();
-	}
-	
-	public void setCurrentPage(Page page) {
-		parent.setCurrentPage(page);
-	}
-
-	public void setCurrentPage(Class<? extends Page> clazz) {
-		parent.setCurrentPage(clazz);
 	}
 
 	public GuiTransition getTransition() {

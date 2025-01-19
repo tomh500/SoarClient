@@ -87,7 +87,7 @@ public class WaitAuthPage extends Page {
 
 	private void updateThread() {
 
-		if (thread == null && this.getCurrentPage().getClass().equals(WaitAuthPage.class)) {
+		if (thread == null && parent.getCurrentPage().getClass().equals(WaitAuthPage.class)) {
 			thread = new Thread(() -> {
 				try {
 					Account acc = new MicrosoftAccount(
@@ -123,8 +123,8 @@ public class WaitAuthPage extends Page {
 			thread = null;
 		}
 
-		if (!this.getCurrentPage().getClass().equals(AccountListPage.class)) {
-			this.setCurrentPage(AccountListPage.class);
+		if (!parent.getCurrentPage().getClass().equals(AccountListPage.class)) {
+			parent.setCurrentPage(AccountListPage.class);
 		}
 	}
 
