@@ -1,7 +1,28 @@
 package com.soarclient.gui.modmenu.component;
 
+import com.soarclient.Soar;
+import com.soarclient.libraries.material3.hct.Hct;
+import com.soarclient.management.color.api.ColorPalette;
 import com.soarclient.management.mod.settings.Setting;
+import com.soarclient.management.mod.settings.impl.BooleanSetting;
+import com.soarclient.management.mod.settings.impl.ComboSetting;
+import com.soarclient.management.mod.settings.impl.HctColorSetting;
+import com.soarclient.management.mod.settings.impl.KeybindSetting;
+import com.soarclient.management.mod.settings.impl.NumberSetting;
+import com.soarclient.skia.Skia;
+import com.soarclient.skia.font.Fonts;
 import com.soarclient.ui.component.Component;
+import com.soarclient.ui.component.handler.impl.ComboButtonHandler;
+import com.soarclient.ui.component.handler.impl.HctColorPickerHandler;
+import com.soarclient.ui.component.handler.impl.KeybindHandler;
+import com.soarclient.ui.component.handler.impl.SliderHandler;
+import com.soarclient.ui.component.handler.impl.SwitchHandler;
+import com.soarclient.ui.component.impl.ComboButton;
+import com.soarclient.ui.component.impl.HctColorPicker;
+import com.soarclient.ui.component.impl.Keybind;
+import com.soarclient.ui.component.impl.Slider;
+import com.soarclient.ui.component.impl.Switch;
+import com.soarclient.utils.language.I18n;
 
 public class SettingBar extends Component {
 
@@ -15,30 +36,155 @@ public class SettingBar extends Component {
 		this.icon = setting.getIcon();
 		this.width = width;
 		this.height = 68;
+		
+		if (setting instanceof BooleanSetting) {
+			
+			BooleanSetting bSetting = (BooleanSetting) setting;
+			Switch switchComp = new Switch(x, y, bSetting.isEnabled());
+
+			switchComp.setHandler(new SwitchHandler() {
+
+				@Override
+				public void onEnabled() {
+					bSetting.setEnabled(true);
+				}
+
+				@Override
+				public void onDisabled() {
+					bSetting.setEnabled(false);
+				}
+			});
+
+			component = switchComp;
+		}
+		
+		if (setting instanceof NumberSetting) {
+			
+			NumberSetting nSetting = (NumberSetting) setting;
+			Slider slider = new Slider(0, 0, 200, nSetting.getValue(), nSetting.getMinValue(), nSetting.getMaxValue(),
+					nSetting.getStep());
+
+			slider.setHandler(new SliderHandler() {
+
+				@Override
+				public void onPressed(float value) {
+				}
+
+				@Override
+				public void onReleased(float value) {
+				}
+
+				@Override
+				public void onValueChanged(float value) {
+					nSetting.setValue(value);
+				}
+			});
+
+			component = slider;
+		}
+		
+		if (setting instanceof ComboSetting) {
+			
+			ComboSetting cSetting = (ComboSetting) setting;
+			ComboButton button = new ComboButton(0, 0, cSetting.getOptions(), cSetting.getOption());
+			
+			button.setHandler(new ComboButtonHandler() {
+
+				@Override
+				public void onChanged(String option) {
+					cSetting.setOption(option);
+				}
+			});
+			
+			component = button;
+		}
+		
+		if (setting instanceof KeybindSetting) {
+			
+			KeybindSetting kSetting = (KeybindSetting) setting;
+			Keybind bind = new Keybind(0, 0, kSetting.getKeyCode());
+			
+			bind.setHandler(new KeybindHandler() {
+
+				@Override
+				public void onBinded(int keyCode) {
+					kSetting.setKeyCode(keyCode);
+				}
+			});
+			
+			component = bind;
+		}
+		
+		if(setting instanceof HctColorSetting) {
+			
+			HctColorSetting hSetting = (HctColorSetting) setting;
+			HctColorPicker picker = new HctColorPicker(0, 0, hSetting.getHct());
+			
+			picker.setHandler(new HctColorPickerHandler() {
+
+				@Override
+				public void onPicking(Hct hct) {
+					hSetting.setHct(hct);
+				}
+			});
+			
+			component = picker;
+		}
 	}
 
 	@Override
 	public void draw(int mouseX, int mouseY) {
-		// TODO Auto-generated method stub
 		
+		ColorPalette palette = Soar.getInstance().getColorManager().getPalette();
+
+		if(component != null) {
+			component.setX(x + width - component.getWidth() - 22);
+			component.setY(y + (height - component.getHeight()) / 2);
+		}
+		
+		Skia.drawRoundedRect(x, y, width, height, 18, palette.getSurface());
+		Skia.drawFullCenteredText(icon, x + 30, y + (height / 2), palette.getOnSurface(), Fonts.getIcon(32));
+		Skia.drawText(I18n.get(title), x + 54, y + 20, palette.getOnSurface(), Fonts.getRegular(17));
+		Skia.drawText(I18n.get(description), x + 54, y + 37, palette.getOnSurfaceVariant(), Fonts.getRegular(14));
+
+		if (component != null) {
+			component.draw(mouseX, mouseY);
+		}
 	}
 
 	@Override
 	public void mousePressed(int mouseX, int mouseY, int mouseButton) {
-		// TODO Auto-generated method stub
 		
+		if (component != null) {
+			component.mousePressed(mouseX, mouseY, mouseButton);
+		}
 	}
 
 	@Override
 	public void mouseReleased(int mouseX, int mouseY, int mouseButton) {
-		// TODO Auto-generated method stub
 		
+		if (component != null) {
+			component.mouseReleased(mouseX, mouseY, mouseButton);
+		}
 	}
 
 	@Override
 	public void keyTyped(char typedChar, int keyCode) {
-		// TODO Auto-generated method stub
 		
+		if (component != null) {
+			component.keyTyped(typedChar, keyCode);
+		}
+	}
+	
+	public String getTitle() {
+		return title;
 	}
 
+	public String getDescription() {
+		return description;
+	}
+
+	public String getIcon() {
+		return icon;
+	}
 }

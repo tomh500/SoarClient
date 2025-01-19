@@ -1,18 +1,14 @@
 package com.soarclient.gui.mainmenu.gui;
 
-import org.lwjgl.input.Keyboard;
-
 import com.soarclient.Soar;
 import com.soarclient.gui.api.page.impl.UpTransition;
 import com.soarclient.gui.mainmenu.GuiSoarMainMenu;
 import com.soarclient.gui.mainmenu.api.SoarGuiMainMenu;
 import com.soarclient.gui.mainmenu.component.MainMenuButton;
 import com.soarclient.gui.mainmenu.gui.account.AccountGui;
-import com.soarclient.management.mod.impl.settings.ModMenuSettings;
 import com.soarclient.skia.Skia;
 import com.soarclient.skia.font.Icon;
 import com.soarclient.ui.component.handler.impl.ButtonHandler;
-import com.soarclient.ui.component.impl.HctColorPicker;
 
 import net.minecraft.client.gui.GuiMultiplayer;
 import net.minecraft.client.gui.GuiOptions;
@@ -88,10 +84,6 @@ public class MainGui extends SoarGuiMainMenu {
 		components.add(accountManager);
 		components.add(settings);
 		components.add(exit);
-		
-		HctColorPicker sl = new HctColorPicker(60, 60, ModMenuSettings.getInstance().getHctColorSetting().getHct());
-		
-		components.add(sl);
 		super.init();
 	}
 

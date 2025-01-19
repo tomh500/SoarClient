@@ -10,7 +10,6 @@ import com.soarclient.gui.api.page.PageGui;
 import com.soarclient.gui.api.page.impl.LeftRightTransition;
 import com.soarclient.gui.api.page.impl.RightLeftTransition;
 import com.soarclient.management.color.api.ColorPalette;
-import com.soarclient.management.config.ConfigType;
 import com.soarclient.management.mod.Mod;
 import com.soarclient.skia.Skia;
 import com.soarclient.skia.font.Fonts;
@@ -18,7 +17,6 @@ import com.soarclient.skia.font.Icon;
 import com.soarclient.ui.component.api.PressAnimation;
 import com.soarclient.ui.component.impl.text.SearchBar;
 import com.soarclient.utils.ColorUtils;
-import com.soarclient.utils.Multithreading;
 import com.soarclient.utils.SearchUtils;
 import com.soarclient.utils.language.I18n;
 import com.soarclient.utils.mouse.MouseUtils;
@@ -34,20 +32,20 @@ public class ModsPage extends Page {
 		super(parent, "text.mods", Icon.INVENTORY_2, new RightLeftTransition(true));
 
 		for (Mod m : Soar.getInstance().getModManager().getMods()) {
-			
+
 			Item i = new Item(m);
-			
+
 			if (m.isEnabled()) {
 				i.pressAnimation.setPressed();
 			}
-			
+
 			items.add(i);
 		}
 	}
 
 	@Override
 	public void init() {
-		
+
 		searchBar = new SearchBar(x + width - 260 - 32, y + 32, 260, () -> {
 			scrollHelper.reset();
 		});
@@ -147,10 +145,11 @@ public class ModsPage extends Page {
 				continue;
 			}
 
-			if (!searchBar.getText().isEmpty() && !SearchUtils.isSimilar(I18n.get(i.mod.getName()), searchBar.getText())) {
+			if (!searchBar.getText().isEmpty()
+					&& !SearchUtils.isSimilar(I18n.get(i.mod.getName()), searchBar.getText())) {
 				continue;
 			}
-			
+
 			if (mouseButton == 0) {
 
 				if (MouseUtils.isInside(mouseX, mouseY, itemX, itemY + 116, 244, 35)) {
@@ -178,10 +177,11 @@ public class ModsPage extends Page {
 				continue;
 			}
 
-			if (!searchBar.getText().isEmpty() && !SearchUtils.isSimilar(I18n.get(i.mod.getName()), searchBar.getText())) {
+			if (!searchBar.getText().isEmpty()
+					&& !SearchUtils.isSimilar(I18n.get(i.mod.getName()), searchBar.getText())) {
 				continue;
 			}
-			
+
 			if (mouseButton == 0) {
 
 				if (MouseUtils.isInside(mouseX, mouseY, itemX, itemY + 116, 244, 35)) {
@@ -195,9 +195,10 @@ public class ModsPage extends Page {
 						i.pressAnimation.mouseReleased();
 					}
 				}
-				
-				if(MouseUtils.isInside(mouseX, mouseY, itemX, itemY, 244, 116)) {
-					parent.setCurrentPage(new SettingsImplPage(parent, this.getClass()));
+
+				if (MouseUtils.isInside(mouseX, mouseY, itemX, itemY, 244, 116)
+						&& !Soar.getInstance().getModManager().getSettingsByMod(m).isEmpty()) {
+					parent.setCurrentPage(new SettingsImplPage(parent, this.getClass(), m));
 					this.setTransition(new LeftRightTransition(true));
 				}
 			}
