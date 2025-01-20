@@ -11,6 +11,7 @@ import com.soarclient.management.mod.ModCategory;
 import com.soarclient.management.mod.settings.impl.BooleanSetting;
 import com.soarclient.management.mod.settings.impl.HctColorSetting;
 import com.soarclient.management.mod.settings.impl.KeybindSetting;
+import com.soarclient.management.mod.settings.impl.NumberSetting;
 import com.soarclient.skia.font.Icon;
 
 import net.minecraft.client.gui.GuiScreen;
@@ -27,6 +28,8 @@ public class ModMenuSettings extends Mod implements ClientTickEventListener {
 			Icon.PALETTE, this, Hct.from(220, 26, 6));
 	private BooleanSetting blurSetting = new BooleanSetting("setting.blur", "setting.blur.description", Icon.LENS_BLUR,
 			this, true);
+	private NumberSetting blurIntensitySetting = new NumberSetting("setting.blurintensity",
+			"setting.blurintensity.description", Icon.BLUR_LINEAR, this, 20, 1, 50, 1);
 	
 	private GuiScreen modMenu;
 
@@ -75,5 +78,9 @@ public class ModMenuSettings extends Mod implements ClientTickEventListener {
 
 	public BooleanSetting getBlurSetting() {
 		return blurSetting;
+	}
+
+	public NumberSetting getBlurIntensitySetting() {
+		return blurIntensitySetting;
 	}
 }

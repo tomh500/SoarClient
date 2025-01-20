@@ -152,6 +152,8 @@ setting.blur=Blur
 setting.blur.description=Set the Blur effect
 setting.design=Design
 setting.design.description=Set the design
+setting.blurintensity=Blur intensity
+setting.blurintensity.description=Set the intensity of the blur
 
 mainmenu.singleplayer=Singleplayer
 mainmenu.multiplayer=Multiplayer

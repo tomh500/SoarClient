@@ -337,7 +337,7 @@ public class GuiIngame extends Gui {
 		GlStateManager.enableAlpha();
 		
 		if(HUDModSettings.getInstance().getBlurSetting().isEnabled()) {
-			INGAME_BLUR.draw(20);
+			INGAME_BLUR.draw(HUDModSettings.getInstance().getBlurIntensitySetting().getValue());
 		}
 		
 		SkiaContext.draw((context) -> {

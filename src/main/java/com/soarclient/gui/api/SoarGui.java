@@ -21,7 +21,7 @@ import net.minecraft.client.gui.GuiScreen;
 public abstract class SoarGui extends SimpleSoarGui {
 
 	protected final List<Component> components = new ArrayList<>();
-	
+
 	private final GuiTransition transition;
 	private Animation inOutAnimation;
 	private GuiScreen nextScreen;
@@ -41,19 +41,20 @@ public abstract class SoarGui extends SimpleSoarGui {
 
 	@Override
 	public void init() {
-		if(transition != null) {
+		if (transition != null) {
 			inOutAnimation = new EaseEmphasizedDecelerate(Duration.EXTRA_LONG_1, 0, 1);
 		} else {
 			inOutAnimation = new DummyAnimation(1);
 		}
-		
+
 		closable = true;
 	}
 
 	@Override
 	public void drawOpenGL(int mouseX, int mouseY) {
 		if (gaussianBlur != null && ModMenuSettings.getInstance().getBlurSetting().isEnabled()) {
-			gaussianBlur.draw(transition != null ? (1 + (inOutAnimation.getValue() * 20)) : 20);
+			float intensity = ModMenuSettings.getInstance().getBlurIntensitySetting().getValue();
+			gaussianBlur.draw(transition != null ? (1 + (inOutAnimation.getValue() * intensity)) : intensity);
 		}
 	}
 
@@ -63,8 +64,8 @@ public abstract class SoarGui extends SimpleSoarGui {
 		ColorPalette palette = Soar.getInstance().getColorManager().getPalette();
 
 		Skia.save();
-		
-		if(transition != null) {
+
+		if (transition != null) {
 			float[] result = transition.onTransition(inOutAnimation);
 			Skia.setAlpha((int) (inOutAnimation.getValue() * 255));
 			Skia.translate(result[0] * mc.displayWidth, result[1] * mc.displayHeight);
@@ -81,7 +82,7 @@ public abstract class SoarGui extends SimpleSoarGui {
 		for (Component c : components) {
 			c.draw(mouseX, mouseY);
 		}
-		
+
 		Skia.restore();
 
 		if (inOutAnimation.getEnd() == 0 && inOutAnimation.isFinished()) {
@@ -92,21 +93,21 @@ public abstract class SoarGui extends SimpleSoarGui {
 
 	public void drawSkia(int mouseX, int mouseY) {
 	}
-	
+
 	@Override
 	public void mousePressed(int mouseX, int mouseY, int mouseButton) {
-		
-		if(inOutAnimation.isFinished()) {
+
+		if (inOutAnimation.isFinished()) {
 			for (Component c : components) {
 				c.mousePressed(mouseX, mouseY, mouseButton);
 			}
 		}
 	}
-	
+
 	@Override
 	public void mouseReleased(int mouseX, int mouseY, int mouseButton) {
-		
-		if(inOutAnimation.isFinished()) {
+
+		if (inOutAnimation.isFinished()) {
 			for (Component c : components) {
 				c.mouseReleased(mouseX, mouseY, mouseButton);
 			}
@@ -115,11 +116,11 @@ public abstract class SoarGui extends SimpleSoarGui {
 
 	@Override
 	public void keyTyped(char typedChar, int keyCode) {
-		
+
 		for (Component c : components) {
 			c.keyTyped(typedChar, keyCode);
 		}
-		
+
 		if (keyCode == Keyboard.KEY_ESCAPE && inOutAnimation.getEnd() == 1 && closable) {
 			close();
 			return;
@@ -129,7 +130,7 @@ public abstract class SoarGui extends SimpleSoarGui {
 	public void close(GuiScreen nextScreen) {
 		if (inOutAnimation.getEnd() == 1) {
 			this.nextScreen = nextScreen;
-			if(transition != null) {
+			if (transition != null) {
 				inOutAnimation = new EaseEmphasizedDecelerate(Duration.EXTRA_LONG_1, 1, 0);
 			} else {
 				inOutAnimation = new DummyAnimation(0);

@@ -9,6 +9,7 @@ import com.soarclient.management.mod.Mod;
 import com.soarclient.management.mod.ModCategory;
 import com.soarclient.management.mod.settings.impl.BooleanSetting;
 import com.soarclient.management.mod.settings.impl.ComboSetting;
+import com.soarclient.management.mod.settings.impl.NumberSetting;
 import com.soarclient.skia.font.Icon;
 
 public class HUDModSettings extends Mod implements ClientTickEventListener {
@@ -20,6 +21,8 @@ public class HUDModSettings extends Mod implements ClientTickEventListener {
 	private ComboSetting designSetting = new ComboSetting("setting.design", "setting.design.description", Icon.PALETTE,
 			this, Arrays.asList("design.simple", "design.classic", "design.clear", "design.materialyou"),
 			"design.simple");
+	private NumberSetting blurIntensitySetting = new NumberSetting("setting.blurintensity",
+			"setting.blurintensity.description", Icon.BLUR_LINEAR, this, 20, 1, 50, 1);
 
 	public HUDModSettings() {
 		super("mod.hudsettings.name", "mod.hudsettings.description", Icon.BROWSE_ACTIVITY, ModCategory.MISC);
@@ -54,5 +57,9 @@ public class HUDModSettings extends Mod implements ClientTickEventListener {
 
 	public BooleanSetting getBlurSetting() {
 		return blurSetting;
+	}
+
+	public NumberSetting getBlurIntensitySetting() {
+		return blurIntensitySetting;
 	}
 }
