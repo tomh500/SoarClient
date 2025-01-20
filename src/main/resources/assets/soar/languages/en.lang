@@ -133,6 +133,9 @@ mod.zoom.description=Zoom in on a viewpoint
 mod.togglesprint.name=Toggle Sprint
 mod.togglesprint.description=Sprint with a single key press
 
+mod.taplook.name=Taplook
+mod.taplook.description=Switch viewing orientation at the touch of a button
+
 setting.darkmode=Dark Mode
 setting.darkmode.description=Enable dark mode
 setting.color=Color
@@ -189,6 +192,12 @@ setting.hud=HUD
 setting.hud.description=Display HUD
 setting.always=Always
 setting.always.description=Always sprint
+setting.perspective=Perspective
+setting.perspective.description=Set the Perspective orientation
+setting.front=Front
+setting.behind=Behind
+setting.toggle=Toggle
+setting.toggle.description=Change to toggle
 
 mainmenu.singleplayer=Singleplayer
 mainmenu.multiplayer=Multiplayer
