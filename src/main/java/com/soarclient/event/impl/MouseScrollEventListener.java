@@ -4,7 +4,7 @@ import com.soarclient.event.api.CancellableEvent;
 
 public interface MouseScrollEventListener {
 
-	void onMouseScroll(int amount);
+	void onMouseScroll(MouseScrollEvent event);
 	
 	class MouseScrollEvent extends CancellableEvent<MouseScrollEventListener> {
 
@@ -17,7 +17,11 @@ public interface MouseScrollEventListener {
 		
 		@Override
 		public void call(MouseScrollEventListener listener) {
-			listener.onMouseScroll(amount);
+			listener.onMouseScroll(this);
+		}
+
+		public int getAmount() {
+			return amount;
 		}
 	}
 }

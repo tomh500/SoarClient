@@ -24,6 +24,7 @@ import com.soarclient.event.impl.Render3DEventListener.Render3DEvent;
 import com.soarclient.event.impl.ShaderEventListener.ShaderEvent;
 import com.soarclient.management.mod.impl.misc.WeatherChangerMod;
 import com.soarclient.management.mod.impl.player.LeftHandMod;
+import com.soarclient.management.mod.impl.player.ZoomMod;
 import com.soarclient.viasoar.fixes.ViaHelper;
 import com.viaversion.viaversion.api.protocol.version.ProtocolVersion;
 
@@ -514,8 +515,16 @@ public class EntityRenderer implements IResourceManagerReloadListener {
 	 *                      calculation
 	 */
 	private float getFOVModifier(float partialTicks, boolean useFOVSetting) {
+		
 		if (this.debugView) {
-			return 90.0F;
+			
+			float fov = 90.0F;
+
+			if(ZoomMod.getInstance().isEnabled()) {
+				return ZoomMod.getInstance().getFov(fov);
+			}
+			
+			return fov;
 		} else {
 			Entity entity = this.mc.getRenderViewEntity();
 			float f = 70.0F;
@@ -536,6 +545,10 @@ public class EntityRenderer implements IResourceManagerReloadListener {
 				f = f * 60.0F / 70.0F;
 			}
 
+			if(ZoomMod.getInstance().isEnabled()) {
+				return ZoomMod.getInstance().getFov(f);
+			}
+			
 			return f;
 		}
 	}
