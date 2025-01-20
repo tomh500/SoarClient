@@ -16,6 +16,7 @@ import com.soarclient.utils.file.FileLocation;
 import com.soarclient.utils.language.I18n;
 import com.soarclient.utils.language.Language;
 
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiScreen;
 
 public class Soar {
@@ -56,6 +57,7 @@ public class Soar {
 		EventBus.getInstance().register(new SoarListener(), ClientTickEvent.ID);
 		mainMenu = new GuiSoarMainMenu().build();
 		configManager.load(ConfigType.ACCOUNT);
+		Minecraft.getMinecraft().fontRendererObj.drawString("", 0, 0, 0);
 	}
 
 	public void stop() {
