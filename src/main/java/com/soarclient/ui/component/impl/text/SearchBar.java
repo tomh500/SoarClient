@@ -46,8 +46,8 @@ public class SearchBar extends Component {
 		float hintTextValue = hintTextAnimation.getValue();
 
 		Skia.drawRoundedRect(x, y, width, height, 20, palette.getSurface());
-		Skia.drawText(Icon.SEARCH, x + 12, y + 11.5F, palette.getOnSurface(), Fonts.getIcon(24));
-		Skia.drawText(I18n.get(hintText), x + 40 - (25 * (1 - hintTextValue)), y + 15F,
+		Skia.drawHeightCenteredText(Icon.SEARCH, x + 12, y + (height / 2), palette.getOnSurface(), Fonts.getIcon(24));
+		Skia.drawHeightCenteredText(I18n.get(hintText), x + 40 - (25 * (1 - hintTextValue)), y + (height / 2),
 				ColorUtils.applyAlpha(palette.getOnSurfaceVariant(), (int) (hintTextValue * 255)),
 				Fonts.getRegular(16));
 
@@ -68,7 +68,7 @@ public class SearchBar extends Component {
 				xOffset = -overflow;
 			}
 
-			Skia.drawText(text, x + 40 + xOffset, y + 15F, palette.getOnSurfaceVariant(), Fonts.getRegular(16));
+			Skia.drawHeightCenteredText(text, x + 40 + xOffset, y + (height / 2), palette.getOnSurfaceVariant(), Fonts.getRegular(16));
 		}
 
 		Skia.restore();
