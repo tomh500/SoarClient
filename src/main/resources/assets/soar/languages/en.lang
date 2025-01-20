@@ -136,6 +136,9 @@ mod.togglesprint.description=Sprint with a single key press
 mod.taplook.name=Taplook
 mod.taplook.description=Switch viewing orientation at the touch of a button
 
+mod.liquidfix.name=Liquid Fix
+mod.liquidfix.description=Fix misalignment of magma and water
+
 setting.darkmode=Dark Mode
 setting.darkmode.description=Enable dark mode
 setting.color=Color

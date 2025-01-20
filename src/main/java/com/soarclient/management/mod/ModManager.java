@@ -32,6 +32,7 @@ import com.soarclient.management.mod.impl.hud.ServerIPDisplayMod;
 import com.soarclient.management.mod.impl.hud.StopwatchMod;
 import com.soarclient.management.mod.impl.hud.WeatherDisplayMod;
 import com.soarclient.management.mod.impl.hud.YawDisplayMod;
+import com.soarclient.management.mod.impl.misc.LiquidFixMod;
 import com.soarclient.management.mod.impl.misc.RawInputMod;
 import com.soarclient.management.mod.impl.misc.ViaVersionMod;
 import com.soarclient.management.mod.impl.misc.WeatherChangerMod;
@@ -89,6 +90,7 @@ public class ModManager {
 		mods.add(new YawDisplayMod());
 		
 		// Misc
+		mods.add(new LiquidFixMod());
 		mods.add(new RawInputMod());
 		mods.add(new ViaVersionMod());
 		mods.add(new WeatherChangerMod());
