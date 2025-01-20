@@ -6,6 +6,9 @@ import java.util.stream.Collectors;
 
 import com.soarclient.management.mod.api.hud.HUDMod;
 import com.soarclient.management.mod.api.hud.design.HUDDesign;
+import com.soarclient.management.mod.api.hud.design.impl.ClassicDesign;
+import com.soarclient.management.mod.api.hud.design.impl.ClearDesign;
+import com.soarclient.management.mod.api.hud.design.impl.MaterialYouDesign;
 import com.soarclient.management.mod.api.hud.design.impl.SimpleDesign;
 import com.soarclient.management.mod.impl.hud.CPSDisplayMod;
 import com.soarclient.management.mod.impl.hud.ComboCounterMod;
@@ -101,6 +104,9 @@ public class ModManager {
 	}
 
 	private void initDesigns() {
+		designs.add(new ClassicDesign());
+		designs.add(new ClearDesign());
+		designs.add(new MaterialYouDesign());
 		designs.add(new SimpleDesign());
 		setCurrentDesign("design.simple");
 	}

@@ -21,6 +21,9 @@ text.cancel=Cancel
 text.copylink=Copy link
 
 design.simple=Simple
+design.classic=Classic
+design.clear=Clear
+design.materialyou=MaterialYou
 
 mod.fpsdisplay.name=FPS Display
 mod.fpsdisplay.description=Display Minecraft FPS
@@ -147,6 +150,8 @@ setting.snaptapcompatibility=Compatibility with SnapTap
 setting.snaptapcompatibility.description=Reflects keys released by Snap Tap
 setting.blur=Blur
 setting.blur.description=Set the Blur effect
+setting.design=Design
+setting.design.description=Set the design
 
 mainmenu.singleplayer=Singleplayer
 mainmenu.multiplayer=Multiplayer

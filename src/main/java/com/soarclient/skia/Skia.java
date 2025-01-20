@@ -351,10 +351,10 @@ public class Skia {
 		float endX = x + width / 2 + (max / 2) * (float) Math.cos(tick);
 		float endY = y + height / 2 + (max / 2) * (float) Math.sin(tick);
 
-		int skColor1 = io.github.humbleui.skija.Color.makeRGB(color1.getRed(), color1.getGreen(), color1.getBlue());
-		int skColor2 = io.github.humbleui.skija.Color.makeRGB(color2.getRed(), color2.getGreen(), color2.getBlue());
+		int skColor1 = io.github.humbleui.skija.Color.makeARGB(color1.getAlpha(), color1.getRed(), color1.getGreen(), color1.getBlue());
+		int skColor2 = io.github.humbleui.skija.Color.makeARGB(color2.getAlpha(), color2.getRed(), color2.getGreen(), color2.getBlue());
 
-		int skColorMid = io.github.humbleui.skija.Color.makeRGB((color1.getRed() + color2.getRed()) / 2,
+		int skColorMid = io.github.humbleui.skija.Color.makeARGB(color1.getAlpha(), (color1.getRed() + color2.getRed()) / 2,
 				(color1.getGreen() + color2.getGreen()) / 2, (color1.getBlue() + color2.getBlue()) / 2);
 
 		Paint paint = new Paint();

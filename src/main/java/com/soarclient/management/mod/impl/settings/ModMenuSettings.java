@@ -58,6 +58,7 @@ public class ModMenuSettings extends Mod implements ClientTickEventListener {
 	@Override
 	public void onDisable() {
 		EventBus.getInstance().unregister(this, ClientTickEvent.ID);
+		this.setEnabled(true);
 	}
 	
 	public static ModMenuSettings getInstance() {
