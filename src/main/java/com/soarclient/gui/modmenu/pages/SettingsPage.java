@@ -80,7 +80,7 @@ public class SettingsPage extends Page {
 			Skia.drawText(I18n.get(m.getDescription()), x + 32 + 52, itemY + 37, palette.getOnSurfaceVariant(), Fonts.getRegular(14));
 			Skia.drawHeightCenteredText(">", x + width - 54, itemY + (68 / 2), palette.getOnSurface(), Fonts.getRegular(20));
 			
-			offsetY += 68 + 22;
+			offsetY += 68 + 18;
 		}
 
 		Skia.restore();

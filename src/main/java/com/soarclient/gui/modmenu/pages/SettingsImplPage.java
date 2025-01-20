@@ -73,7 +73,7 @@ public class SettingsImplPage extends Page {
 			b.setY(y + offsetY);
 			b.draw(mouseX, mouseY);
 
-			offsetY += b.getHeight() + 22;
+			offsetY += b.getHeight() + 18;
 		}
 
 		Skia.restore();
