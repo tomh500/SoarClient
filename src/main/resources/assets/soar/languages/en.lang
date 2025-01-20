@@ -142,6 +142,12 @@ mod.liquidfix.description=Fix misalignment of magma and water
 mod.nameprotect.name=Name Protect
 mod.nameprotect.description=Protect your name
 
+mod.timechanger.name=Time Changer
+mod.timechanger.description=Change the world time
+
+mod.quickswitch.name=Quick Switch
+mod.quickswitch.description=Switch items with a single button
+
 setting.darkmode=Dark Mode
 setting.darkmode.description=Enable dark mode
 setting.color=Color
@@ -206,6 +212,24 @@ setting.toggle=Toggle
 setting.toggle.description=Change to toggle
 setting.name=Name
 setting.name.description=Set the name
+setting.time=Time
+setting.time.description=Set the time
+setting.sowrd=Sowrd
+setting.quickswitch.sword.description=Set the key to switch to sowrd
+setting.block=Block
+setting.quickswitch.block.description=Set the key to switch to block
+setting.rod=Rod
+setting.quickswitch.rod.description=Set the key to switch to rod
+setting.axe=Axe
+setting.quickswitch.axe.description=Set the key to switch to axe
+setting.pickaxe=Pickaxe
+setting.quickswitch.pickaxe.description=Set the key to switch to pickaxe
+setting.bow=Bow
+setting.quickswitch.bow.description=Set the key to switch to bow
+setting.lava=Lava
+setting.quickswitch.lava.description=Set the key to switch to lava
+setting.water=Water
+setting.quickswitch.water.description=Set the key to switch to water
 
 mainmenu.singleplayer=Singleplayer
 mainmenu.multiplayer=Multiplayer

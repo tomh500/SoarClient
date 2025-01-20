@@ -2,6 +2,7 @@ package net.minecraft.world.storage;
 
 import java.util.concurrent.Callable;
 
+import com.soarclient.management.mod.impl.misc.TimeChangerMod;
 import com.soarclient.management.mod.impl.misc.WeatherChangerMod;
 
 import net.minecraft.crash.CrashReportCategory;
@@ -368,6 +369,13 @@ public class WorldInfo {
 	 * Get current world time
 	 */
 	public long getWorldTime() {
+		
+		TimeChangerMod mod = TimeChangerMod.getInstance();
+
+		if (mod.isEnabled()) {
+			return (long) (mod.getTimeSetting().getValue() * 1000L) + 18000L;
+		}
+		
 		return this.worldTime;
 	}
 

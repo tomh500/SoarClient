@@ -35,12 +35,14 @@ import com.soarclient.management.mod.impl.hud.YawDisplayMod;
 import com.soarclient.management.mod.impl.misc.LiquidFixMod;
 import com.soarclient.management.mod.impl.misc.NameProtectMod;
 import com.soarclient.management.mod.impl.misc.RawInputMod;
+import com.soarclient.management.mod.impl.misc.TimeChangerMod;
 import com.soarclient.management.mod.impl.misc.ViaVersionMod;
 import com.soarclient.management.mod.impl.misc.WeatherChangerMod;
 import com.soarclient.management.mod.impl.player.HitDelayFixMod;
 import com.soarclient.management.mod.impl.player.LeftHandMod;
 import com.soarclient.management.mod.impl.player.MouseDelayFixMod;
 import com.soarclient.management.mod.impl.player.NoJumpDelayMod;
+import com.soarclient.management.mod.impl.player.QuickSwitchMod;
 import com.soarclient.management.mod.impl.player.SnapTapMod;
 import com.soarclient.management.mod.impl.player.TaplookMod;
 import com.soarclient.management.mod.impl.player.ToggleSneakMod;
@@ -94,6 +96,7 @@ public class ModManager {
 		mods.add(new LiquidFixMod());
 		mods.add(new NameProtectMod());
 		mods.add(new RawInputMod());
+		mods.add(new TimeChangerMod());
 		mods.add(new ViaVersionMod());
 		mods.add(new WeatherChangerMod());
 		
@@ -102,6 +105,7 @@ public class ModManager {
 		mods.add(new LeftHandMod());
 		mods.add(new MouseDelayFixMod());
 		mods.add(new NoJumpDelayMod());
+		mods.add(new QuickSwitchMod());
 		mods.add(new SnapTapMod());
 		mods.add(new TaplookMod());
 		mods.add(new ToggleSneakMod());
