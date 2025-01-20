@@ -38,7 +38,14 @@ public class SettingsPage extends Page {
 
 	@Override
 	public void init() {
-		searchBar = new SearchBar(x + width - 260 - 32, y + 32, 260, () -> {
+		
+		String text = "";
+		
+		if(searchBar != null) {
+			text = searchBar.getText();
+		}
+		
+		searchBar = new SearchBar(x + width - 260 - 32, y + 32, 260, text, () -> {
 			scrollHelper.reset();
 		});
 	}

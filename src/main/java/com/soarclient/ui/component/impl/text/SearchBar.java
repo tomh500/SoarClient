@@ -28,12 +28,19 @@ public class SearchBar extends Component {
 	private TextInputHelper input = new TextInputHelper();
 	private String hintText;
 
-	public SearchBar(float x, float y, float width, Runnable shortcutEvent) {
+	public SearchBar(float x, float y, float width, String text, Runnable shortcutEvent) {
 		super(x, y);
 		this.shortcutEvent = shortcutEvent;
 		this.width = width;
 		this.height = 42;
-		this.hintTextAnimation = new DummyAnimation(0, 1);
+		this.setText(text);
+		
+		if(getText().isBlank()) {
+			this.hintTextAnimation = new DummyAnimation(1);
+		} else {
+			this.hintTextAnimation = new DummyAnimation(0);
+		}
+
 		this.cursorFlashAnimation = new DummyAnimation(0, 0);
 		this.hintText = "text.search";
 	}

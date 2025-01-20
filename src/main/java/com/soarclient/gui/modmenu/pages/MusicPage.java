@@ -53,10 +53,16 @@ public class MusicPage extends Page {
 	public void init() {
 
 		controlBar = new MusicControlBar(x + 22, y + height - 60 - 18, width - 44);
-		searchBar = new SearchBar(x + width - 260 - 32, y + 32, 260, () -> {
+		
+		String text = "";
+		
+		if(searchBar != null) {
+			text = searchBar.getText();
+		}
+		
+		searchBar = new SearchBar(x + width - 260 - 32, y + 32, 260, text, () -> {
 			scrollHelper.reset();
 		});
-
 		for (Item i : items) {
 			i.xAnimation.setFirstTick(true);
 			i.yAnimation.setFirstTick(true);
