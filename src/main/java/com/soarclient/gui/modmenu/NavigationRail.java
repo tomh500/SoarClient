@@ -44,7 +44,7 @@ public class NavigationRail extends Component {
 
 			Navigation n = new Navigation(p);
 
-			if (p.equals(parent.getCurrentPage())) {
+			if (p.getTitle().equals(parent.getCurrentPage().getTitle())) {
 				currentNavigation = n;
 				n.animation = new EaseStandard(Duration.MEDIUM_3, 0, 1);
 			}

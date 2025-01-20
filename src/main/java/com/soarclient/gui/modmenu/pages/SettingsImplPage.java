@@ -37,6 +37,8 @@ public class SettingsImplPage extends Page {
 	@Override
 	public void init() {
 
+		bars.clear();
+		
 		searchBar = new SearchBar(x + width - 260 - 32, y + 32, 260, () -> {
 			scrollHelper.reset();
 		});
