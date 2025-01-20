@@ -11,6 +11,7 @@ import com.soarclient.event.EventBus;
 import com.soarclient.event.impl.RenderGameOverlayEventListener.RenderGameOverlayEvent;
 import com.soarclient.event.impl.RenderPumpkinOverlayEventListener.RenderPumpkinOverlayEvent;
 import com.soarclient.event.impl.RenderSkiaEventListener.RenderSkiaEvent;
+import com.soarclient.management.mod.impl.settings.HUDModSettings;
 import com.soarclient.shaders.impl.GaussianBlur;
 import com.soarclient.skia.Skia;
 import com.soarclient.skia.context.SkiaContext;
@@ -335,7 +336,9 @@ public class GuiIngame extends Gui {
 		GlStateManager.disableLighting();
 		GlStateManager.enableAlpha();
 		
-		INGAME_BLUR.draw(20);
+		if(HUDModSettings.getInstance().getBlurSetting().isEnabled()) {
+			INGAME_BLUR.draw(20);
+		}
 		
 		SkiaContext.draw((context) -> {
 			Skia.save();

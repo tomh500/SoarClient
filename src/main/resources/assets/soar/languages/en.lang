@@ -118,6 +118,9 @@ mod.rawinput.description=Set mouse input to raw
 mod.mousestrokes.name=Mouse Strokes
 mod.mousestrokes.description=Display mouse movements
 
+mod.hudsettings.name=HUD
+mod.hudsettings.description=Customizing the HUD
+
 setting.darkmode=Dark Mode
 setting.darkmode.description=Enable dark mode
 setting.color=Color
@@ -142,6 +145,8 @@ setting.unmarked=Unmarked
 setting.unmarked.description=Hide the mark
 setting.snaptapcompatibility=Compatibility with SnapTap
 setting.snaptapcompatibility.description=Reflects keys released by Snap Tap
+setting.blur=Blur
+setting.blur.description=Set the Blur effect
 
 mainmenu.singleplayer=Singleplayer
 mainmenu.multiplayer=Multiplayer

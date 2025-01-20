@@ -12,6 +12,7 @@ import com.soarclient.animation.other.DummyAnimation;
 import com.soarclient.event.EventBus;
 import com.soarclient.event.impl.RenderSkiaEventListener;
 import com.soarclient.management.mod.api.hud.HUDMod;
+import com.soarclient.management.mod.impl.settings.HUDModSettings;
 import com.soarclient.management.mod.settings.impl.BooleanSetting;
 import com.soarclient.skia.Skia;
 import com.soarclient.skia.font.Fonts;
@@ -42,6 +43,13 @@ public class KeystrokesMod extends HUDMod implements RenderSkiaEventListener {
 	}
 
 	@Override
+	public void begin() {
+		drawBlur();
+		Skia.save();
+		Skia.scale(position.getX(), position.getY(), position.getScale());
+	}
+
+	@Override
 	public void onRenderSkia(float partialTicks) {
 		this.begin();
 		draw();
@@ -59,6 +67,18 @@ public class KeystrokesMod extends HUDMod implements RenderSkiaEventListener {
 
 			p.update();
 			p.draw();
+		}
+	}
+
+	private void drawBlur() {
+
+		for (Panel p : panels) {
+
+			if (p.jumpKey && !spaceKeySetting.isEnabled()) {
+				continue;
+			}
+
+			p.drawBlur();
 		}
 	}
 
@@ -117,6 +137,14 @@ public class KeystrokesMod extends HUDMod implements RenderSkiaEventListener {
 			if (jumpKey && !unmarkSetting.isEnabled()) {
 				Skia.drawRoundedRect(getX() + 10, getY() + 74F, (26 * 3) - 6, 2, 1.5F,
 						KeystrokesMod.this.getDesign().getTextColor());
+			}
+		}
+
+		private void drawBlur() {
+
+			if (HUDModSettings.getInstance().getBlurSetting().isEnabled()) {
+				Skia.drawRoundedBlur(getX() + (x * position.getScale()), getY() + (y * position.getScale()),
+						width * position.getScale(), height * position.getScale(), getRadius() * position.getScale());
 			}
 		}
 

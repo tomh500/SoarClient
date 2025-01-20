@@ -11,6 +11,7 @@ import com.soarclient.animation.Duration;
 import com.soarclient.animation.cubicbezier.impl.EaseEmphasizedDecelerate;
 import com.soarclient.animation.other.DummyAnimation;
 import com.soarclient.management.color.api.ColorPalette;
+import com.soarclient.management.mod.impl.settings.ModMenuSettings;
 import com.soarclient.shaders.impl.GaussianBlur;
 import com.soarclient.skia.Skia;
 import com.soarclient.ui.component.Component;
@@ -51,7 +52,7 @@ public abstract class SoarGui extends SimpleSoarGui {
 
 	@Override
 	public void drawOpenGL(int mouseX, int mouseY) {
-		if (gaussianBlur != null) {
+		if (gaussianBlur != null && ModMenuSettings.getInstance().getBlurSetting().isEnabled()) {
 			gaussianBlur.draw(transition != null ? (1 + (inOutAnimation.getValue() * 20)) : 20);
 		}
 	}

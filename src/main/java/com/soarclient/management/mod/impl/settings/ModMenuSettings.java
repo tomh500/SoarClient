@@ -25,7 +25,9 @@ public class ModMenuSettings extends Mod implements ClientTickEventListener {
 			Icon.DARK_MODE, this, false);
 	private HctColorSetting hctColorSetting = new HctColorSetting("setting.color", "setting.color.description",
 			Icon.PALETTE, this, Hct.from(220, 26, 6));
-
+	private BooleanSetting blurSetting = new BooleanSetting("setting.blur", "setting.blur.description", Icon.LENS_BLUR,
+			this, true);
+	
 	private GuiScreen modMenu;
 
 	public ModMenuSettings() {
@@ -68,5 +70,9 @@ public class ModMenuSettings extends Mod implements ClientTickEventListener {
 
 	public HctColorSetting getHctColorSetting() {
 		return hctColorSetting;
+	}
+
+	public BooleanSetting getBlurSetting() {
+		return blurSetting;
 	}
 }

@@ -3,6 +3,7 @@ package com.soarclient.skia;
 import java.awt.Color;
 import java.io.File;
 
+import com.soarclient.management.mod.impl.settings.HUDModSettings;
 import com.soarclient.skia.context.SkiaContext;
 import com.soarclient.skia.image.ImageHelper;
 
@@ -57,30 +58,35 @@ public class Skia {
 
 	public static void drawBlur(float x, float y, float width, float height) {
 
-		ScaledResolution sr = ScaledResolution.get(Minecraft.getMinecraft());
+		if(HUDModSettings.getInstance().getBlurSetting().isEnabled()) {
+			ScaledResolution sr = ScaledResolution.get(Minecraft.getMinecraft());
 
-		Path path = new Path();
-		path.addRect(Rect.makeXYWH(x, y, width, height));
+			Path path = new Path();
+			path.addRect(Rect.makeXYWH(x, y, width, height));
 
-		save();
-		getCanvas().clipPath(path, ClipMode.INTERSECT, true);
-		drawImage(GuiIngame.INGAME_BLUR.getTexture(), 0, 0, sr.getScaledWidth(), sr.getScaledHeight(), 1F,
-				SurfaceOrigin.BOTTOM_LEFT);
-		restore();
+			save();
+			getCanvas().clipPath(path, ClipMode.INTERSECT, true);
+			drawImage(GuiIngame.INGAME_BLUR.getTexture(), 0, 0, sr.getScaledWidth(), sr.getScaledHeight(), 1F,
+					SurfaceOrigin.BOTTOM_LEFT);
+			restore();
+		}
 	}
 
 	public static void drawRoundedBlur(float x, float y, float width, float height, float radius) {
 
-		ScaledResolution sr = ScaledResolution.get(Minecraft.getMinecraft());
+		if(HUDModSettings.getInstance().getBlurSetting().isEnabled()) {
+			
+			ScaledResolution sr = ScaledResolution.get(Minecraft.getMinecraft());
 
-		Path path = new Path();
-		path.addRRect(RRect.makeXYWH(x, y, width, height, radius));
+			Path path = new Path();
+			path.addRRect(RRect.makeXYWH(x, y, width, height, radius));
 
-		save();
-		getCanvas().clipPath(path, ClipMode.INTERSECT, true);
-		drawImage(GuiIngame.INGAME_BLUR.getTexture(), 0, 0, sr.getScaledWidth(), sr.getScaledHeight(), 1F,
-				SurfaceOrigin.BOTTOM_LEFT);
-		restore();
+			save();
+			getCanvas().clipPath(path, ClipMode.INTERSECT, true);
+			drawImage(GuiIngame.INGAME_BLUR.getTexture(), 0, 0, sr.getScaledWidth(), sr.getScaledHeight(), 1F,
+					SurfaceOrigin.BOTTOM_LEFT);
+			restore();
+		}
 	}
 	
 	public static void drawShadow(float x, float y, float width, float height, float radius) {
