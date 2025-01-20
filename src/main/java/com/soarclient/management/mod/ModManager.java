@@ -41,6 +41,7 @@ import com.soarclient.management.mod.impl.player.MouseDelayFixMod;
 import com.soarclient.management.mod.impl.player.NoJumpDelayMod;
 import com.soarclient.management.mod.impl.player.SnapTapMod;
 import com.soarclient.management.mod.impl.player.ToggleSneakMod;
+import com.soarclient.management.mod.impl.player.ToggleSprintMod;
 import com.soarclient.management.mod.impl.player.ZoomMod;
 import com.soarclient.management.mod.impl.settings.HUDModSettings;
 import com.soarclient.management.mod.impl.settings.ModMenuSettings;
@@ -98,6 +99,7 @@ public class ModManager {
 		mods.add(new NoJumpDelayMod());
 		mods.add(new SnapTapMod());
 		mods.add(new ToggleSneakMod());
+		mods.add(new ToggleSprintMod());
 		mods.add(new ZoomMod());
 		
 		// Settings
