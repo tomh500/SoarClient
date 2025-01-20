@@ -1,9 +1,9 @@
 package com.soarclient.shaders;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
+import java.nio.FloatBuffer;
+import java.util.HashMap;
+import java.util.Map;
 
-import org.lwjgl.opengl.ARBShaderObjects;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL20;
 
@@ -12,134 +12,90 @@ import net.minecraft.client.gui.ScaledResolution;
 
 public class Shader {
 
-    private final int fragId, vertId;
-	private int program;
-    private final int[] uniformLocations;
-    private final String[] uniformNames;
+	public int programID;
+	public boolean errored;
 
-    public Shader(String filePath, String... uniformNames) {
-        this.uniformNames = uniformNames;
-        this.uniformLocations = new int[uniformNames.length];
+	private final Map<String, Integer> uniformCache = new HashMap<>();
 
-        vertId = createShader(readShader("/assets/soar/shaders/vertex.vert"), GL20.GL_VERTEX_SHADER);
-        fragId = createShader(readShader("/assets/soar/shaders/" + filePath), GL20.GL_FRAGMENT_SHADER);
+	public Shader(int programID, boolean errored) {
+		this.programID = programID;
+		this.errored = errored;
+	}
 
-        if (vertId != 0 && fragId != 0) {
-            program = ARBShaderObjects.glCreateProgramObjectARB();
+	public void init() {
+		if (errored)
+			return;
+		GL20.glUseProgram(programID);
+	}
 
-            if (program != 0) {
-                ARBShaderObjects.glAttachObjectARB(program, vertId);
-                ARBShaderObjects.glAttachObjectARB(program, fragId);
-                ARBShaderObjects.glLinkProgramARB(program);
-                ARBShaderObjects.glValidateProgramARB(program);
+	public void bind() {
 
-                for (int i = 0; i < uniformNames.length; i++) {
-                    uniformLocations[i] = GL20.glGetUniformLocation(this.program, uniformNames[i]);
-                }
-            } else {
-                program = -1;
-            }
-        } else {
-            program = -1;
-        }
-    }
+		ScaledResolution sr = ScaledResolution.get(Minecraft.getMinecraft());
 
-    public void init() {
-        GL20.glUseProgram(program);
-    }
+		double width = sr.getScaledWidth_double();
+		double height = sr.getScaledHeight_double();
 
-    public void bind() {
-        ScaledResolution sr = ScaledResolution.get(Minecraft.getMinecraft());
+		GL11.glBegin(GL11.GL_QUADS);
+		GL11.glTexCoord2f(0, 1);
+		GL11.glVertex2f(0, 0);
+		GL11.glTexCoord2f(0, 0);
+		GL11.glVertex2d(0, height);
+		GL11.glTexCoord2f(1, 0);
+		GL11.glVertex2d(width, height);
+		GL11.glTexCoord2f(1, 1);
+		GL11.glVertex2d(width, 0);
+		GL11.glEnd();
+	}
 
-        double width = sr.getScaledWidth_double();
-        double height = sr.getScaledHeight_double();
+	public void finish() {
+		GL20.glUseProgram(0);
+	}
 
-        GL11.glBegin(GL11.GL_QUADS);
-        GL11.glTexCoord2f(0, 1);
-        GL11.glVertex2f(0, 0);
-        GL11.glTexCoord2f(0, 0);
-        GL11.glVertex2d(0, height);
-        GL11.glTexCoord2f(1, 0);
-        GL11.glVertex2d(width, height);
-        GL11.glTexCoord2f(1, 1);
-        GL11.glVertex2d(width, 0);
-        GL11.glEnd();
-    }
+	public void delete() {
+		if (programID > 0) {
+			GL20.glDeleteProgram(programID);
+		}
+	}
 
-    public void bind(float x, float y, float width, float height) {
-        GL11.glBegin(GL11.GL_QUADS);
+	public int getUniformLocation(String name) {
+		if (errored || programID <= 0)
+			return -1;
+		return uniformCache.computeIfAbsent(name, uniform -> GL20.glGetUniformLocation(programID, uniform));
+	}
 
-        GL11.glTexCoord2f(0f, 0f);
-        GL11.glVertex2f(x, y);
-        GL11.glTexCoord2f(0f, 1f);
-        GL11.glVertex2f(x, y + height);
-        GL11.glTexCoord2f(1f, 1f);
-        GL11.glVertex2f(x + width, y + height);
-        GL11.glTexCoord2f(1f, 0f);
-        GL11.glVertex2f(x + width, y);
+	public void setUniform1f(String name, float v1) {
+		int location = getUniformLocation(name);
+		if (location >= 0)
+			GL20.glUniform1f(location, v1);
+	}
 
-        GL11.glEnd();
-    }
+	public void setUniform1i(String name, int v1) {
+		int location = getUniformLocation(name);
+		if (location >= 0)
+			GL20.glUniform1i(location, v1);
+	}
 
-    public void finish() {
-        GL20.glUseProgram(0);
-    }
+	public void setUniform1fv(String name, FloatBuffer floatBuffer) {
+		int location = getUniformLocation(name);
+		if (location >= 0)
+			GL20.glUniform1fv(location, floatBuffer);
+	}
 
-    public void delete() {
-        if (program > 0) {
-            GL20.glDeleteProgram(program);
-        }
-    }
+	public void setUniform2f(String name, float v1, float v2) {
+		int location = getUniformLocation(name);
+		if (location >= 0)
+			GL20.glUniform2f(location, v1, v2);
+	}
 
-    public int getUniform(final String uniform) {
-        for (int i = 0; i < uniformNames.length; i++) {
-            if (uniformNames[i].equals(uniform)) {
-                return uniformLocations[i];
-            }
-        }
-        return -1; // 見つからない場合
-    }
+	public void setUniform3f(String name, float v1, float v2, float v3) {
+		int location = getUniformLocation(name);
+		if (location >= 0)
+			GL20.glUniform3f(location, v1, v2, v3);
+	}
 
-    private String readShader(String filePath) {
-        StringBuilder stringBuilder = new StringBuilder();
-
-        try {
-            BufferedReader bufferedReader = new BufferedReader(
-                    new InputStreamReader(Shader.class.getResourceAsStream(filePath)));
-            String line;
-            while ((line = bufferedReader.readLine()) != null) {
-                stringBuilder.append(line).append('\n');
-            }
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return stringBuilder.toString();
-    }
-
-    private int createShader(String source, int type) {
-        int shader = 0;
-
-        try {
-            shader = ARBShaderObjects.glCreateShaderObjectARB(type);
-
-            if (shader != 0) {
-                ARBShaderObjects.glShaderSourceARB(shader, source);
-                ARBShaderObjects.glCompileShaderARB(shader);
-
-                if (ARBShaderObjects.glGetObjectParameteriARB(shader, 35713) == 0) {
-                    throw new RuntimeException("Failed to create shader: " + ARBShaderObjects.glGetInfoLogARB(shader,
-                            ARBShaderObjects.glGetObjectParameteriARB(shader, 35716)));
-                }
-
-                return shader;
-            } else {
-                return 0;
-            }
-        } catch (Exception e) {
-            ARBShaderObjects.glDeleteObjectARB(shader);
-            e.printStackTrace();
-            throw e;
-        }
-    }
+	public void setUniformMat4(String name, FloatBuffer mat) {
+		int location = getUniformLocation(name);
+		if (location >= 0)
+			GL20.glUniformMatrix4(location, false, mat);
+	}
 }

@@ -148,6 +148,9 @@ mod.timechanger.description=Change the world time
 mod.quickswitch.name=Quick Switch
 mod.quickswitch.description=Switch items with a single button
 
+mod.motionblur.name=Motion Blur
+mod.motionblur.description=Add the motion blur effect
+
 setting.darkmode=Dark Mode
 setting.darkmode.description=Enable dark mode
 setting.color=Color
@@ -230,6 +233,12 @@ setting.lava=Lava
 setting.quickswitch.lava.description=Set the key to switch to lava
 setting.water=Water
 setting.quickswitch.water.description=Set the key to switch to water
+setting.amount=Amount
+setting.amount.description=Set the amount
+setting.mode=Mode
+setting.mode.description=Set the mode
+setting.phosphor=Phosphor
+setting.monkey=Monkey
 
 mainmenu.singleplayer=Singleplayer
 mainmenu.multiplayer=Multiplayer
