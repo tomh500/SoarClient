@@ -1,8 +1,11 @@
 package net.minecraft.world.biome;
 
-import com.google.common.collect.Lists;
 import java.util.List;
 import java.util.Random;
+
+import com.google.common.collect.Lists;
+import com.soarclient.management.mod.impl.misc.WeatherChangerMod;
+
 import net.minecraft.crash.CrashReport;
 import net.minecraft.crash.CrashReportCategory;
 import net.minecraft.util.BlockPos;
@@ -103,6 +106,13 @@ public class WorldChunkManager {
 	 * Return an adjusted version of a given temperature based on the y height
 	 */
 	public float getTemperatureAtHeight(float p_76939_1_, int p_76939_2_) {
+		
+		WeatherChangerMod mod = WeatherChangerMod.getInstance();
+		
+		if(mod.isEnabled() && mod.isSnowing()) {
+			return 0F;
+		}
+		
 		return p_76939_1_;
 	}
 

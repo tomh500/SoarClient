@@ -124,6 +124,9 @@ mod.mousestrokes.description=Display mouse movements
 mod.hudsettings.name=HUD
 mod.hudsettings.description=Customizing the HUD
 
+mod.weatherchanger.name=Weather Changer
+mod.weatherchanger.description=Change the weather
+
 setting.darkmode=Dark Mode
 setting.darkmode.description=Enable dark mode
 setting.color=Color
@@ -154,6 +157,18 @@ setting.design=Design
 setting.design.description=Set the design
 setting.blurintensity=Blur intensity
 setting.blurintensity.description=Set the intensity of the blur
+setting.weather=Weather
+setting.weather.description=Set the weather
+setting.clear=Clear
+setting.rain=Rain
+setting.storm=Storm
+setting.snow=Snow
+setting.rainintensity=Rain intensity
+setting.rainintensity.description=Set the rain intensity
+setting.snowintensity=Snow intensity
+setting.snowintensity.description=Set the snow intensity
+setting.thunderintensity=Thunder intensity
+setting.thunderintensity.description=Set the thunder intensity
 
 mainmenu.singleplayer=Singleplayer
 mainmenu.multiplayer=Multiplayer

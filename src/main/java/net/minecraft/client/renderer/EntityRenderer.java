@@ -22,6 +22,7 @@ import com.soarclient.event.impl.HurtCameraEventListener.HurtCameraEvent;
 import com.soarclient.event.impl.PlayerHeadRotationEventListener.PlayerHeadRotationEvent;
 import com.soarclient.event.impl.Render3DEventListener.Render3DEvent;
 import com.soarclient.event.impl.ShaderEventListener.ShaderEvent;
+import com.soarclient.management.mod.impl.misc.WeatherChangerMod;
 import com.soarclient.management.mod.impl.player.LeftHandMod;
 import com.soarclient.viasoar.fixes.ViaHelper;
 import com.viaversion.viaversion.api.protocol.version.ProtocolVersion;
@@ -1424,6 +1425,13 @@ public class EntityRenderer implements IResourceManagerReloadListener {
 	}
 
 	private void addRainParticles() {
+		
+		WeatherChangerMod mod = WeatherChangerMod.getInstance();
+		
+		if(mod.isEnabled() && (!mod.isRaining() || mod.isSnowing())) {
+			return;
+		}
+		
 		float f = this.mc.theWorld.getRainStrength(1.0F);
 
 		if (!this.mc.gameSettings.fancyGraphics) {

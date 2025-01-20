@@ -12,6 +12,7 @@ import java.util.concurrent.Callable;
 import com.google.common.base.Predicate;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
+import com.soarclient.management.mod.impl.misc.WeatherChangerMod;
 import com.soarclient.viasoar.fixes.FixedSoundEngine;
 
 import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
@@ -2951,6 +2952,13 @@ public abstract class World implements IBlockAccess {
 	}
 
 	public float getThunderStrength(float delta) {
+		
+		WeatherChangerMod mod = WeatherChangerMod.getInstance();
+		
+		if(mod.isEnabled()) {
+			return mod.isThundering() ? mod.getThunderIntensity().getValue() : 0F;
+		}
+		
 		return (this.prevThunderingStrength + (this.thunderingStrength - this.prevThunderingStrength) * delta)
 				* this.getRainStrength(delta);
 	}
@@ -2967,6 +2975,13 @@ public abstract class World implements IBlockAccess {
 	 * Returns rain strength.
 	 */
 	public float getRainStrength(float delta) {
+		
+		WeatherChangerMod mod = WeatherChangerMod.getInstance();
+		
+		if(mod.isEnabled()) {
+			return mod.isSnowing() ? mod.getSnowIntensity().getValue() : mod.isRaining() ? mod.getRainIntensity().getValue() : 0F;
+		}
+		
 		return this.prevRainingStrength + (this.rainingStrength - this.prevRainingStrength) * delta;
 	}
 

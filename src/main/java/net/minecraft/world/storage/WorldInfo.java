@@ -1,6 +1,9 @@
 package net.minecraft.world.storage;
 
 import java.util.concurrent.Callable;
+
+import com.soarclient.management.mod.impl.misc.WeatherChangerMod;
+
 import net.minecraft.crash.CrashReportCategory;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.server.MinecraftServer;
@@ -461,6 +464,11 @@ public class WorldInfo {
 	 * Returns true if it is thundering, false otherwise.
 	 */
 	public boolean isThundering() {
+
+		if (WeatherChangerMod.getInstance().isEnabled()) {
+			return WeatherChangerMod.getInstance().isThundering();
+		}
+
 		return this.thundering;
 	}
 
@@ -489,6 +497,11 @@ public class WorldInfo {
 	 * Returns true if it is raining, false otherwise.
 	 */
 	public boolean isRaining() {
+
+		if (WeatherChangerMod.getInstance().isEnabled()) {
+			return WeatherChangerMod.getInstance().isRaining();
+		}
+
 		return this.raining;
 	}
 
