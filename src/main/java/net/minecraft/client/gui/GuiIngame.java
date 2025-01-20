@@ -131,7 +131,7 @@ public class GuiIngame extends Gui {
 	}
 
 	public void renderGameOverlay(float partialTicks) {
-		ScaledResolution scaledresolution = new ScaledResolution(this.mc);
+		ScaledResolution scaledresolution = ScaledResolution.get(mc);
 		int i = scaledresolution.getScaledWidth();
 		int j = scaledresolution.getScaledHeight();
 		this.mc.entityRenderer.setupOverlayRendering();
@@ -774,7 +774,7 @@ public class GuiIngame extends Gui {
 	private void renderBossHealth() {
 		if (BossStatus.bossName != null && BossStatus.statusBarTime > 0) {
 			--BossStatus.statusBarTime;
-			ScaledResolution scaledresolution = new ScaledResolution(this.mc);
+			ScaledResolution scaledresolution = ScaledResolution.get(mc);
 			int i = scaledresolution.getScaledWidth();
 			int j = 182;
 			int k = i / 2 - j / 2;

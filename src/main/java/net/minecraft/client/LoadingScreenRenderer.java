@@ -33,7 +33,7 @@ public class LoadingScreenRenderer implements IProgressUpdate {
 
 	public LoadingScreenRenderer(Minecraft mcIn) {
 		this.mc = mcIn;
-		this.scaledResolution = new ScaledResolution(mcIn);
+		this.scaledResolution = ScaledResolution.get(mcIn);
 		this.framebuffer = new Framebuffer(mcIn.displayWidth, mcIn.displayHeight, false);
 		this.framebuffer.setFramebufferFilter(9728);
 	}
@@ -73,7 +73,7 @@ public class LoadingScreenRenderer implements IProgressUpdate {
 				GlStateManager.ortho(0.0D, this.scaledResolution.getScaledWidth() * i,
 						this.scaledResolution.getScaledHeight() * i, 0.0D, 100.0D, 300.0D);
 			} else {
-				ScaledResolution scaledresolution = new ScaledResolution(this.mc);
+				ScaledResolution scaledresolution = ScaledResolution.get(mc);
 				GlStateManager.ortho(0.0D, scaledresolution.getScaledWidth_double(),
 						scaledresolution.getScaledHeight_double(), 0.0D, 100.0D, 300.0D);
 			}
@@ -115,7 +115,7 @@ public class LoadingScreenRenderer implements IProgressUpdate {
 
 			if (i - this.systemTime >= 100L) {
 				this.systemTime = i;
-				ScaledResolution scaledresolution = new ScaledResolution(this.mc);
+				ScaledResolution scaledresolution = ScaledResolution.get(mc);
 				int j = scaledresolution.getScaleFactor();
 				int k = scaledresolution.getScaledWidth();
 				int l = scaledresolution.getScaledHeight();

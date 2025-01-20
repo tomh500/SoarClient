@@ -260,7 +260,7 @@ public class GuiOverlayDebug extends Gui {
 		int i = frametimer.getLastIndex();
 		int j = frametimer.getIndex();
 		long[] along = frametimer.getFrames();
-		ScaledResolution scaledresolution = new ScaledResolution(this.mc);
+		ScaledResolution scaledresolution = ScaledResolution.get(mc);
 		int k = i;
 		int l = 0;
 		drawRect(0, scaledresolution.getScaledHeight() - 60, 240, scaledresolution.getScaledHeight(), -1873784752);

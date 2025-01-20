@@ -36,7 +36,7 @@ public class SnappingLine {
 
 	public void drawLine(float lineWidth, boolean isX) {
 
-		ScaledResolution sr = new ScaledResolution(Minecraft.getMinecraft());
+		ScaledResolution sr = ScaledResolution.get(Minecraft.getMinecraft());
 		Color color = Color.WHITE;
 
 		float pos = (float) (line - lineWidth / 2f);

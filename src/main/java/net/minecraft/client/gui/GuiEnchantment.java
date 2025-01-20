@@ -110,7 +110,7 @@ public class GuiEnchantment extends GuiContainer {
 		GlStateManager.matrixMode(5889);
 		GlStateManager.pushMatrix();
 		GlStateManager.loadIdentity();
-		ScaledResolution scaledresolution = new ScaledResolution(this.mc);
+		ScaledResolution scaledresolution = ScaledResolution.get(mc);
 		GlStateManager.viewport((scaledresolution.getScaledWidth() - 320) / 2 * scaledresolution.getScaleFactor(),
 				(scaledresolution.getScaledHeight() - 240) / 2 * scaledresolution.getScaleFactor(),
 				320 * scaledresolution.getScaleFactor(), 240 * scaledresolution.getScaleFactor());

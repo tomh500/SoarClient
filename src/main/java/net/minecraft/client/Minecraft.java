@@ -815,7 +815,7 @@ public class Minecraft implements IThreadListener {
 	}
 
 	private void drawSplashScreen(TextureManager textureManagerInstance) throws LWJGLException {
-		ScaledResolution scaledresolution = new ScaledResolution(this);
+		ScaledResolution scaledresolution = ScaledResolution.get(this);
 		int i = scaledresolution.getScaleFactor();
 		Framebuffer framebuffer = new Framebuffer(scaledresolution.getScaledWidth() * i,
 				scaledresolution.getScaledHeight() * i, true);
@@ -929,7 +929,7 @@ public class Minecraft implements IThreadListener {
 
 		if (guiScreenIn != null) {
 			this.setIngameNotInFocus();
-			ScaledResolution scaledresolution = new ScaledResolution(this);
+			ScaledResolution scaledresolution = ScaledResolution.get(this);
 			int i = scaledresolution.getScaledWidth();
 			int j = scaledresolution.getScaledHeight();
 			guiScreenIn.setWorldAndResolution(this, i, j);
@@ -1533,7 +1533,7 @@ public class Minecraft implements IThreadListener {
 		this.displayHeight = Math.max(1, height);
 
 		if (this.currentScreen != null) {
-			ScaledResolution scaledresolution = new ScaledResolution(this);
+			ScaledResolution scaledresolution = ScaledResolution.get(this);
 			this.currentScreen.onResize(this, scaledresolution.getScaledWidth(), scaledresolution.getScaledHeight());
 		}
 

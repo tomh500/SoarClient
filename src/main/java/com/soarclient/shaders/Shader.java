@@ -49,7 +49,7 @@ public class Shader {
     }
 
     public void bind() {
-        ScaledResolution sr = new ScaledResolution(Minecraft.getMinecraft());
+        ScaledResolution sr = ScaledResolution.get(Minecraft.getMinecraft());
 
         double width = sr.getScaledWidth_double();
         double height = sr.getScaledHeight_double();

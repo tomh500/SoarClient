@@ -197,7 +197,7 @@ public class GuiEditHUD extends SimpleSoarGui {
 	private FloatArrayList getSnappingLines(boolean isHorizontal) {
 
 		FloatArrayList lines = new FloatArrayList();
-		ScaledResolution sr = new ScaledResolution(mc);
+		ScaledResolution sr = ScaledResolution.get(mc);
 		
 		lines.add(isHorizontal ? sr.getScaledWidth() / 2F : sr.getScaledHeight() / 2F);
 

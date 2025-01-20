@@ -124,11 +124,11 @@ public class Position {
 	}
 
 	private float getScreenWidth() {
-		return new ScaledResolution(mc).getScaledWidth();
+		return ScaledResolution.get(mc).getScaledWidth();
 	}
 
 	private float getScreenHeight() {
-		return new ScaledResolution(mc).getScaledHeight();
+		return ScaledResolution.get(mc).getScaledHeight();
 	}
 
 	public float getScale() {

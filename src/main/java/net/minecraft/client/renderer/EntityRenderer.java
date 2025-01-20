@@ -1062,7 +1062,7 @@ public class EntityRenderer implements IResourceManagerReloadListener {
 
 		if (!this.mc.skipRenderWorld) {
 			anaglyphEnable = this.mc.gameSettings.anaglyph;
-			final ScaledResolution scaledresolution = new ScaledResolution(this.mc);
+			final ScaledResolution scaledresolution = ScaledResolution.get(mc);
 			int i1 = scaledresolution.getScaledWidth();
 			int j1 = scaledresolution.getScaledHeight();
 			final int k1 = Mouse.getX() * i1 / this.mc.displayWidth;
@@ -1656,7 +1656,7 @@ public class EntityRenderer implements IResourceManagerReloadListener {
 	 * Setup orthogonal projection for rendering GUI screen overlays
 	 */
 	public void setupOverlayRendering() {
-		ScaledResolution scaledresolution = new ScaledResolution(this.mc);
+		ScaledResolution scaledresolution = ScaledResolution.get(mc);
 		GlStateManager.clear(256);
 		GlStateManager.matrixMode(5889);
 		GlStateManager.loadIdentity();

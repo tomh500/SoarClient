@@ -57,7 +57,7 @@ public class Skia {
 
 	public static void drawBlur(float x, float y, float width, float height) {
 
-		ScaledResolution sr = new ScaledResolution(Minecraft.getMinecraft());
+		ScaledResolution sr = ScaledResolution.get(Minecraft.getMinecraft());
 
 		Path path = new Path();
 		path.addRect(Rect.makeXYWH(x, y, width, height));
@@ -71,7 +71,7 @@ public class Skia {
 
 	public static void drawRoundedBlur(float x, float y, float width, float height, float radius) {
 
-		ScaledResolution sr = new ScaledResolution(Minecraft.getMinecraft());
+		ScaledResolution sr = ScaledResolution.get(Minecraft.getMinecraft());
 
 		Path path = new Path();
 		path.addRRect(RRect.makeXYWH(x, y, width, height, radius));

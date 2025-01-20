@@ -86,7 +86,7 @@ public class GuiVideoSettings extends GuiScreen {
 		this.optionsRowList.mouseClicked(mouseX, mouseY, mouseButton);
 
 		if (this.guiGameSettings.guiScale != i) {
-			ScaledResolution scaledresolution = new ScaledResolution(this.mc);
+			ScaledResolution scaledresolution = ScaledResolution.get(mc);
 			int j = scaledresolution.getScaledWidth();
 			int k = scaledresolution.getScaledHeight();
 			this.setWorldAndResolution(this.mc, j, k);
@@ -102,7 +102,7 @@ public class GuiVideoSettings extends GuiScreen {
 		this.optionsRowList.mouseReleased(mouseX, mouseY, state);
 
 		if (this.guiGameSettings.guiScale != i) {
-			ScaledResolution scaledresolution = new ScaledResolution(this.mc);
+			ScaledResolution scaledresolution = ScaledResolution.get(mc);
 			int j = scaledresolution.getScaledWidth();
 			int k = scaledresolution.getScaledHeight();
 			this.setWorldAndResolution(this.mc, j, k);

@@ -52,7 +52,7 @@ public class SimpleSoarGui {
 			@Override
 			public void drawScreen(int mouseX, int mouseY, float partialTicks) {
 
-				ScaledResolution sr = new ScaledResolution(mc);
+				ScaledResolution sr = ScaledResolution.get(mc);
 
 				SimpleSoarGui.this.drawOpenGL(mcScale ? mouseX : (int) Mouse.getX(),
 						mcScale ? mouseY : (int) Display.getHeight() - Mouse.getY());
