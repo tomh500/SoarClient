@@ -28,6 +28,7 @@ import com.soarclient.libraries.patches.font.EnhancementManager;
 import com.soarclient.libraries.patches.font.hash.impl.StringHash;
 import com.soarclient.libraries.patches.font.text.CachedString;
 import com.soarclient.libraries.patches.font.text.EnhancedFontRenderer;
+import com.soarclient.management.mod.impl.misc.NameProtectMod;
 import com.soarclient.utils.tuples.Pair;
 
 import net.minecraft.client.Minecraft;
@@ -538,26 +539,26 @@ public class FontRenderer implements IResourceManagerReloadListener {
 					++effectiveWidth;
 				}
 
-		        if (this.strikethroughStyle) {
-		            adjustOrAppend(strikethrough, this.posX, effectiveWidth, value.getLastRed(), value.getLastGreen(),
-		                    value.getLastBlue(), value.getLastAlpha());
-		        }
+				if (this.strikethroughStyle) {
+					adjustOrAppend(strikethrough, this.posX, effectiveWidth, value.getLastRed(), value.getLastGreen(),
+							value.getLastBlue(), value.getLastAlpha());
+				}
 
-		        if (this.underlineStyle) {
-		            adjustOrAppend(underline, this.posX, effectiveWidth, value.getLastRed(), value.getLastGreen(),
-		                    value.getLastBlue(), value.getLastAlpha());
-		        }
-		        
+				if (this.underlineStyle) {
+					adjustOrAppend(underline, this.posX, effectiveWidth, value.getLastRed(), value.getLastGreen(),
+							value.getLastBlue(), value.getLastAlpha());
+				}
+
 				this.posX = this.posX + (int) effectiveWidth;
 			}
 		}
 
 		renderBatch(batch);
 
-	    for (RenderPair pair : batch) {
-	        RenderPairPool.release(pair);
-	    }
-	    
+		for (RenderPair pair : batch) {
+			RenderPairPool.release(pair);
+		}
+
 		final boolean hasStyle = underline.size() > 0 || strikethrough.size() > 0;
 
 		if (hasStyle) {
@@ -600,17 +601,17 @@ public class FontRenderer implements IResourceManagerReloadListener {
 	}
 
 	private void adjustOrAppend(Deque<RenderPair> style, float posX, float effectiveWidth, float lastRed,
-	        float lastGreen, float lastBlue, float lastAlpha) {
-	    final RenderPair lastStart = style.peekLast();
-	    if (lastStart != null && lastStart.red == lastRed && lastStart.green == lastGreen && lastStart.blue == lastBlue
-	            && lastStart.alpha == lastAlpha) {
-	        if (lastStart.posX + lastStart.width >= posX - 1) {
-	            lastStart.width = posX + effectiveWidth - lastStart.posX;
-	            return;
-	        }
-	    }
-	    RenderPair pair = RenderPairPool.acquire(posX, effectiveWidth, lastRed, lastGreen, lastBlue, lastAlpha);
-	    style.add(pair);
+			float lastGreen, float lastBlue, float lastAlpha) {
+		final RenderPair lastStart = style.peekLast();
+		if (lastStart != null && lastStart.red == lastRed && lastStart.green == lastGreen && lastStart.blue == lastBlue
+				&& lastStart.alpha == lastAlpha) {
+			if (lastStart.posX + lastStart.width >= posX - 1) {
+				lastStart.width = posX + effectiveWidth - lastStart.posX;
+				return;
+			}
+		}
+		RenderPair pair = RenderPairPool.acquire(posX, effectiveWidth, lastRed, lastGreen, lastBlue, lastAlpha);
+		style.add(pair);
 	}
 
 	private float getBoldOffset(int index) {
@@ -738,6 +739,12 @@ public class FontRenderer implements IResourceManagerReloadListener {
 		if (text == null) {
 			return 0;
 		} else {
+
+			if (NameProtectMod.getInstance().isEnabled()) {
+				text = text.replace(Minecraft.getMinecraft().getSession().getUsername(),
+						NameProtectMod.getInstance().getNameSetting().getValue());
+			}
+
 			if (this.bidiFlag) {
 				text = this.bidiReorder(text);
 			}
@@ -768,7 +775,13 @@ public class FontRenderer implements IResourceManagerReloadListener {
 			return 0;
 		}
 
-		return enhancedFontRenderer.getStringWidthCache().computeIfAbsent(text, width -> getUncachedWidth(text));
+		if (NameProtectMod.getInstance().isEnabled()) {
+			return enhancedFontRenderer.getStringWidthCache().computeIfAbsent(text,
+					width -> getUncachedWidth(text.replace(Minecraft.getMinecraft().getSession().getUsername(),
+							NameProtectMod.getInstance().getNameSetting().getValue())));
+		} else {
+			return enhancedFontRenderer.getStringWidthCache().computeIfAbsent(text, width -> getUncachedWidth(text));
+		}
 	}
 
 	private int getUncachedWidth(String text) {
@@ -842,48 +855,48 @@ public class FontRenderer implements IResourceManagerReloadListener {
 	}
 
 	public String trimStringToWidth(String text, int width, boolean reverse) {
-		
-	    StringBuilder stringbuilder = new StringBuilder(width);
-	    int i = 0;
-	    int j = reverse ? text.length() - 1 : 0;
-	    int k = reverse ? -1 : 1;
-	    boolean flag = false;
-	    boolean flag1 = false;
 
-	    for (int l = j; l >= 0 && l < text.length() && i < width; l += k) {
-	        char c0 = text.charAt(l);
-	        int i1 = this.getCharWidth(c0);
+		StringBuilder stringbuilder = new StringBuilder(width);
+		int i = 0;
+		int j = reverse ? text.length() - 1 : 0;
+		int k = reverse ? -1 : 1;
+		boolean flag = false;
+		boolean flag1 = false;
 
-	        if (flag) {
-	            flag = false;
-	            if (c0 != 108 && c0 != 76) {
-	                if (c0 == 114 || c0 == 82) {
-	                    flag1 = false;
-	                }
-	            } else {
-	                flag1 = true;
-	            }
-	        } else if (i1 < 0) {
-	            flag = true;
-	        } else {
-	            i += i1;
-	            if (flag1) {
-	                ++i;
-	            }
-	        }
+		for (int l = j; l >= 0 && l < text.length() && i < width; l += k) {
+			char c0 = text.charAt(l);
+			int i1 = this.getCharWidth(c0);
 
-	        if (i > width) {
-	            break;
-	        }
+			if (flag) {
+				flag = false;
+				if (c0 != 108 && c0 != 76) {
+					if (c0 == 114 || c0 == 82) {
+						flag1 = false;
+					}
+				} else {
+					flag1 = true;
+				}
+			} else if (i1 < 0) {
+				flag = true;
+			} else {
+				i += i1;
+				if (flag1) {
+					++i;
+				}
+			}
 
-	        if (reverse) {
-	            stringbuilder.insert(0, c0);
-	        } else {
-	            stringbuilder.append(c0);
-	        }
-	    }
+			if (i > width) {
+				break;
+			}
 
-	    return stringbuilder.toString();
+			if (reverse) {
+				stringbuilder.insert(0, c0);
+			} else {
+				stringbuilder.append(c0);
+			}
+		}
+
+		return stringbuilder.toString();
 	}
 
 	private String trimStringNewline(String text) {
@@ -1056,75 +1069,75 @@ public class FontRenderer implements IResourceManagerReloadListener {
 	}
 
 	static class RenderPair {
-	    private float red;
-	    private float green;
-	    private float blue;
-	    private float alpha;
-	    float posX;
-	    float width;
-	    float u1, v1, u2, v2, u3, v3, u4, v4;
-	    float x1, y1, x2, y2, x3, y3, x4, y4;
+		private float red;
+		private float green;
+		private float blue;
+		private float alpha;
+		float posX;
+		float width;
+		float u1, v1, u2, v2, u3, v3, u4, v4;
+		float x1, y1, x2, y2, x3, y3, x4, y4;
 
-	    public RenderPair(float posX, float width, float red, float green, float blue, float alpha) {
-	        set(posX, width, red, green, blue, alpha);
-	    }
+		public RenderPair(float posX, float width, float red, float green, float blue, float alpha) {
+			set(posX, width, red, green, blue, alpha);
+		}
 
-	    public void set(float posX, float width, float red, float green, float blue, float alpha) {
-	        this.posX = posX;
-	        this.width = width;
-	        this.red = red;
-	        this.green = green;
-	        this.blue = blue;
-	        this.alpha = alpha;
-	    }
+		public void set(float posX, float width, float red, float green, float blue, float alpha) {
+			this.posX = posX;
+			this.width = width;
+			this.red = red;
+			this.green = green;
+			this.blue = blue;
+			this.alpha = alpha;
+		}
 
-	    public void setUV(float u1, float v1, float u2, float v2, float u3, float v3, float u4, float v4) {
-	        this.u1 = u1;
-	        this.v1 = v1;
-	        this.u2 = u2;
-	        this.v2 = v2;
-	        this.u3 = u3;
-	        this.v3 = v3;
-	        this.u4 = u4;
-	        this.v4 = v4;
-	    }
+		public void setUV(float u1, float v1, float u2, float v2, float u3, float v3, float u4, float v4) {
+			this.u1 = u1;
+			this.v1 = v1;
+			this.u2 = u2;
+			this.v2 = v2;
+			this.u3 = u3;
+			this.v3 = v3;
+			this.u4 = u4;
+			this.v4 = v4;
+		}
 
-	    public void setVertices(float x1, float y1, float x2, float y2, float x3, float y3, float x4, float y4) {
-	        this.x1 = x1;
-	        this.y1 = y1;
-	        this.x2 = x2;
-	        this.y2 = y2;
-	        this.x3 = x3;
-	        this.y3 = y3;
-	        this.x4 = x4;
-	        this.y4 = y4;
-	    }
+		public void setVertices(float x1, float y1, float x2, float y2, float x3, float y3, float x4, float y4) {
+			this.x1 = x1;
+			this.y1 = y1;
+			this.x2 = x2;
+			this.y2 = y2;
+			this.x3 = x3;
+			this.y3 = y3;
+			this.x4 = x4;
+			this.y4 = y4;
+		}
 	}
-	
+
 	static class RenderPairPool {
 
-	    private static final Queue<RenderPair> POOL = new ConcurrentLinkedQueue<>();
-	    private static final int MAX_POOL_SIZE = 100;
+		private static final Queue<RenderPair> POOL = new ConcurrentLinkedQueue<>();
+		private static final int MAX_POOL_SIZE = 100;
 
-	    public static RenderPair acquire(float posX, float width, float red, float green, float blue, float alpha) {
-	        RenderPair pair = POOL.poll();
-	        if (pair == null) {
-	            pair = new RenderPair(posX, width, red, green, blue, alpha);
-	        } else {
-	            pair.posX = posX;
-	            pair.width = width;
-	            pair.red = red;
-	            pair.green = green;
-	            pair.blue = blue;
-	            pair.alpha = alpha;
-	        }
-	        return pair;
-	    }
+		public static RenderPair acquire(float posX, float width, float red, float green, float blue, float alpha) {
+			RenderPair pair = POOL.poll();
+			if (pair == null) {
+				pair = new RenderPair(posX, width, red, green, blue, alpha);
+			} else {
+				pair.posX = posX;
+				pair.width = width;
+				pair.red = red;
+				pair.green = green;
+				pair.blue = blue;
+				pair.alpha = alpha;
+			}
+			return pair;
+		}
 
-	    public static void release(RenderPair pair) {
-	        if (POOL.size() < MAX_POOL_SIZE) {
-	            POOL.offer(pair);
-	        }
-	    }
+		public static void release(RenderPair pair) {
+			if (POOL.size() < MAX_POOL_SIZE) {
+				POOL.offer(pair);
+			}
+		}
 	}
 }

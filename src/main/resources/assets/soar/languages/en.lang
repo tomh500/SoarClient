@@ -139,6 +139,9 @@ mod.taplook.description=Switch viewing orientation at the touch of a button
 mod.liquidfix.name=Liquid Fix
 mod.liquidfix.description=Fix misalignment of magma and water
 
+mod.nameprotect.name=Name Protect
+mod.nameprotect.description=Protect your name
+
 setting.darkmode=Dark Mode
 setting.darkmode.description=Enable dark mode
 setting.color=Color
@@ -201,6 +204,8 @@ setting.front=Front
 setting.behind=Behind
 setting.toggle=Toggle
 setting.toggle.description=Change to toggle
+setting.name=Name
+setting.name.description=Set the name
 
 mainmenu.singleplayer=Singleplayer
 mainmenu.multiplayer=Multiplayer
