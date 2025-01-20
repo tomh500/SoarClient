@@ -59,6 +59,8 @@ import com.soarclient.event.impl.MouseClickEventListener.MouseClickEvent;
 import com.soarclient.event.impl.MouseScrollEventListener.MouseScrollEvent;
 import com.soarclient.event.impl.RenderTickEventListener.RenderTickEvent;
 import com.soarclient.management.mod.impl.player.HitDelayFixMod;
+import com.soarclient.management.mod.impl.render.MotionBlurMod;
+import com.soarclient.management.mod.impl.render.motionblur.MonkeyBlur;
 import com.soarclient.management.mod.settings.impl.KeybindSetting;
 import com.soarclient.skia.context.SkiaContext;
 import com.soarclient.viasoar.fixes.AttackOrder;
@@ -1547,6 +1549,11 @@ public class Minecraft implements IThreadListener {
 
 		if (this.entityRenderer != null) {
 			this.entityRenderer.updateShaderGroupSize(this.displayWidth, this.displayHeight);
+		}
+
+		if (MotionBlurMod.getInstance() != null && MotionBlurMod.getInstance().isEnabled()
+				&& MotionBlurMod.getInstance().isMonkey()) {
+			MonkeyBlur.getInstance().onResolutionChange();
 		}
 	}
 

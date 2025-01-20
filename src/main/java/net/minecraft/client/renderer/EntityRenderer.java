@@ -25,6 +25,8 @@ import com.soarclient.event.impl.ShaderEventListener.ShaderEvent;
 import com.soarclient.management.mod.impl.misc.WeatherChangerMod;
 import com.soarclient.management.mod.impl.player.LeftHandMod;
 import com.soarclient.management.mod.impl.player.ZoomMod;
+import com.soarclient.management.mod.impl.render.MotionBlurMod;
+import com.soarclient.management.mod.impl.render.motionblur.MonkeyBlur;
 import com.soarclient.viasoar.fixes.ViaHelper;
 import com.viaversion.viaversion.api.protocol.version.ProtocolVersion;
 
@@ -1254,6 +1256,11 @@ public class EntityRenderer implements IResourceManagerReloadListener {
 	}
 
 	private void renderWorldPass(int pass, float partialTicks, long finishTimeNano) {
+		
+		if(MotionBlurMod.getInstance().isEnabled() && MotionBlurMod.getInstance().isMonkey()) {
+			MonkeyBlur.getInstance().startFrame();
+		}
+		
 		RenderGlobal renderglobal = this.mc.renderGlobal;
 		EffectRenderer effectrenderer = this.mc.effectRenderer;
 		boolean flag = this.isDrawBlockOutline();
@@ -1265,6 +1272,11 @@ public class EntityRenderer implements IResourceManagerReloadListener {
 		this.mc.mcProfiler.endStartSection("camera");
 		this.setupCameraTransform(partialTicks, pass);
 		ActiveRenderInfo.updateRenderInfo(this.mc.thePlayer, this.mc.gameSettings.thirdPersonView == 2);
+		
+		if(MotionBlurMod.getInstance().isEnabled() && MotionBlurMod.getInstance().isMonkey()) {
+			MonkeyBlur.getInstance().setupCamera(partialTicks);
+		}
+		
 		this.mc.mcProfiler.endStartSection("frustum");
 		ClippingHelperImpl.getInstance();
 		this.mc.mcProfiler.endStartSection("culling");
@@ -1405,6 +1417,10 @@ public class EntityRenderer implements IResourceManagerReloadListener {
 			this.renderCloudsCheck(renderglobal, partialTicks, pass);
 		}
 
+		if(MotionBlurMod.getInstance().isEnabled() && MotionBlurMod.getInstance().isMonkey()) {
+			MonkeyBlur.getInstance().endFrame();
+		}
+		
 		this.mc.mcProfiler.endStartSection("hand");
 
 		if (this.renderHand) {

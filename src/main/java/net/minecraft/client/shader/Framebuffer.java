@@ -4,6 +4,10 @@ import java.nio.IntBuffer;
 
 import org.lwjgl.opengl.GL11;
 
+import com.soarclient.management.mod.impl.render.MotionBlurMod;
+import com.soarclient.management.mod.impl.render.motionblur.MonkeyBlur;
+
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.Tessellator;
@@ -156,12 +160,18 @@ public class Framebuffer {
 	}
 
 	public void bindFramebuffer(boolean p_147610_1_) {
+
 		if (OpenGlHelper.isFramebufferEnabled()) {
 			OpenGlHelper.glBindFramebuffer(OpenGlHelper.GL_FRAMEBUFFER, this.framebufferObject);
 
 			if (p_147610_1_) {
 				GlStateManager.viewport(0, 0, this.framebufferWidth, this.framebufferHeight);
 			}
+		}
+
+		if (MotionBlurMod.getInstance() != null && MotionBlurMod.getInstance().isEnabled() && MotionBlurMod.getInstance().isMonkey()
+				&& MonkeyBlur.getInstance().drawingBuffer && this == Minecraft.getMinecraft().getFramebuffer()) {
+			MonkeyBlur.getInstance().bindFb();
 		}
 	}
 

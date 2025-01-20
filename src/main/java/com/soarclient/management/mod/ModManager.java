@@ -48,6 +48,7 @@ import com.soarclient.management.mod.impl.player.TaplookMod;
 import com.soarclient.management.mod.impl.player.ToggleSneakMod;
 import com.soarclient.management.mod.impl.player.ToggleSprintMod;
 import com.soarclient.management.mod.impl.player.ZoomMod;
+import com.soarclient.management.mod.impl.render.MotionBlurMod;
 import com.soarclient.management.mod.impl.settings.HUDModSettings;
 import com.soarclient.management.mod.impl.settings.ModMenuSettings;
 import com.soarclient.management.mod.settings.Setting;
@@ -111,6 +112,9 @@ public class ModManager {
 		mods.add(new ToggleSneakMod());
 		mods.add(new ToggleSprintMod());
 		mods.add(new ZoomMod());
+		
+		// Render
+		mods.add(new MotionBlurMod());
 		
 		// Settings
 		mods.add(new HUDModSettings());
