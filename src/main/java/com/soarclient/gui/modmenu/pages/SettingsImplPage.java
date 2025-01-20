@@ -85,6 +85,11 @@ public class SettingsImplPage extends Page {
 		searchBar.mousePressed(mouseX, mouseY, mouseButton);
 
 		for (SettingBar b : bars) {
+			
+			if (!searchBar.getText().isEmpty() && !SearchUtils.isSimilar(I18n.get(b.getTitle()), searchBar.getText())) {
+				continue;
+			}
+			
 			b.mousePressed(mouseX, mouseY, mouseButton);
 		}
 	}
@@ -97,6 +102,11 @@ public class SettingsImplPage extends Page {
 		searchBar.mousePressed(mouseX, mouseY, mouseButton);
 
 		for (SettingBar b : bars) {
+			
+			if (!searchBar.getText().isEmpty() && !SearchUtils.isSimilar(I18n.get(b.getTitle()), searchBar.getText())) {
+				continue;
+			}
+			
 			b.mouseReleased(mouseX, mouseY, mouseButton);
 		}
 	}
@@ -107,6 +117,11 @@ public class SettingsImplPage extends Page {
 		searchBar.keyTyped(typedChar, keyCode);
 
 		for (SettingBar b : bars) {
+			
+			if (!searchBar.getText().isEmpty() && !SearchUtils.isSimilar(I18n.get(b.getTitle()), searchBar.getText())) {
+				continue;
+			}
+			
 			b.keyTyped(typedChar, keyCode);
 		}
 

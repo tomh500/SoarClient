@@ -1,6 +1,7 @@
 package com.soarclient.gui.modmenu.component;
 
 import com.soarclient.Soar;
+import com.soarclient.animation.SimpleAnimation;
 import com.soarclient.libraries.material3.hct.Hct;
 import com.soarclient.management.color.api.ColorPalette;
 import com.soarclient.management.mod.settings.Setting;
@@ -26,6 +27,7 @@ import com.soarclient.utils.language.I18n;
 
 public class SettingBar extends Component {
 
+	private SimpleAnimation yAnimation = new SimpleAnimation();
 	private String title, description, icon;
 	private Component component;
 	
@@ -137,15 +139,20 @@ public class SettingBar extends Component {
 		
 		ColorPalette palette = Soar.getInstance().getColorManager().getPalette();
 
+		float itemY = y;
+		
+		yAnimation.onTick(itemY, 14);
+		itemY = yAnimation.getValue();
+		
 		if(component != null) {
 			component.setX(x + width - component.getWidth() - 22);
-			component.setY(y + (height - component.getHeight()) / 2);
+			component.setY(itemY + (height - component.getHeight()) / 2);
 		}
 		
-		Skia.drawRoundedRect(x, y, width, height, 18, palette.getSurface());
-		Skia.drawFullCenteredText(icon, x + 30, y + (height / 2), palette.getOnSurface(), Fonts.getIcon(32));
-		Skia.drawText(I18n.get(title), x + 52, y + 20, palette.getOnSurface(), Fonts.getRegular(17));
-		Skia.drawText(I18n.get(description), x + 52, y + 37, palette.getOnSurfaceVariant(), Fonts.getRegular(14));
+		Skia.drawRoundedRect(x, itemY, width, height, 18, palette.getSurface());
+		Skia.drawFullCenteredText(icon, x + 30, itemY + (height / 2), palette.getOnSurface(), Fonts.getIcon(32));
+		Skia.drawText(I18n.get(title), x + 52, itemY + 20, palette.getOnSurface(), Fonts.getRegular(17));
+		Skia.drawText(I18n.get(description), x + 52, itemY + 37, palette.getOnSurfaceVariant(), Fonts.getRegular(14));
 
 		if (component != null) {
 			component.draw(mouseX, mouseY);
