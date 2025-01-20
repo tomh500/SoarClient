@@ -1744,7 +1744,7 @@ public class Minecraft implements IThreadListener {
 						return;
 					}
 				}
-				
+
 				if (Keyboard.getEventKeyState()) {
 					if (k == 62 && this.entityRenderer != null) {
 						this.entityRenderer.switchUseShader();
@@ -2133,7 +2133,6 @@ public class Minecraft implements IThreadListener {
 			this.thePlayer = null;
 		}
 
-		System.gc();
 		this.systemTime = 0L;
 	}
 
