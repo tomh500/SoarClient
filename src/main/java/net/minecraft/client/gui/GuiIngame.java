@@ -11,6 +11,7 @@ import com.soarclient.event.EventBus;
 import com.soarclient.event.impl.RenderGameOverlayEventListener.RenderGameOverlayEvent;
 import com.soarclient.event.impl.RenderPumpkinOverlayEventListener.RenderPumpkinOverlayEvent;
 import com.soarclient.event.impl.RenderSkiaEventListener.RenderSkiaEvent;
+import com.soarclient.shaders.impl.GaussianBlur;
 import com.soarclient.skia.Skia;
 import com.soarclient.skia.context.SkiaContext;
 
@@ -107,6 +108,8 @@ public class GuiIngame extends Gui {
 
 	/** Used with updateCounter to make the heart bar flash */
 	private long healthUpdateCounter = 0L;
+	
+	public static GaussianBlur INGAME_BLUR = new GaussianBlur(true);
 	
 	public GuiIngame(Minecraft mcIn) {
 		this.mc = mcIn;
@@ -331,6 +334,8 @@ public class GuiIngame extends Gui {
 		GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
 		GlStateManager.disableLighting();
 		GlStateManager.enableAlpha();
+		
+		INGAME_BLUR.draw(20);
 		
 		SkiaContext.draw((context) -> {
 			Skia.save();

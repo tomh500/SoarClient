@@ -18,6 +18,9 @@ import io.github.humbleui.skija.SurfaceOrigin;
 import io.github.humbleui.types.Point;
 import io.github.humbleui.types.RRect;
 import io.github.humbleui.types.Rect;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiIngame;
+import net.minecraft.client.gui.ScaledResolution;
 
 public class Skia {
 
@@ -52,6 +55,34 @@ public class Skia {
 		getCanvas().drawRRect(RRect.makeComplexXYWH(x, y, width, height, corners), getPaint(color));
 	}
 
+	public static void drawBlur(float x, float y, float width, float height) {
+
+		ScaledResolution sr = new ScaledResolution(Minecraft.getMinecraft());
+
+		Path path = new Path();
+		path.addRect(Rect.makeXYWH(x, y, width, height));
+
+		save();
+		getCanvas().clipPath(path, ClipMode.INTERSECT, true);
+		drawImage(GuiIngame.INGAME_BLUR.getTexture(), 0, 0, sr.getScaledWidth(), sr.getScaledHeight(), 1F,
+				SurfaceOrigin.BOTTOM_LEFT);
+		restore();
+	}
+
+	public static void drawRoundedBlur(float x, float y, float width, float height, float radius) {
+
+		ScaledResolution sr = new ScaledResolution(Minecraft.getMinecraft());
+
+		Path path = new Path();
+		path.addRRect(RRect.makeXYWH(x, y, width, height, radius));
+
+		save();
+		getCanvas().clipPath(path, ClipMode.INTERSECT, true);
+		drawImage(GuiIngame.INGAME_BLUR.getTexture(), 0, 0, sr.getScaledWidth(), sr.getScaledHeight(), 1F,
+				SurfaceOrigin.BOTTOM_LEFT);
+		restore();
+	}
+	
 	public static void drawShadow(float x, float y, float width, float height, float radius) {
 
 		int strength = 8;
