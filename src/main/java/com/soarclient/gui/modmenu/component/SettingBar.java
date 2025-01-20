@@ -10,6 +10,7 @@ import com.soarclient.management.mod.settings.impl.ComboSetting;
 import com.soarclient.management.mod.settings.impl.HctColorSetting;
 import com.soarclient.management.mod.settings.impl.KeybindSetting;
 import com.soarclient.management.mod.settings.impl.NumberSetting;
+import com.soarclient.management.mod.settings.impl.StringSetting;
 import com.soarclient.skia.Skia;
 import com.soarclient.skia.font.Fonts;
 import com.soarclient.ui.component.Component;
@@ -18,11 +19,13 @@ import com.soarclient.ui.component.handler.impl.HctColorPickerHandler;
 import com.soarclient.ui.component.handler.impl.KeybindHandler;
 import com.soarclient.ui.component.handler.impl.SliderHandler;
 import com.soarclient.ui.component.handler.impl.SwitchHandler;
+import com.soarclient.ui.component.handler.impl.TextHandler;
 import com.soarclient.ui.component.impl.ComboButton;
 import com.soarclient.ui.component.impl.HctColorPicker;
 import com.soarclient.ui.component.impl.Keybind;
 import com.soarclient.ui.component.impl.Slider;
 import com.soarclient.ui.component.impl.Switch;
+import com.soarclient.ui.component.impl.text.TextField;
 import com.soarclient.utils.language.I18n;
 
 public class SettingBar extends Component {
@@ -131,6 +134,22 @@ public class SettingBar extends Component {
 			});
 			
 			component = picker;
+		}
+		
+		if(setting instanceof StringSetting) {
+			
+			StringSetting sSetting = (StringSetting) setting;
+			TextField textField = new TextField(0, 0, 150, sSetting.getValue());
+			
+			textField.setHandler(new TextHandler() {
+
+				@Override
+				public void onTyped(String value) {
+					sSetting.setValue(value);
+				}
+			});
+			
+			component = textField;
 		}
 	}
 
