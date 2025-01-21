@@ -1,0 +1,11 @@
+package net.caffeinemc.mods.sodium.client.world;
+
+import net.minecraft.client.multiplayer.WorldClient;
+
+public interface BiomeSeedProvider {
+    static long getBiomeZoomSeed(WorldClient level) {
+        return ((BiomeSeedProvider) level).sodium$getBiomeZoomSeed();
+    }
+
+    long sodium$getBiomeZoomSeed();
+}

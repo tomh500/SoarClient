@@ -267,23 +267,39 @@ public enum EnumFacing implements IStringSerializable {
 		return values()[rand.nextInt(values().length)];
 	}
 
-	public static EnumFacing getFacingFromVector(float p_176737_0_, float p_176737_1_, float p_176737_2_) {
-		EnumFacing enumfacing = NORTH;
-		float f = Float.MIN_VALUE;
+    public static EnumFacing getFacingFromVector(float x, float y, float z) {
+    	
+        if (x == 0 && y == 0 && z == 0)
+            return EnumFacing.NORTH;
 
-		for (EnumFacing enumfacing1 : values()) {
-			float f1 = p_176737_0_ * (float) enumfacing1.directionVec.getX()
-					+ p_176737_1_ * (float) enumfacing1.directionVec.getY()
-					+ p_176737_2_ * (float) enumfacing1.directionVec.getZ();
+        var yM = Math.abs(y);
+        var zM = Math.abs(z);
+        var xM = Math.abs(x);
 
-			if (f1 > f) {
-				f = f1;
-				enumfacing = enumfacing1;
-			}
-		}
+        if (yM >= zM) {
+            if (yM >= xM) {
+                if (y <= 0) {
+                    return EnumFacing.DOWN;
+                } else {
+                    return EnumFacing.UP;
+                }
+            }
+        } else {
+            if (zM >= xM) {
+                if (z <= 0) {
+                    return EnumFacing.NORTH;
+                } else {
+                    return EnumFacing.SOUTH;
+                }
+            }
+        }
 
-		return enumfacing;
-	}
+        if (x <= 0) {
+            return EnumFacing.WEST;
+        } else {
+            return EnumFacing.EAST;
+        }
+    }
 
 	public String toString() {
 		return this.name;

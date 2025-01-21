@@ -1,5 +1,6 @@
 package net.minecraft.client.gui;
 
+import java.lang.management.ManagementFactory;
 import java.util.List;
 import java.util.Map.Entry;
 
@@ -11,6 +12,11 @@ import com.google.common.collect.Lists;
 import com.soarclient.viasoar.ViaSoar;
 import com.viaversion.viaversion.api.protocol.version.ProtocolVersion;
 
+import dev.vexor.radium.culling.RadiumEntityCulling;
+import net.caffeinemc.mods.sodium.client.SodiumClientMod;
+import net.caffeinemc.mods.sodium.client.render.SodiumWorldRenderer;
+import net.caffeinemc.mods.sodium.client.util.MathUtil;
+import net.caffeinemc.mods.sodium.client.util.NativeBuffer;
 import net.minecraft.block.Block;
 import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.state.IBlockState;
@@ -98,7 +104,8 @@ public class GuiOverlayDebug extends Gui {
 				this.mc.getRenderViewEntity().getEntityBoundingBox().minY, this.mc.getRenderViewEntity().posZ);
 
 		if (this.isReducedDebug()) {
-			return Lists.newArrayList(
+
+			List<String> list = Lists.newArrayList(
 					"Minecraft 1.8.9 (" + this.mc.getVersion() + "/" + ClientBrandRetriever.getClientModName() + ")",
 					this.mc.debug, this.mc.renderGlobal.getDebugInfoRenders(),
 					this.mc.renderGlobal.getDebugInfoEntities(),
@@ -107,6 +114,9 @@ public class GuiOverlayDebug extends Gui {
 					this.mc.theWorld.getProviderName(), "",
 					String.format("Chunk-relative: %d %d %d", Integer.valueOf(blockpos.getX() & 15),
 							Integer.valueOf(blockpos.getY() & 15), Integer.valueOf(blockpos.getZ() & 15)));
+
+			addCustomDebugLeft(list);
+			return list;
 		} else {
 			Entity entity = this.mc.getRenderViewEntity();
 			EnumFacing enumfacing = entity.getHorizontalFacing();
@@ -183,7 +193,47 @@ public class GuiOverlayDebug extends Gui {
 						Integer.valueOf(blockpos1.getY()), Integer.valueOf(blockpos1.getZ())));
 			}
 
+			addCustomDebugLeft(list);
 			return list;
+		}
+	}
+
+	private void addCustomDebugLeft(List<String> list) {
+
+		list.add("[Culling] Last pass: " + RadiumEntityCulling.INSTANCE.cullTask.lastTime + "ms");
+		list.add("[Culling] Rendered Block Entities: " + RadiumEntityCulling.INSTANCE.renderedBlockEntities
+				+ " Skipped: " + RadiumEntityCulling.INSTANCE.skippedBlockEntities);
+		list.add("[Culling] Rendered Entities: " + RadiumEntityCulling.INSTANCE.renderedEntities + " Skipped: "
+				+ RadiumEntityCulling.INSTANCE.skippedEntities);
+
+		RadiumEntityCulling.INSTANCE.renderedBlockEntities = 0;
+		RadiumEntityCulling.INSTANCE.skippedBlockEntities = 0;
+		RadiumEntityCulling.INSTANCE.renderedEntities = 0;
+		RadiumEntityCulling.INSTANCE.skippedEntities = 0;
+	}
+
+	private void addCustomDebugRight(List<String> list) {
+
+		list.add("");
+		list.add("%sRadium Renderer (%s)".formatted(getVersionColor(), SodiumClientMod.getVersion()));
+
+        var renderer = SodiumWorldRenderer.instanceNullable();
+
+        if (renderer != null) {
+        	list.addAll(renderer.getDebugStrings());
+        }
+        
+		if (ViaSoar.getManager() != null) {
+
+			final ProtocolVersion version = ViaSoar.getManager().getTargetVersion();
+
+			list.add("");
+
+			if (!mc.isIntegratedServerRunning()) {
+				list.add("Protocol: " + version.getName());
+			} else {
+				list.add("Protocol: 1.8.x");
+			}
 		}
 	}
 
@@ -235,22 +285,6 @@ public class GuiOverlayDebug extends Gui {
 
 			addCustomDebugRight(list);
 			return list;
-		}
-	}
-	
-	private void addCustomDebugRight(List<String> list) {
-		
-		if(ViaSoar.getManager() != null) {
-			
-	        final ProtocolVersion version = ViaSoar.getManager().getTargetVersion();
-	        
-			list.add("");
-			
-			if(!mc.isIntegratedServerRunning()) {
-				list.add("Protocol: " + version.getName());
-			} else {
-				list.add("Protocol: 1.8.x");
-			}
 		}
 	}
 
@@ -318,4 +352,27 @@ public class GuiOverlayDebug extends Gui {
 	private static long bytesToMb(long bytes) {
 		return bytes / 1024L / 1024L;
 	}
+	
+    private static EnumChatFormatting getVersionColor() {
+        String version = SodiumClientMod.getVersion();
+        EnumChatFormatting color;
+
+        if (version.contains("-local")) {
+            color = EnumChatFormatting.RED;
+        } else if (version.contains("-snapshot")) {
+            color = EnumChatFormatting.LIGHT_PURPLE;
+        } else {
+            color = EnumChatFormatting.GREEN;
+        }
+
+        return color;
+    }
+
+    private static String getNativeMemoryString() {
+        return "Off-Heap: +" + MathUtil.toMib(getNativeMemoryUsage()) + "MB";
+    }
+
+    private static long getNativeMemoryUsage() {
+        return ManagementFactory.getMemoryMXBean().getNonHeapMemoryUsage().getUsed() + NativeBuffer.getTotalAllocated();
+    }
 }

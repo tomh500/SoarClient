@@ -61,4 +61,8 @@ public class BreakingFour extends BakedQuad {
 		this.vertexData[i + 4] = Float.floatToRawIntBits(this.texture.getInterpolatedU(f3));
 		this.vertexData[i + 4 + 1] = Float.floatToRawIntBits(this.texture.getInterpolatedV(f4));
 	}
+
+	public TextureAtlasSprite getTexture() {
+		return texture;
+	}
 }

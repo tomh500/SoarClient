@@ -1,9 +1,17 @@
 package net.minecraft.client.renderer.entity;
 
-import com.google.common.collect.Lists;
 import java.nio.FloatBuffer;
 import java.util.List;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.lwjgl.opengl.GL11;
+
+import com.google.common.collect.Lists;
+
+import dev.vexor.radium.extra.client.SodiumExtraClientMod;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.entity.AbstractClientPlayer;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.model.ModelBase;
@@ -16,15 +24,13 @@ import net.minecraft.client.renderer.entity.layers.LayerRenderer;
 import net.minecraft.client.renderer.texture.DynamicTexture;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.item.EntityArmorStand;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EnumPlayerModelParts;
 import net.minecraft.scoreboard.ScorePlayerTeam;
 import net.minecraft.scoreboard.Team;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.MathHelper;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-import org.lwjgl.opengl.GL11;
 
 public abstract class RendererLivingEntity<T extends EntityLivingBase> extends Render<T> {
 	private static final Logger logger = LogManager.getLogger();
@@ -78,6 +84,16 @@ public abstract class RendererLivingEntity<T extends EntityLivingBase> extends R
 	 * Renders the desired {@code T} type Entity.
 	 */
 	public void doRender(T entity, double x, double y, double z, float entityYaw, float partialTicks) {
+
+		if (entity instanceof EntityArmorStand && !SodiumExtraClientMod.options().renderSettings.armorStand) {
+
+			if (((EntityArmorStand) entity).hasMarker()) {
+				this.renderLivingLabel(entity, entity.getCustomNameTag(), x, y, z, 64);
+			}
+
+			return;
+		}
+
 		GlStateManager.pushMatrix();
 		GlStateManager.disableCull();
 		this.mainModel.swingProgress = this.getSwingProgress(entity, partialTicks);
@@ -489,6 +505,10 @@ public abstract class RendererLivingEntity<T extends EntityLivingBase> extends R
 
 	protected boolean canRenderName(T entity) {
 		EntityPlayerSP entityplayersp = Minecraft.getMinecraft().thePlayer;
+
+		if (entity instanceof AbstractClientPlayer && !SodiumExtraClientMod.options().renderSettings.playerNameTag) {
+			return false;
+		}
 
 		if (entity instanceof EntityPlayer && entity != entityplayersp) {
 			Team team = entity.getTeam();

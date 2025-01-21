@@ -2,6 +2,9 @@ package net.minecraft.client.renderer.texture;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+
+import dev.vexor.radium.extra.client.SodiumExtraClientMod;
+
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.Iterator;
@@ -9,6 +12,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.concurrent.Callable;
+import java.util.function.Supplier;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.StitcherException;
 import net.minecraft.client.resources.IResource;
@@ -34,6 +39,44 @@ public class TextureMap extends AbstractTexture implements ITickableTextureObjec
 	private final IIconCreator iconCreator;
 	private int mipmapLevels;
 	private final TextureAtlasSprite missingImage;
+
+	private final Map<Supplier<Boolean>, List<ResourceLocation>> animatedSprites = Map.of(
+			() -> SodiumExtraClientMod.options().animationSettings.water,
+			List.of(new ResourceLocation("minecraft", "block/water_still"),
+					new ResourceLocation("minecraft", "block/water_flow")),
+			() -> SodiumExtraClientMod.options().animationSettings.lava,
+			List.of(new ResourceLocation("minecraft", "block/lava_still"),
+					new ResourceLocation("minecraft", "block/lava_flow")),
+			() -> SodiumExtraClientMod.options().animationSettings.portal,
+			List.of(new ResourceLocation("minecraft", "block/nether_portal")),
+			() -> SodiumExtraClientMod.options().animationSettings.fire,
+			List.of(new ResourceLocation("minecraft", "block/fire_0"),
+					new ResourceLocation("minecraft", "block/fire_1"),
+					new ResourceLocation("minecraft", "block/soul_fire_0"),
+					new ResourceLocation("minecraft", "block/soul_fire_1"),
+					new ResourceLocation("minecraft", "block/campfire_fire"),
+					new ResourceLocation("minecraft", "block/campfire_log_lit"),
+					new ResourceLocation("minecraft", "block/soul_campfire_fire"),
+					new ResourceLocation("minecraft", "block/soul_campfire_log_lit")),
+			() -> SodiumExtraClientMod.options().animationSettings.blockAnimations,
+			List.of(new ResourceLocation("minecraft", "block/magma"),
+					new ResourceLocation("minecraft", "block/lantern"),
+					new ResourceLocation("minecraft", "block/sea_lantern"),
+					new ResourceLocation("minecraft", "block/soul_lantern"),
+					new ResourceLocation("minecraft", "block/kelp"),
+					new ResourceLocation("minecraft", "block/kelp_plant"),
+					new ResourceLocation("minecraft", "block/seagrass"),
+					new ResourceLocation("minecraft", "block/tall_seagrass_top"),
+					new ResourceLocation("minecraft", "block/tall_seagrass_bottom"),
+					new ResourceLocation("minecraft", "block/warped_stem"),
+					new ResourceLocation("minecraft", "block/crimson_stem"),
+					new ResourceLocation("minecraft", "block/blast_furnace_front_on"),
+					new ResourceLocation("minecraft", "block/smoker_front_on"),
+					new ResourceLocation("minecraft", "block/stonecutter_saw"),
+					new ResourceLocation("minecraft", "block/prismarine"),
+					new ResourceLocation("minecraft", "block/respawn_anchor_top"),
+					new ResourceLocation("minecraft", "entity/conduit/wind"),
+					new ResourceLocation("minecraft", "entity/conduit/wind_vertical")));
 
 	public TextureMap(String p_i46099_1_) {
 		this(p_i46099_1_, null);
@@ -247,7 +290,10 @@ public class TextureMap extends AbstractTexture implements ITickableTextureObjec
 		TextureUtil.bindTexture(this.getGlTextureId());
 
 		for (TextureAtlasSprite textureatlassprite : this.listAnimatedSprites) {
-			textureatlassprite.updateAnimation();
+			if (SodiumExtraClientMod.options().animationSettings.animation
+					&& this.shouldAnimate(new ResourceLocation(textureatlassprite.getIconName()))) {
+				textureatlassprite.updateAnimation();
+			}
 		}
 	}
 
@@ -276,5 +322,17 @@ public class TextureMap extends AbstractTexture implements ITickableTextureObjec
 
 	public TextureAtlasSprite getMissingSprite() {
 		return this.missingImage;
+	}
+
+	private boolean shouldAnimate(ResourceLocation identifier) {
+		if (identifier != null) {
+			for (Map.Entry<Supplier<Boolean>, List<ResourceLocation>> supplierListEntry : this.animatedSprites
+					.entrySet()) {
+				if (supplierListEntry.getValue().contains(identifier)) {
+					return supplierListEntry.getKey().get();
+				}
+			}
+		}
+		return true;
 	}
 }

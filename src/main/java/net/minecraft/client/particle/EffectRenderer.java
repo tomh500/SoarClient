@@ -1,11 +1,14 @@
 package net.minecraft.client.particle;
 
-import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
 import java.util.concurrent.Callable;
+
+import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
+
+import dev.vexor.radium.extra.client.SodiumExtraClientMod;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
@@ -328,6 +331,12 @@ public class EffectRenderer {
 	}
 
 	public void addBlockDestroyEffects(BlockPos pos, IBlockState state) {
+
+		if (!SodiumExtraClientMod.options().particleSettings.particles
+				|| !SodiumExtraClientMod.options().particleSettings.blockBreak) {
+			return;
+		}
+
 		if (state.getBlock().getMaterial() != Material.air) {
 			state = state.getBlock().getActualState(state, this.worldObj, pos);
 			int i = 4;
@@ -351,6 +360,12 @@ public class EffectRenderer {
 	 * Adds block hit particles for the specified block
 	 */
 	public void addBlockHitEffects(BlockPos pos, EnumFacing side) {
+
+		if (!SodiumExtraClientMod.options().particleSettings.particles
+				|| !SodiumExtraClientMod.options().particleSettings.blockBreaking) {
+			return;
+		}
+
 		IBlockState iblockstate = this.worldObj.getBlockState(pos);
 		Block block = iblockstate.getBlock();
 

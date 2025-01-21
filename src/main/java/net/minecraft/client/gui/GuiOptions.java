@@ -2,6 +2,7 @@ package net.minecraft.client.gui;
 
 import java.io.IOException;
 
+import dev.vexor.radium.options.client.gui.ReeseSodiumVideoOptionsScreen;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.client.settings.GameSettings;
 import net.minecraft.util.ChatComponentText;
@@ -165,7 +166,7 @@ public class GuiOptions extends GuiScreen implements GuiYesNoCallback {
 
 			if (button.id == 101) {
 				this.mc.gameSettings.saveOptions();
-				this.mc.displayGuiScreen(new GuiVideoSettings(this, this.game_settings_1));
+	            this.mc.displayGuiScreen(new ReeseSodiumVideoOptionsScreen(this));
 			}
 
 			if (button.id == 100) {

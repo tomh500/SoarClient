@@ -1,7 +1,14 @@
 package net.minecraft.client.renderer.entity;
 
 import com.google.common.collect.Maps;
+
+import dev.vexor.radium.culling.RadiumEntityCulling;
+import dev.vexor.radium.culling.access.Cullable;
+import dev.vexor.radium.culling.access.EntityRendererInter;
+
 import java.util.Map;
+
+import net.caffeinemc.mods.sodium.client.SodiumClientMod;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockBed;
 import net.minecraft.block.state.IBlockState;
@@ -334,6 +341,21 @@ public class RenderManager {
 
 	public boolean renderEntityWithPosYaw(Entity entityIn, double x, double y, double z, float entityYaw,
 			float partialTicks) {
+		
+        Cullable cullable = (Cullable) entityIn;
+        if (!cullable.isForcedVisible() && cullable.isCulled()) {
+            EntityRendererInter<Entity> entityRenderer = (EntityRendererInter<Entity>) this.getEntityRenderObject(entityIn);
+            if (SodiumClientMod.options().culling.renderNametagsThroughWalls && entityRenderer.shadowShouldShowName(entityIn)) {
+                entityRenderer.shadowRenderNameTag(entityIn, x, y, z);
+            }
+            RadiumEntityCulling.INSTANCE.skippedEntities++;
+            // TOOD: IDK TRUE IS CORRECT
+            return true;
+        }
+        
+        RadiumEntityCulling.INSTANCE.renderedEntities++;
+        cullable.setOutOfCamera(false);
+        
 		return this.doRenderEntity(entityIn, x, y, z, entityYaw, partialTicks, false);
 	}
 

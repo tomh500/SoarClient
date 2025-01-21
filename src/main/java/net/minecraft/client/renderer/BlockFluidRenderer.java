@@ -284,4 +284,12 @@ public class BlockFluidRenderer {
 
 		return 1.0F - f / (float) i;
 	}
+
+	public TextureAtlasSprite[] getAtlasSpritesLava() {
+		return atlasSpritesLava;
+	}
+
+	public TextureAtlasSprite[] getAtlasSpritesWater() {
+		return atlasSpritesWater;
+	}
 }

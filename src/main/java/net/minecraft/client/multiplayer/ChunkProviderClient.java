@@ -10,6 +10,8 @@ import com.google.common.collect.Lists;
 
 import it.unimi.dsi.fastutil.longs.Long2ObjectMap;
 import it.unimi.dsi.fastutil.longs.Long2ObjectOpenHashMap;
+import net.caffeinemc.mods.sodium.client.render.chunk.map.ChunkStatus;
+import net.caffeinemc.mods.sodium.client.render.chunk.map.ChunkTrackerHolder;
 import net.minecraft.entity.EnumCreatureType;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.IProgressUpdate;
@@ -28,18 +30,15 @@ public class ChunkProviderClient implements IChunkProvider {
 	 * doesn't contain the requested coordinates.
 	 */
 	private final Chunk blankChunk;
-    private final Long2ObjectMap<Chunk> loadedChunks = new Long2ObjectOpenHashMap<Chunk>(8192)
-    {
-        private static final long serialVersionUID = 1L;
+	private final Long2ObjectMap<Chunk> loadedChunks = new Long2ObjectOpenHashMap<Chunk>(8192) {
+		private static final long serialVersionUID = 1L;
 
-		protected void rehash(int p_rehash_1_)
-        {
-            if (p_rehash_1_ > this.key.length)
-            {
-                super.rehash(p_rehash_1_);
-            }
-        }
-    };
+		protected void rehash(int p_rehash_1_) {
+			if (p_rehash_1_ > this.key.length) {
+				super.rehash(p_rehash_1_);
+			}
+		}
+	};
 
 	private final List<Chunk> chunkListing = Lists.newArrayList();
 	/** Reference to the World object. */
@@ -66,6 +65,7 @@ public class ChunkProviderClient implements IChunkProvider {
 
 		if (!chunk.isEmpty()) {
 			chunk.onChunkUnload();
+			ChunkTrackerHolder.get((WorldClient) this.worldObj).onChunkStatusRemoved(x, z, ChunkStatus.FLAG_ALL);
 		}
 
 		this.loadedChunks.remove(ChunkCoordIntPair.chunkXZ2Int(x, z));
@@ -83,6 +83,7 @@ public class ChunkProviderClient implements IChunkProvider {
 		this.loadedChunks.put(ChunkCoordIntPair.chunkXZ2Int(chunkX, chunkZ), chunk);
 		this.chunkListing.add(chunk);
 		chunk.setChunkLoaded(true);
+		ChunkTrackerHolder.get((WorldClient) this.worldObj).onChunkStatusAdded(chunkX, chunkZ, ChunkStatus.FLAG_ALL);
 		return chunk;
 	}
 

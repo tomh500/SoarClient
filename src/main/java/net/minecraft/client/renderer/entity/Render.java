@@ -20,7 +20,9 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 import org.lwjgl.opengl.GL11;
 
-public abstract class Render<T extends Entity> {
+import dev.vexor.radium.culling.access.EntityRendererInter;
+
+public abstract class Render<T extends Entity> implements EntityRendererInter<T> {
 	private static final ResourceLocation shadowTextures = new ResourceLocation("textures/misc/shadow.png");
 	protected final RenderManager renderManager;
 	protected float shadowSize;
@@ -356,4 +358,14 @@ public abstract class Render<T extends Entity> {
 	public RenderManager getRenderManager() {
 		return this.renderManager;
 	}
+	
+    @Override
+    public boolean shadowShouldShowName(T entity) {
+        return this.canRenderName(entity);
+    }
+
+    @Override
+    public void shadowRenderNameTag(T entity, double offsetX, double offsetY, double offsetZ) {
+        this.renderName(entity, offsetX, offsetY, offsetZ);
+    }
 }

@@ -1,11 +1,15 @@
 package net.minecraft.client.renderer.texture;
 
-import com.google.common.collect.Lists;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.Iterator;
 import java.util.List;
 import java.util.concurrent.Callable;
+
+import com.google.common.collect.Lists;
+
+import net.caffeinemc.mods.sodium.client.SodiumClientMod;
+import net.caffeinemc.mods.sodium.client.render.texture.SpriteExtension;
 import net.minecraft.client.resources.data.AnimationFrame;
 import net.minecraft.client.resources.data.AnimationMetadataSection;
 import net.minecraft.crash.CrashReport;
@@ -13,7 +17,7 @@ import net.minecraft.crash.CrashReportCategory;
 import net.minecraft.util.ReportedException;
 import net.minecraft.util.ResourceLocation;
 
-public class TextureAtlasSprite {
+public class TextureAtlasSprite implements SpriteExtension {
 	private final String iconName;
 	protected List<int[][]> framesTextureData = Lists.newArrayList();
 	protected int[][] interpolatedFrameData;
@@ -32,6 +36,8 @@ public class TextureAtlasSprite {
 	private static String locationNameClock = "builtin/clock";
 	private static String locationNameCompass = "builtin/compass";
 
+	private boolean active = false;
+	
 	protected TextureAtlasSprite(String spriteName) {
 		this.iconName = spriteName;
 	}
@@ -153,6 +159,11 @@ public class TextureAtlasSprite {
 	}
 
 	public void updateAnimation() {
+		
+		if (!((SpriteExtension) this).sodium$isActive() && SodiumClientMod.options().performance.animateOnlyVisibleTextures) {
+			return;
+		}
+		
 		++this.tickCounter;
 
 		if (this.tickCounter >= this.animationMetadata.getFrameTimeSingle(this.frameCounter)) {
@@ -170,6 +181,8 @@ public class TextureAtlasSprite {
 		} else if (this.animationMetadata.isInterpolate()) {
 			this.updateAnimationInterpolated();
 		}
+		
+        ((SpriteExtension) this).sodium$setActive(true);
 	}
 
 	private void updateAnimationInterpolated() {
@@ -387,4 +400,14 @@ public class TextureAtlasSprite {
 				+ this.height + ", width=" + this.width + ", u0=" + this.minU + ", u1=" + this.maxU + ", v0="
 				+ this.minV + ", v1=" + this.maxV + '}';
 	}
+	
+    @Override
+    public void sodium$setActive(boolean value) {
+        this.active = value;
+    }
+
+    @Override
+    public boolean sodium$isActive() {
+        return this.active;
+    }
 }

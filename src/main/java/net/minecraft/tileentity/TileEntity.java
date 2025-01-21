@@ -1,8 +1,15 @@
 package net.minecraft.tileentity;
 
-import com.google.common.collect.Maps;
 import java.util.Map;
 import java.util.concurrent.Callable;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+import com.google.common.collect.Maps;
+
+import dev.vexor.radium.culling.RadiumEntityCulling;
+import dev.vexor.radium.culling.access.Cullable;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockJukebox;
 import net.minecraft.block.state.IBlockState;
@@ -12,10 +19,8 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.Packet;
 import net.minecraft.util.BlockPos;
 import net.minecraft.world.World;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
-public abstract class TileEntity {
+public abstract class TileEntity implements Cullable {
 	private static final Logger logger = LogManager.getLogger();
 	private static final Map<String, Class<? extends TileEntity>> nameToClassMap = Maps.newHashMap();
 	private static final Map<Class<? extends TileEntity>, String> classToNameMap = Maps.newHashMap();
@@ -29,6 +34,10 @@ public abstract class TileEntity {
 	/** the Block type that this TileEntity is contained within */
 	protected Block blockType;
 
+	private long lasttime = 0;
+	private boolean culled = false;
+	private boolean outOfCamera = false;
+	
 	/**
 	 * Adds a new two-way mapping between the class and its string name in both
 	 * hashmaps.
@@ -244,6 +253,41 @@ public abstract class TileEntity {
 		return false;
 	}
 
+	@Override
+	public void setTimeout() {
+		lasttime = System.currentTimeMillis() + 1000;
+	}
+
+	@Override
+	public boolean isForcedVisible() {
+		return lasttime > System.currentTimeMillis();
+	}
+
+	@Override
+	public void setCulled(boolean value) {
+		this.culled = value;
+		if(!value) {
+			setTimeout();
+		}
+	}
+
+	@Override
+	public boolean isCulled() {
+		if(!RadiumEntityCulling.enabled)return false;
+		return culled;
+	}
+
+    @Override
+    public void setOutOfCamera(boolean value) {
+        this.outOfCamera = value;
+    }
+
+    @Override
+    public boolean isOutOfCamera() {
+        if(!RadiumEntityCulling.enabled)return false;
+        return outOfCamera;
+    }
+    
 	static {
 		addMapping(TileEntityFurnace.class, "Furnace");
 		addMapping(TileEntityChest.class, "Chest");

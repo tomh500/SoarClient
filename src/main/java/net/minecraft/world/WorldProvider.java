@@ -1,5 +1,6 @@
 package net.minecraft.world;
 
+import net.caffeinemc.mods.sodium.client.SodiumClientMod;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.MathHelper;
@@ -196,7 +197,7 @@ public abstract class WorldProvider {
 	 * the y level at which clouds are rendered.
 	 */
 	public float getCloudHeight() {
-		return 128.0F;
+        return SodiumClientMod.options().quality.cloudHeight;
 	}
 
 	public boolean isSkyColored() {

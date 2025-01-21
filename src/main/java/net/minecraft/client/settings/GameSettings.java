@@ -24,6 +24,8 @@ import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import com.google.gson.Gson;
 
+import net.caffeinemc.mods.sodium.client.SodiumClientMod;
+import net.caffeinemc.mods.sodium.client.gui.SodiumGameOptions;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.SoundCategory;
 import net.minecraft.client.gui.GuiNewChat;
@@ -187,13 +189,7 @@ public class GameSettings {
 		this.forceUnicodeFont = false;
 		this.mc = mcIn;
 		this.optionsFile = new File(optionsFileIn, "options.txt");
-
-		if (mcIn.isJava64bit() && Runtime.getRuntime().maxMemory() >= 1000000000L) {
-			GameSettings.Options.RENDER_DISTANCE.setValueMax(32.0F);
-		} else {
-			GameSettings.Options.RENDER_DISTANCE.setValueMax(16.0F);
-		}
-
+        GameSettings.Options.RENDER_DISTANCE.setValueMax(32);
 		this.renderDistanceChunks = mcIn.isJava64bit() ? 12 : 8;
 		this.loadOptions();
 	}
@@ -1011,7 +1007,14 @@ public class GameSettings {
 	 * Return true if the clouds should be rendered
 	 */
 	public int shouldRenderClouds() {
-		return this.renderDistanceChunks >= 4 ? this.clouds : 0;
+		
+        SodiumGameOptions options = SodiumClientMod.options();
+
+        if (this.renderDistanceChunks < 4 || !options.quality.enableClouds) {
+            return 0;
+        }
+
+        return options.quality.cloudQuality.isFancy(this.fancyGraphics) ? 2 : 1;
 	}
 
 	/**

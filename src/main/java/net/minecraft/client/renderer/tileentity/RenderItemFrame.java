@@ -30,6 +30,8 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.storage.MapData;
 import org.lwjgl.opengl.GL11;
 
+import dev.vexor.radium.extra.client.SodiumExtraClientMod;
+
 public class RenderItemFrame extends Render<EntityItemFrame> {
 	private static final ResourceLocation mapBackgroundTextures = new ResourceLocation(
 			"textures/map/map_background.png");
@@ -47,6 +49,11 @@ public class RenderItemFrame extends Render<EntityItemFrame> {
 	 * Renders the desired {@code T} type Entity.
 	 */
 	public void doRender(EntityItemFrame entity, double x, double y, double z, float entityYaw, float partialTicks) {
+		
+        if (!SodiumExtraClientMod.options().renderSettings.itemFrame) {
+        	return;
+        }
+        
 		GlStateManager.pushMatrix();
 		BlockPos blockpos = entity.getHangingPosition();
 		double d0 = (double) blockpos.getX() - entity.posX + x;
@@ -159,6 +166,14 @@ public class RenderItemFrame extends Render<EntityItemFrame> {
 		}
 	}
 
+    @Override
+    protected boolean canRenderName(EntityItemFrame entity) {
+        if (!SodiumExtraClientMod.options().renderSettings.itemFrameNameTag) {
+            return false;
+        }
+        return super.canRenderName(entity);
+    }
+    
 	protected void renderName(EntityItemFrame entity, double x, double y, double z) {
 		if (Minecraft.isGuiEnabled() && entity.getDisplayedItem() != null && entity.getDisplayedItem().hasDisplayName()
 				&& this.renderManager.pointedEntity == entity) {

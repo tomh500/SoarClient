@@ -8,6 +8,8 @@ import java.util.concurrent.Callable;
 import com.soarclient.viasoar.fixes.ViaHelper;
 import com.viaversion.viaversion.api.protocol.version.ProtocolVersion;
 
+import dev.vexor.radium.culling.RadiumEntityCulling;
+import dev.vexor.radium.culling.access.Cullable;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockFence;
 import net.minecraft.block.BlockFenceGate;
@@ -51,7 +53,7 @@ import net.minecraft.world.Explosion;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
 
-public abstract class Entity implements ICommandSender {
+public abstract class Entity implements ICommandSender, Cullable {
 	private static final AxisAlignedBB ZERO_AABB = new AxisAlignedBB(0.0D, 0.0D, 0.0D, 0.0D, 0.0D, 0.0D);
 	private static int nextEntityID;
 	private int entityId;
@@ -257,6 +259,10 @@ public abstract class Entity implements ICommandSender {
 	/** The command result statistics for this Entity. */
 	private final CommandResultStats cmdResultStats;
 
+	private long lasttime = 0;
+	private boolean culled = false;
+	private boolean outOfCamera = false;
+	
 	public int getEntityId() {
 		return this.entityId;
 	}
@@ -2518,4 +2524,39 @@ public abstract class Entity implements ICommandSender {
 
 		EnchantmentHelper.applyArthropodEnchantments(entityLivingBaseIn, entityIn);
 	}
+	
+	@Override
+	public void setTimeout() {
+		lasttime = System.currentTimeMillis() + 1000;
+	}
+
+	@Override
+	public boolean isForcedVisible() {
+		return lasttime > System.currentTimeMillis();
+	}
+
+	@Override
+	public void setCulled(boolean value) {
+		this.culled = value;
+		if(!value) {
+			setTimeout();
+		}
+	}
+
+	@Override
+	public boolean isCulled() {
+		if(!RadiumEntityCulling.enabled)return false;
+		return culled;
+	}
+
+    @Override
+    public void setOutOfCamera(boolean value) {
+        this.outOfCamera = value;
+    }
+
+    @Override
+    public boolean isOutOfCamera() {
+        if(!RadiumEntityCulling.enabled)return false;
+        return outOfCamera;
+    }
 }

@@ -1,6 +1,10 @@
 package net.minecraft.client.renderer.tileentity;
 
 import com.google.common.collect.Maps;
+
+import dev.vexor.radium.culling.RadiumEntityCulling;
+import dev.vexor.radium.culling.access.Cullable;
+
 import java.util.Map;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.renderer.GlStateManager;
@@ -123,6 +127,14 @@ public class TileEntityRendererDispatcher {
 
 	public void renderTileEntityAt(TileEntity tileEntityIn, double x, double y, double z, float partialTicks,
 			int destroyStage) {
+		
+        if (!((Cullable) entity).isForcedVisible() && ((Cullable) entity).isCulled()) {
+            RadiumEntityCulling.INSTANCE.skippedBlockEntities++;
+            return;
+        }
+        
+        RadiumEntityCulling.INSTANCE.renderedBlockEntities++;
+        
 		TileEntitySpecialRenderer<TileEntity> tileentityspecialrenderer = this.getSpecialRenderer(tileEntityIn);
 
 		if (tileentityspecialrenderer != null) {

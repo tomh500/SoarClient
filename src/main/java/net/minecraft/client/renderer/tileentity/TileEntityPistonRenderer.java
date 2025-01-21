@@ -1,5 +1,6 @@
 package net.minecraft.client.renderer.tileentity;
 
+import dev.vexor.radium.extra.client.SodiumExtraClientMod;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockPistonBase;
 import net.minecraft.block.BlockPistonExtension;
@@ -23,6 +24,11 @@ public class TileEntityPistonRenderer extends TileEntitySpecialRenderer<TileEnti
 
 	public void renderTileEntityAt(TileEntityPiston te, double x, double y, double z, float partialTicks,
 			int destroyStage) {
+		
+        if (!SodiumExtraClientMod.options().renderSettings.piston) {
+        	return;
+        }
+        
 		BlockPos blockpos = te.getPos();
 		IBlockState iblockstate = te.getPistonState();
 		Block block = iblockstate.getBlock();

@@ -1,5 +1,6 @@
 package net.minecraft.client.renderer.tileentity;
 
+import dev.vexor.radium.extra.client.SodiumExtraClientMod;
 import net.minecraft.client.model.ModelBook;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.tileentity.TileEntityEnchantmentTable;
@@ -14,6 +15,11 @@ public class TileEntityEnchantmentTableRenderer extends TileEntitySpecialRendere
 
 	public void renderTileEntityAt(TileEntityEnchantmentTable te, double x, double y, double z, float partialTicks,
 			int destroyStage) {
+		
+        if (!SodiumExtraClientMod.options().renderSettings.enchantingTableBook) {
+        	return;
+        }
+        
 		GlStateManager.pushMatrix();
 		GlStateManager.translate((float) x + 0.5F, (float) y + 0.75F, (float) z + 0.5F);
 		float f = (float) te.tickCount + partialTicks;

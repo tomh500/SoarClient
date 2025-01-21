@@ -10,7 +10,7 @@ public class GlStateManager {
 	private static final GlStateManager.ColorMaterialState colorMaterialState = new GlStateManager.ColorMaterialState();
 	private static final GlStateManager.BlendState blendState = new GlStateManager.BlendState();
 	private static final GlStateManager.DepthState depthState = new GlStateManager.DepthState();
-	private static final GlStateManager.FogState fogState = new GlStateManager.FogState();
+	public static final GlStateManager.FogState fogState = new GlStateManager.FogState();
 	private static final GlStateManager.CullState cullState = new GlStateManager.CullState();
 	private static final GlStateManager.PolygonOffsetState polygonOffsetState = new GlStateManager.PolygonOffsetState();
 	private static final GlStateManager.ColorLogicState colorLogicState = new GlStateManager.ColorLogicState();
@@ -581,7 +581,7 @@ public class GlStateManager {
 		}
 	}
 
-	static class FogState {
+	public static class FogState {
 		public GlStateManager.BooleanState fog;
 		public int mode;
 		public float density;

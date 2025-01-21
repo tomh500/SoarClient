@@ -35,6 +35,7 @@ import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
 import org.lwjgl.opengl.GL11;
+import org.lwjgl.opengl.GL32;
 import org.lwjgl.opengl.OpenGLException;
 import org.lwjgl.opengl.PixelFormat;
 import org.lwjgl.util.glu.GLU;
@@ -65,6 +66,11 @@ import com.soarclient.management.mod.settings.impl.KeybindSetting;
 import com.soarclient.skia.context.SkiaContext;
 import com.soarclient.viasoar.fixes.AttackOrder;
 
+import dev.vexor.radium.culling.RadiumEntityCulling;
+import dev.vexor.radium.extra.client.SodiumExtraClientMod;
+import it.unimi.dsi.fastutil.longs.LongArrayFIFOQueue;
+import net.caffeinemc.mods.sodium.client.SodiumClientMod;
+import net.caffeinemc.mods.sodium.client.gui.SodiumGameOptions;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.audio.MusicTicker;
@@ -364,6 +370,8 @@ public class Minecraft implements IThreadListener {
 	/** Profiler currently displayed in the debug screen pie chart */
 	private String debugProfilerName = "root";
 
+	private final LongArrayFIFOQueue fences = new LongArrayFIFOQueue();
+	
 	public Minecraft(GameConfiguration gameConfig) {
 		theMinecraft = this;
 		this.mcDataDir = gameConfig.folderInfo.mcDataDir;
@@ -518,7 +526,6 @@ public class Minecraft implements IThreadListener {
 			}
 		});
 		this.mouseHelper = new MouseHelper();
-		this.checkGLError("Pre startup");
 		GlStateManager.enableTexture2D();
 		GlStateManager.shadeModel(7425);
 		GlStateManager.clearDepth(1.0D);
@@ -530,7 +537,6 @@ public class Minecraft implements IThreadListener {
 		GlStateManager.matrixMode(5889);
 		GlStateManager.loadIdentity();
 		GlStateManager.matrixMode(5888);
-		this.checkGLError("Startup");
 		this.textureMapBlocks = new TextureMap("textures");
 		this.textureMapBlocks.setMipmapLevels(this.gameSettings.mipmapLevels);
 		this.renderEngine.loadTickableTexture(TextureMap.locationBlocksTexture, this.textureMapBlocks);
@@ -552,7 +558,6 @@ public class Minecraft implements IThreadListener {
 		this.guiAchievement = new GuiAchievement(this);
 		GlStateManager.viewport(0, 0, this.displayWidth, this.displayHeight);
 		this.effectRenderer = new EffectRenderer(this.theWorld, this.renderEngine);
-		this.checkGLError("Post startup");
 		this.ingameGUI = new GuiIngame(this);
 		Soar.getInstance().start();
 
@@ -943,23 +948,6 @@ public class Minecraft implements IThreadListener {
 	}
 
 	/**
-	 * Checks for an OpenGL error. If there is one, prints the error ID and error
-	 * string.
-	 */
-	private void checkGLError(String message) {
-		if (this.enableGLErrorChecking) {
-			int i = GL11.glGetError();
-
-			if (i != 0) {
-				String s = GLU.gluErrorString(i);
-				logger.error("########## GL ERROR ##########");
-				logger.error("@ " + message);
-				logger.error(i + ": " + s);
-			}
-		}
-	}
-
-	/**
 	 * Shuts down the minecraft applet by stopping the resource downloads, and
 	 * clearing up GL stuff; called when the application (or web page) is exited.
 	 */
@@ -1025,7 +1013,6 @@ public class Minecraft implements IThreadListener {
 
 		this.mcProfiler.endStartSection("preRenderErrors");
 		long i1 = System.nanoTime() - l;
-		this.checkGLError("Pre render");
 		this.mcProfiler.endStartSection("sound");
 		this.mcSoundHandler.setListener(this.thePlayer, this.timer.renderPartialTicks);
 		this.mcProfiler.endSection();
@@ -1077,7 +1064,6 @@ public class Minecraft implements IThreadListener {
 		this.mcProfiler.endStartSection("submit");
 		this.mcProfiler.endSection();
 		this.mcProfiler.endSection();
-		this.checkGLError("Post render");
 		++this.fpsCounter;
 		this.isGamePaused = this.isSingleplayer() && this.currentScreen != null && this.currentScreen.doesGuiPauseGame()
 				&& !this.theIntegratedServer.getPublic();
@@ -1568,6 +1554,23 @@ public class Minecraft implements IThreadListener {
 	 * Runs the current tick.
 	 */
 	public void runTick() throws IOException {
+		
+        if (SodiumClientMod.options().advanced.cpuRenderAhead) {
+            this.mcProfiler.startSection("wait_for_gpu");
+
+            while (this.fences.size() > SodiumClientMod.options().advanced.cpuRenderAheadLimit) {
+                var fence = this.fences.dequeue();
+                GL32.glClientWaitSync(fence, GL32.GL_SYNC_FLUSH_COMMANDS_BIT, Long.MAX_VALUE);
+                GL32.glDeleteSync(fence);
+            }
+
+            mcProfiler.endSection();
+        }
+        
+        SodiumExtraClientMod.onTick(this);
+        
+        RadiumEntityCulling.INSTANCE.clientTick();
+        
 		if (this.rightClickDelayTimer > 0) {
 			--this.rightClickDelayTimer;
 		}
@@ -2011,6 +2014,16 @@ public class Minecraft implements IThreadListener {
 		this.mcProfiler.endSection();
 		this.systemTime = getSystemTime();
 		EventBus.getInstance().call(new ClientTickEvent(), ClientTickEvent.ID);
+		
+        if (SodiumClientMod.options().advanced.cpuRenderAhead) {
+            var fence = GL32.glFenceSync(GL32.GL_SYNC_GPU_COMMANDS_COMPLETE, 0);
+
+            if (fence == 0L) {
+                throw new RuntimeException("Failed to create fence object");
+            }
+
+            this.fences.enqueue(fence);
+        }
 	}
 
 	/**
@@ -2191,9 +2204,9 @@ public class Minecraft implements IThreadListener {
 	/**
 	 * Returns if ambient occlusion is enabled
 	 */
-	public static boolean isAmbientOcclusionEnabled() {
-		return theMinecraft != null && theMinecraft.gameSettings.ambientOcclusion != 0;
-	}
+    public static boolean isAmbientOcclusionEnabled() {
+        return SodiumClientMod.options().quality.smoothLighting != SodiumGameOptions.LightingQuality.OFF;
+    }
 
 	/**
 	 * Called when user clicked he's mouse middle button (pick block)

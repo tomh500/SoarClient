@@ -1,6 +1,8 @@
 package net.minecraft.block;
 
 import java.util.Random;
+
+import net.caffeinemc.mods.sodium.client.SodiumClientMod;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.PropertyBool;
 import net.minecraft.block.state.IBlockState;
@@ -238,7 +240,7 @@ public abstract class BlockLeaves extends BlockLeavesBase {
 	 */
 	public void setGraphicsLevel(boolean fancy) {
 		this.isTransparent = fancy;
-		this.fancyGraphics = fancy;
+		this.fancyGraphics = SodiumClientMod.options().quality.leavesQuality.isFancy(fancy);
 		this.iconIndex = fancy ? 0 : 1;
 	}
 

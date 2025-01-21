@@ -19,10 +19,10 @@ public class ActiveRenderInfo {
 	private static final IntBuffer VIEWPORT = GLAllocation.createDirectIntBuffer(16);
 
 	/** The current GL modelview matrix */
-	private static final FloatBuffer MODELVIEW = GLAllocation.createDirectFloatBuffer(16);
+	public static final FloatBuffer MODELVIEW = GLAllocation.createDirectFloatBuffer(16);
 
 	/** The current GL projection matrix */
-	private static final FloatBuffer PROJECTION = GLAllocation.createDirectFloatBuffer(16);
+	public static final FloatBuffer PROJECTION = GLAllocation.createDirectFloatBuffer(16);
 
 	/** The computed view object coordinates */
 	private static final FloatBuffer OBJECTCOORDS = GLAllocation.createDirectFloatBuffer(3);

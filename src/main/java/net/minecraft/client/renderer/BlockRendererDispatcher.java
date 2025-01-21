@@ -144,4 +144,8 @@ public class BlockRendererDispatcher implements IResourceManagerReloadListener {
 	public void onResourceManagerReload(IResourceManager resourceManager) {
 		this.fluidRenderer.initAtlasSprites();
 	}
+
+	public BlockFluidRenderer getFluidRenderer() {
+		return fluidRenderer;
+	}
 }

@@ -1,5 +1,6 @@
 package net.minecraft.client.multiplayer;
 
+import java.util.Objects;
 import java.util.Random;
 import java.util.Set;
 import java.util.concurrent.Callable;
@@ -8,6 +9,11 @@ import com.google.common.collect.Sets;
 import com.soarclient.event.EventBus;
 import com.soarclient.event.impl.ServerLeaveEventListener.LeaveServerEvent;
 
+import dev.vexor.radium.culling.RadiumEntityCulling;
+import net.caffeinemc.mods.sodium.client.render.chunk.map.ChunkStatus;
+import net.caffeinemc.mods.sodium.client.render.chunk.map.ChunkTracker;
+import net.caffeinemc.mods.sodium.client.render.chunk.map.ChunkTrackerHolder;
+import net.caffeinemc.mods.sodium.client.world.BiomeSeedProvider;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
@@ -39,7 +45,7 @@ import net.minecraft.world.storage.SaveDataMemoryStorage;
 import net.minecraft.world.storage.SaveHandlerMP;
 import net.minecraft.world.storage.WorldInfo;
 
-public class WorldClient extends World {
+public class WorldClient extends World implements BiomeSeedProvider, ChunkTrackerHolder {
 	/** The packets that need to be sent to the server. */
 	private final NetHandlerPlayClient sendQueue;
 
@@ -50,6 +56,10 @@ public class WorldClient extends World {
 	private final Minecraft mc = Minecraft.getMinecraft();
 	private final Set<ChunkCoordIntPair> previousActiveChunkSet = Sets.newHashSet();
 
+    private long biomeZoomSeed;
+    
+    private final ChunkTracker chunkTracker = new ChunkTracker();
+    
 	public WorldClient(NetHandlerPlayClient netHandler, WorldSettings settings, int dimension,
 			EnumDifficulty difficulty, Profiler profilerIn) {
 		super(new SaveHandlerMP(), new WorldInfo(settings, "MpServer"),
@@ -62,6 +72,7 @@ public class WorldClient extends World {
 		this.mapStorage = new SaveDataMemoryStorage();
 		this.calculateInitialSkylight();
 		this.calculateInitialWeather();
+        this.biomeZoomSeed = settings.getSeed();
 	}
 
 	/**
@@ -69,6 +80,7 @@ public class WorldClient extends World {
 	 */
 	public void tick() {
 		super.tick();
+		RadiumEntityCulling.INSTANCE.worldTick();
 		this.setTotalWorldTime(this.getTotalWorldTime() + 1L);
 
 		if (this.getGameRules().getBoolean("doDaylightCycle")) {
@@ -146,6 +158,13 @@ public class WorldClient extends World {
 	}
 
 	public void doPreChunk(int chuncX, int chuncZ, boolean loadChunk) {
+		
+        if (loadChunk) {
+            this.chunkTracker.onChunkStatusAdded(chuncX, chuncZ, ChunkStatus.FLAG_ALL);
+        } else {
+            this.chunkTracker.onChunkStatusRemoved(chuncX, chuncZ, ChunkStatus.FLAG_ALL);
+        }
+        
 		if (loadChunk) {
 			this.clientChunkProvider.loadChunk(chuncX, chuncZ);
 		} else {
@@ -422,4 +441,14 @@ public class WorldClient extends World {
 
 		super.setWorldTime(time);
 	}
+	
+    @Override
+    public long sodium$getBiomeZoomSeed() {
+        return this.biomeZoomSeed;
+    }
+    
+    @Override
+    public ChunkTracker sodium$getTracker() {
+        return Objects.requireNonNull(this.chunkTracker);
+    }
 }

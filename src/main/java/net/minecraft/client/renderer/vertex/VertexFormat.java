@@ -1,11 +1,15 @@
 package net.minecraft.client.renderer.vertex;
 
 import com.google.common.collect.Lists;
+
+import net.caffeinemc.mods.sodium.api.vertex.format.VertexFormatExtensions;
+import net.caffeinemc.mods.sodium.api.vertex.format.VertexFormatRegistry;
+
 import java.util.List;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-public class VertexFormat {
+public class VertexFormat implements VertexFormatExtensions {
 	private static final Logger LOGGER = LogManager.getLogger();
 	private final List<VertexFormatElement> elements;
 	private final List<Integer> offsets;
@@ -16,6 +20,8 @@ public class VertexFormat {
 	private final List<Integer> uvOffsetsById;
 	private int normalElementOffset;
 
+	private int sodium$globalId;
+
 	public VertexFormat(VertexFormat vertexFormatIn) {
 		this();
 
@@ -24,6 +30,7 @@ public class VertexFormat {
 		}
 
 		this.nextOffset = vertexFormatIn.getNextOffset();
+		this.sodium$globalId = VertexFormatRegistry.instance().allocateGlobalId(this);
 	}
 
 	public VertexFormat() {
@@ -166,4 +173,9 @@ public class VertexFormat {
 		i = 31 * i + this.nextOffset;
 		return i;
 	}
+	
+	@Override
+    public int sodium$getGlobalId() {
+        return this.sodium$globalId;
+    }
 }

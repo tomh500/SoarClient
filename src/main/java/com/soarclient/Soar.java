@@ -16,6 +16,7 @@ import com.soarclient.utils.file.FileLocation;
 import com.soarclient.utils.language.I18n;
 import com.soarclient.utils.language.Language;
 
+import net.caffeinemc.mods.sodium.client.SodiumClientMod;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiScreen;
 
@@ -41,6 +42,8 @@ public class Soar {
 
 	public void start() {
 
+		SodiumClientMod.onInitialization();
+		
 		I18n.setLanguage(Language.ENGLISH);
 		FileLocation.init();
 		launchTime = System.currentTimeMillis();
