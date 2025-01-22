@@ -7,9 +7,9 @@ import java.util.List;
 import java.util.concurrent.Callable;
 
 import com.google.common.collect.Lists;
+import com.soarclient.libraries.soarium.Soarium;
+import com.soarclient.libraries.soarium.render.texture.SpriteExtension;
 
-import net.caffeinemc.mods.sodium.client.SodiumClientMod;
-import net.caffeinemc.mods.sodium.client.render.texture.SpriteExtension;
 import net.minecraft.client.resources.data.AnimationFrame;
 import net.minecraft.client.resources.data.AnimationMetadataSection;
 import net.minecraft.crash.CrashReport;
@@ -160,7 +160,7 @@ public class TextureAtlasSprite implements SpriteExtension {
 
 	public void updateAnimation() {
 		
-		if (!((SpriteExtension) this).sodium$isActive() && SodiumClientMod.options().performance.animateOnlyVisibleTextures) {
+		if (!((SpriteExtension) this).sodium$isActive() && Soarium.getConfig().performance.animateOnlyVisibleTextures) {
 			return;
 		}
 		

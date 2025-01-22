@@ -1,10 +1,5 @@
 package net.minecraft.client.renderer.texture;
 
-import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
-
-import dev.vexor.radium.extra.client.SodiumExtraClientMod;
-
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.Iterator;
@@ -13,6 +8,13 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.concurrent.Callable;
 import java.util.function.Supplier;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
+import com.soarclient.libraries.soarium.Soarium;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.StitcherException;
@@ -25,8 +27,6 @@ import net.minecraft.crash.CrashReportCategory;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.ReportedException;
 import net.minecraft.util.ResourceLocation;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 public class TextureMap extends AbstractTexture implements ITickableTextureObject {
 	private static final Logger logger = LogManager.getLogger();
@@ -41,15 +41,15 @@ public class TextureMap extends AbstractTexture implements ITickableTextureObjec
 	private final TextureAtlasSprite missingImage;
 
 	private final Map<Supplier<Boolean>, List<ResourceLocation>> animatedSprites = Map.of(
-			() -> SodiumExtraClientMod.options().animationSettings.water,
+			() -> Soarium.getConfig().animationSettings.water,
 			List.of(new ResourceLocation("minecraft", "block/water_still"),
 					new ResourceLocation("minecraft", "block/water_flow")),
-			() -> SodiumExtraClientMod.options().animationSettings.lava,
+			() -> Soarium.getConfig().animationSettings.lava,
 			List.of(new ResourceLocation("minecraft", "block/lava_still"),
 					new ResourceLocation("minecraft", "block/lava_flow")),
-			() -> SodiumExtraClientMod.options().animationSettings.portal,
+			() -> Soarium.getConfig().animationSettings.portal,
 			List.of(new ResourceLocation("minecraft", "block/nether_portal")),
-			() -> SodiumExtraClientMod.options().animationSettings.fire,
+			() -> Soarium.getConfig().animationSettings.fire,
 			List.of(new ResourceLocation("minecraft", "block/fire_0"),
 					new ResourceLocation("minecraft", "block/fire_1"),
 					new ResourceLocation("minecraft", "block/soul_fire_0"),
@@ -58,7 +58,7 @@ public class TextureMap extends AbstractTexture implements ITickableTextureObjec
 					new ResourceLocation("minecraft", "block/campfire_log_lit"),
 					new ResourceLocation("minecraft", "block/soul_campfire_fire"),
 					new ResourceLocation("minecraft", "block/soul_campfire_log_lit")),
-			() -> SodiumExtraClientMod.options().animationSettings.blockAnimations,
+			() -> Soarium.getConfig().animationSettings.blockAnimations,
 			List.of(new ResourceLocation("minecraft", "block/magma"),
 					new ResourceLocation("minecraft", "block/lantern"),
 					new ResourceLocation("minecraft", "block/sea_lantern"),
@@ -290,7 +290,7 @@ public class TextureMap extends AbstractTexture implements ITickableTextureObjec
 		TextureUtil.bindTexture(this.getGlTextureId());
 
 		for (TextureAtlasSprite textureatlassprite : this.listAnimatedSprites) {
-			if (SodiumExtraClientMod.options().animationSettings.animation
+			if (Soarium.getConfig().animationSettings.animation
 					&& this.shouldAnimate(new ResourceLocation(textureatlassprite.getIconName()))) {
 				textureatlassprite.updateAnimation();
 			}

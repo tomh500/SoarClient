@@ -8,7 +8,6 @@ import java.util.concurrent.Callable;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.lwjgl.Sys;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.GL11;
@@ -23,6 +22,7 @@ import com.soarclient.event.impl.HurtCameraEventListener.HurtCameraEvent;
 import com.soarclient.event.impl.PlayerHeadRotationEventListener.PlayerHeadRotationEvent;
 import com.soarclient.event.impl.Render3DEventListener.Render3DEvent;
 import com.soarclient.event.impl.ShaderEventListener.ShaderEvent;
+import com.soarclient.libraries.soarium.Soarium;
 import com.soarclient.management.mod.impl.misc.WeatherChangerMod;
 import com.soarclient.management.mod.impl.player.LeftHandMod;
 import com.soarclient.management.mod.impl.player.ZoomMod;
@@ -31,10 +31,6 @@ import com.soarclient.management.mod.impl.render.motionblur.MonkeyBlur;
 import com.soarclient.viasoar.fixes.ViaHelper;
 import com.viaversion.viaversion.api.protocol.version.ProtocolVersion;
 
-import dev.vexor.radium.extra.client.SodiumExtraClientMod;
-import net.caffeinemc.mods.sodium.client.SodiumClientMod;
-import net.caffeinemc.mods.sodium.client.gui.console.ConsoleHooks;
-import net.caffeinemc.mods.sodium.client.gui.console.FPSCounter;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockBed;
 import net.minecraft.block.material.Material;
@@ -236,7 +232,7 @@ public class EntityRenderer implements IResourceManagerReloadListener {
 	}
 
 	public boolean isShaderActive() {
-		return OpenGlHelper.shadersSupported && this.theShaderGroup != null && !SodiumExtraClientMod.options().extraSettings.preventShaders;
+		return OpenGlHelper.shadersSupported && this.theShaderGroup != null && !Soarium.getConfig().extraSettings.preventShaders;
 	}
 
 	public void stopUseShader() {
@@ -1130,11 +1126,6 @@ public class EntityRenderer implements IResourceManagerReloadListener {
 				if (!this.mc.gameSettings.hideGUI || this.mc.currentScreen != null) {
 					GlStateManager.alphaFunc(516, 0.1F);
 					this.mc.ingameGUI.renderGameOverlay(partialTicks);
-			        if (!this.mc.gameSettings.showDebugInfo) {
-			        	mc.mcProfiler.startSection("radium_fps_overlay");
-			            FPSCounter.INSTANCE.render();
-			            mc.mcProfiler.endSection();
-			        }
 				}
 
 				this.mc.mcProfiler.endSection();
@@ -1152,10 +1143,7 @@ public class EntityRenderer implements IResourceManagerReloadListener {
 				GlStateManager.clear(256);
 
 				try {
-					this.mc.currentScreen.drawScreen(k1, l1, partialTicks);
-					mc.mcProfiler.startSection("sodium_console_overlay");
-			        ConsoleHooks.render(Sys.getTime());
-			        mc.mcProfiler.endSection();
+					this.mc.currentScreen.drawScreen(k1, l1, partialTicks);	
 				} catch (Throwable throwable) {
 					CrashReport crashreport = CrashReport.makeCrashReport(throwable, "Rendering screen");
 					CrashReportCategory crashreportcategory = crashreport.makeCategory("Screen render details");
@@ -1440,7 +1428,7 @@ public class EntityRenderer implements IResourceManagerReloadListener {
 	}
 
 	private void renderCloudsCheck(RenderGlobal renderGlobalIn, float partialTicks, int pass) {
-		if ((SodiumClientMod.options().quality.enableClouds ? 1 : 0) != 0) {
+		if ((Soarium.getConfig().quality.enableClouds ? 1 : 0) != 0) {
 			this.mc.mcProfiler.endStartSection("clouds");
 			GlStateManager.matrixMode(5889);
 			GlStateManager.loadIdentity();
@@ -1465,7 +1453,7 @@ public class EntityRenderer implements IResourceManagerReloadListener {
 		
 		WeatherChangerMod mod = WeatherChangerMod.getInstance();
 		
-        if (!(SodiumExtraClientMod.options().particleSettings.particles && SodiumExtraClientMod.options().particleSettings.rainSplash)) {
+        if (!(Soarium.getConfig().particleSettings.particles && Soarium.getConfig().particleSettings.rainSplash)) {
         	return;
         }
         
@@ -1549,7 +1537,7 @@ public class EntityRenderer implements IResourceManagerReloadListener {
 	 */
 	protected void renderRainSnow(float partialTicks) {
 		
-        if (!(SodiumExtraClientMod.options().detailSettings.rainSnow)) {
+        if (!(Soarium.getConfig().detailSettings.rainSnow)) {
         	return;
         }
         
@@ -1575,7 +1563,7 @@ public class EntityRenderer implements IResourceManagerReloadListener {
 			int l = MathHelper.floor_double(d1);
 			int i1 = 5;
 
-			if (SodiumClientMod.options().quality.weatherQuality.isFancy(mc.gameSettings.fancyGraphics)) {
+			if (Soarium.getConfig().quality.weatherQuality.isFancy(mc.gameSettings.fancyGraphics)) {
 				i1 = 10;
 			}
 

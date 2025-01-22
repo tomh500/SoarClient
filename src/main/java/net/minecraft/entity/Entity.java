@@ -5,11 +5,11 @@ import java.util.Random;
 import java.util.UUID;
 import java.util.concurrent.Callable;
 
+import com.soarclient.libraries.soarium.culling.SoariumEntityCulling;
+import com.soarclient.libraries.soarium.culling.access.Cullable;
 import com.soarclient.viasoar.fixes.ViaHelper;
 import com.viaversion.viaversion.api.protocol.version.ProtocolVersion;
 
-import dev.vexor.radium.culling.RadiumEntityCulling;
-import dev.vexor.radium.culling.access.Cullable;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockFence;
 import net.minecraft.block.BlockFenceGate;
@@ -2545,7 +2545,7 @@ public abstract class Entity implements ICommandSender, Cullable {
 
 	@Override
 	public boolean isCulled() {
-		if(!RadiumEntityCulling.enabled)return false;
+		if(!SoariumEntityCulling.enabled)return false;
 		return culled;
 	}
 
@@ -2556,7 +2556,7 @@ public abstract class Entity implements ICommandSender, Cullable {
 
     @Override
     public boolean isOutOfCamera() {
-        if(!RadiumEntityCulling.enabled)return false;
+        if(!SoariumEntityCulling.enabled)return false;
         return outOfCamera;
     }
 }

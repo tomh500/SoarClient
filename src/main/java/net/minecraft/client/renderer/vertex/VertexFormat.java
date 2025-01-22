@@ -1,13 +1,12 @@
 package net.minecraft.client.renderer.vertex;
 
-import com.google.common.collect.Lists;
-
-import net.caffeinemc.mods.sodium.api.vertex.format.VertexFormatExtensions;
-import net.caffeinemc.mods.sodium.api.vertex.format.VertexFormatRegistry;
-
 import java.util.List;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
+import com.google.common.collect.Lists;
+import com.soarclient.libraries.soarium.api.vertex.format.VertexFormatExtensions;
 
 public class VertexFormat implements VertexFormatExtensions {
 	private static final Logger LOGGER = LogManager.getLogger();
@@ -30,7 +29,6 @@ public class VertexFormat implements VertexFormatExtensions {
 		}
 
 		this.nextOffset = vertexFormatIn.getNextOffset();
-		this.sodium$globalId = VertexFormatRegistry.instance().allocateGlobalId(this);
 	}
 
 	public VertexFormat() {

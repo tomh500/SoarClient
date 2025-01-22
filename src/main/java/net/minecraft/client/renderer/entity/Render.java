@@ -20,7 +20,7 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 import org.lwjgl.opengl.GL11;
 
-import dev.vexor.radium.culling.access.EntityRendererInter;
+import com.soarclient.libraries.soarium.culling.access.EntityRendererInter;
 
 public abstract class Render<T extends Entity> implements EntityRendererInter<T> {
 	private static final ResourceLocation shadowTextures = new ResourceLocation("textures/misc/shadow.png");

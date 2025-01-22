@@ -23,9 +23,9 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import com.google.gson.Gson;
+import com.soarclient.libraries.soarium.Soarium;
+import com.soarclient.libraries.soarium.config.SoariumConfig;
 
-import net.caffeinemc.mods.sodium.client.SodiumClientMod;
-import net.caffeinemc.mods.sodium.client.gui.SodiumGameOptions;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.SoundCategory;
 import net.minecraft.client.gui.GuiNewChat;
@@ -1008,7 +1008,7 @@ public class GameSettings {
 	 */
 	public int shouldRenderClouds() {
 		
-        SodiumGameOptions options = SodiumClientMod.options();
+        SoariumConfig options = Soarium.getConfig();
 
         if (this.renderDistanceChunks < 4 || !options.quality.enableClouds) {
             return 0;

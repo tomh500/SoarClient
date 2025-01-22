@@ -1,6 +1,7 @@
 package net.minecraft.client.renderer.tileentity;
 
-import dev.vexor.radium.extra.client.SodiumExtraClientMod;
+import com.soarclient.libraries.soarium.Soarium;
+
 import net.minecraft.client.model.ModelBook;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.tileentity.TileEntityEnchantmentTable;
@@ -16,7 +17,7 @@ public class TileEntityEnchantmentTableRenderer extends TileEntitySpecialRendere
 	public void renderTileEntityAt(TileEntityEnchantmentTable te, double x, double y, double z, float partialTicks,
 			int destroyStage) {
 		
-        if (!SodiumExtraClientMod.options().renderSettings.enchantingTableBook) {
+        if (!Soarium.getConfig().renderSettings.enchantingTableBook) {
         	return;
         }
         

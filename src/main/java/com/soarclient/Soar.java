@@ -5,6 +5,7 @@ import com.soarclient.event.EventBus;
 import com.soarclient.event.impl.ClientTickEventListener.ClientTickEvent;
 import com.soarclient.event.impl.GameLoopEventListener.GameLoopEvent;
 import com.soarclient.gui.mainmenu.GuiSoarMainMenu;
+import com.soarclient.libraries.soarium.Soarium;
 import com.soarclient.management.account.AccountManager;
 import com.soarclient.management.color.ColorManager;
 import com.soarclient.management.config.ConfigManager;
@@ -16,7 +17,6 @@ import com.soarclient.utils.file.FileLocation;
 import com.soarclient.utils.language.I18n;
 import com.soarclient.utils.language.Language;
 
-import net.caffeinemc.mods.sodium.client.SodiumClientMod;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiScreen;
 
@@ -41,11 +41,11 @@ public class Soar {
 	}
 
 	public void start() {
-
-		SodiumClientMod.onInitialization();
 		
 		I18n.setLanguage(Language.ENGLISH);
 		FileLocation.init();
+		Soarium.start();
+		
 		launchTime = System.currentTimeMillis();
 		
 		modManager = new ModManager();

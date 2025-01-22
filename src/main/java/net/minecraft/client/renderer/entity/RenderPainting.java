@@ -1,6 +1,7 @@
 package net.minecraft.client.renderer.entity;
 
-import dev.vexor.radium.extra.client.SodiumExtraClientMod;
+import com.soarclient.libraries.soarium.Soarium;
+
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.Tessellator;
@@ -25,7 +26,7 @@ public class RenderPainting extends Render<EntityPainting> {
 	 */
 	public void doRender(EntityPainting entity, double x, double y, double z, float entityYaw, float partialTicks) {
 		
-        if (!SodiumExtraClientMod.options().renderSettings.painting) {
+        if (!Soarium.getConfig().renderSettings.painting) {
         	return;
         }
         

@@ -7,11 +7,11 @@ import org.apache.logging.log4j.Logger;
 
 import com.google.common.base.MoreObjects;
 import com.google.common.collect.Lists;
+import com.soarclient.libraries.soarium.render.chunk.map.ChunkStatus;
+import com.soarclient.libraries.soarium.render.chunk.map.ChunkTrackerHolder;
 
 import it.unimi.dsi.fastutil.longs.Long2ObjectMap;
 import it.unimi.dsi.fastutil.longs.Long2ObjectOpenHashMap;
-import net.caffeinemc.mods.sodium.client.render.chunk.map.ChunkStatus;
-import net.caffeinemc.mods.sodium.client.render.chunk.map.ChunkTrackerHolder;
 import net.minecraft.entity.EnumCreatureType;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.IProgressUpdate;

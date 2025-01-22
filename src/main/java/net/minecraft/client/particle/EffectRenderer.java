@@ -7,8 +7,8 @@ import java.util.concurrent.Callable;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+import com.soarclient.libraries.soarium.Soarium;
 
-import dev.vexor.radium.extra.client.SodiumExtraClientMod;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
@@ -332,8 +332,8 @@ public class EffectRenderer {
 
 	public void addBlockDestroyEffects(BlockPos pos, IBlockState state) {
 
-		if (!SodiumExtraClientMod.options().particleSettings.particles
-				|| !SodiumExtraClientMod.options().particleSettings.blockBreak) {
+		if (!Soarium.getConfig().particleSettings.particles
+				|| !Soarium.getConfig().particleSettings.blockBreak) {
 			return;
 		}
 
@@ -361,8 +361,8 @@ public class EffectRenderer {
 	 */
 	public void addBlockHitEffects(BlockPos pos, EnumFacing side) {
 
-		if (!SodiumExtraClientMod.options().particleSettings.particles
-				|| !SodiumExtraClientMod.options().particleSettings.blockBreaking) {
+		if (!Soarium.getConfig().particleSettings.particles
+				|| !Soarium.getConfig().particleSettings.blockBreaking) {
 			return;
 		}
 

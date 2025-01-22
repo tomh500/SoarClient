@@ -1,14 +1,13 @@
 package net.minecraft.client.renderer.entity;
 
-import com.google.common.collect.Maps;
-
-import dev.vexor.radium.culling.RadiumEntityCulling;
-import dev.vexor.radium.culling.access.Cullable;
-import dev.vexor.radium.culling.access.EntityRendererInter;
-
 import java.util.Map;
 
-import net.caffeinemc.mods.sodium.client.SodiumClientMod;
+import com.google.common.collect.Maps;
+import com.soarclient.libraries.soarium.Soarium;
+import com.soarclient.libraries.soarium.culling.SoariumEntityCulling;
+import com.soarclient.libraries.soarium.culling.access.Cullable;
+import com.soarclient.libraries.soarium.culling.access.EntityRendererInter;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockBed;
 import net.minecraft.block.state.IBlockState;
@@ -345,15 +344,15 @@ public class RenderManager {
         Cullable cullable = (Cullable) entityIn;
         if (!cullable.isForcedVisible() && cullable.isCulled()) {
             EntityRendererInter<Entity> entityRenderer = (EntityRendererInter<Entity>) this.getEntityRenderObject(entityIn);
-            if (SodiumClientMod.options().culling.renderNametagsThroughWalls && entityRenderer.shadowShouldShowName(entityIn)) {
+            if (Soarium.getConfig().culling.renderNametagsThroughWalls && entityRenderer.shadowShouldShowName(entityIn)) {
                 entityRenderer.shadowRenderNameTag(entityIn, x, y, z);
             }
-            RadiumEntityCulling.INSTANCE.skippedEntities++;
+            SoariumEntityCulling.getInstance().skippedEntities++;
             // TOOD: IDK TRUE IS CORRECT
             return true;
         }
         
-        RadiumEntityCulling.INSTANCE.renderedEntities++;
+        SoariumEntityCulling.getInstance().renderedEntities++;
         cullable.setOutOfCamera(false);
         
 		return this.doRenderEntity(entityIn, x, y, z, entityYaw, partialTicks, false);

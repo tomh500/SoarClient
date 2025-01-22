@@ -1,16 +1,19 @@
 package net.minecraft.client.renderer.tileentity;
 
 import java.util.List;
+
+import org.lwjgl.opengl.GL11;
+
+import com.soarclient.libraries.soarium.Soarium;
+
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.WorldRenderer;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityBeacon;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.ResourceLocation;
-import org.lwjgl.opengl.GL11;
-
-import dev.vexor.radium.extra.client.SodiumExtraClientMod;
 
 public class TileEntityBeaconRenderer extends TileEntitySpecialRenderer<TileEntityBeacon> {
 	private static final ResourceLocation beaconBeam = new ResourceLocation("textures/entity/beacon_beam.png");
@@ -18,7 +21,7 @@ public class TileEntityBeaconRenderer extends TileEntitySpecialRenderer<TileEnti
 	public void renderTileEntityAt(TileEntityBeacon te, double x, double y, double z, float partialTicks,
 			int destroyStage) {
 		
-        if (!SodiumExtraClientMod.options().renderSettings.beaconBeam) {
+        if (!Soarium.getConfig().renderSettings.beaconBeam) {
         	return;
         }
         

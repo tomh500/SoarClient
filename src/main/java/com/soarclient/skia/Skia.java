@@ -9,8 +9,10 @@ import com.soarclient.skia.image.ImageHelper;
 
 import io.github.humbleui.skija.Canvas;
 import io.github.humbleui.skija.ClipMode;
+import io.github.humbleui.skija.FilterTileMode;
 import io.github.humbleui.skija.Font;
 import io.github.humbleui.skija.FontMetrics;
+import io.github.humbleui.skija.ImageFilter;
 import io.github.humbleui.skija.Paint;
 import io.github.humbleui.skija.PaintMode;
 import io.github.humbleui.skija.Path;
@@ -90,29 +92,15 @@ public class Skia {
 	}
 	
 	public static void drawShadow(float x, float y, float width, float height, float radius) {
-
-		int strength = 8;
-		Paint paint = getPaint(Color.BLACK);
-		int alpha = 1;
-
-		for (float f = strength; f > 0; f--) {
-			paint.setAlphaf(alpha / 255f);
-			drawShadowOutline(x - (f / 2), y - (f / 2), width + f, height + f, radius + 2, f, paint);
-
-			alpha += 2;
-		}
-	}
-
-	private static void drawShadowOutline(float x, float y, float width, float height, float radius, float strokeWidth,
-			Paint paint) {
-
-		Path path = new Path();
-		path.addRRect(RRect.makeXYWH(x, y, width, height, radius));
-
-		paint.setStrokeWidth(strokeWidth);
-		paint.setMode(PaintMode.STROKE);
 		
-		getCanvas().drawPath(path, paint);
+		Paint paint = getPaint(new Color(0, 0, 0, 120));
+		
+		paint.setImageFilter(ImageFilter.makeBlur(2.5F, 2.5F, FilterTileMode.DECAL));
+		
+		save();
+		clip(x, y, width, height, radius, ClipMode.DIFFERENCE);
+		getCanvas().drawRRect(RRect.makeXYWH(x, y, width, height, radius), paint);
+		restore();
 	}
 	
 	public static void drawOutline(float x, float y, float width, float height, float radius, float strokeWidth, Color color) {

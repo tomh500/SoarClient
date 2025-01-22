@@ -6,7 +6,6 @@ import java.util.EnumSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Queue;
 import java.util.Random;
 import java.util.Set;
 import java.util.concurrent.Callable;
@@ -21,14 +20,14 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import com.google.gson.JsonSyntaxException;
+import com.soarclient.libraries.soarium.Soarium;
+import com.soarclient.libraries.soarium.gl.device.RenderDevice;
+import com.soarclient.libraries.soarium.render.SodiumWorldRenderer;
+import com.soarclient.libraries.soarium.render.chunk.ChunkRenderMatrices;
+import com.soarclient.libraries.soarium.render.viewport.Viewport;
+import com.soarclient.libraries.soarium.render.viewport.frustum.SimpleFrustum;
+import com.soarclient.libraries.soarium.world.LevelRendererExtension;
 
-import dev.vexor.radium.extra.client.SodiumExtraClientMod;
-import net.caffeinemc.mods.sodium.client.gl.device.RenderDevice;
-import net.caffeinemc.mods.sodium.client.render.SodiumWorldRenderer;
-import net.caffeinemc.mods.sodium.client.render.chunk.ChunkRenderMatrices;
-import net.caffeinemc.mods.sodium.client.render.viewport.Viewport;
-import net.caffeinemc.mods.sodium.client.render.viewport.frustum.SimpleFrustum;
-import net.caffeinemc.mods.sodium.client.world.LevelRendererExtension;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockChest;
 import net.minecraft.block.BlockEnderChest;
@@ -42,14 +41,11 @@ import net.minecraft.client.audio.PositionedSoundRecord;
 import net.minecraft.client.multiplayer.WorldClient;
 import net.minecraft.client.particle.EntityFX;
 import net.minecraft.client.renderer.chunk.ChunkRenderDispatcher;
-import net.minecraft.client.renderer.chunk.CompiledChunk;
 import net.minecraft.client.renderer.chunk.IRenderChunkFactory;
 import net.minecraft.client.renderer.chunk.ListChunkFactory;
 import net.minecraft.client.renderer.chunk.RenderChunk;
 import net.minecraft.client.renderer.chunk.VboChunkFactory;
-import net.minecraft.client.renderer.chunk.VisGraph;
 import net.minecraft.client.renderer.culling.ClippingHelper;
-import net.minecraft.client.renderer.culling.ClippingHelperImpl;
 import net.minecraft.client.renderer.culling.Frustum;
 import net.minecraft.client.renderer.culling.ICamera;
 import net.minecraft.client.renderer.entity.RenderManager;
@@ -71,22 +67,18 @@ import net.minecraft.crash.CrashReportCategory;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.projectile.EntityWitherSkull;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemDye;
 import net.minecraft.item.ItemRecord;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.tileentity.TileEntityChest;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.BlockPos;
-import net.minecraft.util.ClassInheritanceMultiMap;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.EnumWorldBlockLayer;
 import net.minecraft.util.MathHelper;
-import net.minecraft.util.Matrix4f;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.ReportedException;
 import net.minecraft.util.ResourceLocation;
@@ -94,7 +86,6 @@ import net.minecraft.util.Vec3;
 import net.minecraft.util.Vector3d;
 import net.minecraft.world.IWorldAccess;
 import net.minecraft.world.border.WorldBorder;
-import net.minecraft.world.chunk.Chunk;
 
 public class RenderGlobal implements IWorldAccess, IResourceManagerReloadListener, LevelRendererExtension {
 	private static final Logger logger = LogManager.getLogger();
@@ -727,7 +718,7 @@ public class RenderGlobal implements IWorldAccess, IResourceManagerReloadListene
 	}
 
     public void renderSky(float tickDelta, int anaglyphFilter) {
-        if (!SodiumExtraClientMod.options().detailSettings.sky) {
+        if (!Soarium.getConfig().detailSettings.sky) {
             return;
         }
         if (this.mc.theWorld.provider.getDimensionId() == 1) {
@@ -814,7 +805,7 @@ public class RenderGlobal implements IWorldAccess, IResourceManagerReloadListene
             GlStateManager.rotate(this.theWorld.getCelestialAngle(tickDelta) * 360.0F, 1.0F, 0.0F, 0.0F);
             float m = 30.0F;
 
-            if (SodiumExtraClientMod.options().detailSettings.sun) {
+            if (Soarium.getConfig().detailSettings.sun) {
                 this.renderEngine.bindTexture(locationSunPng);
                 bufferBuilder.begin(7, DefaultVertexFormats.POSITION_TEX);
                 bufferBuilder.pos((double)(-m), (double)100.0F, (double)(-m)).tex((double)0.0F, (double)0.0F).endVertex();
@@ -834,7 +825,7 @@ public class RenderGlobal implements IWorldAccess, IResourceManagerReloadListene
             float t = (float)(s + 0) / 2.0F;
             float u = (float)(r + 1) / 4.0F;
             float w = (float)(s + 1) / 2.0F;
-            if (SodiumExtraClientMod.options().detailSettings.moon) {
+            if (Soarium.getConfig().detailSettings.moon) {
                 bufferBuilder.begin(7, DefaultVertexFormats.POSITION_TEX);
                 bufferBuilder.pos((double) (-m), (double) -100.0F, (double) m).tex((double) u, (double) w).endVertex();
                 bufferBuilder.pos((double) m, (double) -100.0F, (double) m).tex((double) q, (double) w).endVertex();
@@ -844,7 +835,7 @@ public class RenderGlobal implements IWorldAccess, IResourceManagerReloadListene
             }
             GlStateManager.disableTexture2D();
             float x = this.theWorld.getStarBrightness(tickDelta) * l;
-            if (x > 0.0F && SodiumExtraClientMod.options().detailSettings.stars) {
+            if (x > 0.0F && Soarium.getConfig().detailSettings.stars) {
                 GlStateManager.color(x, x, x, x);
                 if (this.vboEnabled) {
                     this.starVBO.bindBuffer();

@@ -1,5 +1,9 @@
 package net.minecraft.client.renderer.tileentity;
 
+import org.lwjgl.opengl.GL11;
+
+import com.soarclient.libraries.soarium.Soarium;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.renderer.BlockRendererDispatcher;
@@ -28,9 +32,6 @@ import net.minecraft.util.BlockPos;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.storage.MapData;
-import org.lwjgl.opengl.GL11;
-
-import dev.vexor.radium.extra.client.SodiumExtraClientMod;
 
 public class RenderItemFrame extends Render<EntityItemFrame> {
 	private static final ResourceLocation mapBackgroundTextures = new ResourceLocation(
@@ -50,7 +51,7 @@ public class RenderItemFrame extends Render<EntityItemFrame> {
 	 */
 	public void doRender(EntityItemFrame entity, double x, double y, double z, float entityYaw, float partialTicks) {
 		
-        if (!SodiumExtraClientMod.options().renderSettings.itemFrame) {
+        if (!Soarium.getConfig().renderSettings.itemFrame) {
         	return;
         }
         
@@ -168,7 +169,7 @@ public class RenderItemFrame extends Render<EntityItemFrame> {
 
     @Override
     protected boolean canRenderName(EntityItemFrame entity) {
-        if (!SodiumExtraClientMod.options().renderSettings.itemFrameNameTag) {
+        if (!Soarium.getConfig().renderSettings.itemFrameNameTag) {
             return false;
         }
         return super.canRenderName(entity);

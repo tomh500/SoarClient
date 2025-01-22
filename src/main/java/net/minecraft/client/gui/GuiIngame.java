@@ -11,13 +11,12 @@ import com.soarclient.event.EventBus;
 import com.soarclient.event.impl.RenderGameOverlayEventListener.RenderGameOverlayEvent;
 import com.soarclient.event.impl.RenderPumpkinOverlayEventListener.RenderPumpkinOverlayEvent;
 import com.soarclient.event.impl.RenderSkiaEventListener.RenderSkiaEvent;
+import com.soarclient.libraries.soarium.Soarium;
 import com.soarclient.management.mod.impl.settings.HUDModSettings;
 import com.soarclient.shaders.impl.GaussianBlur;
 import com.soarclient.skia.Skia;
 import com.soarclient.skia.context.SkiaContext;
 
-import dev.vexor.radium.extra.client.SodiumExtraClientMod;
-import net.caffeinemc.mods.sodium.client.SodiumClientMod;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
@@ -140,7 +139,7 @@ public class GuiIngame extends Gui {
 		this.mc.entityRenderer.setupOverlayRendering();
 		GlStateManager.enableBlend();
 
-		if (SodiumClientMod.options().quality.enableVignette) {
+		if (Soarium.getConfig().quality.enableVignette) {
 			this.renderVignette(this.mc.thePlayer.getBrightness(partialTicks), scaledresolution);
 		} else {
 			GlStateManager.tryBlendFuncSeparate(770, 771, 1, 0);
@@ -338,8 +337,6 @@ public class GuiIngame extends Gui {
 		GlStateManager.disableLighting();
 		GlStateManager.enableAlpha();
 		
-        SodiumExtraClientMod.onHudRender();
-        
 		if(HUDModSettings.getInstance().getBlurSetting().isEnabled()) {
 			INGAME_BLUR.draw(HUDModSettings.getInstance().getBlurIntensitySetting().getValue());
 		}

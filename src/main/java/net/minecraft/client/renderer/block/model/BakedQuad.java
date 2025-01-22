@@ -1,9 +1,10 @@
 package net.minecraft.client.renderer.block.model;
 
-import net.caffeinemc.mods.sodium.client.model.quad.BakedQuadView;
-import net.caffeinemc.mods.sodium.client.model.quad.properties.ModelQuadFacing;
-import net.caffeinemc.mods.sodium.client.model.quad.properties.ModelQuadFlags;
-import net.caffeinemc.mods.sodium.client.util.ModelQuadUtil;
+import com.soarclient.libraries.soarium.model.quad.BakedQuadView;
+import com.soarclient.libraries.soarium.model.quad.properties.ModelQuadFacing;
+import com.soarclient.libraries.soarium.model.quad.properties.ModelQuadFlags;
+import com.soarclient.libraries.soarium.util.ModelQuadUtil;
+
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.util.EnumFacing;
 

@@ -7,9 +7,9 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import com.google.common.collect.Maps;
+import com.soarclient.libraries.soarium.culling.SoariumEntityCulling;
+import com.soarclient.libraries.soarium.culling.access.Cullable;
 
-import dev.vexor.radium.culling.RadiumEntityCulling;
-import dev.vexor.radium.culling.access.Cullable;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockJukebox;
 import net.minecraft.block.state.IBlockState;
@@ -273,7 +273,7 @@ public abstract class TileEntity implements Cullable {
 
 	@Override
 	public boolean isCulled() {
-		if(!RadiumEntityCulling.enabled)return false;
+		if(!SoariumEntityCulling.enabled)return false;
 		return culled;
 	}
 
@@ -284,7 +284,7 @@ public abstract class TileEntity implements Cullable {
 
     @Override
     public boolean isOutOfCamera() {
-        if(!RadiumEntityCulling.enabled)return false;
+        if(!SoariumEntityCulling.enabled)return false;
         return outOfCamera;
     }
     

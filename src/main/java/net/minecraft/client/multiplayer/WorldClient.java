@@ -8,12 +8,12 @@ import java.util.concurrent.Callable;
 import com.google.common.collect.Sets;
 import com.soarclient.event.EventBus;
 import com.soarclient.event.impl.ServerLeaveEventListener.LeaveServerEvent;
+import com.soarclient.libraries.soarium.culling.SoariumEntityCulling;
+import com.soarclient.libraries.soarium.render.chunk.map.ChunkStatus;
+import com.soarclient.libraries.soarium.render.chunk.map.ChunkTracker;
+import com.soarclient.libraries.soarium.render.chunk.map.ChunkTrackerHolder;
+import com.soarclient.libraries.soarium.world.BiomeSeedProvider;
 
-import dev.vexor.radium.culling.RadiumEntityCulling;
-import net.caffeinemc.mods.sodium.client.render.chunk.map.ChunkStatus;
-import net.caffeinemc.mods.sodium.client.render.chunk.map.ChunkTracker;
-import net.caffeinemc.mods.sodium.client.render.chunk.map.ChunkTrackerHolder;
-import net.caffeinemc.mods.sodium.client.world.BiomeSeedProvider;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
@@ -80,7 +80,7 @@ public class WorldClient extends World implements BiomeSeedProvider, ChunkTracke
 	 */
 	public void tick() {
 		super.tick();
-		RadiumEntityCulling.INSTANCE.worldTick();
+		SoariumEntityCulling.getInstance().worldTick();
 		this.setTotalWorldTime(this.getTotalWorldTime() + 1L);
 
 		if (this.getGameRules().getBoolean("doDaylightCycle")) {

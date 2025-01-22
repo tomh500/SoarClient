@@ -12,8 +12,8 @@ import org.apache.logging.log4j.Logger;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
+import com.soarclient.libraries.soarium.Soarium;
 
-import dev.vexor.radium.extra.client.SodiumExtraClientMod;
 import net.minecraft.block.BlockFlower;
 import net.minecraft.block.BlockSand;
 import net.minecraft.block.BlockTallGrass;
@@ -358,7 +358,7 @@ public abstract class BiomeGenBase {
 	 */
 	public int getSkyColorByTemp(float p_76731_1_) {
 		
-        if (!SodiumExtraClientMod.options().detailSettings.skyColors) {
+        if (!Soarium.getConfig().detailSettings.skyColors) {
         	return 7907327;
         }
         

@@ -1,6 +1,5 @@
 package net.minecraft.client.gui;
 
-import java.lang.management.ManagementFactory;
 import java.util.List;
 import java.util.Map.Entry;
 
@@ -9,14 +8,11 @@ import org.lwjgl.opengl.GL11;
 
 import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
+import com.soarclient.libraries.soarium.culling.SoariumEntityCulling;
+import com.soarclient.libraries.soarium.render.SodiumWorldRenderer;
 import com.soarclient.viasoar.ViaSoar;
 import com.viaversion.viaversion.api.protocol.version.ProtocolVersion;
 
-import dev.vexor.radium.culling.RadiumEntityCulling;
-import net.caffeinemc.mods.sodium.client.SodiumClientMod;
-import net.caffeinemc.mods.sodium.client.render.SodiumWorldRenderer;
-import net.caffeinemc.mods.sodium.client.util.MathUtil;
-import net.caffeinemc.mods.sodium.client.util.NativeBuffer;
 import net.minecraft.block.Block;
 import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.state.IBlockState;
@@ -200,22 +196,22 @@ public class GuiOverlayDebug extends Gui {
 
 	private void addCustomDebugLeft(List<String> list) {
 
-		list.add("[Culling] Last pass: " + RadiumEntityCulling.INSTANCE.cullTask.lastTime + "ms");
-		list.add("[Culling] Rendered Block Entities: " + RadiumEntityCulling.INSTANCE.renderedBlockEntities
-				+ " Skipped: " + RadiumEntityCulling.INSTANCE.skippedBlockEntities);
-		list.add("[Culling] Rendered Entities: " + RadiumEntityCulling.INSTANCE.renderedEntities + " Skipped: "
-				+ RadiumEntityCulling.INSTANCE.skippedEntities);
+		list.add("[Culling] Last pass: " + SoariumEntityCulling.getInstance().cullTask.lastTime + "ms");
+		list.add("[Culling] Rendered Block Entities: " + SoariumEntityCulling.getInstance().renderedBlockEntities
+				+ " Skipped: " + SoariumEntityCulling.getInstance().skippedBlockEntities);
+		list.add("[Culling] Rendered Entities: " + SoariumEntityCulling.getInstance().renderedEntities + " Skipped: "
+				+ SoariumEntityCulling.getInstance().skippedEntities);
 
-		RadiumEntityCulling.INSTANCE.renderedBlockEntities = 0;
-		RadiumEntityCulling.INSTANCE.skippedBlockEntities = 0;
-		RadiumEntityCulling.INSTANCE.renderedEntities = 0;
-		RadiumEntityCulling.INSTANCE.skippedEntities = 0;
+		SoariumEntityCulling.getInstance().renderedBlockEntities = 0;
+		SoariumEntityCulling.getInstance().skippedBlockEntities = 0;
+		SoariumEntityCulling.getInstance().renderedEntities = 0;
+		SoariumEntityCulling.getInstance().skippedEntities = 0;
 	}
 
 	private void addCustomDebugRight(List<String> list) {
 
 		list.add("");
-		list.add("%sRadium Renderer (%s)".formatted(getVersionColor(), SodiumClientMod.getVersion()));
+		list.add("%sSoarium Renderer (%s)".formatted(EnumChatFormatting.GREEN, "1.0"));
 
         var renderer = SodiumWorldRenderer.instanceNullable();
 
@@ -352,27 +348,4 @@ public class GuiOverlayDebug extends Gui {
 	private static long bytesToMb(long bytes) {
 		return bytes / 1024L / 1024L;
 	}
-	
-    private static EnumChatFormatting getVersionColor() {
-        String version = SodiumClientMod.getVersion();
-        EnumChatFormatting color;
-
-        if (version.contains("-local")) {
-            color = EnumChatFormatting.RED;
-        } else if (version.contains("-snapshot")) {
-            color = EnumChatFormatting.LIGHT_PURPLE;
-        } else {
-            color = EnumChatFormatting.GREEN;
-        }
-
-        return color;
-    }
-
-    private static String getNativeMemoryString() {
-        return "Off-Heap: +" + MathUtil.toMib(getNativeMemoryUsage()) + "MB";
-    }
-
-    private static long getNativeMemoryUsage() {
-        return ManagementFactory.getMemoryMXBean().getNonHeapMemoryUsage().getUsed() + NativeBuffer.getTotalAllocated();
-    }
 }

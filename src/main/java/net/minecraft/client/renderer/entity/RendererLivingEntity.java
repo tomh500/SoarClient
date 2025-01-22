@@ -8,8 +8,8 @@ import org.apache.logging.log4j.Logger;
 import org.lwjgl.opengl.GL11;
 
 import com.google.common.collect.Lists;
+import com.soarclient.libraries.soarium.Soarium;
 
-import dev.vexor.radium.extra.client.SodiumExtraClientMod;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.AbstractClientPlayer;
 import net.minecraft.client.entity.EntityPlayerSP;
@@ -85,7 +85,7 @@ public abstract class RendererLivingEntity<T extends EntityLivingBase> extends R
 	 */
 	public void doRender(T entity, double x, double y, double z, float entityYaw, float partialTicks) {
 
-		if (entity instanceof EntityArmorStand && !SodiumExtraClientMod.options().renderSettings.armorStand) {
+		if (entity instanceof EntityArmorStand && !Soarium.getConfig().renderSettings.armorStand) {
 
 			if (((EntityArmorStand) entity).hasMarker()) {
 				this.renderLivingLabel(entity, entity.getCustomNameTag(), x, y, z, 64);
@@ -506,7 +506,7 @@ public abstract class RendererLivingEntity<T extends EntityLivingBase> extends R
 	protected boolean canRenderName(T entity) {
 		EntityPlayerSP entityplayersp = Minecraft.getMinecraft().thePlayer;
 
-		if (entity instanceof AbstractClientPlayer && !SodiumExtraClientMod.options().renderSettings.playerNameTag) {
+		if (entity instanceof AbstractClientPlayer && !Soarium.getConfig().renderSettings.playerNameTag) {
 			return false;
 		}
 

@@ -1,6 +1,7 @@
 package net.minecraft.world.biome;
 
-import dev.vexor.radium.extra.client.SodiumExtraClientMod;
+import com.soarclient.libraries.soarium.Soarium;
+
 import net.minecraft.util.BlockPos;
 import net.minecraft.world.IBlockAccess;
 
@@ -41,7 +42,7 @@ public class BiomeColorHelper {
 
 	public static int getGrassColorAtPos(IBlockAccess p_180286_0_, BlockPos p_180286_1_) {
 		
-        if (!SodiumExtraClientMod.options().detailSettings.biomeColors) {
+        if (!Soarium.getConfig().detailSettings.biomeColors) {
         	return 9551193;
         }
         
@@ -50,7 +51,7 @@ public class BiomeColorHelper {
 
 	public static int getFoliageColorAtPos(IBlockAccess p_180287_0_, BlockPos p_180287_1_) {
 		
-        if (!SodiumExtraClientMod.options().detailSettings.biomeColors) {
+        if (!Soarium.getConfig().detailSettings.biomeColors) {
         	return 5877296;
         }
         
@@ -59,7 +60,7 @@ public class BiomeColorHelper {
 
 	public static int getWaterColorAtPos(IBlockAccess p_180288_0_, BlockPos p_180288_1_) {
 		
-        if (!SodiumExtraClientMod.options().detailSettings.biomeColors) {
+        if (!Soarium.getConfig().detailSettings.biomeColors) {
         	return 4159204;
         }
         

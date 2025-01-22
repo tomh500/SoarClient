@@ -38,7 +38,6 @@ import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL32;
 import org.lwjgl.opengl.OpenGLException;
 import org.lwjgl.opengl.PixelFormat;
-import org.lwjgl.util.glu.GLU;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
@@ -59,6 +58,9 @@ import com.soarclient.event.impl.KeyEventListener.KeyEvent;
 import com.soarclient.event.impl.MouseClickEventListener.MouseClickEvent;
 import com.soarclient.event.impl.MouseScrollEventListener.MouseScrollEvent;
 import com.soarclient.event.impl.RenderTickEventListener.RenderTickEvent;
+import com.soarclient.libraries.soarium.Soarium;
+import com.soarclient.libraries.soarium.config.SoariumConfig;
+import com.soarclient.libraries.soarium.culling.SoariumEntityCulling;
 import com.soarclient.management.mod.impl.player.HitDelayFixMod;
 import com.soarclient.management.mod.impl.render.MotionBlurMod;
 import com.soarclient.management.mod.impl.render.motionblur.MonkeyBlur;
@@ -66,11 +68,7 @@ import com.soarclient.management.mod.settings.impl.KeybindSetting;
 import com.soarclient.skia.context.SkiaContext;
 import com.soarclient.viasoar.fixes.AttackOrder;
 
-import dev.vexor.radium.culling.RadiumEntityCulling;
-import dev.vexor.radium.extra.client.SodiumExtraClientMod;
 import it.unimi.dsi.fastutil.longs.LongArrayFIFOQueue;
-import net.caffeinemc.mods.sodium.client.SodiumClientMod;
-import net.caffeinemc.mods.sodium.client.gui.SodiumGameOptions;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.audio.MusicTicker;
@@ -1555,10 +1553,10 @@ public class Minecraft implements IThreadListener {
 	 */
 	public void runTick() throws IOException {
 		
-        if (SodiumClientMod.options().advanced.cpuRenderAhead) {
+        if (Soarium.getConfig().advanced.cpuRenderAhead) {
             this.mcProfiler.startSection("wait_for_gpu");
 
-            while (this.fences.size() > SodiumClientMod.options().advanced.cpuRenderAheadLimit) {
+            while (this.fences.size() > Soarium.getConfig().advanced.cpuRenderAheadLimit) {
                 var fence = this.fences.dequeue();
                 GL32.glClientWaitSync(fence, GL32.GL_SYNC_FLUSH_COMMANDS_BIT, Long.MAX_VALUE);
                 GL32.glDeleteSync(fence);
@@ -1567,9 +1565,7 @@ public class Minecraft implements IThreadListener {
             mcProfiler.endSection();
         }
         
-        SodiumExtraClientMod.onTick(this);
-        
-        RadiumEntityCulling.INSTANCE.clientTick();
+        SoariumEntityCulling.getInstance().clientTick();
         
 		if (this.rightClickDelayTimer > 0) {
 			--this.rightClickDelayTimer;
@@ -2015,7 +2011,7 @@ public class Minecraft implements IThreadListener {
 		this.systemTime = getSystemTime();
 		EventBus.getInstance().call(new ClientTickEvent(), ClientTickEvent.ID);
 		
-        if (SodiumClientMod.options().advanced.cpuRenderAhead) {
+        if (Soarium.getConfig().advanced.cpuRenderAhead) {
             var fence = GL32.glFenceSync(GL32.GL_SYNC_GPU_COMMANDS_COMPLETE, 0);
 
             if (fence == 0L) {
@@ -2205,7 +2201,7 @@ public class Minecraft implements IThreadListener {
 	 * Returns if ambient occlusion is enabled
 	 */
     public static boolean isAmbientOcclusionEnabled() {
-        return SodiumClientMod.options().quality.smoothLighting != SodiumGameOptions.LightingQuality.OFF;
+        return Soarium.getConfig().quality.smoothLighting != SoariumConfig.LightingQuality.OFF;
     }
 
 	/**
