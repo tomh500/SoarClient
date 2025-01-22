@@ -744,8 +744,8 @@ public class NetHandlerPlayClient implements INetHandlerPlayClient {
 		if (this.guiScreenServer != null) {
 			this.gameController.displayGuiScreen(new GuiDisconnected(this.guiScreenServer, "disconnect.lost", reason));
 		} else {
-			this.gameController.displayGuiScreen(
-					new GuiDisconnected(new GuiMultiplayer(Soar.getInstance().getMainMenu()), "disconnect.lost", reason));
+			this.gameController.displayGuiScreen(new GuiDisconnected(
+					new GuiMultiplayer(Soar.getInstance().getMainMenu()), "disconnect.lost", reason));
 		}
 	}
 
@@ -1065,11 +1065,12 @@ public class NetHandlerPlayClient implements INetHandlerPlayClient {
 	 */
 	public void handleConfirmTransaction(S32PacketConfirmTransaction packetIn) {
 		PacketThreadUtil.checkThreadAndEnqueue(packetIn, this, this.gameController);
-		
-        if (ViaHelper.newerThanOrEqualsTo(ProtocolVersion.v1_17)) {
-            Minecraft.getMinecraft().getNetHandler().addToSendQueue(new C0FPacketConfirmTransaction(packetIn.getWindowId(), (short) 0, false));
-        }
-        
+
+		if (ViaHelper.newerThanOrEqualsTo(ProtocolVersion.v1_17)) {
+			Minecraft.getMinecraft().getNetHandler()
+					.addToSendQueue(new C0FPacketConfirmTransaction(packetIn.getWindowId(), (short) 0, false));
+		}
+
 		Container container = null;
 		EntityPlayer entityplayer = this.gameController.thePlayer;
 

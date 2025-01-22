@@ -8,15 +8,15 @@ import com.soarclient.libraries.soarium.compat.minecraft.math.SectionPos;
  * starting at zero for each facing.
  */
 public abstract class SplitDirectionData extends PresentTranslucentData {
-    private final int[] vertexCounts;
+	private final int[] vertexCounts;
 
-    public SplitDirectionData(SectionPos sectionPos, int[] vertexCounts, int quadCount) {
-        super(sectionPos, quadCount);
-        this.vertexCounts = vertexCounts;
-    }
+	public SplitDirectionData(SectionPos sectionPos, int[] vertexCounts, int quadCount) {
+		super(sectionPos, quadCount);
+		this.vertexCounts = vertexCounts;
+	}
 
-    @Override
-    public int[] getVertexCounts() {
-        return this.vertexCounts;
-    }
+	@Override
+	public int[] getVertexCounts() {
+		return this.vertexCounts;
+	}
 }

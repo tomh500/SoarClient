@@ -17,7 +17,8 @@ import com.soarclient.skia.font.Icon;
 import io.github.humbleui.skija.FontMetrics;
 import io.github.humbleui.types.Rect;
 
-public class CPSDisplayMod extends SimpleHUDMod implements RenderSkiaEventListener, MouseClickEventListener, ClientTickEventListener {
+public class CPSDisplayMod extends SimpleHUDMod
+		implements RenderSkiaEventListener, MouseClickEventListener, ClientTickEventListener {
 
 	private ArrayList<Long> leftPresses = new ArrayList<Long>();
 	private ArrayList<Long> rightPresses = new ArrayList<Long>();
@@ -30,7 +31,7 @@ public class CPSDisplayMod extends SimpleHUDMod implements RenderSkiaEventListen
 
 	@Override
 	public void onRenderSkia(float partialTicks) {
-		
+
 		float fontSize = 9;
 		float iconSize = 10.5F;
 		float padding = 5;
@@ -40,8 +41,8 @@ public class CPSDisplayMod extends SimpleHUDMod implements RenderSkiaEventListen
 		FontMetrics metrics = Fonts.getRegular(fontSize).getMetrics();
 		float width = textBounds.getWidth() + (padding * 2) + (hasIcon ? iconBounds.getWidth() + 4 : 0);
 		float height = fontSize + (padding * 2) - 1.5F;
-	    float textCenterY = (metrics.getAscent() - metrics.getDescent()) / 2 - metrics.getAscent();
-	    
+		float textCenterY = (metrics.getAscent() - metrics.getDescent()) / 2 - metrics.getAscent();
+
 		this.begin();
 		this.drawBackground(getX(), getY(), width, height);
 
@@ -51,13 +52,12 @@ public class CPSDisplayMod extends SimpleHUDMod implements RenderSkiaEventListen
 		}
 
 		this.drawText(getText(), getX() + padding + (hasIcon ? iconBounds.getWidth() + 4 : 0),
-				getY() + (height / 2) - textCenterY - 2,
-				Fonts.getRegular(fontSize));
+				getY() + (height / 2) - textCenterY - 2, Fonts.getRegular(fontSize));
 		this.finish();
 
 		position.setSize(width, height);
 	}
-	
+
 	@Override
 	public void onClientTick() {
 		leftPresses.removeIf(t -> System.currentTimeMillis() - t > 1000);
@@ -66,7 +66,7 @@ public class CPSDisplayMod extends SimpleHUDMod implements RenderSkiaEventListen
 
 	@Override
 	public void onMouseClick(int button) {
-		
+
 		if (Mouse.getEventButtonState()) {
 
 			if (button == 0) {

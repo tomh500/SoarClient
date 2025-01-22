@@ -129,7 +129,7 @@ public abstract class AbstractClientPlayer extends EntityPlayer {
 
 			f *= 1.0F - f1 * 0.15F;
 		}
-		
+
 		FovUpdateEvent event = new FovUpdateEvent(this, f);
 		EventBus.getInstance().call(event, FovUpdateEvent.ID);
 

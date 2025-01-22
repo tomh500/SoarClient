@@ -20,11 +20,11 @@ public class TileEntityBeaconRenderer extends TileEntitySpecialRenderer<TileEnti
 
 	public void renderTileEntityAt(TileEntityBeacon te, double x, double y, double z, float partialTicks,
 			int destroyStage) {
-		
-        if (!Soarium.getConfig().renderSettings.beaconBeam) {
-        	return;
-        }
-        
+
+		if (!Soarium.getConfig().renderSettings.beaconBeam) {
+			return;
+		}
+
 		float f = te.shouldBeamRender();
 		GlStateManager.alphaFunc(516, 0.1F);
 

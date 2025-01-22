@@ -47,11 +47,11 @@ public class ModsPage extends Page {
 	public void init() {
 
 		String text = "";
-		
-		if(searchBar != null) {
+
+		if (searchBar != null) {
 			text = searchBar.getText();
 		}
-		
+
 		searchBar = new SearchBar(x + width - 260 - 32, y + 32, 260, text, () -> {
 			scrollHelper.reset();
 		});

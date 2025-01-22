@@ -58,6 +58,7 @@ import com.soarclient.event.impl.KeyEventListener.KeyEvent;
 import com.soarclient.event.impl.MouseClickEventListener.MouseClickEvent;
 import com.soarclient.event.impl.MouseScrollEventListener.MouseScrollEvent;
 import com.soarclient.event.impl.RenderTickEventListener.RenderTickEvent;
+import com.soarclient.libraries.patches.font.EnhancementManager;
 import com.soarclient.libraries.soarium.Soarium;
 import com.soarclient.libraries.soarium.config.SoariumConfig;
 import com.soarclient.libraries.soarium.culling.SoariumEntityCulling;
@@ -369,7 +370,7 @@ public class Minecraft implements IThreadListener {
 	private String debugProfilerName = "root";
 
 	private final LongArrayFIFOQueue fences = new LongArrayFIFOQueue();
-	
+
 	public Minecraft(GameConfiguration gameConfig) {
 		theMinecraft = this;
 		this.mcDataDir = gameConfig.folderInfo.mcDataDir;
@@ -1552,21 +1553,22 @@ public class Minecraft implements IThreadListener {
 	 * Runs the current tick.
 	 */
 	public void runTick() throws IOException {
+
+		if (Soarium.getConfig().advanced.cpuRenderAhead) {
+			this.mcProfiler.startSection("wait_for_gpu");
+
+			while (this.fences.size() > Soarium.getConfig().advanced.cpuRenderAheadLimit) {
+				var fence = this.fences.dequeue();
+				GL32.glClientWaitSync(fence, GL32.GL_SYNC_FLUSH_COMMANDS_BIT, Long.MAX_VALUE);
+				GL32.glDeleteSync(fence);
+			}
+
+			mcProfiler.endSection();
+		}
+
+		SoariumEntityCulling.getInstance().clientTick();
+		EnhancementManager.getInstance().tick();
 		
-        if (Soarium.getConfig().advanced.cpuRenderAhead) {
-            this.mcProfiler.startSection("wait_for_gpu");
-
-            while (this.fences.size() > Soarium.getConfig().advanced.cpuRenderAheadLimit) {
-                var fence = this.fences.dequeue();
-                GL32.glClientWaitSync(fence, GL32.GL_SYNC_FLUSH_COMMANDS_BIT, Long.MAX_VALUE);
-                GL32.glDeleteSync(fence);
-            }
-
-            mcProfiler.endSection();
-        }
-        
-        SoariumEntityCulling.getInstance().clientTick();
-        
 		if (this.rightClickDelayTimer > 0) {
 			--this.rightClickDelayTimer;
 		}
@@ -2010,16 +2012,16 @@ public class Minecraft implements IThreadListener {
 		this.mcProfiler.endSection();
 		this.systemTime = getSystemTime();
 		EventBus.getInstance().call(new ClientTickEvent(), ClientTickEvent.ID);
-		
-        if (Soarium.getConfig().advanced.cpuRenderAhead) {
-            var fence = GL32.glFenceSync(GL32.GL_SYNC_GPU_COMMANDS_COMPLETE, 0);
 
-            if (fence == 0L) {
-                throw new RuntimeException("Failed to create fence object");
-            }
+		if (Soarium.getConfig().advanced.cpuRenderAhead) {
+			var fence = GL32.glFenceSync(GL32.GL_SYNC_GPU_COMMANDS_COMPLETE, 0);
 
-            this.fences.enqueue(fence);
-        }
+			if (fence == 0L) {
+				throw new RuntimeException("Failed to create fence object");
+			}
+
+			this.fences.enqueue(fence);
+		}
 	}
 
 	/**
@@ -2200,9 +2202,9 @@ public class Minecraft implements IThreadListener {
 	/**
 	 * Returns if ambient occlusion is enabled
 	 */
-    public static boolean isAmbientOcclusionEnabled() {
-        return Soarium.getConfig().quality.smoothLighting != SoariumConfig.LightingQuality.OFF;
-    }
+	public static boolean isAmbientOcclusionEnabled() {
+		return Soarium.getConfig().quality.smoothLighting != SoariumConfig.LightingQuality.OFF;
+	}
 
 	/**
 	 * Called when user clicked he's mouse middle button (pick block)

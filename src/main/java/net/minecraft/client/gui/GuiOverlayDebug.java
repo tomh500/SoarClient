@@ -213,12 +213,12 @@ public class GuiOverlayDebug extends Gui {
 		list.add("");
 		list.add("%sSoarium Renderer (%s)".formatted(EnumChatFormatting.GREEN, "1.0"));
 
-        var renderer = SodiumWorldRenderer.instanceNullable();
+		var renderer = SodiumWorldRenderer.instanceNullable();
 
-        if (renderer != null) {
-        	list.addAll(renderer.getDebugStrings());
-        }
-        
+		if (renderer != null) {
+			list.addAll(renderer.getDebugStrings());
+		}
+
 		if (ViaSoar.getManager() != null) {
 
 			final ProtocolVersion version = ViaSoar.getManager().getTargetVersion();

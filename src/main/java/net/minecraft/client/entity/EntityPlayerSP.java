@@ -164,9 +164,9 @@ public class EntityPlayerSP extends AbstractClientPlayer {
 	 * Called to update the entity's position/logic.
 	 */
 	public void onUpdate() {
-		
+
 		EventBus.getInstance().call(new PlayerUpdateEvent(), PlayerUpdateEvent.ID);
-		
+
 		if (this.worldObj.isBlockLoaded(new BlockPos(this.posX, 0.0D, this.posZ))) {
 			super.onUpdate();
 
@@ -186,11 +186,11 @@ public class EntityPlayerSP extends AbstractClientPlayer {
 	 * normally happen during movement.
 	 */
 	public void onUpdateWalkingPlayer() {
-		
+
 		boolean flag = this.isSprinting();
 
 		EventBus.getInstance().call(new MotionUpdateEvent(), MotionUpdateEvent.ID);
-		
+
 		if (flag != this.serverSprintState) {
 			if (flag) {
 				this.sendQueue
@@ -284,15 +284,15 @@ public class EntityPlayerSP extends AbstractClientPlayer {
 	 * Sends a chat message from the player. Args: chatMessage
 	 */
 	public void sendChatMessage(String message) {
-		
+
 		SendChatEvent event = new SendChatEvent(message);
-		
+
 		EventBus.getInstance().call(event, SendChatEvent.ID);
-		
-		if(event.isCancelled()) {
+
+		if (event.isCancelled()) {
 			return;
 		}
-		
+
 		this.sendQueue.addToSendQueue(new C01PacketChatMessage(message));
 	}
 

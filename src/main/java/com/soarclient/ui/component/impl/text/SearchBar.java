@@ -34,8 +34,8 @@ public class SearchBar extends Component {
 		this.width = width;
 		this.height = 42;
 		this.setText(text);
-		
-		if(getText().isBlank()) {
+
+		if (getText().isBlank()) {
 			this.hintTextAnimation = new DummyAnimation(1);
 		} else {
 			this.hintTextAnimation = new DummyAnimation(0);
@@ -75,7 +75,8 @@ public class SearchBar extends Component {
 				xOffset = -overflow;
 			}
 
-			Skia.drawHeightCenteredText(text, x + 40 + xOffset, y + (height / 2), palette.getOnSurfaceVariant(), Fonts.getRegular(16));
+			Skia.drawHeightCenteredText(text, x + 40 + xOffset, y + (height / 2), palette.getOnSurfaceVariant(),
+					Fonts.getRegular(16));
 		}
 
 		Skia.restore();

@@ -30,59 +30,61 @@
 package com.soarclient.libraries.soarium.util.sorting;
 
 /**
- * Based upon {@link it.unimi.dsi.fastutil.ints.IntArrays} implementation, but it eliminates the use of a user-supplied
- * function and instead sorts an array of floats directly. This helps to improve runtime performance.
+ * Based upon {@link it.unimi.dsi.fastutil.ints.IntArrays} implementation, but
+ * it eliminates the use of a user-supplied function and instead sorts an array
+ * of floats directly. This helps to improve runtime performance.
  */
 public class MergeSort extends AbstractSort {
-    private static final int INSERTION_SORT_THRESHOLD = 16;
+	private static final int INSERTION_SORT_THRESHOLD = 16;
 
-    public static int[] mergeSort(float[] keys) {
-        var indices = createIndexBuffer(keys.length);
-        mergeSort(indices, keys);
+	public static int[] mergeSort(float[] keys) {
+		var indices = createIndexBuffer(keys.length);
+		mergeSort(indices, keys);
 
-        return indices;
-    }
+		return indices;
+	}
 
-    private static void mergeSort(final int[] indices, final float[] keys) {
-        mergeSort(indices, keys, 0, indices.length, null);
-    }
+	private static void mergeSort(final int[] indices, final float[] keys) {
+		mergeSort(indices, keys, 0, indices.length, null);
+	}
 
-    private static void mergeSort(final int[] indices, final float[] keys, final int fromIndex, final int toIndex, int[] supp) {
-        int len = toIndex - fromIndex;
+	private static void mergeSort(final int[] indices, final float[] keys, final int fromIndex, final int toIndex,
+			int[] supp) {
+		int len = toIndex - fromIndex;
 
-        // Insertion sort on smallest arrays
-        if (len < INSERTION_SORT_THRESHOLD) {
-            InsertionSort.insertionSort(indices, fromIndex, toIndex, keys);
-            return;
-        }
+		// Insertion sort on smallest arrays
+		if (len < INSERTION_SORT_THRESHOLD) {
+			InsertionSort.insertionSort(indices, fromIndex, toIndex, keys);
+			return;
+		}
 
-        if (supp == null) {
-            supp = indices.clone();
-        }
+		if (supp == null) {
+			supp = indices.clone();
+		}
 
-        // Recursively sort halves of a into supp
-        final int mid = (fromIndex + toIndex) >>> 1;
-        mergeSort(supp, keys, fromIndex, mid, indices);
-        mergeSort(supp, keys, mid, toIndex, indices);
+		// Recursively sort halves of a into supp
+		final int mid = (fromIndex + toIndex) >>> 1;
+		mergeSort(supp, keys, fromIndex, mid, indices);
+		mergeSort(supp, keys, mid, toIndex, indices);
 
-        // If list is already sorted, just copy from supp to indices. This is an
-        // optimization that results in faster sorts for nearly ordered lists.
-        if (keys[supp[mid]] <= keys[supp[mid - 1]]) {
-            System.arraycopy(supp, fromIndex, indices, fromIndex, len);
-            return;
-        }
+		// If list is already sorted, just copy from supp to indices. This is an
+		// optimization that results in faster sorts for nearly ordered lists.
+		if (keys[supp[mid]] <= keys[supp[mid - 1]]) {
+			System.arraycopy(supp, fromIndex, indices, fromIndex, len);
+			return;
+		}
 
-        // Merge sorted halves (now in supp) into indices
-        int i = fromIndex, p = fromIndex, q = mid;
+		// Merge sorted halves (now in supp) into indices
+		int i = fromIndex, p = fromIndex, q = mid;
 
-        while (i < toIndex) {
-            if (q >= toIndex || p < mid && keys[supp[q]] <= keys[supp[p]]) {
-                indices[i] = supp[p++];
-            } else {
-                indices[i] = supp[q++];
-            }
+		while (i < toIndex) {
+			if (q >= toIndex || p < mid && keys[supp[q]] <= keys[supp[p]]) {
+				indices[i] = supp[p++];
+			} else {
+				indices[i] = supp[q++];
+			}
 
-            i++;
-        }
-    }
+			i++;
+		}
+	}
 }

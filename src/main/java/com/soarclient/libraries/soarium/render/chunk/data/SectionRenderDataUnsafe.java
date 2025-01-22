@@ -1,6 +1,6 @@
 package com.soarclient.libraries.soarium.render.chunk.data;
 
-    import org.lwjgl.system.MemoryUtil;
+import org.lwjgl.system.MemoryUtil;
 
 import com.soarclient.libraries.soarium.util.UInt32;
 
@@ -29,70 +29,73 @@ import com.soarclient.libraries.soarium.util.UInt32;
 // }
 
 public class SectionRenderDataUnsafe {
-    /**
-     * When the "base element" field is not specified (indicated by setting the MSB to 0), the indices for the geometry set
-     * should be sourced from a monotonic sequence (see {@link com.soarclient.libraries.soarium.render.chunk.SharedQuadIndexBuffer}).
-     *
-     * Otherwise, indices should be sourced from the index buffer for the render region using the specified offset.
-     */
-    private static final long OFFSET_BASE_ELEMENT = 0;
+	/**
+	 * When the "base element" field is not specified (indicated by setting the MSB
+	 * to 0), the indices for the geometry set should be sourced from a monotonic
+	 * sequence (see
+	 * {@link com.soarclient.libraries.soarium.render.chunk.SharedQuadIndexBuffer}).
+	 *
+	 * Otherwise, indices should be sourced from the index buffer for the render
+	 * region using the specified offset.
+	 */
+	private static final long OFFSET_BASE_ELEMENT = 0;
 
-    private static final long OFFSET_SLICE_MASK = 4;
-    private static final long OFFSET_SLICE_RANGES = 8;
+	private static final long OFFSET_SLICE_MASK = 4;
+	private static final long OFFSET_SLICE_RANGES = 8;
 
-    private static final long ALIGNMENT = 64;
-    private static final long STRIDE = 64; // cache-line friendly! :)
+	private static final long ALIGNMENT = 64;
+	private static final long STRIDE = 64; // cache-line friendly! :)
 
-    public static long allocateHeap(int count) {
-        final var bytes = STRIDE * count;
+	public static long allocateHeap(int count) {
+		final var bytes = STRIDE * count;
 
-        final var ptr = MemoryUtil.nmemAlignedAlloc(ALIGNMENT, bytes);
-        MemoryUtil.memSet(ptr, 0, bytes);
+		final var ptr = MemoryUtil.nmemAlignedAlloc(ALIGNMENT, bytes);
+		MemoryUtil.memSet(ptr, 0, bytes);
 
-        return ptr;
-    }
+		return ptr;
+	}
 
-    public static void freeHeap(long pointer) {
-        MemoryUtil.nmemAlignedFree(pointer);
-    }
+	public static void freeHeap(long pointer) {
+		MemoryUtil.nmemAlignedFree(pointer);
+	}
 
-    public static void clear(long pointer) {
-        MemoryUtil.memSet(pointer, 0x0, STRIDE);
-    }
+	public static void clear(long pointer) {
+		MemoryUtil.memSet(pointer, 0x0, STRIDE);
+	}
 
-    public static long heapPointer(long ptr, int index) {
-        return ptr + (index * STRIDE);
-    }
+	public static long heapPointer(long ptr, int index) {
+		return ptr + (index * STRIDE);
+	}
 
-    public static void setSliceMask(long ptr, int value) {
-        MemoryUtil.memPutInt(ptr + OFFSET_SLICE_MASK, value);
-    }
+	public static void setSliceMask(long ptr, int value) {
+		MemoryUtil.memPutInt(ptr + OFFSET_SLICE_MASK, value);
+	}
 
-    public static int getSliceMask(long ptr) {
-        return MemoryUtil.memGetInt(ptr + OFFSET_SLICE_MASK);
-    }
+	public static int getSliceMask(long ptr) {
+		return MemoryUtil.memGetInt(ptr + OFFSET_SLICE_MASK);
+	}
 
-    public static void setBaseElement(long ptr, long value) {
-        MemoryUtil.memPutInt(ptr + OFFSET_BASE_ELEMENT, UInt32.downcast(value));
-    }
+	public static void setBaseElement(long ptr, long value) {
+		MemoryUtil.memPutInt(ptr + OFFSET_BASE_ELEMENT, UInt32.downcast(value));
+	}
 
-    public static long getBaseElement(long ptr) {
-        return Integer.toUnsignedLong(MemoryUtil.memGetInt(ptr + OFFSET_BASE_ELEMENT));
-    }
+	public static long getBaseElement(long ptr) {
+		return Integer.toUnsignedLong(MemoryUtil.memGetInt(ptr + OFFSET_BASE_ELEMENT));
+	}
 
-    public static void setVertexOffset(long ptr, int facing, long value /* Uint32 */) {
-        MemoryUtil.memPutInt(ptr + OFFSET_SLICE_RANGES + (facing * 8L) + 0L, UInt32.downcast(value));
-    }
+	public static void setVertexOffset(long ptr, int facing, long value /* Uint32 */) {
+		MemoryUtil.memPutInt(ptr + OFFSET_SLICE_RANGES + (facing * 8L) + 0L, UInt32.downcast(value));
+	}
 
-    public static long /* Uint32 */ getVertexOffset(long ptr, int facing) {
-        return UInt32.upcast(MemoryUtil.memGetInt(ptr + OFFSET_SLICE_RANGES + (facing * 8L) + 0L));
-    }
+	public static long /* Uint32 */ getVertexOffset(long ptr, int facing) {
+		return UInt32.upcast(MemoryUtil.memGetInt(ptr + OFFSET_SLICE_RANGES + (facing * 8L) + 0L));
+	}
 
-    public static void setElementCount(long ptr, int facing, long value /* Uint32 */) {
-        MemoryUtil.memPutInt(ptr + OFFSET_SLICE_RANGES + (facing * 8L) + 4L, UInt32.downcast(value));
-    }
+	public static void setElementCount(long ptr, int facing, long value /* Uint32 */) {
+		MemoryUtil.memPutInt(ptr + OFFSET_SLICE_RANGES + (facing * 8L) + 4L, UInt32.downcast(value));
+	}
 
-    public static long /* Uint32 */ getElementCount(long ptr, int facing) {
-        return UInt32.upcast(MemoryUtil.memGetInt(ptr + OFFSET_SLICE_RANGES + (facing * 8L) + 4L));
-    }
+	public static long /* Uint32 */ getElementCount(long ptr, int facing) {
+		return UInt32.upcast(MemoryUtil.memGetInt(ptr + OFFSET_SLICE_RANGES + (facing * 8L) + 4L));
+	}
 }

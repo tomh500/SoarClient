@@ -18,7 +18,7 @@ public class MainMenuButton extends Component {
 	private SimpleAnimation focusAnimation = new SimpleAnimation();
 	private String title, icon;
 	private int[] pressedPos;
-	
+
 	public MainMenuButton(String title, String icon, float x, float y, float width) {
 		super(x, y);
 		this.title = title;
@@ -30,27 +30,29 @@ public class MainMenuButton extends Component {
 
 	@Override
 	public void draw(int mouseX, int mouseY) {
-		
+
 		ColorPalette palette = Soar.getInstance().getColorManager().getPalette();
-		
+
 		focusAnimation.onTick(MouseUtils.isInside(mouseX, mouseY, x, y, width, height) ? 0.08F : 0, 12);
-		
+
 		Skia.drawRoundedRect(x, y, width, height, 20, palette.getSurface());
-		Skia.drawRoundedRect(x, y, width, height, 20, ColorUtils.applyAlpha(palette.getOnSurfaceVariant(), focusAnimation.getValue()));
-		
+		Skia.drawRoundedRect(x, y, width, height, 20,
+				ColorUtils.applyAlpha(palette.getOnSurfaceVariant(), focusAnimation.getValue()));
+
 		Skia.save();
 		Skia.clip(x, y, width, height, 20);
 		pressAnimation.draw(x + pressedPos[0], y + pressedPos[1], width, height, palette.getTertiaryContainer(), 1);
 		Skia.restore();
-		
-		Skia.drawFullCenteredText(I18n.get(title), x + (width / 2), y + (height / 2), palette.getOnSurfaceVariant(), Fonts.getRegular(18));
+
+		Skia.drawFullCenteredText(I18n.get(title), x + (width / 2), y + (height / 2), palette.getOnSurfaceVariant(),
+				Fonts.getRegular(18));
 		Skia.drawHeightCenteredText(icon, x + 12, y + (height / 2), palette.getOnSurfaceVariant(), Fonts.getIcon(20));
 	}
 
 	@Override
 	public void mousePressed(int mouseX, int mouseY, int mouseButton) {
-		
-		if(MouseUtils.isInside(mouseX, mouseY, x, y, width, height) && mouseButton == 0) {
+
+		if (MouseUtils.isInside(mouseX, mouseY, x, y, width, height) && mouseButton == 0) {
 			pressedPos = new int[] { mouseX - (int) x, mouseY - (int) y };
 			pressAnimation.mousePressed();
 		}
@@ -58,13 +60,13 @@ public class MainMenuButton extends Component {
 
 	@Override
 	public void mouseReleased(int mouseX, int mouseY, int mouseButton) {
-		
-		if(MouseUtils.isInside(mouseX, mouseY, x, y, width, height) && mouseButton == 0) {	
-			if(handler instanceof ButtonHandler) {
+
+		if (MouseUtils.isInside(mouseX, mouseY, x, y, width, height) && mouseButton == 0) {
+			if (handler instanceof ButtonHandler) {
 				((ButtonHandler) handler).onAction();
 			}
 		}
-		
+
 		pressAnimation.mouseReleased();
 	}
 

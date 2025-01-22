@@ -56,10 +56,10 @@ public class WorldClient extends World implements BiomeSeedProvider, ChunkTracke
 	private final Minecraft mc = Minecraft.getMinecraft();
 	private final Set<ChunkCoordIntPair> previousActiveChunkSet = Sets.newHashSet();
 
-    private long biomeZoomSeed;
-    
-    private final ChunkTracker chunkTracker = new ChunkTracker();
-    
+	private long biomeZoomSeed;
+
+	private final ChunkTracker chunkTracker = new ChunkTracker();
+
 	public WorldClient(NetHandlerPlayClient netHandler, WorldSettings settings, int dimension,
 			EnumDifficulty difficulty, Profiler profilerIn) {
 		super(new SaveHandlerMP(), new WorldInfo(settings, "MpServer"),
@@ -72,7 +72,7 @@ public class WorldClient extends World implements BiomeSeedProvider, ChunkTracke
 		this.mapStorage = new SaveDataMemoryStorage();
 		this.calculateInitialSkylight();
 		this.calculateInitialWeather();
-        this.biomeZoomSeed = settings.getSeed();
+		this.biomeZoomSeed = settings.getSeed();
 	}
 
 	/**
@@ -158,13 +158,13 @@ public class WorldClient extends World implements BiomeSeedProvider, ChunkTracke
 	}
 
 	public void doPreChunk(int chuncX, int chuncZ, boolean loadChunk) {
-		
-        if (loadChunk) {
-            this.chunkTracker.onChunkStatusAdded(chuncX, chuncZ, ChunkStatus.FLAG_ALL);
-        } else {
-            this.chunkTracker.onChunkStatusRemoved(chuncX, chuncZ, ChunkStatus.FLAG_ALL);
-        }
-        
+
+		if (loadChunk) {
+			this.chunkTracker.onChunkStatusAdded(chuncX, chuncZ, ChunkStatus.FLAG_ALL);
+		} else {
+			this.chunkTracker.onChunkStatusRemoved(chuncX, chuncZ, ChunkStatus.FLAG_ALL);
+		}
+
 		if (loadChunk) {
 			this.clientChunkProvider.loadChunk(chuncX, chuncZ);
 		} else {
@@ -441,14 +441,14 @@ public class WorldClient extends World implements BiomeSeedProvider, ChunkTracke
 
 		super.setWorldTime(time);
 	}
-	
-    @Override
-    public long sodium$getBiomeZoomSeed() {
-        return this.biomeZoomSeed;
-    }
-    
-    @Override
-    public ChunkTracker sodium$getTracker() {
-        return Objects.requireNonNull(this.chunkTracker);
-    }
+
+	@Override
+	public long sodium$getBiomeZoomSeed() {
+		return this.biomeZoomSeed;
+	}
+
+	@Override
+	public ChunkTracker sodium$getTracker() {
+		return Objects.requireNonNull(this.chunkTracker);
+	}
 }

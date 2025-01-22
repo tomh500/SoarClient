@@ -369,13 +369,13 @@ public class WorldInfo {
 	 * Get current world time
 	 */
 	public long getWorldTime() {
-		
+
 		TimeChangerMod mod = TimeChangerMod.getInstance();
 
 		if (mod.isEnabled()) {
 			return (long) (mod.getTimeSetting().getValue() * 1000L) + 18000L;
 		}
-		
+
 		return this.worldTime;
 	}
 

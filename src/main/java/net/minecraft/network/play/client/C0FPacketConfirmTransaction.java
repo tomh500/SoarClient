@@ -43,8 +43,8 @@ public class C0FPacketConfirmTransaction implements Packet<INetHandlerPlayServer
 	 * Writes the raw packet data to the data stream.
 	 */
 	public void writePacketData(PacketBuffer buf) throws IOException {
-		
-		if(ViaHelper.newerThanOrEqualsTo(ProtocolVersion.v1_17)) {
+
+		if (ViaHelper.newerThanOrEqualsTo(ProtocolVersion.v1_17)) {
 			buf.writeInt(this.windowId);
 		} else {
 			buf.writeByte(this.windowId);

@@ -10,20 +10,20 @@ import it.unimi.dsi.fastutil.objects.ObjectArrayList;
  * render lists for sections of previously unseen regions.
  */
 public class SortedRenderLists implements ChunkRenderListIterable {
-    private static final SortedRenderLists EMPTY = new SortedRenderLists(ObjectArrayList.of());
+	private static final SortedRenderLists EMPTY = new SortedRenderLists(ObjectArrayList.of());
 
-    private final ObjectArrayList<ChunkRenderList> lists;
+	private final ObjectArrayList<ChunkRenderList> lists;
 
-    SortedRenderLists(ObjectArrayList<ChunkRenderList> lists) {
-        this.lists = lists;
-    }
+	SortedRenderLists(ObjectArrayList<ChunkRenderList> lists) {
+		this.lists = lists;
+	}
 
-    @Override
-    public ReversibleObjectArrayIterator<ChunkRenderList> iterator(boolean reverse) {
-        return new ReversibleObjectArrayIterator<>(this.lists, reverse);
-    }
+	@Override
+	public ReversibleObjectArrayIterator<ChunkRenderList> iterator(boolean reverse) {
+		return new ReversibleObjectArrayIterator<>(this.lists, reverse);
+	}
 
-    public static SortedRenderLists empty() {
-        return EMPTY;
-    }
+	public static SortedRenderLists empty() {
+		return EMPTY;
+	}
 }

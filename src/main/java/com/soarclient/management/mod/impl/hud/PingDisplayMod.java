@@ -26,7 +26,7 @@ public class PingDisplayMod extends SimpleHUDMod implements RenderSkiaEventListe
 	public void onDisable() {
 		EventBus.getInstance().unregister(this, RenderSkiaEvent.ID);
 	}
-	
+
 	@Override
 	public String getText() {
 		return ServerUtils.getPing() + " ms";

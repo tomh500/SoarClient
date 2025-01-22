@@ -65,8 +65,8 @@ public class GuiMultiplayer extends GuiScreen implements GuiYesNoCallback {
 		}
 
 		this.createButtons();
-		
-		if(ViaVersionMod.getInstance().isEnabled() && ViaVersionMod.getInstance().isLoaded()) {
+
+		if (ViaVersionMod.getInstance().isEnabled() && ViaVersionMod.getInstance().isLoaded()) {
 			buttonList.add(ViaSoar.getAsyncVersionSlider());
 		}
 	}

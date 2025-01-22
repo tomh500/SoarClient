@@ -11,23 +11,23 @@ import com.soarclient.libraries.soarium.render.chunk.translucent_sorting.SortTyp
  * passed instead.
  */
 public class NoData extends TranslucentData {
-    private final SortType reason;
+	private final SortType reason;
 
-    private NoData(SectionPos sectionPos, SortType reason) {
-        super(sectionPos);
-        this.reason = reason;
-    }
+	private NoData(SectionPos sectionPos, SortType reason) {
+		super(sectionPos);
+		this.reason = reason;
+	}
 
-    @Override
-    public SortType getSortType() {
-        return this.reason;
-    }
+	@Override
+	public SortType getSortType() {
+		return this.reason;
+	}
 
-    public static NoData forEmptySection(SectionPos sectionPos) {
-        return new NoData(sectionPos, SortType.EMPTY_SECTION);
-    }
+	public static NoData forEmptySection(SectionPos sectionPos) {
+		return new NoData(sectionPos, SortType.EMPTY_SECTION);
+	}
 
-    public static NoData forNoTranslucent(SectionPos sectionPos) {
-        return new NoData(sectionPos, SortType.NO_TRANSLUCENT);
-    }
+	public static NoData forNoTranslucent(SectionPos sectionPos) {
+		return new NoData(sectionPos, SortType.NO_TRANSLUCENT);
+	}
 }

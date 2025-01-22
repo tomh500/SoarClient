@@ -171,9 +171,9 @@ public class VertexFormat implements VertexFormatExtensions {
 		i = 31 * i + this.nextOffset;
 		return i;
 	}
-	
+
 	@Override
-    public int sodium$getGlobalId() {
-        return this.sodium$globalId;
-    }
+	public int sodium$getGlobalId() {
+		return this.sodium$globalId;
+	}
 }

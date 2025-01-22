@@ -25,11 +25,11 @@ public class TileEntityPistonRenderer extends TileEntitySpecialRenderer<TileEnti
 
 	public void renderTileEntityAt(TileEntityPiston te, double x, double y, double z, float partialTicks,
 			int destroyStage) {
-		
-        if (!Soarium.getConfig().renderSettings.piston) {
-        	return;
-        }
-        
+
+		if (!Soarium.getConfig().renderSettings.piston) {
+			return;
+		}
+
 		BlockPos blockpos = te.getPos();
 		IBlockState iblockstate = te.getPistonState();
 		Block block = iblockstate.getBlock();

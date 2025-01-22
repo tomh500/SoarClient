@@ -21,23 +21,23 @@ public class AccountGui extends PageGuiMainMenu {
 
 	@Override
 	public void keyTyped(char typedChar, int keyCode) {
-		
-		if(keyCode == Keyboard.KEY_ESCAPE) {
+
+		if (keyCode == Keyboard.KEY_ESCAPE) {
 			parent.setCurrentGui(MainGui.class);
 			return;
 		}
 
 		super.keyTyped(typedChar, keyCode);
 	}
-	
+
 	@Override
 	public List<Page> createPages() {
-		
+
 		List<Page> pages = new ArrayList<>();
-		
+
 		pages.add(new AccountListPage(this));
 		pages.add(new WaitAuthPage(this));
-		
+
 		return pages;
 	}
 

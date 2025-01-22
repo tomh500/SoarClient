@@ -40,185 +40,189 @@ import net.minecraft.util.BlockPos;
 import net.minecraft.util.ReportedException;
 
 /**
- * Rebuilds all the meshes of a chunk for each given render pass with non-occluded blocks. The result is then uploaded
- * to graphics memory on the main thread.
+ * Rebuilds all the meshes of a chunk for each given render pass with
+ * non-occluded blocks. The result is then uploaded to graphics memory on the
+ * main thread.
  * <p>
- * This task takes a slice of the level from the thread it is created on. Since these slices require rather large
- * array allocations, they are pooled to ensure that the garbage collector doesn't become overloaded.
+ * This task takes a slice of the level from the thread it is created on. Since
+ * these slices require rather large array allocations, they are pooled to
+ * ensure that the garbage collector doesn't become overloaded.
  */
 public class ChunkBuilderMeshingTask extends ChunkBuilderTask<ChunkBuildOutput> {
-    private final ChunkRenderContext renderContext;
+	private final ChunkRenderContext renderContext;
 
-    public ChunkBuilderMeshingTask(RenderSection render, int buildTime, Vector3dc absoluteCameraPos, ChunkRenderContext renderContext) {
-        super(render, buildTime, absoluteCameraPos);
-        this.renderContext = renderContext;
-    }
+	public ChunkBuilderMeshingTask(RenderSection render, int buildTime, Vector3dc absoluteCameraPos,
+			ChunkRenderContext renderContext) {
+		super(render, buildTime, absoluteCameraPos);
+		this.renderContext = renderContext;
+	}
 
-    @Override
-    public ChunkBuildOutput execute(ChunkBuildContext buildContext, CancellationToken cancellationToken) {
-        Profiler profiler = Minecraft.getMinecraft().mcProfiler;
-        BuiltSectionInfo.Builder renderData = new BuiltSectionInfo.Builder();
-        VisGraph occluder = new VisGraph();
+	@Override
+	public ChunkBuildOutput execute(ChunkBuildContext buildContext, CancellationToken cancellationToken) {
+		Profiler profiler = Minecraft.getMinecraft().mcProfiler;
+		BuiltSectionInfo.Builder renderData = new BuiltSectionInfo.Builder();
+		VisGraph occluder = new VisGraph();
 
-        ChunkBuildBuffers buffers = buildContext.buffers;
-        buffers.init(renderData, this.render.getSectionIndex());
+		ChunkBuildBuffers buffers = buildContext.buffers;
+		buffers.init(renderData, this.render.getSectionIndex());
 
-        BlockRenderCache cache = buildContext.cache;
-        cache.init(this.renderContext);
+		BlockRenderCache cache = buildContext.cache;
+		cache.init(this.renderContext);
 
-        LevelSlice slice = cache.getWorldSlice();
+		LevelSlice slice = cache.getWorldSlice();
 
-        int minX = this.render.getOriginX();
-        int minY = this.render.getOriginY();
-        int minZ = this.render.getOriginZ();
+		int minX = this.render.getOriginX();
+		int minY = this.render.getOriginY();
+		int minZ = this.render.getOriginZ();
 
-        int maxX = minX + 16;
-        int maxY = minY + 16;
-        int maxZ = minZ + 16;
+		int maxX = minX + 16;
+		int maxY = minY + 16;
+		int maxZ = minZ + 16;
 
-        // Initialise with minX/minY/minZ so initial getBlockState crash context is correct
-        BlockPos.MutableBlockPos blockPos = new BlockPos.MutableBlockPos(minX, minY, minZ);
-        BlockPos.MutableBlockPos modelOffset = new BlockPos.MutableBlockPos();
+		// Initialise with minX/minY/minZ so initial getBlockState crash context is
+		// correct
+		BlockPos.MutableBlockPos blockPos = new BlockPos.MutableBlockPos(minX, minY, minZ);
+		BlockPos.MutableBlockPos modelOffset = new BlockPos.MutableBlockPos();
 
-        TranslucentGeometryCollector collector = null;
-        if (Soarium.getConfig().performance.getSortBehavior() != SortBehavior.OFF) {
-            collector = new TranslucentGeometryCollector(render.getPosition());
-        }
-        BlockRenderContext context = new BlockRenderContext(slice, collector);
+		TranslucentGeometryCollector collector = null;
+		if (Soarium.getConfig().performance.getSortBehavior() != SortBehavior.OFF) {
+			collector = new TranslucentGeometryCollector(render.getPosition());
+		}
+		BlockRenderContext context = new BlockRenderContext(slice, collector);
 
-        profiler.startSection("render blocks");
-        try {
-            for (int y = minY; y < maxY; y++) {
-                if (cancellationToken.isCancelled()) {
-                    return null;
-                }
+		profiler.startSection("render blocks");
+		try {
+			for (int y = minY; y < maxY; y++) {
+				if (cancellationToken.isCancelled()) {
+					return null;
+				}
 
-                for (int z = minZ; z < maxZ; z++) {
-                    for (int x = minX; x < maxX; x++) {
-                        blockPos.set(x, y, z);
+				for (int z = minZ; z < maxZ; z++) {
+					for (int x = minX; x < maxX; x++) {
+						blockPos.set(x, y, z);
 
-                        var blockState = slice.getBlockState(blockPos);
-                        var block = blockState.getBlock();
-                        var blockType = block.getRenderType();
+						var blockState = slice.getBlockState(blockPos);
+						var block = blockState.getBlock();
+						var blockType = block.getRenderType();
 
+						if (BlockRenderType.isInvisible(blockType) && block.hasTileEntity()) {
+							continue;
+						}
 
-                        if (BlockRenderType.isInvisible(blockType) && block.hasTileEntity()) {
-                            continue;
-                        }
+						blockState = block.getActualState(blockState, slice, blockPos);
 
-                        blockState = block.getActualState(blockState, slice, blockPos);
+						modelOffset.set(x & 15, y & 15, z & 15);
 
-                        modelOffset.set(x & 15, y & 15, z & 15);
+						if (BlockRenderType.isModel(blockType)) {
+							IBakedModel model = cache.getBlockModels().getModelForState(blockState);
 
-                        if (BlockRenderType.isModel(blockType)) {
-                            IBakedModel model = cache.getBlockModels()
-                                    .getModelForState(blockState);
+							context.update(blockPos, modelOffset, blockState, model);
+							cache.getBlockRenderer().renderModel(context, buffers);
+						}
 
-                            context.update(blockPos, modelOffset, blockState, model);
-                            cache.getBlockRenderer()
-                                    .renderModel(context, buffers);
-                        }
+						if (BlockRenderType.isLiquid(blockType)) {
+							cache.getFluidRenderer().render(slice, blockState, blockState, blockPos, modelOffset,
+									collector, buffers);
+						}
 
-                        if (BlockRenderType.isLiquid(blockType)) {
-                            cache.getFluidRenderer().render(slice, blockState, blockState, blockPos, modelOffset, collector, buffers);
-                        }
+						if (block.hasTileEntity()) {
+							TileEntity entity = slice.getTileEntity(blockPos);
+							TileEntitySpecialRenderer<TileEntity> renderer = null;
+							if (entity != null) {
+								renderer = TileEntityRendererDispatcher.instance.getSpecialRenderer(entity);
 
-                        if (block.hasTileEntity()) {
-                            TileEntity entity = slice.getTileEntity(blockPos);
-                            TileEntitySpecialRenderer<TileEntity> renderer = null;
-                            if (entity != null) {
-                                renderer = TileEntityRendererDispatcher.instance.getSpecialRenderer(entity);
+								if (renderer != null) {
+									renderData.addBlockEntity(entity, false);
+								}
+							}
+						}
 
-                                if (renderer != null) {
-                                    renderData.addBlockEntity(entity, false);
-                                }
-                            }
-                        }
+						if (block.isOpaqueCube()) {
+							occluder.func_178606_a(blockPos);
+						}
+					}
+				}
+			}
+		} catch (ReportedException ex) {
+			// Propagate existing crashes (add context)
+			throw fillCrashInfo(ex.getCrashReport(), slice, blockPos);
+		} catch (Exception ex) {
+			// Create a new crash report for other exceptions (e.g. thrown in getQuads)
+			throw fillCrashInfo(CrashReport.makeCrashReport(ex, "Encountered exception while building chunk meshes"),
+					slice, blockPos);
+		}
+		profiler.endStartSection("mesh appenders");
 
-                        if (block.isOpaqueCube()) {
-                            occluder.func_178606_a(blockPos);
-                        }
-                    }
-                }
-            }
-        } catch (ReportedException ex) {
-            // Propagate existing crashes (add context)
-            throw fillCrashInfo(ex.getCrashReport(), slice, blockPos);
-        } catch (Exception ex) {
-            // Create a new crash report for other exceptions (e.g. thrown in getQuads)
-            throw fillCrashInfo(CrashReport.makeCrashReport(ex, "Encountered exception while building chunk meshes"), slice, blockPos);
-        }
-        profiler.endStartSection("mesh appenders");
+		SortType sortType = SortType.NONE;
+		if (collector != null) {
+			sortType = collector.finishRendering();
+		}
 
-        SortType sortType = SortType.NONE;
-        if (collector != null) {
-            sortType = collector.finishRendering();
-        }
+		Map<TerrainRenderPass, BuiltSectionMeshParts> meshes = new Reference2ReferenceOpenHashMap<>();
+		profiler.endStartSection("meshing");
 
-        Map<TerrainRenderPass, BuiltSectionMeshParts> meshes = new Reference2ReferenceOpenHashMap<>();
-        profiler.endStartSection("meshing");
+		for (TerrainRenderPass pass : DefaultTerrainRenderPasses.ALL) {
+			// consolidate all translucent geometry into UNASSIGNED so that it's rendered
+			// all together if it needs to share an index buffer between the directions
+			BuiltSectionMeshParts mesh = buffers.createMesh(pass,
+					pass.isTranslucent() && sortType.needsDirectionMixing);
 
-        for (TerrainRenderPass pass : DefaultTerrainRenderPasses.ALL) {
-            // consolidate all translucent geometry into UNASSIGNED so that it's rendered
-            // all together if it needs to share an index buffer between the directions
-            BuiltSectionMeshParts mesh = buffers.createMesh(pass, pass.isTranslucent() && sortType.needsDirectionMixing);
+			if (mesh != null) {
+				meshes.put(pass, mesh);
+				renderData.addRenderPass(pass);
+			}
+		}
 
-            if (mesh != null) {
-                meshes.put(pass, mesh);
-                renderData.addRenderPass(pass);
-            }
-        }
+		// cancellation opportunity right before translucent sorting
+		if (cancellationToken.isCancelled()) {
+			meshes.forEach((pass, mesh) -> mesh.getVertexData().free());
+			profiler.endSection();
+			return null;
+		}
 
-        // cancellation opportunity right before translucent sorting
-        if (cancellationToken.isCancelled()) {
-            meshes.forEach((pass, mesh) -> mesh.getVertexData().free());
-            profiler.endSection();
-            return null;
-        }
+		renderData.setOcclusionData(occluder.computeVisibility());
 
-        renderData.setOcclusionData(occluder.computeVisibility());
+		profiler.endStartSection("translucency sorting");
 
-        profiler.endStartSection("translucency sorting");
+		boolean reuseUploadedData = false;
+		TranslucentData translucentData = null;
+		if (collector != null) {
+			var oldData = this.render.getTranslucentData();
+			translucentData = collector.getTranslucentData(oldData, meshes.get(DefaultTerrainRenderPasses.TRANSLUCENT),
+					this);
+			reuseUploadedData = translucentData == oldData;
+		}
 
-        boolean reuseUploadedData = false;
-        TranslucentData translucentData = null;
-        if (collector != null) {
-            var oldData = this.render.getTranslucentData();
-            translucentData = collector.getTranslucentData(
-                    oldData, meshes.get(DefaultTerrainRenderPasses.TRANSLUCENT), this);
-            reuseUploadedData = translucentData == oldData;
-        }
+		var output = new ChunkBuildOutput(this.render, this.submitTime, translucentData, renderData.build(), meshes);
 
-        var output = new ChunkBuildOutput(this.render, this.submitTime, translucentData, renderData.build(), meshes);
+		if (collector != null) {
+			if (reuseUploadedData) {
+				output.markAsReusingUploadedData();
+			} else if (translucentData instanceof PresentTranslucentData present) {
+				var sorter = present.getSorter();
+				sorter.writeIndexBuffer(this, true);
+				output.copyResultFrom(sorter);
+			}
+		}
 
-        if (collector != null) {
-            if (reuseUploadedData) {
-                output.markAsReusingUploadedData();
-            } else if (translucentData instanceof PresentTranslucentData present) {
-                var sorter = present.getSorter();
-                sorter.writeIndexBuffer(this, true);
-                output.copyResultFrom(sorter);
-            }
-        }
+		profiler.endSection();
 
-        profiler.endSection();
+		return output;
+	}
 
-        return output;
-    }
+	private ReportedException fillCrashInfo(CrashReport report, LevelSlice slice, BlockPos pos) {
+		CrashReportCategory crashReportSection = report.makeCategoryDepth("Block being rendered", 1);
 
-    private ReportedException fillCrashInfo(CrashReport report, LevelSlice slice, BlockPos pos) {
-        CrashReportCategory crashReportSection = report.makeCategoryDepth("Block being rendered", 1);
+		crashReportSection.addCrashSection("Chunk section", this.render);
+		if (this.renderContext != null) {
+			crashReportSection.addCrashSection("Render context volume", this.renderContext.volume());
+		}
 
-        crashReportSection.addCrashSection("Chunk section", this.render);
-        if (this.renderContext != null) {
-            crashReportSection.addCrashSection("Render context volume", this.renderContext.volume());
-        }
+		return new ReportedException(report);
+	}
 
-        return new ReportedException(report);
-    }
-
-    @Override
-    public int getEffort() {
-        return ChunkBuilder.HIGH_EFFORT;
-    }
+	@Override
+	public int getEffort() {
+		return ChunkBuilder.HIGH_EFFORT;
+	}
 }

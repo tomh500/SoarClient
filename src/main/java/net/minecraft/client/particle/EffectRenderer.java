@@ -332,8 +332,7 @@ public class EffectRenderer {
 
 	public void addBlockDestroyEffects(BlockPos pos, IBlockState state) {
 
-		if (!Soarium.getConfig().particleSettings.particles
-				|| !Soarium.getConfig().particleSettings.blockBreak) {
+		if (!Soarium.getConfig().particleSettings.particles || !Soarium.getConfig().particleSettings.blockBreak) {
 			return;
 		}
 
@@ -361,8 +360,7 @@ public class EffectRenderer {
 	 */
 	public void addBlockHitEffects(BlockPos pos, EnumFacing side) {
 
-		if (!Soarium.getConfig().particleSettings.particles
-				|| !Soarium.getConfig().particleSettings.blockBreaking) {
+		if (!Soarium.getConfig().particleSettings.particles || !Soarium.getConfig().particleSettings.blockBreaking) {
 			return;
 		}
 

@@ -109,7 +109,7 @@ public abstract class PageGui extends SoarGui {
 	public void keyTyped(char typedChar, int keyCode) {
 
 		super.keyTyped(typedChar, keyCode);
-		
+
 		if (currentPage != null) {
 			currentPage.keyTyped(typedChar, keyCode);
 		}
@@ -122,7 +122,7 @@ public abstract class PageGui extends SoarGui {
 
 	@Override
 	public void onClosed() {
-		if(currentPage != null) {
+		if (currentPage != null) {
 			currentPage.onClosed();
 		}
 	}
@@ -156,9 +156,9 @@ public abstract class PageGui extends SoarGui {
 			setCurrentPage(page);
 		}
 	}
-	
+
 	public Page getPage(Class<? extends Page> clazz) {
-		
+
 		Page page = null;
 
 		for (Page p : pages) {
@@ -167,7 +167,7 @@ public abstract class PageGui extends SoarGui {
 				break;
 			}
 		}
-		
+
 		return page;
 	}
 

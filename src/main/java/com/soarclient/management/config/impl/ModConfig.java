@@ -35,10 +35,10 @@ public class ModConfig extends Config {
 		ModManager modManager = Soar.getInstance().getModManager();
 		JsonObject modJsonObject = JsonUtils.getObjectProperty(jsonObject, "mods");
 
-		for(Mod m : modManager.getMods()) {
+		for (Mod m : modManager.getMods()) {
 			m.setEnabled(false);
 		}
-		
+
 		if (modJsonObject != null) {
 
 			for (Mod m : modManager.getMods()) {

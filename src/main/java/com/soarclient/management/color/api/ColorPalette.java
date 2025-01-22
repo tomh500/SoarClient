@@ -21,7 +21,7 @@ public class ColorPalette {
 		scheme = Material3.getDynamicScheme(hct, dark, contrast);
 		colors = new MaterialDynamicColors();
 	}
-	
+
 	public ColorPalette(Hct hct, boolean dark) {
 		this(hct, dark, 0);
 	}

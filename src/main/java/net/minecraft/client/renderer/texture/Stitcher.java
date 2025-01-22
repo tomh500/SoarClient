@@ -43,24 +43,24 @@ public class Stitcher {
 	}
 
 	public void doStitch() {
-		
+
 		Stitcher.Holder[] astitcher$holder = this.setStitchHolders.toArray(new Holder[this.setStitchHolders.size()]);
 		Arrays.sort(astitcher$holder);
 
 		Pair<Integer, Integer> size = StbStitcher.packRects(astitcher$holder);
-        this.currentWidth = size.getFirst();
-        this.currentHeight = size.getSecond();
+		this.currentWidth = size.getFirst();
+		this.currentHeight = size.getSecond();
 	}
 
 	public List<TextureAtlasSprite> getStichSlots() {
-		
-        List<TextureAtlasSprite> arraylist = new ArrayList<>();
 
-        for (Stitcher.Holder holder : (Set<Stitcher.Holder>) this.setStitchHolders) {
-            arraylist.add(holder.getAtlasSprite());
-        }
+		List<TextureAtlasSprite> arraylist = new ArrayList<>();
 
-        return arraylist;
+		for (Stitcher.Holder holder : (Set<Stitcher.Holder>) this.setStitchHolders) {
+			arraylist.add(holder.getAtlasSprite());
+		}
+
+		return arraylist;
 	}
 
 	private static int getMipmapDimension(int p_147969_0_, int p_147969_1_) {

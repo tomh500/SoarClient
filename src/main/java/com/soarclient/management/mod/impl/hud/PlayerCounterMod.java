@@ -25,7 +25,7 @@ public class PlayerCounterMod extends SimpleHUDMod implements RenderSkiaEventLis
 	public void onDisable() {
 		EventBus.getInstance().unregister(this, RenderSkiaEvent.ID);
 	}
-	
+
 	@Override
 	public String getText() {
 		return "Player: " + mc.thePlayer.sendQueue.getPlayerInfoMap().size();

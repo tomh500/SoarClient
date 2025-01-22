@@ -384,7 +384,7 @@ public class WorldServer extends World implements IThreadListener {
 								int l1 = k1 & 15;
 								int i2 = k1 >> 8 & 15;
 								int j2 = k1 >> 16 & 15;
-								
+
 								IBlockState iblockstate = extendedblockstorage.get(l1, j2, i2);
 								Block block = iblockstate.getBlock();
 

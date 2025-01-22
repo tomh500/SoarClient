@@ -56,7 +56,7 @@ public class ViaSoar {
 	public void inject(final Channel channel, final VSNetworkManager networkManager) {
 
 		if (channel instanceof SocketChannel && !targetVersion.equals(ProtocolVersion.v1_8)) {
-			
+
 			final UserConnection user = new UserConnectionImpl(channel, true);
 
 			new ProtocolPipelineImpl(user);

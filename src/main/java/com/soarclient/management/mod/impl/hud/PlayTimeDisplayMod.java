@@ -26,7 +26,7 @@ public class PlayTimeDisplayMod extends SimpleHUDMod implements RenderSkiaEventL
 	public void onDisable() {
 		EventBus.getInstance().unregister(this, RenderSkiaEvent.ID);
 	}
-	
+
 	@Override
 	public String getText() {
 

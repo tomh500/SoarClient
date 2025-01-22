@@ -169,8 +169,9 @@ public class Framebuffer {
 			}
 		}
 
-		if (MotionBlurMod.getInstance() != null && MotionBlurMod.getInstance().isEnabled() && MotionBlurMod.getInstance().isMonkey()
-				&& MonkeyBlur.getInstance().drawingBuffer && this == Minecraft.getMinecraft().getFramebuffer()) {
+		if (MotionBlurMod.getInstance() != null && MotionBlurMod.getInstance().isEnabled()
+				&& MotionBlurMod.getInstance().isMonkey() && MonkeyBlur.getInstance().drawingBuffer
+				&& this == Minecraft.getMinecraft().getFramebuffer()) {
 			MonkeyBlur.getInstance().bindFb();
 		}
 	}

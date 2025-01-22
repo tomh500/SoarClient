@@ -3,28 +3,28 @@ package com.soarclient.libraries.soarium.util.iterator;
 import java.util.NoSuchElementException;
 
 public class ByteArrayIterator implements ByteIterator {
-    private final byte[] elements;
-    private final int lastIndex;
+	private final byte[] elements;
+	private final int lastIndex;
 
-    private int index;
+	private int index;
 
-    public ByteArrayIterator(byte[] elements, int lastIndex) {
-        this.elements = elements;
-        this.lastIndex = lastIndex;
-        this.index = 0;
-    }
+	public ByteArrayIterator(byte[] elements, int lastIndex) {
+		this.elements = elements;
+		this.lastIndex = lastIndex;
+		this.index = 0;
+	}
 
-    @Override
-    public boolean hasNext() {
-        return this.index < this.lastIndex;
-    }
+	@Override
+	public boolean hasNext() {
+		return this.index < this.lastIndex;
+	}
 
-    @Override
-    public int nextByteAsInt() {
-        if (!this.hasNext()) {
-            throw new NoSuchElementException();
-        }
+	@Override
+	public int nextByteAsInt() {
+		if (!this.hasNext()) {
+			throw new NoSuchElementException();
+		}
 
-        return Byte.toUnsignedInt(this.elements[this.index++]);
-    }
+		return Byte.toUnsignedInt(this.elements[this.index++]);
+	}
 }

@@ -41,7 +41,7 @@ public class NativeBackedImage extends BufferedImage implements AutoCloseable {
 		for (int z = startY; z < h; z++) {
 			for (int x = startX; x < w; x++) {
 				int color = MemoryUtil.memGetInt(this.pointer + ((x + z * width) * 4));
-				
+
 				int a = (color >> 24) & 0xFF;
 				int b = (color >> 16) & 0xFF;
 				int g = (color >> 8) & 0xFF;
@@ -118,7 +118,7 @@ public class NativeBackedImage extends BufferedImage implements AutoCloseable {
 	}
 
 	private static ByteBuffer readResource(InputStream inputStream) throws IOException {
-		
+
 		ByteBuffer byteBuffer;
 		if (inputStream instanceof FileInputStream) {
 			FileChannel fileChannel = ((FileInputStream) inputStream).getChannel();
@@ -141,7 +141,7 @@ public class NativeBackedImage extends BufferedImage implements AutoCloseable {
 					byteBuffer = MemoryUtil.memRealloc(byteBuffer, byteBuffer.capacity() * 2);
 				}
 			}
-			
+
 			readableByteChannel.close();
 		}
 

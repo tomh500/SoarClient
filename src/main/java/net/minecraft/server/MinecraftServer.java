@@ -265,8 +265,8 @@ public abstract class MinecraftServer implements Runnable, ICommandSender, IThre
 		WorldSettings worldsettings;
 
 		if (worldinfo == null) {
-			worldsettings = new WorldSettings(seed, this.getGameType(), this.canStructuresSpawn(),
-					this.isHardcore(), type);
+			worldsettings = new WorldSettings(seed, this.getGameType(), this.canStructuresSpawn(), this.isHardcore(),
+					type);
 			worldsettings.setWorldName(worldNameIn2);
 
 			if (this.enableBonusChest) {

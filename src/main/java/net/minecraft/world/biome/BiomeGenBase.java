@@ -357,11 +357,11 @@ public abstract class BiomeGenBase {
 	 * takes temperature, returns color
 	 */
 	public int getSkyColorByTemp(float p_76731_1_) {
-		
-        if (!Soarium.getConfig().detailSettings.skyColors) {
-        	return 7907327;
-        }
-        
+
+		if (!Soarium.getConfig().detailSettings.skyColors) {
+			return 7907327;
+		}
+
 		p_76731_1_ = p_76731_1_ / 3.0F;
 		p_76731_1_ = MathHelper.clamp_float(p_76731_1_, -1.0F, 1.0F);
 		return MathHelper.hsvToRGB(0.62222224F - p_76731_1_ * 0.05F, 0.5F + p_76731_1_ * 0.1F, 1.0F);

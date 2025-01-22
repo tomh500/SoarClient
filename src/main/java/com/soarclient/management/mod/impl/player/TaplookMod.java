@@ -32,13 +32,13 @@ public class TaplookMod extends Mod implements ClientTickEventListener {
 
 	@Override
 	public void onClientTick() {
-		
-		if(toggleSetting.isEnabled()) {
-			
-			if(keybindSetting.isPressed()) {
+
+		if (toggleSetting.isEnabled()) {
+
+			if (keybindSetting.isPressed()) {
 				toggled = !toggled;
-				
-				if(toggled) {
+
+				if (toggled) {
 					if (!active) {
 						this.start();
 					}

@@ -189,7 +189,7 @@ public class GameSettings {
 		this.forceUnicodeFont = false;
 		this.mc = mcIn;
 		this.optionsFile = new File(optionsFileIn, "options.txt");
-        GameSettings.Options.RENDER_DISTANCE.setValueMax(32);
+		GameSettings.Options.RENDER_DISTANCE.setValueMax(32);
 		this.renderDistanceChunks = mcIn.isJava64bit() ? 12 : 8;
 		this.loadOptions();
 	}
@@ -1007,14 +1007,14 @@ public class GameSettings {
 	 * Return true if the clouds should be rendered
 	 */
 	public int shouldRenderClouds() {
-		
-        SoariumConfig options = Soarium.getConfig();
 
-        if (this.renderDistanceChunks < 4 || !options.quality.enableClouds) {
-            return 0;
-        }
+		SoariumConfig options = Soarium.getConfig();
 
-        return options.quality.cloudQuality.isFancy(this.fancyGraphics) ? 2 : 1;
+		if (this.renderDistanceChunks < 4 || !options.quality.enableClouds) {
+			return 0;
+		}
+
+		return options.quality.cloudQuality.isFancy(this.fancyGraphics) ? 2 : 1;
 	}
 
 	/**

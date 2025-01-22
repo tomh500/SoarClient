@@ -40,7 +40,7 @@ public class MotionBlurMod extends Mod implements ShaderEventListener {
 	public void onShader(ShaderEvent event) {
 
 		ScaledResolution sr = ScaledResolution.get(mc);
-		
+
 		if (modeSetting.getOption().equals("setting.phosphor")) {
 
 			if (group == null || prevWidth != sr.getScaledWidth() || prevHeight != sr.getScaledHeight()) {
@@ -58,7 +58,7 @@ public class MotionBlurMod extends Mod implements ShaderEventListener {
 					e.printStackTrace();
 				}
 			}
-			
+
 			if (groupBlur != amountSetting.getValue() || !loaded) {
 				loaded = true;
 				System.out.println("a");

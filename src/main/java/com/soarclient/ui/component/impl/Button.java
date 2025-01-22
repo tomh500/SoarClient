@@ -17,7 +17,7 @@ import io.github.humbleui.types.Rect;
 public class Button extends Component {
 
 	private PressAnimation pressAnimation = new PressAnimation();
-	
+
 	private int[] pressedPos;
 	private String text;
 	private Style style;
@@ -49,8 +49,8 @@ public class Button extends Component {
 
 	@Override
 	public void mousePressed(int mouseX, int mouseY, int mouseButton) {
-		
-		if(MouseUtils.isInside(mouseX, mouseY, x, y, width, height) && mouseButton == 0) {
+
+		if (MouseUtils.isInside(mouseX, mouseY, x, y, width, height) && mouseButton == 0) {
 			pressedPos = new int[] { mouseX - (int) x, mouseY - (int) y };
 			pressAnimation.mousePressed();
 		}
@@ -58,8 +58,8 @@ public class Button extends Component {
 
 	@Override
 	public void mouseReleased(int mouseX, int mouseY, int mouseButton) {
-		if(MouseUtils.isInside(mouseX, mouseY, x, y, width, height) && mouseButton == 0) {
-			if(handler instanceof ButtonHandler) {
+		if (MouseUtils.isInside(mouseX, mouseY, x, y, width, height) && mouseButton == 0) {
+			if (handler instanceof ButtonHandler) {
 				((ButtonHandler) handler).onAction();
 			}
 		}

@@ -136,8 +136,8 @@ public class TextField extends Component {
 	@Override
 	public void keyTyped(char typedChar, int keyCode) {
 		input.keyTyped(typedChar, keyCode);
-		
-		if(handler instanceof TextHandler) {
+
+		if (handler instanceof TextHandler) {
 			((TextHandler) handler).onTyped(getText());
 		}
 	}

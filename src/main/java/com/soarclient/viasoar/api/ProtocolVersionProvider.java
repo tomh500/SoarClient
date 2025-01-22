@@ -11,11 +11,12 @@ import net.minecraft.client.Minecraft;
 
 public class ProtocolVersionProvider extends BaseVersionProvider {
 
-    @Override
-    public ProtocolVersion getClosestServerProtocol(UserConnection connection) throws Exception {
-        if (connection.isClientSide() && !Minecraft.getMinecraft().isIntegratedServerRunning()) {
-            return Objects.requireNonNull(connection.getChannel()).attr(ViaSoar.VS_NETWORK_MANAGER).get().getTrackedVersion();
-        }
-        return super.getClosestServerProtocol(connection);
-    }
+	@Override
+	public ProtocolVersion getClosestServerProtocol(UserConnection connection) throws Exception {
+		if (connection.isClientSide() && !Minecraft.getMinecraft().isIntegratedServerRunning()) {
+			return Objects.requireNonNull(connection.getChannel()).attr(ViaSoar.VS_NETWORK_MANAGER).get()
+					.getTrackedVersion();
+		}
+		return super.getClosestServerProtocol(connection);
+	}
 }

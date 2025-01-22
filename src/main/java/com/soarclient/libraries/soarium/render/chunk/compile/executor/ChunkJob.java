@@ -4,9 +4,9 @@ import com.soarclient.libraries.soarium.render.chunk.compile.ChunkBuildContext;
 import com.soarclient.libraries.soarium.util.task.CancellationToken;
 
 public interface ChunkJob extends CancellationToken {
-    void execute(ChunkBuildContext context);
+	void execute(ChunkBuildContext context);
 
-    boolean isStarted();
+	boolean isStarted();
 
-    int getEffort();
+	int getEffort();
 }

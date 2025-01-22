@@ -13,43 +13,43 @@ import com.soarclient.utils.MathUtils;
 public class PressAnimation {
 
 	private Animation animation;
-	
+
 	public PressAnimation() {
 		animation = new DummyAnimation();
 	}
-	
+
 	public void setPressed() {
 		animation = new DummyAnimation(1);
 	}
-	
+
 	public void draw(float x, float y, float width, float height, Color color, float alpha) {
 
 		float radius = calculateMaxRadius(width, height) * 1.1F;
 
 		float resultAlpha = alpha;
-		
-		if(animation.getEnd() == 1) {
+
+		if (animation.getEnd() == 1) {
 			resultAlpha = animation.getValue() * resultAlpha;
-		} else if(animation.getEnd() == 2) {
+		} else if (animation.getEnd() == 2) {
 			resultAlpha = (2 - animation.getValue()) * resultAlpha;
 		} else {
 			resultAlpha = 0;
 		}
-		
-		if(animation.getEnd() == 2 && animation.isFinished()) {
+
+		if (animation.getEnd() == 2 && animation.isFinished()) {
 			animation = new DummyAnimation();
 		}
-		
+
 		Skia.drawCircle(x, y, radius * MathUtils.clamp(animation.getValue(), 0, 1),
 				ColorUtils.applyAlpha(color, resultAlpha));
 	}
-	
+
 	public void mousePressed() {
 		animation = new EaseEmphasizedDecelerate(Duration.EXTRA_LONG_2, 0, 1);
 	}
-	
+
 	public void mouseReleased() {
-		if(animation.getEnd() == 1) {
+		if (animation.getEnd() == 1) {
 			animation = new EaseEmphasizedDecelerate(Duration.EXTRA_LONG_2, animation.getValue(), 2);
 		}
 	}

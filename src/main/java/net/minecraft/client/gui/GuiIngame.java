@@ -110,9 +110,9 @@ public class GuiIngame extends Gui {
 
 	/** Used with updateCounter to make the heart bar flash */
 	private long healthUpdateCounter = 0L;
-	
+
 	public static GaussianBlur INGAME_BLUR = new GaussianBlur(true);
-	
+
 	public GuiIngame(Minecraft mcIn) {
 		this.mc = mcIn;
 		this.itemRenderer = mcIn.getRenderItem();
@@ -336,18 +336,18 @@ public class GuiIngame extends Gui {
 		GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
 		GlStateManager.disableLighting();
 		GlStateManager.enableAlpha();
-		
-		if(HUDModSettings.getInstance().getBlurSetting().isEnabled()) {
+
+		if (HUDModSettings.getInstance().getBlurSetting().isEnabled()) {
 			INGAME_BLUR.draw(HUDModSettings.getInstance().getBlurIntensitySetting().getValue());
 		}
-		
+
 		SkiaContext.draw((context) -> {
 			Skia.save();
 			Skia.scale(scaledresolution.getScaleFactor());
 			EventBus.getInstance().call(new RenderSkiaEvent(partialTicks), RenderSkiaEvent.ID);
 			Skia.restore();
 		});
-		
+
 		EventBus.getInstance().call(new RenderGameOverlayEvent(partialTicks), RenderGameOverlayEvent.ID);
 	}
 
@@ -800,15 +800,15 @@ public class GuiIngame extends Gui {
 	}
 
 	private void renderPumpkinOverlay(ScaledResolution scaledRes) {
-		
+
 		RenderPumpkinOverlayEvent event = new RenderPumpkinOverlayEvent();
-		
+
 		EventBus.getInstance().call(event, RenderPumpkinOverlayEvent.ID);
-		
-		if(event.isCancelled()) {
+
+		if (event.isCancelled()) {
 			return;
 		}
-		
+
 		GlStateManager.disableDepth();
 		GlStateManager.depthMask(false);
 		GlStateManager.tryBlendFuncSeparate(770, 771, 1, 0);

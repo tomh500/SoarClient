@@ -25,11 +25,11 @@ public class RenderPainting extends Render<EntityPainting> {
 	 * Renders the desired {@code T} type Entity.
 	 */
 	public void doRender(EntityPainting entity, double x, double y, double z, float entityYaw, float partialTicks) {
-		
-        if (!Soarium.getConfig().renderSettings.painting) {
-        	return;
-        }
-        
+
+		if (!Soarium.getConfig().renderSettings.painting) {
+			return;
+		}
+
 		GlStateManager.pushMatrix();
 		GlStateManager.translate(x, y, z);
 		GlStateManager.rotate(180.0F - entityYaw, 0.0F, 1.0F, 0.0F);

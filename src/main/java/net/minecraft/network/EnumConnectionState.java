@@ -281,7 +281,8 @@ public enum EnumConnectionState {
 
 	@SuppressWarnings({ "unchecked" })
 	public Packet<?> getPacket(EnumPacketDirection direction, int packetId)
-			throws InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException, NoSuchMethodException, SecurityException {
+			throws InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException,
+			NoSuchMethodException, SecurityException {
 		Class<? extends Packet<?>> oclass = (Class<? extends Packet<?>>) ((BiMap) this.directionMaps.get(direction))
 				.get(Integer.valueOf(packetId));
 		return oclass == null ? null : oclass.getDeclaredConstructor().newInstance();

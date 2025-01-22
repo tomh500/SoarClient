@@ -32,11 +32,11 @@ public class AccountAuth {
 
 		Soar.getInstance().getConfigManager().save(ConfigType.ACCOUNT);
 	}
-	
+
 	public static void login(Account account) {
-		
+
 		AccountManager accountManager = Soar.getInstance().getAccountManager();
-		
+
 		if (account instanceof MicrosoftAccount) {
 
 			MicrosoftAccount msAccount = (MicrosoftAccount) account;
@@ -51,7 +51,7 @@ public class AccountAuth {
 			Soar.getInstance().getConfigManager().save(ConfigType.ACCOUNT);
 		}
 	}
-	
+
 	public static boolean openUrlWithDesktop(String url) {
 		try {
 			if (Desktop.isDesktopSupported() && Desktop.getDesktop().isSupported(Desktop.Action.BROWSE)) {

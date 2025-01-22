@@ -32,14 +32,15 @@ public class BlockFarmland extends Block {
 	}
 
 	public AxisAlignedBB getCollisionBoundingBox(World worldIn, BlockPos pos, IBlockState state) {
-		
+
 		float mod = 1F;
-		
-		if(ViaHelper.newerThanOrEqualsTo(ProtocolVersion.v1_12)) {
+
+		if (ViaHelper.newerThanOrEqualsTo(ProtocolVersion.v1_12)) {
 			mod = 0.9375f;
 		}
-		
-		return new AxisAlignedBB(pos.getX(), pos.getY(), pos.getZ(), pos.getX() + mod, pos.getY() + mod, pos.getZ() + mod);
+
+		return new AxisAlignedBB(pos.getX(), pos.getY(), pos.getZ(), pos.getX() + mod, pos.getY() + mod,
+				pos.getZ() + mod);
 	}
 
 	/**

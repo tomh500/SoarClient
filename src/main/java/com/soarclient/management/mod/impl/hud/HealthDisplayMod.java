@@ -25,7 +25,7 @@ public class HealthDisplayMod extends SimpleHUDMod implements RenderSkiaEventLis
 	public void onDisable() {
 		EventBus.getInstance().unregister(this, RenderSkiaEvent.ID);
 	}
-	
+
 	@Override
 	public String getText() {
 		return (int) mc.thePlayer.getHealth() + " Health";

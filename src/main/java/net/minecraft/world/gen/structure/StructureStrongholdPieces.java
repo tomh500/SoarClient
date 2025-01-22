@@ -346,7 +346,7 @@ public class StructureStrongholdPieces {
 
 		public static StructureBoundingBox func_175869_a(List<StructureComponent> p_175869_0_, Random p_175869_1_,
 				int p_175869_2_, int p_175869_3_, int p_175869_4_, EnumFacing p_175869_5_) {
-			
+
 			StructureBoundingBox structureboundingbox = StructureBoundingBox.getComponentToAddBoundingBox(p_175869_2_,
 					p_175869_3_, p_175869_4_, -1, -1, 0, 5, 5, 4, p_175869_5_);
 			StructureComponent structurecomponent = StructureComponent.findIntersecting(p_175869_0_,

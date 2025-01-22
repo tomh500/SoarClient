@@ -45,7 +45,7 @@ public final class EnhancedFontRenderer implements Enhancement {
 		stringCache.invalidateAll(obfuscated);
 		obfuscated.clear();
 	}
-	
+
 	public int getGlList() {
 		final Integer poll = glRemoval.poll();
 		return poll == null ? GLAllocation.generateDisplayLists(1) : poll;

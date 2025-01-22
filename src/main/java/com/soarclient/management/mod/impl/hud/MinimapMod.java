@@ -69,7 +69,7 @@ public class MinimapMod extends HUDMod implements RenderSkiaEventListener, Clien
 	public void onDisable() {
 		EventBus.getInstance().unregisters(this, RenderSkiaEvent.ID, ClientTickEvent.ID);
 	}
-	
+
 	@Override
 	public float getRadius() {
 		return 10;

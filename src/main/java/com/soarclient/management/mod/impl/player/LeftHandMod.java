@@ -8,7 +8,7 @@ public class LeftHandMod extends Mod {
 
 	private static LeftHandMod instance;
 	private boolean isRenderingItemInFirstPerson;
-	
+
 	public LeftHandMod() {
 		super("mod.lefthand.name", "mod.lefthand.description", Icon.BACK_HAND, ModCategory.PLAYER);
 

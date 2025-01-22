@@ -1,7 +1,7 @@
 package com.soarclient.libraries.soarium.util.iterator;
 
 public interface ByteIterator {
-    boolean hasNext();
+	boolean hasNext();
 
-    int nextByteAsInt();
+	int nextByteAsInt();
 }

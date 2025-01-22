@@ -1,8 +1,7 @@
 package com.soarclient.libraries.soarium.render.chunk.shader;
 
 public enum ChunkShaderTextureSlot {
-    BLOCK,
-    LIGHT;
+	BLOCK, LIGHT;
 
-    public static final ChunkShaderTextureSlot[] VALUES = ChunkShaderTextureSlot.values();
+	public static final ChunkShaderTextureSlot[] VALUES = ChunkShaderTextureSlot.values();
 }

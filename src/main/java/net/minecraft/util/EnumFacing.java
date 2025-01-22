@@ -267,39 +267,39 @@ public enum EnumFacing implements IStringSerializable {
 		return values()[rand.nextInt(values().length)];
 	}
 
-    public static EnumFacing getFacingFromVector(float x, float y, float z) {
-    	
-        if (x == 0 && y == 0 && z == 0)
-            return EnumFacing.NORTH;
+	public static EnumFacing getFacingFromVector(float x, float y, float z) {
 
-        var yM = Math.abs(y);
-        var zM = Math.abs(z);
-        var xM = Math.abs(x);
+		if (x == 0 && y == 0 && z == 0)
+			return EnumFacing.NORTH;
 
-        if (yM >= zM) {
-            if (yM >= xM) {
-                if (y <= 0) {
-                    return EnumFacing.DOWN;
-                } else {
-                    return EnumFacing.UP;
-                }
-            }
-        } else {
-            if (zM >= xM) {
-                if (z <= 0) {
-                    return EnumFacing.NORTH;
-                } else {
-                    return EnumFacing.SOUTH;
-                }
-            }
-        }
+		var yM = Math.abs(y);
+		var zM = Math.abs(z);
+		var xM = Math.abs(x);
 
-        if (x <= 0) {
-            return EnumFacing.WEST;
-        } else {
-            return EnumFacing.EAST;
-        }
-    }
+		if (yM >= zM) {
+			if (yM >= xM) {
+				if (y <= 0) {
+					return EnumFacing.DOWN;
+				} else {
+					return EnumFacing.UP;
+				}
+			}
+		} else {
+			if (zM >= xM) {
+				if (z <= 0) {
+					return EnumFacing.NORTH;
+				} else {
+					return EnumFacing.SOUTH;
+				}
+			}
+		}
+
+		if (x <= 0) {
+			return EnumFacing.WEST;
+		} else {
+			return EnumFacing.EAST;
+		}
+	}
 
 	public String toString() {
 		return this.name;

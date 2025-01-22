@@ -10,23 +10,23 @@ import java.util.Deque;
 import java.util.Objects;
 
 public class Console implements ConsoleSink {
-    public static final Console INSTANCE = new Console();
+	public static final Console INSTANCE = new Console();
 
-    private final ArrayDeque<Message> messages = new ArrayDeque<>();
+	private final ArrayDeque<Message> messages = new ArrayDeque<>();
 
-    @Override
-    public void logMessage(@NotNull MessageLevel level, @NotNull String text, boolean translatable, double duration) {
-        Objects.requireNonNull(level);
-        Objects.requireNonNull(text);
+	@Override
+	public void logMessage(@NotNull MessageLevel level, @NotNull String text, boolean translatable, double duration) {
+		Objects.requireNonNull(level);
+		Objects.requireNonNull(text);
 
-        this.messages.addLast(new Message(level, text, translatable, duration));
-    }
+		this.messages.addLast(new Message(level, text, translatable, duration));
+	}
 
-    public Deque<Message> getMessageDrain() {
-        return this.messages;
-    }
+	public Deque<Message> getMessageDrain() {
+		return this.messages;
+	}
 
-    public static ConsoleSink instance() {
-        return INSTANCE;
-    }
+	public static ConsoleSink instance() {
+		return INSTANCE;
+	}
 }

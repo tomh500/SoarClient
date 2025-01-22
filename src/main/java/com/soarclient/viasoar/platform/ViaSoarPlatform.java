@@ -6,7 +6,7 @@ import com.viaversion.viaversion.api.protocol.version.ProtocolVersion;
 public class ViaSoarPlatform implements VSPlatform {
 
 	public static final ViaSoarPlatform INSTANCE = new ViaSoarPlatform();
-	
+
 	@Override
 	public int getGameVersion() {
 		return ProtocolVersion.v1_8.getVersion();

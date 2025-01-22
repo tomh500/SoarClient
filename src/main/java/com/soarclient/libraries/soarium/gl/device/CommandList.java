@@ -11,44 +11,44 @@ import com.soarclient.libraries.soarium.gl.tessellation.TessellationBinding;
 import com.soarclient.libraries.soarium.gl.util.EnumBitField;
 
 public interface CommandList extends AutoCloseable {
-    GlMutableBuffer createMutableBuffer();
+	GlMutableBuffer createMutableBuffer();
 
-    GlImmutableBuffer createImmutableBuffer(long bufferSize, EnumBitField<GlBufferStorageFlags> flags);
+	GlImmutableBuffer createImmutableBuffer(long bufferSize, EnumBitField<GlBufferStorageFlags> flags);
 
-    GlTessellation createTessellation(GlPrimitiveType primitiveType, TessellationBinding[] bindings);
+	GlTessellation createTessellation(GlPrimitiveType primitiveType, TessellationBinding[] bindings);
 
-    void bindVertexArray(GlVertexArray array);
+	void bindVertexArray(GlVertexArray array);
 
-    void uploadData(GlMutableBuffer glBuffer, ByteBuffer byteBuffer, GlBufferUsage usage);
+	void uploadData(GlMutableBuffer glBuffer, ByteBuffer byteBuffer, GlBufferUsage usage);
 
-    void copyBufferSubData(GlBuffer src, GlBuffer dst, long readOffset, long writeOffset, long bytes);
+	void copyBufferSubData(GlBuffer src, GlBuffer dst, long readOffset, long writeOffset, long bytes);
 
-    void bindBuffer(GlBufferTarget target, GlBuffer buffer);
+	void bindBuffer(GlBufferTarget target, GlBuffer buffer);
 
-    void unbindVertexArray();
+	void unbindVertexArray();
 
-    void allocateStorage(GlMutableBuffer buffer, long bufferSize, GlBufferUsage usage);
+	void allocateStorage(GlMutableBuffer buffer, long bufferSize, GlBufferUsage usage);
 
-    void deleteBuffer(GlBuffer buffer);
+	void deleteBuffer(GlBuffer buffer);
 
-    void deleteVertexArray(GlVertexArray vertexArray);
+	void deleteVertexArray(GlVertexArray vertexArray);
 
-    void flush();
+	void flush();
 
-    DrawCommandList beginTessellating(GlTessellation tessellation);
+	DrawCommandList beginTessellating(GlTessellation tessellation);
 
-    void deleteTessellation(GlTessellation tessellation);
+	void deleteTessellation(GlTessellation tessellation);
 
-    @Override
-    default void close() {
-        this.flush();
-    }
+	@Override
+	default void close() {
+		this.flush();
+	}
 
-    GlBufferMapping mapBuffer(GlBuffer buffer, long offset, long length, EnumBitField<GlBufferMapFlags> flags);
+	GlBufferMapping mapBuffer(GlBuffer buffer, long offset, long length, EnumBitField<GlBufferMapFlags> flags);
 
-    void unmap(GlBufferMapping map);
+	void unmap(GlBufferMapping map);
 
-    void flushMappedRange(GlBufferMapping map, int offset, int length);
+	void flushMappedRange(GlBufferMapping map, int offset, int length);
 
-    GlFence createFence();
+	GlFence createFence();
 }

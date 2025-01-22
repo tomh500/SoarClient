@@ -30,7 +30,7 @@ public class ModMenuSettings extends Mod implements ClientTickEventListener {
 			this, true);
 	private NumberSetting blurIntensitySetting = new NumberSetting("setting.blurintensity",
 			"setting.blurintensity.description", Icon.BLUR_LINEAR, this, 20, 1, 50, 1);
-	
+
 	private GuiScreen modMenu;
 
 	public ModMenuSettings() {
@@ -48,11 +48,11 @@ public class ModMenuSettings extends Mod implements ClientTickEventListener {
 			if (modMenu == null) {
 				modMenu = new GuiModMenu().build();
 			}
-			
+
 			mc.displayGuiScreen(modMenu);
 		}
 	}
-	
+
 	@Override
 	public void onEnable() {
 		EventBus.getInstance().register(this, ClientTickEvent.ID);
@@ -63,7 +63,7 @@ public class ModMenuSettings extends Mod implements ClientTickEventListener {
 		EventBus.getInstance().unregister(this, ClientTickEvent.ID);
 		this.setEnabled(true);
 	}
-	
+
 	public static ModMenuSettings getInstance() {
 		return instance;
 	}

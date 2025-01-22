@@ -198,7 +198,7 @@ public class GuiEditHUD extends SimpleSoarGui {
 
 		FloatArrayList lines = new FloatArrayList();
 		ScaledResolution sr = ScaledResolution.get(mc);
-		
+
 		lines.add(isHorizontal ? sr.getScaledWidth() / 2F : sr.getScaledHeight() / 2F);
 
 		mods.stream().filter(

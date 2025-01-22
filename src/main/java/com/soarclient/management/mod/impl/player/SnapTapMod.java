@@ -5,15 +5,15 @@ import com.soarclient.management.mod.ModCategory;
 import com.soarclient.skia.font.Icon;
 
 public class SnapTapMod extends Mod {
-	
+
 	private static SnapTapMod instance;
 	private long leftPressTime, rightPressTime, forwardPressTime, backPressTime;
-	
+
 	public SnapTapMod() {
 		super("mod.snaptap.name", "mod.snaptap.description", Icon.KEYBOARD_KEYS, ModCategory.PLAYER);
 		instance = this;
 	}
-	
+
 	@Override
 	public void onEnable() {
 	}

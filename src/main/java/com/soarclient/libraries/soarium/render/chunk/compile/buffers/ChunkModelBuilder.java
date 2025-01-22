@@ -6,7 +6,7 @@ import com.soarclient.libraries.soarium.render.chunk.vertex.builder.ChunkMeshBuf
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 
 public interface ChunkModelBuilder {
-    ChunkMeshBufferBuilder getVertexBuffer(ModelQuadFacing facing);
+	ChunkMeshBufferBuilder getVertexBuffer(ModelQuadFacing facing);
 
-    void addSprite(TextureAtlasSprite sprite);
+	void addSprite(TextureAtlasSprite sprite);
 }

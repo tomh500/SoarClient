@@ -61,7 +61,7 @@ public class ServerListEntryNormal implements GuiListExtended.IGuiListEntry {
 			.newScheduledThreadPool(Math.min(serverCountCache + 5, MAX_THREAD_COUNT_TIMEOUT));
 
 	private static int runningTaskCount = 0;
-	
+
 	protected ServerListEntryNormal(GuiMultiplayer p_i45048_1_, ServerData serverIn) {
 		this.owner = p_i45048_1_;
 		this.server = serverIn;

@@ -7,10 +7,10 @@ import com.soarclient.skia.font.Icon;
 public class LiquidFixMod extends Mod {
 
 	private static LiquidFixMod instance;
-	
+
 	public LiquidFixMod() {
 		super("mod.liquidfix.name", "mod.liquidfix.descriptio", Icon.CLEANING_BUCKET, ModCategory.MISC);
-		
+
 		instance = this;
 	}
 

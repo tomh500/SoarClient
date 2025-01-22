@@ -28,7 +28,7 @@ public class PotionCounterMod extends SimpleHUDMod implements RenderSkiaEventLis
 	public void onDisable() {
 		EventBus.getInstance().unregister(this, RenderSkiaEvent.ID);
 	}
-	
+
 	@Override
 	public String getText() {
 

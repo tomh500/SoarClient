@@ -358,14 +358,14 @@ public abstract class Render<T extends Entity> implements EntityRendererInter<T>
 	public RenderManager getRenderManager() {
 		return this.renderManager;
 	}
-	
-    @Override
-    public boolean shadowShouldShowName(T entity) {
-        return this.canRenderName(entity);
-    }
 
-    @Override
-    public void shadowRenderNameTag(T entity, double offsetX, double offsetY, double offsetZ) {
-        this.renderName(entity, offsetX, offsetY, offsetZ);
-    }
+	@Override
+	public boolean shadowShouldShowName(T entity) {
+		return this.canRenderName(entity);
+	}
+
+	@Override
+	public void shadowRenderNameTag(T entity, double offsetX, double offsetY, double offsetZ) {
+		this.renderName(entity, offsetX, offsetY, offsetZ);
+	}
 }

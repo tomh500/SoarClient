@@ -41,29 +41,29 @@ public class BiomeColorHelper {
 	}
 
 	public static int getGrassColorAtPos(IBlockAccess p_180286_0_, BlockPos p_180286_1_) {
-		
-        if (!Soarium.getConfig().detailSettings.biomeColors) {
-        	return 9551193;
-        }
-        
+
+		if (!Soarium.getConfig().detailSettings.biomeColors) {
+			return 9551193;
+		}
+
 		return getColorAtPos(p_180286_0_, p_180286_1_, GRASS_COLOR);
 	}
 
 	public static int getFoliageColorAtPos(IBlockAccess p_180287_0_, BlockPos p_180287_1_) {
-		
-        if (!Soarium.getConfig().detailSettings.biomeColors) {
-        	return 5877296;
-        }
-        
+
+		if (!Soarium.getConfig().detailSettings.biomeColors) {
+			return 5877296;
+		}
+
 		return getColorAtPos(p_180287_0_, p_180287_1_, FOLIAGE_COLOR);
 	}
 
 	public static int getWaterColorAtPos(IBlockAccess p_180288_0_, BlockPos p_180288_1_) {
-		
-        if (!Soarium.getConfig().detailSettings.biomeColors) {
-        	return 4159204;
-        }
-        
+
+		if (!Soarium.getConfig().detailSettings.biomeColors) {
+			return 4159204;
+		}
+
 		return getColorAtPos(p_180288_0_, p_180288_1_, WATER_COLOR_MULTIPLIER);
 	}
 

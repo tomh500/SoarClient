@@ -4,15 +4,15 @@ import com.google.gson.JsonObject;
 
 public abstract class SoarPacket {
 
-    private final String type;
+	private final String type;
 
-    protected SoarPacket(String type) {
-        this.type = type;
-    }
+	protected SoarPacket(String type) {
+		this.type = type;
+	}
 
-    public String getType() {
-        return type;
-    }
+	public String getType() {
+		return type;
+	}
 
-    public abstract JsonObject toJson();
+	public abstract JsonObject toJson();
 }

@@ -1,48 +1,25 @@
 package com.soarclient.libraries.patches.font.text;
 
-import java.util.Queue;
-import java.util.concurrent.ConcurrentLinkedQueue;
-
 public final class CachedString {
 
-	private static final Queue<CachedString> POOL = new ConcurrentLinkedQueue<>();
+	private final String text;
+	private final int listId;
 
-	private String text;
-	private int listId;
-	private float height;
+	private final float height;
 	private float width;
+
 	private float lastRed;
 	private float lastBlue;
 	private float lastGreen;
 	private float lastAlpha;
 
-	private CachedString() {
+	public CachedString(String text, int listId, float width, float height) {
+		this.text = text;
+		this.listId = listId;
+		this.width = width;
+		this.height = height;
 	}
 
-	public static CachedString create(String text, int listId, float width, float height) {
-		CachedString cachedString = POOL.poll();
-		if (cachedString == null) {
-			cachedString = new CachedString();
-		}
-		cachedString.text = text;
-		cachedString.listId = listId;
-		cachedString.width = width;
-		cachedString.height = height;
-		return cachedString;
-	}
-
-	public void recycle() {
-		text = null;
-		listId = 0;
-		width = 0;
-		height = 0;
-		lastRed = 0;
-		lastBlue = 0;
-		lastGreen = 0;
-		lastAlpha = 0;
-		POOL.offer(this);
-	}
-	
 	public String getText() {
 		return text;
 	}
@@ -94,4 +71,5 @@ public final class CachedString {
 	public float getHeight() {
 		return height;
 	}
+
 }

@@ -28,7 +28,7 @@ public class WeatherDisplayMod extends SimpleHUDMod implements RenderSkiaEventLi
 	public void onDisable() {
 		EventBus.getInstance().unregister(this, RenderSkiaEvent.ID);
 	}
-	
+
 	@Override
 	public String getText() {
 

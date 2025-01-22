@@ -29,7 +29,7 @@ public class PitchDisplayMod extends SimpleHUDMod implements RenderSkiaEventList
 	public void onDisable() {
 		EventBus.getInstance().unregister(this, RenderSkiaEvent.ID);
 	}
-	
+
 	@Override
 	public String getText() {
 		return "Pitch: " + df.format(mc.thePlayer.rotationPitch);

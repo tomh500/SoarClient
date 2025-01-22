@@ -31,23 +31,23 @@ public class Soar {
 	private AccountManager accountManager;
 	private ConfigManager configManager;
 	private ProfileManager profileManager;
-	
+
 	private GuiScreen mainMenu;
 	private long launchTime;
-	
+
 	public Soar() {
 		name = "Soar";
 		version = "8.0";
 	}
 
 	public void start() {
-		
+
 		I18n.setLanguage(Language.ENGLISH);
 		FileLocation.init();
 		Soarium.start();
-		
+
 		launchTime = System.currentTimeMillis();
-		
+
 		modManager = new ModManager();
 		modManager.init();
 		colorManager = new ColorManager();

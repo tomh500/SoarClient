@@ -10,7 +10,7 @@ public class ChunkCoordIntPair {
 	public final int chunkZPos;
 
 	private int cachedHashCode = -1;
-	
+
 	public ChunkCoordIntPair(int x, int z) {
 		this.chunkXPos = x;
 		this.chunkZPos = z;
@@ -24,12 +24,12 @@ public class ChunkCoordIntPair {
 	}
 
 	public int hashCode() {
-		
-		if(cachedHashCode == -1) {
-			
+
+		if (cachedHashCode == -1) {
+
 			int i = 1664525 * this.chunkXPos + 1013904223;
 			int j = 1664525 * (this.chunkZPos ^ -559038737) + 1013904223;
-			
+
 			cachedHashCode = i ^ j;
 		}
 

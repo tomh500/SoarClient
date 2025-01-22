@@ -198,7 +198,7 @@ public abstract class WorldProvider {
 	 * the y level at which clouds are rendered.
 	 */
 	public float getCloudHeight() {
-        return Soarium.getConfig().quality.cloudHeight;
+		return Soarium.getConfig().quality.cloudHeight;
 	}
 
 	public boolean isSkyColored() {

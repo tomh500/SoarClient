@@ -25,7 +25,7 @@ public class NameDisplayMod extends SimpleHUDMod implements RenderSkiaEventListe
 	public void onDisable() {
 		EventBus.getInstance().unregister(this, RenderSkiaEvent.ID);
 	}
-	
+
 	@Override
 	public String getText() {
 		return "Name: " + mc.thePlayer.getGameProfile().getName();

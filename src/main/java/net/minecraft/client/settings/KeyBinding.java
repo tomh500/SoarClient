@@ -157,7 +157,7 @@ public class KeyBinding implements Comparable<KeyBinding> {
 
 		return this.pressed;
 	}
-	
+
 	public boolean getRealIsKeyDown() {
 		return this.pressed;
 	}

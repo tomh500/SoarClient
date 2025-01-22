@@ -36,39 +36,39 @@ public class ShaderLoader {
 
 		int vertex = GL20.glCreateShader(GL20.GL_VERTEX_SHADER);
 		int fragment = GL20.glCreateShader(GL20.GL_FRAGMENT_SHADER);
-		
+
 		if (vert) {
 			GL20.glShaderSource(vertex, sourceVertex);
 			GL20.glCompileShader(vertex);
 		}
-		
+
 		if (frag) {
 			GL20.glShaderSource(fragment, sourceFrag);
 			GL20.glCompileShader(fragment);
 		}
 
 		int program = GL20.glCreateProgram();
-		
+
 		if (vert) {
 			GL20.glAttachShader(program, vertex);
 		}
-		
+
 		if (frag) {
 			GL20.glAttachShader(program, fragment);
 		}
-		
+
 		GL20.glLinkProgram(program);
 
 		if (vert) {
 			GL20.glDeleteShader(vertex);
 		}
-		
+
 		if (frag) {
 			GL20.glDeleteShader(fragment);
 		}
 
 		int status = GL20.glGetProgrami(program, GL20.GL_LINK_STATUS);
-		
+
 		if (status == GL11.GL_FALSE) {
 			return new Shader(program, true);
 		}

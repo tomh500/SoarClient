@@ -38,7 +38,7 @@ public class GuiModMenu extends PageGui {
 		p.setWidth(getWidth() - navigationRail.getWidth());
 		p.setHeight(getHeight());
 	}
-	
+
 	@Override
 	public void onClosed() {
 		Multithreading.runAsync(() -> {

@@ -475,15 +475,15 @@ public class ItemRenderer {
 	 * @param partialTicks Partial ticks
 	 */
 	private void renderWaterOverlayTexture(float partialTicks) {
-		
+
 		RenderWaterOverlayEvent event = new RenderWaterOverlayEvent();
-		
+
 		EventBus.getInstance().call(event, RenderWaterOverlayEvent.ID);
-		
-		if(event.isCancelled()) {
+
+		if (event.isCancelled()) {
 			return;
 		}
-		
+
 		this.mc.getTextureManager().bindTexture(RES_UNDERWATER_OVERLAY);
 		Tessellator tessellator = Tessellator.getInstance();
 		WorldRenderer worldrenderer = tessellator.getWorldRenderer();
@@ -517,15 +517,15 @@ public class ItemRenderer {
 	 * @param partialTicks Partial ticks
 	 */
 	private void renderFireInFirstPerson(float partialTicks) {
-		
+
 		RenderFireOverlayEvent event = new RenderFireOverlayEvent();
-		
+
 		EventBus.getInstance().call(event, RenderFireOverlayEvent.ID);
-		
-		if(event.isCancelled()) {
+
+		if (event.isCancelled()) {
 			return;
 		}
-		
+
 		Tessellator tessellator = Tessellator.getInstance();
 		WorldRenderer worldrenderer = tessellator.getWorldRenderer();
 		GlStateManager.color(1.0F, 1.0F, 1.0F, 0.9F);

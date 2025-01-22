@@ -37,7 +37,7 @@ public class WorldGenDungeons extends WorldGenerator {
 			new WeightedRandomChestContent(Items.diamond_horse_armor, 0, 1, 1, 1));
 
 	public boolean generate(World worldIn, Random rand, BlockPos position) {
-		
+
 		int j = rand.nextInt(2) + 2;
 		int k = -j - 1;
 		int l = j + 1;

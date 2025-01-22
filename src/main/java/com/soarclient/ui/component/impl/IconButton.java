@@ -136,11 +136,11 @@ public class IconButton extends Component {
 			return new Color[] { Color.RED, Color.RED };
 		}
 	}
-	
+
 	public enum Size {
 		SMALL, NORMAL, LARGE;
 	}
-	
+
 	public enum Style {
 		SURFACE, PRIMARY, SECONDARY, TERTIARY;
 	}

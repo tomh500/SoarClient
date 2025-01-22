@@ -39,9 +39,9 @@ public class ConfigManager {
 			e.printStackTrace();
 		}
 	}
-	
+
 	public void load(ConfigType type) {
-		
+
 		Config config = getConfig(type);
 		Gson gson = new Gson();
 

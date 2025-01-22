@@ -19,48 +19,47 @@ import com.soarclient.libraries.soarium.render.chunk.translucent_sorting.TQuad;
  * use it.
  */
 public class AnyOrderData extends SplitDirectionData {
-    private Sorter sorterOnce;
+	private Sorter sorterOnce;
 
-    AnyOrderData(SectionPos sectionPos, int[] vertexCounts, int quadCount) {
-        super(sectionPos, vertexCounts, quadCount);
-    }
+	AnyOrderData(SectionPos sectionPos, int[] vertexCounts, int quadCount) {
+		super(sectionPos, vertexCounts, quadCount);
+	}
 
-    @Override
-    public SortType getSortType() {
-        return SortType.NONE;
-    }
+	@Override
+	public SortType getSortType() {
+		return SortType.NONE;
+	}
 
-    @Override
-    public Sorter getSorter() {
-        var sorter = this.sorterOnce;
-        if (sorter == null) {
-            throw new IllegalStateException("Sorter already used!");
-        }
-        this.sorterOnce = null;
-        return sorter;
-    }
+	@Override
+	public Sorter getSorter() {
+		var sorter = this.sorterOnce;
+		if (sorter == null) {
+			throw new IllegalStateException("Sorter already used!");
+		}
+		this.sorterOnce = null;
+		return sorter;
+	}
 
-    /**
-     * Important: The vertex indexes must start at zero for each facing.
-     */
-    public static AnyOrderData fromMesh(int[] vertexCounts,
-                                        TQuad[] quads, SectionPos sectionPos) {
-        var anyOrderData = new AnyOrderData(sectionPos, vertexCounts, quads.length);
-        var sorter = new StaticSorter(quads.length);
-        anyOrderData.sorterOnce = sorter;
-        var indexBuffer = sorter.getIntBuffer();
+	/**
+	 * Important: The vertex indexes must start at zero for each facing.
+	 */
+	public static AnyOrderData fromMesh(int[] vertexCounts, TQuad[] quads, SectionPos sectionPos) {
+		var anyOrderData = new AnyOrderData(sectionPos, vertexCounts, quads.length);
+		var sorter = new StaticSorter(quads.length);
+		anyOrderData.sorterOnce = sorter;
+		var indexBuffer = sorter.getIntBuffer();
 
-        for (var vertexCount : vertexCounts) {
-            if (vertexCount <= 0) {
-                continue;
-            }
+		for (var vertexCount : vertexCounts) {
+			if (vertexCount <= 0) {
+				continue;
+			}
 
-            int count = TranslucentData.vertexCountToQuadCount(vertexCount);
-            for (int i = 0; i < count; i++) {
-                TranslucentData.writeQuadVertexIndexes(indexBuffer, i);
-            }
-        }
+			int count = TranslucentData.vertexCountToQuadCount(vertexCount);
+			for (int i = 0; i < count; i++) {
+				TranslucentData.writeQuadVertexIndexes(indexBuffer, i);
+			}
+		}
 
-        return anyOrderData;
-    }
+		return anyOrderData;
+	}
 }

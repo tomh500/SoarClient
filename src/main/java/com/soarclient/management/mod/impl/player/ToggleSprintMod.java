@@ -13,7 +13,8 @@ import com.soarclient.skia.font.Icon;
 
 import net.minecraft.client.settings.KeyBinding;
 
-public class ToggleSprintMod extends SimpleHUDMod implements RenderSkiaEventListener, PlayerUpdateEventListener, ClientTickEventListener {
+public class ToggleSprintMod extends SimpleHUDMod
+		implements RenderSkiaEventListener, PlayerUpdateEventListener, ClientTickEventListener {
 
 	private BooleanSetting hudSetting = new BooleanSetting("setting.hud", "setting.hud.description", Icon.MONITOR, this,
 			true);
@@ -34,7 +35,7 @@ public class ToggleSprintMod extends SimpleHUDMod implements RenderSkiaEventList
 
 	@Override
 	public void onRenderSkia(float partialTicks) {
-		
+
 		this.setMovable(hudSetting.isEnabled());
 
 		if (hudSetting.isEnabled()) {
@@ -44,7 +45,7 @@ public class ToggleSprintMod extends SimpleHUDMod implements RenderSkiaEventList
 
 	@Override
 	public void onClientTick() {
-		
+
 		boolean down = Keyboard.isKeyDown(mc.gameSettings.keyBindSprint.getKeyCode());
 
 		if (alwaysSetting.isEnabled() || mc.currentScreen != null) {
@@ -78,7 +79,7 @@ public class ToggleSprintMod extends SimpleHUDMod implements RenderSkiaEventList
 		KeyBinding.setKeyBindState(mc.gameSettings.keyBindSprint.getKeyCode(),
 				state.equals(State.HELD) || state.equals(State.TOGGLED) || alwaysSetting.isEnabled());
 	}
-	
+
 	@Override
 	public void onEnable() {
 		EventBus.getInstance().registers(this, ClientTickEvent.ID, RenderSkiaEvent.ID, PlayerUpdateEvent.ID);
@@ -88,7 +89,7 @@ public class ToggleSprintMod extends SimpleHUDMod implements RenderSkiaEventList
 	public void onDisable() {
 		EventBus.getInstance().unregisters(this, ClientTickEvent.ID, RenderSkiaEvent.ID, PlayerUpdateEvent.ID);
 	}
-	
+
 	@Override
 	public String getText() {
 

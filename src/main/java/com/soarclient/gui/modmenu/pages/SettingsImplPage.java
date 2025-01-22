@@ -38,13 +38,13 @@ public class SettingsImplPage extends Page {
 	public void init() {
 
 		bars.clear();
-		
+
 		String text = "";
-		
-		if(searchBar != null) {
+
+		if (searchBar != null) {
 			text = searchBar.getText();
 		}
-		
+
 		searchBar = new SearchBar(x + width - 260 - 32, y + 32, 260, text, () -> {
 			scrollHelper.reset();
 		});
@@ -93,11 +93,11 @@ public class SettingsImplPage extends Page {
 		searchBar.mousePressed(mouseX, mouseY, mouseButton);
 
 		for (SettingBar b : bars) {
-			
+
 			if (!searchBar.getText().isEmpty() && !SearchUtils.isSimilar(I18n.get(b.getTitle()), searchBar.getText())) {
 				continue;
 			}
-			
+
 			b.mousePressed(mouseX, mouseY, mouseButton);
 		}
 	}
@@ -110,11 +110,11 @@ public class SettingsImplPage extends Page {
 		searchBar.mousePressed(mouseX, mouseY, mouseButton);
 
 		for (SettingBar b : bars) {
-			
+
 			if (!searchBar.getText().isEmpty() && !SearchUtils.isSimilar(I18n.get(b.getTitle()), searchBar.getText())) {
 				continue;
 			}
-			
+
 			b.mouseReleased(mouseX, mouseY, mouseButton);
 		}
 	}
@@ -125,11 +125,11 @@ public class SettingsImplPage extends Page {
 		searchBar.keyTyped(typedChar, keyCode);
 
 		for (SettingBar b : bars) {
-			
+
 			if (!searchBar.getText().isEmpty() && !SearchUtils.isSimilar(I18n.get(b.getTitle()), searchBar.getText())) {
 				continue;
 			}
-			
+
 			b.keyTyped(typedChar, keyCode);
 		}
 

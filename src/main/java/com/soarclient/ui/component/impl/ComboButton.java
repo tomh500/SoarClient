@@ -21,7 +21,7 @@ public class ComboButton extends Component {
 
 	private PressAnimation pressAnimation = new PressAnimation();
 	private int[] pressedPos;
-	
+
 	private Animation animation;
 	private List<String> options;
 	private String option;
@@ -63,7 +63,7 @@ public class ComboButton extends Component {
 
 	@Override
 	public void mouseReleased(int mouseX, int mouseY, int mouseButton) {
-		
+
 		int max = options.size();
 		int index = options.indexOf(option);
 
@@ -95,7 +95,7 @@ public class ComboButton extends Component {
 				setOption(options.get(index));
 			}
 		}
-		
+
 		pressAnimation.mouseReleased();
 	}
 

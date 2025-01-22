@@ -7,27 +7,27 @@ public class AccountManager {
 
 	private List<Account> accounts = new ArrayList<>();
 	private Account currentAccount;
-	
+
 	public List<Account> getAccounts() {
 		return accounts;
 	}
 
 	public Account getByUuid(String inputUuid) {
-		
-		if(inputUuid == null) {
+
+		if (inputUuid == null) {
 			return null;
 		}
-		
-		for(Account acc : accounts) {
-			
+
+		for (Account acc : accounts) {
+
 			String pUuid = acc.getUUID().toString().replace("-", "");
 			String uuid = inputUuid.replace("-", "");
-			
-			if(pUuid.equals(uuid)) {
+
+			if (pUuid.equals(uuid)) {
 				return acc;
 			}
 		}
-		
+
 		return null;
 	}
 

@@ -29,7 +29,7 @@ public class YawDisplayMod extends SimpleHUDMod implements RenderSkiaEventListen
 	public void onDisable() {
 		EventBus.getInstance().unregister(this, RenderSkiaEvent.ID);
 	}
-	
+
 	@Override
 	public String getText() {
 		return "Yaw: " + df.format(mc.thePlayer.rotationYaw);

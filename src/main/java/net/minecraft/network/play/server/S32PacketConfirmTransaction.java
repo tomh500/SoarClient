@@ -34,8 +34,8 @@ public class S32PacketConfirmTransaction implements Packet<INetHandlerPlayClient
 	 * Reads the raw packet data from the data stream.
 	 */
 	public void readPacketData(PacketBuffer buf) throws IOException {
-		
-		if(ViaHelper.newerThanOrEqualsTo(ProtocolVersion.v1_17)) {
+
+		if (ViaHelper.newerThanOrEqualsTo(ProtocolVersion.v1_17)) {
 			this.windowId = buf.readInt();
 		} else {
 			this.windowId = buf.readUnsignedByte();

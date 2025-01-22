@@ -51,7 +51,7 @@ public class AccountConfig extends Config {
 
 		accountManager.setCurrentAccount(
 				accountManager.getByUuid(JsonUtils.getStringProperty(jsonObject, "currentAccount", "null")));
-		
+
 		Account acc = accountManager.getCurrentAccount();
 
 		if (acc != null) {

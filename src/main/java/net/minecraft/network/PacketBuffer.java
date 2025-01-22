@@ -234,26 +234,27 @@ public class PacketBuffer extends ByteBuf {
 	 * length. Will throw IOException if string length exceeds this value!
 	 */
 	public String readStringFromBuffer(int maxLength) {
-	    int i = this.readVarIntFromBuffer();
+		int i = this.readVarIntFromBuffer();
 
-	    if (i > maxLength * 4) {
-	        throw new DecoderException("The received encoded string buffer length is longer than maximum allowed (" + i
-	                + " > " + maxLength * 4 + ")");
-	    } else if (i < 0) {
-	        throw new DecoderException("The received encoded string buffer length is less than zero! Weird string!");
-	    } else {
-	        byte[] bytes = new byte[i];
-	        this.readBytes(bytes);
-	        String s = new String(bytes, StandardCharsets.UTF_8);
+		if (i > maxLength * 4) {
+			throw new DecoderException("The received encoded string buffer length is longer than maximum allowed (" + i
+					+ " > " + maxLength * 4 + ")");
+		} else if (i < 0) {
+			throw new DecoderException("The received encoded string buffer length is less than zero! Weird string!");
+		} else {
+			byte[] bytes = new byte[i];
+			this.readBytes(bytes);
+			String s = new String(bytes, StandardCharsets.UTF_8);
 
-	        if (s.length() > maxLength) {
-	            throw new DecoderException(
-	                    "The received string length is longer than maximum allowed (" + s.length() + " > " + maxLength + ")");
-	        } else {
-	            return s;
-	        }
-	    }
+			if (s.length() > maxLength) {
+				throw new DecoderException("The received string length is longer than maximum allowed (" + s.length()
+						+ " > " + maxLength + ")");
+			} else {
+				return s;
+			}
+		}
 	}
+
 	public PacketBuffer writeString(String string) {
 		byte[] abyte = string.getBytes(StandardCharsets.UTF_8);
 
@@ -829,7 +830,7 @@ public class PacketBuffer extends ByteBuf {
 	public boolean release(int p_release_1_) {
 		return this.buf.release(p_release_1_);
 	}
-	
+
 	@Override
 	public boolean isReadOnly() {
 		return buf.isReadOnly();

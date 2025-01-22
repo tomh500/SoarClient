@@ -340,21 +340,23 @@ public class RenderManager {
 
 	public boolean renderEntityWithPosYaw(Entity entityIn, double x, double y, double z, float entityYaw,
 			float partialTicks) {
-		
-        Cullable cullable = (Cullable) entityIn;
-        if (!cullable.isForcedVisible() && cullable.isCulled()) {
-            EntityRendererInter<Entity> entityRenderer = (EntityRendererInter<Entity>) this.getEntityRenderObject(entityIn);
-            if (Soarium.getConfig().culling.renderNametagsThroughWalls && entityRenderer.shadowShouldShowName(entityIn)) {
-                entityRenderer.shadowRenderNameTag(entityIn, x, y, z);
-            }
-            SoariumEntityCulling.getInstance().skippedEntities++;
-            // TOOD: IDK TRUE IS CORRECT
-            return true;
-        }
-        
-        SoariumEntityCulling.getInstance().renderedEntities++;
-        cullable.setOutOfCamera(false);
-        
+
+		Cullable cullable = (Cullable) entityIn;
+		if (!cullable.isForcedVisible() && cullable.isCulled()) {
+			EntityRendererInter<Entity> entityRenderer = (EntityRendererInter<Entity>) this
+					.getEntityRenderObject(entityIn);
+			if (Soarium.getConfig().culling.renderNametagsThroughWalls
+					&& entityRenderer.shadowShouldShowName(entityIn)) {
+				entityRenderer.shadowRenderNameTag(entityIn, x, y, z);
+			}
+			SoariumEntityCulling.getInstance().skippedEntities++;
+			// TOOD: IDK TRUE IS CORRECT
+			return true;
+		}
+
+		SoariumEntityCulling.getInstance().renderedEntities++;
+		cullable.setOutOfCamera(false);
+
 		return this.doRenderEntity(entityIn, x, y, z, entityYaw, partialTicks, false);
 	}
 

@@ -1,12 +1,12 @@
 package com.soarclient.management.profile;
 
 public enum ProfileIcon {
-	COMMAND("command"), CRAFTING_TABLE("crafting_table"), FURNACE("furnace"), GRASS("grass"), 
-	HAY("hay"), PUMPKIN("pumpkin"), TNT("tnt");
-	
+	COMMAND("command"), CRAFTING_TABLE("crafting_table"), FURNACE("furnace"), GRASS("grass"), HAY("hay"),
+	PUMPKIN("pumpkin"), TNT("tnt");
+
 	private final String id;
 	private final String iconPath;
-	
+
 	private ProfileIcon(String id) {
 		this.id = id;
 		this.iconPath = "icons/" + id + ".png";
@@ -21,13 +21,13 @@ public enum ProfileIcon {
 	}
 
 	public static ProfileIcon getIconById(String id) {
-		
-		for(ProfileIcon pi : ProfileIcon.values()) {
-			if(pi.getId().equals(id)) {
+
+		for (ProfileIcon pi : ProfileIcon.values()) {
+			if (pi.getId().equals(id)) {
 				return pi;
 			}
 		}
-		
+
 		return ProfileIcon.GRASS;
 	}
 }

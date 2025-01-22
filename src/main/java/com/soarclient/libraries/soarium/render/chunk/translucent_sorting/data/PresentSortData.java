@@ -5,9 +5,9 @@ import java.nio.IntBuffer;
 import com.soarclient.libraries.soarium.util.NativeBuffer;
 
 public interface PresentSortData {
-    NativeBuffer getIndexBuffer();
+	NativeBuffer getIndexBuffer();
 
-    default IntBuffer getIntBuffer() {
-        return this.getIndexBuffer().getDirectBuffer().asIntBuffer();
-    }
+	default IntBuffer getIntBuffer() {
+		return this.getIndexBuffer().getDirectBuffer().asIntBuffer();
+	}
 }

@@ -37,7 +37,7 @@ public abstract class TileEntity implements Cullable {
 	private long lasttime = 0;
 	private boolean culled = false;
 	private boolean outOfCamera = false;
-	
+
 	/**
 	 * Adds a new two-way mapping between the class and its string name in both
 	 * hashmaps.
@@ -266,28 +266,30 @@ public abstract class TileEntity implements Cullable {
 	@Override
 	public void setCulled(boolean value) {
 		this.culled = value;
-		if(!value) {
+		if (!value) {
 			setTimeout();
 		}
 	}
 
 	@Override
 	public boolean isCulled() {
-		if(!SoariumEntityCulling.enabled)return false;
+		if (!SoariumEntityCulling.enabled)
+			return false;
 		return culled;
 	}
 
-    @Override
-    public void setOutOfCamera(boolean value) {
-        this.outOfCamera = value;
-    }
+	@Override
+	public void setOutOfCamera(boolean value) {
+		this.outOfCamera = value;
+	}
 
-    @Override
-    public boolean isOutOfCamera() {
-        if(!SoariumEntityCulling.enabled)return false;
-        return outOfCamera;
-    }
-    
+	@Override
+	public boolean isOutOfCamera() {
+		if (!SoariumEntityCulling.enabled)
+			return false;
+		return outOfCamera;
+	}
+
 	static {
 		addMapping(TileEntityFurnace.class, "Furnace");
 		addMapping(TileEntityChest.class, "Chest");

@@ -37,7 +37,7 @@ public class TextureAtlasSprite implements SpriteExtension {
 	private static String locationNameCompass = "builtin/compass";
 
 	private boolean active = false;
-	
+
 	protected TextureAtlasSprite(String spriteName) {
 		this.iconName = spriteName;
 	}
@@ -159,11 +159,11 @@ public class TextureAtlasSprite implements SpriteExtension {
 	}
 
 	public void updateAnimation() {
-		
+
 		if (!((SpriteExtension) this).sodium$isActive() && Soarium.getConfig().performance.animateOnlyVisibleTextures) {
 			return;
 		}
-		
+
 		++this.tickCounter;
 
 		if (this.tickCounter >= this.animationMetadata.getFrameTimeSingle(this.frameCounter)) {
@@ -181,8 +181,8 @@ public class TextureAtlasSprite implements SpriteExtension {
 		} else if (this.animationMetadata.isInterpolate()) {
 			this.updateAnimationInterpolated();
 		}
-		
-        ((SpriteExtension) this).sodium$setActive(true);
+
+		((SpriteExtension) this).sodium$setActive(true);
 	}
 
 	private void updateAnimationInterpolated() {
@@ -304,16 +304,16 @@ public class TextureAtlasSprite implements SpriteExtension {
 						meta.getFrameTime(), meta.isInterpolate());
 			}
 		}
-		
-        for (BufferedImage img : images) {
-            if (img instanceof AutoCloseable) {
-                try {
-                    ((AutoCloseable) img).close();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        }
+
+		for (BufferedImage img : images) {
+			if (img instanceof AutoCloseable) {
+				try {
+					((AutoCloseable) img).close();
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		}
 	}
 
 	public void generateMipmaps(int level) {
@@ -400,14 +400,14 @@ public class TextureAtlasSprite implements SpriteExtension {
 				+ this.height + ", width=" + this.width + ", u0=" + this.minU + ", u1=" + this.maxU + ", v0="
 				+ this.minV + ", v1=" + this.maxV + '}';
 	}
-	
-    @Override
-    public void sodium$setActive(boolean value) {
-        this.active = value;
-    }
 
-    @Override
-    public boolean sodium$isActive() {
-        return this.active;
-    }
+	@Override
+	public void sodium$setActive(boolean value) {
+		this.active = value;
+	}
+
+	@Override
+	public boolean sodium$isActive() {
+		return this.active;
+	}
 }

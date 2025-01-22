@@ -26,7 +26,7 @@ public class SkinHelper {
 		if (textureId != null) {
 
 			String url = "https://textures.minecraft.net/texture/" + textureId;
-			
+
 			try {
 				downloadImage(url, file);
 			} catch (IOException | URISyntaxException e) {
@@ -39,52 +39,52 @@ public class SkinHelper {
 
 		return false;
 	}
-	
+
 	public static boolean downloadJavaSkin(String uuid, File file) {
-		
+
 		JsonObject jsonObject = HttpUtils.get("https://sessionserver.mojang.com/session/minecraft/profile/" + uuid);
 		JsonArray propertiesArray = jsonObject.getAsJsonArray("properties");
-		
-		if(propertiesArray != null) {
-			
+
+		if (propertiesArray != null) {
+
 			for (JsonElement element : propertiesArray) {
-				
+
 				JsonObject property = element.getAsJsonObject();
 				String name = JsonUtils.getStringProperty(property, "name", null);
-				
-				if(name != null && name.equals("textures")) {
-					
+
+				if (name != null && name.equals("textures")) {
+
 					String value = JsonUtils.getStringProperty(property, "value", null);
-					
-					if(value != null) {
-						
-				        byte[] decodedBytes = Base64.getDecoder().decode(value);
-				        String decodedString = new String(decodedBytes);
-				        
-				        JsonObject decodedJsonObject = JsonParser.parseString(decodedString).getAsJsonObject();
-				        JsonObject texturesObject = JsonUtils.getObjectProperty(decodedJsonObject, "textures");
-				        
-				        if(texturesObject != null) {
-				        	
-				        	JsonObject skinObject = JsonUtils.getObjectProperty(texturesObject, "SKIN");
-				        	String skinUrl = JsonUtils.getStringProperty(skinObject, "url", null);
-				        	
-				        	if(skinUrl != null) {
-				        		try {
+
+					if (value != null) {
+
+						byte[] decodedBytes = Base64.getDecoder().decode(value);
+						String decodedString = new String(decodedBytes);
+
+						JsonObject decodedJsonObject = JsonParser.parseString(decodedString).getAsJsonObject();
+						JsonObject texturesObject = JsonUtils.getObjectProperty(decodedJsonObject, "textures");
+
+						if (texturesObject != null) {
+
+							JsonObject skinObject = JsonUtils.getObjectProperty(texturesObject, "SKIN");
+							String skinUrl = JsonUtils.getStringProperty(skinObject, "url", null);
+
+							if (skinUrl != null) {
+								try {
 									downloadImage(skinUrl, file);
 									return true;
 								} catch (IOException | URISyntaxException e) {
 									e.printStackTrace();
 									return false;
 								}
-				        	}
-				        }
-				        
+							}
+						}
+
 					}
 				}
 			}
 		}
-		
+
 		return false;
 	}
 

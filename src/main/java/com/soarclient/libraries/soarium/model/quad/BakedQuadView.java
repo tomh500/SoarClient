@@ -3,11 +3,11 @@ package com.soarclient.libraries.soarium.model.quad;
 import com.soarclient.libraries.soarium.model.quad.properties.ModelQuadFacing;
 
 public interface BakedQuadView extends ModelQuadView {
-    ModelQuadFacing getNormalFace();
+	ModelQuadFacing getNormalFace();
 
-    int getFaceNormal();
+	int getFaceNormal();
 
-    boolean hasShade();
+	boolean hasShade();
 
-    boolean hasAO();
+	boolean hasAO();
 }

@@ -50,11 +50,11 @@ public class RenderItemFrame extends Render<EntityItemFrame> {
 	 * Renders the desired {@code T} type Entity.
 	 */
 	public void doRender(EntityItemFrame entity, double x, double y, double z, float entityYaw, float partialTicks) {
-		
-        if (!Soarium.getConfig().renderSettings.itemFrame) {
-        	return;
-        }
-        
+
+		if (!Soarium.getConfig().renderSettings.itemFrame) {
+			return;
+		}
+
 		GlStateManager.pushMatrix();
 		BlockPos blockpos = entity.getHangingPosition();
 		double d0 = (double) blockpos.getX() - entity.posX + x;
@@ -167,14 +167,14 @@ public class RenderItemFrame extends Render<EntityItemFrame> {
 		}
 	}
 
-    @Override
-    protected boolean canRenderName(EntityItemFrame entity) {
-        if (!Soarium.getConfig().renderSettings.itemFrameNameTag) {
-            return false;
-        }
-        return super.canRenderName(entity);
-    }
-    
+	@Override
+	protected boolean canRenderName(EntityItemFrame entity) {
+		if (!Soarium.getConfig().renderSettings.itemFrameNameTag) {
+			return false;
+		}
+		return super.canRenderName(entity);
+	}
+
 	protected void renderName(EntityItemFrame entity, double x, double y, double z) {
 		if (Minecraft.isGuiEnabled() && entity.getDisplayedItem() != null && entity.getDisplayedItem().hasDisplayName()
 				&& this.renderManager.pointedEntity == entity) {

@@ -70,7 +70,7 @@ public class GaussianBlur {
 		secondFramebuffer = ShaderUtils.createFramebuffer(secondFramebuffer);
 
 		if (updateTimer.delay(16)) {
-			
+
 			GlStateManager.enableBlend();
 			GlStateManager.color(1, 1, 1, 1);
 			OpenGlHelper.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA, GL11.GL_ONE, GL11.GL_ZERO);

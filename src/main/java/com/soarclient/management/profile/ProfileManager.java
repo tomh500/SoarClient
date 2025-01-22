@@ -39,27 +39,27 @@ public class ProfileManager {
 		try (FileOutputStream fos = new FileOutputStream(zipFile); ZipOutputStream zipOut = new ZipOutputStream(fos)) {
 
 			JsonObject jsonObject = new JsonObject();
-			
+
 			jsonObject.addProperty("name", name);
 			jsonObject.addProperty("author", author);
 			jsonObject.addProperty("serverIp", serverIp);
-			
-			if(icon instanceof ProfileIcon) {
+
+			if (icon instanceof ProfileIcon) {
 				jsonObject.addProperty("icon", ((ProfileIcon) icon).getId());
 			}
-			
+
 			addJsonToZip("info.json", jsonObject, zipOut);
-			
+
 			for (ConfigType t : types) {
 				Config c = configManager.getConfig(t);
 				c.onSave();
 				addJsonToZip(t.getId() + ".josn", c.getJsonObject(), zipOut);
 			}
 
-			if(icon instanceof File) {
-				
+			if (icon instanceof File) {
+
 				File iconFile = (File) icon;
-				
+
 				addFileToZip("icon.png", iconFile, zipOut);
 			}
 		} catch (IOException e) {
@@ -70,11 +70,11 @@ public class ProfileManager {
 	public void load(Profile profile) {
 
 		List<Pair<ConfigType, JsonObject>> configs = profile.getConfigs();
-		
-		for(Pair<ConfigType, JsonObject> p : configs) {
-			
+
+		for (Pair<ConfigType, JsonObject> p : configs) {
+
 			Config config = Soar.getInstance().getConfigManager().getConfig(p.getFirst());
-			
+
 			config.setJsonObject(p.getSecond());
 			config.onLoad();
 		}
@@ -87,46 +87,46 @@ public class ProfileManager {
 			if (f.getName().endsWith(".zip")) {
 
 				List<Pair<ConfigType, JsonObject>> configs = new ArrayList<>();
-				
+
 				String name = "null";
 				String author = "null";
 				String serverIp = "";
 				Object icon = null;
-				
+
 				try (FileInputStream fis = new FileInputStream(f); ZipInputStream zipIn = new ZipInputStream(fis)) {
 
 					ZipEntry entry;
 					while ((entry = zipIn.getNextEntry()) != null) {
 						if (!entry.isDirectory()) {
 							if (entry.getName().endsWith(".json")) {
-								
+
 								String jsonName = entry.getName().replace(".json", "");
-								
-								if(jsonName.equals("info")) {
-									
+
+								if (jsonName.equals("info")) {
+
 									JsonObject infoJsonObject = readJsonFromZip(zipIn);
-									
+
 									name = JsonUtils.getStringProperty(infoJsonObject, "name", "null");
 									author = JsonUtils.getStringProperty(infoJsonObject, "author", "null");
 									icon = JsonUtils.getStringProperty(infoJsonObject, "icon", null);
 									serverIp = JsonUtils.getStringProperty(infoJsonObject, "serverIp", "");
-									
+
 									continue;
 								}
-								
+
 								ConfigType type = ConfigType.get(jsonName);
-								
-								if(type != null) {
+
+								if (type != null) {
 									configs.add(Pair.of(type, readJsonFromZip(zipIn)));
 								}
 							} else if (entry.getName().endsWith(".png")) {
 								try {
 									File pngFile = new File(FileLocation.CACHE_DIR, FileUtils.getMd5Checksum(f));
-									
-									if(!pngFile.exists()) {
+
+									if (!pngFile.exists()) {
 										saveFileFromZip(zipIn, pngFile);
 									}
-									
+
 									icon = pngFile;
 								} catch (NoSuchAlgorithmException e) {
 									e.printStackTrace();
@@ -135,7 +135,7 @@ public class ProfileManager {
 						}
 						zipIn.closeEntry();
 					}
-					
+
 					profiles.add(new Profile(name, author, configs, icon == null ? "" : icon, serverIp));
 				} catch (IOException e) {
 					e.printStackTrace();

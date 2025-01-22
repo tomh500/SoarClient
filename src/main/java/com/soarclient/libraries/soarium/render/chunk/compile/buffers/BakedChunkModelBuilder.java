@@ -7,35 +7,35 @@ import com.soarclient.libraries.soarium.render.chunk.vertex.builder.ChunkMeshBuf
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 
 public class BakedChunkModelBuilder implements ChunkModelBuilder {
-    private final ChunkMeshBufferBuilder[] vertexBuffers;
+	private final ChunkMeshBufferBuilder[] vertexBuffers;
 
-    private BuiltSectionInfo.Builder renderData;
+	private BuiltSectionInfo.Builder renderData;
 
-    public BakedChunkModelBuilder(ChunkMeshBufferBuilder[] vertexBuffers) {
-        this.vertexBuffers = vertexBuffers;
-    }
+	public BakedChunkModelBuilder(ChunkMeshBufferBuilder[] vertexBuffers) {
+		this.vertexBuffers = vertexBuffers;
+	}
 
-    @Override
-    public ChunkMeshBufferBuilder getVertexBuffer(ModelQuadFacing facing) {
-        return this.vertexBuffers[facing.ordinal()];
-    }
+	@Override
+	public ChunkMeshBufferBuilder getVertexBuffer(ModelQuadFacing facing) {
+		return this.vertexBuffers[facing.ordinal()];
+	}
 
-    @Override
-    public void addSprite(TextureAtlasSprite sprite) {
-        this.renderData.addSprite(sprite);
-    }
+	@Override
+	public void addSprite(TextureAtlasSprite sprite) {
+		this.renderData.addSprite(sprite);
+	}
 
-    public void destroy() {
-        for (ChunkMeshBufferBuilder builder : this.vertexBuffers) {
-            builder.destroy();
-        }
-    }
+	public void destroy() {
+		for (ChunkMeshBufferBuilder builder : this.vertexBuffers) {
+			builder.destroy();
+		}
+	}
 
-    public void begin(BuiltSectionInfo.Builder renderData, int sectionIndex) {
-        this.renderData = renderData;
+	public void begin(BuiltSectionInfo.Builder renderData, int sectionIndex) {
+		this.renderData = renderData;
 
-        for (var vertexBuffer : this.vertexBuffers) {
-            vertexBuffer.start(sectionIndex);
-        }
-    }
+		for (var vertexBuffer : this.vertexBuffers) {
+			vertexBuffer.start(sectionIndex);
+		}
+	}
 }

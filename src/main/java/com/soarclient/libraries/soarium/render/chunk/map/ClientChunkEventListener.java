@@ -1,10 +1,11 @@
 package com.soarclient.libraries.soarium.render.chunk.map;
 
 public interface ClientChunkEventListener {
-    void updateMapCenter(int chunkX, int chunkZ);
+	void updateMapCenter(int chunkX, int chunkZ);
 
-    void updateLoadDistance(int loadDistance);
+	void updateLoadDistance(int loadDistance);
 
-    void onChunkStatusAdded(int x, int z, int flags);
-    void onChunkStatusRemoved(int x, int z, int flags);
+	void onChunkStatusAdded(int x, int z, int flags);
+
+	void onChunkStatusRemoved(int x, int z, int flags);
 }

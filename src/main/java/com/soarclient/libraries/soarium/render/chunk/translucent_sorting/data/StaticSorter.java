@@ -1,12 +1,12 @@
 package com.soarclient.libraries.soarium.render.chunk.translucent_sorting.data;
 
 class StaticSorter extends Sorter {
-    StaticSorter(int quadCount) {
-        this.initBufferWithQuadLength(quadCount);
-    }
+	StaticSorter(int quadCount) {
+		this.initBufferWithQuadLength(quadCount);
+	}
 
-    @Override
-    public void writeIndexBuffer(CombinedCameraPos cameraPos, boolean initial) {
-        // no-op
-    }
+	@Override
+	public void writeIndexBuffer(CombinedCameraPos cameraPos, boolean initial) {
+		// no-op
+	}
 }

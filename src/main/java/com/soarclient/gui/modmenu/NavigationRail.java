@@ -71,7 +71,7 @@ public class NavigationRail extends Component {
 		Skia.drawRoundedRectVarying(x, y, width, height, 35, 0, 0, 35, palette.getSurface());
 
 		editButton.draw(mouseX, mouseY);
-		
+
 		float offsetY = 140;
 
 		for (Navigation n : navigations) {

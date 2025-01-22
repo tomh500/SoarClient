@@ -6,7 +6,7 @@ import com.soarclient.libraries.soarium.culling.SoariumEntityCulling;
 public class Soarium {
 
 	private static SoariumConfig config;
-	
+
 	public static void start() {
 		config = SoariumConfig.load();
 		SoariumEntityCulling.getInstance().start();

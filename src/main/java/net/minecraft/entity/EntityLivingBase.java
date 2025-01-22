@@ -1572,11 +1572,11 @@ public abstract class EntityLivingBase extends Entity {
 	 * Called to update the entity's position/logic.
 	 */
 	public void onUpdate() {
-		
+
 		if (NoJumpDelayMod.getInstance().isEnabled()) {
 			jumpTicks = 0;
 		}
-		
+
 		super.onUpdate();
 
 		if (!this.worldObj.isRemote) {
@@ -1908,11 +1908,11 @@ public abstract class EntityLivingBase extends Entity {
 	 * interpolated look vector
 	 */
 	public Vec3 getLook(float partialTicks) {
-		
+
 		if (MouseDelayFixMod.getInstance().isEnabled() && this instanceof EntityPlayerSP) {
 			return super.getLook(partialTicks);
 		}
-		
+
 		if (partialTicks == 1.0F) {
 			return this.getVectorForRotation(this.rotationPitch, this.rotationYawHead);
 		} else {

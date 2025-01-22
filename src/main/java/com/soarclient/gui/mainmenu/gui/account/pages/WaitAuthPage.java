@@ -55,7 +55,7 @@ public class WaitAuthPage extends Page {
 		});
 
 		float offsetY = (height / 2) + 33;
-		
+
 		cancelButton.setX(x + (width / 2) - (cancelButton.getWidth() / 2) + (cancelButton.getWidth() / 2) + 6);
 		cancelButton.setY(y + offsetY);
 		copyButton.setX(x + (width / 2) - (copyButton.getWidth() / 2) - (copyButton.getWidth() / 2) - 6);

@@ -16,10 +16,10 @@ public class Keybind extends Component {
 
 	private PressAnimation pressAnimation = new PressAnimation();
 	private int[] pressedPos;
-	
+
 	private boolean binding;
 	private int keyCode;
-	
+
 	public Keybind(float x, float y, int keyCode) {
 		super(x, y);
 		this.keyCode = keyCode;
@@ -30,9 +30,9 @@ public class Keybind extends Component {
 
 	@Override
 	public void draw(int mouseX, int mouseY) {
-		
+
 		ColorPalette palette = Soar.getInstance().getColorManager().getPalette();
-		
+
 		Skia.drawRoundedRect(x, y, width, height, 12, palette.getPrimary());
 		Skia.save();
 		Skia.clip(x, y, width, height, 12);
@@ -53,7 +53,7 @@ public class Keybind extends Component {
 
 	@Override
 	public void mouseReleased(int mouseX, int mouseY, int mouseButton) {
-		
+
 		if (MouseUtils.isInside(mouseX, mouseY, x, y, width, height)) {
 
 			if (mouseButton == 0 && !binding) {
@@ -76,7 +76,7 @@ public class Keybind extends Component {
 
 			binding = false;
 		}
-		
+
 		pressAnimation.mouseReleased();
 	}
 
@@ -87,7 +87,7 @@ public class Keybind extends Component {
 			this.binding = false;
 		}
 	}
-	
+
 	public int getKeyCode() {
 		return keyCode;
 	}

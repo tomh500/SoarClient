@@ -755,7 +755,7 @@ public abstract class EntityPlayer extends EntityLivingBase {
 	public EntityItem dropItem(ItemStack droppedItem, boolean dropAround, boolean traceItem) {
 
 		for (int i = 0; i < this.mainInventory.length; ++i) {
-			
+
 			if (ViaHelper.newerThanOrEqualsTo(ProtocolVersion.v1_16)) {
 				Minecraft.getMinecraft().getNetHandler().addToSendQueue(new C0APacketAnimation());
 			}
@@ -766,11 +766,11 @@ public abstract class EntityPlayer extends EntityLivingBase {
 		}
 
 		for (int j = 0; j < this.armorInventory.length; ++j) {
-			
+
 			if (ViaHelper.newerThanOrEqualsTo(ProtocolVersion.v1_16)) {
 				Minecraft.getMinecraft().getNetHandler().addToSendQueue(new C0APacketAnimation());
 			}
-			
+
 			if (this.armorInventory[j] != null) {
 				this.armorInventory[j] = null;
 			}

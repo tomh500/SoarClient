@@ -18,7 +18,7 @@ import com.google.common.collect.Lists;
 import net.minecraft.server.MinecraftServer;
 
 public class RegionFile {
-	
+
 	private static final byte[] emptySector = new byte[4096];
 	private RandomAccessFile dataFile;
 	private final int[] offsets = new int[1024];

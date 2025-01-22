@@ -3,34 +3,34 @@ package com.soarclient.libraries.soarium.gl.arena;
 import com.soarclient.libraries.soarium.util.NativeBuffer;
 
 public class PendingUpload {
-    private final NativeBuffer data;
-    private GlBufferSegment result;
+	private final NativeBuffer data;
+	private GlBufferSegment result;
 
-    public PendingUpload(NativeBuffer data) {
-        this.data = data;
-    }
+	public PendingUpload(NativeBuffer data) {
+		this.data = data;
+	}
 
-    public NativeBuffer getDataBuffer() {
-        return this.data;
-    }
+	public NativeBuffer getDataBuffer() {
+		return this.data;
+	}
 
-    protected void setResult(GlBufferSegment result) {
-        if (this.result != null) {
-            throw new IllegalStateException("Result already provided");
-        }
+	protected void setResult(GlBufferSegment result) {
+		if (this.result != null) {
+			throw new IllegalStateException("Result already provided");
+		}
 
-        this.result = result;
-    }
+		this.result = result;
+	}
 
-    public GlBufferSegment getResult() {
-        if (this.result == null) {
-            throw new IllegalStateException("Result not computed");
-        }
+	public GlBufferSegment getResult() {
+		if (this.result == null) {
+			throw new IllegalStateException("Result not computed");
+		}
 
-        return this.result;
-    }
+		return this.result;
+	}
 
-    public int getLength() {
-        return this.data.getLength();
-    }
+	public int getLength() {
+		return this.data.getLength();
+	}
 }

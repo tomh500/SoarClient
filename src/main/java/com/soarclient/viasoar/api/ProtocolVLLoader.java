@@ -7,12 +7,12 @@ import com.viaversion.viaversion.api.protocol.version.VersionProvider;
 
 public class ProtocolVLLoader extends VLLoader {
 
-    @Override
-    public void load() {
-        super.load();
+	@Override
+	public void load() {
+		super.load();
 
-        final ViaProviders providers = Via.getManager().getProviders();
+		final ViaProviders providers = Via.getManager().getProviders();
 
-        providers.use(VersionProvider.class, new ProtocolVersionProvider());
-    }
+		providers.use(VersionProvider.class, new ProtocolVersionProvider());
+	}
 }

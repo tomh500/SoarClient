@@ -12,7 +12,7 @@ import net.minecraft.client.renderer.texture.Stitcher;
 import net.minecraft.util.MathHelper;
 
 public class StbStitcher {
-	
+
 	public static Pair<Integer, Integer> packRects(Stitcher.Holder[] holders) {
 
 		int holderSize = holders.length;

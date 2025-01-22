@@ -232,7 +232,8 @@ public class EntityRenderer implements IResourceManagerReloadListener {
 	}
 
 	public boolean isShaderActive() {
-		return OpenGlHelper.shadersSupported && this.theShaderGroup != null && !Soarium.getConfig().extraSettings.preventShaders;
+		return OpenGlHelper.shadersSupported && this.theShaderGroup != null
+				&& !Soarium.getConfig().extraSettings.preventShaders;
 	}
 
 	public void stopUseShader() {
@@ -518,15 +519,15 @@ public class EntityRenderer implements IResourceManagerReloadListener {
 	 *                      calculation
 	 */
 	private float getFOVModifier(float partialTicks, boolean useFOVSetting) {
-		
+
 		if (this.debugView) {
-			
+
 			float fov = 90.0F;
 
-			if(ZoomMod.getInstance().isEnabled()) {
+			if (ZoomMod.getInstance().isEnabled()) {
 				return ZoomMod.getInstance().getFov(fov);
 			}
-			
+
 			return fov;
 		} else {
 			Entity entity = this.mc.getRenderViewEntity();
@@ -548,10 +549,10 @@ public class EntityRenderer implements IResourceManagerReloadListener {
 				f = f * 60.0F / 70.0F;
 			}
 
-			if(ZoomMod.getInstance().isEnabled()) {
+			if (ZoomMod.getInstance().isEnabled()) {
 				return ZoomMod.getInstance().getFov(f);
 			}
-			
+
 			return f;
 		}
 	}
@@ -825,9 +826,9 @@ public class EntityRenderer implements IResourceManagerReloadListener {
 
 			if (this.mc.gameSettings.thirdPersonView == 0 && !flag && !this.mc.gameSettings.hideGUI
 					&& !this.mc.playerController.isSpectator()) {
-				
+
 				LeftHandMod.getInstance().setRenderingItemInFirstPerson(true);
-				
+
 				if (LeftHandMod.getInstance().isEnabled()) {
 					ItemStack itemToRender = itemRenderer.getItemToRender();
 					if (itemToRender == null || !(itemToRender.getItem() instanceof ItemMap)) {
@@ -835,14 +836,14 @@ public class EntityRenderer implements IResourceManagerReloadListener {
 						GL11.glFrontFace(GL11.GL_CW);
 					}
 				}
-				
+
 				this.enableLightmap();
 				this.itemRenderer.renderItemInFirstPerson(partialTicks);
-				
+
 				if (LeftHandMod.getInstance().isEnabled()) {
 					GL11.glFrontFace(GL11.GL_CCW);
 				}
-				
+
 				this.disableLightmap();
 			}
 
@@ -1065,12 +1066,12 @@ public class EntityRenderer implements IResourceManagerReloadListener {
 				this.smoothCamYaw = 0.0F;
 				this.smoothCamPitch = 0.0F;
 			}
-			
+
 			PlayerHeadRotationEvent event = new PlayerHeadRotationEvent(f2, f3 * (float) i);
-			
+
 			EventBus.getInstance().call(event, PlayerHeadRotationEvent.ID);
-			
-			if(!event.isCancelled()) {
+
+			if (!event.isCancelled()) {
 				mc.thePlayer.setAngles(event.getYaw(), event.getPitch());
 			}
 		}
@@ -1143,7 +1144,7 @@ public class EntityRenderer implements IResourceManagerReloadListener {
 				GlStateManager.clear(256);
 
 				try {
-					this.mc.currentScreen.drawScreen(k1, l1, partialTicks);	
+					this.mc.currentScreen.drawScreen(k1, l1, partialTicks);
 				} catch (Throwable throwable) {
 					CrashReport crashreport = CrashReport.makeCrashReport(throwable, "Rendering screen");
 					CrashReportCategory crashreportcategory = crashreport.makeCategory("Screen render details");
@@ -1257,11 +1258,11 @@ public class EntityRenderer implements IResourceManagerReloadListener {
 	}
 
 	private void renderWorldPass(int pass, float partialTicks, long finishTimeNano) {
-		
-		if(MotionBlurMod.getInstance().isEnabled() && MotionBlurMod.getInstance().isMonkey()) {
+
+		if (MotionBlurMod.getInstance().isEnabled() && MotionBlurMod.getInstance().isMonkey()) {
 			MonkeyBlur.getInstance().startFrame();
 		}
-		
+
 		RenderGlobal renderglobal = this.mc.renderGlobal;
 		EffectRenderer effectrenderer = this.mc.effectRenderer;
 		boolean flag = this.isDrawBlockOutline();
@@ -1273,11 +1274,11 @@ public class EntityRenderer implements IResourceManagerReloadListener {
 		this.mc.mcProfiler.endStartSection("camera");
 		this.setupCameraTransform(partialTicks, pass);
 		ActiveRenderInfo.updateRenderInfo(this.mc.thePlayer, this.mc.gameSettings.thirdPersonView == 2);
-		
-		if(MotionBlurMod.getInstance().isEnabled() && MotionBlurMod.getInstance().isMonkey()) {
+
+		if (MotionBlurMod.getInstance().isEnabled() && MotionBlurMod.getInstance().isMonkey()) {
 			MonkeyBlur.getInstance().setupCamera(partialTicks);
 		}
-		
+
 		this.mc.mcProfiler.endStartSection("frustum");
 		ClippingHelperImpl.getInstance();
 		this.mc.mcProfiler.endStartSection("culling");
@@ -1413,10 +1414,10 @@ public class EntityRenderer implements IResourceManagerReloadListener {
 			this.renderCloudsCheck(renderglobal, partialTicks, pass);
 		}
 
-		if(MotionBlurMod.getInstance().isEnabled() && MotionBlurMod.getInstance().isMonkey()) {
+		if (MotionBlurMod.getInstance().isEnabled() && MotionBlurMod.getInstance().isMonkey()) {
 			MonkeyBlur.getInstance().endFrame();
 		}
-		
+
 		this.mc.mcProfiler.endStartSection("hand");
 
 		if (this.renderHand) {
@@ -1450,17 +1451,17 @@ public class EntityRenderer implements IResourceManagerReloadListener {
 	}
 
 	private void addRainParticles() {
-		
+
 		WeatherChangerMod mod = WeatherChangerMod.getInstance();
-		
-        if (!(Soarium.getConfig().particleSettings.particles && Soarium.getConfig().particleSettings.rainSplash)) {
-        	return;
-        }
-        
-		if(mod.isEnabled() && (!mod.isRaining() || mod.isSnowing())) {
+
+		if (!(Soarium.getConfig().particleSettings.particles && Soarium.getConfig().particleSettings.rainSplash)) {
 			return;
 		}
-		
+
+		if (mod.isEnabled() && (!mod.isRaining() || mod.isSnowing())) {
+			return;
+		}
+
 		float f = this.mc.theWorld.getRainStrength(1.0F);
 
 		if (!this.mc.gameSettings.fancyGraphics) {
@@ -1536,11 +1537,11 @@ public class EntityRenderer implements IResourceManagerReloadListener {
 	 * Render rain and snow
 	 */
 	protected void renderRainSnow(float partialTicks) {
-		
-        if (!(Soarium.getConfig().detailSettings.rainSnow)) {
-        	return;
-        }
-        
+
+		if (!(Soarium.getConfig().detailSettings.rainSnow)) {
+			return;
+		}
+
 		float f = this.mc.theWorld.getRainStrength(partialTicks);
 
 		if (f > 0.0F) {

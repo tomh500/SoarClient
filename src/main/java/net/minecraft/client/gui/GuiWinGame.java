@@ -95,7 +95,8 @@ public class GuiWinGame extends GuiScreen {
 				int i = 274;
 				InputStream inputstream = this.mc.getResourceManager()
 						.getResource(new ResourceLocation("texts/end.txt")).getInputStream();
-				BufferedReader bufferedreader = new BufferedReader(new InputStreamReader(inputstream, StandardCharsets.UTF_8));
+				BufferedReader bufferedreader = new BufferedReader(
+						new InputStreamReader(inputstream, StandardCharsets.UTF_8));
 				Random random = new Random(8124371L);
 
 				while ((s = bufferedreader.readLine()) != null) {

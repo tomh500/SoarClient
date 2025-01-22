@@ -6,38 +6,38 @@ import com.viaversion.viaversion.api.protocol.version.ProtocolVersion;
 
 public class ProtocolVLLegacyPipeline extends VLLegacyPipeline {
 
-    public ProtocolVLLegacyPipeline(UserConnection user, ProtocolVersion version) {
-        super(user, version);
-    }
-    
-    @Override
-    protected String decompressName() {
-        return "decompress";
-    }
+	public ProtocolVLLegacyPipeline(UserConnection user, ProtocolVersion version) {
+		super(user, version);
+	}
 
-    @Override
-    protected String compressName() {
-        return "compress";
-    }
+	@Override
+	protected String decompressName() {
+		return "decompress";
+	}
 
-    @Override
-    protected String packetDecoderName() {
-        return "decoder";
-    }
+	@Override
+	protected String compressName() {
+		return "compress";
+	}
 
-    @Override
-    protected String packetEncoderName() {
-        return "encoder";
-    }
+	@Override
+	protected String packetDecoderName() {
+		return "decoder";
+	}
 
-    @Override
-    protected String lengthSplitterName() {
-        return "splitter";
-    }
+	@Override
+	protected String packetEncoderName() {
+		return "encoder";
+	}
 
-    @Override
-    protected String lengthPrependerName() {
-        return "prepender";
-    }
+	@Override
+	protected String lengthSplitterName() {
+		return "splitter";
+	}
+
+	@Override
+	protected String lengthPrependerName() {
+		return "prepender";
+	}
 
 }

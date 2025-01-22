@@ -33,7 +33,7 @@ public class SettingBar extends Component {
 	private SimpleAnimation yAnimation = new SimpleAnimation();
 	private String title, description, icon;
 	private Component component;
-	
+
 	public SettingBar(Setting setting, float x, float y, float width) {
 		super(x, y);
 		this.title = setting.getName();
@@ -41,9 +41,9 @@ public class SettingBar extends Component {
 		this.icon = setting.getIcon();
 		this.width = width;
 		this.height = 68;
-		
+
 		if (setting instanceof BooleanSetting) {
-			
+
 			BooleanSetting bSetting = (BooleanSetting) setting;
 			Switch switchComp = new Switch(x, y, bSetting.isEnabled());
 
@@ -62,9 +62,9 @@ public class SettingBar extends Component {
 
 			component = switchComp;
 		}
-		
+
 		if (setting instanceof NumberSetting) {
-			
+
 			NumberSetting nSetting = (NumberSetting) setting;
 			Slider slider = new Slider(0, 0, 200, nSetting.getValue(), nSetting.getMinValue(), nSetting.getMaxValue(),
 					nSetting.getStep());
@@ -87,12 +87,12 @@ public class SettingBar extends Component {
 
 			component = slider;
 		}
-		
+
 		if (setting instanceof ComboSetting) {
-			
+
 			ComboSetting cSetting = (ComboSetting) setting;
 			ComboButton button = new ComboButton(0, 0, cSetting.getOptions(), cSetting.getOption());
-			
+
 			button.setHandler(new ComboButtonHandler() {
 
 				@Override
@@ -100,15 +100,15 @@ public class SettingBar extends Component {
 					cSetting.setOption(option);
 				}
 			});
-			
+
 			component = button;
 		}
-		
+
 		if (setting instanceof KeybindSetting) {
-			
+
 			KeybindSetting kSetting = (KeybindSetting) setting;
 			Keybind bind = new Keybind(0, 0, kSetting.getKeyCode());
-			
+
 			bind.setHandler(new KeybindHandler() {
 
 				@Override
@@ -116,15 +116,15 @@ public class SettingBar extends Component {
 					kSetting.setKeyCode(keyCode);
 				}
 			});
-			
+
 			component = bind;
 		}
-		
-		if(setting instanceof HctColorSetting) {
-			
+
+		if (setting instanceof HctColorSetting) {
+
 			HctColorSetting hSetting = (HctColorSetting) setting;
 			HctColorPicker picker = new HctColorPicker(0, 0, hSetting.getHct());
-			
+
 			picker.setHandler(new HctColorPickerHandler() {
 
 				@Override
@@ -132,15 +132,15 @@ public class SettingBar extends Component {
 					hSetting.setHct(hct);
 				}
 			});
-			
+
 			component = picker;
 		}
-		
-		if(setting instanceof StringSetting) {
-			
+
+		if (setting instanceof StringSetting) {
+
 			StringSetting sSetting = (StringSetting) setting;
 			TextField textField = new TextField(0, 0, 150, sSetting.getValue());
-			
+
 			textField.setHandler(new TextHandler() {
 
 				@Override
@@ -148,26 +148,26 @@ public class SettingBar extends Component {
 					sSetting.setValue(value);
 				}
 			});
-			
+
 			component = textField;
 		}
 	}
 
 	@Override
 	public void draw(int mouseX, int mouseY) {
-		
+
 		ColorPalette palette = Soar.getInstance().getColorManager().getPalette();
 
 		float itemY = y;
-		
+
 		yAnimation.onTick(itemY, 14);
 		itemY = yAnimation.getValue();
-		
-		if(component != null) {
+
+		if (component != null) {
 			component.setX(x + width - component.getWidth() - 22);
 			component.setY(itemY + (height - component.getHeight()) / 2);
 		}
-		
+
 		Skia.drawRoundedRect(x, itemY, width, height, 18, palette.getSurface());
 		Skia.drawFullCenteredText(icon, x + 30, itemY + (height / 2), palette.getOnSurface(), Fonts.getIcon(32));
 		Skia.drawText(I18n.get(title), x + 52, itemY + 20, palette.getOnSurface(), Fonts.getRegular(17));
@@ -180,7 +180,7 @@ public class SettingBar extends Component {
 
 	@Override
 	public void mousePressed(int mouseX, int mouseY, int mouseButton) {
-		
+
 		if (component != null) {
 			component.mousePressed(mouseX, mouseY, mouseButton);
 		}
@@ -188,7 +188,7 @@ public class SettingBar extends Component {
 
 	@Override
 	public void mouseReleased(int mouseX, int mouseY, int mouseButton) {
-		
+
 		if (component != null) {
 			component.mouseReleased(mouseX, mouseY, mouseButton);
 		}
@@ -196,12 +196,12 @@ public class SettingBar extends Component {
 
 	@Override
 	public void keyTyped(char typedChar, int keyCode) {
-		
+
 		if (component != null) {
 			component.keyTyped(typedChar, keyCode);
 		}
 	}
-	
+
 	public String getTitle() {
 		return title;
 	}

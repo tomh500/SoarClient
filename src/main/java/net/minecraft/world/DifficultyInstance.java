@@ -3,7 +3,7 @@ package net.minecraft.world;
 import net.minecraft.util.MathHelper;
 
 public class DifficultyInstance {
-	
+
 	private final float additionalDifficulty;
 
 	public DifficultyInstance(EnumDifficulty worldDifficulty, long worldTime, long chunkInhabitedTime,

@@ -5,22 +5,23 @@ import org.lwjgl.opengl.ContextCapabilities;
 import com.soarclient.libraries.soarium.gl.functions.DeviceFunctions;
 
 public interface RenderDevice {
-    RenderDevice INSTANCE = new GLRenderDevice();
+	RenderDevice INSTANCE = new GLRenderDevice();
 
-    CommandList createCommandList();
+	CommandList createCommandList();
 
-    static void enterManagedCode() {
-        RenderDevice.INSTANCE.makeActive();
-    }
+	static void enterManagedCode() {
+		RenderDevice.INSTANCE.makeActive();
+	}
 
-    static void exitManagedCode() {
-        RenderDevice.INSTANCE.makeInactive();
-    }
+	static void exitManagedCode() {
+		RenderDevice.INSTANCE.makeInactive();
+	}
 
-    void makeActive();
-    void makeInactive();
+	void makeActive();
 
-    ContextCapabilities getCapabilities();
+	void makeInactive();
 
-    DeviceFunctions getDeviceFunctions();
+	ContextCapabilities getCapabilities();
+
+	DeviceFunctions getDeviceFunctions();
 }

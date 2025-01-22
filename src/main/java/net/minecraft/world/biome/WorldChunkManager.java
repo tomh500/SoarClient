@@ -106,13 +106,13 @@ public class WorldChunkManager {
 	 * Return an adjusted version of a given temperature based on the y height
 	 */
 	public float getTemperatureAtHeight(float p_76939_1_, int p_76939_2_) {
-		
+
 		WeatherChangerMod mod = WeatherChangerMod.getInstance();
-		
-		if(mod.isEnabled() && mod.isSnowing()) {
+
+		if (mod.isEnabled() && mod.isSnowing()) {
 			return 0F;
 		}
-		
+
 		return p_76939_1_;
 	}
 

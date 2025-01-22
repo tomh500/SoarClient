@@ -15,7 +15,7 @@ public class CoordsMod extends SimpleHUDMod implements RenderSkiaEventListener {
 	public void onRenderSkia(float partialTicks) {
 		super.draw();
 	}
-	
+
 	@Override
 	public void onEnable() {
 		EventBus.getInstance().register(this, RenderSkiaEvent.ID);
@@ -25,7 +25,7 @@ public class CoordsMod extends SimpleHUDMod implements RenderSkiaEventListener {
 	public void onDisable() {
 		EventBus.getInstance().unregister(this, RenderSkiaEvent.ID);
 	}
-	
+
 	@Override
 	public String getText() {
 		return "X: " + (int) mc.thePlayer.posX + " Y: " + (int) mc.thePlayer.posY + " Z: " + (int) mc.thePlayer.posZ;

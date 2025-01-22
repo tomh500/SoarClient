@@ -17,7 +17,7 @@ import com.soarclient.skia.font.Icon;
 public class ZoomMod extends Mod implements MouseScrollEventListener, ClientTickEventListener {
 
 	private static ZoomMod instance;
-	
+
 	private SimpleAnimation animation = new SimpleAnimation();
 
 	private boolean active;
@@ -25,7 +25,7 @@ public class ZoomMod extends Mod implements MouseScrollEventListener, ClientTick
 	private float currentFactor = 1;
 
 	public boolean wasCinematic;
-	
+
 	private BooleanSetting scrollSetting = new BooleanSetting("setting.scroll", "setting.zoom.scroll.description",
 			Icon.SCROLLABLE_HEADER, this, false);
 	private BooleanSetting smoothZoomSetting = new BooleanSetting("setting.smoothzoom",
@@ -38,10 +38,10 @@ public class ZoomMod extends Mod implements MouseScrollEventListener, ClientTick
 			"setting.smoothcamera.description", Icon.MOTION_BLUR, this, true);
 	private KeybindSetting keybindSetting = new KeybindSetting("setting.keybind", "setting.keybind.description",
 			Icon.KEYBOARD, this, Keyboard.KEY_C);
-	
+
 	public ZoomMod() {
 		super("mod.zoom.name", "mod.zoom.description", Icon.ZOOM_IN, ModCategory.PLAYER);
-		
+
 		instance = this;
 	}
 
@@ -79,7 +79,7 @@ public class ZoomMod extends Mod implements MouseScrollEventListener, ClientTick
 			mc.gameSettings.smoothCamera = wasCinematic;
 		}
 	}
-	
+
 	public void resetFactor() {
 		setFactor(1 / factorSetting.getValue());
 	}
@@ -90,16 +90,16 @@ public class ZoomMod extends Mod implements MouseScrollEventListener, ClientTick
 		}
 		currentFactor = factor;
 	}
-	
+
 	public float getFov(float fov) {
-		
+
 		if (smoothZoomSetting.isEnabled()) {
 			animation.onTick(currentFactor, zoomSpeedSetting.getValue() * 10);
 		}
-		
+
 		return fov * (smoothZoomSetting.isEnabled() ? animation.getValue() : currentFactor);
 	}
-	
+
 	@Override
 	public void onEnable() {
 		EventBus.getInstance().registers(this, ClientTickEvent.ID, MouseScrollEvent.ID);

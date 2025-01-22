@@ -13,27 +13,27 @@ import com.soarclient.libraries.soarium.render.chunk.translucent_sorting.TQuad;
  * have any performance benefit.
  */
 class BSPWorkspace {
-    /**
-     * All the quads in the section.
-     */
-    final TQuad[] quads;
+	/**
+	 * All the quads in the section.
+	 */
+	final TQuad[] quads;
 
-    final SectionPos sectionPos;
+	final SectionPos sectionPos;
 
-    final BSPResult result = new BSPResult();
+	final BSPResult result = new BSPResult();
 
-    final boolean prepareNodeReuse;
+	final boolean prepareNodeReuse;
 
-    BSPWorkspace(TQuad[] quads, SectionPos sectionPos, boolean prepareNodeReuse) {
-        this.quads = quads;
-        this.sectionPos = sectionPos;
-        this.prepareNodeReuse = prepareNodeReuse;
-    }
+	BSPWorkspace(TQuad[] quads, SectionPos sectionPos, boolean prepareNodeReuse) {
+		this.quads = quads;
+		this.sectionPos = sectionPos;
+		this.prepareNodeReuse = prepareNodeReuse;
+	}
 
-    // TODO: better bidirectional triggering: integrate bidirectionality in GFNI if
-    // top-level topo sorting isn't used anymore (and only use half as much memory
-    // by not storing it double)
-    void addAlignedPartitionPlane(int axis, float distance) {
-        result.addDoubleSidedPlane(this.sectionPos, axis, distance);
-    }
+	// TODO: better bidirectional triggering: integrate bidirectionality in GFNI if
+	// top-level topo sorting isn't used anymore (and only use half as much memory
+	// by not storing it double)
+	void addAlignedPartitionPlane(int axis, float distance) {
+		result.addDoubleSidedPlane(this.sectionPos, axis, distance);
+	}
 }

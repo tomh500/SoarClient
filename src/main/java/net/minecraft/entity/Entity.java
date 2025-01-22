@@ -262,7 +262,7 @@ public abstract class Entity implements ICommandSender, Cullable {
 	private long lasttime = 0;
 	private boolean culled = false;
 	private boolean outOfCamera = false;
-	
+
 	public int getEntityId() {
 		return this.entityId;
 	}
@@ -1829,11 +1829,11 @@ public abstract class Entity implements ICommandSender, Cullable {
 	}
 
 	public float getCollisionBorderSize() {
-		
-        if (ViaHelper.newerThanOrEqualsTo(ProtocolVersion.v1_12)) {
-            return 0F;
-        }
-		
+
+		if (ViaHelper.newerThanOrEqualsTo(ProtocolVersion.v1_12)) {
+			return 0F;
+		}
+
 		return 0.1F;
 	}
 
@@ -2524,7 +2524,7 @@ public abstract class Entity implements ICommandSender, Cullable {
 
 		EnchantmentHelper.applyArthropodEnchantments(entityLivingBaseIn, entityIn);
 	}
-	
+
 	@Override
 	public void setTimeout() {
 		lasttime = System.currentTimeMillis() + 1000;
@@ -2538,25 +2538,27 @@ public abstract class Entity implements ICommandSender, Cullable {
 	@Override
 	public void setCulled(boolean value) {
 		this.culled = value;
-		if(!value) {
+		if (!value) {
 			setTimeout();
 		}
 	}
 
 	@Override
 	public boolean isCulled() {
-		if(!SoariumEntityCulling.enabled)return false;
+		if (!SoariumEntityCulling.enabled)
+			return false;
 		return culled;
 	}
 
-    @Override
-    public void setOutOfCamera(boolean value) {
-        this.outOfCamera = value;
-    }
+	@Override
+	public void setOutOfCamera(boolean value) {
+		this.outOfCamera = value;
+	}
 
-    @Override
-    public boolean isOutOfCamera() {
-        if(!SoariumEntityCulling.enabled)return false;
-        return outOfCamera;
-    }
+	@Override
+	public boolean isOutOfCamera() {
+		if (!SoariumEntityCulling.enabled)
+			return false;
+		return outOfCamera;
+	}
 }

@@ -17,18 +17,18 @@ public class BakedQuad implements BakedQuadView {
 	protected final int tintIndex;
 	protected final EnumFacing face;
 
-    private int flags;
-    private int normal;
-    private ModelQuadFacing normalFace = null;
-    
+	private int flags;
+	private int normal;
+	private ModelQuadFacing normalFace = null;
+
 	public BakedQuad(int[] vertexDataIn, int tintIndexIn, EnumFacing faceIn) {
 		this.vertexData = vertexDataIn;
 		this.tintIndex = tintIndexIn;
 		this.face = faceIn;
-        this.normal = this.calculateNormal();
-        this.normalFace = ModelQuadFacing.fromPackedNormal(this.normal);
+		this.normal = this.calculateNormal();
+		this.normalFace = ModelQuadFacing.fromPackedNormal(this.normal);
 
-        this.flags = ModelQuadFlags.getQuadFlags(this, faceIn);
+		this.flags = ModelQuadFlags.getQuadFlags(this, faceIn);
 	}
 
 	public int[] getVertexData() {
@@ -42,93 +42,94 @@ public class BakedQuad implements BakedQuadView {
 	public EnumFacing getFace() {
 		return this.face;
 	}
-	
-    @Override
-    public float getX(int idx) {
-        return Float.intBitsToFloat(this.vertexData[ModelQuadUtil.vertexOffset(idx) + ModelQuadUtil.POSITION_INDEX]);
-    }
 
-    @Override
-    public float getY(int idx) {
-        return Float.intBitsToFloat(this.vertexData[ModelQuadUtil.vertexOffset(idx) + ModelQuadUtil.POSITION_INDEX + 1]);
-    }
+	@Override
+	public float getX(int idx) {
+		return Float.intBitsToFloat(this.vertexData[ModelQuadUtil.vertexOffset(idx) + ModelQuadUtil.POSITION_INDEX]);
+	}
 
-    @Override
-    public float getZ(int idx) {
-        return Float.intBitsToFloat(this.vertexData[ModelQuadUtil.vertexOffset(idx) + ModelQuadUtil.POSITION_INDEX + 2]);
-    }
+	@Override
+	public float getY(int idx) {
+		return Float
+				.intBitsToFloat(this.vertexData[ModelQuadUtil.vertexOffset(idx) + ModelQuadUtil.POSITION_INDEX + 1]);
+	}
 
-    @Override
-    public int getColor(int idx) {
-        return this.vertexData[ModelQuadUtil.vertexOffset(idx) + ModelQuadUtil.COLOR_INDEX];
-    }
+	@Override
+	public float getZ(int idx) {
+		return Float
+				.intBitsToFloat(this.vertexData[ModelQuadUtil.vertexOffset(idx) + ModelQuadUtil.POSITION_INDEX + 2]);
+	}
 
-    @Override
-    public int getVertexNormal(int idx) {
-        return this.vertexData[ModelQuadUtil.vertexOffset(idx) + ModelQuadUtil.NORMAL_INDEX];
-    }
+	@Override
+	public int getColor(int idx) {
+		return this.vertexData[ModelQuadUtil.vertexOffset(idx) + ModelQuadUtil.COLOR_INDEX];
+	}
 
-    @Override
-    public int getLight(int idx) {
-        return this.vertexData[ModelQuadUtil.vertexOffset(idx) + ModelQuadUtil.LIGHT_INDEX];
-    }
+	@Override
+	public int getVertexNormal(int idx) {
+		return this.vertexData[ModelQuadUtil.vertexOffset(idx) + ModelQuadUtil.NORMAL_INDEX];
+	}
 
-    @Override
-    public TextureAtlasSprite getSprite() {
-        if (this instanceof BreakingFour bq) {
-            return bq.getTexture();
-        }
-        return null;
-    }
+	@Override
+	public int getLight(int idx) {
+		return this.vertexData[ModelQuadUtil.vertexOffset(idx) + ModelQuadUtil.LIGHT_INDEX];
+	}
 
-    @Override
-    public float getTexU(int idx) {
-        return Float.intBitsToFloat(this.vertexData[ModelQuadUtil.vertexOffset(idx) + ModelQuadUtil.TEXTURE_INDEX]);
-    }
+	@Override
+	public TextureAtlasSprite getSprite() {
+		if (this instanceof BreakingFour bq) {
+			return bq.getTexture();
+		}
+		return null;
+	}
 
-    @Override
-    public float getTexV(int idx) {
-        return Float.intBitsToFloat(this.vertexData[ModelQuadUtil.vertexOffset(idx) + ModelQuadUtil.TEXTURE_INDEX + 1]);
-    }
+	@Override
+	public float getTexU(int idx) {
+		return Float.intBitsToFloat(this.vertexData[ModelQuadUtil.vertexOffset(idx) + ModelQuadUtil.TEXTURE_INDEX]);
+	}
 
-    @Override
-    public int getFlags() {
-        return this.flags;
-    }
+	@Override
+	public float getTexV(int idx) {
+		return Float.intBitsToFloat(this.vertexData[ModelQuadUtil.vertexOffset(idx) + ModelQuadUtil.TEXTURE_INDEX + 1]);
+	}
 
-    @Override
-    public int getTintIndex() {
-        return this.tintIndex;
-    }
+	@Override
+	public int getFlags() {
+		return this.flags;
+	}
 
-    @Override
-    public ModelQuadFacing getNormalFace() {
-        return this.normalFace;
-    }
+	@Override
+	public int getTintIndex() {
+		return this.tintIndex;
+	}
 
-    @Override
-    public int getFaceNormal() {
-        return this.normal;
-    }
+	@Override
+	public ModelQuadFacing getNormalFace() {
+		return this.normalFace;
+	}
 
-    @Override
-    public EnumFacing getLightFace() {
-        return this.face;
-    }
+	@Override
+	public int getFaceNormal() {
+		return this.normal;
+	}
 
+	@Override
+	public EnumFacing getLightFace() {
+		return this.face;
+	}
 
-    @Override
-    public int getMaxLightQuad(int idx) {
-        return this.vertexData[ModelQuadUtil.vertexOffset(idx) + ModelQuadUtil.LIGHT_INDEX];
-    }
+	@Override
+	public int getMaxLightQuad(int idx) {
+		return this.vertexData[ModelQuadUtil.vertexOffset(idx) + ModelQuadUtil.LIGHT_INDEX];
+	}
 
-    @Override
-    public boolean hasShade() {
-        return this.hasTintIndex();
-    }
+	@Override
+	public boolean hasShade() {
+		return this.hasTintIndex();
+	}
 
-    @Override
-    public boolean hasAO() {
-        return true;
-    }
+	@Override
+	public boolean hasAO() {
+		return true;
+	}
 }

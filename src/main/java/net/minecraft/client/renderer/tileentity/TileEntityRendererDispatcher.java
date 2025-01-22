@@ -126,14 +126,14 @@ public class TileEntityRendererDispatcher {
 
 	public void renderTileEntityAt(TileEntity tileEntityIn, double x, double y, double z, float partialTicks,
 			int destroyStage) {
-		
-        if (!((Cullable) entity).isForcedVisible() && ((Cullable) entity).isCulled()) {
-            SoariumEntityCulling.getInstance().skippedBlockEntities++;
-            return;
-        }
-        
-        SoariumEntityCulling.getInstance().renderedBlockEntities++;
-        
+
+		if (!((Cullable) entity).isForcedVisible() && ((Cullable) entity).isCulled()) {
+			SoariumEntityCulling.getInstance().skippedBlockEntities++;
+			return;
+		}
+
+		SoariumEntityCulling.getInstance().renderedBlockEntities++;
+
 		TileEntitySpecialRenderer<TileEntity> tileentityspecialrenderer = this.getSpecialRenderer(tileEntityIn);
 
 		if (tileentityspecialrenderer != null) {

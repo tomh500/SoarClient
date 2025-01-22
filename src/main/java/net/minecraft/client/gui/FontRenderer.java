@@ -5,16 +5,13 @@ import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Deque;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
-import java.util.Queue;
 import java.util.Random;
-import java.util.concurrent.ConcurrentLinkedQueue;
 
 import javax.imageio.ImageIO;
 
@@ -33,12 +30,9 @@ import com.soarclient.utils.tuples.Pair;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.client.renderer.WorldRenderer;
 import net.minecraft.client.renderer.texture.DynamicTexture;
 import net.minecraft.client.renderer.texture.TextureManager;
 import net.minecraft.client.renderer.texture.TextureUtil;
-import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.client.resources.IResourceManager;
 import net.minecraft.client.resources.IResourceManagerReloadListener;
 import net.minecraft.client.settings.GameSettings;
@@ -46,27 +40,79 @@ import net.minecraft.util.ResourceLocation;
 
 public class FontRenderer implements IResourceManagerReloadListener {
 
-	private static final ResourceLocation[] unicodePageLocations = new ResourceLocation[256];
-	private final int[] charWidth = new int[256];
+	/** Array of width of all the characters in default.png */
+	private int[] charWidth = new int[256];
+
+	/** the height in pixels of default text */
 	public int FONT_HEIGHT = 9;
 	public Random fontRandom = new Random();
-	private final byte[] glyphWidth = new byte[65536];
-	private final int[] colorCode = new int[32];
-	private ResourceLocation locationFontTexture;
+
+	/**
+	 * Array of the start/end column (in upper/lower nibble) for every glyph in the
+	 * /font directory.
+	 */
+	private byte[] glyphWidth = new byte[65536];
+
+	/**
+	 * Array of RGB triplets defining the 16 standard chat colors followed by 16
+	 * darker version of the same colors for drop shadows.
+	 */
+	private int[] colorCode = new int[32];
+	private final ResourceLocation locationFontTexture;
+
+	/** The RenderEngine used to load and setup glyph textures. */
 	private final TextureManager renderEngine;
+
+	/** Current X coordinate at which to draw the next character. */
 	private float posX;
+
+	/** Current Y coordinate at which to draw the next character. */
 	private float posY;
+
+	/**
+	 * If true, strings should be rendered with Unicode fonts instead of the
+	 * default.png font
+	 */
 	private boolean unicodeFlag;
+
+	/**
+	 * If true, the Unicode Bidirectional Algorithm should be run before rendering
+	 * any string.
+	 */
 	private boolean bidiFlag;
+
+	/** Used to specify new red value for the current color. */
 	private float red;
+
+	/** Used to specify new blue value for the current color. */
 	private float green;
+
+	/** Used to specify new green value for the current color. */
 	private float blue;
+
+	/** Used to speify new alpha value for the current color. */
 	private float alpha;
+
+	/** Text color of the currently rendering string. */
 	private int textColor;
+
+	/** Set if the "k" style (random) is active in currently rendering string */
 	private boolean randomStyle;
+
+	/** Set if the "l" style (bold) is active in currently rendering string */
 	private boolean boldStyle;
+
+	/** Set if the "o" style (italic) is active in currently rendering string */
 	private boolean italicStyle;
+
+	/**
+	 * Set if the "n" style (underlined) is active in currently rendering string
+	 */
 	private boolean underlineStyle;
+
+	/**
+	 * Set if the "m" style (strikethrough) is active in currently rendering string
+	 */
 	private boolean strikethroughStyle;
 
 	public static boolean forceRefresh = false;
@@ -79,6 +125,7 @@ public class FontRenderer implements IResourceManagerReloadListener {
 	private float fontTexHeight = 16 * texSheetDim + 128;
 	private float fontTexWidth = 16 * texSheetDim;
 	private int regularCharDim = 128;
+	private boolean drawing = false;
 	private static final String COLOR_RESET_PHRASE = '\u00a7' + "r";
 
 	public FontRenderer(GameSettings gameSettingsIn, ResourceLocation location, TextureManager textureManagerIn,
@@ -119,6 +166,32 @@ public class FontRenderer implements IResourceManagerReloadListener {
 		this.readGlyphSizes();
 	}
 
+	private void establishSize() {
+		int regWidth = 256;
+		for (int i = 0; i < 256; i++) {
+			try (final InputStream stream = mc.getResourceManager()
+					.getResource(new ResourceLocation(String.format("textures/font/unicode_page_%02x.png", i)))
+					.getInputStream()) {
+				regWidth = ImageIO.read(stream).getWidth();
+				break;
+			} catch (Exception ignored) {
+			}
+		}
+
+		texSheetDim = regWidth;
+		int specWidth = 128;
+
+		try (final InputStream stream = mc.getResourceManager().getResource(this.locationFontTexture)
+				.getInputStream()) {
+			specWidth = ImageIO.read(stream).getWidth();
+		} catch (IOException e) {
+		}
+
+		regularCharDim = specWidth;
+		fontTexHeight = 16 * texSheetDim + specWidth;
+		fontTexWidth = 16 * texSheetDim;
+	}
+
 	public void create() {
 
 		establishSize();
@@ -151,7 +224,8 @@ public class FontRenderer implements IResourceManagerReloadListener {
 			}
 		}
 
-		try (final InputStream stream = mc.getResourceManager().getResource(locationFontTexture).getInputStream()) {
+		try (final InputStream stream = mc.getResourceManager().getResource(this.locationFontTexture)
+				.getInputStream()) {
 			bufferedImage.getGraphics().drawImage(ImageIO.read(stream), 0, 16 * texSheetDim, null);
 		} catch (IOException e) {
 		}
@@ -159,7 +233,14 @@ public class FontRenderer implements IResourceManagerReloadListener {
 		glTextureId = new DynamicTexture(bufferedImage).getGlTextureId();
 	}
 
-	public String clearColorReset(String text) {
+	private void deleteTextureId() {
+		if (glTextureId != -1) {
+			GlStateManager.deleteTexture(glTextureId);
+			glTextureId = -1;
+		}
+	}
+
+	public static String clearColorReset(String text) {
 		int startIndex = 0;
 		int endIndex = text.length();
 
@@ -177,52 +258,14 @@ public class FontRenderer implements IResourceManagerReloadListener {
 		return text.substring(startIndex, endIndex);
 	}
 
-	private void deleteTextureId() {
-		if (glTextureId != -1) {
-			GlStateManager.deleteTexture(glTextureId);
-			glTextureId = -1;
-		}
-	}
-
-	private void establishSize() {
-		int regWidth = 256;
-		for (int i = 0; i < 256; i++) {
-			try (final InputStream stream = mc.getResourceManager()
-					.getResource(new ResourceLocation(String.format("textures/font/unicode_page_%02x.png", i)))
-					.getInputStream()) {
-				regWidth = ImageIO.read(stream).getWidth();
-				break;
-			} catch (Exception ignored) {
-			}
-		}
-
-		texSheetDim = regWidth;
-		int specWidth = 128;
-
-		try (final InputStream stream = mc.getResourceManager().getResource(locationFontTexture).getInputStream()) {
-			specWidth = ImageIO.read(stream).getWidth();
-		} catch (IOException e) {
-		}
-
-		regularCharDim = specWidth;
-		fontTexHeight = 16 * texSheetDim + specWidth;
-		fontTexWidth = 16 * texSheetDim;
-	}
-
 	public void onResourceManagerReload(IResourceManager resourceManager) {
-
-		for (int i = 0; i < unicodePageLocations.length; ++i) {
-			unicodePageLocations[i] = null;
-		}
-
-		this.readFontTexture();
-		this.readGlyphSizes();
 
 		for (EnhancedFontRenderer enhancedFontRenderer : EnhancedFontRenderer.getInstances()) {
 			enhancedFontRenderer.invalidateAll();
 		}
 
 		forceRefresh = true;
+		this.readFontTexture();
 	}
 
 	private void readFontTexture() {
@@ -263,7 +306,6 @@ public class FontRenderer implements IResourceManagerReloadListener {
 
 					if ((aint[j2 + l2] >> 24 & 255) != 0) {
 						flag = false;
-						break;
 					}
 				}
 
@@ -281,7 +323,8 @@ public class FontRenderer implements IResourceManagerReloadListener {
 		InputStream inputstream = null;
 
 		try {
-			inputstream = this.getResourceInputStream(new ResourceLocation("font/glyph_sizes.bin"));
+			inputstream = Minecraft.getMinecraft().getResourceManager()
+					.getResource(new ResourceLocation("font/glyph_sizes.bin")).getInputStream();
 			inputstream.read(this.glyphWidth);
 		} catch (IOException ioexception) {
 			throw new RuntimeException(ioexception);
@@ -290,14 +333,123 @@ public class FontRenderer implements IResourceManagerReloadListener {
 		}
 	}
 
+	/**
+	 * Render the given char
+	 */
+	public float renderChar(char ch, boolean italic) {
+		if (ch == 32 || ch == 160) {
+			return this.unicodeFlag ? 4.0F : getCharWidth(ch);
+		} else {
+			final int charIndex = characterDictionary.indexOf(ch);
+			return charIndex != -1 && !this.unicodeFlag ? this.renderDefaultChar(charIndex, italic, ch)
+					: this.renderUnicodeChar(ch, italic);
+		}
+	}
+
+	/**
+	 * Render a single character with the default.png font at current (posX,posY)
+	 * location...
+	 */
+	private float renderDefaultChar(int characterIndex, boolean italic, char ch) {
+		final float characterX = (characterIndex % 16 * 8 * regularCharDim >> 7) + .01f;
+		final float characterY = ((characterIndex >> 4) * 8 * regularCharDim >> 7) + 16 * texSheetDim + .01f;
+
+		final int italicStyle = italic ? 1 : 0;
+		final float charWidth = getCharWidth(ch);
+		final float smallCharWidth = charWidth - 0.01F;
+
+		startDrawing();
+		final float uvHeight = 7.99F * regularCharDim / 128;
+		final float uvWidth = smallCharWidth * regularCharDim / 128;
+
+		GL11.glTexCoord2f(characterX / fontTexWidth, characterY / fontTexHeight);
+		GL11.glVertex2f(this.posX + (float) italicStyle, this.posY);
+
+		GL11.glTexCoord2f(characterX / fontTexWidth, (characterY + uvHeight) / fontTexHeight);
+		GL11.glVertex2f(this.posX - (float) italicStyle, this.posY + 7.99F);
+
+		final int offset = regularCharDim / 128;
+		GL11.glTexCoord2f((characterX + uvWidth - offset) / fontTexWidth, (characterY + uvHeight) / fontTexHeight);
+		GL11.glVertex2f(this.posX + smallCharWidth - 1.0F - (float) italicStyle, this.posY + 7.99F);
+
+		GL11.glTexCoord2f((characterX + uvWidth - offset) / fontTexWidth, characterY / fontTexHeight);
+		GL11.glVertex2f(this.posX + smallCharWidth - 1.0F + (float) italicStyle, this.posY);
+
+		return charWidth;
+	}
+
+	private void startDrawing() {
+		if (!drawing) {
+			drawing = true;
+			GL11.glBegin(GL11.GL_QUADS);
+		}
+	}
+
+	private void endDrawing() {
+		if (drawing) {
+			drawing = false;
+			GL11.glEnd();
+		}
+	}
+
+	private Pair<Float, Float> getUV(char characterIndex) {
+		final int page = characterIndex / 256;
+		final int row = page >> 4;
+		final int column = page % 16;
+		final int glyphWidth = this.glyphWidth[characterIndex] >>> 4;
+		final float charX = (float) (characterIndex % 16 << 4) + glyphWidth + (.05f * page / 39f);
+		final float charY = (float) (((characterIndex & 255) >> 4) * 16) + (.05f * page / 39f);
+		return Pair.of((row * texSheetDim + charX) / fontTexWidth, (column * texSheetDim + charY) / fontTexHeight);
+	}
+
+	private float renderUnicodeChar(char ch, boolean italic) {
+		if (glyphWidth[ch] == 0) {
+			return 0.0F;
+		} else {
+			final Pair<Float, Float> uv = getUV(ch);
+			final int glyphX = glyphWidth[ch] >>> 4;
+			final int glyphY = glyphWidth[ch] & 15;
+			final float floatGlyphX = (float) glyphX;
+			final float modifiedY = (float) glyphY + 1;
+			final float combinedGlyphSize = modifiedY - floatGlyphX - 0.02F;
+			final float italicStyle = italic ? 1.0F : 0.0F;
+			startDrawing();
+
+			final float v = 15.98F * texSheetDim / 256;
+			GL11.glTexCoord2f(uv.getFirst(), uv.getSecond());
+			GL11.glVertex2f(this.posX + italicStyle, this.posY);
+
+			GL11.glTexCoord2f(uv.getFirst(), uv.getSecond() + v / fontTexHeight);
+			GL11.glVertex2f(this.posX - italicStyle, this.posY + 7.99F);
+
+			final float texAdj = combinedGlyphSize + .5f;
+			GL11.glTexCoord2f(uv.getFirst() + texAdj / fontTexHeight, uv.getSecond() + v / fontTexHeight);
+			GL11.glVertex2f(this.posX + combinedGlyphSize / 2.0F - italicStyle, this.posY + 7.99F);
+
+			GL11.glTexCoord2f(uv.getFirst() + texAdj / fontTexHeight, uv.getSecond());
+			GL11.glVertex2f(this.posX + combinedGlyphSize / 2.0F + italicStyle, this.posY);
+
+			return (modifiedY - floatGlyphX) / 2.0F + 1.0F;
+		}
+	}
+
+	/**
+	 * Draws the specified string with a shadow.
+	 */
 	public int drawStringWithShadow(String text, float x, float y, int color) {
 		return this.drawString(text, x, y, color, true);
 	}
 
+	/**
+	 * Draws the specified string.
+	 */
 	public int drawString(String text, int x, int y, int color) {
 		return this.drawString(text, (float) x, (float) y, color, false);
 	}
 
+	/**
+	 * Draws the specified string.
+	 */
 	public int drawString(String text, float x, float y, int color, boolean dropShadow) {
 		GlStateManager.enableAlpha();
 		this.resetStyles();
@@ -313,6 +465,10 @@ public class FontRenderer implements IResourceManagerReloadListener {
 		return i;
 	}
 
+	/**
+	 * Apply Unicode Bidirectional Algorithm to string and return a new possibly
+	 * reordered string for visual rendering.
+	 */
 	private String bidiReorder(String text) {
 		try {
 			Bidi bidi = new Bidi((new ArabicShaping(8)).shape(text), 127);
@@ -323,6 +479,10 @@ public class FontRenderer implements IResourceManagerReloadListener {
 		}
 	}
 
+	/**
+	 * Reset all style flag fields in the class to false; called at the start of
+	 * string rendering
+	 */
 	private void resetStyles() {
 		this.randomStyle = false;
 		this.boldStyle = false;
@@ -331,31 +491,12 @@ public class FontRenderer implements IResourceManagerReloadListener {
 		this.strikethroughStyle = false;
 	}
 
-	private void renderBatch(List<RenderPair> batch) {
-		if (batch.isEmpty()) {
-			return;
-		}
-
-		GlStateManager.bindTexture(glTextureId);
-		GlStateManager.enableTexture2D();
-		GL11.glBegin(GL11.GL_QUADS);
-
-		for (RenderPair pair : batch) {
-			GL11.glTexCoord2f(pair.u1, pair.v1);
-			GL11.glVertex2f(pair.x1, pair.y1);
-			GL11.glTexCoord2f(pair.u2, pair.v2);
-			GL11.glVertex2f(pair.x2, pair.y2);
-			GL11.glTexCoord2f(pair.u3, pair.v3);
-			GL11.glVertex2f(pair.x3, pair.y3);
-			GL11.glTexCoord2f(pair.u4, pair.v4);
-			GL11.glVertex2f(pair.x4, pair.y4);
-		}
-
-		GL11.glEnd();
-	}
-
+	/**
+	 * Render a single line string at the current (posX,posY) and update posX
+	 */
 	private void renderStringAtPos(String text, boolean shadow) {
-		if (renderEngine == null) {
+
+		if (this.renderEngine == null) {
 			this.deleteTextureId();
 			return;
 		}
@@ -372,9 +513,8 @@ public class FontRenderer implements IResourceManagerReloadListener {
 
 		float posX = this.posX;
 		float posY = this.posY;
-
-		this.posX = 0.0F;
-		this.posY = 0.0F;
+		this.posY = (0.0f);
+		this.posX = (0.0f);
 
 		float red = this.red;
 		float green = this.green;
@@ -405,8 +545,8 @@ public class FontRenderer implements IResourceManagerReloadListener {
 			GlStateManager.resetColor();
 			GlStateManager.color(1, 1, 1, 1);
 
-			this.posX = posX + cachedString.getWidth();
-			this.posY = posY + cachedString.getHeight();
+			this.posX = (posX + cachedString.getWidth());
+			this.posY = (posY + cachedString.getHeight());
 			return;
 		}
 
@@ -417,10 +557,9 @@ public class FontRenderer implements IResourceManagerReloadListener {
 		GL11.glNewList(list, GL11.GL_COMPILE_AND_EXECUTE);
 
 		boolean obfuscated = false;
-		final CachedString value = CachedString.create(text, list, this.posX - posX, this.posY - posY);
+		final CachedString value = new CachedString(text, list, this.posX - posX, this.posY - posY);
 		final Deque<RenderPair> underline = new LinkedList<>();
 		final Deque<RenderPair> strikethrough = new LinkedList<>();
-		final List<RenderPair> batch = new ArrayList<>();
 
 		value.setLastRed(red);
 		value.setLastGreen(green);
@@ -480,6 +619,7 @@ public class FontRenderer implements IResourceManagerReloadListener {
 					this.strikethroughStyle = false;
 					this.underlineStyle = false;
 					this.italicStyle = false;
+
 					GlStateManager.color(red, green, blue, alpha);
 
 					value.setLastGreen(green);
@@ -504,7 +644,7 @@ public class FontRenderer implements IResourceManagerReloadListener {
 					letter = charIndex;
 				}
 
-				final boolean unicode = this.getUnicodeFlag();
+				final boolean unicode = this.unicodeFlag;
 				final float boldWidth = getBoldOffset(index);
 				final boolean small = (letter == 0 || index == -1 || unicode) && shadow;
 
@@ -513,22 +653,21 @@ public class FontRenderer implements IResourceManagerReloadListener {
 					this.posY = this.posY - boldWidth;
 				}
 
-				float effectiveWidth = this.renderChar(letter, this.italicStyle, batch);
-
+				float effectiveWidth = this.renderChar(letter, this.italicStyle);
 				if (small) {
 					this.posX = this.posX + boldWidth;
 					this.posY = this.posY + boldWidth;
 				}
 
 				if (this.boldStyle) {
-					this.posX = this.posX + boldWidth;
+					this.posX = (this.posX + boldWidth);
 
 					if (small) {
 						this.posX = this.posX - boldWidth;
 						this.posY = this.posY - boldWidth;
 					}
 
-					this.renderChar(letter, this.italicStyle, batch);
+					this.renderChar(letter, this.italicStyle);
 					this.posX = this.posX - boldWidth;
 
 					if (small) {
@@ -553,12 +692,7 @@ public class FontRenderer implements IResourceManagerReloadListener {
 			}
 		}
 
-		renderBatch(batch);
-
-		for (RenderPair pair : batch) {
-			RenderPairPool.release(pair);
-		}
-
+		endDrawing();
 		final boolean hasStyle = underline.size() > 0 || strikethrough.size() > 0;
 
 		if (hasStyle) {
@@ -610,122 +744,16 @@ public class FontRenderer implements IResourceManagerReloadListener {
 				return;
 			}
 		}
-		RenderPair pair = RenderPairPool.acquire(posX, effectiveWidth, lastRed, lastGreen, lastBlue, lastAlpha);
-		style.add(pair);
+		style.add(new RenderPair(posX, effectiveWidth, lastRed, lastGreen, lastBlue, lastAlpha));
 	}
 
 	private float getBoldOffset(int index) {
 		return index == -1 || this.unicodeFlag ? 0.5F : 1;
 	}
 
-	private float renderChar(char ch, boolean italic, List<RenderPair> batch) {
-		if (ch == 32 || ch == 160) {
-			return this.unicodeFlag ? 4.0F : getCharWidth(ch);
-		} else {
-			final int charIndex = characterDictionary.indexOf(ch);
-			return charIndex != -1 && !this.unicodeFlag ? this.renderDefaultChar(charIndex, italic, ch, batch)
-					: this.renderUnicodeChar(ch, italic, batch);
-		}
-	}
-
-	private float renderDefaultChar(int characterIndex, boolean italic, char ch, List<RenderPair> batch) {
-		final float characterX = (characterIndex % 16 * 8 * regularCharDim >> 7) + .01f;
-		final float characterY = ((characterIndex >> 4) * 8 * regularCharDim >> 7) + 16 * texSheetDim + .01f;
-
-		final int italicStyle = italic ? 1 : 0;
-		final float charWidth = getCharWidth(ch);
-		final float smallCharWidth = charWidth - 0.01F;
-
-		final float uvHeight = 7.99F * regularCharDim / 128;
-		final float uvWidth = smallCharWidth * regularCharDim / 128;
-
-		final float offset = regularCharDim / 128;
-
-		RenderPair pair = new RenderPair(this.posX, charWidth, this.red, this.green, this.blue, this.alpha);
-		pair.setUV(characterX / fontTexWidth, characterY / fontTexHeight, characterX / fontTexWidth,
-				(characterY + uvHeight) / fontTexHeight, (characterX + uvWidth - offset) / fontTexWidth,
-				(characterY + uvHeight) / fontTexHeight, (characterX + uvWidth - offset) / fontTexWidth,
-				characterY / fontTexHeight);
-		pair.setVertices(this.posX + (float) italicStyle, this.posY, this.posX - (float) italicStyle, this.posY + 7.99F,
-				this.posX + smallCharWidth - 1.0F - (float) italicStyle, this.posY + 7.99F,
-				this.posX + smallCharWidth - 1.0F + (float) italicStyle, this.posY);
-
-		batch.add(pair);
-
-		return charWidth;
-	}
-
-	private float renderUnicodeChar(char ch, boolean italic, List<RenderPair> batch) {
-		if (glyphWidth[ch] == 0) {
-			return 0.0F;
-		} else {
-			final Pair<Float, Float> uv = getUV(ch);
-			final int glyphX = glyphWidth[ch] >>> 4;
-			final int glyphY = glyphWidth[ch] & 15;
-			final float floatGlyphX = (float) glyphX;
-			final float modifiedY = (float) glyphY + 1;
-			final float combinedGlyphSize = modifiedY - floatGlyphX - 0.02F;
-			final float italicStyle = italic ? 1.0F : 0.0F;
-
-			final float texAdj = combinedGlyphSize + .5f;
-			final float v = 15.98F * texSheetDim / 256;
-
-			RenderPair pair = new RenderPair(this.posX, combinedGlyphSize, this.red, this.green, this.blue, this.alpha);
-			pair.setUV(uv.getFirst(), uv.getSecond(), uv.getFirst(), uv.getSecond() + v / fontTexHeight,
-					uv.getFirst() + texAdj / fontTexHeight, uv.getSecond() + v / fontTexHeight,
-					uv.getFirst() + texAdj / fontTexHeight, uv.getSecond());
-			pair.setVertices(this.posX + italicStyle, this.posY, this.posX - italicStyle, this.posY + 7.99F,
-					this.posX + combinedGlyphSize / 2.0F - italicStyle, this.posY + 7.99F,
-					this.posX + combinedGlyphSize / 2.0F + italicStyle, this.posY);
-
-			batch.add(pair);
-
-			return (modifiedY - floatGlyphX) / 2.0F + 1.0F;
-		}
-	}
-
-	private Pair<Float, Float> getUV(char characterIndex) {
-		final int page = characterIndex / 256;
-		final int row = page >> 4;
-		final int column = page % 16;
-		final int glyphWidth = this.glyphWidth[characterIndex] >>> 4;
-		final float charX = (float) (characterIndex % 16 << 4) + glyphWidth + (.05f * page / 39f);
-		final float charY = (float) (((characterIndex & 255) >> 4) * 16) + (.05f * page / 39f);
-		return Pair.of((row * texSheetDim + charX) / fontTexWidth, (column * texSheetDim + charY) / fontTexHeight);
-	}
-
-	protected void doDraw(float p_doDraw_1_) {
-		if (this.strikethroughStyle) {
-			Tessellator tessellator = Tessellator.getInstance();
-			WorldRenderer worldrenderer = tessellator.getWorldRenderer();
-			GlStateManager.disableTexture2D();
-			worldrenderer.begin(7, DefaultVertexFormats.POSITION);
-			worldrenderer.pos(this.posX, this.posY + (float) (this.FONT_HEIGHT / 2), 0.0D).endVertex();
-			worldrenderer.pos(this.posX + p_doDraw_1_, this.posY + (float) (this.FONT_HEIGHT / 2), 0.0D).endVertex();
-			worldrenderer.pos(this.posX + p_doDraw_1_, this.posY + (float) (this.FONT_HEIGHT / 2) - 1.0F, 0.0D)
-					.endVertex();
-			worldrenderer.pos(this.posX, this.posY + (float) (this.FONT_HEIGHT / 2) - 1.0F, 0.0D).endVertex();
-			tessellator.draw();
-			GlStateManager.enableTexture2D();
-		}
-
-		if (this.underlineStyle) {
-			Tessellator tessellator1 = Tessellator.getInstance();
-			WorldRenderer worldrenderer1 = tessellator1.getWorldRenderer();
-			GlStateManager.disableTexture2D();
-			worldrenderer1.begin(7, DefaultVertexFormats.POSITION);
-			int i = this.underlineStyle ? -1 : 0;
-			worldrenderer1.pos(this.posX + (float) i, this.posY + (float) this.FONT_HEIGHT, 0.0D).endVertex();
-			worldrenderer1.pos(this.posX + p_doDraw_1_, this.posY + (float) this.FONT_HEIGHT, 0.0D).endVertex();
-			worldrenderer1.pos(this.posX + p_doDraw_1_, this.posY + (float) this.FONT_HEIGHT - 1.0F, 0.0D).endVertex();
-			worldrenderer1.pos(this.posX + (float) i, this.posY + (float) this.FONT_HEIGHT - 1.0F, 0.0D).endVertex();
-			tessellator1.draw();
-			GlStateManager.enableTexture2D();
-		}
-
-		this.posX += p_doDraw_1_;
-	}
-
+	/**
+	 * Render string either left or right aligned depending on bidiFlag
+	 */
 	private int renderStringAligned(String text, int x, int y, int width, int color, boolean dropShadow) {
 		if (this.bidiFlag) {
 			int i = this.getStringWidth(this.bidiReorder(text));
@@ -735,6 +763,10 @@ public class FontRenderer implements IResourceManagerReloadListener {
 		return this.renderString(text, (float) x, (float) y, color, dropShadow);
 	}
 
+	/**
+	 * Render single line string by setting GL color, current (posX,posY), and
+	 * calling renderStringAtPos()
+	 */
 	private int renderString(String text, float x, float y, int color, boolean dropShadow) {
 		if (text == null) {
 			return 0;
@@ -761,7 +793,7 @@ public class FontRenderer implements IResourceManagerReloadListener {
 			this.green = (float) (color >> 8 & 255) / 255.0F;
 			this.blue = (float) (color & 255) / 255.0F;
 			this.alpha = (float) (color >> 24 & 255) / 255.0F;
-			this.setColor(this.red, this.green, this.blue, this.alpha);
+			GlStateManager.color(this.red, this.green, this.blue, this.alpha);
 			this.posX = x;
 			this.posY = y;
 			this.renderStringAtPos(text, dropShadow);
@@ -769,26 +801,29 @@ public class FontRenderer implements IResourceManagerReloadListener {
 		}
 	}
 
+	/**
+	 * Returns the width of this string. Equivalent of
+	 * FontMetrics.stringWidth(String s).
+	 */
 	public int getStringWidth(String text) {
 
 		if (text == null) {
 			return 0;
 		}
 
-		if (NameProtectMod.getInstance().isEnabled()) {
-			return enhancedFontRenderer.getStringWidthCache().computeIfAbsent(text,
-					width -> getUncachedWidth(text.replace(Minecraft.getMinecraft().getSession().getUsername(),
-							NameProtectMod.getInstance().getNameSetting().getValue())));
-		} else {
-			return enhancedFontRenderer.getStringWidthCache().computeIfAbsent(text, width -> getUncachedWidth(text));
-		}
+		return enhancedFontRenderer.getStringWidthCache().computeIfAbsent(text, width -> getUncachedWidth(text));
 	}
 
 	private int getUncachedWidth(String text) {
-
 		if (text == null) {
 			return 0;
 		} else {
+
+			if (NameProtectMod.getInstance().isEnabled()) {
+				text = text.replace(Minecraft.getMinecraft().getSession().getUsername(),
+						NameProtectMod.getInstance().getNameSetting().getValue());
+			}
+
 			float width = 0;
 			boolean bold = false;
 
@@ -822,13 +857,16 @@ public class FontRenderer implements IResourceManagerReloadListener {
 		}
 	}
 
+	/**
+	 * Returns the width of this character as rendered.
+	 */
 	public int getCharWidth(char character) {
 		if (character == 167) {
 			return -1;
 		} else if (character == 32) {
 			return 4;
 		} else {
-			int i = "\u00c0\u00c1\u00c2\u00c8\u00ca\u00cb\u00cd\u00d3\u00d4\u00d5\u00da\u00df\u00e3\u00f5\u011f\u0130\u0131\u0152\u0153\u015e\u015f\u0174\u0175\u017e\u0207\u0000\u0000\u0000\u0000\u0000\u0000\u0000 !\"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~\u0000\u00c7\u00fc\u00e9\u00e2\u00e4\u00e0\u00e5\u00e7\u00ea\u00eb\u00e8\u00ef\u00ee\u00ec\u00c4\u00c5\u00c9\u00e6\u00c6\u00f4\u00f6\u00f2\u00fb\u00f9\u00ff\u00d6\u00dc\u00f8\u00a3\u00d8\u00d7\u0192\u00e1\u00ed\u00f3\u00fa\u00f1\u00d1\u00aa\u00ba\u00bf\u00ae\u00ac\u00bd\u00bc\u00a1\u00ab\u00bb\u2591\u2592\u2593\u2502\u2524\u2561\u2562\u2556\u2555\u2563\u2551\u2557\u255d\u255c\u255b\u2510\u2514\u2534\u252c\u251c\u2500\u253c\u255e\u255f\u255a\u2554\u2569\u2566\u2560\u2550\u256c\u2567\u2568\u2564\u2565\u2559\u2558\u2552\u2553\u256b\u256a\u2518\u250c\u2588\u2584\u258c\u2590\u2580\u03b1\u03b2\u0393\u03c0\u03a3\u03c3\u03bc\u03c4\u03a6\u0398\u03a9\u03b4\u221e\u2205\u2208\u2229\u2261\u00b1\u2265\u2264\u2320\u2321\u00f7\u2248\u00b0\u2219\u00b7\u221a\u207f\u00b2\u25a0\u0000"
+			int i = "\u00c0\u00c1\u00c2\u00c8\u00ca\u00cb\u00cd\u00d3\u00d4\u00d5\u00da\u00df\u00e3\u00f5\u011f\u0130\u0131\u0152\u0153\u015e\u015f\u0174\u0175\u017e\u0207\u0000\u0000\u0000\u0000\u0000\u0000\u0000 !\"#$%&\'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~\u0000\u00c7\u00fc\u00e9\u00e2\u00e4\u00e0\u00e5\u00e7\u00ea\u00eb\u00e8\u00ef\u00ee\u00ec\u00c4\u00c5\u00c9\u00e6\u00c6\u00f4\u00f6\u00f2\u00fb\u00f9\u00ff\u00d6\u00dc\u00f8\u00a3\u00d8\u00d7\u0192\u00e1\u00ed\u00f3\u00fa\u00f1\u00d1\u00aa\u00ba\u00bf\u00ae\u00ac\u00bd\u00bc\u00a1\u00ab\u00bb\u2591\u2592\u2593\u2502\u2524\u2561\u2562\u2556\u2555\u2563\u2551\u2557\u255d\u255c\u255b\u2510\u2514\u2534\u252c\u251c\u2500\u253c\u255e\u255f\u255a\u2554\u2569\u2566\u2560\u2550\u256c\u2567\u2568\u2564\u2565\u2559\u2558\u2552\u2553\u256b\u256a\u2518\u250c\u2588\u2584\u258c\u2590\u2580\u03b1\u03b2\u0393\u03c0\u03a3\u03c3\u03bc\u03c4\u03a6\u0398\u03a9\u03b4\u221e\u2205\u2208\u2229\u2261\u00b1\u2265\u2264\u2320\u2321\u00f7\u2248\u00b0\u2219\u00b7\u221a\u207f\u00b2\u25a0\u0000"
 					.indexOf(character);
 
 			if (character > 0 && i != -1 && !this.unicodeFlag) {
@@ -850,13 +888,18 @@ public class FontRenderer implements IResourceManagerReloadListener {
 		}
 	}
 
+	/**
+	 * Trims a string to fit a specified Width.
+	 */
 	public String trimStringToWidth(String text, int width) {
 		return this.trimStringToWidth(text, width, false);
 	}
 
+	/**
+	 * Trims a string to a specified width, and will reverse it if par3 is set.
+	 */
 	public String trimStringToWidth(String text, int width, boolean reverse) {
-
-		StringBuilder stringbuilder = new StringBuilder(width);
+		StringBuilder stringbuilder = new StringBuilder();
 		int i = 0;
 		int j = reverse ? text.length() - 1 : 0;
 		int k = reverse ? -1 : 1;
@@ -869,6 +912,7 @@ public class FontRenderer implements IResourceManagerReloadListener {
 
 			if (flag) {
 				flag = false;
+
 				if (c0 != 108 && c0 != 76) {
 					if (c0 == 114 || c0 == 82) {
 						flag1 = false;
@@ -880,6 +924,7 @@ public class FontRenderer implements IResourceManagerReloadListener {
 				flag = true;
 			} else {
 				i += i1;
+
 				if (flag1) {
 					++i;
 				}
@@ -890,7 +935,7 @@ public class FontRenderer implements IResourceManagerReloadListener {
 			}
 
 			if (reverse) {
-				stringbuilder.insert(0, c0);
+				stringbuilder.insert(0, (char) c0);
 			} else {
 				stringbuilder.append(c0);
 			}
@@ -899,6 +944,9 @@ public class FontRenderer implements IResourceManagerReloadListener {
 		return stringbuilder.toString();
 	}
 
+	/**
+	 * Remove all newline characters from the end of the string
+	 */
 	private String trimStringNewline(String text) {
 		while (text != null && text.endsWith("\n")) {
 			text = text.substring(0, text.length() - 1);
@@ -907,6 +955,9 @@ public class FontRenderer implements IResourceManagerReloadListener {
 		return text;
 	}
 
+	/**
+	 * Splits and draws a String with wordwrap (maximum length is parameter k)
+	 */
 	public void drawSplitString(String str, int x, int y, int wrapWidth, int textColor) {
 		this.resetStyles();
 		this.textColor = textColor;
@@ -914,6 +965,10 @@ public class FontRenderer implements IResourceManagerReloadListener {
 		this.renderSplitString(str, x, y, wrapWidth, false);
 	}
 
+	/**
+	 * Perform actual work of rendering a multi-line string with wordwrap and with
+	 * darker drop shadow color if flag is set
+	 */
 	private void renderSplitString(String str, int x, int y, int wrapWidth, boolean addShadow) {
 		for (String s : this.listFormattedStringToWidth(str, wrapWidth)) {
 			this.renderStringAligned(s, x, y, wrapWidth, this.textColor, addShadow);
@@ -921,74 +976,96 @@ public class FontRenderer implements IResourceManagerReloadListener {
 		}
 	}
 
+	/**
+	 * Returns the width of the wordwrapped String (maximum length is parameter k)
+	 * 
+	 * @param str       The string to split
+	 * @param maxLength The maximum length of a word
+	 */
 	public int splitStringWidth(String str, int maxLength) {
 		return this.FONT_HEIGHT * this.listFormattedStringToWidth(str, maxLength).size();
 	}
 
+	/**
+	 * Set unicodeFlag controlling whether strings should be rendered with Unicode
+	 * fonts instead of the default.png font.
+	 */
 	public void setUnicodeFlag(boolean unicodeFlagIn) {
 		this.unicodeFlag = unicodeFlagIn;
 	}
 
+	/**
+	 * Get unicodeFlag controlling whether strings should be rendered with Unicode
+	 * fonts instead of the default.png font.
+	 */
 	public boolean getUnicodeFlag() {
 		return this.unicodeFlag;
 	}
 
+	/**
+	 * Set bidiFlag to control if the Unicode Bidirectional Algorithm should be run
+	 * before rendering any string.
+	 */
 	public void setBidiFlag(boolean bidiFlagIn) {
 		this.bidiFlag = bidiFlagIn;
 	}
 
 	public List<String> listFormattedStringToWidth(String str, int wrapWidth) {
-		return Arrays.asList(this.wrapFormattedStringToWidth(str, wrapWidth).split("\n"));
+		return Arrays.<String>asList(this.wrapFormattedStringToWidth(str, wrapWidth).split("\n"));
 	}
 
+	/**
+	 * Inserts newline and formatting into a string to wrap it within the specified
+	 * width.
+	 */
 	String wrapFormattedStringToWidth(String str, int wrapWidth) {
-		if (str.length() <= 1) {
+		int i = this.sizeStringToWidth(str, wrapWidth);
+
+		if (str.length() <= i) {
 			return str;
 		} else {
-			int i = this.sizeStringToWidth(str, wrapWidth);
-
-			if (str.length() <= i) {
-				return str;
-			} else {
-				String s = str.substring(0, i);
-				char c0 = str.charAt(i);
-				boolean flag = c0 == 32 || c0 == 10;
-				String s1 = getFormatFromString(s) + str.substring(i + (flag ? 1 : 0));
-				return s + "\n" + this.wrapFormattedStringToWidth(s1, wrapWidth);
-			}
+			String s = str.substring(0, i);
+			char c0 = str.charAt(i);
+			boolean flag = c0 == 32 || c0 == 10;
+			String s1 = getFormatFromString(s) + str.substring(i + (flag ? 1 : 0));
+			return s + "\n" + this.wrapFormattedStringToWidth(s1, wrapWidth);
 		}
 	}
 
+	/**
+	 * Determines how many characters from the string will fit into the specified
+	 * width.
+	 */
 	private int sizeStringToWidth(String str, int wrapWidth) {
 		int i = str.length();
-		float f = 0.0F;
 		int j = 0;
-		int k = -1;
+		int k = 0;
+		int l = -1;
 
-		for (boolean flag = false; j < i; ++j) {
-			char c0 = str.charAt(j);
+		for (boolean flag = false; k < i; ++k) {
+			char c0 = str.charAt(k);
 
 			switch (c0) {
 			case '\n':
-				--j;
+				--k;
 				break;
 
 			case ' ':
-				k = j;
+				l = k;
 
 			default:
-				f += (float) this.getCharWidth(c0);
+				j += this.getCharWidth(c0);
 
 				if (flag) {
-					++f;
+					++j;
 				}
 
 				break;
 
 			case '\u00a7':
-				if (j < i - 1) {
-					++j;
-					char c1 = str.charAt(j);
+				if (k < i - 1) {
+					++k;
+					char c1 = str.charAt(k);
 
 					if (c1 != 108 && c1 != 76) {
 						if (c1 == 114 || c1 == 82 || isFormatColor(c1)) {
@@ -1001,31 +1078,41 @@ public class FontRenderer implements IResourceManagerReloadListener {
 			}
 
 			if (c0 == 10) {
-				++j;
-				k = j;
+				++k;
+				l = k;
 				break;
 			}
 
-			if (Math.round(f) > wrapWidth) {
+			if (j > wrapWidth) {
 				break;
 			}
 		}
 
-		return j != i && k != -1 && k < j ? k : j;
+		return k != i && l != -1 && l < k ? l : k;
 	}
 
+	/**
+	 * Checks if the char code is a hexadecimal character, used to set colour.
+	 */
 	private static boolean isFormatColor(char colorChar) {
 		return colorChar >= 48 && colorChar <= 57 || colorChar >= 97 && colorChar <= 102
 				|| colorChar >= 65 && colorChar <= 70;
 	}
 
+	/**
+	 * Checks if the char code is O-K...lLrRk-o... used to set special formatting.
+	 */
 	private static boolean isFormatSpecial(char formatChar) {
 		return formatChar >= 107 && formatChar <= 111 || formatChar >= 75 && formatChar <= 79 || formatChar == 114
 				|| formatChar == 82;
 	}
 
+	/**
+	 * Digests a string for nonprinting formatting characters then returns a string
+	 * containing only that formatting.
+	 */
 	public static String getFormatFromString(String text) {
-		StringBuilder s = new StringBuilder();
+		String s = "";
 		int i = -1;
 		int j = text.length();
 
@@ -1034,16 +1121,20 @@ public class FontRenderer implements IResourceManagerReloadListener {
 				char c0 = text.charAt(i + 1);
 
 				if (isFormatColor(c0)) {
-					s = new StringBuilder("\u00a7" + c0);
+					s = "\u00a7" + c0;
 				} else if (isFormatSpecial(c0)) {
-					s.append("\u00a7").append(c0);
+					s = s + "\u00a7" + c0;
 				}
 			}
 		}
 
-		return s.toString();
+		return s;
 	}
 
+	/**
+	 * Get bidiFlag that controls if the Unicode Bidirectional Algorithm should be
+	 * run before rendering any string
+	 */
 	public boolean getBidiFlag() {
 		return this.bidiFlag;
 	}
@@ -1052,92 +1143,21 @@ public class FontRenderer implements IResourceManagerReloadListener {
 		return this.colorCode["0123456789abcdef".indexOf(character)];
 	}
 
-	protected void setColor(float p_setColor_1_, float p_setColor_2_, float p_setColor_3_, float p_setColor_4_) {
-		GlStateManager.color(p_setColor_1_, p_setColor_2_, p_setColor_3_, p_setColor_4_);
-	}
-
-	protected void enableAlpha() {
-		GlStateManager.enableAlpha();
-	}
-
-	protected void bindTexture(ResourceLocation p_bindTexture_1_) {
-		this.renderEngine.bindTexture(p_bindTexture_1_);
-	}
-
-	protected InputStream getResourceInputStream(ResourceLocation p_getResourceInputStream_1_) throws IOException {
-		return Minecraft.getMinecraft().getResourceManager().getResource(p_getResourceInputStream_1_).getInputStream();
-	}
-
 	static class RenderPair {
-		private float red;
-		private float green;
-		private float blue;
-		private float alpha;
+		private final float red;
+		private final float green;
+		private final float blue;
+		private final float alpha;
 		float posX;
 		float width;
-		float u1, v1, u2, v2, u3, v3, u4, v4;
-		float x1, y1, x2, y2, x3, y3, x4, y4;
 
 		public RenderPair(float posX, float width, float red, float green, float blue, float alpha) {
-			set(posX, width, red, green, blue, alpha);
-		}
-
-		public void set(float posX, float width, float red, float green, float blue, float alpha) {
 			this.posX = posX;
 			this.width = width;
 			this.red = red;
 			this.green = green;
 			this.blue = blue;
 			this.alpha = alpha;
-		}
-
-		public void setUV(float u1, float v1, float u2, float v2, float u3, float v3, float u4, float v4) {
-			this.u1 = u1;
-			this.v1 = v1;
-			this.u2 = u2;
-			this.v2 = v2;
-			this.u3 = u3;
-			this.v3 = v3;
-			this.u4 = u4;
-			this.v4 = v4;
-		}
-
-		public void setVertices(float x1, float y1, float x2, float y2, float x3, float y3, float x4, float y4) {
-			this.x1 = x1;
-			this.y1 = y1;
-			this.x2 = x2;
-			this.y2 = y2;
-			this.x3 = x3;
-			this.y3 = y3;
-			this.x4 = x4;
-			this.y4 = y4;
-		}
-	}
-
-	static class RenderPairPool {
-
-		private static final Queue<RenderPair> POOL = new ConcurrentLinkedQueue<>();
-		private static final int MAX_POOL_SIZE = 100;
-
-		public static RenderPair acquire(float posX, float width, float red, float green, float blue, float alpha) {
-			RenderPair pair = POOL.poll();
-			if (pair == null) {
-				pair = new RenderPair(posX, width, red, green, blue, alpha);
-			} else {
-				pair.posX = posX;
-				pair.width = width;
-				pair.red = red;
-				pair.green = green;
-				pair.blue = blue;
-				pair.alpha = alpha;
-			}
-			return pair;
-		}
-
-		public static void release(RenderPair pair) {
-			if (POOL.size() < MAX_POOL_SIZE) {
-				POOL.offer(pair);
-			}
 		}
 	}
 }

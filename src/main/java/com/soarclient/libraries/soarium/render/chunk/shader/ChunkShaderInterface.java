@@ -3,15 +3,15 @@ package com.soarclient.libraries.soarium.render.chunk.shader;
 import org.joml.Matrix4fc;
 
 public interface ChunkShaderInterface {
-    @Deprecated
-    void setupState();
+	@Deprecated
+	void setupState();
 
-    @Deprecated
-    void resetState();
+	@Deprecated
+	void resetState();
 
-    void setProjectionMatrix(Matrix4fc matrix);
+	void setProjectionMatrix(Matrix4fc matrix);
 
-    void setModelViewMatrix(Matrix4fc matrix);
+	void setModelViewMatrix(Matrix4fc matrix);
 
-    void setRegionOffset(float x, float y, float z);
+	void setRegionOffset(float x, float y, float z);
 }

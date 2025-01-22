@@ -25,7 +25,7 @@ public class DayCounterMod extends SimpleHUDMod implements RenderSkiaEventListen
 	public void onDisable() {
 		EventBus.getInstance().unregister(this, RenderSkiaEvent.ID);
 	}
-	
+
 	@Override
 	public String getText() {
 		long time = mc.theWorld.getWorldInfo().getWorldTotalTime() / 24000L;

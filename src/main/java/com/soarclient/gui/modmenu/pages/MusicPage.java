@@ -53,13 +53,13 @@ public class MusicPage extends Page {
 	public void init() {
 
 		controlBar = new MusicControlBar(x + 22, y + height - 60 - 18, width - 44);
-		
+
 		String text = "";
-		
-		if(searchBar != null) {
+
+		if (searchBar != null) {
 			text = searchBar.getText();
 		}
-		
+
 		searchBar = new SearchBar(x + width - 260 - 32, y + 32, 260, text, () -> {
 			scrollHelper.reset();
 		});
@@ -193,7 +193,7 @@ public class MusicPage extends Page {
 					&& !SearchUtils.isSimilar(m.getTitle() + " " + m.getArtist(), searchBar.getText())) {
 				continue;
 			}
-			
+
 			if (MouseUtils.isInside(mouseX, mouseY, itemX, itemY, 174, 174) && mouseButton == 0) {
 
 				if (musicManager.getCurrentMusic() != m) {

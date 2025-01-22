@@ -68,7 +68,7 @@ public class ModManager {
 	}
 
 	private void initMods() {
-		
+
 		// HUD
 		mods.add(new ComboCounterMod());
 		mods.add(new CoordsMod());
@@ -92,7 +92,7 @@ public class ModManager {
 		mods.add(new StopwatchMod());
 		mods.add(new WeatherDisplayMod());
 		mods.add(new YawDisplayMod());
-		
+
 		// Misc
 		mods.add(new LiquidFixMod());
 		mods.add(new NameProtectMod());
@@ -100,7 +100,7 @@ public class ModManager {
 		mods.add(new TimeChangerMod());
 		mods.add(new ViaVersionMod());
 		mods.add(new WeatherChangerMod());
-		
+
 		// Player
 		mods.add(new HitDelayFixMod());
 		mods.add(new LeftHandMod());
@@ -112,14 +112,14 @@ public class ModManager {
 		mods.add(new ToggleSneakMod());
 		mods.add(new ToggleSprintMod());
 		mods.add(new ZoomMod());
-		
+
 		// Render
 		mods.add(new MotionBlurMod());
-		
+
 		// Settings
 		mods.add(new HUDModSettings());
 		mods.add(new ModMenuSettings());
-		
+
 		sortMods();
 	}
 
@@ -165,13 +165,11 @@ public class ModManager {
 	}
 
 	public HUDDesign getDesignByName(String name) {
-	    return designs.stream()
-	                  .filter(design -> design.getName().equals(name))
-	                  .findFirst()
-	                  .orElseGet(() -> getDesignByName("design.simple"));
+		return designs.stream().filter(design -> design.getName().equals(name)).findFirst()
+				.orElseGet(() -> getDesignByName("design.simple"));
 	}
 
 	private void sortMods() {
-	    mods.sort((mod1, mod2) -> mod1.getName().compareTo(mod2.getName()));
+		mods.sort((mod1, mod2) -> mod1.getName().compareTo(mod2.getName()));
 	}
 }
