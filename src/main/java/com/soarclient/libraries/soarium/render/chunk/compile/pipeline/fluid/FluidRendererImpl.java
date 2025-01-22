@@ -9,9 +9,9 @@ import com.soarclient.libraries.soarium.render.chunk.compile.buffers.ChunkModelB
 import com.soarclient.libraries.soarium.render.chunk.terrain.material.DefaultMaterials;
 import com.soarclient.libraries.soarium.render.chunk.terrain.material.Material;
 import com.soarclient.libraries.soarium.render.chunk.translucent_sorting.TranslucentGeometryCollector;
+import com.soarclient.libraries.soarium.util.FluidSprites;
 import com.soarclient.libraries.soarium.world.LevelSlice;
 
-import dev.vexor.radium.util.FluidSprites;
 import net.minecraft.block.BlockLiquid;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.util.BlockPos;

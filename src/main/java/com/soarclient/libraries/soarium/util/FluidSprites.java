@@ -1,4 +1,4 @@
-package dev.vexor.radium.util;
+package com.soarclient.libraries.soarium.util;
 
 import net.minecraft.block.BlockLiquid;
 import net.minecraft.block.material.Material;

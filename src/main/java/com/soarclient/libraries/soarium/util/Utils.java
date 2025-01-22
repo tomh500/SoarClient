@@ -1,4 +1,4 @@
-package dev.vexor.radium.extra.util;
+package com.soarclient.libraries.soarium.util;
 
 public class Utils {
     public static int packLight(int lightU, int lightV) {
