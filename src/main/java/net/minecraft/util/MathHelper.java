@@ -3,6 +3,8 @@ package net.minecraft.util;
 import java.util.Random;
 import java.util.UUID;
 
+import com.soarclient.libraries.soarium.compat.minecraft.math.CompactSineLUT;
+
 public class MathHelper {
 	public static final float SQRT_2 = sqrt_float(2.0F);
 
@@ -10,7 +12,7 @@ public class MathHelper {
 	 * A table of sin values computed from 0 (inclusive) to 2*pi (exclusive), with
 	 * steps of 2*PI / 65536.
 	 */
-	private static final float[] SIN_TABLE = new float[65536];
+	public static final float[] SIN_TABLE = new float[65536];
 
 	/**
 	 * Though it looks like an array, this is really more like a mapping. Key (index
@@ -30,14 +32,14 @@ public class MathHelper {
 	 * sin looked up in a table
 	 */
 	public static float sin(float p_76126_0_) {
-		return SIN_TABLE[(int) (p_76126_0_ * 10430.378F) & 65535];
+		return CompactSineLUT.sin(p_76126_0_);
 	}
 
 	/**
 	 * cos looked up in the sin table with the appropriate offset
 	 */
 	public static float cos(float value) {
-		return SIN_TABLE[(int) (value * 10430.378F + 16384.0F) & 65535];
+		return CompactSineLUT.cos(value);
 	}
 
 	public static float sqrt_float(float value) {
