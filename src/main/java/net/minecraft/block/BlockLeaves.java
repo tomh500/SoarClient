@@ -241,7 +241,7 @@ public abstract class BlockLeaves extends BlockLeavesBase {
 	 */
 	public void setGraphicsLevel(boolean fancy) {
 		this.isTransparent = fancy;
-		this.fancyGraphics = Soarium.getConfig().quality.leavesQuality.isFancy(fancy);
+		this.fancyGraphics = Soarium.getConfig().isFancy(Soarium.getConfig().quality.leavesQuality, fancy);
 		this.iconIndex = fancy ? 0 : 1;
 	}
 

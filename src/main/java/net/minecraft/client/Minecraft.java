@@ -2208,7 +2208,7 @@ public class Minecraft implements IThreadListener {
 	 * Returns if ambient occlusion is enabled
 	 */
 	public static boolean isAmbientOcclusionEnabled() {
-		return Soarium.getConfig().quality.smoothLighting != SoariumConfig.LightingQuality.OFF;
+		return !Soarium.getConfig().quality.smoothLighting.equals("off");
 	}
 
 	/**

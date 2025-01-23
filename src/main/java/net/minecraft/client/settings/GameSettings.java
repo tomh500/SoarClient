@@ -1014,7 +1014,7 @@ public class GameSettings {
 			return 0;
 		}
 
-		return options.quality.cloudQuality.isFancy(this.fancyGraphics) ? 2 : 1;
+		return options.isFancy(options.quality.cloudQuality, this.fancyGraphics) ? 2 : 1;
 	}
 
 	/**

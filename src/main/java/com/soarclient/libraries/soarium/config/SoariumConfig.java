@@ -31,7 +31,6 @@ public class SoariumConfig {
 	public final ParticleSettings particleSettings = new ParticleSettings();
 	public final DetailSettings detailSettings = new DetailSettings();
 	public final RenderSettings renderSettings = new RenderSettings();
-	public final ExtraSettings extraSettings = new ExtraSettings();
 
 	public static class PerformanceSettings {
 
@@ -81,6 +80,9 @@ public class SoariumConfig {
 
 	public static class QualitySettings {
 
+		public String[] lightningQualities = { "off", "min", "max" };
+		public String[] qualities = { "default", "fancy", "fast" };
+		
 		@SerializedName("enableClouds")
 		public boolean enableClouds = false;
 
@@ -88,22 +90,23 @@ public class SoariumConfig {
 		public int cloudHeight = 160;
 
 		@SerializedName("cloudQuality")
-		public GraphicsQuality cloudQuality = GraphicsQuality.DEFAULT;
+		public String cloudQuality = qualities[0];
 
 		@SerializedName("weatherQuality")
-		public GraphicsQuality weatherQuality = GraphicsQuality.DEFAULT;
+		public String weatherQuality = qualities[0];
 
 		@SerializedName("leavesQuality")
-		public GraphicsQuality leavesQuality = GraphicsQuality.DEFAULT;
+		public String leavesQuality = qualities[0];
 
 		@SerializedName("smoothLighting")
-		public LightingQuality smoothLighting = LightingQuality.HIGH;
+		public String smoothLighting = lightningQualities[2];
 
 		@SerializedName("biomeBlendRadius")
 		public int biomeBlendRadius = 2;
 
 		@SerializedName("enableVignette")
 		public boolean enableVignette = true;
+		
 	}
 
 	public static class CullingSettings {
@@ -125,54 +128,6 @@ public class SoariumConfig {
 
 		@SerializedName("renderNametagsThroughWalls")
 		public boolean renderNametagsThroughWalls = true;
-	}
-
-	public enum LightingQuality {
-
-		@SerializedName("off")
-		OFF("options.ao.off"),
-
-		@SerializedName("low")
-		LOW("options.ao.min"),
-
-		@SerializedName("high")
-		HIGH("options.ao.max");
-
-		private final String name;
-
-		LightingQuality(String name) {
-			this.name = name;
-		}
-
-		public String getName() {
-			return name;
-		}
-	}
-
-	public enum GraphicsQuality {
-
-		@SerializedName("default")
-		DEFAULT("generator.default"),
-
-		@SerializedName("fancy")
-		FANCY("options.graphics.fancy"),
-
-		@SerializedName("fast")
-		FAST("options.graphics.fast");
-
-		private final String name;
-
-		GraphicsQuality(String name) {
-			this.name = name;
-		}
-
-		public String getName() {
-			return name;
-		}
-
-		public boolean isFancy(boolean fancy) {
-			return (this == FANCY) || (this == DEFAULT && !fancy) || fancy;
-		}
 	}
 
 	public static class AnimationSettings {
@@ -299,24 +254,10 @@ public class SoariumConfig {
 		}
 	}
 
-	public static class ExtraSettings {
-
-		@SerializedName("reduceResolutionOnMac")
-		public boolean reduceResolutionOnMac;
-
-		@SerializedName("useAdaptiveSync")
-		public boolean useAdaptiveSync;
-
-		@SerializedName("preventShaders")
-		public boolean preventShaders;
-
-		public ExtraSettings() {
-			this.reduceResolutionOnMac = false;
-			this.useAdaptiveSync = false;
-			this.preventShaders = false;
-		}
+	public boolean isFancy(String input, boolean fancy) {
+		return (input.equals("fancy")) || (input.equals("default") && !fancy) || fancy;
 	}
-
+	
 	public static SoariumConfig load() {
 
 		SoariumConfig config;

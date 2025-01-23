@@ -232,8 +232,7 @@ public class EntityRenderer implements IResourceManagerReloadListener {
 	}
 
 	public boolean isShaderActive() {
-		return OpenGlHelper.shadersSupported && this.theShaderGroup != null
-				&& !Soarium.getConfig().extraSettings.preventShaders;
+		return OpenGlHelper.shadersSupported && this.theShaderGroup != null;
 	}
 
 	public void stopUseShader() {
@@ -1564,7 +1563,8 @@ public class EntityRenderer implements IResourceManagerReloadListener {
 			int l = MathHelper.floor_double(d1);
 			int i1 = 5;
 
-			if (Soarium.getConfig().quality.weatherQuality.isFancy(mc.gameSettings.fancyGraphics)) {
+			if (Soarium.getConfig().isFancy(Soarium.getConfig().quality.weatherQuality,
+					mc.gameSettings.fancyGraphics)) {
 				i1 = 10;
 			}
 
