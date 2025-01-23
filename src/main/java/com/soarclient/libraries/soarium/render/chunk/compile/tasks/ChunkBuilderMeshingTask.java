@@ -126,16 +126,17 @@ public class ChunkBuilderMeshingTask extends ChunkBuilderTask<ChunkBuildOutput> 
 						}
 
 						if (block.hasTileEntity()) {
-							TileEntity entity = slice.getTileEntity(blockPos);
-							TileEntitySpecialRenderer<TileEntity> renderer = null;
-							
-							if (entity != null) {
-								renderer = TileEntityRendererDispatcher.instance.getSpecialRenderer(entity);
+						    TileEntity entity = slice.getTileEntity(blockPos);
+						    TileEntitySpecialRenderer<TileEntity> renderer = null;
+						    
+						    if (entity != null) {
+						        renderer = TileEntityRendererDispatcher.instance.getSpecialRenderer(entity);
 
-								if (renderer != null) {
-									renderData.addBlockEntity(entity, false);
-								}
-							}
+						        if (renderer != null) {
+						            entity.setPos(new BlockPos(x, y, z));
+						            renderData.addBlockEntity(entity, false);
+						        }
+						    }
 						}
 
 						if (block.isOpaqueCube()) {
