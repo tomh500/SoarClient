@@ -211,7 +211,7 @@ public class GuiOverlayDebug extends Gui {
 	private void addCustomDebugRight(List<String> list) {
 
 		list.add("");
-		list.add("%sSoarium Renderer (%s)".formatted(EnumChatFormatting.GREEN, "1.0"));
+		list.add("%sSoarium Renderer".formatted(EnumChatFormatting.GREEN));
 
 		var renderer = SodiumWorldRenderer.instanceNullable();
 
