@@ -1,4 +1,4 @@
-package com.soarclient.libraries.soarium.compat.minecraft.math;
+package com.soarclient.libraries.soarium.util;
 
 import net.minecraft.util.MathHelper;
 

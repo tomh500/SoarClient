@@ -3,7 +3,7 @@ package net.minecraft.util;
 import java.util.Random;
 import java.util.UUID;
 
-import com.soarclient.libraries.soarium.compat.minecraft.math.CompactSineLUT;
+import com.soarclient.libraries.soarium.util.CompactSineLUT;
 
 public class MathHelper {
 	public static final float SQRT_2 = sqrt_float(2.0F);
