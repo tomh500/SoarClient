@@ -29,6 +29,10 @@ import net.minecraft.world.storage.ThreadedFileIOBase;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import com.soarclient.libraries.soarium.lightning.LightingHooks;
+import com.soarclient.libraries.soarium.lightning.api.IChunkLightingData;
+import com.soarclient.libraries.soarium.lightning.api.ILightingEngineProvider;
+
 public class AnvilChunkLoader implements IChunkLoader, IThreadedFileIO {
 	private static final Logger logger = LogManager.getLogger();
 	private final Map<ChunkCoordIntPair, NBTTagCompound> chunksToRemove = new ConcurrentHashMap<ChunkCoordIntPair, NBTTagCompound>();
@@ -93,6 +97,8 @@ public class AnvilChunkLoader implements IChunkLoader, IThreadedFileIO {
 	}
 
 	public void saveChunk(World worldIn, Chunk chunkIn) throws MinecraftException, IOException {
+		
+        ((ILightingEngineProvider) worldIn).getLightingEngine().processLightUpdates();
 		worldIn.checkSessionLock();
 
 		try {
@@ -296,6 +302,9 @@ public class AnvilChunkLoader implements IChunkLoader, IThreadedFileIO {
 
 			p_75820_3_.setTag("TileTicks", nbttaglist3);
 		}
+		
+        LightingHooks.writeNeighborLightChecksToNBT(chunkIn, p_75820_3_);
+        p_75820_3_.setBoolean("LightPopulated", ((IChunkLightingData) chunkIn).isLightInitialized());
 	}
 
 	/**
@@ -414,6 +423,9 @@ public class AnvilChunkLoader implements IChunkLoader, IThreadedFileIO {
 			}
 		}
 
+        LightingHooks.readNeighborLightChecksFromNBT(chunk, p_75823_2_);
+        ((IChunkLightingData) chunk).setLightInitialized(p_75823_2_.getBoolean("LightPopulated"));
+        
 		return chunk;
 	}
 }

@@ -62,6 +62,7 @@ import com.soarclient.libraries.patches.font.EnhancementManager;
 import com.soarclient.libraries.soarium.Soarium;
 import com.soarclient.libraries.soarium.config.SoariumConfig;
 import com.soarclient.libraries.soarium.culling.SoariumEntityCulling;
+import com.soarclient.libraries.soarium.lightning.api.ILightingEngineProvider;
 import com.soarclient.management.mod.impl.player.HitDelayFixMod;
 import com.soarclient.management.mod.impl.render.MotionBlurMod;
 import com.soarclient.management.mod.impl.render.motionblur.MonkeyBlur;
@@ -1948,6 +1949,10 @@ public class Minecraft implements IThreadListener {
 				this.entityRenderer.updateRenderer();
 			}
 
+	        this.mcProfiler.endStartSection("lighting");
+
+	        ((ILightingEngineProvider) this.theWorld).getLightingEngine().processLightUpdates();
+	        
 			this.mcProfiler.endStartSection("levelRenderer");
 
 			if (!this.isGamePaused) {

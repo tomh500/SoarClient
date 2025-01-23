@@ -10,6 +10,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import com.google.common.collect.Lists;
+import com.soarclient.libraries.soarium.lightning.api.ILightingEngineProvider;
 
 import it.unimi.dsi.fastutil.longs.Long2ObjectOpenHashMap;
 import net.minecraft.crash.CrashReport;
@@ -220,6 +221,9 @@ public class ChunkProviderServer implements IChunkProvider {
 	 * false, save up to two chunks. Return true if all chunks have been saved.
 	 */
 	public boolean saveChunks(boolean saveAllChunks, IProgressUpdate progressCallback) {
+		
+        ((ILightingEngineProvider) this.worldObj).getLightingEngine().processLightUpdates();
+        
 		int i = 0;
 		List<Chunk> list = Lists.newArrayList(this.loadedChunks);
 
@@ -259,6 +263,13 @@ public class ChunkProviderServer implements IChunkProvider {
 	 * unload every such chunk.
 	 */
 	public boolean unloadQueuedChunks() {
+		
+        if (!this.worldObj.disableLevelSaving) {
+            if (!this.droppedChunksSet.isEmpty()) {
+                ((ILightingEngineProvider) this.worldObj).getLightingEngine().processLightUpdates();
+            }
+        }
+        
 		if (!this.worldObj.disableLevelSaving) {
 			for (int i = 0; i < 100; ++i) {
 				if (!this.droppedChunksSet.isEmpty()) {
@@ -316,5 +327,9 @@ public class ChunkProviderServer implements IChunkProvider {
 
 	public Chunk provideChunk(BlockPos blockPosIn) {
 		return this.provideChunk(blockPosIn.getX() >> 4, blockPosIn.getZ() >> 4);
+	}
+
+	public Long2ObjectOpenHashMap<Chunk> getId2ChunkMap() {
+		return id2ChunkMap;
 	}
 }

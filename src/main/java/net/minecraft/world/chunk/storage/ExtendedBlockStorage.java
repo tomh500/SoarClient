@@ -31,6 +31,8 @@ public class ExtendedBlockStorage {
 	/** The NibbleArray containing a block of Sky-light data. */
 	private NibbleArray skylightArray;
 
+	private int lightRefCount = -1;
+
 	public ExtendedBlockStorage(int y, boolean storeSkylight) {
 		this.yBase = y;
 		this.data = new char[4096];
@@ -92,7 +94,36 @@ public class ExtendedBlockStorage {
 	 * its internal reference count.
 	 */
 	public boolean isEmpty() {
-		return this.blockRefCount == 0;
+		if (this.blockRefCount != 0) {
+			return false;
+		}
+
+		if (this.lightRefCount == -1) {
+			if (this.checkLightArrayEqual(this.skylightArray, (byte) 0xFF)
+					&& this.checkLightArrayEqual(this.blocklightArray, (byte) 0x00)) {
+				this.lightRefCount = 0;
+			} else {
+				this.lightRefCount = 1;
+			}
+		}
+
+		return this.lightRefCount == 0;
+	}
+
+	private boolean checkLightArrayEqual(NibbleArray storage, byte val) {
+		if (storage == null) {
+			return true;
+		}
+
+		byte[] arr = storage.getData();
+
+		for (byte b : arr) {
+			if (b != val) {
+				return false;
+			}
+		}
+
+		return true;
 	}
 
 	/**
@@ -116,6 +147,7 @@ public class ExtendedBlockStorage {
 	 */
 	public void setExtSkylightValue(int x, int y, int z, int value) {
 		this.skylightArray.set(x, y, z, value);
+		this.lightRefCount = -1;
 	}
 
 	/**
@@ -130,6 +162,7 @@ public class ExtendedBlockStorage {
 	 */
 	public void setExtBlocklightValue(int x, int y, int z, int value) {
 		this.blocklightArray.set(x, y, z, value);
+		this.lightRefCount = -1;
 	}
 
 	/**
@@ -186,15 +219,17 @@ public class ExtendedBlockStorage {
 	 * Sets the NibbleArray instance used for Block-light values in this particular
 	 * storage block.
 	 */
-	public void setBlocklightArray(NibbleArray newBlocklightArray) {
-		this.blocklightArray = newBlocklightArray;
+	public void setBlocklightArray(NibbleArray array) {
+		this.blocklightArray = array;
+		this.lightRefCount = -1;
 	}
 
 	/**
 	 * Sets the NibbleArray instance used for Sky-light values in this particular
 	 * storage block.
 	 */
-	public void setSkylightArray(NibbleArray newSkylightArray) {
-		this.skylightArray = newSkylightArray;
+	public void setSkylightArray(NibbleArray array) {
+		this.skylightArray = array;
+		this.lightRefCount = -1;
 	}
 }
