@@ -17,9 +17,6 @@ import com.soarclient.libraries.soarium.render.chunk.translucent_sorting.SortBeh
 import com.soarclient.utils.file.FileLocation;
 import com.soarclient.utils.file.FileUtils;
 
-import net.minecraft.util.ChatComponentTranslation;
-import net.minecraft.util.IChatComponent;
-
 public class SoariumConfig {
 
 	private static final Gson GSON = new GsonBuilder()
