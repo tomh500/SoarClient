@@ -81,7 +81,7 @@ public class SoariumConfig {
 	public static class QualitySettings {
 
 		public String[] lightningQualities = { "off", "min", "max" };
-		public String[] qualities = { "default", "fancy", "fast" };
+		public String[] qualities = { "fancy", "fast" };
 		
 		@SerializedName("enableClouds")
 		public boolean enableClouds = false;
@@ -255,7 +255,7 @@ public class SoariumConfig {
 	}
 
 	public boolean isFancy(String input, boolean fancy) {
-		return (input.equals("fancy")) || (input.equals("default") && !fancy) || fancy;
+		return (input.equals("fancy")) || fancy;
 	}
 	
 	public static SoariumConfig load() {

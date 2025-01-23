@@ -240,9 +240,12 @@ public abstract class BlockLeaves extends BlockLeavesBase {
 	 * graphics.
 	 */
 	public void setGraphicsLevel(boolean fancy) {
-		this.isTransparent = fancy;
-		this.fancyGraphics = Soarium.getConfig().isFancy(Soarium.getConfig().quality.leavesQuality, fancy);
-		this.iconIndex = fancy ? 0 : 1;
+		
+		boolean wrapFancy = Soarium.getConfig().isFancy(Soarium.getConfig().quality.leavesQuality, fancy);
+		
+		this.isTransparent = wrapFancy;
+		this.fancyGraphics = wrapFancy;
+		this.iconIndex = wrapFancy ? 0 : 1;
 	}
 
 	public EnumWorldBlockLayer getBlockLayer() {
