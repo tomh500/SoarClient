@@ -157,7 +157,6 @@ public class DefaultChunkRenderer extends ShaderChunkRenderer {
 	 * Generates the draw commands for a chunk's meshes using the shared index
 	 * buffer.
 	 */
-	@SuppressWarnings("IntegerMultiplicationImplicitCastToLong")
 	private static void addNonIndexedDrawCommands(MultiDrawBatch batch, long pMeshData, int mask) {
 		final var pElementPointer = batch.pElementPointer;
 		final var pBaseVertex = batch.pBaseVertex;
@@ -185,7 +184,6 @@ public class DefaultChunkRenderer extends ShaderChunkRenderer {
 	 * separate index buffer. This is used when rendering translucent geometry, as
 	 * each geometry set needs a sorted index buffer.
 	 */
-	@SuppressWarnings("IntegerMultiplicationImplicitCastToLong")
 	private static void addIndexedDrawCommands(MultiDrawBatch batch, long pMeshData, int mask) {
 		final var pElementPointer = batch.pElementPointer;
 		final var pBaseVertex = batch.pBaseVertex;

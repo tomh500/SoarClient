@@ -128,6 +128,7 @@ public class ChunkBuilderMeshingTask extends ChunkBuilderTask<ChunkBuildOutput> 
 						if (block.hasTileEntity()) {
 							TileEntity entity = slice.getTileEntity(blockPos);
 							TileEntitySpecialRenderer<TileEntity> renderer = null;
+							
 							if (entity != null) {
 								renderer = TileEntityRendererDispatcher.instance.getSpecialRenderer(entity);
 

@@ -1,10 +1,12 @@
 package com.soarclient.libraries.soarium.render.chunk.data;
 
-import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
-import net.minecraft.client.renderer.chunk.SetVisibility;
-import net.minecraft.client.renderer.texture.TextureAtlasSprite;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.EnumFacing;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.EnumSet;
+import java.util.List;
+import java.util.Set;
+import java.util.function.IntFunction;
+
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -12,8 +14,11 @@ import com.soarclient.libraries.soarium.render.chunk.RenderSectionFlags;
 import com.soarclient.libraries.soarium.render.chunk.occlusion.VisibilityEncoding;
 import com.soarclient.libraries.soarium.render.chunk.terrain.TerrainRenderPass;
 
-import java.util.*;
-import java.util.function.IntFunction;
+import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
+import net.minecraft.client.renderer.chunk.SetVisibility;
+import net.minecraft.client.renderer.texture.TextureAtlasSprite;
+import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.EnumFacing;
 
 /**
  * The render data for a chunk render container containing all the information

@@ -34,6 +34,7 @@ import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
 import net.minecraft.entity.Entity;
 import net.minecraft.profiler.Profiler;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.tileentity.TileEntityChest;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumWorldBlockLayer;
@@ -299,6 +300,7 @@ public class SodiumWorldRenderer {
 		Iterator<ChunkRenderList> renderListIterator = renderLists.iterator();
 
 		while (renderListIterator.hasNext()) {
+
 			var renderList = renderListIterator.next();
 
 			var renderRegion = renderList.getRegion();
@@ -345,8 +347,9 @@ public class SodiumWorldRenderer {
 
 	private static int destroyProgress(Map<Integer, DestroyBlockProgress> progressions, BlockPos pos) {
 		for (DestroyBlockProgress value : progressions.values()) {
-			if (value.getPosition().equals(pos))
+			if (value.getPosition().equals(pos)) {
 				return value.getPartialBlockDamage();
+			}
 		}
 
 		return -1;
@@ -357,20 +360,9 @@ public class SodiumWorldRenderer {
 			EntityPlayerSP player) {
 		BlockPos pos = entity.getPos();
 
-//
-		// if (entity instanceof ChestBlockEntity) {
-		// pos = pos.offset(Direction.WEST);
-		// entity = entity.getEntityWorld().getBlockEntity(pos);
-		// }
-
-		// GlStateManager.pushMatrix();
-		// GlStateManager.translate(pos.getX() - x, pos.getY() - y, pos.getZ() - z);
-
 		int destroyProgress = destroyProgress(blockBreakingProgressions, pos);
 
 		dispatcher.renderTileEntity(entity, tickDelta, destroyProgress);
-
-		// GlStateManager.popMatrix();
 	}
 
 	public void iterateVisibleBlockEntities(Consumer<TileEntity> blockEntityConsumer) {

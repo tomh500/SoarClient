@@ -388,12 +388,13 @@ public final class LevelSlice implements IBlockAccess {
 		int relBlockX = pos.getX() - this.originBlockX;
 		int relBlockY = pos.getY() - this.originBlockY;
 		int relBlockZ = pos.getZ() - this.originBlockZ;
-
+		
 		var section = this.sections[getLocalSectionIndex(relBlockX >> 4, relBlockY >> 4, relBlockZ >> 4)];
 
 		if (section == null) {
 			return null;
 		}
+		
 		TileEntity e = section.getChunk().getTileEntity(pos, Chunk.EnumCreateEntityType.IMMEDIATE);
 
 		return e;

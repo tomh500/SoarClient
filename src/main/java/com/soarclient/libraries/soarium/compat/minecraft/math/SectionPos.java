@@ -1,5 +1,6 @@
 package com.soarclient.libraries.soarium.compat.minecraft.math;
 
+import net.minecraft.entity.Entity;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.MathHelper;
@@ -33,7 +34,7 @@ public class SectionPos extends Vec3i {
 	public static SectionPos of(long l) {
 		return new SectionPos(SectionPos.x(l), SectionPos.y(l), SectionPos.z(l));
 	}
-
+    
 	public static long offset(long l, EnumFacing direction) {
 		return SectionPos.offset(l, direction.getFrontOffsetX(), direction.getFrontOffsetY(),
 				direction.getFrontOffsetZ());
