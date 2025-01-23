@@ -1558,7 +1558,7 @@ public class Minecraft implements IThreadListener {
 			this.mcProfiler.startSection("wait_for_gpu");
 
 			while (this.fences.size() > Soarium.getConfig().advanced.cpuRenderAheadLimit) {
-				var fence = this.fences.dequeue();
+				var fence = this.fences.dequeueLong();
 				GL32.glClientWaitSync(fence, GL32.GL_SYNC_FLUSH_COMMANDS_BIT, Long.MAX_VALUE);
 				GL32.glDeleteSync(fence);
 			}
