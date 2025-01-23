@@ -42,14 +42,14 @@ public abstract class ShaderChunkRenderer implements ChunkRenderer {
 	private GlProgram<ChunkShaderInterface> createShader(String path, ChunkShaderOptions options) {
 		ShaderConstants constants = options.constants();
 
-		GlShader vertShader = ShaderLoader.loadShader(ShaderType.VERTEX, new ResourceLocation("radium", path + ".vsh"),
+		GlShader vertShader = ShaderLoader.loadShader(ShaderType.VERTEX, new ResourceLocation("soarium", path + ".vsh"),
 				constants);
 
 		GlShader fragShader = ShaderLoader.loadShader(ShaderType.FRAGMENT,
-				new ResourceLocation("radium", path + ".fsh"), constants);
+				new ResourceLocation("soarium", path + ".fsh"), constants);
 
 		try {
-			return GlProgram.builder(new ResourceLocation("radium", "chunk_shader")).attachShader(vertShader)
+			return GlProgram.builder(new ResourceLocation("soarium", "chunk_shader")).attachShader(vertShader)
 					.attachShader(fragShader).bindAttribute("a_Position", ChunkShaderBindingPoints.ATTRIBUTE_POSITION)
 					.bindAttribute("a_Color", ChunkShaderBindingPoints.ATTRIBUTE_COLOR)
 					.bindAttribute("a_TexCoord", ChunkShaderBindingPoints.ATTRIBUTE_TEXTURE)
