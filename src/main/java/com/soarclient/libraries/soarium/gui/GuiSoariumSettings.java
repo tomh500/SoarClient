@@ -4,8 +4,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.commons.codec.language.bm.Lang;
-
 import com.soarclient.libraries.soarium.Soarium;
 import com.soarclient.libraries.soarium.config.SoariumConfig;
 import com.soarclient.libraries.soarium.gui.locale.SoariumI18n;
