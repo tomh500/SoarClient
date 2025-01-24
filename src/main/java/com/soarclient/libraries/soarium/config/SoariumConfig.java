@@ -81,8 +81,8 @@ public class SoariumConfig {
 	public static class QualitySettings {
 
 		public String[] lightningQualities = { "off", "min", "max" };
-		public String[] qualities = { "fancy", "fast" };
-		
+		public String[] qualities = { "default", "fancy", "fast" };
+
 		@SerializedName("enableClouds")
 		public boolean enableClouds = false;
 
@@ -106,12 +106,11 @@ public class SoariumConfig {
 
 		@SerializedName("enableVignette")
 		public boolean enableVignette = true;
-		
+
 	}
 
 	public static class CullingSettings {
 
-		@SerializedName("blockEntityWhitelist")
 		public Set<String> blockEntityWhitelist = new HashSet<>(Arrays.asList("tile.beacon"));
 
 		@SerializedName("tracingDistance")
@@ -255,9 +254,14 @@ public class SoariumConfig {
 	}
 
 	public boolean isFancy(String input, boolean fancy) {
+
+		if (input.equals("default")) {
+			return fancy;
+		}
+
 		return (input.equals("fancy")) || fancy;
 	}
-	
+
 	public static SoariumConfig load() {
 
 		SoariumConfig config;

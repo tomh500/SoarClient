@@ -11,6 +11,7 @@ import com.soarclient.skia.font.Icon;
 import com.soarclient.ui.component.handler.impl.ButtonHandler;
 
 import net.minecraft.client.gui.GuiMultiplayer;
+import net.minecraft.client.gui.GuiOptions;
 import net.minecraft.client.gui.GuiSelectWorld;
 
 public class MainGui extends SoarGuiMainMenu {
@@ -66,6 +67,7 @@ public class MainGui extends SoarGuiMainMenu {
 
 			@Override
 			public void onAction() {
+				mc.displayGuiScreen(new GuiOptions(Soar.getInstance().getMainMenu(), mc.gameSettings));
 			}
 		});
 

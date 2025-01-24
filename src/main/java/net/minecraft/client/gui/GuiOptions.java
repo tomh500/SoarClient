@@ -2,6 +2,8 @@ package net.minecraft.client.gui;
 
 import java.io.IOException;
 
+import com.soarclient.libraries.soarium.gui.GuiSoariumSettings;
+
 import net.minecraft.client.resources.I18n;
 import net.minecraft.client.settings.GameSettings;
 import net.minecraft.util.ChatComponentText;
@@ -165,6 +167,7 @@ public class GuiOptions extends GuiScreen implements GuiYesNoCallback {
 
 			if (button.id == 101) {
 				this.mc.gameSettings.saveOptions();
+				this.mc.displayGuiScreen(new GuiSoariumSettings(this));
 			}
 
 			if (button.id == 100) {

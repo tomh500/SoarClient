@@ -507,7 +507,7 @@ public class OpenGlHelper {
 	}
 
 	public static boolean useVbo() {
-		return vboSupported && Minecraft.getMinecraft().gameSettings.useVbo;
+		return vboSupported;
 	}
 
 	public static void glBindFramebuffer(int target, int framebufferIn) {

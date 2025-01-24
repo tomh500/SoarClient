@@ -2370,11 +2370,6 @@ public class Minecraft implements IThreadListener {
 				return OpenGlHelper.getLogText();
 			}
 		});
-		theCrash.getCategory().addCrashSectionCallable("Using VBOs", new Callable<String>() {
-			public String call() {
-				return Minecraft.this.gameSettings.useVbo ? "Yes" : "No";
-			}
-		});
 		theCrash.getCategory().addCrashSectionCallable("Is Modded", new Callable<String>() {
 			public String call() throws Exception {
 				String s = ClientBrandRetriever.getClientModName();

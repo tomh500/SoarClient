@@ -50,6 +50,10 @@ public class ScaledResolution {
 		}
 		return instance;
 	}
+	
+	public static ScaledResolution create(Minecraft minecraft) {
+		return instance = new ScaledResolution(minecraft);
+	}
 
 	public int getScaledWidth() {
 		return this.scaledWidth;

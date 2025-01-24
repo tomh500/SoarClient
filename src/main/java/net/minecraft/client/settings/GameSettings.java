@@ -87,7 +87,6 @@ public class GameSettings {
 	public boolean snooperEnabled = true;
 	public boolean fullScreen;
 	public boolean enableVsync = true;
-	public boolean useVbo = false;
 	public boolean allowBlockAlternatives = true;
 	public boolean reducedDebugInfo = false;
 	public boolean hideServerAddress;
@@ -403,11 +402,6 @@ public class GameSettings {
 			Display.setVSyncEnabled(this.enableVsync);
 		}
 
-		if (settingsOption == GameSettings.Options.USE_VBO) {
-			this.useVbo = !this.useVbo;
-			this.mc.renderGlobal.loadRenderers();
-		}
-
 		if (settingsOption == GameSettings.Options.BLOCK_ALTERNATIVES) {
 			this.allowBlockAlternatives = !this.allowBlockAlternatives;
 			this.mc.renderGlobal.loadRenderers();
@@ -478,9 +472,6 @@ public class GameSettings {
 
 		case ENABLE_VSYNC:
 			return this.enableVsync;
-
-		case USE_VBO:
-			return this.useVbo;
 
 		case TOUCHSCREEN:
 			return this.touchscreen;
@@ -751,10 +742,6 @@ public class GameSettings {
 						this.enableVsync = astring[1].equals("true");
 					}
 
-					if (astring[0].equals("useVbo")) {
-						this.useVbo = astring[1].equals("true");
-					}
-
 					if (astring[0].equals("hideServerAddress")) {
 						this.hideServerAddress = astring[1].equals("true");
 					}
@@ -912,7 +899,6 @@ public class GameSettings {
 			printwriter.println("snooperEnabled:" + this.snooperEnabled);
 			printwriter.println("fullscreen:" + this.fullScreen);
 			printwriter.println("enableVsync:" + this.enableVsync);
-			printwriter.println("useVbo:" + this.useVbo);
 			printwriter.println("hideServerAddress:" + this.hideServerAddress);
 			printwriter.println("advancedItemTooltips:" + this.advancedItemTooltips);
 			printwriter.println("pauseOnLostFocus:" + this.pauseOnLostFocus);
@@ -1039,9 +1025,8 @@ public class GameSettings {
 		CHAT_LINKS("options.chat.links", false, true), CHAT_OPACITY("options.chat.opacity", true, false),
 		CHAT_LINKS_PROMPT("options.chat.links.prompt", false, true), SNOOPER_ENABLED("options.snooper", false, true),
 		USE_FULLSCREEN("options.fullscreen", false, true), ENABLE_VSYNC("options.vsync", false, true),
-		USE_VBO("options.vbo", false, true), TOUCHSCREEN("options.touchscreen", false, true),
-		CHAT_SCALE("options.chat.scale", true, false), CHAT_WIDTH("options.chat.width", true, false),
-		CHAT_HEIGHT_FOCUSED("options.chat.height.focused", true, false),
+		TOUCHSCREEN("options.touchscreen", false, true), CHAT_SCALE("options.chat.scale", true, false),
+		CHAT_WIDTH("options.chat.width", true, false), CHAT_HEIGHT_FOCUSED("options.chat.height.focused", true, false),
 		CHAT_HEIGHT_UNFOCUSED("options.chat.height.unfocused", true, false),
 		MIPMAP_LEVELS("options.mipmapLevels", true, false, 0.0F, 4.0F, 1.0F),
 		FORCE_UNICODE_FONT("options.forceUnicodeFont", false, true),
