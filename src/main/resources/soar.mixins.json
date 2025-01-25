@@ -2,7 +2,12 @@
 	"required": true,
 	"package": "com.soarclient.mixin",
 	"compatibilityLevel": "JAVA_21",
-	"mixins": [],
+	"mixins": [
+		"blaze3d.MixinGlStateManager",
+		"minecraft.client.util.MixinWindow",
+		"minecraft.client.render.MixinGameRenderer",
+		"minecraft.client.MixinMinecraftClient"
+	],
 	"injectors": {
 		"defaultRequire": 1
 	}
