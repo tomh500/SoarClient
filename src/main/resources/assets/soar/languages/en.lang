@@ -1,0 +1,38 @@
+#
+# Version 8.0
+#
+text.all=All
+text.hud=HUD
+text.render=Render
+text.player=Player
+text.misc=Misc
+text.home=Home
+text.mods=Mods
+text.music=Music
+text.profile=Profile
+text.settings=Settings
+text.search=Search
+
+design.simple=Simple
+design.classic=Classic
+design.clear=Clear
+design.materialyou=MaterialYou
+
+mod.hudsettings.name=HUD
+mod.hudsettings.description=Customizing the HUD
+
+mod.modmenu.name=Mod Menu
+mod.modmenu.description=Customize Mod Menu related settings
+
+setting.keybind=Keybind
+setting.keybind.description=Set keybind
+setting.icon=Icon
+setting.icon.description=Set the icon to display
+setting.color=Color
+setting.color.description=Select a color
+setting.blur=Blur
+setting.blur.description=Set the Blur effect
+setting.design=Design
+setting.design.description=Set the design
+setting.blurintensity=Blur intensity
+setting.blurintensity.description=Set the intensity of the blur

@@ -6,6 +6,7 @@
 		"blaze3d.MixinGlStateManager",
 		"minecraft.client.util.MixinWindow",
 		"minecraft.client.render.MixinGameRenderer",
+		"minecraft.client.MixinKeyboard",
 		"minecraft.client.MixinMinecraftClient"
 	],
 	"injectors": {
