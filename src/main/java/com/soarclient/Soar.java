@@ -4,6 +4,9 @@ import com.soarclient.animation.Delta;
 import com.soarclient.event.EventBus;
 import com.soarclient.management.color.ColorManager;
 import com.soarclient.management.mod.ModManager;
+import com.soarclient.skia.font.Fonts;
+import com.soarclient.utils.language.I18n;
+import com.soarclient.utils.language.Language;
 
 public class Soar {
 
@@ -16,6 +19,10 @@ public class Soar {
 	private ColorManager colorManager;
 	
 	public void start() {
+		
+		Fonts.loadAll();
+		
+		I18n.setLanguage(Language.ENGLISH);
 		
 		modManager = new ModManager();
 		modManager.init();

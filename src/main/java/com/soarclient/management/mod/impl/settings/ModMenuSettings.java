@@ -4,7 +4,7 @@ import org.lwjgl.glfw.GLFW;
 
 import com.soarclient.event.EventBus;
 import com.soarclient.event.impl.ClientTickEvent;
-import com.soarclient.gui.TestGui;
+import com.soarclient.gui.modmenu.GuiModMenu;
 import com.soarclient.libraries.material3.hct.Hct;
 import com.soarclient.management.mod.Mod;
 import com.soarclient.management.mod.ModCategory;
@@ -13,6 +13,8 @@ import com.soarclient.management.mod.settings.impl.HctColorSetting;
 import com.soarclient.management.mod.settings.impl.KeybindSetting;
 import com.soarclient.management.mod.settings.impl.NumberSetting;
 import com.soarclient.skia.font.Icon;
+
+import net.minecraft.client.gui.screen.Screen;
 
 public class ModMenuSettings extends Mod {
 
@@ -29,6 +31,8 @@ public class ModMenuSettings extends Mod {
 	private NumberSetting blurIntensitySetting = new NumberSetting("setting.blurintensity",
 			"setting.blurintensity.description", Icon.BLUR_LINEAR, this, 20, 1, 50, 1);
 
+	private Screen modMenu;
+
 	public ModMenuSettings() {
 		super("mod.modmenu.name", "mod.modmenu.description", Icon.MENU, ModCategory.MISC);
 
@@ -38,8 +42,14 @@ public class ModMenuSettings extends Mod {
 	}
 
 	public final EventBus.EventListener<ClientTickEvent> onClientTick = event -> {
+
 		if (keybindSetting.isPressed()) {
-			client.setScreen(new TestGui().build());
+
+			if (modMenu == null) {
+				modMenu = new GuiModMenu().build();
+			}
+
+			client.setScreen(modMenu);
 		}
 	};
 

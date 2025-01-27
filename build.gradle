@@ -19,10 +19,6 @@ repositories {
 	maven { url "https://maven.terraformersmc.com/" }
 }
 
-fabricApi {
-	configureDataGeneration()
-}
-
 dependencies {
 
 	minecraft "com.mojang:minecraft:${project.minecraft_version}"

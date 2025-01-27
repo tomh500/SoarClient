@@ -3,7 +3,6 @@
 	"package": "com.soarclient.mixin",
 	"compatibilityLevel": "JAVA_21",
 	"mixins": [
-		"blaze3d.MixinGlStateManager",
 		"minecraft.client.util.MixinWindow",
 		"minecraft.client.render.MixinGameRenderer",
 		"minecraft.client.MixinKeyboard",

@@ -48,7 +48,7 @@ public class SimpleSoarGui {
 		return new Screen(Text.empty()) {
 
 			@Override
-			protected void init() {
+			public void init() {
 				SimpleSoarGui.this.init();
 			}
 
@@ -56,7 +56,7 @@ public class SimpleSoarGui {
 			public void render(DrawContext context, int mouseX, int mouseY, float delta) {
 
 				SimpleSoarGui.this.drawOpenGL(mcScale ? mouseX : client.mouse.getX(),
-						mcScale ? mouseY : client.getWindow().getHeight() - client.mouse.getY());
+						mcScale ? mouseY : client.mouse.getY());
 
 				SkiaContext.draw((skiaContext) -> {
 
@@ -67,7 +67,7 @@ public class SimpleSoarGui {
 					}
 
 					SimpleSoarGui.this.draw(mcScale ? mouseX : client.mouse.getX(),
-							mcScale ? mouseY : client.getWindow().getHeight() - client.mouse.getY());
+							mcScale ? mouseY : client.mouse.getY());
 					Skia.restore();
 				});
 			}
@@ -75,21 +75,21 @@ public class SimpleSoarGui {
 			@Override
 			public boolean mouseClicked(double mouseX, double mouseY, int button) {
 				SimpleSoarGui.this.mousePressed(mcScale ? mouseX : client.mouse.getX(),
-						mcScale ? mouseY : client.getWindow().getHeight() - client.mouse.getY(), button);
+						mcScale ? mouseY : client.mouse.getY(), button);
 				return true;
 			}
 
 			@Override
 			public boolean mouseReleased(double mouseX, double mouseY, int button) {
 				SimpleSoarGui.this.mouseReleased(mcScale ? mouseX : client.mouse.getX(),
-						mcScale ? mouseY : (int) client.getWindow().getHeight() - client.mouse.getY(), button);
+						mcScale ? mouseY : (int) client.mouse.getY(), button);
 				return true;
 			}
 
 			@Override
 			public boolean mouseScrolled(double mouseX, double mouseY, double horizontalAmount, double verticalAmount) {
 				SimpleSoarGui.this.mouseScrolled(mcScale ? mouseX : client.mouse.getX(),
-						mcScale ? mouseY : (int) client.getWindow().getHeight() - client.mouse.getY(), horizontalAmount,
+						mcScale ? mouseY : (int) client.mouse.getY(), horizontalAmount,
 						verticalAmount);
 				return true;
 			}

@@ -46,7 +46,7 @@ public class SkiaContext {
 
 	public static void draw(Consumer<Canvas> drawingLogic) {
 
-		States.getInstance().push();
+		States.push();
 		RenderSystem.clearColor(0f, 0f, 0f, 0f);
 		context.resetGLAll();
 
@@ -54,7 +54,7 @@ public class SkiaContext {
 		drawingLogic.accept(canvas);
 
 		surface.flushAndSubmit();
-		States.getInstance().pop();
+		States.pop();
 	}
 
 	public static DirectContext getContext() {
