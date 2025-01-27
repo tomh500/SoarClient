@@ -11,6 +11,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import com.soarclient.Soar;
 import com.soarclient.event.EventBus;
 import com.soarclient.event.impl.ClientTickEvent;
+import com.soarclient.event.impl.GameLoopEvent;
 import com.soarclient.skia.context.SkiaContext;
 
 import net.minecraft.client.MinecraftClient;
@@ -40,5 +41,10 @@ public abstract class MixinMinecraftClient {
 	@Inject(method = "tick", at = @At("HEAD"))
 	public void onClientTick(CallbackInfo ci) {
 		EventBus.getInstance().post(new ClientTickEvent());
+	}
+	
+	@Inject(method = "run", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/MinecraftClient;printCrashReport()V"))
+	public void onGameLoop(CallbackInfo ci) {
+		EventBus.getInstance().post(new GameLoopEvent());
 	}
 }
