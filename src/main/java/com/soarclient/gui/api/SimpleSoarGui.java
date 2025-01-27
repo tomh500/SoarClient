@@ -89,8 +89,7 @@ public class SimpleSoarGui {
 			@Override
 			public boolean mouseScrolled(double mouseX, double mouseY, double horizontalAmount, double verticalAmount) {
 				SimpleSoarGui.this.mouseScrolled(mcScale ? mouseX : client.mouse.getX(),
-						mcScale ? mouseY : (int) client.mouse.getY(), horizontalAmount,
-						verticalAmount);
+						mcScale ? mouseY : (int) client.mouse.getY(), horizontalAmount, verticalAmount);
 				return true;
 			}
 
