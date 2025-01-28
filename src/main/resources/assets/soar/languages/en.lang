@@ -30,6 +30,9 @@ mod.fpsdisplay.description=Display Minecraft FPS
 mod.coords.name=Coords
 mod.coords.description=Display your coordnates
 
+mod.combocounter.name=Combo Counter
+mod.combocounter.description=Display Combo
+
 setting.keybind=Keybind
 setting.keybind.description=Set keybind
 setting.icon=Icon

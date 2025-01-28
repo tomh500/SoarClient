@@ -2,12 +2,14 @@
 	"required": true,
 	"package": "com.soarclient.mixin",
 	"compatibilityLevel": "JAVA_21",
-	"mixins": [
+	"client": [
 		"minecraft.client.util.MixinWindow",
 		"minecraft.client.render.MixinGameRenderer",
 		"minecraft.client.MixinKeyboard",
 		"minecraft.client.MixinMinecraftClient",
-		"minecraft.client.MixinMouse"
+		"minecraft.client.MixinMouse",
+		"minecraft.entity.player.MixinPlayerEntity",
+		"minecraft.entity.MixinLivingEntity"
 	],
 	"injectors": {
 		"defaultRequire": 1
