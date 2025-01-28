@@ -6,7 +6,8 @@
 		"minecraft.client.util.MixinWindow",
 		"minecraft.client.render.MixinGameRenderer",
 		"minecraft.client.MixinKeyboard",
-		"minecraft.client.MixinMinecraftClient"
+		"minecraft.client.MixinMinecraftClient",
+		"minecraft.client.MixinMouse"
 	],
 	"injectors": {
 		"defaultRequire": 1
