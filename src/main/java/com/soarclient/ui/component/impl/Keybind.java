@@ -11,7 +11,6 @@ import com.soarclient.ui.component.api.PressAnimation;
 import com.soarclient.ui.component.handler.impl.KeybindHandler;
 import com.soarclient.utils.mouse.MouseUtils;
 
-import net.minecraft.client.resource.language.I18n;
 import net.minecraft.client.util.InputUtil;
 
 public class Keybind extends Component {
