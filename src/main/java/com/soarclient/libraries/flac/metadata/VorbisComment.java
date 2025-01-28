@@ -21,6 +21,7 @@ package com.soarclient.libraries.flac.metadata;
  */
 
 import java.io.IOException;
+import java.util.Vector;
 
 import com.soarclient.libraries.flac.io.BitInputStream;
 
@@ -80,7 +81,7 @@ public class VorbisComment extends Metadata {
 	public String[] getCommentByName(String key) {
 		if (numComments == 0 || key == null)
 			return null;
-		java.util.Vector sbuff = new java.util.Vector();
+		java.util.Vector<String> sbuff = new Vector<String>();
 		for (int i = 0; i < comments.length; i++) {
 			String comment = comments[i].toString();
 			int eqpos = comment.indexOf(0x3D); // Find the equals
