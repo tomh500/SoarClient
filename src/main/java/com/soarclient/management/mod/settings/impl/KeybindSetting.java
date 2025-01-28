@@ -4,36 +4,38 @@ import com.soarclient.Soar;
 import com.soarclient.management.mod.Mod;
 import com.soarclient.management.mod.settings.Setting;
 
+import net.minecraft.client.util.InputUtil;
+
 public class KeybindSetting extends Setting {
 
-	private int defaultKeyCode, keyCode;
+	private InputUtil.Key defaultKey, key;
 	private boolean keyDown;
 	private int pressTime;
 
-	public KeybindSetting(String name, String description, String icon, Mod parent, int keyCode) {
+	public KeybindSetting(String name, String description, String icon, Mod parent, InputUtil.Key key) {
 		super(name, description, icon, parent);
 
-		this.defaultKeyCode = keyCode;
-		this.keyCode = keyCode;
+		this.defaultKey = key;
+		this.key = key;
 
 		Soar.getInstance().getModManager().addSetting(this);
 	}
 
 	@Override
 	public void reset() {
-		this.keyCode = this.defaultKeyCode;
+		this.key = this.defaultKey;
 	}
 
-	public int getKeyCode() {
-		return keyCode;
+	public InputUtil.Key getKey() {
+		return key;
 	}
 
-	public void setKeyCode(int keyCode) {
-		this.keyCode = keyCode;
+	public void setKey(InputUtil.Key key) {
+		this.key = key;
 	}
 
-	public int getDefaultKeyCode() {
-		return defaultKeyCode;
+	public InputUtil.Key getDefaultKey() {
+		return defaultKey;
 	}
 
 	public boolean isKeyDown() {

@@ -15,13 +15,14 @@ import com.soarclient.management.mod.settings.impl.NumberSetting;
 import com.soarclient.skia.font.Icon;
 
 import net.minecraft.client.gui.screen.Screen;
+import net.minecraft.client.util.InputUtil;
 
 public class ModMenuSettings extends Mod {
 
 	private static ModMenuSettings instance;
 
 	private KeybindSetting keybindSetting = new KeybindSetting("setting.keybind", "setting.keybind.description",
-			Icon.KEYBOARD, this, GLFW.GLFW_KEY_RIGHT_SHIFT);
+			Icon.KEYBOARD, this, InputUtil.fromKeyCode(GLFW.GLFW_KEY_RIGHT_SHIFT, 0));
 	private BooleanSetting darkModeSetting = new BooleanSetting("setting.darkmode", "setting.darkmode.description",
 			Icon.DARK_MODE, this, false);
 	private HctColorSetting hctColorSetting = new HctColorSetting("setting.color", "setting.color.description",

@@ -10,6 +10,7 @@ import com.soarclient.Soar;
 import com.soarclient.management.mod.settings.impl.KeybindSetting;
 
 import net.minecraft.client.Keyboard;
+import net.minecraft.client.util.InputUtil;
 
 @Mixin(Keyboard.class)
 public class MixinKeyboard {
@@ -19,7 +20,7 @@ public class MixinKeyboard {
 		
 		for (KeybindSetting s : Soar.getInstance().getModManager().getKeybindSettings()) {
 			
-			if (s.getKeyCode() == key) {
+			if (s.getKey().equals(InputUtil.fromKeyCode(key, scancode))) {
 				
 				if (action == GLFW.GLFW_PRESS) {
 					s.setPressed();
@@ -33,7 +34,7 @@ public class MixinKeyboard {
 	@Inject(method = "onKey", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/option/KeyBinding;setKeyPressed(Lnet/minecraft/client/util/InputUtil$Key;Z)V", shift = At.Shift.AFTER, ordinal = 0))
 	public void onReleased(long window, int key, int scancode, int action, int modifiers, CallbackInfo ci) {
 		for (KeybindSetting s : Soar.getInstance().getModManager().getKeybindSettings()) {
-			if (s.getKeyCode() == key) {
+			if (s.getKey().equals(InputUtil.fromKeyCode(key, scancode))) {
 				s.setKeyDown(false);
 			}
 		}

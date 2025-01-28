@@ -183,7 +183,7 @@ public class ModsPage extends Page {
 
 				if (MouseUtils.isInside(mouseX, mouseY, itemX, itemY, 244, 116)
 						&& !Soar.getInstance().getModManager().getSettingsByMod(m).isEmpty()) {
-					//parent.setCurrentPage(new SettingsImplPage(parent, this.getClass(), m));
+					parent.setCurrentPage(new SettingsImplPage(parent, this.getClass(), m));
 					this.setTransition(new LeftRightTransition(true));
 				}
 			}
