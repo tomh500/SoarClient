@@ -14,8 +14,6 @@ import com.soarclient.utils.RandomUtils;
 import com.soarclient.utils.file.FileLocation;
 import com.soarclient.utils.file.FileUtils;
 
-import net.minecraft.client.MinecraftClient;
-
 public class MusicManager {
 
 	private List<Music> musics = new CopyOnWriteArrayList<>();
