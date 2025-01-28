@@ -73,7 +73,7 @@ public class MusicPage extends Page {
 		controlBarAnimation.onTick(MouseUtils.isInside(mouseX, mouseY, controlBar.getX(), controlBar.getY(),
 				controlBar.getWidth(), controlBar.getHeight()) ? 1 : 0, 12);
 
-		mouseY = (int) (mouseY - scrollHelper.getValue());
+		mouseY = mouseY - scrollHelper.getValue();
 
 		Skia.save();
 		Skia.translate(0, scrollHelper.getValue());
@@ -134,7 +134,7 @@ public class MusicPage extends Page {
 
 		Skia.restore();
 
-		mouseY = (int) (mouseY + scrollHelper.getValue());
+		mouseY = mouseY + scrollHelper.getValue();
 
 		Skia.save();
 		Skia.translate(0, 100 - (controlBarAnimation.getValue() * 100));
@@ -167,7 +167,7 @@ public class MusicPage extends Page {
 			return;
 		}
 
-		mouseY = (int) (mouseY - scrollHelper.getValue());
+		mouseY = mouseY - scrollHelper.getValue();
 
 		for (Item i : items) {
 

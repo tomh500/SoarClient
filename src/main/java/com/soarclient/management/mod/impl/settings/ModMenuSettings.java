@@ -77,4 +77,8 @@ public class ModMenuSettings extends Mod {
 	public NumberSetting getBlurIntensitySetting() {
 		return blurIntensitySetting;
 	}
+
+	public Screen getModMenu() {
+		return modMenu;
+	}
 }

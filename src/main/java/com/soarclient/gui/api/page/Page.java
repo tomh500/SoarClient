@@ -43,13 +43,13 @@ public class Page extends SimplePage {
 
 	@Override
 	public void mousePressed(double mouseX, double mouseY, int button) {
-		mouseY = (int) (mouseY - scrollHelper.getValue());
+		mouseY = mouseY - scrollHelper.getValue();
 		searchBar.mousePressed(mouseX, mouseY, button);
 	}
 
 	@Override
 	public void mouseReleased(double mouseX, double mouseY, int button) {
-		mouseY = (int) (mouseY - scrollHelper.getValue());
+		mouseY = mouseY - scrollHelper.getValue();
 		searchBar.mouseReleased(mouseX, mouseY, button);
 	}
 
