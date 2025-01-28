@@ -36,6 +36,7 @@ public abstract class MixinMinecraftClient {
 	@Inject(method = "<init>", at = @At("TAIL"))
 	public void init(CallbackInfo ci) {
 		SkiaContext.createSurface(window.getWidth(), window.getHeight());
+		Soar.getInstance().start();
 	}
 
 	@Inject(method = "tick", at = @At("HEAD"))

@@ -11,17 +11,12 @@
 		"homepage": "https://soarclient.com/"
 	},
 	"environment": "*",
-	"entrypoints": {
-		"client": [
-			"com.soarclient.entrypoint.ClientEntrypoint"
-		]
-	},
 	"mixins": [
 		"soar.mixins.json"
 	],
 	"depends": {
-    "fabricloader": ">=0.16.10",
-    "fabric": "*",
-    "minecraft": "1.21.4"
+		"fabricloader": ">=0.16.10",
+		"fabric": "*",
+		"minecraft": "1.21.4"
 	}
 }

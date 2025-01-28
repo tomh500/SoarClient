@@ -24,6 +24,12 @@ mod.hudsettings.description=Customizing the HUD
 mod.modmenu.name=Mod Menu
 mod.modmenu.description=Customize Mod Menu related settings
 
+mod.fpsdisplay.name=FPS Display
+mod.fpsdisplay.description=Display Minecraft FPS
+
+mod.coords.name=Coords
+mod.coords.description=Display your coordnates
+
 setting.keybind=Keybind
 setting.keybind.description=Set keybind
 setting.icon=Icon

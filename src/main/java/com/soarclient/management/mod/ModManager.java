@@ -10,6 +10,8 @@ import com.soarclient.management.mod.api.hud.design.impl.ClassicDesign;
 import com.soarclient.management.mod.api.hud.design.impl.ClearDesign;
 import com.soarclient.management.mod.api.hud.design.impl.MaterialYouDesign;
 import com.soarclient.management.mod.api.hud.design.impl.SimpleDesign;
+import com.soarclient.management.mod.impl.hud.CoordsMod;
+import com.soarclient.management.mod.impl.hud.FPSDisplayMod;
 import com.soarclient.management.mod.impl.settings.HUDModSettings;
 import com.soarclient.management.mod.impl.settings.ModMenuSettings;
 import com.soarclient.management.mod.settings.Setting;
@@ -30,6 +32,10 @@ public class ModManager {
 
 	private void initMods() {
 	
+		// HUD
+		mods.add(new CoordsMod());
+		mods.add(new FPSDisplayMod());
+		
 		// Settings
 		mods.add(new HUDModSettings());
 		mods.add(new ModMenuSettings());
