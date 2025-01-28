@@ -4,7 +4,9 @@ import com.soarclient.animation.Delta;
 import com.soarclient.event.EventBus;
 import com.soarclient.management.color.ColorManager;
 import com.soarclient.management.mod.ModManager;
+import com.soarclient.management.music.MusicManager;
 import com.soarclient.skia.font.Fonts;
+import com.soarclient.utils.file.FileLocation;
 import com.soarclient.utils.language.I18n;
 import com.soarclient.utils.language.Language;
 
@@ -17,16 +19,18 @@ public class Soar {
 	
 	private ModManager modManager;
 	private ColorManager colorManager;
+	private MusicManager musicManager;
 	
 	public void start() {
 		
 		Fonts.loadAll();
-		
+		FileLocation.init();
 		I18n.setLanguage(Language.ENGLISH);
 		
 		modManager = new ModManager();
 		modManager.init();
 		colorManager = new ColorManager();
+		musicManager = new MusicManager();
 		
 		EventBus.getInstance().register(new SoarHandler());
 		EventBus.getInstance().register(new Delta());
@@ -50,5 +54,9 @@ public class Soar {
 
 	public ColorManager getColorManager() {
 		return colorManager;
+	}
+
+	public MusicManager getMusicManager() {
+		return musicManager;
 	}
 }

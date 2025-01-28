@@ -17,7 +17,10 @@ import com.soarclient.gui.api.page.SimplePage;
 import com.soarclient.management.color.api.ColorPalette;
 import com.soarclient.skia.Skia;
 import com.soarclient.skia.font.Fonts;
+import com.soarclient.skia.font.Icon;
 import com.soarclient.ui.component.Component;
+import com.soarclient.ui.component.handler.impl.ButtonHandler;
+import com.soarclient.ui.component.impl.IconButton;
 import com.soarclient.utils.ColorUtils;
 import com.soarclient.utils.language.I18n;
 import com.soarclient.utils.mouse.MouseUtils;
@@ -29,7 +32,8 @@ public class NavigationRail extends Component {
 
 	private List<Navigation> navigations = new ArrayList<>();
 	private Navigation currentNavigation;
-
+	private IconButton editButton;
+	
 	private SoarGui parent;
 
 	public NavigationRail(SoarGui parent, float x, float y, float width, float height) {
@@ -49,6 +53,15 @@ public class NavigationRail extends Component {
 
 			navigations.add(n);
 		}
+		
+		editButton = new IconButton(Icon.EDIT, x, y + 44, IconButton.Size.NORMAL, IconButton.Style.TERTIARY);
+		editButton.setX(x + (width / 2) - (editButton.getWidth() / 2));
+		editButton.setHandler(new ButtonHandler() {
+
+			@Override
+			public void onAction() {
+			}
+		});
 	}
 
 	@Override
@@ -57,7 +70,9 @@ public class NavigationRail extends Component {
 		ColorPalette palette = Soar.getInstance().getColorManager().getPalette();
 
 		Skia.drawRoundedRectVarying(x, y, width, height, 35, 0, 0, 35, palette.getSurface());
-
+		
+		editButton.draw(mouseX, mouseY);
+		
 		float offsetY = 140;
 
 		for (Navigation n : navigations) {
@@ -107,6 +122,8 @@ public class NavigationRail extends Component {
 		float selWidth = 56;
 		float selHeight = 32;
 
+		editButton.mousePressed(mouseX, mouseY, button);
+		
 		for (Navigation n : navigations) {
 
 			if (MouseUtils.isInside(mouseX, mouseY, x + (width / 2) - (selWidth / 2), y + offsetY, selWidth, selHeight)
@@ -125,6 +142,8 @@ public class NavigationRail extends Component {
 		float selWidth = 56;
 		float selHeight = 32;
 
+		editButton.mouseReleased(mouseX, mouseY, button);
+		
 		for (Navigation n : navigations) {
 
 			if (MouseUtils.isInside(mouseX, mouseY, x + (width / 2) - (selWidth / 2), y + offsetY, selWidth, selHeight)

@@ -1,5 +1,7 @@
 package com.soarclient.gui.api.page;
 
+import com.soarclient.animation.Animation;
+import com.soarclient.animation.other.DummyAnimation;
 import com.soarclient.gui.api.SoarGui;
 
 public class SimplePage {
@@ -7,8 +9,10 @@ public class SimplePage {
 	protected float x, y, width, height;
 	private String title, icon;
 	protected SoarGui parent;
-
-	public SimplePage(SoarGui parent, String title, String icon) {
+	private Animation animation;
+	private GuiTransition transition;
+	
+	public SimplePage(SoarGui parent, String title, String icon, GuiTransition transition) {
 		this.parent = parent;
 		this.title = title;
 		this.icon = icon;
@@ -16,6 +20,8 @@ public class SimplePage {
 		this.y = 0;
 		this.width = 0;
 		this.height = 0;
+		this.transition = transition;
+		this.animation = new DummyAnimation(1);
 	}
 	
 	public void init() {
@@ -80,5 +86,21 @@ public class SimplePage {
 
 	public String getIcon() {
 		return icon;
+	}
+	
+	public GuiTransition getTransition() {
+		return transition;
+	}
+
+	public void setTransition(GuiTransition transition) {
+		this.transition = transition;
+	}
+
+	public Animation getAnimation() {
+		return animation;
+	}
+
+	public void setAnimation(Animation animation) {
+		this.animation = animation;
 	}
 }

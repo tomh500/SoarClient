@@ -9,6 +9,7 @@ import com.soarclient.Soar;
 import com.soarclient.animation.Animation;
 import com.soarclient.animation.Duration;
 import com.soarclient.animation.cubicbezier.impl.EaseEmphasizedDecelerate;
+import com.soarclient.gui.api.page.GuiTransition;
 import com.soarclient.gui.api.page.SimplePage;
 import com.soarclient.management.color.api.ColorPalette;
 import com.soarclient.skia.Skia;
@@ -69,12 +70,45 @@ public abstract class SoarGui extends SimpleSoarGui {
 			currentPage.draw(mouseX, mouseY);
 		}
 
-		for(Component c : components) {
+		if (lastPage != null) {
+
+			GuiTransition transition = lastPage.getTransition();
+
+			if (currentPage.getTransition().isConsecutive()) {
+				
+				Skia.save();
+
+				if (transition != null) {
+					float[] result = transition.onTransition(lastPage.getAnimation());
+					Skia.translate(result[0] * getWidth(), result[1] * getHeight());
+				}
+
+				lastPage.draw(mouseX, mouseY);
+				Skia.restore();
+			}
+
+			Skia.save();
+			transition = currentPage.getTransition();
+
+			if (transition != null) {
+				float[] result = transition.onTransition(currentPage.getAnimation());
+				Skia.translate(result[0] * getWidth(), result[1] * getHeight());
+			}
+
+			currentPage.draw(mouseX, mouseY);
+			Skia.restore();
+
+			if (lastPage.getAnimation().isFinished()) {
+				lastPage = null;
+			}
+		}
+
+		for (Component c : components) {
 			c.draw(mouseX, mouseY);
 		}
-		
+
 		Skia.restore();
-		
+
 		if (inOutAnimation.getEnd() == 0 && inOutAnimation.isFinished()) {
 			client.setScreen(nextScreen);
 			nextScreen = null;
@@ -83,24 +117,24 @@ public abstract class SoarGui extends SimpleSoarGui {
 
 	@Override
 	public void mousePressed(double mouseX, double mouseY, int button) {
-		
+
 		if (currentPage != null) {
 			currentPage.mousePressed(mouseX, mouseY, button);
 		}
-		
-		for(Component c : components) {
+
+		for (Component c : components) {
 			c.mousePressed(mouseX, mouseY, button);
 		}
 	}
 
 	@Override
 	public void mouseReleased(double mouseX, double mouseY, int button) {
-		
+
 		if (currentPage != null) {
 			currentPage.mouseReleased(mouseX, mouseY, button);
 		}
-		
-		for(Component c : components) {
+
+		for (Component c : components) {
 			c.mouseReleased(mouseX, mouseY, button);
 		}
 	}
@@ -114,12 +148,12 @@ public abstract class SoarGui extends SimpleSoarGui {
 
 	@Override
 	public void charTyped(char chr, int modifiers) {
-		
+
 		if (currentPage != null) {
 			currentPage.charTyped(chr, modifiers);
 		}
-		
-		for(Component c : components) {
+
+		for (Component c : components) {
 			c.charTyped(chr, modifiers);
 		}
 	}
@@ -134,8 +168,8 @@ public abstract class SoarGui extends SimpleSoarGui {
 		if (currentPage != null) {
 			currentPage.keyPressed(keyCode, scanCode, modifiers);
 		}
-		
-		for(Component c : components) {
+
+		for (Component c : components) {
 			c.keyPressed(keyCode, scanCode, modifiers);
 		}
 	}
@@ -170,7 +204,9 @@ public abstract class SoarGui extends SimpleSoarGui {
 		}
 
 		this.currentPage = page;
-
+		currentPage.setAnimation(new EaseEmphasizedDecelerate(Duration.MEDIUM_1, 0, 1));
+		lastPage.setAnimation(new EaseEmphasizedDecelerate(Duration.MEDIUM_1, 1, 0));
+		
 		if (currentPage != null) {
 			setPageSize(currentPage);
 			currentPage.init();
