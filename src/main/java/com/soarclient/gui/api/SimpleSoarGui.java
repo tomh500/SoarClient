@@ -41,9 +41,6 @@ public class SimpleSoarGui {
 	public void keyPressed(int keyCode, int scanCode, int modifiers) {
 	}
 
-	public void onClosed() {
-	}
-
 	public Screen build() {
 		return new Screen(Text.empty()) {
 
@@ -103,11 +100,6 @@ public class SimpleSoarGui {
 			public boolean charTyped(char chr, int modifiers) {
 				SimpleSoarGui.this.charTyped(chr, modifiers);
 				return true;
-			}
-
-			@Override
-			public void close() {
-				SimpleSoarGui.this.onClosed();
 			}
 
 			@Override

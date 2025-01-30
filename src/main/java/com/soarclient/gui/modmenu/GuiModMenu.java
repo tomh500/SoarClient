@@ -15,7 +15,7 @@ import com.soarclient.gui.modmenu.pages.SettingsPage;
 public class GuiModMenu extends SoarGui {
 
 	private NavigationRail navigationRail;
-	
+
 	public GuiModMenu() {
 		super(false);
 	}
@@ -27,7 +27,7 @@ public class GuiModMenu extends SoarGui {
 		components.add(navigationRail);
 		super.init();
 	}
-	
+
 	@Override
 	public void setPageSize(SimplePage p) {
 		p.setX(getX() + navigationRail.getWidth());
@@ -35,18 +35,18 @@ public class GuiModMenu extends SoarGui {
 		p.setWidth(getWidth() - navigationRail.getWidth());
 		p.setHeight(getHeight());
 	}
-	
+
 	@Override
 	public List<SimplePage> createPages() {
-		
+
 		List<SimplePage> pages = new ArrayList<>();
-		
+
 		pages.add(new HomePage(this));
 		pages.add(new ModsPage(this));
 		pages.add(new MusicPage(this));
 		pages.add(new ProfilePage(this));
 		pages.add(new SettingsPage(this));
-		
+
 		return pages;
 	}
 

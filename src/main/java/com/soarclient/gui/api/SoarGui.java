@@ -12,8 +12,10 @@ import com.soarclient.animation.cubicbezier.impl.EaseEmphasizedDecelerate;
 import com.soarclient.gui.api.page.GuiTransition;
 import com.soarclient.gui.api.page.SimplePage;
 import com.soarclient.management.color.api.ColorPalette;
+import com.soarclient.management.config.ConfigType;
 import com.soarclient.skia.Skia;
 import com.soarclient.ui.component.Component;
+import com.soarclient.utils.Multithreading;
 
 import net.minecraft.client.gui.screen.Screen;
 
@@ -75,7 +77,7 @@ public abstract class SoarGui extends SimpleSoarGui {
 			GuiTransition transition = lastPage.getTransition();
 
 			if (currentPage.getTransition().isConsecutive()) {
-				
+
 				Skia.save();
 
 				if (transition != null) {
@@ -174,17 +176,13 @@ public abstract class SoarGui extends SimpleSoarGui {
 		}
 	}
 
-	@Override
-	public void onClosed() {
-		if (currentPage != null) {
-			currentPage.onClosed();
-		}
-	}
-
 	public void close(Screen nextScreen) {
 		if (inOutAnimation.getEnd() == 1) {
 			this.nextScreen = nextScreen;
 			inOutAnimation = new EaseEmphasizedDecelerate(Duration.EXTRA_LONG_1, 1, 0);
+			Multithreading.runAsync(() -> {
+				Soar.getInstance().getConfigManager().save(ConfigType.MOD);
+			});
 		}
 	}
 
@@ -206,7 +204,7 @@ public abstract class SoarGui extends SimpleSoarGui {
 		this.currentPage = page;
 		currentPage.setAnimation(new EaseEmphasizedDecelerate(Duration.MEDIUM_1, 0, 1));
 		lastPage.setAnimation(new EaseEmphasizedDecelerate(Duration.MEDIUM_1, 1, 0));
-		
+
 		if (currentPage != null) {
 			setPageSize(currentPage);
 			currentPage.init();

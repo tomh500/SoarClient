@@ -101,13 +101,9 @@ public class GuiEditHUD extends SimpleSoarGui {
 	@Override
 	public void keyPressed(int keyCode, int scanCode, int modifiers) {
 		if (keyCode == GLFW.GLFW_KEY_ESCAPE) {
+			HUDCore.isEditing = false;
 			client.setScreen(prevScreen);
 		}
-	}
-
-	@Override
-	public void onClosed() {
-		HUDCore.isEditing = false;
 	}
 
 	private Optional<HUDMod> getHoveredMod(double mouseX, double mouseY) {

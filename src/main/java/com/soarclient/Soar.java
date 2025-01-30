@@ -4,6 +4,7 @@ import com.soarclient.animation.Delta;
 import com.soarclient.event.EventBus;
 import com.soarclient.event.server.PacketHandler;
 import com.soarclient.management.color.ColorManager;
+import com.soarclient.management.config.ConfigManager;
 import com.soarclient.management.mod.ModManager;
 import com.soarclient.management.music.MusicManager;
 import com.soarclient.skia.font.Fonts;
@@ -21,6 +22,7 @@ public class Soar {
 	private ModManager modManager;
 	private ColorManager colorManager;
 	private MusicManager musicManager;
+	private ConfigManager configManager;
 	
 	public void start() {
 		
@@ -32,6 +34,7 @@ public class Soar {
 		modManager.init();
 		colorManager = new ColorManager();
 		musicManager = new MusicManager();
+		configManager = new ConfigManager();
 		
 		EventBus.getInstance().register(new SoarHandler());
 		EventBus.getInstance().register(new PacketHandler());
@@ -60,5 +63,9 @@ public class Soar {
 
 	public MusicManager getMusicManager() {
 		return musicManager;
+	}
+
+	public ConfigManager getConfigManager() {
+		return configManager;
 	}
 }
