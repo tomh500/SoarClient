@@ -1,7 +1,7 @@
 package com.soarclient.management.mod.impl.hud;
 
 import com.soarclient.event.EventBus;
-import com.soarclient.event.impl.RenderSkiaEvent;
+import com.soarclient.event.client.RenderSkiaEvent;
 import com.soarclient.management.mod.api.hud.SimpleHUDMod;
 import com.soarclient.skia.font.Icon;
 

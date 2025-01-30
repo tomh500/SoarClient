@@ -3,7 +3,7 @@ package com.soarclient.animation;
 import org.lwjgl.glfw.GLFW;
 
 import com.soarclient.event.EventBus;
-import com.soarclient.event.impl.GameLoopEvent;
+import com.soarclient.event.client.GameLoopEvent;
 
 public class Delta {
 

@@ -13,6 +13,7 @@ import com.soarclient.management.mod.api.hud.design.impl.SimpleDesign;
 import com.soarclient.management.mod.impl.hud.ComboCounterMod;
 import com.soarclient.management.mod.impl.hud.CoordsMod;
 import com.soarclient.management.mod.impl.hud.FPSDisplayMod;
+import com.soarclient.management.mod.impl.hud.ReachDisplayMod;
 import com.soarclient.management.mod.impl.settings.HUDModSettings;
 import com.soarclient.management.mod.impl.settings.ModMenuSettings;
 import com.soarclient.management.mod.settings.Setting;
@@ -37,6 +38,7 @@ public class ModManager {
 		mods.add(new ComboCounterMod());
 		mods.add(new CoordsMod());
 		mods.add(new FPSDisplayMod());
+		mods.add(new ReachDisplayMod());
 		
 		// Settings
 		mods.add(new HUDModSettings());

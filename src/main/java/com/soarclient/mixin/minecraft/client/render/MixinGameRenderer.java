@@ -6,7 +6,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import com.soarclient.event.EventBus;
-import com.soarclient.event.impl.RenderSkiaEvent;
+import com.soarclient.event.client.RenderSkiaEvent;
 import com.soarclient.skia.Skia;
 import com.soarclient.skia.context.SkiaContext;
 

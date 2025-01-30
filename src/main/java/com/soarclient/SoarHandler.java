@@ -1,7 +1,7 @@
 package com.soarclient;
 
 import com.soarclient.event.EventBus;
-import com.soarclient.event.impl.ClientTickEvent;
+import com.soarclient.event.client.ClientTickEvent;
 
 public class SoarHandler {
 

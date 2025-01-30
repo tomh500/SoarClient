@@ -1,10 +1,10 @@
 package com.soarclient.management.mod.impl.hud;
 
 import com.soarclient.event.EventBus;
-import com.soarclient.event.impl.AttackEntityEvent;
-import com.soarclient.event.impl.ClientTickEvent;
-import com.soarclient.event.impl.DamageEntityEvent;
-import com.soarclient.event.impl.RenderSkiaEvent;
+import com.soarclient.event.client.ClientTickEvent;
+import com.soarclient.event.client.RenderSkiaEvent;
+import com.soarclient.event.server.impl.AttackEntityEvent;
+import com.soarclient.event.server.impl.DamageEntityEvent;
 import com.soarclient.management.mod.api.hud.SimpleHUDMod;
 import com.soarclient.skia.font.Icon;
 
@@ -21,20 +21,21 @@ public class ComboCounterMod extends SimpleHUDMod {
 		this.draw();
 	};
 
+	public final EventBus.EventListener<AttackEntityEvent> onAttackEntity = event -> {
+		possibleTarget = event.getEntityId();
+	};
+
 	public final EventBus.EventListener<DamageEntityEvent> onDamageEntity = event -> {
-		if (event.getEntity().getId() == possibleTarget) {
+
+		if (event.getEntityId() == possibleTarget) {
 			combo++;
 			possibleTarget = -1;
 			hitTime = System.currentTimeMillis();
-		} else if (event.getEntity().getId() == client.player.getId()) {
+		} else if (event.getEntityId() == client.player.getId()) {
 			combo = 0;
 		}
 	};
 
-	public final EventBus.EventListener<AttackEntityEvent> onAttackEntity = event -> {
-		possibleTarget = event.getEntity().getId();
-	};
-	
 	public final EventBus.EventListener<ClientTickEvent> onClientTick = event -> {
 		if ((System.currentTimeMillis() - hitTime) > 2000) {
 			combo = 0;

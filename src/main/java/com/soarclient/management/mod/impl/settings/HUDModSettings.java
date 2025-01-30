@@ -4,7 +4,7 @@ import java.util.Arrays;
 
 import com.soarclient.Soar;
 import com.soarclient.event.EventBus;
-import com.soarclient.event.impl.ClientTickEvent;
+import com.soarclient.event.client.ClientTickEvent;
 import com.soarclient.management.mod.Mod;
 import com.soarclient.management.mod.ModCategory;
 import com.soarclient.management.mod.settings.impl.BooleanSetting;

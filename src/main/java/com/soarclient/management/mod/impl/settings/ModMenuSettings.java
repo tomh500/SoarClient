@@ -3,7 +3,7 @@ package com.soarclient.management.mod.impl.settings;
 import org.lwjgl.glfw.GLFW;
 
 import com.soarclient.event.EventBus;
-import com.soarclient.event.impl.ClientTickEvent;
+import com.soarclient.event.client.ClientTickEvent;
 import com.soarclient.gui.modmenu.GuiModMenu;
 import com.soarclient.libraries.material3.hct.Hct;
 import com.soarclient.management.mod.Mod;

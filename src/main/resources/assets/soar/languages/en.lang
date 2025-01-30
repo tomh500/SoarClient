@@ -33,6 +33,9 @@ mod.coords.description=Display your coordnates
 mod.combocounter.name=Combo Counter
 mod.combocounter.description=Display Combo
 
+mod.reachdisplay.name=Reach Display
+mod.reachdisplay.description=Display reach
+
 setting.keybind=Keybind
 setting.keybind.description=Set keybind
 setting.icon=Icon

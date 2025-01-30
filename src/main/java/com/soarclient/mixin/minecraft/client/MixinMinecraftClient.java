@@ -10,8 +10,8 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import com.soarclient.Soar;
 import com.soarclient.event.EventBus;
-import com.soarclient.event.impl.ClientTickEvent;
-import com.soarclient.event.impl.GameLoopEvent;
+import com.soarclient.event.client.ClientTickEvent;
+import com.soarclient.event.client.GameLoopEvent;
 import com.soarclient.skia.context.SkiaContext;
 
 import net.minecraft.client.MinecraftClient;

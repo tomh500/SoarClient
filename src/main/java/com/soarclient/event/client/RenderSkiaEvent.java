@@ -1,4 +1,4 @@
-package com.soarclient.event.impl;
+package com.soarclient.event.client;
 
 import com.soarclient.event.Event;
 
