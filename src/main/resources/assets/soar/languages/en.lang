@@ -39,6 +39,9 @@ mod.reachdisplay.description=Display reach
 mod.daycounter.name=Day Counter
 mod.daycounter.description=Count Minecraft day
 
+mod.stopwatch.name=Stopwatch
+mod.stopwatch.description=Measure the time
+
 setting.darkmode=Dark Mode
 setting.darkmode.description=Enable dark mode
 setting.keybind=Keybind
