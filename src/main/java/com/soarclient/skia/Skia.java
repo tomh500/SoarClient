@@ -3,6 +3,8 @@ package com.soarclient.skia;
 import java.awt.Color;
 import java.io.File;
 
+import com.soarclient.management.mod.impl.settings.HUDModSettings;
+import com.soarclient.shader.KawaseBlur;
 import com.soarclient.skia.context.SkiaContext;
 import com.soarclient.skia.image.ImageHelper;
 
@@ -20,6 +22,8 @@ import io.github.humbleui.skija.SurfaceOrigin;
 import io.github.humbleui.types.Point;
 import io.github.humbleui.types.RRect;
 import io.github.humbleui.types.Rect;
+import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.util.Window;
 
 public class Skia {
 
@@ -54,17 +58,17 @@ public class Skia {
 		getCanvas().drawRRect(RRect.makeComplexXYWH(x, y, width, height, corners), getPaint(color));
 	}
 
-	/*public static void drawBlur(float x, float y, float width, float height) {
+	public static void drawBlur(float x, float y, float width, float height) {
 
 		if (HUDModSettings.getInstance().getBlurSetting().isEnabled()) {
-			ScaledResolution sr = ScaledResolution.get(Minecraft.getMinecraft());
 
+			Window window = MinecraftClient.getInstance().getWindow();
 			Path path = new Path();
 			path.addRect(Rect.makeXYWH(x, y, width, height));
 
 			save();
 			getCanvas().clipPath(path, ClipMode.INTERSECT, true);
-			drawImage(GuiIngame.INGAME_BLUR.getTexture(), 0, 0, sr.getScaledWidth(), sr.getScaledHeight(), 1F,
+			drawImage(KawaseBlur.INGAME_BLUR.getTexture(), 0, 0, window.getScaledWidth(), window.getScaledHeight(), 1F,
 					SurfaceOrigin.BOTTOM_LEFT);
 			restore();
 		}
@@ -74,18 +78,17 @@ public class Skia {
 
 		if (HUDModSettings.getInstance().getBlurSetting().isEnabled()) {
 
-			ScaledResolution sr = ScaledResolution.get(Minecraft.getMinecraft());
-
+			Window window = MinecraftClient.getInstance().getWindow();
 			Path path = new Path();
 			path.addRRect(RRect.makeXYWH(x, y, width, height, radius));
 
 			save();
 			getCanvas().clipPath(path, ClipMode.INTERSECT, true);
-			drawImage(GuiIngame.INGAME_BLUR.getTexture(), 0, 0, sr.getScaledWidth(), sr.getScaledHeight(), 1F,
+			drawImage(KawaseBlur.INGAME_BLUR.getTexture(), 0, 0, window.getScaledWidth(), window.getScaledHeight(), 1F,
 					SurfaceOrigin.BOTTOM_LEFT);
 			restore();
 		}
-	}*/
+	}
 
 	public static void drawShadow(float x, float y, float width, float height, float radius) {
 

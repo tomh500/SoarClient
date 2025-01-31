@@ -30,7 +30,7 @@ public class ModMenuSettings extends Mod {
 	private BooleanSetting blurSetting = new BooleanSetting("setting.blur", "setting.blur.description", Icon.LENS_BLUR,
 			this, true);
 	private NumberSetting blurIntensitySetting = new NumberSetting("setting.blurintensity",
-			"setting.blurintensity.description", Icon.BLUR_LINEAR, this, 20, 1, 50, 1);
+			"setting.blurintensity.description", Icon.BLUR_LINEAR, this, 5, 1, 20, 1);
 
 	private Screen modMenu;
 

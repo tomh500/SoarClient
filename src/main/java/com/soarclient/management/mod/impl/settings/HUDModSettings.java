@@ -22,7 +22,7 @@ public class HUDModSettings extends Mod {
 			this, Arrays.asList("design.simple", "design.classic", "design.clear", "design.materialyou"),
 			"design.simple");
 	private NumberSetting blurIntensitySetting = new NumberSetting("setting.blurintensity",
-			"setting.blurintensity.description", Icon.BLUR_LINEAR, this, 20, 1, 50, 1);
+			"setting.blurintensity.description", Icon.BLUR_LINEAR, this, 5, 1, 20, 1);
 
 	public HUDModSettings() {
 		super("mod.hudsettings.name", "mod.hudsettings.description", Icon.BROWSE_ACTIVITY, ModCategory.MISC);

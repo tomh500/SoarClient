@@ -15,6 +15,7 @@ public class ClassicDesign extends HUDDesign {
 
 	@Override
 	public void drawBackground(float x, float y, float width, float height, float radius) {
+		Skia.drawBlur(x, y, width, height);
 		Skia.drawShadow(x, y, width, height, 0);
 		Skia.drawRoundedRect(x, y, width, height, 0, new Color(0, 0, 0, 100));
 	}

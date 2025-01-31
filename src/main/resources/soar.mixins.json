@@ -3,6 +3,7 @@
 	"package": "com.soarclient.mixin",
 	"compatibilityLevel": "JAVA_21",
 	"client": [
+		"minecraft.client.render.BufferRendererAccessor",
 		"minecraft.client.render.MixinGameRenderer",
 		"minecraft.client.util.MixinWindow",
 		"minecraft.client.MixinKeyboard",

@@ -12,6 +12,7 @@ import com.soarclient.Soar;
 import com.soarclient.event.EventBus;
 import com.soarclient.event.client.ClientTickEvent;
 import com.soarclient.event.client.GameLoopEvent;
+import com.soarclient.shader.KawaseBlur;
 import com.soarclient.skia.context.SkiaContext;
 
 import net.minecraft.client.MinecraftClient;
@@ -48,4 +49,9 @@ public abstract class MixinMinecraftClient {
 	public void onGameLoop(CallbackInfo ci) {
 		EventBus.getInstance().post(new GameLoopEvent());
 	}
+	
+    @Inject(method = "onResolutionChanged", at = @At("TAIL"))
+    public void onResolutionChanged(CallbackInfo info) {
+    	KawaseBlur.GUI_BLUR.resize();
+    }
 }

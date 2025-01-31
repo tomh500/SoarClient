@@ -13,10 +13,13 @@ import com.soarclient.gui.api.page.GuiTransition;
 import com.soarclient.gui.api.page.SimplePage;
 import com.soarclient.management.color.api.ColorPalette;
 import com.soarclient.management.config.ConfigType;
+import com.soarclient.management.mod.impl.settings.ModMenuSettings;
+import com.soarclient.shader.KawaseBlur;
 import com.soarclient.skia.Skia;
 import com.soarclient.ui.component.Component;
 import com.soarclient.utils.Multithreading;
 
+import io.github.humbleui.skija.SurfaceOrigin;
 import net.minecraft.client.gui.screen.Screen;
 
 public abstract class SoarGui extends SimpleSoarGui {
@@ -57,9 +60,21 @@ public abstract class SoarGui extends SimpleSoarGui {
 	}
 
 	@Override
+	public void drawOpenGL(double mouseX, double mouseY) {
+		if (ModMenuSettings.getInstance().getBlurSetting().isEnabled()) {
+			KawaseBlur.GUI_BLUR.draw((int) ModMenuSettings.getInstance().getBlurIntensitySetting().getValue());
+		}
+	}
+
+	@Override
 	public void draw(double mouseX, double mouseY) {
 
 		ColorPalette palette = Soar.getInstance().getColorManager().getPalette();
+
+		if (ModMenuSettings.getInstance().getBlurSetting().isEnabled()) {
+			Skia.drawImage(KawaseBlur.GUI_BLUR.getTexture(), 0, 0, client.getWindow().getWidth(),
+					client.getWindow().getHeight(), inOutAnimation.getValue(), SurfaceOrigin.BOTTOM_LEFT);
+		}
 
 		Skia.save();
 		Skia.setAlpha((int) (inOutAnimation.getValue() * 255));

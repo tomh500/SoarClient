@@ -15,6 +15,7 @@ public class ClearDesign extends HUDDesign {
 
 	@Override
 	public void drawBackground(float x, float y, float width, float height, float radius) {
+		Skia.drawRoundedBlur(x, y, width, height, radius);
 		Skia.drawShadow(x, y, width, height, radius);
 	}
 
