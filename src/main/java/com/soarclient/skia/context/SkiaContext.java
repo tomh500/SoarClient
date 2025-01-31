@@ -84,6 +84,7 @@ public class SkiaContext {
 		GL11.glDisable(GL11.GL_DEPTH_TEST);
 		GL13.glActiveTexture(GL13.GL_TEXTURE0);
 		RenderSystem.activeTexture(GL13.GL_TEXTURE0);
+		RenderSystem.disableCull();
 	}
 
 	public static DirectContext getContext() {
