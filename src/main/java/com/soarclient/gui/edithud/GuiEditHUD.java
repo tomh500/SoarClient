@@ -14,9 +14,9 @@ import com.soarclient.gui.edithud.api.HUDCore;
 import com.soarclient.gui.edithud.api.SnappingLine;
 import com.soarclient.management.mod.api.Position;
 import com.soarclient.management.mod.api.hud.HUDMod;
-import com.soarclient.utils.tuples.Pair;
 
 import it.unimi.dsi.fastutil.floats.FloatArrayList;
+import it.unimi.dsi.fastutil.objects.ObjectObjectImmutablePair;
 import net.minecraft.client.gui.screen.Screen;
 
 public class GuiEditHUD extends SimpleSoarGui {
@@ -28,7 +28,7 @@ public class GuiEditHUD extends SimpleSoarGui {
 	private final List<HUDMod> mods;
 	private final int snappingDistance;
 
-	private Optional<Pair<HUDMod, GrabOffset>> selectedMod;
+	private Optional<ObjectObjectImmutablePair<HUDMod, GrabOffset>> selectedMod;
 	private boolean snapping;
 
 	public GuiEditHUD(Screen prevScreen) {
@@ -58,7 +58,7 @@ public class GuiEditHUD extends SimpleSoarGui {
 		}
 	}
 
-	private void updateModPosition(Pair<HUDMod, GrabOffset> mod, double mouseX, double mouseY) {
+	private void updateModPosition(ObjectObjectImmutablePair<HUDMod, GrabOffset> mod, double mouseX, double mouseY) {
 		setHudPositions(mod, mouseX, mouseY, snapping, DEFAULT_LINE_WIDTH);
 	}
 
@@ -88,7 +88,8 @@ public class GuiEditHUD extends SimpleSoarGui {
 			}
 
 			GrabOffset offset = new GrabOffset((float) (mouseX - mod.getPosition().getX()), (float) (mouseY - mod.getPosition().getY()));
-			selectedMod = Optional.of(Pair.of(mod, offset));
+			selectedMod = Optional.of(ObjectObjectImmutablePair.of(mod, offset));
+			
 			snapping = button == 0;
 		});
 	}
@@ -119,10 +120,10 @@ public class GuiEditHUD extends SimpleSoarGui {
 		return mouseX >= pos.getX() && mouseX <= pos.getRightX() && mouseY >= pos.getY() && mouseY <= pos.getBottomY();
 	}
 
-	private void setHudPositions(Pair<HUDMod, GrabOffset> modPair, double mouseX, double mouseY, boolean snap,
+	private void setHudPositions(ObjectObjectImmutablePair<HUDMod, GrabOffset> modPair, double mouseX, double mouseY, boolean snap,
 			float lineWidth) {
-		GrabOffset offset = modPair.getSecond();
-		Position position = modPair.getFirst().getPosition();
+		GrabOffset offset = modPair.right();
+		Position position = modPair.left().getPosition();
 
 		float x = (float) (mouseX - offset.getX());
 		float y = (float) (mouseY - offset.getY());
@@ -191,7 +192,7 @@ public class GuiEditHUD extends SimpleSoarGui {
 		lines.add(isHorizontal ? client.getWindow().getScaledWidth() / 2F : client.getWindow().getScaledHeight() / 2F);
 
 		mods.stream().filter(
-				mod -> isModInteractable(mod) && !selectedMod.map(pair -> pair.getFirst().equals(mod)).orElse(false))
+				mod -> isModInteractable(mod) && !selectedMod.map(pair -> pair.left().equals(mod)).orElse(false))
 				.forEach(mod -> {
 					Position p = mod.getPosition();
 					if (isHorizontal) {
