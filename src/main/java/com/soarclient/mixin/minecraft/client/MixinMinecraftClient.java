@@ -53,5 +53,6 @@ public abstract class MixinMinecraftClient {
     @Inject(method = "onResolutionChanged", at = @At("TAIL"))
     public void onResolutionChanged(CallbackInfo info) {
     	KawaseBlur.GUI_BLUR.resize();
+    	KawaseBlur.INGAME_BLUR.resize();
     }
 }
