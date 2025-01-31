@@ -1,7 +1,6 @@
 package com.soarclient.shader;
 
 import static org.lwjgl.opengl.GL11C.GL_FLOAT;
-import static org.lwjgl.opengl.GL11C.GL_UNSIGNED_BYTE;
 import static org.lwjgl.opengl.GL11C.GL_UNSIGNED_INT;
 import static org.lwjgl.opengl.GL15C.GL_ARRAY_BUFFER;
 import static org.lwjgl.opengl.GL15C.GL_DYNAMIC_DRAW;
@@ -22,25 +21,6 @@ import com.mojang.blaze3d.platform.GlStateManager;
 import net.minecraft.client.util.math.MatrixStack;
 
 public class Mesh {
-	public enum Attrib {
-		Float(1, 4, false), Vec2(2, 4, false), Vec3(3, 4, false), Color(4, 1, true);
-
-		public final int count, size;
-		public final boolean normalized;
-
-		Attrib(int count, int componentSize, boolean normalized) {
-			this.count = count;
-			this.size = count * componentSize;
-			this.normalized = normalized;
-		}
-
-		public int getType() {
-			return this == Color ? GL_UNSIGNED_BYTE : GL_FLOAT;
-		}
-	}
-
-	public boolean depthTest = false;
-	public double alpha = 1;
 
 	private final int primitiveVerticesSize;
 
@@ -57,7 +37,7 @@ public class Mesh {
 	private boolean building;
 	private boolean beganRendering;
 
-	public Mesh(Attrib... attributes) {
+	public Mesh() {
 
 		int drawMode = 3;
 		int stride = 8;
@@ -78,16 +58,8 @@ public class Mesh {
 
 		ibo = GlStateManager._glGenBuffers();
 		ShaderHelper.bindIndexBuffer(ibo);
-
-		int offset = 0;
-		for (int i = 0; i < attributes.length; i++) {
-			Attrib attrib = attributes[i];
-
-			GlStateManager._enableVertexAttribArray(i);
-			GlStateManager._vertexAttribPointer(i, attrib.count, attrib.getType(), attrib.normalized, stride, offset);
-
-			offset += attrib.size;
-		}
+		GlStateManager._enableVertexAttribArray(0);
+		GlStateManager._vertexAttribPointer(0, 2, GL_FLOAT, false, stride, 0);
 
 		ShaderHelper.bindVertexArray(0);
 		GlStateManager._glBindBuffer(GL15C.GL_ARRAY_BUFFER, 0);
@@ -137,11 +109,12 @@ public class Mesh {
 		memPutInt(p + 20, i1);
 
 		indicesCount += 6;
+
 		growIfNeeded();
 	}
 
 	public void growIfNeeded() {
-		// Vertices
+
 		if ((vertexI + 1) * primitiveVerticesSize >= vertices.capacity()) {
 			int offset = getVerticesOffset();
 
@@ -158,6 +131,7 @@ public class Mesh {
 		}
 
 		if (indicesCount * 4 >= indices.capacity()) {
+			System.out.println("wao");
 			int newSize = indices.capacity() * 2;
 			if (newSize % 3 != 0)
 				newSize += newSize % (3 * 4);
@@ -172,7 +146,7 @@ public class Mesh {
 
 	public void end() {
 		if (!building)
-			throw new IllegalStateException("Mesh.end() called while not building.");
+			throw new IllegalStateException("Mesh called while not building.");
 
 		if (indicesCount > 0) {
 			GlStateManager._glBindBuffer(GL15C.GL_ARRAY_BUFFER, vbo);
@@ -188,10 +162,8 @@ public class Mesh {
 	}
 
 	public void beginRender(MatrixStack matrices) {
-		if (depthTest)
-			ShaderHelper.enableDepth();
-		else
-			ShaderHelper.disableDepth();
+		
+		ShaderHelper.disableDepth();
 		ShaderHelper.enableBlend();
 		ShaderHelper.disableCull();
 		ShaderHelper.enableLineSmooth();

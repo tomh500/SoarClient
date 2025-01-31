@@ -11,7 +11,7 @@ public class PostProcessRenderer {
     }
 
     public static void init() {
-        mesh = new Mesh(Mesh.Attrib.Vec2);
+        mesh = new Mesh();
         mesh.begin();
 
         mesh.quad(
