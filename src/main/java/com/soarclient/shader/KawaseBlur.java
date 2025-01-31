@@ -22,6 +22,7 @@ public class KawaseBlur {
 	private static Shader shaderDown, shaderUp, shaderPassthrough;
 	private final Framebuffer[] fbos = new Framebuffer[6];
 	private final TimerUtils timer = new TimerUtils();
+	private boolean firstTick = true;
 
 	public void resize() {
 		for (int i = 0; i < fbos.length; i++) {
@@ -39,11 +40,15 @@ public class KawaseBlur {
 			shaderDown = new Shader("blur.vert", "blur_down.frag");
 			shaderUp = new Shader("blur.vert", "blur_up.frag");
 			shaderPassthrough = new Shader("passthrough.vert", "passthrough.frag");
+		}
+		
+		if(firstTick) {
 			for (int i = 0; i < fbos.length; i++) {
 				if (fbos[i] == null) {
 					fbos[i] = new Framebuffer(1 / Math.pow(2, i));
 				}
 			}
+			firstTick = false;
 		}
 
 		if(timer.delay(16)) {
