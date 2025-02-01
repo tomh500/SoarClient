@@ -1,5 +1,9 @@
-package com.soarclient.shader;
+package com.soarclient.shader.impl;
 
+import com.soarclient.shader.Framebuffer;
+import com.soarclient.shader.PostProcessRenderer;
+import com.soarclient.shader.Shader;
+import com.soarclient.shader.ShaderHelper;
 import com.soarclient.utils.TimerUtils;
 
 import it.unimi.dsi.fastutil.ints.IntDoubleImmutablePair;

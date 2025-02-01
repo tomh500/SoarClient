@@ -4,7 +4,7 @@ import java.awt.Color;
 import java.io.File;
 
 import com.soarclient.management.mod.impl.settings.HUDModSettings;
-import com.soarclient.shader.KawaseBlur;
+import com.soarclient.shader.impl.KawaseBlur;
 import com.soarclient.skia.context.SkiaContext;
 import com.soarclient.skia.image.ImageHelper;
 

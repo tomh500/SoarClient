@@ -14,7 +14,7 @@ import com.soarclient.gui.api.page.SimplePage;
 import com.soarclient.management.color.api.ColorPalette;
 import com.soarclient.management.config.ConfigType;
 import com.soarclient.management.mod.impl.settings.ModMenuSettings;
-import com.soarclient.shader.KawaseBlur;
+import com.soarclient.shader.impl.KawaseBlur;
 import com.soarclient.skia.Skia;
 import com.soarclient.ui.component.Component;
 import com.soarclient.utils.Multithreading;
