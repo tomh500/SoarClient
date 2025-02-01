@@ -2,17 +2,19 @@ package com.soarclient.management.mod.impl.hud;
 
 import java.text.DecimalFormat;
 
-import org.lwjgl.input.Keyboard;
+import org.lwjgl.glfw.GLFW;
 
 import com.soarclient.event.EventBus;
-import com.soarclient.event.impl.ClientTickEventListener;
-import com.soarclient.event.impl.RenderSkiaEventListener;
+import com.soarclient.event.client.ClientTickEvent;
+import com.soarclient.event.client.RenderSkiaEvent;
 import com.soarclient.management.mod.api.hud.SimpleHUDMod;
 import com.soarclient.management.mod.settings.impl.KeybindSetting;
 import com.soarclient.skia.font.Icon;
 import com.soarclient.utils.TimerUtils;
 
-public class StopwatchMod extends SimpleHUDMod implements RenderSkiaEventListener, ClientTickEventListener {
+import net.minecraft.client.util.InputUtil;
+
+public class StopwatchMod extends SimpleHUDMod {
 
 	private TimerUtils timer = new TimerUtils();
 	private int pressCount;
@@ -20,19 +22,17 @@ public class StopwatchMod extends SimpleHUDMod implements RenderSkiaEventListene
 	private DecimalFormat timeFormat = new DecimalFormat("0.00");
 
 	private KeybindSetting keybindSetting = new KeybindSetting("setting.keybind", "setting.keybind.description",
-			Icon.KEYBOARD, this, Keyboard.KEY_P);
+			Icon.KEYBOARD, this, InputUtil.fromKeyCode(GLFW.GLFW_KEY_P, 0));
 
 	public StopwatchMod() {
 		super("mod.stopwatch.name", "mod.stopwatch.description", Icon.TIMER);
 	}
 
-	@Override
-	public void onRenderSkia(float partialTicks) {
-		super.draw();
-	}
+	public final EventBus.EventListener<RenderSkiaEvent> onRenderSkia = event -> {
+		this.draw();
+	};
 
-	@Override
-	public void onClientTick() {
+	public final EventBus.EventListener<ClientTickEvent> onClientTick = event -> {
 		if (keybindSetting.isPressed()) {
 			pressCount++;
 		}
@@ -50,24 +50,19 @@ public class StopwatchMod extends SimpleHUDMod implements RenderSkiaEventListene
 			pressCount = 0;
 			break;
 		}
-	}
+	};
 
 	@Override
 	public void onEnable() {
 
-		EventBus.getInstance().registers(this, RenderSkiaEvent.ID, ClientTickEvent.ID);
-
+		super.onEnable();
+		
 		if (timer != null) {
 			timer.reset();
 		}
 
 		pressCount = 0;
 		currentTime = 0;
-	}
-
-	@Override
-	public void onDisable() {
-		EventBus.getInstance().unregisters(this, RenderSkiaEvent.ID, ClientTickEvent.ID);
 	}
 
 	@Override

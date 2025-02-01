@@ -27,6 +27,8 @@ package com.soarclient.libraries.flac.metadata;
  */
 public class Violation extends Exception {
 
+	private static final long serialVersionUID = 1L;
+
 	/**
 	 * Constructor.
 	 */

@@ -2,6 +2,8 @@ package com.soarclient.ui.component.impl;
 
 import java.awt.Color;
 
+import org.lwjgl.glfw.GLFW;
+
 import com.soarclient.Soar;
 import com.soarclient.animation.SimpleAnimation;
 import com.soarclient.libraries.material3.hct.Hct;
@@ -30,7 +32,7 @@ public class HctColorPicker extends Component {
 	}
 
 	@Override
-	public void draw(int mouseX, int mouseY) {
+	public void draw(double mouseX, double mouseY) {
 
 		ColorPalette palette = Soar.getInstance().getColorManager().getPalette();
 
@@ -43,7 +45,7 @@ public class HctColorPicker extends Component {
 
 		if (dragging) {
 
-			value = Math.min(1, Math.max(0, (mouseX - x) / width));
+			value = (float) Math.min(1, Math.max(0, (mouseX - x) / width));
 			hct = Hct.from((value * (maxValue - minValue) + minValue), hct.getChroma(), hct.getTone());
 
 			onPicking(hct);
@@ -51,20 +53,16 @@ public class HctColorPicker extends Component {
 	}
 
 	@Override
-	public void mousePressed(int mouseX, int mouseY, int mouseButton) {
+	public void mousePressed(double mouseX, double mouseY, int button) {
 
-		if (MouseUtils.isInside(mouseX, mouseY, x, y, width, height) && mouseButton == 0) {
+		if (MouseUtils.isInside(mouseX, mouseY, x, y, width, height) && button == GLFW.GLFW_MOUSE_BUTTON_LEFT) {
 			dragging = true;
 		}
 	}
 
 	@Override
-	public void mouseReleased(int mouseX, int mouseY, int mouseButton) {
+	public void mouseReleased(double mouseX, double mouseY, int button) {
 		dragging = false;
-	}
-
-	@Override
-	public void keyTyped(char typedChar, int keyCode) {
 	}
 
 	private void onPicking(Hct hct) {

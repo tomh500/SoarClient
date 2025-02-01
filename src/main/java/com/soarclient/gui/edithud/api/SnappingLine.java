@@ -4,8 +4,7 @@ import java.awt.Color;
 
 import com.soarclient.skia.Skia;
 
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.ScaledResolution;
+import net.minecraft.client.MinecraftClient;
 
 public class SnappingLine {
 
@@ -36,15 +35,15 @@ public class SnappingLine {
 
 	public void drawLine(float lineWidth, boolean isX) {
 
-		ScaledResolution sr = ScaledResolution.get(Minecraft.getMinecraft());
+		MinecraftClient client = MinecraftClient.getInstance();
 		Color color = Color.WHITE;
 
 		float pos = (float) (line - lineWidth / 2f);
 
 		if (isX) {
-			Skia.drawLine(pos, 0, pos, sr.getScaledHeight(), lineWidth, color);
+			Skia.drawLine(pos, 0, pos, client.getWindow().getScaledHeight(), lineWidth, color);
 		} else {
-			Skia.drawLine(0, pos, sr.getScaledWidth(), pos, lineWidth, color);
+			Skia.drawLine(0, pos, client.getWindow().getScaledWidth(), pos, lineWidth, color);
 		}
 	}
 

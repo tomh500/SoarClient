@@ -1,8 +1,5 @@
 package com.soarclient.utils.mouse;
 
-import org.lwjgl.input.Keyboard;
-import org.lwjgl.input.Mouse;
-
 import com.soarclient.animation.SimpleAnimation;
 
 public class ScrollHelper {
@@ -15,12 +12,11 @@ public class ScrollHelper {
 		minScroll = 0;
 	}
 
-	public void onScroll() {
-
-		float dWheel = Mouse.getDWheel();
-
-		scroll += dWheel * (Keyboard.isKeyDown(Keyboard.KEY_LCONTROL) ? 100F : 60F);
-
+	public void onScroll(double amount) {
+		scroll += amount * 60;
+	}
+	
+	public void onUpdate() {
 		animation.onTick(scroll, 18);
 		scroll = Math.max(Math.min(minScroll, scroll), -maxScroll);
 	}

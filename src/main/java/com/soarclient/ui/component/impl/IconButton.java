@@ -21,7 +21,6 @@ public class IconButton extends Component {
 	private String icon;
 	private Size size;
 	private Style style;
-	private int[] pressedPos;
 
 	public IconButton(String icon, float x, float y, Size size, Style style) {
 		super(x, y);
@@ -33,12 +32,11 @@ public class IconButton extends Component {
 
 		width = s[0];
 		height = s[1];
-		pressedPos = new int[] { 0, 0 };
 		pressAnimation = new PressAnimation();
 	}
 
 	@Override
-	public void draw(int mouseX, int mouseY) {
+	public void draw(double mouseX, double mouseY) {
 
 		boolean focus = MouseUtils.isInside(mouseX, mouseY, x, y, width, height);
 
@@ -51,7 +49,7 @@ public class IconButton extends Component {
 		Skia.drawRoundedRect(x, y, width, height, getRadius(), c[0]);
 		Skia.drawRoundedRect(x, y, width, height, getRadius(),
 				ColorUtils.applyAlpha(c[1], focusAnimation.getValue() * 0.08F));
-		pressAnimation.draw(x + pressedPos[0], y + pressedPos[1], width, height, c[1], 0.12F);
+		pressAnimation.draw(x, y, width, height, c[1], 0.12F);
 
 		Skia.drawFullCenteredText(icon, x + (width / 2), y + (height / 2), c[1], Fonts.getIconFill(getFontSize()));
 
@@ -59,25 +57,20 @@ public class IconButton extends Component {
 	}
 
 	@Override
-	public void mousePressed(int mouseX, int mouseY, int mouseButton) {
-		if (MouseUtils.isInside(mouseX, mouseY, x, y, width, height) && mouseButton == 0) {
-			pressedPos = new int[] { mouseX - (int) x, mouseY - (int) y };
-			pressAnimation.mousePressed();
+	public void mousePressed(double mouseX, double mouseY, int button) {
+		if (MouseUtils.isInside(mouseX, mouseY, x, y, width, height) && button == 0) {
+			pressAnimation.onPressed(mouseX, mouseY, x, y);
 		}
 	}
 
 	@Override
-	public void mouseReleased(int mouseX, int mouseY, int mouseButton) {
-		if (MouseUtils.isInside(mouseX, mouseY, x, y, width, height) && mouseButton == 0) {
+	public void mouseReleased(double mouseX, double mouseY, int button) {
+		if (MouseUtils.isInside(mouseX, mouseY, x, y, width, height) && button == 0) {
 			if (handler instanceof ButtonHandler) {
 				((ButtonHandler) handler).onAction();
 			}
 		}
-		pressAnimation.mouseReleased();
-	}
-
-	@Override
-	public void keyTyped(char typedChar, int keyCode) {
+		pressAnimation.onReleased(mouseX, mouseY, x, y);
 	}
 
 	private float[] getPanelSize() {

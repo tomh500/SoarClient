@@ -1,11 +1,8 @@
 package com.soarclient.management.mod.api;
 
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.ScaledResolution;
+import net.minecraft.client.MinecraftClient;
 
 public class Position {
-
-	private Minecraft mc = Minecraft.getMinecraft();
 
 	private AnchorPosition anchor;
 	private float x, y, width, height;
@@ -124,11 +121,11 @@ public class Position {
 	}
 
 	private float getScreenWidth() {
-		return ScaledResolution.get(mc).getScaledWidth();
+		return MinecraftClient.getInstance().getWindow().getScaledWidth();
 	}
 
 	private float getScreenHeight() {
-		return ScaledResolution.get(mc).getScaledHeight();
+		return MinecraftClient.getInstance().getWindow().getScaledHeight();
 	}
 
 	public float getScale() {

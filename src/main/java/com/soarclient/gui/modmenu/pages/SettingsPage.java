@@ -3,10 +3,12 @@ package com.soarclient.gui.modmenu.pages;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.lwjgl.glfw.GLFW;
+
 import com.soarclient.Soar;
 import com.soarclient.animation.SimpleAnimation;
+import com.soarclient.gui.api.SoarGui;
 import com.soarclient.gui.api.page.Page;
-import com.soarclient.gui.api.page.PageGui;
 import com.soarclient.gui.api.page.impl.LeftRightTransition;
 import com.soarclient.gui.api.page.impl.RightLeftTransition;
 import com.soarclient.management.color.api.ColorPalette;
@@ -14,21 +16,17 @@ import com.soarclient.management.mod.Mod;
 import com.soarclient.skia.Skia;
 import com.soarclient.skia.font.Fonts;
 import com.soarclient.skia.font.Icon;
-import com.soarclient.ui.component.impl.text.SearchBar;
 import com.soarclient.utils.SearchUtils;
 import com.soarclient.utils.language.I18n;
 import com.soarclient.utils.mouse.MouseUtils;
-import com.soarclient.utils.mouse.ScrollHelper;
 
 public class SettingsPage extends Page {
 
 	private List<Item> items = new ArrayList<>();
-	private ScrollHelper scrollHelper = new ScrollHelper();
-	private SearchBar searchBar;
 
-	public SettingsPage(PageGui parent) {
+	public SettingsPage(SoarGui parent) {
 		super(parent, "text.settings", Icon.SETTINGS, new RightLeftTransition(true));
-
+		
 		for (Mod m : Soar.getInstance().getModManager().getMods()) {
 			if (m.isHidden()) {
 				items.add(new Item(m));
@@ -37,33 +35,17 @@ public class SettingsPage extends Page {
 	}
 
 	@Override
-	public void init() {
-
-		String text = "";
-
-		if (searchBar != null) {
-			text = searchBar.getText();
-		}
-
-		searchBar = new SearchBar(x + width - 260 - 32, y + 32, 260, text, () -> {
-			scrollHelper.reset();
-		});
-	}
-
-	@Override
-	public void draw(int mouseX, int mouseY) {
+	public void draw(double mouseX, double mouseY) {
+		super.draw(mouseX, mouseY);
 
 		ColorPalette palette = Soar.getInstance().getColorManager().getPalette();
 
 		float offsetY = 96;
 
-		scrollHelper.onScroll();
-		mouseY = (int) (mouseY - scrollHelper.getValue());
+		mouseY = mouseY - scrollHelper.getValue();
 
 		Skia.save();
 		Skia.translate(0, scrollHelper.getValue());
-
-		searchBar.draw(mouseX, mouseY);
 
 		for (Item i : items) {
 
@@ -97,19 +79,20 @@ public class SettingsPage extends Page {
 	}
 
 	@Override
-	public void mousePressed(int mouseX, int mouseY, int mouseButton) {
+	public void mousePressed(double mouseX, double mouseY, int button) {
+		super.mousePressed(mouseX, mouseY, button);
 
-		mouseY = (int) (mouseY - scrollHelper.getValue());
-
-		searchBar.mousePressed(mouseX, mouseY, mouseButton);
+		mouseY = mouseY - scrollHelper.getValue();
+		searchBar.mousePressed(mouseX, mouseY, button);
 	}
 
 	@Override
-	public void mouseReleased(int mouseX, int mouseY, int mouseButton) {
+	public void mouseReleased(double mouseX, double mouseY, int button) {
+		super.mouseReleased(mouseX, mouseY, button);
 
-		mouseY = (int) (mouseY - scrollHelper.getValue());
+		mouseY = mouseY - scrollHelper.getValue();
 
-		searchBar.mouseReleased(mouseX, mouseY, mouseButton);
+		searchBar.mouseReleased(mouseX, mouseY, button);
 
 		for (Item i : items) {
 
@@ -121,16 +104,12 @@ public class SettingsPage extends Page {
 				continue;
 			}
 
-			if (MouseUtils.isInside(mouseX, mouseY, x + 32, itemY, width - 64, 68) && mouseButton == 0) {
+			if (MouseUtils.isInside(mouseX, mouseY, x + 32, itemY, width - 64, 68)
+					&& button == GLFW.GLFW_MOUSE_BUTTON_LEFT) {
 				parent.setCurrentPage(new SettingsImplPage(parent, this.getClass(), m));
 				this.setTransition(new LeftRightTransition(true));
 			}
 		}
-	}
-
-	@Override
-	public void keyTyped(char typedChar, int keyCode) {
-		searchBar.keyTyped(typedChar, keyCode);
 	}
 
 	@Override

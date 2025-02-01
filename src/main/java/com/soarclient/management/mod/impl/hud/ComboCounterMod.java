@@ -1,17 +1,14 @@
 package com.soarclient.management.mod.impl.hud;
 
 import com.soarclient.event.EventBus;
-import com.soarclient.event.impl.AttackEntityEventListener;
-import com.soarclient.event.impl.ClientTickEventListener;
-import com.soarclient.event.impl.DamageEntityEventListener;
-import com.soarclient.event.impl.RenderSkiaEventListener;
+import com.soarclient.event.client.ClientTickEvent;
+import com.soarclient.event.client.RenderSkiaEvent;
+import com.soarclient.event.server.impl.AttackEntityEvent;
+import com.soarclient.event.server.impl.DamageEntityEvent;
 import com.soarclient.management.mod.api.hud.SimpleHUDMod;
 import com.soarclient.skia.font.Icon;
 
-import net.minecraft.entity.Entity;
-
-public class ComboCounterMod extends SimpleHUDMod implements ClientTickEventListener, AttackEntityEventListener,
-		DamageEntityEventListener, RenderSkiaEventListener {
+public class ComboCounterMod extends SimpleHUDMod {
 
 	private long hitTime = -1;
 	private int combo, possibleTarget;
@@ -20,45 +17,30 @@ public class ComboCounterMod extends SimpleHUDMod implements ClientTickEventList
 		super("mod.combocounter.name", "mod.combocounter.description", Icon.PERSON_ADD);
 	}
 
-	@Override
-	public void onRenderSkia(float partialTicks) {
-		super.draw();
-	}
+	public final EventBus.EventListener<RenderSkiaEvent> onRenderSkia = event -> {
+		this.draw();
+	};
 
-	@Override
-	public void onDamageEntity(Entity entity) {
-		if (entity.getEntityId() == possibleTarget) {
+	public final EventBus.EventListener<AttackEntityEvent> onAttackEntity = event -> {
+		possibleTarget = event.getEntityId();
+	};
+
+	public final EventBus.EventListener<DamageEntityEvent> onDamageEntity = event -> {
+
+		if (event.getEntityId() == possibleTarget) {
 			combo++;
 			possibleTarget = -1;
 			hitTime = System.currentTimeMillis();
-		} else if (entity == mc.thePlayer) {
+		} else if (event.getEntityId() == client.player.getId()) {
 			combo = 0;
 		}
-	}
+	};
 
-	@Override
-	public void onAttackEntity(Entity entity) {
-		possibleTarget = entity.getEntityId();
-	}
-
-	@Override
-	public void onClientTick() {
+	public final EventBus.EventListener<ClientTickEvent> onClientTick = event -> {
 		if ((System.currentTimeMillis() - hitTime) > 2000) {
 			combo = 0;
 		}
-	}
-
-	@Override
-	public void onEnable() {
-		EventBus.getInstance().registers(this, DamageEntityEvent.ID, AttackEntityEvent.ID, ClientTickEvent.ID,
-				RenderSkiaEvent.ID);
-	}
-
-	@Override
-	public void onDisable() {
-		EventBus.getInstance().unregisters(this, DamageEntityEvent.ID, AttackEntityEvent.ID, ClientTickEvent.ID,
-				RenderSkiaEvent.ID);
-	}
+	};
 
 	@Override
 	public String getText() {

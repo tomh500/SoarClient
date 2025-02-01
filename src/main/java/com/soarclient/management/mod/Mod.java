@@ -1,11 +1,12 @@
 package com.soarclient.management.mod;
 
-import net.minecraft.client.Minecraft;
+import com.soarclient.event.EventBus;
 
-public abstract class Mod {
+import net.minecraft.client.MinecraftClient;
 
-	protected Minecraft mc = Minecraft.getMinecraft();
+public class Mod {
 
+	protected MinecraftClient client = MinecraftClient.getInstance();
 	private final String name, description, icon;
 	private boolean enabled, movable, hidden;
 	private ModCategory category;
@@ -41,9 +42,13 @@ public abstract class Mod {
 		}
 	}
 
-	public abstract void onEnable();
+	public void onEnable() {
+		EventBus.getInstance().register(this);
+	}
 
-	public abstract void onDisable();
+	public void onDisable() {
+		EventBus.getInstance().unregister(this);
+	}
 
 	public String getName() {
 		return name;

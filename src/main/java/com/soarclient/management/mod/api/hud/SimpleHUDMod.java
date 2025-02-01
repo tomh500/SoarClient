@@ -17,7 +17,7 @@ public abstract class SimpleHUDMod extends HUDMod {
 		super(name, description, icon);
 	}
 
-	public void draw() {
+	protected void draw() {
 
 		float fontSize = 9;
 		float iconSize = 10.5F;
@@ -43,7 +43,7 @@ public abstract class SimpleHUDMod extends HUDMod {
 		this.finish();
 
 		position.setSize(width, height);
-	}
+	};
 
 	@Override
 	public float getRadius() {

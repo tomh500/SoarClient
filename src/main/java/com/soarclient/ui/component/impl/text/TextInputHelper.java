@@ -1,13 +1,15 @@
 package com.soarclient.ui.component.impl.text;
 
-import org.lwjgl.input.Keyboard;
+import org.lwjgl.glfw.GLFW;
 
-import com.soarclient.utils.IOUtils;
 import com.soarclient.utils.MathUtils;
 
-import net.minecraft.util.ChatAllowedCharacters;
+import net.minecraft.client.MinecraftClient;
+import net.minecraft.util.StringHelper;
 
 public class TextInputHelper {
+
+	private MinecraftClient client = MinecraftClient.getInstance();
 
 	private String text;
 	private boolean focused;
@@ -21,93 +23,96 @@ public class TextInputHelper {
 		this.maxStringLength = 256;
 	}
 
-	public void keyTyped(char typedChar, int keyCode) {
+	public void keyPressed(int keyCode, int scanCode, int modifiers) {
 
 		if (!focused) {
 			return;
-		} else if (Keyboard.isKeyDown(Keyboard.KEY_LCONTROL) && keyCode == Keyboard.KEY_C) {
-			IOUtils.copyStringToClipboard(this.getSelectedText());
+		} else if (modifiers == GLFW.GLFW_MOD_CONTROL && keyCode == GLFW.GLFW_KEY_C) {
+			client.keyboard.setClipboard(this.getSelectedText());
 			return;
-		} else if (Keyboard.isKeyDown(Keyboard.KEY_LCONTROL) && keyCode == Keyboard.KEY_V) {
-			writeText(IOUtils.getStringFromClipboard());
+		} else if (modifiers == GLFW.GLFW_MOD_CONTROL && keyCode == GLFW.GLFW_KEY_V) {
+			writeText(client.keyboard.getClipboard());
 			return;
-		} else if (Keyboard.isKeyDown(Keyboard.KEY_LCONTROL) && keyCode == Keyboard.KEY_X) {
-			IOUtils.copyStringToClipboard(this.getSelectedText());
+		} else if (modifiers == GLFW.GLFW_MOD_CONTROL && keyCode == GLFW.GLFW_KEY_X) {
+			client.keyboard.setClipboard(this.getSelectedText());
 			this.writeText("");
 			return;
-		} else if (Keyboard.isKeyDown(Keyboard.KEY_LCONTROL) && keyCode == Keyboard.KEY_A) {
+		} else if (modifiers == GLFW.GLFW_MOD_CONTROL && keyCode == GLFW.GLFW_KEY_A) {
 			this.setCursorPosition(this.text.length());
 			this.setSelectionPos(0);
 			return;
 		} else {
 			switch (keyCode) {
-			case 14:
-				if (Keyboard.isKeyDown(Keyboard.KEY_LCONTROL)) {
+			case GLFW.GLFW_KEY_BACKSPACE:
+				if (modifiers == GLFW.GLFW_MOD_CONTROL) {
 					this.deleteWords(-1);
 				} else {
 					this.deleteFromCursor(-1);
 				}
 				return;
-			case 199:
-				if (Keyboard.isKeyDown(Keyboard.KEY_LSHIFT)) {
+			case GLFW.GLFW_KEY_HOME:
+				if (keyCode == GLFW.GLFW_KEY_LEFT_SHIFT) {
 					this.setSelectionPos(0);
 				} else {
 					this.setCursorPosition(0);
 				}
 				return;
-			case 203:
-				if (Keyboard.isKeyDown(Keyboard.KEY_LSHIFT)) {
-					if (Keyboard.isKeyDown(Keyboard.KEY_LCONTROL)) {
+			case GLFW.GLFW_KEY_LEFT:
+				if (modifiers == GLFW.GLFW_MOD_SHIFT) {
+					if (modifiers == GLFW.GLFW_MOD_CONTROL) {
 						this.setSelectionPos(this.getNthWordFromPos(-1, this.selectionEnd));
 					} else {
 						this.setSelectionPos(this.selectionEnd - 1);
 					}
-				} else if (Keyboard.isKeyDown(Keyboard.KEY_LCONTROL)) {
+				} else if (modifiers == GLFW.GLFW_MOD_CONTROL) {
 					this.setCursorPosition(this.getNthWordFromCursor(-1));
 				} else {
 					this.moveCursorBy(-1);
 				}
 				return;
-			case 205:
-				if (Keyboard.isKeyDown(Keyboard.KEY_LSHIFT)) {
-					if (Keyboard.isKeyDown(Keyboard.KEY_LCONTROL)) {
+			case GLFW.GLFW_KEY_RIGHT:
+				if (keyCode == GLFW.GLFW_KEY_LEFT_SHIFT) {
+					if (modifiers == GLFW.GLFW_MOD_CONTROL) {
 						this.setSelectionPos(this.getNthWordFromPos(1, this.selectionEnd));
 					} else {
 						this.setSelectionPos(this.selectionEnd + 1);
 					}
-				} else if (Keyboard.isKeyDown(Keyboard.KEY_LCONTROL)) {
+				} else if (modifiers == GLFW.GLFW_MOD_CONTROL) {
 					this.setCursorPosition(this.getNthWordFromCursor(1));
 				} else {
 					this.moveCursorBy(1);
 				}
 				return;
-			case 207:
-				if (Keyboard.isKeyDown(Keyboard.KEY_LSHIFT)) {
+			case GLFW.GLFW_KEY_END:
+				if (modifiers == GLFW.GLFW_MOD_SHIFT) {
 					this.setSelectionPos(this.text.length());
 				} else {
 					this.setCursorPosition(this.text.length());
 				}
 				return;
-			case 211:
-				if (Keyboard.isKeyDown(Keyboard.KEY_LCONTROL)) {
+			case GLFW.GLFW_KEY_DELETE:
+				if (modifiers == GLFW.GLFW_MOD_CONTROL) {
 					this.deleteWords(1);
 				} else {
 					this.deleteFromCursor(1);
 				}
 				return;
 			default:
-				if (ChatAllowedCharacters.isAllowedCharacter(typedChar)) {
-					this.writeText(Character.toString(typedChar));
-				}
 				return;
 			}
+		}
+	}
+
+	public void charTyped(char chr, int modifiers) {
+		if (StringHelper.isValidChar(chr) && this.isFocused()) {
+			this.writeText(Character.toString(chr));
 		}
 	}
 
 	private void writeText(String text) {
 
 		String s = "";
-		String s1 = ChatAllowedCharacters.filterAllowedCharacters(text);
+		String s1 = StringHelper.stripInvalidChars(text);
 		int min = Math.min(this.cursorPosition, this.selectionEnd);
 		int max = Math.max(this.cursorPosition, this.selectionEnd);
 		int len = this.maxStringLength - this.text.length() - (min - max);

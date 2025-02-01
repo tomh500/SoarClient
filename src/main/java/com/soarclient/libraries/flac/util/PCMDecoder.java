@@ -34,13 +34,8 @@ import com.soarclient.libraries.flac.metadata.StreamInfo;
 public class PCMDecoder {
 	// private static final int MAX_BLOCK_SIZE = 65535;
 
-	private long totalSamples;
 	private int channels;
 	private int bps;
-	private int sampleRate;
-
-	private int samplesProcessed = 0;
-	private int frameCounter = 0;
 
 	private ByteData buf;
 
@@ -50,10 +45,8 @@ public class PCMDecoder {
 	 * @param streamInfo The FLAC stream info
 	 */
 	public PCMDecoder(StreamInfo streamInfo) {
-		this.totalSamples = streamInfo.getTotalSamples();
 		this.channels = streamInfo.getChannels();
 		this.bps = streamInfo.getBitsPerSample();
-		this.sampleRate = streamInfo.getSampleRate();
 		this.buf = new ByteData(streamInfo.getMaxFrameSize());
 	}
 
@@ -69,15 +62,12 @@ public class PCMDecoder {
 		boolean isUnsignedSamples = (bps <= 8);
 		int wideSamples = frame.header.blockSize;
 		int wideSample;
-		int sample;
 		int channel;
 
 		if (wideSamples > 0) {
-			samplesProcessed += wideSamples;
-			frameCounter++;
 
 			if (bps == 24) {
-				for (sample = wideSample = 0; wideSample < wideSamples; wideSample++) {
+				for (wideSample = 0; wideSample < wideSamples; wideSample++) {
 					for (channel = 0; channel < channels; channel++) {
 						int val24 = channelData[channel].getOutput()[wideSample];
 						short val16 = (short) (val24 >> 8);
@@ -89,25 +79,25 @@ public class PCMDecoder {
 			} else {
 				if (bps == 8) {
 					if (isUnsignedSamples) {
-						for (sample = wideSample = 0; wideSample < wideSamples; wideSample++)
+						for (wideSample = 0; wideSample < wideSamples; wideSample++)
 							for (channel = 0; channel < channels; channel++) {
 								buf.append((byte) (channelData[channel].getOutput()[wideSample] + 0x80));
 							}
 					} else {
-						for (sample = wideSample = 0; wideSample < wideSamples; wideSample++)
+						for (wideSample = 0; wideSample < wideSamples; wideSample++)
 							for (channel = 0; channel < channels; channel++)
 								buf.append((byte) (channelData[channel].getOutput()[wideSample]));
 					}
 				} else if (bps == 16) {
 					if (isUnsignedSamples) {
-						for (sample = wideSample = 0; wideSample < wideSamples; wideSample++)
+						for (wideSample = 0; wideSample < wideSamples; wideSample++)
 							for (channel = 0; channel < channels; channel++) {
 								short val = (short) (channelData[channel].getOutput()[wideSample] + 0x8000);
 								buf.append((byte) (val & 0xff));
 								buf.append((byte) ((val >> 8) & 0xff));
 							}
 					} else {
-						for (sample = wideSample = 0; wideSample < wideSamples; wideSample++)
+						for (wideSample = 0; wideSample < wideSamples; wideSample++)
 							for (channel = 0; channel < channels; channel++) {
 								short val = (short) (channelData[channel].getOutput()[wideSample]);
 								buf.append((byte) (val & 0xff));
@@ -116,7 +106,7 @@ public class PCMDecoder {
 					}
 				} else if (bps == 24) {
 					if (isUnsignedSamples) {
-						for (sample = wideSample = 0; wideSample < wideSamples; wideSample++)
+						for (wideSample = 0; wideSample < wideSamples; wideSample++)
 							for (channel = 0; channel < channels; channel++) {
 								int val = (channelData[channel].getOutput()[wideSample] + 0x800000);
 								buf.append((byte) (val & 0xff));
@@ -124,7 +114,7 @@ public class PCMDecoder {
 								buf.append((byte) ((val >> 16) & 0xff));
 							}
 					} else {
-						for (sample = wideSample = 0; wideSample < wideSamples; wideSample++)
+						for (wideSample = 0; wideSample < wideSamples; wideSample++)
 							for (channel = 0; channel < channels; channel++) {
 								int val = (channelData[channel].getOutput()[wideSample]);
 								buf.append((byte) (val & 0xff));

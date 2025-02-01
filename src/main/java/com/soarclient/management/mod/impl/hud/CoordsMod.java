@@ -1,34 +1,24 @@
 package com.soarclient.management.mod.impl.hud;
 
 import com.soarclient.event.EventBus;
-import com.soarclient.event.impl.RenderSkiaEventListener;
+import com.soarclient.event.client.RenderSkiaEvent;
 import com.soarclient.management.mod.api.hud.SimpleHUDMod;
 import com.soarclient.skia.font.Icon;
 
-public class CoordsMod extends SimpleHUDMod implements RenderSkiaEventListener {
+public class CoordsMod extends SimpleHUDMod {
 
 	public CoordsMod() {
 		super("mod.coords.name", "mod.coords.description", Icon.PIN_DROP);
 	}
 
-	@Override
-	public void onRenderSkia(float partialTicks) {
-		super.draw();
-	}
-
-	@Override
-	public void onEnable() {
-		EventBus.getInstance().register(this, RenderSkiaEvent.ID);
-	}
-
-	@Override
-	public void onDisable() {
-		EventBus.getInstance().unregister(this, RenderSkiaEvent.ID);
-	}
+	public final EventBus.EventListener<RenderSkiaEvent> onRenderSkia = event -> {
+		this.draw();
+	};
 
 	@Override
 	public String getText() {
-		return "X: " + (int) mc.thePlayer.posX + " Y: " + (int) mc.thePlayer.posY + " Z: " + (int) mc.thePlayer.posZ;
+		return "X: " + (int) client.player.getX() + " Y: " + (int) client.player.getY() + " Z: "
+				+ (int) client.player.getZ();
 	}
 
 	@Override
