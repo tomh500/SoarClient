@@ -42,6 +42,9 @@ mod.daycounter.description=Count Minecraft day
 mod.stopwatch.name=Stopwatch
 mod.stopwatch.description=Measure the time
 
+mod.playercounter.name=Player Counter
+mod.playercounter.description=Display the number of players
+
 setting.darkmode=Dark Mode
 setting.darkmode.description=Enable dark mode
 setting.keybind=Keybind
