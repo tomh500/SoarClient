@@ -23,7 +23,7 @@ public class KawaseBlur {
 			IntDoubleImmutablePair.of(5, 4.5), IntDoubleImmutablePair.of(5, 5.25), IntDoubleImmutablePair.of(5, 6.25),
 			IntDoubleImmutablePair.of(5, 7.25), IntDoubleImmutablePair.of(5, 8.5) };
 
-	private static Shader shaderDown, shaderUp, shaderPassthrough;
+	private static Shader shaderDown, shaderUp;
 	private final Framebuffer[] fbos = new Framebuffer[6];
 	private final TimerUtils timer = new TimerUtils();
 	private boolean firstTick = true;
@@ -43,7 +43,6 @@ public class KawaseBlur {
 		if (shaderDown == null) {
 			shaderDown = new Shader("blur.vert", "blur_down.frag");
 			shaderUp = new Shader("blur.vert", "blur_up.frag");
-			shaderPassthrough = new Shader("passthrough.vert", "passthrough.frag");
 		}
 
 		if (firstTick) {
@@ -74,9 +73,6 @@ public class KawaseBlur {
 			}
 
 			MinecraftClient.getInstance().getFramebuffer().beginWrite(true);
-			shaderPassthrough.bind();
-			ShaderHelper.bindTexture(fbos[0].texture);
-			shaderPassthrough.set("uTexture", 0);
 			PostProcessRenderer.endRender();
 			timer.reset();
 		}
