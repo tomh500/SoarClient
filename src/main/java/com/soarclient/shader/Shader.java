@@ -6,10 +6,12 @@ import static org.lwjgl.opengl.GL20C.GL_FRAGMENT_SHADER;
 import static org.lwjgl.opengl.GL20C.GL_VERTEX_SHADER;
 
 import java.io.IOException;
+import java.nio.FloatBuffer;
 import java.nio.charset.StandardCharsets;
 
 import org.apache.commons.io.IOUtils;
 import org.joml.Matrix4f;
+import org.lwjgl.BufferUtils;
 
 import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
@@ -20,6 +22,9 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.util.Identifier;
 
 public class Shader {
+	
+	private static final FloatBuffer MAT = BufferUtils.createFloatBuffer(4 * 4);
+	
 	public static Shader BOUND;
 
 	private final int id;
@@ -95,7 +100,8 @@ public class Shader {
 	}
 
 	public void set(String name, Matrix4f mat) {
-		ShaderHelper.uniformMatrix(getLocation(name), mat);
+		mat.get(MAT);
+		GlStateManager._glUniformMatrix4(getLocation(name), false, MAT);
 	}
 
 	public void setDefaults() {

@@ -27,10 +27,6 @@ import static org.lwjgl.opengl.GL20C.glUniform3fv;
 import static org.lwjgl.opengl.GL20C.glUniform4f;
 
 import java.nio.ByteBuffer;
-import java.nio.FloatBuffer;
-
-import org.joml.Matrix4f;
-import org.lwjgl.BufferUtils;
 
 import com.mojang.blaze3d.platform.GlStateManager;
 import com.soarclient.mixin.minecraft.client.render.BufferRendererAccessor;
@@ -40,8 +36,6 @@ import net.minecraft.client.texture.AbstractTexture;
 import net.minecraft.util.Identifier;
 
 public class ShaderHelper {
-
-	private static final FloatBuffer MAT = BufferUtils.createFloatBuffer(4 * 4);
 
 	public static int CURRENT_IBO;
 	private static int prevIbo;
@@ -118,11 +112,6 @@ public class ShaderHelper {
 
 	public static void uniformFloat3Array(int location, float[] v) {
 		glUniform3fv(location, v);
-	}
-
-	public static void uniformMatrix(int location, Matrix4f v) {
-		v.get(MAT);
-		GlStateManager._glUniformMatrix4(location, false, MAT);
 	}
 
 	public static void pixelStore(int name, int param) {

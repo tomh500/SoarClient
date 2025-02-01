@@ -93,8 +93,10 @@ public class PostProcessRenderer {
         }
 
         public void begin() {
-            if (building)
-                throw new IllegalStateException("Mesh.begin() called while already building.");
+        	
+            if (building) {
+            	return;
+            }
 
             verticesPointer = verticesPointerStart;
             vertexI = 0;
@@ -132,8 +134,10 @@ public class PostProcessRenderer {
         }
 
         public void end() {
-            if (!building)
-                throw new IllegalStateException("Mesh called while not building.");
+        	
+            if (!building) {
+            	return;
+            }
 
             if (indicesCount > 0) {
                 GlStateManager._glBindBuffer(GL15C.GL_ARRAY_BUFFER, vbo);
