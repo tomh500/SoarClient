@@ -15,7 +15,6 @@ public class Delta implements GameLoopEventListener {
 		final double deltaTime = (int) (currentTime - lastFrame);
 		lastFrame = currentTime;
 		Delta.deltaTime = deltaTime;
-		System.out.println(deltaTime);
 	}
 
 	public static double getDeltaTime() {
