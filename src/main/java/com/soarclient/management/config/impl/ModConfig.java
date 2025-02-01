@@ -23,8 +23,6 @@ import com.soarclient.management.mod.settings.impl.StringSetting;
 import com.soarclient.utils.ColorUtils;
 import com.soarclient.utils.JsonUtils;
 
-import net.minecraft.client.util.InputUtil;
-
 public class ModConfig extends Config {
 
 	public ModConfig() {
@@ -108,34 +106,9 @@ public class ModConfig extends Config {
 								if (s instanceof KeybindSetting) {
 
 									KeybindSetting ks = (KeybindSetting) s;
-									JsonObject innerSettingJsonObject = JsonUtils.getObjectProperty(settingJsonObject,
-											s.getName());
 
-									String inType = JsonUtils.getStringProperty(innerSettingJsonObject, "type", "");
-									InputUtil.Type type = null;
-
-									if (inType.equals("key")) {
-										type = InputUtil.Type.KEYSYM;
-									} else if (inType.equals("mouse")) {
-										type = InputUtil.Type.MOUSE;
-									} else {
-										type = InputUtil.Type.SCANCODE;
-									}
-
-									int code = JsonUtils.getIntProperty(innerSettingJsonObject, "code", -1);
-
-									if (!inType.isEmpty()) {
-
-										if (type.equals(InputUtil.Type.MOUSE)) {
-											ks.setKey(InputUtil.Type.MOUSE.createFromCode(code));
-										} else if (type.equals(InputUtil.Type.KEYSYM)) {
-											ks.setKey(InputUtil.Type.KEYSYM.createFromCode(code));
-										} else {
-											ks.setKey(InputUtil.Type.SCANCODE.createFromCode(code));
-										}
-									} else {
-										ks.setKey(ks.getDefaultKey());
-									}
+									ks.setKeyCode(JsonUtils.getIntProperty(settingJsonObject, s.getName(),
+											ks.getDefaultKeyCode()));
 								}
 
 								if (s instanceof NumberSetting) {
@@ -211,25 +184,7 @@ public class ModConfig extends Config {
 					}
 
 					if (s instanceof KeybindSetting) {
-
-						JsonObject innerSettingJsonObject = new JsonObject();
-						KeybindSetting ks = (KeybindSetting) s;
-
-						String saveType = "";
-						InputUtil.Type type = ks.getKey().getCategory();
-
-						if (type.equals(InputUtil.Type.KEYSYM)) {
-							saveType = "key";
-						} else if (type.equals(InputUtil.Type.MOUSE)) {
-							saveType = "mouse";
-						} else {
-							saveType = "scancode";
-						}
-
-						innerSettingJsonObject.addProperty("type", saveType);
-						innerSettingJsonObject.addProperty("code", ks.getKey().getCode());
-
-						settingJsonObject.add(s.getName(), innerSettingJsonObject);
+						settingJsonObject.addProperty(s.getName(), ((KeybindSetting) s).getKeyCode());
 					}
 
 					if (s instanceof NumberSetting) {

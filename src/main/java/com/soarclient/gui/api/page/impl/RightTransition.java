@@ -1,7 +1,7 @@
 package com.soarclient.gui.api.page.impl;
 
 import com.soarclient.animation.Animation;
-import com.soarclient.gui.api.page.GuiTransition;
+import com.soarclient.gui.api.GuiTransition;
 
 public class RightTransition extends GuiTransition {
 
@@ -21,6 +21,6 @@ public class RightTransition extends GuiTransition {
 			x = 1 + -progress;
 		}
 
-		return new float[] { x, 0 };
+		return new float[] { x, 0, 1 };
 	}
 }

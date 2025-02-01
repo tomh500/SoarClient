@@ -31,7 +31,7 @@ public class Slider extends Component {
 	}
 
 	@Override
-	public void draw(double mouseX, double mouseY) {
+	public void draw(int mouseX, int mouseY) {
 
 		ColorPalette palette = Soar.getInstance().getColorManager().getPalette();
 
@@ -72,7 +72,7 @@ public class Slider extends Component {
 
 		if (dragging) {
 
-			float rawValue = (float) Math.min(1, Math.max(0, (mouseX - x) / width));
+			float rawValue = Math.min(1, Math.max(0, (mouseX - x) / width));
 			float actualValue = rawValue * (maxValue - minValue) + minValue;
 			float steppedValue = Math.round(actualValue / step) * step;
 
@@ -85,17 +85,32 @@ public class Slider extends Component {
 	}
 
 	@Override
-	public void mousePressed(double mouseX, double mouseY, int button) {
-		if (MouseUtils.isInside(mouseX, mouseY, x, y, width, height) && button == 0) {
+	public void mousePressed(int mouseX, int mouseY, int mouseButton) {
+
+		if (MouseUtils.isInside(mouseX, mouseY, x, y, width, height) && mouseButton == 0) {
+
 			dragging = true;
+
+			if (handler instanceof SliderHandler) {
+				((SliderHandler) handler).onPressed(getValue());
+			}
 		}
 	}
 
 	@Override
-	public void mouseReleased(double mouseX, double mouseY, int button) {
+	public void mouseReleased(int mouseX, int mouseY, int mouseButton) {
 		if (dragging) {
+
 			dragging = false;
+
+			if (handler instanceof SliderHandler) {
+				((SliderHandler) handler).onReleased(getValue());
+			}
 		}
+	}
+
+	@Override
+	public void keyTyped(char typedChar, int keyCode) {
 	}
 
 	public float getValue() {

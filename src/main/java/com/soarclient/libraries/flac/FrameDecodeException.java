@@ -14,8 +14,6 @@ package com.soarclient.libraries.flac;
  */
 public class FrameDecodeException extends Exception {
 
-	private static final long serialVersionUID = 1L;
-
 	/**
 	 * Constructor.
 	 */

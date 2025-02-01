@@ -1,23 +1,36 @@
 package com.soarclient.management.mod.impl.hud;
 
 import com.soarclient.event.EventBus;
-import com.soarclient.event.client.RenderSkiaEvent;
+import com.soarclient.event.impl.RenderSkiaEventListener;
 import com.soarclient.management.mod.api.hud.SimpleHUDMod;
 import com.soarclient.skia.font.Icon;
 
-public class FPSDisplayMod extends SimpleHUDMod {
+import net.minecraft.client.Minecraft;
+
+public class FPSDisplayMod extends SimpleHUDMod implements RenderSkiaEventListener {
 
 	public FPSDisplayMod() {
 		super("mod.fpsdisplay.name", "mod.fpsdisplay.description", Icon.MONITOR);
 	}
 
-	public final EventBus.EventListener<RenderSkiaEvent> onRenderSkia = event -> {
-		this.draw();
-	};
+	@Override
+	public void onRenderSkia(float partialTicks) {
+		super.draw();
+	}
+
+	@Override
+	public void onEnable() {
+		EventBus.getInstance().register(this, RenderSkiaEvent.ID);
+	}
+
+	@Override
+	public void onDisable() {
+		EventBus.getInstance().unregister(this, RenderSkiaEvent.ID);
+	}
 
 	@Override
 	public String getText() {
-		return client.getCurrentFps() + " FPS";
+		return Minecraft.getDebugFPS() + " FPS";
 	}
 
 	@Override

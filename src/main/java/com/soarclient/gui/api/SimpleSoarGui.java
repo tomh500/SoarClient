@@ -1,16 +1,19 @@
 package com.soarclient.gui.api;
 
+import org.lwjgl.input.Mouse;
+import org.lwjgl.opengl.Display;
+
 import com.soarclient.skia.Skia;
 import com.soarclient.skia.context.SkiaContext;
 
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.gui.DrawContext;
-import net.minecraft.client.gui.screen.Screen;
-import net.minecraft.text.Text;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.client.gui.ScaledResolution;
 
 public class SimpleSoarGui {
 
-	protected MinecraftClient client = MinecraftClient.getInstance();
+	protected Minecraft mc = Minecraft.getMinecraft();
+
 	private boolean mcScale;
 
 	public SimpleSoarGui(boolean mcScale) {
@@ -20,90 +23,78 @@ public class SimpleSoarGui {
 	public void init() {
 	}
 
-	public void drawOpenGL(double mouseX, double mouseY) {
+	public void drawOpenGL(int mouseX, int mouseY) {
 	}
 
-	public void draw(double mouseX, double mouseY) {
+	public void draw(int mouseX, int mouseY) {
 	}
 
-	public void mousePressed(double mouseX, double mouseY, int button) {
+	public void mousePressed(int mouseX, int mouseY, int mouseButton) {
 	}
 
-	public void mouseReleased(double mouseX, double mouseY, int button) {
+	public void mouseReleased(int mouseX, int mouseY, int mouseButton) {
 	}
 
-	public void mouseScrolled(double mouseX, double mouseY, double horizontalAmount, double verticalAmount) {
+	public void keyTyped(char typedChar, int keyCode) {
 	}
 
-	public void charTyped(char chr, int modifiers) {
+	public void onClosed() {
 	}
 
-	public void keyPressed(int keyCode, int scanCode, int modifiers) {
-	}
-
-	public Screen build() {
-		return new Screen(Text.empty()) {
+	public GuiScreen build() {
+		return new GuiScreen() {
 
 			@Override
-			public void init() {
+			public void initGui() {
 				SimpleSoarGui.this.init();
 			}
 
 			@Override
-			public void render(DrawContext context, int mouseX, int mouseY, float delta) {
+			public void drawScreen(int mouseX, int mouseY, float partialTicks) {
 
-				SimpleSoarGui.this.drawOpenGL(mcScale ? mouseX : client.mouse.getX(),
-						mcScale ? mouseY : client.mouse.getY());
+				ScaledResolution sr = ScaledResolution.get(mc);
 
-				SkiaContext.draw((skiaContext) -> {
+				SimpleSoarGui.this.drawOpenGL(mcScale ? mouseX : (int) Mouse.getX(),
+						mcScale ? mouseY : (int) Display.getHeight() - Mouse.getY());
+
+				SkiaContext.draw((context) -> {
 
 					Skia.save();
 
 					if (mcScale) {
-						Skia.scale((float) client.getWindow().getScaleFactor());
+						Skia.scale(sr.getScaleFactor());
 					}
 
-					SimpleSoarGui.this.draw(mcScale ? mouseX : client.mouse.getX(),
-							mcScale ? mouseY : client.mouse.getY());
+					SimpleSoarGui.this.draw(mcScale ? mouseX : (int) Mouse.getX(),
+							mcScale ? mouseY : (int) Display.getHeight() - Mouse.getY());
 					Skia.restore();
 				});
 			}
 
 			@Override
-			public boolean mouseClicked(double mouseX, double mouseY, int button) {
-				SimpleSoarGui.this.mousePressed(mcScale ? mouseX : client.mouse.getX(),
-						mcScale ? mouseY : client.mouse.getY(), button);
-				return true;
+			public void mouseClicked(int mouseX, int mouseY, int mouseButton) {
+				SimpleSoarGui.this.mousePressed(mcScale ? mouseX : (int) Mouse.getX(),
+						mcScale ? mouseY : (int) Display.getHeight() - Mouse.getY(), mouseButton);
 			}
 
 			@Override
-			public boolean mouseReleased(double mouseX, double mouseY, int button) {
-				SimpleSoarGui.this.mouseReleased(mcScale ? mouseX : client.mouse.getX(),
-						mcScale ? mouseY : (int) client.mouse.getY(), button);
-				return true;
+			public void mouseReleased(int mouseX, int mouseY, int mouseButton) {
+				SimpleSoarGui.this.mouseReleased(mcScale ? mouseX : (int) Mouse.getX(),
+						mcScale ? mouseY : (int) Display.getHeight() - Mouse.getY(), mouseButton);
 			}
 
 			@Override
-			public boolean mouseScrolled(double mouseX, double mouseY, double horizontalAmount, double verticalAmount) {
-				SimpleSoarGui.this.mouseScrolled(mcScale ? mouseX : client.mouse.getX(),
-						mcScale ? mouseY : (int) client.mouse.getY(), horizontalAmount, verticalAmount);
-				return true;
+			public void keyTyped(char typedChar, int keyCode) {
+				SimpleSoarGui.this.keyTyped(typedChar, keyCode);
 			}
 
 			@Override
-			public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
-				SimpleSoarGui.this.keyPressed(keyCode, scanCode, modifiers);
-				return true;
+			public void onGuiClosed() {
+				SimpleSoarGui.this.onClosed();
 			}
 
 			@Override
-			public boolean charTyped(char chr, int modifiers) {
-				SimpleSoarGui.this.charTyped(chr, modifiers);
-				return true;
-			}
-
-			@Override
-			public boolean shouldPause() {
+			public boolean doesGuiPauseGame() {
 				return false;
 			}
 		};

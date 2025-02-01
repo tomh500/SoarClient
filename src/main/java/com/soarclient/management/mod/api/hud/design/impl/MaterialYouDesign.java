@@ -21,7 +21,6 @@ public class MaterialYouDesign extends HUDDesign {
 
 		ColorPalette palette = Soar.getInstance().getColorManager().getPalette();
 
-		Skia.drawRoundedBlur(x, y, width, height, radius);
 		Skia.drawShadow(x, y, width, height, radius);
 		Skia.drawGradientRoundedRect(x, y, width, height, radius,
 				ColorUtils.applyAlpha(palette.getPrimaryContainer(), 180),

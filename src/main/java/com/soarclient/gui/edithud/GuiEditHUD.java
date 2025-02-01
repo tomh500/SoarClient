@@ -5,7 +5,8 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
-import org.lwjgl.glfw.GLFW;
+import org.lwjgl.input.Keyboard;
+import org.lwjgl.input.Mouse;
 
 import com.soarclient.Soar;
 import com.soarclient.gui.api.SimpleSoarGui;
@@ -14,24 +15,26 @@ import com.soarclient.gui.edithud.api.HUDCore;
 import com.soarclient.gui.edithud.api.SnappingLine;
 import com.soarclient.management.mod.api.Position;
 import com.soarclient.management.mod.api.hud.HUDMod;
+import com.soarclient.utils.tuples.Pair;
 
 import it.unimi.dsi.fastutil.floats.FloatArrayList;
-import it.unimi.dsi.fastutil.objects.ObjectObjectImmutablePair;
-import net.minecraft.client.gui.screen.Screen;
+import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.client.gui.ScaledResolution;
 
 public class GuiEditHUD extends SimpleSoarGui {
 
 	private static final float SCALE_CHANGE_AMOUNT = 0.1F;
 	private static final float DEFAULT_LINE_WIDTH = 0.5F;
+	private static final int MIDDLE_MOUSE_BUTTON = 2;
 
-	private final Screen prevScreen;
+	private final GuiScreen prevScreen;
 	private final List<HUDMod> mods;
 	private final int snappingDistance;
 
-	private Optional<ObjectObjectImmutablePair<HUDMod, GrabOffset>> selectedMod;
+	private Optional<Pair<HUDMod, GrabOffset>> selectedMod;
 	private boolean snapping;
 
-	public GuiEditHUD(Screen prevScreen) {
+	public GuiEditHUD(GuiScreen prevScreen) {
 		super(true);
 		this.prevScreen = prevScreen;
 		this.snappingDistance = 6;
@@ -47,25 +50,24 @@ public class GuiEditHUD extends SimpleSoarGui {
 	}
 
 	@Override
-	public void draw(double mouseX, double mouseY) {
+	public void draw(int mouseX, int mouseY) {
+
 		selectedMod.ifPresent(mod -> updateModPosition(mod, mouseX, mouseY));
-	}
-	
-	@Override
-	public void mouseScrolled(double mouseX, double mouseY, double horizontalAmount, double verticalAmount) {
+
 		if (selectedMod.isEmpty()) {
-			handleMouseWheel(mouseX, mouseY, verticalAmount);
+			handleMouseWheel(mouseX, mouseY);
 		}
 	}
 
-	private void updateModPosition(ObjectObjectImmutablePair<HUDMod, GrabOffset> mod, double mouseX, double mouseY) {
+	private void updateModPosition(Pair<HUDMod, GrabOffset> mod, int mouseX, int mouseY) {
 		setHudPositions(mod, mouseX, mouseY, snapping, DEFAULT_LINE_WIDTH);
 	}
 
-	private void handleMouseWheel(double mouseX, double mouseY, double amount) {
-		
-		double dWheel = amount;
-		
+	private void handleMouseWheel(int mouseX, int mouseY) {
+		int dWheel = Mouse.getDWheel();
+		if (dWheel == 0)
+			return;
+
 		getHoveredMod(mouseX, mouseY).ifPresent(mod -> {
 			Position position = mod.getPosition();
 			float newScale = calculateNewScale(position.getScale(), dWheel);
@@ -73,41 +75,48 @@ public class GuiEditHUD extends SimpleSoarGui {
 		});
 	}
 
-	private float calculateNewScale(float currentScale, double wheelDelta) {
+	private float calculateNewScale(float currentScale, int wheelDelta) {
 		float change = wheelDelta > 0 ? SCALE_CHANGE_AMOUNT : -SCALE_CHANGE_AMOUNT;
 		float newScale = currentScale + change;
 		return Math.round(newScale * 10.0F) / 10.0F;
 	}
 
 	@Override
-	public void mousePressed(double mouseX, double mouseY, int button) {
+	public void mousePressed(int mouseX, int mouseY, int mouseButton) {
+
+		if (mouseButton > MIDDLE_MOUSE_BUTTON)
+			return;
+
 		getHoveredMod(mouseX, mouseY).ifPresent(mod -> {
-			if (button == GLFW.GLFW_MOUSE_BUTTON_MIDDLE) {
+			if (mouseButton == MIDDLE_MOUSE_BUTTON) {
 				mod.getPosition().setScale(1.0F);
 				return;
 			}
 
-			GrabOffset offset = new GrabOffset((float) (mouseX - mod.getPosition().getX()), (float) (mouseY - mod.getPosition().getY()));
-			selectedMod = Optional.of(ObjectObjectImmutablePair.of(mod, offset));
-			
-			snapping = button == 0;
+			GrabOffset offset = new GrabOffset(mouseX - mod.getPosition().getX(), mouseY - mod.getPosition().getY());
+			selectedMod = Optional.of(Pair.of(mod, offset));
+			snapping = mouseButton == 0;
 		});
 	}
 
 	@Override
-	public void mouseReleased(double mouseX, double mouseY, int button) {
+	public void mouseReleased(int mouseX, int mouseY, int mouseButton) {
 		selectedMod = Optional.empty();
 	}
 
 	@Override
-	public void keyPressed(int keyCode, int scanCode, int modifiers) {
-		if (keyCode == GLFW.GLFW_KEY_ESCAPE) {
-			HUDCore.isEditing = false;
-			client.setScreen(prevScreen);
+	public void keyTyped(char typedChar, int keyCode) {
+		if (keyCode == Keyboard.KEY_ESCAPE) {
+			mc.displayGuiScreen(prevScreen);
 		}
 	}
 
-	private Optional<HUDMod> getHoveredMod(double mouseX, double mouseY) {
+	@Override
+	public void onClosed() {
+		HUDCore.isEditing = false;
+	}
+
+	private Optional<HUDMod> getHoveredMod(int mouseX, int mouseY) {
 		return mods.stream().filter(mod -> isModInteractable(mod) && isInside(mod, mouseX, mouseY)).findFirst();
 	}
 
@@ -115,18 +124,18 @@ public class GuiEditHUD extends SimpleSoarGui {
 		return mod.isEnabled() && !mod.isHidden() && mod.isMovable();
 	}
 
-	private boolean isInside(HUDMod mod, double mouseX, double mouseY) {
+	private boolean isInside(HUDMod mod, int mouseX, int mouseY) {
 		Position pos = mod.getPosition();
 		return mouseX >= pos.getX() && mouseX <= pos.getRightX() && mouseY >= pos.getY() && mouseY <= pos.getBottomY();
 	}
 
-	private void setHudPositions(ObjectObjectImmutablePair<HUDMod, GrabOffset> modPair, double mouseX, double mouseY, boolean snap,
+	private void setHudPositions(Pair<HUDMod, GrabOffset> modPair, int mouseX, int mouseY, boolean snap,
 			float lineWidth) {
-		GrabOffset offset = modPair.right();
-		Position position = modPair.left().getPosition();
+		GrabOffset offset = modPair.getSecond();
+		Position position = modPair.getFirst().getPosition();
 
-		float x = (float) (mouseX - offset.getX());
-		float y = (float) (mouseY - offset.getY());
+		float x = mouseX - offset.getX();
+		float y = mouseY - offset.getY();
 
 		if (snap) {
 			x = getXSnapping(lineWidth, x, position.getWidth(), true);
@@ -188,11 +197,12 @@ public class GuiEditHUD extends SimpleSoarGui {
 	private FloatArrayList getSnappingLines(boolean isHorizontal) {
 
 		FloatArrayList lines = new FloatArrayList();
+		ScaledResolution sr = ScaledResolution.get(mc);
 
-		lines.add(isHorizontal ? client.getWindow().getScaledWidth() / 2F : client.getWindow().getScaledHeight() / 2F);
+		lines.add(isHorizontal ? sr.getScaledWidth() / 2F : sr.getScaledHeight() / 2F);
 
 		mods.stream().filter(
-				mod -> isModInteractable(mod) && !selectedMod.map(pair -> pair.left().equals(mod)).orElse(false))
+				mod -> isModInteractable(mod) && !selectedMod.map(pair -> pair.getFirst().equals(mod)).orElse(false))
 				.forEach(mod -> {
 					Position p = mod.getPosition();
 					if (isHorizontal) {

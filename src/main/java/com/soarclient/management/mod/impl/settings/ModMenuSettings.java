@@ -1,9 +1,9 @@
 package com.soarclient.management.mod.impl.settings;
 
-import org.lwjgl.glfw.GLFW;
+import org.lwjgl.input.Keyboard;
 
 import com.soarclient.event.EventBus;
-import com.soarclient.event.client.ClientTickEvent;
+import com.soarclient.event.impl.ClientTickEventListener;
 import com.soarclient.gui.modmenu.GuiModMenu;
 import com.soarclient.libraries.material3.hct.Hct;
 import com.soarclient.management.mod.Mod;
@@ -14,15 +14,14 @@ import com.soarclient.management.mod.settings.impl.KeybindSetting;
 import com.soarclient.management.mod.settings.impl.NumberSetting;
 import com.soarclient.skia.font.Icon;
 
-import net.minecraft.client.gui.screen.Screen;
-import net.minecraft.client.util.InputUtil;
+import net.minecraft.client.gui.GuiScreen;
 
-public class ModMenuSettings extends Mod {
+public class ModMenuSettings extends Mod implements ClientTickEventListener {
 
 	private static ModMenuSettings instance;
 
 	private KeybindSetting keybindSetting = new KeybindSetting("setting.keybind", "setting.keybind.description",
-			Icon.KEYBOARD, this, InputUtil.fromKeyCode(GLFW.GLFW_KEY_RIGHT_SHIFT, 0));
+			Icon.KEYBOARD, this, Keyboard.KEY_RSHIFT);
 	private BooleanSetting darkModeSetting = new BooleanSetting("setting.darkmode", "setting.darkmode.description",
 			Icon.DARK_MODE, this, false);
 	private HctColorSetting hctColorSetting = new HctColorSetting("setting.color", "setting.color.description",
@@ -30,9 +29,9 @@ public class ModMenuSettings extends Mod {
 	private BooleanSetting blurSetting = new BooleanSetting("setting.blur", "setting.blur.description", Icon.LENS_BLUR,
 			this, true);
 	private NumberSetting blurIntensitySetting = new NumberSetting("setting.blurintensity",
-			"setting.blurintensity.description", Icon.BLUR_LINEAR, this, 5, 1, 20, 1);
+			"setting.blurintensity.description", Icon.BLUR_LINEAR, this, 20, 1, 50, 1);
 
-	private Screen modMenu;
+	private GuiScreen modMenu;
 
 	public ModMenuSettings() {
 		super("mod.modmenu.name", "mod.modmenu.description", Icon.MENU, ModCategory.MISC);
@@ -42,20 +41,26 @@ public class ModMenuSettings extends Mod {
 		this.setEnabled(true);
 	}
 
-	public final EventBus.EventListener<ClientTickEvent> onClientTick = event -> {
-
+	@Override
+	public void onClientTick() {
 		if (keybindSetting.isPressed()) {
 
 			if (modMenu == null) {
 				modMenu = new GuiModMenu().build();
 			}
 
-			client.setScreen(modMenu);
+			mc.displayGuiScreen(modMenu);
 		}
-	};
+	}
+
+	@Override
+	public void onEnable() {
+		EventBus.getInstance().register(this, ClientTickEvent.ID);
+	}
 
 	@Override
 	public void onDisable() {
+		EventBus.getInstance().unregister(this, ClientTickEvent.ID);
 		this.setEnabled(true);
 	}
 
@@ -77,9 +82,5 @@ public class ModMenuSettings extends Mod {
 
 	public NumberSetting getBlurIntensitySetting() {
 		return blurIntensitySetting;
-	}
-
-	public Screen getModMenu() {
-		return modMenu;
 	}
 }

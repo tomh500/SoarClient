@@ -13,11 +13,9 @@ import com.soarclient.utils.MathUtils;
 public class PressAnimation {
 
 	private Animation animation;
-	private double[] pressedPos;
 
 	public PressAnimation() {
 		animation = new DummyAnimation();
-		pressedPos = new double[] { 0, 0 };
 	}
 
 	public void setPressed() {
@@ -42,20 +40,18 @@ public class PressAnimation {
 			animation = new DummyAnimation();
 		}
 
-		Skia.drawCircle((float) (x + pressedPos[0]), (float) (y + pressedPos[1]),
-				radius * MathUtils.clamp(animation.getValue(), 0, 1), ColorUtils.applyAlpha(color, resultAlpha));
+		Skia.drawCircle(x, y, radius * MathUtils.clamp(animation.getValue(), 0, 1),
+				ColorUtils.applyAlpha(color, resultAlpha));
 	}
 
-	public void onPressed(double mouseX, double mouseY, double x, double y) {
+	public void mousePressed() {
 		animation = new EaseEmphasizedDecelerate(Duration.EXTRA_LONG_2, 0, 1);
-		pressedPos = new double[] { mouseX - x, mouseY - y };
 	}
 
-	public void onReleased(double mouseX, double mouseY, double x, double y) {
+	public void mouseReleased() {
 		if (animation.getEnd() == 1) {
 			animation = new EaseEmphasizedDecelerate(Duration.EXTRA_LONG_2, animation.getValue(), 2);
 		}
-		pressedPos = new double[] { mouseX - x, mouseY - y };
 	}
 
 	private float calculateMaxRadius(float width, float height) {

@@ -5,6 +5,7 @@ import com.soarclient.management.mod.Mod;
 import com.soarclient.management.mod.ModCategory;
 import com.soarclient.management.mod.api.Position;
 import com.soarclient.management.mod.api.hud.design.HUDDesign;
+import com.soarclient.management.mod.impl.settings.HUDModSettings;
 import com.soarclient.skia.Skia;
 
 import io.github.humbleui.skija.Font;
@@ -21,10 +22,10 @@ public abstract class HUDMod extends Mod {
 
 	public void begin() {
 
-		/*if (HUDModSettings.getInstance().getBlurSetting().isEnabled()) {
+		if (HUDModSettings.getInstance().getBlurSetting().isEnabled()) {
 			Skia.drawRoundedBlur(position.getX(), position.getY(), position.getWidth(), position.getHeight(),
 					getRadius() * position.getScale());
-		}*/
+		}
 
 		Skia.save();
 		Skia.scale(position.getX(), position.getY(), position.getScale());

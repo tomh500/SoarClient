@@ -14,6 +14,8 @@ import com.soarclient.utils.RandomUtils;
 import com.soarclient.utils.file.FileLocation;
 import com.soarclient.utils.file.FileUtils;
 
+import net.minecraft.client.Minecraft;
+
 public class MusicManager {
 
 	private List<Music> musics = new CopyOnWriteArrayList<>();
@@ -56,11 +58,7 @@ public class MusicManager {
 		new Thread("Music Thread") {
 			@Override
 			public void run() {
-				while (true) {
-					try {
-						Thread.sleep(0);
-					} catch (InterruptedException e) {
-					}
+				while (Minecraft.getMinecraft().isRunning()) {
 					musicPlayer.run();
 				}
 			}

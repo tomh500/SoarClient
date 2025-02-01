@@ -1,21 +1,22 @@
 package com.soarclient.animation;
 
-import org.lwjgl.glfw.GLFW;
+import org.lwjgl.Sys;
 
-import com.soarclient.event.EventBus;
-import com.soarclient.event.client.GameLoopEvent;
+import com.soarclient.event.impl.GameLoopEventListener;
 
-public class Delta {
+public class Delta implements GameLoopEventListener {
 
 	private static double deltaTime;
-	private double lastFrame;
+	private long lastFrame;
 
-	public final EventBus.EventListener<GameLoopEvent> onGameLoop = event -> {
-		final double currentTime = GLFW.glfwGetTime() * 1000;
-		final double deltaTime = currentTime - lastFrame;
+	@Override
+	public void onGameLoop() {
+		final long currentTime = (Sys.getTime() * 1000) / Sys.getTimerResolution();
+		final double deltaTime = (int) (currentTime - lastFrame);
 		lastFrame = currentTime;
 		Delta.deltaTime = deltaTime;
-	};
+		System.out.println(deltaTime);
+	}
 
 	public static double getDeltaTime() {
 		return deltaTime;

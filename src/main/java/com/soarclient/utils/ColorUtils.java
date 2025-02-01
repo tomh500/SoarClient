@@ -3,7 +3,23 @@ package com.soarclient.utils;
 import java.awt.Color;
 import java.util.regex.Pattern;
 
+import net.minecraft.client.renderer.GlStateManager;
+
 public class ColorUtils {
+
+	public static void setColor(Color color, float alpha) {
+
+		int ic = color.getRGB();
+		float r = (float) (ic >> 16 & 255) / 255.0F;
+		float g = (float) (ic >> 8 & 255) / 255.0F;
+		float b = (float) (ic & 255) / 255.0F;
+
+		GlStateManager.color(r, g, b, MathUtils.clamp(alpha, 0F, 1F));
+	}
+
+	public static void setColor(Color color) {
+		setColor(color, color.getAlpha() / 255F);
+	}
 
 	public static Color getColorFromInt(int color) {
 

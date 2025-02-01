@@ -2,8 +2,6 @@ package com.soarclient.ui.component.impl;
 
 import java.util.List;
 
-import org.lwjgl.glfw.GLFW;
-
 import com.soarclient.Soar;
 import com.soarclient.animation.Animation;
 import com.soarclient.animation.Duration;
@@ -39,7 +37,7 @@ public class ComboButton extends Component {
 	}
 
 	@Override
-	public void draw(double mouseX, double mouseY) {
+	public void draw(int mouseX, int mouseY) {
 
 		ColorPalette palette = Soar.getInstance().getColorManager().getPalette();
 
@@ -56,19 +54,20 @@ public class ComboButton extends Component {
 	}
 
 	@Override
-	public void mousePressed(double mouseX, double mouseY, int button) {
-		if (MouseUtils.isInside(mouseX, mouseY, x, y, width, height) && button == GLFW.GLFW_MOUSE_BUTTON_LEFT) {
-			pressAnimation.onPressed(mouseX, mouseY, x, y);
+	public void mousePressed(int mouseX, int mouseY, int mouseButton) {
+		if (MouseUtils.isInside(mouseX, mouseY, x, y, width, height) && mouseButton == 0) {
+			pressedPos = new int[] { mouseX - (int) x, mouseY - (int) y };
+			pressAnimation.mousePressed();
 		}
 	}
 
 	@Override
-	public void mouseReleased(double mouseX, double mouseY, int button) {
+	public void mouseReleased(int mouseX, int mouseY, int mouseButton) {
 
 		int max = options.size();
 		int index = options.indexOf(option);
 
-		if (button == GLFW.GLFW_MOUSE_BUTTON_LEFT) {
+		if (mouseButton == 0) {
 
 			if (MouseUtils.isInside(mouseX, mouseY, x, y, 32, 32)) {
 
@@ -97,7 +96,11 @@ public class ComboButton extends Component {
 			}
 		}
 
-		pressAnimation.onReleased(mouseX, mouseY, x, y);
+		pressAnimation.mouseReleased();
+	}
+
+	@Override
+	public void keyTyped(char typedChar, int keyCode) {
 	}
 
 	public String getOption() {

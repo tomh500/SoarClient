@@ -3,59 +3,47 @@ package com.soarclient.management.mod.impl.hud;
 import java.text.DecimalFormat;
 
 import com.soarclient.event.EventBus;
-import com.soarclient.event.client.RenderSkiaEvent;
-import com.soarclient.event.server.impl.AttackEntityEvent;
-import com.soarclient.event.server.impl.DamageEntityEvent;
+import com.soarclient.event.impl.DamageEntityEventListener;
+import com.soarclient.event.impl.RenderSkiaEventListener;
 import com.soarclient.management.mod.api.hud.SimpleHUDMod;
 import com.soarclient.skia.font.Icon;
 
 import net.minecraft.entity.Entity;
-import net.minecraft.util.math.Box;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.MovingObjectPosition;
 
-public class ReachDisplayMod extends SimpleHUDMod {
+public class ReachDisplayMod extends SimpleHUDMod implements RenderSkiaEventListener, DamageEntityEventListener {
 
 	private DecimalFormat df = new DecimalFormat("0.##");
 
 	private double distance = 0;
 	private long hitTime = -1;
-	private int possibleTarget;
 
 	public ReachDisplayMod() {
 		super("mod.reachdisplay.name", "mod.reachdisplay.description", Icon.SOCIAL_DISTANCE);
 	}
 
-	public final EventBus.EventListener<RenderSkiaEvent> onRenderSkia = event -> {
-		this.draw();
-	};
-
-	public final EventBus.EventListener<DamageEntityEvent> onDamageEntity = event -> {
-
-		if(event.getEntityId() == possibleTarget) {
-			
-			Entity entity = client.world.getEntityById(event.getEntityId());
-			
-			possibleTarget = -1;
-			distance = client.player.getEyePos()
-					.distanceTo(closestPointToBox(client.player.getEyePos(), entity.getBoundingBox()));
-			hitTime = System.currentTimeMillis();
-		}
-	};
-	
-	public final EventBus.EventListener<AttackEntityEvent> onAttackEntity = event -> {
-		possibleTarget = event.getEntityId();
-	};
-
-	private Vec3d closestPointToBox(Vec3d start, Box box) {
-		return new Vec3d(coerceIn(start.x, box.minX, box.maxX), coerceIn(start.y, box.minY, box.maxY),
-				coerceIn(start.z, box.minZ, box.maxZ));
+	@Override
+	public void onRenderSkia(float partialTicks) {
+		super.draw();
 	}
 
-	private double coerceIn(double target, double min, double max) {
-		if (target > max) {
-			return max;
+	@Override
+	public void onDamageEntity(Entity entity) {
+		if (mc.objectMouseOver != null && mc.objectMouseOver.hitVec != null
+				&& mc.objectMouseOver.typeOfHit == MovingObjectPosition.MovingObjectType.ENTITY) {
+			distance = mc.objectMouseOver.hitVec.distanceTo(mc.thePlayer.getPositionEyes(1.0F));
+			hitTime = System.currentTimeMillis();
 		}
-		return Math.max(target, min);
+	}
+
+	@Override
+	public void onEnable() {
+		EventBus.getInstance().registers(this, RenderSkiaEvent.ID, DamageEntityEvent.ID);
+	}
+
+	@Override
+	public void onDisable() {
+		EventBus.getInstance().unregisters(this, RenderSkiaEvent.ID, DamageEntityEvent.ID);
 	}
 
 	@Override

@@ -2,8 +2,6 @@ package com.soarclient.ui.component.impl;
 
 import java.awt.Color;
 
-import org.lwjgl.glfw.GLFW;
-
 import com.soarclient.Soar;
 import com.soarclient.animation.SimpleAnimation;
 import com.soarclient.management.color.api.ColorPalette;
@@ -30,7 +28,7 @@ public class Switch extends Component {
 	}
 
 	@Override
-	public void draw(double mouseX, double mouseY) {
+	public void draw(int mouseX, int mouseY) {
 
 		ColorPalette palette = Soar.getInstance().getColorManager().getPalette();
 		boolean focus = MouseUtils.isInside(mouseX, mouseY, x, y, width, height);
@@ -61,16 +59,16 @@ public class Switch extends Component {
 	}
 
 	@Override
-	public void mousePressed(double mouseX, double mouseY, int button) {
-		if (MouseUtils.isInside(mouseX, mouseY, x, y, width, height) && button == GLFW.GLFW_MOUSE_BUTTON_LEFT) {
+	public void mousePressed(int mouseX, int mouseY, int mouseButton) {
+		if (MouseUtils.isInside(mouseX, mouseY, x, y, width, height) && mouseButton == 0) {
 			pressed = true;
 		}
 	}
 
 	@Override
-	public void mouseReleased(double mouseX, double mouseY, int button) {
+	public void mouseReleased(int mouseX, int mouseY, int mouseButton) {
 
-		if (MouseUtils.isInside(mouseX, mouseY, x, y, width, height) && button == GLFW.GLFW_MOUSE_BUTTON_LEFT) {
+		if (MouseUtils.isInside(mouseX, mouseY, x, y, width, height) && mouseButton == 0) {
 			enabled = !enabled;
 
 			if (handler instanceof SwitchHandler) {
@@ -86,5 +84,9 @@ public class Switch extends Component {
 		}
 
 		pressed = false;
+	}
+
+	@Override
+	public void keyTyped(char typedChar, int keyCode) {
 	}
 }

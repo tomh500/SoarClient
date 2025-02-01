@@ -3,21 +3,24 @@ package com.soarclient.gui.modmenu;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.soarclient.gui.api.SoarGui;
-import com.soarclient.gui.api.page.SimplePage;
-import com.soarclient.gui.modmenu.component.NavigationRail;
+import com.soarclient.Soar;
+import com.soarclient.gui.api.page.Page;
+import com.soarclient.gui.api.page.PageGui;
+import com.soarclient.gui.api.page.impl.ZoomOutInTransition;
 import com.soarclient.gui.modmenu.pages.HomePage;
 import com.soarclient.gui.modmenu.pages.ModsPage;
 import com.soarclient.gui.modmenu.pages.MusicPage;
 import com.soarclient.gui.modmenu.pages.ProfilePage;
 import com.soarclient.gui.modmenu.pages.SettingsPage;
+import com.soarclient.management.config.ConfigType;
+import com.soarclient.utils.Multithreading;
 
-public class GuiModMenu extends SoarGui {
+public class GuiModMenu extends PageGui {
 
 	private NavigationRail navigationRail;
 
 	public GuiModMenu() {
-		super(false);
+		super(new ZoomOutInTransition(false), true, true);
 	}
 
 	@Override
@@ -29,7 +32,7 @@ public class GuiModMenu extends SoarGui {
 	}
 
 	@Override
-	public void setPageSize(SimplePage p) {
+	public void setPageSize(Page p) {
 		p.setX(getX() + navigationRail.getWidth());
 		p.setY(getY());
 		p.setWidth(getWidth() - navigationRail.getWidth());
@@ -37,9 +40,17 @@ public class GuiModMenu extends SoarGui {
 	}
 
 	@Override
-	public List<SimplePage> createPages() {
+	public void onClosed() {
+		Multithreading.runAsync(() -> {
+			Soar.getInstance().getConfigManager().save(ConfigType.MOD);
+		});
+		super.onClosed();
+	}
 
-		List<SimplePage> pages = new ArrayList<>();
+	@Override
+	public List<Page> createPages() {
+
+		List<Page> pages = new ArrayList<>();
 
 		pages.add(new HomePage(this));
 		pages.add(new ModsPage(this));
@@ -52,12 +63,12 @@ public class GuiModMenu extends SoarGui {
 
 	@Override
 	public float getX() {
-		return (client.getWindow().getWidth() / 2) - (getWidth() / 2);
+		return (mc.displayWidth / 2) - (getWidth() / 2);
 	}
 
 	@Override
 	public float getY() {
-		return (client.getWindow().getHeight() / 2) - (getHeight() / 2);
+		return (mc.displayHeight / 2) - (getHeight() / 2);
 	}
 
 	@Override

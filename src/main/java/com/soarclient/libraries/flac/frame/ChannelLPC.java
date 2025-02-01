@@ -44,6 +44,8 @@ public class ChannelLPC extends Channel {
 	private int quantizationLevel; // The qlp coeff shift needed.
 	private int[] qlpCoeff = new int[MAX_LPC_ORDER]; // FIR filter coefficients.
 	private int[] warmup = new int[MAX_LPC_ORDER]; // Warmup samples to prime the predictor, length == order.
+	private int[] residual; // The residual signal, length == (blocksize minus order) samples.
+
 	/**
 	 * The constructor.
 	 * 
@@ -60,7 +62,7 @@ public class ChannelLPC extends Channel {
 			throws IOException, FrameDecodeException {
 		super(header, wastedBits);
 
-		channelData.getResidual();
+		this.residual = channelData.getResidual();
 		this.order = order;
 
 		// read warm-up samples

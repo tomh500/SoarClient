@@ -5,12 +5,10 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.lwjgl.glfw.GLFW;
-
 import com.soarclient.Soar;
 import com.soarclient.animation.SimpleAnimation;
-import com.soarclient.gui.api.SoarGui;
 import com.soarclient.gui.api.page.Page;
+import com.soarclient.gui.api.page.PageGui;
 import com.soarclient.gui.api.page.impl.RightLeftTransition;
 import com.soarclient.gui.modmenu.component.MusicControlBar;
 import com.soarclient.management.color.api.ColorPalette;
@@ -19,9 +17,11 @@ import com.soarclient.management.music.MusicManager;
 import com.soarclient.skia.Skia;
 import com.soarclient.skia.font.Fonts;
 import com.soarclient.skia.font.Icon;
+import com.soarclient.ui.component.impl.text.SearchBar;
 import com.soarclient.utils.ColorUtils;
 import com.soarclient.utils.SearchUtils;
 import com.soarclient.utils.mouse.MouseUtils;
+import com.soarclient.utils.mouse.ScrollHelper;
 
 import io.github.humbleui.skija.ClipMode;
 import io.github.humbleui.skija.FilterTileMode;
@@ -37,8 +37,11 @@ public class MusicPage extends Page {
 	private SimpleAnimation controlBarAnimation = new SimpleAnimation();
 	private MusicControlBar controlBar;
 	private List<Item> items = new ArrayList<>();
+	private ScrollHelper scrollHelper = new ScrollHelper();
 
-	public MusicPage(SoarGui parent) {
+	private SearchBar searchBar;
+
+	public MusicPage(PageGui parent) {
 		super(parent, "text.music", Icon.MUSIC_NOTE, new RightLeftTransition(true));
 
 		for (Music m : Soar.getInstance().getMusicManager().getMusics()) {
@@ -48,10 +51,18 @@ public class MusicPage extends Page {
 
 	@Override
 	public void init() {
-		super.init();
 
 		controlBar = new MusicControlBar(x + 22, y + height - 60 - 18, width - 44);
 
+		String text = "";
+
+		if (searchBar != null) {
+			text = searchBar.getText();
+		}
+
+		searchBar = new SearchBar(x + width - 260 - 32, y + 32, 260, text, () -> {
+			scrollHelper.reset();
+		});
 		for (Item i : items) {
 			i.xAnimation.setFirstTick(true);
 			i.yAnimation.setFirstTick(true);
@@ -59,9 +70,7 @@ public class MusicPage extends Page {
 	}
 
 	@Override
-	public void draw(double mouseX, double mouseY) {
-
-		super.draw(mouseX, mouseY);
+	public void draw(int mouseX, int mouseY) {
 
 		MusicManager musicManager = Soar.getInstance().getMusicManager();
 		ColorPalette palette = Soar.getInstance().getColorManager().getPalette();
@@ -73,10 +82,13 @@ public class MusicPage extends Page {
 		controlBarAnimation.onTick(MouseUtils.isInside(mouseX, mouseY, controlBar.getX(), controlBar.getY(),
 				controlBar.getWidth(), controlBar.getHeight()) ? 1 : 0, 12);
 
-		mouseY = mouseY - scrollHelper.getValue();
+		scrollHelper.onScroll();
+		mouseY = (int) (mouseY - scrollHelper.getValue());
 
 		Skia.save();
 		Skia.translate(0, scrollHelper.getValue());
+
+		searchBar.draw(mouseX, mouseY);
 
 		for (Item i : items) {
 
@@ -134,7 +146,7 @@ public class MusicPage extends Page {
 
 		Skia.restore();
 
-		mouseY = mouseY + scrollHelper.getValue();
+		mouseY = (int) (mouseY + scrollHelper.getValue());
 
 		Skia.save();
 		Skia.translate(0, 100 - (controlBarAnimation.getValue() * 100));
@@ -143,31 +155,33 @@ public class MusicPage extends Page {
 	}
 
 	@Override
-	public void mousePressed(double mouseX, double mouseY, int button) {
-		super.mousePressed(mouseX, mouseY, button);
+	public void mousePressed(int mouseX, int mouseY, int mouseButton) {
 
-		controlBar.mousePressed(mouseX, mouseY, button);
+		controlBar.mousePressed(mouseX, mouseY, mouseButton);
 
 		if (MouseUtils.isInside(mouseX, mouseY, controlBar.getX(), controlBar.getY(), controlBar.getWidth(),
 				controlBar.getHeight())) {
 			return;
 		}
+
+		mouseY = (int) (mouseY - scrollHelper.getValue());
+		searchBar.mousePressed(mouseX, mouseY, mouseButton);
 	}
 
 	@Override
-	public void mouseReleased(double mouseX, double mouseY, int button) {
-		super.mouseReleased(mouseX, mouseY, button);
+	public void mouseReleased(int mouseX, int mouseY, int mouseButton) {
 
 		MusicManager musicManager = Soar.getInstance().getMusicManager();
 
-		controlBar.mouseReleased(mouseX, mouseY, button);
+		controlBar.mouseReleased(mouseX, mouseY, mouseButton);
 
 		if (MouseUtils.isInside(mouseX, mouseY, controlBar.getX(), controlBar.getY(), controlBar.getWidth(),
 				controlBar.getHeight())) {
 			return;
 		}
 
-		mouseY = mouseY - scrollHelper.getValue();
+		mouseY = (int) (mouseY - scrollHelper.getValue());
+		searchBar.mouseReleased(mouseX, mouseY, mouseButton);
 
 		for (Item i : items) {
 
@@ -180,7 +194,7 @@ public class MusicPage extends Page {
 				continue;
 			}
 
-			if (MouseUtils.isInside(mouseX, mouseY, itemX, itemY, 174, 174) && button == GLFW.GLFW_MOUSE_BUTTON_LEFT) {
+			if (MouseUtils.isInside(mouseX, mouseY, itemX, itemY, 174, 174) && mouseButton == 0) {
 
 				if (musicManager.getCurrentMusic() != m) {
 					musicManager.stop();
@@ -191,6 +205,15 @@ public class MusicPage extends Page {
 				}
 			}
 		}
+	}
+
+	@Override
+	public void keyTyped(char typedChar, int keyCode) {
+		searchBar.keyTyped(typedChar, keyCode);
+	}
+
+	@Override
+	public void onClosed() {
 	}
 
 	private void drawRoundedImage(File file, float x, float y, float width, float height, float cornerRadius,

@@ -1,6 +1,6 @@
 package com.soarclient.ui.component.impl.text;
 
-import org.lwjgl.glfw.GLFW;
+import org.lwjgl.input.Keyboard;
 
 import com.soarclient.Soar;
 import com.soarclient.animation.Animation;
@@ -46,7 +46,7 @@ public class SearchBar extends Component {
 	}
 
 	@Override
-	public void draw(double mouseX, double mouseY) {
+	public void draw(int mouseX, int mouseY) {
 
 		ColorPalette palette = Soar.getInstance().getColorManager().getPalette();
 
@@ -80,6 +80,16 @@ public class SearchBar extends Component {
 		}
 
 		Skia.restore();
+
+		if (Keyboard.isKeyDown(Keyboard.KEY_LCONTROL) && Keyboard.isKeyDown(Keyboard.KEY_F) && !isFocused()) {
+
+			if (getText().isEmpty()) {
+				hintTextAnimation = new EaseStandard(Duration.MEDIUM_1, hintTextAnimation.getValue(), 0);
+			}
+
+			shortcutEvent.run();
+			input.setFocused(true);
+		}
 	}
 
 	private void drawCursor() {
@@ -131,11 +141,11 @@ public class SearchBar extends Component {
 	}
 
 	@Override
-	public void mousePressed(double mouseX, double mouseY, int button) {
+	public void mousePressed(int mouseX, int mouseY, int mouseButton) {
 
 		boolean isInside = MouseUtils.isInside(mouseX, mouseY, x, y, width, height);
 
-		if (button == GLFW.GLFW_MOUSE_BUTTON_LEFT) {
+		if (mouseButton == 0) {
 
 			if (isInside && !isFocused()) {
 
@@ -156,24 +166,12 @@ public class SearchBar extends Component {
 	}
 
 	@Override
-	public void keyPressed(int keyCode, int scanCode, int modifiers) {
-
-		if (modifiers == GLFW.GLFW_MOD_CONTROL && keyCode == GLFW.GLFW_KEY_F && !isFocused()) {
-
-			if (getText().isEmpty()) {
-				hintTextAnimation = new EaseStandard(Duration.MEDIUM_1, hintTextAnimation.getValue(), 0);
-			}
-
-			shortcutEvent.run();
-			input.setFocused(true);
-		} else {
-			input.keyPressed(keyCode, scanCode, modifiers);
-		}
+	public void mouseReleased(int mouseX, int mouseY, int mouseButton) {
 	}
 
 	@Override
-	public void charTyped(char chr, int modifiers) {
-		input.charTyped(chr, modifiers);
+	public void keyTyped(char typedChar, int keyCode) {
+		input.keyTyped(typedChar, keyCode);
 	}
 
 	public String getHintText() {

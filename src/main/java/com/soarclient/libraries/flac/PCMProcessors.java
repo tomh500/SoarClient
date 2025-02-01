@@ -18,7 +18,7 @@ import com.soarclient.libraries.flac.util.ByteData;
  * @author kc7bfi
  */
 class PCMProcessors implements PCMProcessor {
-	private HashSet<PCMProcessor> pcmProcessors = new HashSet<PCMProcessor>();
+	private HashSet pcmProcessors = new HashSet();
 
 	/**
 	 * Add a PCM processor.
@@ -50,7 +50,7 @@ class PCMProcessors implements PCMProcessor {
 	 */
 	public void processStreamInfo(StreamInfo info) {
 		synchronized (pcmProcessors) {
-			Iterator<PCMProcessor> it = pcmProcessors.iterator();
+			Iterator it = pcmProcessors.iterator();
 			while (it.hasNext()) {
 				PCMProcessor processor = (PCMProcessor) it.next();
 				processor.processStreamInfo(info);
@@ -66,7 +66,7 @@ class PCMProcessors implements PCMProcessor {
 	 */
 	public void processPCM(ByteData pcm) {
 		synchronized (pcmProcessors) {
-			Iterator<PCMProcessor> it = pcmProcessors.iterator();
+			Iterator it = pcmProcessors.iterator();
 			while (it.hasNext()) {
 				PCMProcessor processor = (PCMProcessor) it.next();
 				processor.processPCM(pcm);

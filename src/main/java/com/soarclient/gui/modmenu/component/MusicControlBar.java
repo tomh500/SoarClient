@@ -5,8 +5,6 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.lwjgl.glfw.GLFW;
-
 import com.soarclient.Soar;
 import com.soarclient.management.color.api.ColorPalette;
 import com.soarclient.management.music.Music;
@@ -60,7 +58,7 @@ public class MusicControlBar extends Component {
 	}
 
 	@Override
-	public void draw(double mouseX, double mouseY) {
+	public void draw(int mouseX, int mouseY) {
 
 		Soar instance = Soar.getInstance();
 		ColorPalette palette = instance.getColorManager().getPalette();
@@ -114,17 +112,21 @@ public class MusicControlBar extends Component {
 	}
 
 	@Override
-	public void mousePressed(double mouseX, double mouseY, int button) {
+	public void mousePressed(int mouseX, int mouseY, int mouseButton) {
 		for (ControlButton b : buttons) {
-			b.mousePressed(mouseX, mouseY, button);
+			b.mousePressed(mouseX, mouseY, mouseButton);
 		}
 	}
 
 	@Override
-	public void mouseReleased(double mouseX, double mouseY, int button) {
+	public void mouseReleased(int mouseX, int mouseY, int mouseButton) {
 		for (ControlButton b : buttons) {
-			b.mouseReleased(mouseX, mouseY, button);
+			b.mouseReleased(mouseX, mouseY, mouseButton);
 		}
+	}
+
+	@Override
+	public void keyTyped(char typedChar, int keyCode) {
 	}
 
 	public boolean isLocked() {
@@ -143,20 +145,31 @@ public class MusicControlBar extends Component {
 			this.width = 26;
 			this.height = 26;
 			this.task = task;
-			this.color = Soar.getInstance().getColorManager().getPalette().getOnSurface();
+
+			ColorPalette palette = Soar.getInstance().getColorManager().getPalette();
+
+			this.color = palette.getOnSurface();
 		}
 
 		@Override
-		public void draw(double mouseX, double mouseY) {
+		public void draw(int mouseX, int mouseY) {
 			Skia.drawFullCenteredText(icon, ControlButton.this.x, ControlButton.this.y, color, Fonts.getIconFill(28));
 		}
 
 		@Override
-		public void mouseReleased(double mouseX, double mouseY, int button) {
+		public void mousePressed(int mouseX, int mouseY, int mouseButton) {
+		}
+
+		@Override
+		public void mouseReleased(int mouseX, int mouseY, int mouseButton) {
 			if (MouseUtils.isInside(mouseX, mouseY, ControlButton.this.x - 13, ControlButton.this.y - 13, 28, 28)
-					&& button == GLFW.GLFW_MOUSE_BUTTON_LEFT) {
+					&& mouseButton == 0) {
 				task.run();
 			}
+		}
+
+		@Override
+		public void keyTyped(char typedChar, int keyCode) {
 		}
 	}
 }

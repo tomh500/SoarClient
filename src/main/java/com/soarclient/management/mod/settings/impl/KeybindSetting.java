@@ -4,54 +4,60 @@ import com.soarclient.Soar;
 import com.soarclient.management.mod.Mod;
 import com.soarclient.management.mod.settings.Setting;
 
-import net.minecraft.client.util.InputUtil;
-
 public class KeybindSetting extends Setting {
 
-	private InputUtil.Key defaultKey, key;
-	private boolean keyDown;
+	private int defaultKeyCode, keyCode;
 	private int pressTime;
+	private boolean pressed;
 
-	public KeybindSetting(String name, String description, String icon, Mod parent, InputUtil.Key key) {
+	public KeybindSetting(String name, String description, String icon, Mod parent, int keyCode) {
 		super(name, description, icon, parent);
 
-		this.defaultKey = key;
-		this.key = key;
+		this.defaultKeyCode = keyCode;
+		this.keyCode = keyCode;
 
 		Soar.getInstance().getModManager().addSetting(this);
 	}
 
 	@Override
 	public void reset() {
-		this.key = this.defaultKey;
+		this.keyCode = this.defaultKeyCode;
 	}
 
-	public InputUtil.Key getKey() {
-		return key;
+	public int getKeyCode() {
+		return keyCode;
 	}
 
-	public void setKey(InputUtil.Key key) {
-		this.key = key;
+	public void setKeyCode(int keyCode) {
+		this.keyCode = keyCode;
 	}
 
-	public InputUtil.Key getDefaultKey() {
-		return defaultKey;
+	public int getDefaultKeyCode() {
+		return defaultKeyCode;
+	}
+
+	public void setKeybindState(boolean state) {
+		pressed = state;
+	}
+
+	public void onTick() {
+		pressTime++;
 	}
 
 	public boolean isKeyDown() {
-		return keyDown;
-	}
-	
-	public void setKeyDown(boolean keyDown) {
-		this.keyDown = keyDown;
+		return pressed;
 	}
 
 	public boolean isPressed() {
-		this.pressTime--;
-		return pressTime >= 0;
+		if (this.pressTime == 0) {
+			return false;
+		} else {
+			this.pressTime--;
+			return true;
+		}
 	}
 
-	public void setPressed() {
-		this.pressTime = 1;
+	public void unPress() {
+		pressed = false;
 	}
 }

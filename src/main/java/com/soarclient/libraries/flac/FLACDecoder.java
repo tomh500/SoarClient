@@ -67,6 +67,10 @@ public class FLACDecoder {
 	private byte[] headerWarmup = new byte[2]; // contains the sync code and reserved bits
 	// private int state;
 	private int channels;
+	private int channelAssignment;
+	private int bitsPerSample;
+	private int sampleRate; // in Hz
+	private int blockSize; // in samples (per channel)
 	private InputStream inputStream;
 	private int metadataLength;
 
@@ -873,6 +877,11 @@ public class FLACDecoder {
 
 	private void skipID3v2Tag() throws IOException {
 
+		// skip the version and flags bytes
+		int verMajor = bitStream.readRawInt(8);
+		int verMinor = bitStream.readRawInt(8);
+		int flags = bitStream.readRawInt(8);
+
 		// get the size (in bytes) to skip
 		int skip = 0;
 		for (int i = 0; i < 4; i++) {
@@ -1040,6 +1049,10 @@ public class FLACDecoder {
 
 		// put the latest values into the public section of the decoder instance
 		channels = frame.header.channels;
+		channelAssignment = frame.header.channelAssignment;
+		bitsPerSample = frame.header.bitsPerSample;
+		sampleRate = frame.header.sampleRate;
+		blockSize = frame.header.blockSize;
 
 		// samplesDecoded = frame.header.sampleNumber + frame.header.blockSize;
 		samplesDecoded += frame.header.blockSize;

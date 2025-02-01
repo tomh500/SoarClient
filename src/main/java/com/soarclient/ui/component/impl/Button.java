@@ -2,8 +2,6 @@ package com.soarclient.ui.component.impl;
 
 import java.awt.Color;
 
-import org.lwjgl.glfw.GLFW;
-
 import com.soarclient.Soar;
 import com.soarclient.management.color.api.ColorPalette;
 import com.soarclient.skia.Skia;
@@ -20,6 +18,7 @@ public class Button extends Component {
 
 	private PressAnimation pressAnimation = new PressAnimation();
 
+	private int[] pressedPos;
 	private String text;
 	private Style style;
 
@@ -28,39 +27,47 @@ public class Button extends Component {
 		this.text = text;
 		this.height = 40;
 		this.style = style;
+
 		Rect bounds = Skia.getTextBounds(I18n.get(text), Fonts.getRegular(16));
+
 		this.width = bounds.getWidth() + (24 * 2);
+		pressedPos = new int[] { 0, 0 };
 	}
 
 	@Override
-	public void draw(double mouseX, double mouseY) {
+	public void draw(int mouseX, int mouseY) {
 
 		Color[] colors = getColor();
 
 		Skia.drawRoundedRect(x, y, width, height, 25, colors[0]);
 		Skia.save();
 		Skia.clip(x, y, width, height, 25);
-		pressAnimation.draw(x, y, width, height, colors[1], 0.12F);
+		pressAnimation.draw(x + pressedPos[0], y + pressedPos[1], width, height, colors[1], 0.12F);
 		Skia.restore();
 		Skia.drawFullCenteredText(I18n.get(text), x + (width / 2), y + (height / 2), colors[1], Fonts.getRegular(16));
 	}
 
 	@Override
-	public void mousePressed(double mouseX, double mouseY, int button) {
+	public void mousePressed(int mouseX, int mouseY, int mouseButton) {
 
-		if (MouseUtils.isInside(mouseX, mouseY, x, y, width, height) && button == GLFW.GLFW_MOUSE_BUTTON_LEFT) {
-			pressAnimation.onPressed(mouseX, mouseY, x, y);
+		if (MouseUtils.isInside(mouseX, mouseY, x, y, width, height) && mouseButton == 0) {
+			pressedPos = new int[] { mouseX - (int) x, mouseY - (int) y };
+			pressAnimation.mousePressed();
 		}
 	}
 
 	@Override
-	public void mouseReleased(double mouseX, double mouseY, int button) {
-		if (MouseUtils.isInside(mouseX, mouseY, x, y, width, height) && button == GLFW.GLFW_MOUSE_BUTTON_LEFT) {
+	public void mouseReleased(int mouseX, int mouseY, int mouseButton) {
+		if (MouseUtils.isInside(mouseX, mouseY, x, y, width, height) && mouseButton == 0) {
 			if (handler instanceof ButtonHandler) {
 				((ButtonHandler) handler).onAction();
 			}
 		}
-		pressAnimation.onReleased(mouseX, mouseY, x, y);
+		pressAnimation.mouseReleased();
+	}
+
+	@Override
+	public void keyTyped(char typedChar, int keyCode) {
 	}
 
 	private Color[] getColor() {

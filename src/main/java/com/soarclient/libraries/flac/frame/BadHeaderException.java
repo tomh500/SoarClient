@@ -27,8 +27,6 @@ package com.soarclient.libraries.flac.frame;
  */
 public class BadHeaderException extends Exception {
 
-	private static final long serialVersionUID = 1L;
-
 	/**
 	 * Exception constructor.
 	 */

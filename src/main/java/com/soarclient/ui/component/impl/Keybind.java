@@ -1,6 +1,7 @@
 package com.soarclient.ui.component.impl;
 
-import org.lwjgl.glfw.GLFW;
+import org.lwjgl.input.Keyboard;
+import org.lwjgl.input.Mouse;
 
 import com.soarclient.Soar;
 import com.soarclient.management.color.api.ColorPalette;
@@ -11,26 +12,24 @@ import com.soarclient.ui.component.api.PressAnimation;
 import com.soarclient.ui.component.handler.impl.KeybindHandler;
 import com.soarclient.utils.mouse.MouseUtils;
 
-import net.minecraft.client.util.InputUtil;
-
 public class Keybind extends Component {
 
 	private PressAnimation pressAnimation = new PressAnimation();
 	private int[] pressedPos;
 
 	private boolean binding;
-	private InputUtil.Key key;
+	private int keyCode;
 
-	public Keybind(float x, float y, InputUtil.Key key) {
+	public Keybind(float x, float y, int keyCode) {
 		super(x, y);
-		this.key = key;
+		this.keyCode = keyCode;
 		width = 126;
 		height = 32;
 		pressedPos = new int[] { 0, 0 };
 	}
 
 	@Override
-	public void draw(double mouseX, double mouseY) {
+	public void draw(int mouseX, int mouseY) {
 
 		ColorPalette palette = Soar.getInstance().getColorManager().getPalette();
 
@@ -39,61 +38,66 @@ public class Keybind extends Component {
 		Skia.clip(x, y, width, height, 12);
 		pressAnimation.draw(x + pressedPos[0], y + pressedPos[1], width, height, palette.getPrimaryContainer(), 0.12F);
 		Skia.restore();
-
-		Skia.drawFullCenteredText(binding ? "..." : key.getLocalizedText().getString(), x + (width / 2), y + (height / 2), palette.getSurface(),
-				Fonts.getMedium(14));
+		Skia.drawFullCenteredText(
+				binding ? "..." : keyCode < 0 ? Mouse.getButtonName(keyCode + 100) : Keyboard.getKeyName(keyCode),
+				x + (width / 2), y + (height / 2), palette.getSurface(), Fonts.getMedium(14));
 	}
 
 	@Override
-	public void mousePressed(double mouseX, double mouseY, int button) {
-		if (MouseUtils.isInside(mouseX, mouseY, x, y, width, height) && button == GLFW.GLFW_MOUSE_BUTTON_LEFT) {
-			pressAnimation.onPressed(mouseX, mouseY, x, y);
+	public void mousePressed(int mouseX, int mouseY, int mouseButton) {
+		if (MouseUtils.isInside(mouseX, mouseY, x, y, width, height) && mouseButton == 0) {
+			pressedPos = new int[] { mouseX - (int) x, mouseY - (int) y };
+			pressAnimation.mousePressed();
 		}
 	}
 
 	@Override
-	public void mouseReleased(double mouseX, double mouseY, int button) {
+	public void mouseReleased(int mouseX, int mouseY, int mouseButton) {
 
-		if (MouseUtils.isInside(mouseX, mouseY, x, y, width, height) && !binding) {
-			if (button == GLFW.GLFW_MOUSE_BUTTON_LEFT) {
+		if (MouseUtils.isInside(mouseX, mouseY, x, y, width, height)) {
+
+			if (mouseButton == 0 && !binding) {
 				binding = true;
+			} else if (mouseButton == 2 && binding) {
+				setKeyCode(Keyboard.KEY_NONE);
+				binding = false;
+			} else if (binding && mouseButton != 0 && mouseButton != 1 && mouseButton != 2) {
+				setKeyCode(-100 + mouseButton);
+				binding = false;
+			} else {
+				binding = false;
 			}
-			return;
-		}
 
-		if (binding) {
+		} else if (binding) {
 
-			if (button == GLFW.GLFW_MOUSE_BUTTON_MIDDLE) {
-				setKeyCode(InputUtil.UNKNOWN_KEY);
-			} else if (button != GLFW.GLFW_MOUSE_BUTTON_LEFT && button != GLFW.GLFW_MOUSE_BUTTON_RIGHT
-					&& button != GLFW.GLFW_MOUSE_BUTTON_MIDDLE) {
-				setKeyCode(InputUtil.Type.MOUSE.createFromCode(button));
+			if (mouseButton != 0 && mouseButton != 1 && mouseButton != 2) {
+				setKeyCode(-100 + mouseButton);
 			}
 
 			binding = false;
 		}
 
-		pressAnimation.onReleased(mouseX, mouseY, x, y);
+		pressAnimation.mouseReleased();
 	}
 
 	@Override
-	public void keyPressed(int keyCode, int scanCode, int modifiers) {
+	public void keyTyped(char typedChar, int keyCode) {
 		if (binding) {
-			setKeyCode(InputUtil.fromKeyCode(keyCode, scanCode));
+			setKeyCode(keyCode);
 			this.binding = false;
 		}
 	}
 
-	public InputUtil.Key getKeyCode() {
-		return key;
+	public int getKeyCode() {
+		return keyCode;
 	}
 
-	public void setKeyCode(InputUtil.Key key) {
+	public void setKeyCode(int keyCode) {
 
-		this.key = key;
+		this.keyCode = keyCode;
 
 		if (handler instanceof KeybindHandler) {
-			((KeybindHandler) handler).onBinded(key);
+			((KeybindHandler) handler).onBinded(keyCode);
 		}
 	}
 }

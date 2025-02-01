@@ -1,70 +1,104 @@
 package com.soarclient.gui.api.page;
 
-import com.soarclient.gui.api.SoarGui;
-import com.soarclient.skia.Skia;
-import com.soarclient.ui.component.impl.text.SearchBar;
-import com.soarclient.utils.mouse.ScrollHelper;
+import com.soarclient.animation.Animation;
+import com.soarclient.animation.other.DummyAnimation;
+import com.soarclient.gui.api.GuiTransition;
 
-public class Page extends SimplePage {
+import net.minecraft.client.Minecraft;
 
-	protected ScrollHelper scrollHelper = new ScrollHelper();
-	protected SearchBar searchBar;
+public class Page {
 
-	public Page(SoarGui parent, String title, String icon, GuiTransition transition) {
-		super(parent, title, icon, transition);
+	protected Minecraft mc = Minecraft.getMinecraft();
+
+	protected float x, y, width, height;
+	private String title, icon;
+	protected PageGui parent;
+	private Animation animation;
+	private GuiTransition transition;
+
+	public Page(PageGui parent, String title, String icon, GuiTransition transition) {
+		this.parent = parent;
+		this.title = title;
+		this.icon = icon;
+		this.transition = transition;
+		this.x = 0;
+		this.y = 0;
+		this.width = 0;
+		this.height = 0;
+		this.animation = new DummyAnimation(1);
 	}
 
-	@Override
 	public void init() {
-
-		String text = "";
-
-		if (searchBar != null) {
-			text = searchBar.getText();
-		}
-
-		searchBar = new SearchBar(x + width - 260 - 32, y + 32, 260, text, () -> {
-		});
 	}
 
-	@Override
-	public void draw(double mouseX, double mouseY) {
-
-		scrollHelper.onUpdate();
-		
-		Skia.save();
-		Skia.translate(0, scrollHelper.getValue());
-
-		mouseY = (int) (mouseY - scrollHelper.getValue());
-		searchBar.draw(mouseX, mouseY);
-
-		Skia.restore();
+	public void draw(int mouseX, int mouseY) {
 	}
 
-	@Override
-	public void mousePressed(double mouseX, double mouseY, int button) {
-		mouseY = mouseY - scrollHelper.getValue();
-		searchBar.mousePressed(mouseX, mouseY, button);
+	public void mousePressed(int mouseX, int mouseY, int mouseButton) {
 	}
 
-	@Override
-	public void mouseReleased(double mouseX, double mouseY, int button) {
-		mouseY = mouseY - scrollHelper.getValue();
-		searchBar.mouseReleased(mouseX, mouseY, button);
+	public void mouseReleased(int mouseX, int mouseY, int mouseButton) {
 	}
 
-	@Override
-	public void charTyped(char chr, int modifiers) {
-		searchBar.charTyped(chr, modifiers);
+	public void keyTyped(char typedChar, int keyCode) {
 	}
 
-	@Override
-	public void keyPressed(int keyCode, int scanCode, int modifiers) {
-		searchBar.keyPressed(keyCode, scanCode, modifiers);
+	public void onClosed() {
 	}
 
-	@Override
-	public void mouseScrolled(double mouseX, double mouseY, double horizontalAmount, double verticalAmount) {
-		scrollHelper.onScroll(verticalAmount);
+	public float getX() {
+		return x;
+	}
+
+	public void setX(float x) {
+		this.x = x;
+	}
+
+	public float getY() {
+		return y;
+	}
+
+	public void setY(float y) {
+		this.y = y;
+	}
+
+	public float getWidth() {
+		return width;
+	}
+
+	public void setWidth(float width) {
+		this.width = width;
+	}
+
+	public float getHeight() {
+		return height;
+	}
+
+	public void setHeight(float height) {
+		this.height = height;
+	}
+
+	public String getTitle() {
+		return title;
+	}
+
+	public String getIcon() {
+		return icon;
+	}
+
+	public GuiTransition getTransition() {
+		return transition;
+	}
+
+	public void setTransition(GuiTransition transition) {
+		this.transition = transition;
+	}
+
+	public Animation getAnimation() {
+		return animation;
+	}
+
+	public void setAnimation(Animation animation) {
+		this.animation = animation;
 	}
 }

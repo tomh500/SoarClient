@@ -28,8 +28,6 @@ import com.soarclient.ui.component.impl.Switch;
 import com.soarclient.ui.component.impl.text.TextField;
 import com.soarclient.utils.language.I18n;
 
-import net.minecraft.client.util.InputUtil;
-
 public class SettingBar extends Component {
 
 	private SimpleAnimation yAnimation = new SimpleAnimation();
@@ -74,6 +72,14 @@ public class SettingBar extends Component {
 			slider.setHandler(new SliderHandler() {
 
 				@Override
+				public void onPressed(float value) {
+				}
+
+				@Override
+				public void onReleased(float value) {
+				}
+
+				@Override
 				public void onValueChanged(float value) {
 					nSetting.setValue(value);
 				}
@@ -101,13 +107,13 @@ public class SettingBar extends Component {
 		if (setting instanceof KeybindSetting) {
 
 			KeybindSetting kSetting = (KeybindSetting) setting;
-			Keybind bind = new Keybind(0, 0, kSetting.getKey());
+			Keybind bind = new Keybind(0, 0, kSetting.getKeyCode());
 
 			bind.setHandler(new KeybindHandler() {
 
 				@Override
-				public void onBinded(InputUtil.Key key) {
-					kSetting.setKey(key);
+				public void onBinded(int keyCode) {
+					kSetting.setKeyCode(keyCode);
 				}
 			});
 
@@ -148,7 +154,7 @@ public class SettingBar extends Component {
 	}
 
 	@Override
-	public void draw(double mouseX, double mouseY) {
+	public void draw(int mouseX, int mouseY) {
 
 		ColorPalette palette = Soar.getInstance().getColorManager().getPalette();
 
@@ -173,34 +179,26 @@ public class SettingBar extends Component {
 	}
 
 	@Override
-	public void mousePressed(double mouseX, double mouseY, int button) {
+	public void mousePressed(int mouseX, int mouseY, int mouseButton) {
 
 		if (component != null) {
-			component.mousePressed(mouseX, mouseY, button);
+			component.mousePressed(mouseX, mouseY, mouseButton);
 		}
 	}
 
 	@Override
-	public void mouseReleased(double mouseX, double mouseY, int button) {
+	public void mouseReleased(int mouseX, int mouseY, int mouseButton) {
 
 		if (component != null) {
-			component.mouseReleased(mouseX, mouseY, button);
+			component.mouseReleased(mouseX, mouseY, mouseButton);
 		}
 	}
 
 	@Override
-	public void charTyped(char chr, int modifiers) {
+	public void keyTyped(char typedChar, int keyCode) {
 
 		if (component != null) {
-			component.charTyped(chr, modifiers);
-		}
-	}
-
-	@Override
-	public void keyPressed(int keyCode, int scanCode, int modifiers) {
-
-		if (component != null) {
-			component.keyPressed(keyCode, scanCode, modifiers);
+			component.keyTyped(typedChar, keyCode);
 		}
 	}
 

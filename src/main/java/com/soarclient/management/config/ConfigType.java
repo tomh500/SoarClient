@@ -1,7 +1,7 @@
 package com.soarclient.management.config;
 
 public enum ConfigType {
-	MOD("mod");
+	MOD("mod"), ACCOUNT("account");
 
 	private final String id;
 

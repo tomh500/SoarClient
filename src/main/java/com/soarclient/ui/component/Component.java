@@ -2,11 +2,11 @@ package com.soarclient.ui.component;
 
 import com.soarclient.ui.component.handler.ComponentHandler;
 
-import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.Minecraft;
 
-public class Component {
+public abstract class Component {
 
-	protected MinecraftClient client = MinecraftClient.getInstance();
+	protected Minecraft mc = Minecraft.getMinecraft();
 	protected ComponentHandler handler;
 	protected float x, y, width, height;
 
@@ -17,20 +17,13 @@ public class Component {
 		};
 	}
 
-	public void draw(double mouseX, double mouseY) {
-	}
+	public abstract void draw(int mouseX, int mouseY);
 
-	public void mousePressed(double mouseX, double mouseY, int button) {
-	}
+	public abstract void mousePressed(int mouseX, int mouseY, int mouseButton);
 
-	public void mouseReleased(double mouseX, double mouseY, int button) {
-	}
+	public abstract void mouseReleased(int mouseX, int mouseY, int mouseButton);
 
-	public void charTyped(char chr, int modifiers) {
-	}
-
-	public void keyPressed(int keyCode, int scanCode, int modifiers) {
-	}
+	public abstract void keyTyped(char typedChar, int keyCode);
 
 	public float getX() {
 		return x;
