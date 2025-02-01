@@ -45,8 +45,8 @@ public class KawaseBlur {
 			shaderUp = new Shader("blur.vert", "blur_up.frag");
 			shaderPassthrough = new Shader("passthrough.vert", "passthrough.frag");
 		}
-		
-		if(firstTick) {
+
+		if (firstTick) {
 			for (int i = 0; i < fbos.length; i++) {
 				if (fbos[i] == null) {
 					fbos[i] = new Framebuffer(1 / Math.pow(2, i));
@@ -55,15 +55,15 @@ public class KawaseBlur {
 			firstTick = false;
 		}
 
-		if(timer.delay(16)) {
+		if (timer.delay(16)) {
 			IntDoubleImmutablePair strength = STRENGTHS[(int) ((radius - 1))];
 			int iterations = strength.leftInt();
 			double offset = strength.rightDouble();
 
-			PostProcessRenderer.init();
 			PostProcessRenderer.beginRender();
 
-			renderToFbo(fbos[0], MinecraftClient.getInstance().getFramebuffer().getColorAttachment(), shaderDown, offset);
+			renderToFbo(fbos[0], MinecraftClient.getInstance().getFramebuffer().getColorAttachment(), shaderDown,
+					offset);
 
 			for (int i = 0; i < iterations; i++) {
 				renderToFbo(fbos[i + 1], fbos[i].texture, shaderDown, offset);
