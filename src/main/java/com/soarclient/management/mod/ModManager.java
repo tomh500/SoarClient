@@ -14,9 +14,13 @@ import com.soarclient.management.mod.impl.hud.ComboCounterMod;
 import com.soarclient.management.mod.impl.hud.CoordsMod;
 import com.soarclient.management.mod.impl.hud.DayCounterMod;
 import com.soarclient.management.mod.impl.hud.FPSDisplayMod;
+import com.soarclient.management.mod.impl.hud.HealthDisplayMod;
+import com.soarclient.management.mod.impl.hud.JumpResetIndicatorMod;
+import com.soarclient.management.mod.impl.hud.PitchDisplayMod;
 import com.soarclient.management.mod.impl.hud.PlayerCounterMod;
 import com.soarclient.management.mod.impl.hud.ReachDisplayMod;
 import com.soarclient.management.mod.impl.hud.StopwatchMod;
+import com.soarclient.management.mod.impl.hud.YawDisplayMod;
 import com.soarclient.management.mod.impl.settings.HUDModSettings;
 import com.soarclient.management.mod.impl.settings.ModMenuSettings;
 import com.soarclient.management.mod.settings.Setting;
@@ -42,9 +46,13 @@ public class ModManager {
 		mods.add(new CoordsMod());
 		mods.add(new DayCounterMod());
 		mods.add(new FPSDisplayMod());
+		mods.add(new HealthDisplayMod());
+		mods.add(new JumpResetIndicatorMod());
+		mods.add(new PitchDisplayMod());
 		mods.add(new PlayerCounterMod());
 		mods.add(new ReachDisplayMod());
 		mods.add(new StopwatchMod());
+		mods.add(new YawDisplayMod());
 		
 		// Settings
 		mods.add(new HUDModSettings());

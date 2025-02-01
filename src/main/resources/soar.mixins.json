@@ -9,6 +9,7 @@
 		"minecraft.client.MixinKeyboard",
 		"minecraft.client.MixinMinecraftClient",
 		"minecraft.client.MixinMouse",
+		"minecraft.entity.MixinLivingEntity",
 		"minecraft.network.packet.PlayerInteractEntityC2SPacketAccessor",
 		"minecraft.network.MixinClientConnection"
 	],

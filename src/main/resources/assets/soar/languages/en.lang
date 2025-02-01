@@ -45,6 +45,18 @@ mod.stopwatch.description=Measure the time
 mod.playercounter.name=Player Counter
 mod.playercounter.description=Display the number of players
 
+mod.healthdisplay.name=Health Display
+mod.healthdisplay.description=Display your health
+
+mod.yawdisplay.name=Yaw Display
+mod.yawdisplay.description=Display yaw of you
+
+mod.pitchdisplay.name=Pitch Display
+mod.pitchdisplay.description=Display pitch of you
+
+mod.jumpresetindicator.name=Jump Reset Indicator
+mod.jumpresetindicator.description=Indicate if jump reset was done correctly
+
 setting.darkmode=Dark Mode
 setting.darkmode.description=Enable dark mode
 setting.keybind=Keybind
