@@ -66,6 +66,9 @@ mod.gamemodedisplay.description=Display your game mode
 mod.keystrokes.name=Keystrokes
 mod.keystrokes.description=Display pressed keys
 
+mod.mousestrokes.name=Mouse Strokes
+mod.mousestrokes.description=Display mouse movements
+
 setting.darkmode=Dark Mode
 setting.darkmode.description=Enable dark mode
 setting.keybind=Keybind
