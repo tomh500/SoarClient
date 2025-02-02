@@ -78,6 +78,9 @@ mod.hitdelayfix.description=Fix the hit delay
 mod.nojumpdelay.name=No Jump Delay
 mod.nojumpdelay.description=Remove jump delays
 
+mod.taplook.name=Taplook
+mod.taplook.description=Switch viewing orientation at the touch of a button
+
 setting.darkmode=Dark Mode
 setting.darkmode.description=Enable dark mode
 setting.keybind=Keybind
@@ -106,3 +109,9 @@ setting.cover=Cover
 setting.simple=Simple
 setting.normal=Normal
 setting.waveform=Waveform
+setting.perspective=Perspective
+setting.perspective.description=Set the Perspective orientation
+setting.front=Front
+setting.behind=Behind
+setting.toggle=Toggle
+setting.toggle.description=Change to toggle
