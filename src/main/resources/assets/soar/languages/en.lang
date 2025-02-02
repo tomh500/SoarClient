@@ -81,6 +81,9 @@ mod.nojumpdelay.description=Remove jump delays
 mod.taplook.name=Taplook
 mod.taplook.description=Switch viewing orientation at the touch of a button
 
+mod.serveripdisplay.name=Server IP Display
+mod.serveripdisplay.description=Display the IP of the server you are joining
+
 setting.darkmode=Dark Mode
 setting.darkmode.description=Enable dark mode
 setting.keybind=Keybind

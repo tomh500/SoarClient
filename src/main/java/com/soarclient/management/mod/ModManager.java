@@ -23,6 +23,7 @@ import com.soarclient.management.mod.impl.hud.MusicInfoMod;
 import com.soarclient.management.mod.impl.hud.PitchDisplayMod;
 import com.soarclient.management.mod.impl.hud.PlayerCounterMod;
 import com.soarclient.management.mod.impl.hud.ReachDisplayMod;
+import com.soarclient.management.mod.impl.hud.ServerIPDisplayMod;
 import com.soarclient.management.mod.impl.hud.StopwatchMod;
 import com.soarclient.management.mod.impl.hud.YawDisplayMod;
 import com.soarclient.management.mod.impl.player.HitDelayFixMod;
@@ -63,6 +64,7 @@ public class ModManager {
 		mods.add(new PitchDisplayMod());
 		mods.add(new PlayerCounterMod());
 		mods.add(new ReachDisplayMod());
+		mods.add(new ServerIPDisplayMod());
 		mods.add(new StopwatchMod());
 		mods.add(new YawDisplayMod());
 		
