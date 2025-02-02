@@ -75,6 +75,9 @@ mod.musicinfo.description=Display the currently playing music
 mod.hitdelayfix.name=Hit Delay Fix
 mod.hitdelayfix.description=Fix the hit delay
 
+mod.nojumpdelay.name=No Jump Delay
+mod.nojumpdelay.description=Remove jump delays
+
 setting.darkmode=Dark Mode
 setting.darkmode.description=Enable dark mode
 setting.keybind=Keybind
