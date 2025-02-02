@@ -7,11 +7,13 @@ import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import com.soarclient.Soar;
 import com.soarclient.event.EventBus;
 import com.soarclient.event.client.ClientTickEvent;
 import com.soarclient.event.client.GameLoopEvent;
+import com.soarclient.management.mod.impl.player.HitDelayFixMod;
 import com.soarclient.shader.impl.KawaseBlur;
 import com.soarclient.skia.context.SkiaContext;
 
@@ -26,8 +28,18 @@ public abstract class MixinMinecraftClient {
 	private Window window;
 
 	@Shadow
+	public int attackCooldown;
+	
+	@Shadow
 	public abstract String getWindowTitle();
 
+	@Inject(method = "doAttack", at = @At("HEAD"))
+	private void onHitDelayFix(CallbackInfoReturnable<Boolean> cir) {	
+		if(HitDelayFixMod.getInstance().isEnabled()) {
+			attackCooldown = 0;
+		}
+	}
+	
 	@Overwrite
 	public void updateWindowTitle() {
 		this.window.setTitle(Soar.getInstance().getName() + " Client v" + Soar.getInstance().getVersion() + " for "
