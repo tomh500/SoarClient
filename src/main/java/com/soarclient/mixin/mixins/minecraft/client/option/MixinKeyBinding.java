@@ -9,12 +9,13 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import com.soarclient.management.mod.impl.player.SnapTapMod;
+import com.soarclient.mixin.interfaces.IMixinKeyBinding;
 
 import net.minecraft.client.option.KeyBinding;
 import net.minecraft.client.util.InputUtil;
 
 @Mixin(KeyBinding.class)
-public class MixinKeyBinding {
+public class MixinKeyBinding implements IMixinKeyBinding {
 
 	@Shadow
 	@Final
@@ -113,5 +114,10 @@ public class MixinKeyBinding {
 				mod.setBackPressTime(0);
 			}
 		}
+	}
+
+	@Override
+	public boolean getRealIsPressed() {
+		return this.pressed;
 	}
 }
