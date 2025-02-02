@@ -1,15 +1,21 @@
 package com.soarclient.management.music;
 
+import java.awt.Color;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
+import javax.imageio.ImageIO;
+
 import com.soarclient.libraries.flac.FLACDecoder;
 import com.soarclient.libraries.flac.metadata.Metadata;
 import com.soarclient.libraries.flac.metadata.Picture;
 import com.soarclient.libraries.flac.metadata.VorbisComment;
+import com.soarclient.libraries.material3.Material3;
+import com.soarclient.management.color.api.ColorPalette;
+import com.soarclient.utils.ImageUtils;
 import com.soarclient.utils.RandomUtils;
 import com.soarclient.utils.file.FileLocation;
 import com.soarclient.utils.file.FileUtils;
@@ -104,6 +110,7 @@ public class MusicManager {
 
 				String fileHash = FileUtils.getMd5Checksum(f);
 				File album = new File(FileLocation.CACHE_DIR, fileHash);
+				Color color = Color.BLACK;
 
 				if (imageData != null && !album.exists()) {
 
@@ -112,9 +119,13 @@ public class MusicManager {
 					fos.write(imageData);
 					fos.close();
 				}
+				
+				if(imageData != null && album.exists()) {
+					color = ImageUtils.calculateAverageColor(ImageIO.read(album));
+				}
 
 				musics.add(new Music(f, title == null ? f.getName().replace(".flac", "") : title,
-						artist == null ? "" : artist, album.exists() ? album : null));
+						artist == null ? "" : artist, album.exists() ? album : null, color));
 			}
 		}
 	}

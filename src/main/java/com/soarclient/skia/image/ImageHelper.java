@@ -6,14 +6,9 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
-import java.util.concurrent.TimeUnit;
 
 import org.lwjgl.opengl.GL11;
 
-import com.github.benmanes.caffeine.cache.Cache;
-import com.github.benmanes.caffeine.cache.Caffeine;
-import com.github.benmanes.caffeine.cache.RemovalCause;
-import com.github.benmanes.caffeine.cache.RemovalListener;
 import com.soarclient.skia.context.SkiaContext;
 import com.soarclient.skia.utils.SkiaUtils;
 
@@ -25,22 +20,16 @@ public class ImageHelper {
 
 	private Map<String, Image> images = new HashMap<>();
 
-	private Cache<Integer, Image> textures = Caffeine.newBuilder().expireAfterAccess(3, TimeUnit.MINUTES)
-			.removalListener(new RemovalListener<Integer, Image>() {
-				@Override
-				public void onRemoval(Integer key, Image value, RemovalCause cause) {
-					if (value != null) {
-						value.close();
-					}
-				}
-			}).build();
+	private Map<Integer, Image> textures = new HashMap<>();
 
 	public boolean load(int texture, float width, float height, SurfaceOrigin origin) {
-		textures.get(texture, key -> {
+
+		if (!textures.containsKey(texture)) {
 			Image image = Image.adoptTextureFrom(SkiaContext.getContext(), texture, GL11.GL_TEXTURE_2D, (int) width,
 					(int) height, GL11.GL_RGBA8, origin, ColorType.RGBA_8888);
-			return image;
-		});
+			textures.put(texture, image);
+		}
+
 		return true;
 	}
 
@@ -84,6 +73,11 @@ public class ImageHelper {
 	}
 
 	public Image get(int texture) {
-		return textures.getIfPresent(texture);
+		
+		if (textures.containsKey(texture)) {
+			return textures.get(texture);
+		}
+
+		return null;
 	}
 }
