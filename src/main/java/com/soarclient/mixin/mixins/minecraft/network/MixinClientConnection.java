@@ -1,4 +1,4 @@
-package com.soarclient.mixin.minecraft.network;
+package com.soarclient.mixin.mixins.minecraft.network;
 
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;

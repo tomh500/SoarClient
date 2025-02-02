@@ -1,4 +1,4 @@
-package com.soarclient.mixin.minecraft.network.packet;
+package com.soarclient.mixin.mixins.minecraft.network.packet;
 
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.gen.Accessor;

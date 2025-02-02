@@ -1,4 +1,4 @@
-package com.soarclient.mixin.minecraft.client;
+package com.soarclient.mixin.mixins.minecraft.client;
 
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;

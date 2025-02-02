@@ -29,7 +29,7 @@ import static org.lwjgl.opengl.GL20C.glUniform4f;
 import java.nio.ByteBuffer;
 
 import com.mojang.blaze3d.platform.GlStateManager;
-import com.soarclient.mixin.minecraft.client.render.BufferRendererAccessor;
+import com.soarclient.mixin.mixins.minecraft.client.render.BufferRendererAccessor;
 
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.texture.AbstractTexture;

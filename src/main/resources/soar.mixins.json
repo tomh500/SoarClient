@@ -1,8 +1,9 @@
 {
 	"required": true,
-	"package": "com.soarclient.mixin",
+	"package": "com.soarclient.mixin.mixins",
 	"compatibilityLevel": "JAVA_21",
 	"client": [
+		"minecraft.client.option.MixinKeyBinding",
 		"minecraft.client.render.BufferRendererAccessor",
 		"minecraft.client.render.MixinGameRenderer",
 		"minecraft.client.util.MixinWindow",

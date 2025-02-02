@@ -1,4 +1,4 @@
-package com.soarclient.mixin.minecraft.entity;
+package com.soarclient.mixin.mixins.minecraft.entity;
 
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;

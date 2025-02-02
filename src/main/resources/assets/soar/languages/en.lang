@@ -57,6 +57,9 @@ mod.pitchdisplay.description=Display pitch of you
 mod.jumpresetindicator.name=Jump Reset Indicator
 mod.jumpresetindicator.description=Indicate if jump reset was done correctly
 
+mod.snaptap.name=Snap Tap
+mod.snaptap.description=The last key pressed takes precedence
+
 setting.darkmode=Dark Mode
 setting.darkmode.description=Enable dark mode
 setting.keybind=Keybind

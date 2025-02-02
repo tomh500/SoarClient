@@ -1,4 +1,4 @@
-package com.soarclient.mixin.minecraft.client.util;
+package com.soarclient.mixin.mixins.minecraft.client.util;
 
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;

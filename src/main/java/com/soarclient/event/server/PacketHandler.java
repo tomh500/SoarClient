@@ -7,7 +7,7 @@ import com.soarclient.event.server.impl.AttackEntityEvent;
 import com.soarclient.event.server.impl.DamageEntityEvent;
 import com.soarclient.event.server.impl.ReceiveChatEvent;
 import com.soarclient.event.server.impl.SendChatEvent;
-import com.soarclient.mixin.minecraft.network.packet.PlayerInteractEntityC2SPacketAccessor;
+import com.soarclient.mixin.mixins.minecraft.network.packet.PlayerInteractEntityC2SPacketAccessor;
 
 import net.minecraft.network.packet.Packet;
 import net.minecraft.network.packet.c2s.play.ChatMessageC2SPacket;
