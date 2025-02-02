@@ -17,6 +17,7 @@ import com.soarclient.management.mod.impl.hud.FPSDisplayMod;
 import com.soarclient.management.mod.impl.hud.GameModeDisplayMod;
 import com.soarclient.management.mod.impl.hud.HealthDisplayMod;
 import com.soarclient.management.mod.impl.hud.JumpResetIndicatorMod;
+import com.soarclient.management.mod.impl.hud.KeystrokesMod;
 import com.soarclient.management.mod.impl.hud.PitchDisplayMod;
 import com.soarclient.management.mod.impl.hud.PlayerCounterMod;
 import com.soarclient.management.mod.impl.hud.ReachDisplayMod;
@@ -51,6 +52,7 @@ public class ModManager {
 		mods.add(new GameModeDisplayMod());
 		mods.add(new HealthDisplayMod());
 		mods.add(new JumpResetIndicatorMod());
+		mods.add(new KeystrokesMod());
 		mods.add(new PitchDisplayMod());
 		mods.add(new PlayerCounterMod());
 		mods.add(new ReachDisplayMod());

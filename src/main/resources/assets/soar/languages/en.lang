@@ -63,6 +63,9 @@ mod.snaptap.description=The last key pressed takes precedence
 mod.gamemodedisplay.name=Game Mode Display
 mod.gamemodedisplay.description=Display your game mode
 
+mod.keystrokes.name=Keystrokes
+mod.keystrokes.description=Display pressed keys
+
 setting.darkmode=Dark Mode
 setting.darkmode.description=Enable dark mode
 setting.keybind=Keybind
@@ -79,3 +82,9 @@ setting.blurintensity=Blur intensity
 setting.blurintensity.description=Set the intensity of the blur
 setting.maxtick=Max tick
 setting.maxtick.description=Set the maximum number of ticks
+setting.spacekey=Space Key
+setting.spacekey.description=Display the space key
+setting.unmarked=Unmarked
+setting.unmarked.description=Hide the mark
+setting.snaptapcompatibility=Compatibility with SnapTap
+setting.snaptapcompatibility.description=Reflects keys released by Snap Tap
