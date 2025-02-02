@@ -71,3 +71,5 @@ setting.design=Design
 setting.design.description=Set the design
 setting.blurintensity=Blur intensity
 setting.blurintensity.description=Set the intensity of the blur
+setting.maxtick=Max tick
+setting.maxtick.description=Set the maximum number of ticks

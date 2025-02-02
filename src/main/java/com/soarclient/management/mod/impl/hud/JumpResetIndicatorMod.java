@@ -3,13 +3,16 @@ package com.soarclient.management.mod.impl.hud;
 import com.soarclient.event.EventBus;
 import com.soarclient.event.client.RenderSkiaEvent;
 import com.soarclient.management.mod.api.hud.SimpleHUDMod;
+import com.soarclient.management.mod.settings.impl.NumberSetting;
 import com.soarclient.skia.font.Icon;
 
 public class JumpResetIndicatorMod extends SimpleHUDMod {
 
 	private static JumpResetIndicatorMod instance;
 
-	private int ticks;
+	private NumberSetting tickSetting = new NumberSetting("setting.maxtick", "setting.maxtick.description",
+			Icon.SCHEDULE, this, 10, 1, 100, 1);
+
 	private int hurtAge, jumpAge;
 
 	private long lastTime;
@@ -17,7 +20,6 @@ public class JumpResetIndicatorMod extends SimpleHUDMod {
 	public JumpResetIndicatorMod() {
 		super("mod.jumpresetindicator.name", "mod.jumpresetindicator.description", Icon.SPORTS_KABADDI);
 		instance = this;
-		ticks = 30;
 	}
 
 	public EventBus.EventListener<RenderSkiaEvent> onRenderSkia = event -> {
@@ -29,7 +31,7 @@ public class JumpResetIndicatorMod extends SimpleHUDMod {
 
 		String diff = "No Jump";
 
-		if (lastTime + 2500 <= System.currentTimeMillis() || Math.abs(jumpAge - hurtAge) >= ticks) {
+		if (lastTime + 2500 <= System.currentTimeMillis() || Math.abs(jumpAge - hurtAge) >= tickSetting.getValue()) {
 			diff = "No Jump";
 		} else if (jumpAge == hurtAge + 1) {
 			diff = "Perfect!";
