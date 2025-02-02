@@ -60,6 +60,9 @@ mod.jumpresetindicator.description=Indicate if jump reset was done correctly
 mod.snaptap.name=Snap Tap
 mod.snaptap.description=The last key pressed takes precedence
 
+mod.gamemodedisplay.name=Game Mode Display
+mod.gamemodedisplay.description=Display your game mode
+
 setting.darkmode=Dark Mode
 setting.darkmode.description=Enable dark mode
 setting.keybind=Keybind
