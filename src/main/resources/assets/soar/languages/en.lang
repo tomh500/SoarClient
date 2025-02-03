@@ -99,6 +99,9 @@ mod.playtimedisplay.description=Display playing time
 mod.protocolversion.name=Protocol Version
 mod.protocolversion.description=Display the Protocol Version
 
+mod.zoom.name=Zoom
+mod.zoom.description=Zoom in on a viewpoint
+
 setting.darkmode=Dark Mode
 setting.darkmode.description=Enable dark mode
 setting.keybind=Keybind
@@ -135,3 +138,13 @@ setting.toggle=Toggle
 setting.toggle.description=Change to toggle
 setting.refreshtime=Refresh Time
 setting.refreshtime.description=Set a time to refresh
+setting.scroll=Scroll
+setting.zoom.scroll.description=Make the zoom scrollable
+setting.smoothzoom=Smooth Zoom
+setting.smoothzoom.description=Make zoom smooth
+setting.zoomspeed=Zoom Speed
+setting.zoomspeed.description=Changing the zoom animation speed
+setting.zoomfactor=Zoom Factor
+setting.zoomfactor.description=Change the factor of zoom
+setting.smoothcamera=Smooth Camera
+setting.smoothcamera.description=Smoothly move the camera

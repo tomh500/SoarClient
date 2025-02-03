@@ -7,6 +7,8 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import com.soarclient.Soar;
+import com.soarclient.event.EventBus;
+import com.soarclient.event.client.MouseScrollEvent;
 import com.soarclient.management.mod.settings.impl.KeybindSetting;
 
 import net.minecraft.client.Mouse;
@@ -37,6 +39,18 @@ public class MixinMouse {
 			if (s.getKey().equals(Type.MOUSE.createFromCode(button))) {
 				s.setKeyDown(false);
 			}
+		}
+	}
+	
+	@Inject(method = "onMouseScroll", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/player/PlayerInventory;setSelectedSlot(I)V", shift = At.Shift.BEFORE), cancellable = true)
+	private void onMouseScroll(long window, double horizontal, double vertical, CallbackInfo ci) {
+		
+		MouseScrollEvent event = new MouseScrollEvent(vertical);
+		
+		EventBus.getInstance().post(event);
+		
+		if(event.isCancelled()) {
+			ci.cancel();
 		}
 	}
 }

@@ -4,15 +4,18 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import com.soarclient.event.EventBus;
 import com.soarclient.event.client.RenderSkiaEvent;
+import com.soarclient.management.mod.impl.player.ZoomMod;
 import com.soarclient.management.mod.impl.settings.HUDModSettings;
 import com.soarclient.shader.impl.KawaseBlur;
 import com.soarclient.skia.Skia;
 import com.soarclient.skia.context.SkiaContext;
 
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.render.Camera;
 import net.minecraft.client.render.GameRenderer;
 import net.minecraft.client.render.RenderTickCounter;
 
@@ -32,5 +35,14 @@ public class MixinGameRenderer {
 			EventBus.getInstance().post(new RenderSkiaEvent());
 			Skia.restore();
 		});
+	}
+	
+	@Inject(method = "getFov", at = @At(value = "RETURN", ordinal = 1), cancellable = true)
+	private void getFov(Camera camera, float tickDelta, boolean changingFov, CallbackInfoReturnable<Float> cir) {
+		if(ZoomMod.getInstance().isEnabled()) {
+			float value = cir.getReturnValue();
+			value = ZoomMod.getInstance().getFov(value);
+			cir.setReturnValue(value);
+		}
 	}
 }

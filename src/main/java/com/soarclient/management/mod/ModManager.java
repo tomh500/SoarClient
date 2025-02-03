@@ -35,6 +35,7 @@ import com.soarclient.management.mod.impl.player.HitDelayFixMod;
 import com.soarclient.management.mod.impl.player.NoJumpDelayMod;
 import com.soarclient.management.mod.impl.player.SnapTapMod;
 import com.soarclient.management.mod.impl.player.TaplookMod;
+import com.soarclient.management.mod.impl.player.ZoomMod;
 import com.soarclient.management.mod.impl.settings.HUDModSettings;
 import com.soarclient.management.mod.impl.settings.ModMenuSettings;
 import com.soarclient.management.mod.settings.Setting;
@@ -83,6 +84,7 @@ public class ModManager {
 		mods.add(new NoJumpDelayMod());
 		mods.add(new SnapTapMod());
 		mods.add(new TaplookMod());
+		mods.add(new ZoomMod());
 		
 		// Settings
 		mods.add(new HUDModSettings());
