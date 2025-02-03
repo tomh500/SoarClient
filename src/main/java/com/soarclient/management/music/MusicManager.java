@@ -13,8 +13,6 @@ import com.soarclient.libraries.flac.FLACDecoder;
 import com.soarclient.libraries.flac.metadata.Metadata;
 import com.soarclient.libraries.flac.metadata.Picture;
 import com.soarclient.libraries.flac.metadata.VorbisComment;
-import com.soarclient.libraries.material3.Material3;
-import com.soarclient.management.color.api.ColorPalette;
 import com.soarclient.utils.ImageUtils;
 import com.soarclient.utils.RandomUtils;
 import com.soarclient.utils.file.FileLocation;
