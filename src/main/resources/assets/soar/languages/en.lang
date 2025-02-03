@@ -87,6 +87,9 @@ mod.serveripdisplay.description=Display the IP of the server you are joining
 mod.namedisplay.name=Name Display
 mod.namedisplay.description=Display your name
 
+mod.pingdisplay.name=Ping Display
+mod.pingdisplay.description=Display your ping
+
 setting.darkmode=Dark Mode
 setting.darkmode.description=Enable dark mode
 setting.keybind=Keybind
@@ -121,3 +124,5 @@ setting.front=Front
 setting.behind=Behind
 setting.toggle=Toggle
 setting.toggle.description=Change to toggle
+setting.refreshtime=Refresh Time
+setting.refreshtime.description=Set a time to refresh
