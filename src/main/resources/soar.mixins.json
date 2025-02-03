@@ -7,6 +7,7 @@
 		"minecraft.client.render.BufferRendererAccessor",
 		"minecraft.client.render.MixinCamera",
 		"minecraft.client.render.MixinGameRenderer",
+		"minecraft.client.render.MixinInGameHud",
 		"minecraft.client.render.MixinInGameOverlayRenderer",
 		"minecraft.client.util.MixinWindow",
 		"minecraft.client.MixinKeyboard",
