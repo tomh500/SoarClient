@@ -102,6 +102,9 @@ mod.protocolversion.description=Display the Protocol Version
 mod.zoom.name=Zoom
 mod.zoom.description=Zoom in on a viewpoint
 
+mod.overlayeditor.name=Overlay Editor
+mod.overlayeditor.description=Edit Overlay
+
 setting.darkmode=Dark Mode
 setting.darkmode.description=Enable dark mode
 setting.keybind=Keybind
@@ -148,3 +151,7 @@ setting.zoomfactor=Zoom Factor
 setting.zoomfactor.description=Change the factor of zoom
 setting.smoothcamera=Smooth Camera
 setting.smoothcamera.description=Smoothly move the camera
+setting.clearwater=Clear Water
+setting.clearwater.description=Remove water overlay
+setting.clearfire=Clear Fire
+setting.clearfire.description=Remove fire overlay
