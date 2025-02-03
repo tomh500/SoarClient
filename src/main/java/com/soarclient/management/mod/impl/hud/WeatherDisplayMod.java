@@ -32,16 +32,16 @@ public class WeatherDisplayMod extends SimpleHUDMod {
 		RegistryEntry<Biome> biomeEntry = world.getBiome(playerPos);
 		biome = getBiomeName(biomeEntry);
 
+		if (world.isThundering()) {
+			return prefix + "Thundering";
+		}
+		
 		if (world.isRaining()) {
 			if (biome.contains("hills") && player.getY() > 100) {
 				return prefix + "Snowing";
 			} else {
 				return prefix + "Raining";
 			}
-		}
-
-		if (world.isThundering()) {
-			return prefix + "Thundering";
 		}
 
 		return prefix + "Cleaning";
@@ -59,16 +59,16 @@ public class WeatherDisplayMod extends SimpleHUDMod {
 
 		String iconFont = Icon.SUNNY;
 
+		if (world.isThundering()) {
+			iconFont = Icon.THUNDERSTORM;
+		}
+		
 		if (world.isRaining()) {
 			if (biome.contains("hills") && player.getY() > 100) {
 				iconFont = Icon.WEATHER_SNOWY;
 			} else {
 				iconFont = Icon.RAINY;
 			}
-		}
-
-		if (world.isThundering()) {
-			iconFont = Icon.THUNDERSTORM;
 		}
 
 		return iconFont;
