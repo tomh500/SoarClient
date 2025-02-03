@@ -69,8 +69,4 @@ public class WeatherDisplayMod extends SimpleHUDMod {
 
 		return iconFont;
 	}
-
-	private String getBiomeName(RegistryEntry<Biome> biomeEntry) {
-		return biomeEntry.getKey().map(key -> key.getValue().getPath()).orElse("unknown");
-	}
 }
