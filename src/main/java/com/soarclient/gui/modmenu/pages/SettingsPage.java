@@ -75,6 +75,7 @@ public class SettingsPage extends Page {
 			offsetY += 68 + 18;
 		}
 
+		scrollHelper.setMaxScroll(offsetY, height);
 		Skia.restore();
 	}
 

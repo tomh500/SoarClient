@@ -119,6 +119,7 @@ public class ModsPage extends Page {
 			}
 		}
 
+		scrollHelper.setMaxScroll(151, 22, index, 3, height - 96);
 		Skia.restore();
 	}
 	

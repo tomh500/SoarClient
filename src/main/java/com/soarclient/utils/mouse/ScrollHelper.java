@@ -24,6 +24,25 @@ public class ScrollHelper {
 	public float getValue() {
 		return animation.getValue();
 	}
+	
+	public void setMaxScroll(float itemHeight, float itemSpace, int itemSize, int row, float height) {
+		
+		int totalItems = itemSize;
+		int itemsPerRow = row;
+		int rows = (int) Math.ceil((double) totalItems / itemsPerRow);
+		float totalHeight = rows * (itemHeight + itemSpace);
+		float viewportHeight = height;
+		float maxScroll = Math.max(0, totalHeight - viewportHeight);
+		
+		this.maxScroll = maxScroll;
+	}
+	
+	public void setMaxScroll(float totalHeight, float height) {
+		
+		float maxScroll = Math.max(0, totalHeight - height);
+		
+		this.maxScroll = maxScroll;
+	}
 
 	public void reset() {
 		this.scroll = 0;

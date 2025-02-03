@@ -132,6 +132,7 @@ public class MusicPage extends Page {
 			}
 		}
 
+		scrollHelper.setMaxScroll(206, 23, index, 4, height - 96);
 		Skia.restore();
 
 		mouseY = mouseY + scrollHelper.getValue();
