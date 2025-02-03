@@ -15,7 +15,7 @@ public class ProtocolVersionMod extends SimpleHUDMod {
 	public final EventBus.EventListener<RenderSkiaEvent> onRenderSkia = event -> {
 		this.draw();
 	};
-	
+
 	@Override
 	public String getText() {
 		return "Protocol Version: " + ViaFabricPlus.getImpl().getTargetVersion().getName();

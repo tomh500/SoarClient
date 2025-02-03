@@ -25,10 +25,10 @@ import com.soarclient.utils.mouse.MouseUtils;
 public class ModsPage extends Page {
 
 	private List<Item> items = new ArrayList<>();
-	
+
 	public ModsPage(SoarGui parent) {
 		super(parent, "text.mods", Icon.INVENTORY_2, new RightLeftTransition(true));
-		
+
 		for (Mod m : Soar.getInstance().getModManager().getMods()) {
 
 			Item i = new Item(m);
@@ -40,32 +40,32 @@ public class ModsPage extends Page {
 			items.add(i);
 		}
 	}
-	
+
 	@Override
 	public void init() {
 		super.init();
-		
+
 		for (Item i : items) {
 			i.xAnimation.setFirstTick(true);
 			i.yAnimation.setFirstTick(true);
 		}
 	}
-	
+
 	@Override
 	public void draw(double mouseX, double mouseY) {
 		super.draw(mouseX, mouseY);
-		
+
 		ColorPalette palette = Soar.getInstance().getColorManager().getPalette();
 
 		int index = 0;
 		float offsetX = 26;
 		float offsetY = 0;
-		
+
 		mouseY = mouseY - scrollHelper.getValue();
 
 		Skia.save();
 		Skia.translate(0, scrollHelper.getValue());
-		
+
 		for (Item i : items) {
 
 			Mod m = i.mod;
@@ -101,8 +101,7 @@ public class ModsPage extends Page {
 
 			Skia.save();
 			Skia.clip(itemX, itemY + 116, 244, 35, 0, 0, 26, 26);
-			i.pressAnimation.draw(itemX, itemY + 116, 224, 35,
-					palette.getPrimaryContainer(), 1);
+			i.pressAnimation.draw(itemX, itemY + 116, 224, 35, palette.getPrimaryContainer(), 1);
 			Skia.restore();
 
 			Skia.drawFullCenteredText(I18n.get(m.getName()), itemX + (244 / 2), itemY + 116 + (35 / 2),
@@ -122,11 +121,11 @@ public class ModsPage extends Page {
 		scrollHelper.setMaxScroll(151, 22, index, 3, height - 96);
 		Skia.restore();
 	}
-	
+
 	@Override
 	public void mousePressed(double mouseX, double mouseY, int button) {
 		super.mousePressed(mouseX, mouseY, button);
-		
+
 		for (Item i : items) {
 
 			float itemX = i.xAnimation.getValue();
@@ -149,12 +148,12 @@ public class ModsPage extends Page {
 			}
 		}
 	}
-	
+
 	@Override
 	public void mouseReleased(double mouseX, double mouseY, int button) {
-		
+
 		mouseY = mouseY - scrollHelper.getValue();
-		
+
 		for (Item i : items) {
 
 			Mod m = i.mod;
@@ -197,7 +196,7 @@ public class ModsPage extends Page {
 	public void onClosed() {
 		this.setTransition(new RightLeftTransition(true));
 	}
-	
+
 	private class Item {
 
 		private Mod mod;

@@ -33,7 +33,7 @@ public class SettingsImplPage extends Page {
 	@Override
 	public void init() {
 		super.init();
-		
+
 		bars.clear();
 
 		for (Setting s : Soar.getInstance().getModManager().getSettingsByMod(mod)) {
@@ -110,27 +110,27 @@ public class SettingsImplPage extends Page {
 	@Override
 	public void charTyped(char chr, int modifiers) {
 		super.charTyped(chr, modifiers);
-		
+
 		for (SettingBar b : bars) {
 
 			if (!searchBar.getText().isEmpty() && !SearchUtils.isSimilar(I18n.get(b.getTitle()), searchBar.getText())) {
 				continue;
 			}
-			
+
 			b.charTyped(chr, modifiers);
 		}
 	}
-	
+
 	@Override
 	public void keyPressed(int keyCode, int scanCode, int modifiers) {
 		super.keyPressed(keyCode, scanCode, modifiers);
-		
+
 		for (SettingBar b : bars) {
 
 			if (!searchBar.getText().isEmpty() && !SearchUtils.isSimilar(I18n.get(b.getTitle()), searchBar.getText())) {
 				continue;
 			}
-			
+
 			b.keyPressed(keyCode, scanCode, modifiers);
 		}
 

@@ -29,17 +29,17 @@ public abstract class MixinMinecraftClient {
 
 	@Shadow
 	public int attackCooldown;
-	
+
 	@Shadow
 	public abstract String getWindowTitle();
 
 	@Inject(method = "doAttack", at = @At("HEAD"))
-	private void onHitDelayFix(CallbackInfoReturnable<Boolean> cir) {	
-		if(HitDelayFixMod.getInstance().isEnabled()) {
+	private void onHitDelayFix(CallbackInfoReturnable<Boolean> cir) {
+		if (HitDelayFixMod.getInstance().isEnabled()) {
 			attackCooldown = 0;
 		}
 	}
-	
+
 	@Overwrite
 	public void updateWindowTitle() {
 		this.window.setTitle(Soar.getInstance().getName() + " Client v" + Soar.getInstance().getVersion() + " for "
@@ -56,15 +56,15 @@ public abstract class MixinMinecraftClient {
 	public void onClientTick(CallbackInfo ci) {
 		EventBus.getInstance().post(new ClientTickEvent());
 	}
-	
+
 	@Inject(method = "run", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/MinecraftClient;printCrashReport()V"))
 	public void onGameLoop(CallbackInfo ci) {
 		EventBus.getInstance().post(new GameLoopEvent());
 	}
-	
-    @Inject(method = "onResolutionChanged", at = @At("TAIL"))
-    public void onResolutionChanged(CallbackInfo info) {
-    	KawaseBlur.GUI_BLUR.resize();
-    	KawaseBlur.INGAME_BLUR.resize();
-    }
+
+	@Inject(method = "onResolutionChanged", at = @At("TAIL"))
+	public void onResolutionChanged(CallbackInfo info) {
+		KawaseBlur.GUI_BLUR.resize();
+		KawaseBlur.INGAME_BLUR.resize();
+	}
 }

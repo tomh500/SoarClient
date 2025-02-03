@@ -17,14 +17,14 @@ public class MixinLivingEntity {
 
 	@Shadow
 	private int jumpingCooldown;
-	
+
 	@Inject(method = "tickMovement", at = @At("HEAD"))
 	public void onNoJumpDelay(CallbackInfo ci) {
-		if(NoJumpDelayMod.getInstance().isEnabled()) {
+		if (NoJumpDelayMod.getInstance().isEnabled()) {
 			jumpingCooldown = 0;
 		}
 	}
-	
+
 	@Inject(method = "jump", at = @At("HEAD"))
 	private void onJump(CallbackInfo info) {
 

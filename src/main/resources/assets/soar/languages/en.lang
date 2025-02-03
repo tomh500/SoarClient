@@ -105,6 +105,9 @@ mod.zoom.description=Zoom in on a viewpoint
 mod.overlayeditor.name=Overlay Editor
 mod.overlayeditor.description=Edit Overlay
 
+mod.discordrpc.name=Discord RPC
+mod.discordrpc.description=Enable Discord Rich Presence
+
 setting.darkmode=Dark Mode
 setting.darkmode.description=Enable dark mode
 setting.keybind=Keybind

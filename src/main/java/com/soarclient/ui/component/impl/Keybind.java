@@ -40,8 +40,8 @@ public class Keybind extends Component {
 		pressAnimation.draw(x + pressedPos[0], y + pressedPos[1], width, height, palette.getPrimaryContainer(), 0.12F);
 		Skia.restore();
 
-		Skia.drawFullCenteredText(binding ? "..." : key.getLocalizedText().getString(), x + (width / 2), y + (height / 2), palette.getSurface(),
-				Fonts.getMedium(14));
+		Skia.drawFullCenteredText(binding ? "..." : key.getLocalizedText().getString(), x + (width / 2),
+				y + (height / 2), palette.getSurface(), Fonts.getMedium(14));
 	}
 
 	@Override

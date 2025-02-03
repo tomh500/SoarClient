@@ -45,7 +45,7 @@ public class ZoomMod extends Mod {
 
 		instance = this;
 	}
-	
+
 	public final EventBus.EventListener<ClientTickEvent> onClientTick = event -> {
 		if (keybindSetting.isKeyDown()) {
 			if (!active) {
@@ -60,7 +60,7 @@ public class ZoomMod extends Mod {
 			client.options.smoothCameraEnabled = wasSmooth;
 		}
 	};
-	
+
 	public final EventBus.EventListener<MouseScrollEvent> onMouseScroll = event -> {
 		if (active && scrollSetting.isEnabled()) {
 			event.setCancelled(true);

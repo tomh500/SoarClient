@@ -133,12 +133,12 @@ public class TextField extends Component {
 			input.keyPressed(keyCode, scanCode, modifiers);
 		}
 	}
-	
+
 	@Override
 	public void charTyped(char chr, int modifiers) {
-		
+
 		input.charTyped(chr, modifiers);
-		
+
 		if (handler instanceof TextHandler) {
 			((TextHandler) handler).onTyped(getText());
 		}

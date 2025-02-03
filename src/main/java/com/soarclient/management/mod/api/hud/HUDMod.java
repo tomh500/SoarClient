@@ -21,10 +21,11 @@ public abstract class HUDMod extends Mod {
 
 	public void begin() {
 
-		/*if (HUDModSettings.getInstance().getBlurSetting().isEnabled()) {
-			Skia.drawRoundedBlur(position.getX(), position.getY(), position.getWidth(), position.getHeight(),
-					getRadius() * position.getScale());
-		}*/
+		/*
+		 * if (HUDModSettings.getInstance().getBlurSetting().isEnabled()) {
+		 * Skia.drawRoundedBlur(position.getX(), position.getY(), position.getWidth(),
+		 * position.getHeight(), getRadius() * position.getScale()); }
+		 */
 
 		Skia.save();
 		Skia.scale(position.getX(), position.getY(), position.getScale());

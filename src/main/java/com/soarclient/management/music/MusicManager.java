@@ -117,8 +117,8 @@ public class MusicManager {
 					fos.write(imageData);
 					fos.close();
 				}
-				
-				if(imageData != null && album.exists()) {
+
+				if (imageData != null && album.exists()) {
 					color = ImageUtils.calculateAverageColor(ImageIO.read(album));
 				}
 

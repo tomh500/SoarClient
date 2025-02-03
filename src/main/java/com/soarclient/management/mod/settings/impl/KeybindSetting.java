@@ -41,7 +41,7 @@ public class KeybindSetting extends Setting {
 	public boolean isKeyDown() {
 		return keyDown;
 	}
-	
+
 	public void setKeyDown(boolean keyDown) {
 		this.keyDown = keyDown;
 	}

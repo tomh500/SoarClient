@@ -13,7 +13,7 @@ public class SnapTapMod extends Mod {
 		super("mod.snaptap.name", "mod.snaptap.description", Icon.KEYBOARD_KEYS, ModCategory.PLAYER);
 		instance = this;
 	}
-	
+
 	public static SnapTapMod getInstance() {
 		return instance;
 	}

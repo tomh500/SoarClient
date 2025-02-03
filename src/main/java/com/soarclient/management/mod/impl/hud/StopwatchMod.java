@@ -33,7 +33,7 @@ public class StopwatchMod extends SimpleHUDMod {
 	};
 
 	public final EventBus.EventListener<ClientTickEvent> onClientTick = event -> {
-		
+
 		if (keybindSetting.isPressed()) {
 			pressCount++;
 		}
@@ -57,7 +57,7 @@ public class StopwatchMod extends SimpleHUDMod {
 	public void onEnable() {
 
 		super.onEnable();
-		
+
 		if (timer != null) {
 			timer.reset();
 		}

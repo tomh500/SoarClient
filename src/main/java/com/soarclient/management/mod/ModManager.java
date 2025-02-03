@@ -31,6 +31,7 @@ import com.soarclient.management.mod.impl.hud.ServerIPDisplayMod;
 import com.soarclient.management.mod.impl.hud.StopwatchMod;
 import com.soarclient.management.mod.impl.hud.WeatherDisplayMod;
 import com.soarclient.management.mod.impl.hud.YawDisplayMod;
+import com.soarclient.management.mod.impl.misc.DiscordRPCMod;
 import com.soarclient.management.mod.impl.player.HitDelayFixMod;
 import com.soarclient.management.mod.impl.player.NoJumpDelayMod;
 import com.soarclient.management.mod.impl.player.SnapTapMod;
@@ -56,7 +57,7 @@ public class ModManager {
 	}
 
 	private void initMods() {
-	
+
 		// HUD
 		mods.add(new ComboCounterMod());
 		mods.add(new CoordsMod());
@@ -79,21 +80,24 @@ public class ModManager {
 		mods.add(new StopwatchMod());
 		mods.add(new WeatherDisplayMod());
 		mods.add(new YawDisplayMod());
-		
+
 		// Player
 		mods.add(new HitDelayFixMod());
 		mods.add(new NoJumpDelayMod());
 		mods.add(new SnapTapMod());
 		mods.add(new TaplookMod());
 		mods.add(new ZoomMod());
-		
+
 		// Render
 		mods.add(new OverlayEditorMod());
+
+		// Misc
+		mods.add(new DiscordRPCMod());
 		
 		// Settings
 		mods.add(new HUDModSettings());
 		mods.add(new ModMenuSettings());
-		
+
 		sortMods();
 	}
 

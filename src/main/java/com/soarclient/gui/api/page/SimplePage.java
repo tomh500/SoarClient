@@ -11,7 +11,7 @@ public class SimplePage {
 	protected SoarGui parent;
 	private Animation animation;
 	private GuiTransition transition;
-	
+
 	public SimplePage(SoarGui parent, String title, String icon, GuiTransition transition) {
 		this.parent = parent;
 		this.title = title;
@@ -23,7 +23,7 @@ public class SimplePage {
 		this.transition = transition;
 		this.animation = new DummyAnimation(1);
 	}
-	
+
 	public void init() {
 	}
 
@@ -38,7 +38,7 @@ public class SimplePage {
 
 	public void mouseScrolled(double mouseX, double mouseY, double horizontalAmount, double verticalAmount) {
 	}
-	
+
 	public void charTyped(char chr, int modifiers) {
 	}
 
@@ -47,7 +47,7 @@ public class SimplePage {
 
 	public void onClosed() {
 	}
-	
+
 	public float getX() {
 		return x;
 	}
@@ -87,7 +87,7 @@ public class SimplePage {
 	public String getIcon() {
 		return icon;
 	}
-	
+
 	public GuiTransition getTransition() {
 		return transition;
 	}

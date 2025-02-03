@@ -16,7 +16,7 @@ public class WeatherDisplayMod extends SimpleHUDMod {
 	public WeatherDisplayMod() {
 		super("mod.weatherdisplay.name", "mod.weatherdisplay.description", Icon.SUNNY);
 	}
-	
+
 	public final EventBus.EventListener<RenderSkiaEvent> onRenderSkia = event -> {
 		this.draw();
 	};
@@ -24,59 +24,57 @@ public class WeatherDisplayMod extends SimpleHUDMod {
 	@Override
 	public String getText() {
 
-	    String biome = "";
+		String biome = "";
 		String prefix = "Weather: ";
-	    ClientWorld world = client.world;
-	    ClientPlayerEntity player = client.player;
-	    BlockPos playerPos = player.getBlockPos();
-	    RegistryEntry<Biome> biomeEntry = world.getBiome(playerPos);
-	    biome = getBiomeName(biomeEntry);
+		ClientWorld world = client.world;
+		ClientPlayerEntity player = client.player;
+		BlockPos playerPos = player.getBlockPos();
+		RegistryEntry<Biome> biomeEntry = world.getBiome(playerPos);
+		biome = getBiomeName(biomeEntry);
 
-	    if (world.isRaining()) {
-	        if (biome.contains("hills") && player.getY() > 100) {
+		if (world.isRaining()) {
+			if (biome.contains("hills") && player.getY() > 100) {
 				return prefix + "Snowing";
-	        } else {
+			} else {
 				return prefix + "Raining";
-	        }
-	    }
+			}
+		}
 
-	    if (world.isThundering()) {
+		if (world.isThundering()) {
 			return prefix + "Thundering";
-	    }
-	    
+		}
+
 		return prefix + "Cleaning";
 	}
 
 	@Override
 	public String getIcon() {
 
-	    String biome = "";
-	    ClientWorld world = client.world;
-	    ClientPlayerEntity player = client.player;
-	    BlockPos playerPos = player.getBlockPos();
-	    RegistryEntry<Biome> biomeEntry = world.getBiome(playerPos);
-	    biome = getBiomeName(biomeEntry);
+		String biome = "";
+		ClientWorld world = client.world;
+		ClientPlayerEntity player = client.player;
+		BlockPos playerPos = player.getBlockPos();
+		RegistryEntry<Biome> biomeEntry = world.getBiome(playerPos);
+		biome = getBiomeName(biomeEntry);
 
-	    String iconFont = Icon.SUNNY;
+		String iconFont = Icon.SUNNY;
 
-	    if (world.isRaining()) {
-	        if (biome.contains("hills") && player.getY() > 100) {
-	            iconFont = Icon.WEATHER_SNOWY;
-	        } else {
-	            iconFont = Icon.RAINY;
-	        }
-	    }
+		if (world.isRaining()) {
+			if (biome.contains("hills") && player.getY() > 100) {
+				iconFont = Icon.WEATHER_SNOWY;
+			} else {
+				iconFont = Icon.RAINY;
+			}
+		}
 
-	    if (world.isThundering()) {
-	        iconFont = Icon.THUNDERSTORM;
-	    }
+		if (world.isThundering()) {
+			iconFont = Icon.THUNDERSTORM;
+		}
 
 		return iconFont;
 	}
-	
+
 	private String getBiomeName(RegistryEntry<Biome> biomeEntry) {
-	    return biomeEntry.getKey()
-	        .map(key -> key.getValue().getPath())
-	        .orElse("unknown");
+		return biomeEntry.getKey().map(key -> key.getValue().getPath()).orElse("unknown");
 	}
 }

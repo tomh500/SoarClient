@@ -50,7 +50,7 @@ public class GuiEditHUD extends SimpleSoarGui {
 	public void draw(double mouseX, double mouseY) {
 		selectedMod.ifPresent(mod -> updateModPosition(mod, mouseX, mouseY));
 	}
-	
+
 	@Override
 	public void mouseScrolled(double mouseX, double mouseY, double horizontalAmount, double verticalAmount) {
 		if (selectedMod.isEmpty()) {
@@ -63,9 +63,9 @@ public class GuiEditHUD extends SimpleSoarGui {
 	}
 
 	private void handleMouseWheel(double mouseX, double mouseY, double amount) {
-		
+
 		double dWheel = amount;
-		
+
 		getHoveredMod(mouseX, mouseY).ifPresent(mod -> {
 			Position position = mod.getPosition();
 			float newScale = calculateNewScale(position.getScale(), dWheel);
@@ -87,9 +87,10 @@ public class GuiEditHUD extends SimpleSoarGui {
 				return;
 			}
 
-			GrabOffset offset = new GrabOffset((float) (mouseX - mod.getPosition().getX()), (float) (mouseY - mod.getPosition().getY()));
+			GrabOffset offset = new GrabOffset((float) (mouseX - mod.getPosition().getX()),
+					(float) (mouseY - mod.getPosition().getY()));
 			selectedMod = Optional.of(ObjectObjectImmutablePair.of(mod, offset));
-			
+
 			snapping = button == 0;
 		});
 	}
@@ -120,8 +121,8 @@ public class GuiEditHUD extends SimpleSoarGui {
 		return mouseX >= pos.getX() && mouseX <= pos.getRightX() && mouseY >= pos.getY() && mouseY <= pos.getBottomY();
 	}
 
-	private void setHudPositions(ObjectObjectImmutablePair<HUDMod, GrabOffset> modPair, double mouseX, double mouseY, boolean snap,
-			float lineWidth) {
+	private void setHudPositions(ObjectObjectImmutablePair<HUDMod, GrabOffset> modPair, double mouseX, double mouseY,
+			boolean snap, float lineWidth) {
 		GrabOffset offset = modPair.right();
 		Position position = modPair.left().getPosition();
 

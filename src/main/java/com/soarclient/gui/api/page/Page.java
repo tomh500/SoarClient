@@ -32,7 +32,7 @@ public class Page extends SimplePage {
 	public void draw(double mouseX, double mouseY) {
 
 		scrollHelper.onUpdate();
-		
+
 		Skia.save();
 		Skia.translate(0, scrollHelper.getValue());
 

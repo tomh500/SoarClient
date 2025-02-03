@@ -73,7 +73,7 @@ public class ImageHelper {
 	}
 
 	public Image get(int texture) {
-		
+
 		if (textures.containsKey(texture)) {
 			return textures.get(texture);
 		}

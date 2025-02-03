@@ -19,15 +19,15 @@ public class MixinMouse {
 
 	@Inject(method = "onMouseButton", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/option/KeyBinding;onKeyPressed(Lnet/minecraft/client/util/InputUtil$Key;)V", shift = At.Shift.AFTER))
 	public void onPressed(long window, int button, int action, int mods, CallbackInfo ci) {
-		
+
 		for (KeybindSetting s : Soar.getInstance().getModManager().getKeybindSettings()) {
-			
+
 			if (s.getKey().equals(Type.MOUSE.createFromCode(button))) {
-				
+
 				if (action == GLFW.GLFW_PRESS) {
 					s.setPressed();
 				}
-				
+
 				s.setKeyDown(true);
 			}
 		}
@@ -41,15 +41,15 @@ public class MixinMouse {
 			}
 		}
 	}
-	
+
 	@Inject(method = "onMouseScroll", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/player/PlayerInventory;setSelectedSlot(I)V", shift = At.Shift.BEFORE), cancellable = true)
 	private void onMouseScroll(long window, double horizontal, double vertical, CallbackInfo ci) {
-		
+
 		MouseScrollEvent event = new MouseScrollEvent(vertical);
-		
+
 		EventBus.getInstance().post(event);
-		
-		if(event.isCancelled()) {
+
+		if (event.isCancelled()) {
 			ci.cancel();
 		}
 	}

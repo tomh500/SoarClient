@@ -17,15 +17,15 @@ public class MixinKeyboard {
 
 	@Inject(method = "onKey", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/option/KeyBinding;onKeyPressed(Lnet/minecraft/client/util/InputUtil$Key;)V", shift = At.Shift.AFTER))
 	public void onPressed(long window, int key, int scancode, int action, int modifiers, CallbackInfo ci) {
-		
+
 		for (KeybindSetting s : Soar.getInstance().getModManager().getKeybindSettings()) {
-			
+
 			if (s.getKey().equals(InputUtil.fromKeyCode(key, scancode))) {
-				
+
 				if (action == GLFW.GLFW_PRESS) {
 					s.setPressed();
 				}
-				
+
 				s.setKeyDown(true);
 			}
 		}

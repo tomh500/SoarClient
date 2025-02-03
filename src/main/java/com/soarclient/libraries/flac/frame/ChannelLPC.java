@@ -44,6 +44,7 @@ public class ChannelLPC extends Channel {
 	private int quantizationLevel; // The qlp coeff shift needed.
 	private int[] qlpCoeff = new int[MAX_LPC_ORDER]; // FIR filter coefficients.
 	private int[] warmup = new int[MAX_LPC_ORDER]; // Warmup samples to prime the predictor, length == order.
+
 	/**
 	 * The constructor.
 	 * 

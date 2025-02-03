@@ -24,11 +24,11 @@ public class MixinGameRenderer {
 
 	@Inject(method = "render", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/hud/InGameHud;render(Lnet/minecraft/client/gui/DrawContext;Lnet/minecraft/client/render/RenderTickCounter;)V", shift = At.Shift.BEFORE))
 	public void render(RenderTickCounter tickCounter, boolean tick, CallbackInfo ci) {
-		
-		if(HUDModSettings.getInstance().getBlurSetting().isEnabled()) {
+
+		if (HUDModSettings.getInstance().getBlurSetting().isEnabled()) {
 			KawaseBlur.INGAME_BLUR.draw((int) HUDModSettings.getInstance().getBlurIntensitySetting().getValue());
 		}
-		
+
 		SkiaContext.draw((context) -> {
 			Skia.save();
 			Skia.scale((float) MinecraftClient.getInstance().getWindow().getScaleFactor());
@@ -36,10 +36,10 @@ public class MixinGameRenderer {
 			Skia.restore();
 		});
 	}
-	
+
 	@Inject(method = "getFov", at = @At(value = "RETURN", ordinal = 1), cancellable = true)
 	private void getFov(Camera camera, float tickDelta, boolean changingFov, CallbackInfoReturnable<Float> cir) {
-		if(ZoomMod.getInstance().isEnabled()) {
+		if (ZoomMod.getInstance().isEnabled()) {
 			float value = cir.getReturnValue();
 			value = ZoomMod.getInstance().getFov(value);
 			cir.setReturnValue(value);

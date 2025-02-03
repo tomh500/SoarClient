@@ -71,36 +71,34 @@ public class MusicInfoMod extends SimpleHUDMod {
 		boolean cover = type.equals("setting.cover");
 		Color textColor = cover ? Color.WHITE : this.getDesign().getTextColor();
 		float coverSize = 256;
-		
+
 		this.drawBackground(getX(), getY(), width, height);
-		
-		if(m != null && cover && m.getAlbum() != null) {
+
+		if (m != null && cover && m.getAlbum() != null) {
 			Skia.save();
 			Skia.clip(getX(), getY(), width, height, getRadius());
 			drawBlurredImage(m.getAlbum(), getX() - mx, getY() - my, coverSize, coverSize, 20);
 			Skia.restore();
 		}
-		
+
 		if (m != null && m.getAlbum() != null) {
-			Skia.drawRoundedImage(m.getAlbum(), getX() + padding, getY() + padding,
-					albumSize, albumSize, 6);
+			Skia.drawRoundedImage(m.getAlbum(), getX() + padding, getY() + padding, albumSize, albumSize, 6);
 		} else {
-			Skia.drawRoundedRect(getX() + padding, getY() + padding,
-					albumSize, albumSize, 6, ColorUtils.applyAlpha(textColor, 0.2F));
+			Skia.drawRoundedRect(getX() + padding, getY() + padding, albumSize, albumSize, 6,
+					ColorUtils.applyAlpha(textColor, 0.2F));
 		}
-		
+
 		if (m != null) {
 
 			float offsetX = (padding * 2) + albumSize;
 			String limitedTitle = Skia.getLimitText(m.getTitle(), Fonts.getRegular(9), width - offsetX - 12);
 			String limitedArtist = Skia.getLimitText(m.getArtist(), Fonts.getRegular(6.5F), width - offsetX - 10);
 
-			Skia.drawText(limitedTitle, getX() + offsetX, getY() + padding + 3F, textColor,
-					Fonts.getRegular(9));
+			Skia.drawText(limitedTitle, getX() + offsetX, getY() + padding + 3F, textColor, Fonts.getRegular(9));
 			Skia.drawText(limitedArtist, getX() + offsetX, getY() + padding + 12F,
 					ColorUtils.applyAlpha(textColor, 0.8F), Fonts.getRegular(6.5F));
 		}
-		
+
 		if (timer.delay(80)) {
 			updatePosition(width, height, coverSize);
 			timer.reset();

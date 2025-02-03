@@ -16,33 +16,33 @@ import com.soarclient.utils.language.Language;
 public class Soar {
 
 	private final static Soar instance = new Soar();
-	
+
 	private final String name = "Soar";
 	private final String version = "8.0";
-	
+
 	private long launchTime;
-	
+
 	private ModManager modManager;
 	private ColorManager colorManager;
 	private MusicManager musicManager;
 	private ConfigManager configManager;
 	private ProfileManager profileManager;
-	
+
 	public void start() {
-		
+
 		Fonts.loadAll();
 		FileLocation.init();
 		I18n.setLanguage(Language.ENGLISH);
-		
+
 		launchTime = System.currentTimeMillis();
-		
+
 		modManager = new ModManager();
 		modManager.init();
 		colorManager = new ColorManager();
 		musicManager = new MusicManager();
 		configManager = new ConfigManager();
 		profileManager = new ProfileManager();
-		
+
 		EventBus.getInstance().register(new SoarHandler());
 		EventBus.getInstance().register(new PacketHandler());
 		EventBus.getInstance().register(new Delta());
@@ -51,7 +51,7 @@ public class Soar {
 	public static Soar getInstance() {
 		return instance;
 	}
-	
+
 	public String getName() {
 		return name;
 	}

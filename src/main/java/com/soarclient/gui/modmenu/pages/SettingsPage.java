@@ -26,7 +26,7 @@ public class SettingsPage extends Page {
 
 	public SettingsPage(SoarGui parent) {
 		super(parent, "text.settings", Icon.SETTINGS, new RightLeftTransition(true));
-		
+
 		for (Mod m : Soar.getInstance().getModManager().getMods()) {
 			if (m.isHidden()) {
 				items.add(new Item(m));

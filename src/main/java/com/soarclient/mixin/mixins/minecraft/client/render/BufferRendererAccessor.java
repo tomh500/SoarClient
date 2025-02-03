@@ -8,6 +8,7 @@ import net.minecraft.client.render.BufferRenderer;
 
 @Mixin(BufferRenderer.class)
 public interface BufferRendererAccessor {
-    @Accessor("currentVertexBuffer")
-    static void setCurrentVertexBuffer(VertexBuffer vertexBuffer) {}
+	@Accessor("currentVertexBuffer")
+	static void setCurrentVertexBuffer(VertexBuffer vertexBuffer) {
+	}
 }

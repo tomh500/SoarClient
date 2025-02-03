@@ -5,7 +5,7 @@ import com.soarclient.event.Event;
 public class PlayerDirectionChangeEvent extends Event {
 
 	private final float prevPitch, prevYaw, pitch, yaw;
-	
+
 	public PlayerDirectionChangeEvent(float prevPitch, float prevYaw, float pitch, float yaw) {
 		this.prevPitch = prevPitch;
 		this.prevYaw = prevYaw;

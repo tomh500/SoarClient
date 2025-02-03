@@ -31,7 +31,8 @@ public class MouseStrokesMod extends HUDMod {
 
 		this.begin();
 		this.drawBackground(getX(), getY(), 58, 58);
-		Skia.drawCircle(getX() + xAnimation.getValue() + 29, getY() + yAnimation.getValue() + 29, 4.5F, this.getDesign().getTextColor());
+		Skia.drawCircle(getX() + xAnimation.getValue() + 29, getY() + yAnimation.getValue() + 29, 4.5F,
+				this.getDesign().getTextColor());
 		this.finish();
 		position.setSize(58, 58);
 	};

@@ -22,9 +22,9 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.util.Identifier;
 
 public class Shader {
-	
+
 	private static final FloatBuffer MAT = BufferUtils.createFloatBuffer(4 * 4);
-	
+
 	public static Shader BOUND;
 
 	private final int id;

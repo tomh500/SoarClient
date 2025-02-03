@@ -14,8 +14,8 @@ public class Profile {
 	private final Object icon;
 	private final String serverIp;
 
-	public Profile(String name, String author, List<ObjectObjectImmutablePair<ConfigType, JsonObject>> configs, Object icon,
-			String serverIp) {
+	public Profile(String name, String author, List<ObjectObjectImmutablePair<ConfigType, JsonObject>> configs,
+			Object icon, String serverIp) {
 		this.name = name;
 		this.author = author;
 		this.configs = configs;

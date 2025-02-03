@@ -31,17 +31,17 @@ public class ReachDisplayMod extends SimpleHUDMod {
 
 	public final EventBus.EventListener<DamageEntityEvent> onDamageEntity = event -> {
 
-		if(event.getEntityId() == possibleTarget) {
-			
+		if (event.getEntityId() == possibleTarget) {
+
 			Entity entity = client.world.getEntityById(event.getEntityId());
-			
+
 			possibleTarget = -1;
 			distance = client.player.getEyePos()
 					.distanceTo(closestPointToBox(client.player.getEyePos(), entity.getBoundingBox()));
 			hitTime = System.currentTimeMillis();
 		}
 	};
-	
+
 	public final EventBus.EventListener<AttackEntityEvent> onAttackEntity = event -> {
 		possibleTarget = event.getEntityId();
 	};
