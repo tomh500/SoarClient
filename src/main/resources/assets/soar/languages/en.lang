@@ -96,6 +96,9 @@ mod.weatherdisplay.description=Display world weather
 mod.playtimedisplay.name=Play Time Display
 mod.playtimedisplay.description=Display playing time
 
+mod.protocolversion.name=Protocol Version
+mod.protocolversion.description=Display the Protocol Version
+
 setting.darkmode=Dark Mode
 setting.darkmode.description=Enable dark mode
 setting.keybind=Keybind

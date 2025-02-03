@@ -25,6 +25,7 @@ import com.soarclient.management.mod.impl.hud.PingDisplayMod;
 import com.soarclient.management.mod.impl.hud.PitchDisplayMod;
 import com.soarclient.management.mod.impl.hud.PlayTimeDisplayMod;
 import com.soarclient.management.mod.impl.hud.PlayerCounterMod;
+import com.soarclient.management.mod.impl.hud.ProtocolVersionMod;
 import com.soarclient.management.mod.impl.hud.ReachDisplayMod;
 import com.soarclient.management.mod.impl.hud.ServerIPDisplayMod;
 import com.soarclient.management.mod.impl.hud.StopwatchMod;
@@ -70,6 +71,7 @@ public class ModManager {
 		mods.add(new PitchDisplayMod());
 		mods.add(new PlayerCounterMod());
 		mods.add(new PlayTimeDisplayMod());
+		mods.add(new ProtocolVersionMod());
 		mods.add(new ReachDisplayMod());
 		mods.add(new ServerIPDisplayMod());
 		mods.add(new StopwatchMod());
