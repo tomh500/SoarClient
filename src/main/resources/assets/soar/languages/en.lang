@@ -93,6 +93,9 @@ mod.pingdisplay.description=Display your ping
 mod.weatherdisplay.name=Weather Display
 mod.weatherdisplay.description=Display world weather
 
+mod.playtimedisplay.name=Play Time Display
+mod.playtimedisplay.description=Display playing time
+
 setting.darkmode=Dark Mode
 setting.darkmode.description=Enable dark mode
 setting.keybind=Keybind

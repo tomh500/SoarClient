@@ -19,6 +19,8 @@ public class Soar {
 	private final String name = "Soar";
 	private final String version = "8.0";
 	
+	private long launchTime;
+	
 	private ModManager modManager;
 	private ColorManager colorManager;
 	private MusicManager musicManager;
@@ -29,6 +31,8 @@ public class Soar {
 		Fonts.loadAll();
 		FileLocation.init();
 		I18n.setLanguage(Language.ENGLISH);
+		
+		launchTime = System.currentTimeMillis();
 		
 		modManager = new ModManager();
 		modManager.init();
@@ -51,6 +55,10 @@ public class Soar {
 
 	public String getVersion() {
 		return version;
+	}
+
+	public long getLaunchTime() {
+		return launchTime;
 	}
 
 	public ModManager getModManager() {
