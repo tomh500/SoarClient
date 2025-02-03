@@ -84,6 +84,9 @@ mod.taplook.description=Switch viewing orientation at the touch of a button
 mod.serveripdisplay.name=Server IP Display
 mod.serveripdisplay.description=Display the IP of the server you are joining
 
+mod.namedisplay.name=Name Display
+mod.namedisplay.description=Display your name
+
 setting.darkmode=Dark Mode
 setting.darkmode.description=Enable dark mode
 setting.keybind=Keybind
