@@ -16,7 +16,9 @@
 		"minecraft.entity.MixinEntity",
 		"minecraft.entity.MixinLivingEntity",
 		"minecraft.network.packet.PlayerInteractEntityC2SPacketAccessor",
-		"minecraft.network.MixinClientConnection"
+		"minecraft.network.MixinClientConnection",
+		"minecraft.world.MixinBiome",
+		"minecraft.world.MixinWorld"
 	],
 	"injectors": {
 		"defaultRequire": 1

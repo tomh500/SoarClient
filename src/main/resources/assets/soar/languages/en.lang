@@ -108,6 +108,9 @@ mod.overlayeditor.description=Edit Overlay
 mod.discordrpc.name=Discord RPC
 mod.discordrpc.description=Enable Discord Rich Presence
 
+mod.weatherchanger.name=Weather Changer
+mod.weatherchanger.description=Change the weather
+
 setting.darkmode=Dark Mode
 setting.darkmode.description=Enable dark mode
 setting.keybind=Keybind
@@ -158,3 +161,9 @@ setting.clearwater=Clear Water
 setting.clearwater.description=Remove water overlay
 setting.clearfire=Clear Fire
 setting.clearfire.description=Remove fire overlay
+setting.weather=Weather
+setting.weather.description=Set the weather
+setting.clear=Clear
+setting.rain=Rain
+setting.storm=Storm
+setting.snow=Snow
