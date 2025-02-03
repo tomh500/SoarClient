@@ -24,20 +24,18 @@ public class WeatherDisplayMod extends SimpleHUDMod {
 	@Override
 	public String getText() {
 
-		String biome = "";
 		String prefix = "Weather: ";
 		ClientWorld world = client.world;
 		ClientPlayerEntity player = client.player;
 		BlockPos playerPos = player.getBlockPos();
 		RegistryEntry<Biome> biomeEntry = world.getBiome(playerPos);
-		biome = getBiomeName(biomeEntry);
 
 		if (world.isThundering()) {
 			return prefix + "Thundering";
 		}
 		
 		if (world.isRaining()) {
-			if (biome.contains("hills") && player.getY() > 100) {
+			if (biomeEntry.value().getPrecipitation(playerPos, world.getSeaLevel()).equals(Biome.Precipitation.SNOW)) {
 				return prefix + "Snowing";
 			} else {
 				return prefix + "Raining";
@@ -50,12 +48,10 @@ public class WeatherDisplayMod extends SimpleHUDMod {
 	@Override
 	public String getIcon() {
 
-		String biome = "";
 		ClientWorld world = client.world;
 		ClientPlayerEntity player = client.player;
 		BlockPos playerPos = player.getBlockPos();
 		RegistryEntry<Biome> biomeEntry = world.getBiome(playerPos);
-		biome = getBiomeName(biomeEntry);
 
 		String iconFont = Icon.SUNNY;
 
@@ -64,7 +60,7 @@ public class WeatherDisplayMod extends SimpleHUDMod {
 		}
 		
 		if (world.isRaining()) {
-			if (biome.contains("hills") && player.getY() > 100) {
+			if (biomeEntry.value().getPrecipitation(playerPos, world.getSeaLevel()).equals(Biome.Precipitation.SNOW)) {
 				iconFont = Icon.WEATHER_SNOWY;
 			} else {
 				iconFont = Icon.RAINY;
