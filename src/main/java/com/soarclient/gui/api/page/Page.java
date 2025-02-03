@@ -24,6 +24,7 @@ public class Page extends SimplePage {
 		}
 
 		searchBar = new SearchBar(x + width - 260 - 32, y + 32, 260, text, () -> {
+			scrollHelper.reset();
 		});
 	}
 
