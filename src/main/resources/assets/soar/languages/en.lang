@@ -111,6 +111,9 @@ mod.discordrpc.description=Enable Discord Rich Presence
 mod.weatherchanger.name=Weather Changer
 mod.weatherchanger.description=Change the weather
 
+mod.timechanger.name=Time Changer
+mod.timechanger.description=Change the world time
+
 setting.darkmode=Dark Mode
 setting.darkmode.description=Enable dark mode
 setting.keybind=Keybind
@@ -167,3 +170,5 @@ setting.clear=Clear
 setting.rain=Rain
 setting.storm=Storm
 setting.snow=Snow
+setting.time=Time
+setting.time.description=Set the time

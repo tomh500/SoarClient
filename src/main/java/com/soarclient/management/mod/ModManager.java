@@ -32,6 +32,7 @@ import com.soarclient.management.mod.impl.hud.StopwatchMod;
 import com.soarclient.management.mod.impl.hud.WeatherDisplayMod;
 import com.soarclient.management.mod.impl.hud.YawDisplayMod;
 import com.soarclient.management.mod.impl.misc.DiscordRPCMod;
+import com.soarclient.management.mod.impl.misc.TimeChangerMod;
 import com.soarclient.management.mod.impl.misc.WeatherChangerMod;
 import com.soarclient.management.mod.impl.player.HitDelayFixMod;
 import com.soarclient.management.mod.impl.player.NoJumpDelayMod;
@@ -94,6 +95,7 @@ public class ModManager {
 
 		// Misc
 		mods.add(new DiscordRPCMod());
+		mods.add(new TimeChangerMod());
 		mods.add(new WeatherChangerMod());
 		
 		// Settings

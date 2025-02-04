@@ -18,6 +18,7 @@
 		"minecraft.network.packet.PlayerInteractEntityC2SPacketAccessor",
 		"minecraft.network.MixinClientConnection",
 		"minecraft.world.MixinBiome",
+		"minecraft.world.MixinClientWorldProperties",
 		"minecraft.world.MixinWorld"
 	],
 	"injectors": {
