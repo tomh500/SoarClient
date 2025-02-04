@@ -10,6 +10,7 @@ import com.soarclient.management.mod.api.hud.design.impl.ClassicDesign;
 import com.soarclient.management.mod.api.hud.design.impl.ClearDesign;
 import com.soarclient.management.mod.api.hud.design.impl.MaterialYouDesign;
 import com.soarclient.management.mod.api.hud.design.impl.SimpleDesign;
+import com.soarclient.management.mod.impl.hud.ClockMod;
 import com.soarclient.management.mod.impl.hud.ComboCounterMod;
 import com.soarclient.management.mod.impl.hud.CoordsMod;
 import com.soarclient.management.mod.impl.hud.DayCounterMod;
@@ -62,6 +63,7 @@ public class ModManager {
 	private void initMods() {
 
 		// HUD
+		mods.add(new ClockMod());
 		mods.add(new ComboCounterMod());
 		mods.add(new CoordsMod());
 		mods.add(new DayCounterMod());

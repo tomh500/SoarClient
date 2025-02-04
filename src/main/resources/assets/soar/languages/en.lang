@@ -117,6 +117,12 @@ mod.timechanger.description=Change the world time
 mod.freelook.name=Freelook
 mod.freelook.description=Can turn head without changing direction
 
+mod.clock.name=Clock
+mod.clock.description=Display current time
+
+mod.memoryusage.name=Memory Usage
+mod.memoryusage.description=Display Minecraft memory usage
+
 setting.darkmode=Dark Mode
 setting.darkmode.description=Enable dark mode
 setting.keybind=Keybind
