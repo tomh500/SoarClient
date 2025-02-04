@@ -114,6 +114,9 @@ mod.weatherchanger.description=Change the weather
 mod.timechanger.name=Time Changer
 mod.timechanger.description=Change the world time
 
+mod.freelook.name=Freelook
+mod.freelook.description=Can turn head without changing direction
+
 setting.darkmode=Dark Mode
 setting.darkmode.description=Enable dark mode
 setting.keybind=Keybind

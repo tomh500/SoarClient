@@ -34,6 +34,7 @@ import com.soarclient.management.mod.impl.hud.YawDisplayMod;
 import com.soarclient.management.mod.impl.misc.DiscordRPCMod;
 import com.soarclient.management.mod.impl.misc.TimeChangerMod;
 import com.soarclient.management.mod.impl.misc.WeatherChangerMod;
+import com.soarclient.management.mod.impl.player.FreelookMod;
 import com.soarclient.management.mod.impl.player.HitDelayFixMod;
 import com.soarclient.management.mod.impl.player.NoJumpDelayMod;
 import com.soarclient.management.mod.impl.player.SnapTapMod;
@@ -84,6 +85,7 @@ public class ModManager {
 		mods.add(new YawDisplayMod());
 
 		// Player
+		mods.add(new FreelookMod());
 		mods.add(new HitDelayFixMod());
 		mods.add(new NoJumpDelayMod());
 		mods.add(new SnapTapMod());
