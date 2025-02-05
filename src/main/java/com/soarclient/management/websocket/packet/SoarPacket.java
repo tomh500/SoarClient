@@ -1,4 +1,4 @@
-package com.soarclient.websocket.packet;
+package com.soarclient.management.websocket.packet;
 
 import com.google.gson.JsonObject;
 

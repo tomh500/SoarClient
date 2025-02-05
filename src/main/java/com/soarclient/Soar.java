@@ -8,6 +8,7 @@ import com.soarclient.management.config.ConfigManager;
 import com.soarclient.management.mod.ModManager;
 import com.soarclient.management.music.MusicManager;
 import com.soarclient.management.profile.ProfileManager;
+import com.soarclient.management.websocket.WebSocketManager;
 import com.soarclient.skia.font.Fonts;
 import com.soarclient.utils.file.FileLocation;
 import com.soarclient.utils.language.I18n;
@@ -27,6 +28,7 @@ public class Soar {
 	private MusicManager musicManager;
 	private ConfigManager configManager;
 	private ProfileManager profileManager;
+	private WebSocketManager webSocketManager;
 
 	public void start() {
 
@@ -42,6 +44,7 @@ public class Soar {
 		musicManager = new MusicManager();
 		configManager = new ConfigManager();
 		profileManager = new ProfileManager();
+		webSocketManager = new WebSocketManager();
 
 		EventBus.getInstance().register(new SoarHandler());
 		EventBus.getInstance().register(new PacketHandler());
@@ -82,5 +85,9 @@ public class Soar {
 
 	public ProfileManager getProfileManager() {
 		return profileManager;
+	}
+
+	public WebSocketManager getWebSocketManager() {
+		return webSocketManager;
 	}
 }
