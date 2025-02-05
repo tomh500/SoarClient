@@ -25,8 +25,13 @@ public class WebSocketManager {
 			public void run() {
 				while (true) {
 					
+					try {
+						Thread.sleep(10000);
+					} catch (InterruptedException e) {
+					}
+					
 					if(webSocket == null || gameProfile == null || !gameProfile.equals(client.getGameProfile()) || webSocket.isClosed()) {
-						System.out.println("connecting");
+						
 						gameProfile = client.getGameProfile();
 						
 						if(webSocket != null) {
@@ -52,11 +57,6 @@ public class WebSocketManager {
 						} catch (URISyntaxException e) {
 							e.printStackTrace();
 						}
-					}
-					
-					try {
-						Thread.sleep(10000);
-					} catch (InterruptedException e) {
 					}
 				}
 			}

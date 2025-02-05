@@ -12,6 +12,7 @@ import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.soarclient.logger.SoarLogger;
 import com.soarclient.management.websocket.handler.WebSocketHandler;
+import com.soarclient.management.websocket.handler.impl.HypixelStatsHandler;
 import com.soarclient.utils.JsonUtils;
 
 public class SoarWebSocketClient extends WebSocketClient {
@@ -25,6 +26,7 @@ public class SoarWebSocketClient extends WebSocketClient {
 	}
 
     private void initializeHandlers() {
+    	registerHandler("sc-hypixel-stats", new HypixelStatsHandler());
     }
     
 	@Override

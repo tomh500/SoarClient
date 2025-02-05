@@ -5,6 +5,7 @@ import com.soarclient.event.EventBus;
 import com.soarclient.event.server.PacketHandler;
 import com.soarclient.management.color.ColorManager;
 import com.soarclient.management.config.ConfigManager;
+import com.soarclient.management.hypixel.HypixelManager;
 import com.soarclient.management.mod.ModManager;
 import com.soarclient.management.music.MusicManager;
 import com.soarclient.management.profile.ProfileManager;
@@ -29,6 +30,7 @@ public class Soar {
 	private ConfigManager configManager;
 	private ProfileManager profileManager;
 	private WebSocketManager webSocketManager;
+	private HypixelManager hypixelManager;
 
 	public void start() {
 
@@ -45,6 +47,7 @@ public class Soar {
 		configManager = new ConfigManager();
 		profileManager = new ProfileManager();
 		webSocketManager = new WebSocketManager();
+		hypixelManager = new HypixelManager();
 
 		EventBus.getInstance().register(new SoarHandler());
 		EventBus.getInstance().register(new PacketHandler());
@@ -89,5 +92,9 @@ public class Soar {
 
 	public WebSocketManager getWebSocketManager() {
 		return webSocketManager;
+	}
+
+	public HypixelManager getHypixelManager() {
+		return hypixelManager;
 	}
 }
