@@ -19,9 +19,11 @@ public class SoarWebSocketClient extends WebSocketClient {
 
 	private final Map<String, WebSocketHandler> handlers = new HashMap<>();
 	private final Gson gson = new Gson();
+	private final Runnable closeTask;
 
-	public SoarWebSocketClient(Map<String, String> headers) throws URISyntaxException {
+	public SoarWebSocketClient(Map<String, String> headers, Runnable closeTask) throws URISyntaxException {
 		super(new URI("ws://localhost:8080/websocket"), headers);
+		this.closeTask = closeTask;
 		initializeHandlers();
 	}
 
@@ -53,6 +55,7 @@ public class SoarWebSocketClient extends WebSocketClient {
 	@Override
 	public void onClose(int code, String reason, boolean remote) {
 		SoarLogger.info("WebSocket connection closed: " + reason);
+		closeTask.run();
 	}
 
 	@Override
