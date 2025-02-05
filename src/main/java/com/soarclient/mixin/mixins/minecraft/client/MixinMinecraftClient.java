@@ -1,9 +1,12 @@
 package com.soarclient.mixin.mixins.minecraft.client;
 
+import java.io.File;
+
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
 import org.spongepowered.asm.mixin.Shadow;
+import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
@@ -14,14 +17,16 @@ import com.soarclient.event.EventBus;
 import com.soarclient.event.client.ClientTickEvent;
 import com.soarclient.event.client.GameLoopEvent;
 import com.soarclient.management.mod.impl.player.HitDelayFixMod;
+import com.soarclient.mixin.interfaces.IMixinMinecraftClient;
 import com.soarclient.shader.impl.KawaseBlur;
 import com.soarclient.skia.context.SkiaContext;
 
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.RunArgs;
 import net.minecraft.client.util.Window;
 
 @Mixin(MinecraftClient.class)
-public abstract class MixinMinecraftClient {
+public abstract class MixinMinecraftClient implements IMixinMinecraftClient {
 
 	@Shadow
 	@Final
@@ -33,6 +38,14 @@ public abstract class MixinMinecraftClient {
 	@Shadow
 	public abstract String getWindowTitle();
 
+	@Unique
+	private File assetDir;
+	
+	@Inject(method = "<init>(Lnet/minecraft/client/RunArgs;)V", at = @At("TAIL"))
+	public void onInit(RunArgs args, CallbackInfo ci) {
+		assetDir = args.directories.assetDir;
+	}
+	
 	@Inject(method = "doAttack", at = @At("HEAD"))
 	private void onHitDelayFix(CallbackInfoReturnable<Boolean> cir) {
 		if (HitDelayFixMod.getInstance().isEnabled()) {
@@ -66,5 +79,10 @@ public abstract class MixinMinecraftClient {
 	public void onResolutionChanged(CallbackInfo info) {
 		KawaseBlur.GUI_BLUR.resize();
 		KawaseBlur.INGAME_BLUR.resize();
+	}
+	
+	@Override
+	public File getAssetDir() {
+		return this.assetDir;
 	}
 }

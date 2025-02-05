@@ -225,24 +225,6 @@ public class Skia {
 		}
 	}
 
-	public static void drawPlayerHead(int textureId, float x, float y, float width, float height, float radius) {
-		if (imageHelper.load(textureId, width, height, SurfaceOrigin.TOP_LEFT)) {
-
-			Path path = new Path();
-			path.addRRect(RRect.makeXYWH(x, y, width, height, radius));
-
-			Rect srcRect = Rect.makeXYWH(8, 8, 8, 8);
-			Rect srcRect1 = Rect.makeXYWH(40, 8, 8, 8);
-			Rect dstRect = Rect.makeXYWH(x, y, width, height);
-
-			save();
-			getCanvas().clipPath(path, ClipMode.INTERSECT, true);
-			getCanvas().drawImageRect(imageHelper.get(textureId), srcRect, dstRect, null, false);
-			getCanvas().drawImageRect(imageHelper.get(textureId), srcRect1, dstRect, null, false);
-			restore();
-		}
-	}
-
 	public static void drawSkin(File file, float x, float y, float scale) {
 		if (imageHelper.load(file)) {
 

@@ -2,7 +2,9 @@ package com.soarclient.skia.image;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
@@ -15,11 +17,14 @@ import com.soarclient.skia.utils.SkiaUtils;
 import io.github.humbleui.skija.ColorType;
 import io.github.humbleui.skija.Image;
 import io.github.humbleui.skija.SurfaceOrigin;
+import net.minecraft.client.MinecraftClient;
+import net.minecraft.resource.Resource;
+import net.minecraft.resource.ResourceManager;
+import net.minecraft.util.Identifier;
 
 public class ImageHelper {
 
 	private Map<String, Image> images = new HashMap<>();
-
 	private Map<Integer, Image> textures = new HashMap<>();
 
 	public boolean load(int texture, float width, float height, SurfaceOrigin origin) {
@@ -30,6 +35,35 @@ public class ImageHelper {
 			textures.put(texture, image);
 		}
 
+		return true;
+	}
+
+	public boolean load(Identifier identifier) {
+		
+		if (!images.containsKey(identifier.getPath())) {
+			ResourceManager resourceManager = MinecraftClient.getInstance().getResourceManager();
+			Resource resource;
+			try {
+				resource = resourceManager.getResourceOrThrow(identifier);
+				try (InputStream inputStream = resource.getInputStream()) {
+
+					byte[] imageData = inputStream.readAllBytes();
+					Image image = Image.makeDeferredFromEncodedBytes(imageData);
+					if (image == null) {
+						return false;
+					}
+					images.put(identifier.getPath(), image);
+					return true;
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			} catch (FileNotFoundException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+
+
+		}
 		return true;
 	}
 

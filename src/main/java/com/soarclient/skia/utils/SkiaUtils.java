@@ -4,9 +4,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Optional;
 
-import javax.imageio.ImageIO;
-import javax.imageio.stream.ImageInputStream;
-
 import io.github.humbleui.skija.Data;
 
 public class SkiaUtils {
@@ -21,14 +18,6 @@ public class SkiaUtils {
 
 	public static Optional<Data> convertToData(String path) {
 		return convertToBytes(path).map(Data::makeFromBytes);
-	}
-
-	public static Optional<ImageInputStream> convertToImageInputStream(String resourceName) {
-		try (InputStream stream = getResourceAsStream(resourceName)) {
-			return Optional.of(ImageIO.createImageInputStream(stream));
-		} catch (IOException e) {
-			return Optional.empty();
-		}
 	}
 
 	public static InputStream getResourceAsStream(String path) {
