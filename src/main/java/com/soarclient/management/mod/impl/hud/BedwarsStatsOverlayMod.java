@@ -10,8 +10,7 @@ import com.soarclient.skia.Skia;
 import com.soarclient.skia.font.Fonts;
 import com.soarclient.skia.font.Icon;
 
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.client.network.PlayerListEntry;
 
 public class BedwarsStatsOverlayMod extends HUDMod {
 
@@ -43,48 +42,45 @@ public class BedwarsStatsOverlayMod extends HUDMod {
 		Skia.drawCenteredText("BBLR", getX() + 270, getY() + 23, this.getDesign().getTextColor(),
 				Fonts.getMedium(9.5F));
 
-		for (Entity entity : client.world.getEntities()) {
+		if (client.getCurrentServerEntry() != null && client.getCurrentServerEntry().address.contains("hypixel")) {
+			
+			for (PlayerListEntry player : client.getNetworkHandler().getPlayerList()) {
 
-			if (!(entity instanceof PlayerEntity)) {
-				continue;
-			}
-
-			PlayerEntity player = (PlayerEntity) entity;
-
-			if (player.getGameProfile() == null) {
-				continue;
-			}
-
-			String name = player.getGameProfile().getName();
-			String uuid = player.getGameProfile().getId().toString().replace("-", "");
-			HypixelUser hypixelUser = Soar.getInstance().getHypixelManager().getByUuid(uuid);
-
-			if (hypixelUser != null) {
-
-				// renderer.drawPlayerHead(player.getSkinTextures().texture(), 5.5F, offsetY,
-				// 12, 12, 2.5F);
-				Skia.drawText(name, getX() + 20, getY() + offsetY + 2.5F, this.getDesign().getTextColor(), Fonts.getRegular(9));
-
-				Skia.drawCenteredText(hypixelUser.getBedwarsLevel(), getX() + 120, getY() + offsetY + 2.5F,
-						this.getDesign().getTextColor(), Fonts.getRegular(9));
-				Skia.drawCenteredText(hypixelUser.getWinLoseRatio(), getX() + 170, getY() + offsetY + 2.5F,
-						this.getDesign().getTextColor(), Fonts.getRegular(9));
-				Skia.drawCenteredText(hypixelUser.getFinalKillDeathRatio(), getX() + 220, getY() + offsetY + 2.5F,
-						this.getDesign().getTextColor(), Fonts.getRegular(9));
-				Skia.drawCenteredText(hypixelUser.getBedsBrokeLostRatio(), getX() + 270, getY() + offsetY + 2.5F,
-						this.getDesign().getTextColor(), Fonts.getRegular(9));
-
-				if (prevIndex > maxSetting.getValue()) {
-					prevIndex++;
-					index = prevIndex;
-					break;
+				if (player.getProfile() == null) {
+					continue;
 				}
 
-				prevIndex++;
-				offsetY += 15;
-			}
+				String name = player.getProfile().getName();
+				String uuid = player.getProfile().getId().toString().replace("-", "");
+				HypixelUser hypixelUser = Soar.getInstance().getHypixelManager().getByUuid(uuid);
 
-			index = prevIndex;
+				if (hypixelUser != null) {
+
+					// renderer.drawPlayerHead(player.getSkinTextures().texture(), 5.5F, offsetY,
+					// 12, 12, 2.5F);
+					Skia.drawText(name, getX() + 20, getY() + offsetY + 2.5F, this.getDesign().getTextColor(), Fonts.getRegular(9));
+
+					Skia.drawCenteredText(hypixelUser.getBedwarsLevel(), getX() + 120, getY() + offsetY + 2.5F,
+							this.getDesign().getTextColor(), Fonts.getRegular(9));
+					Skia.drawCenteredText(hypixelUser.getWinLoseRatio(), getX() + 170, getY() + offsetY + 2.5F,
+							this.getDesign().getTextColor(), Fonts.getRegular(9));
+					Skia.drawCenteredText(hypixelUser.getFinalKillDeathRatio(), getX() + 220, getY() + offsetY + 2.5F,
+							this.getDesign().getTextColor(), Fonts.getRegular(9));
+					Skia.drawCenteredText(hypixelUser.getBedsBrokeLostRatio(), getX() + 270, getY() + offsetY + 2.5F,
+							this.getDesign().getTextColor(), Fonts.getRegular(9));
+
+					if (prevIndex > maxSetting.getValue()) {
+						prevIndex++;
+						index = prevIndex;
+						break;
+					}
+
+					prevIndex++;
+					offsetY += 15;
+				}
+
+				index = prevIndex;
+			}
 		}
 
 		position.setSize(294, (index * 15) + 36);

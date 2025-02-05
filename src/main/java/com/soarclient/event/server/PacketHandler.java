@@ -5,6 +5,7 @@ import com.soarclient.event.client.ReceivePacketEvent;
 import com.soarclient.event.client.SendPacketEvent;
 import com.soarclient.event.server.impl.AttackEntityEvent;
 import com.soarclient.event.server.impl.DamageEntityEvent;
+import com.soarclient.event.server.impl.GameJoinEvent;
 import com.soarclient.event.server.impl.ReceiveChatEvent;
 import com.soarclient.event.server.impl.SendChatEvent;
 import com.soarclient.mixin.mixins.minecraft.network.packet.PlayerInteractEntityC2SPacketAccessor;
@@ -14,6 +15,7 @@ import net.minecraft.network.packet.c2s.play.ChatMessageC2SPacket;
 import net.minecraft.network.packet.c2s.play.PlayerInteractEntityC2SPacket;
 import net.minecraft.network.packet.s2c.play.ChatMessageS2CPacket;
 import net.minecraft.network.packet.s2c.play.EntityDamageS2CPacket;
+import net.minecraft.network.packet.s2c.play.GameJoinS2CPacket;
 
 public class PacketHandler {
 
@@ -67,6 +69,10 @@ public class PacketHandler {
 			if (event.isCancelled()) {
 				packetEvent.setCancelled(true);
 			}
+		}
+		
+		if(basePacket instanceof GameJoinS2CPacket) {
+			EventBus.getInstance().post(new GameJoinEvent());
 		}
 	};
 }
