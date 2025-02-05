@@ -123,6 +123,9 @@ mod.clock.description=Display current time
 mod.memoryusage.name=Memory Usage
 mod.memoryusage.description=Display Minecraft memory usage
 
+mod.bedwarsstatsoverlay.name=Bedwars Stats Overlay
+mod.bedwarsstatsoverlay.description=Display Bedwars Stats
+
 setting.darkmode=Dark Mode
 setting.darkmode.description=Enable dark mode
 setting.keybind=Keybind
@@ -181,3 +184,5 @@ setting.storm=Storm
 setting.snow=Snow
 setting.time=Time
 setting.time.description=Set the time
+setting.max=Max
+setting.max.description=Set the max

@@ -38,6 +38,7 @@ public class SoarWebSocketClient extends WebSocketClient {
 	public void onMessage(String message) {
 
 		JsonObject jsonObject = gson.fromJson(message, JsonObject.class);
+		
 		String type = JsonUtils.getStringProperty(jsonObject, "type", "");
 
 		WebSocketHandler handler = handlers.get(type);
