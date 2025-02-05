@@ -29,18 +29,18 @@ public class BedwarsStatsOverlayMod extends HUDMod {
 	public final EventBus.EventListener<RenderSkiaEvent> onRenderSkia = event -> {
 
 		int prevIndex = 0;
-		int offsetY = 34;
+		int offsetY = 33;
 
-		this.drawBackground(getX(), getY(), 294, (index * 15) + 35);
+		this.drawBackground(getX(), getY(), 294, (index * 15) + 34);
 
 		this.drawText("Bedwars Stats", getX() + 5.5F, getY() + 5.5F, Fonts.getRegular(10F));
 		Skia.drawRect(getX(), getY() + 18, 292, 1, this.getDesign().getTextColor());
 
-		Skia.drawCenteredText("Name", getX() + 45, getY() + 23, this.getDesign().getTextColor(), Fonts.getMedium(9F));
-		Skia.drawCenteredText("Level", getX() + 120, getY() + 23, this.getDesign().getTextColor(), Fonts.getMedium(9F));
-		Skia.drawCenteredText("WLR", getX() + 170, getY() + 23, this.getDesign().getTextColor(), Fonts.getMedium(9F));
-		Skia.drawCenteredText("FKDR", getX() + 220, getY() + 23, this.getDesign().getTextColor(), Fonts.getMedium(9F));
-		Skia.drawCenteredText("BBLR", getX() + 270, getY() + 23, this.getDesign().getTextColor(), Fonts.getMedium(9F));
+		Skia.drawFullCenteredText("Name", getX() + 45, getY() + 27, this.getDesign().getTextColor(), Fonts.getMedium(9F));
+		Skia.drawFullCenteredText("Level", getX() + 120, getY() + 27, this.getDesign().getTextColor(), Fonts.getMedium(9F));
+		Skia.drawFullCenteredText("WLR", getX() + 170, getY() + 27, this.getDesign().getTextColor(), Fonts.getMedium(9F));
+		Skia.drawFullCenteredText("FKDR", getX() + 220, getY() + 27, this.getDesign().getTextColor(), Fonts.getMedium(9F));
+		Skia.drawFullCenteredText("BBLR", getX() + 270, getY() + 27, this.getDesign().getTextColor(), Fonts.getMedium(9F));
 
 		if (client.getCurrentServerEntry() != null && client.getCurrentServerEntry().address.contains("hypixel")) {
 
@@ -68,13 +68,13 @@ public class BedwarsStatsOverlayMod extends HUDMod {
 					Skia.drawHeightCenteredText(name, getX() + 21, getY() + offsetY + 6F,
 							this.getDesign().getTextColor(), Fonts.getRegular(9));
 
-					Skia.drawCenteredText(hypixelUser.getBedwarsLevel(), getX() + 120, getY() + offsetY + 2F,
+					Skia.drawFullCenteredText(hypixelUser.getBedwarsLevel(), getX() + 120, getY() + offsetY + 6F,
 							this.getDesign().getTextColor(), Fonts.getRegular(9));
-					Skia.drawCenteredText(hypixelUser.getWinLoseRatio(), getX() + 170, getY() + offsetY + 2F,
+					Skia.drawFullCenteredText(hypixelUser.getWinLoseRatio(), getX() + 170, getY() + offsetY + 6F,
 							this.getDesign().getTextColor(), Fonts.getRegular(9));
-					Skia.drawCenteredText(hypixelUser.getFinalKillDeathRatio(), getX() + 220, getY() + offsetY + 2F,
+					Skia.drawFullCenteredText(hypixelUser.getFinalKillDeathRatio(), getX() + 220, getY() + offsetY + 6F,
 							this.getDesign().getTextColor(), Fonts.getRegular(9));
-					Skia.drawCenteredText(hypixelUser.getBedsBrokeLostRatio(), getX() + 270, getY() + offsetY + 2F,
+					Skia.drawFullCenteredText(hypixelUser.getBedsBrokeLostRatio(), getX() + 270, getY() + offsetY + 6F,
 							this.getDesign().getTextColor(), Fonts.getRegular(9));
 
 					if (prevIndex > maxSetting.getValue()) {
@@ -91,7 +91,7 @@ public class BedwarsStatsOverlayMod extends HUDMod {
 			}
 		}
 
-		position.setSize(294, (index * 15) + 35);
+		position.setSize(294, (index * 15) + 34);
 	};
 
 	@Override
