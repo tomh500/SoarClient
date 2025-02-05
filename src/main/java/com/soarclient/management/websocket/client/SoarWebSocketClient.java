@@ -12,6 +12,7 @@ import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.soarclient.logger.SoarLogger;
 import com.soarclient.management.websocket.handler.WebSocketHandler;
+import com.soarclient.utils.JsonUtils;
 
 public class SoarWebSocketClient extends WebSocketClient {
 
@@ -34,9 +35,8 @@ public class SoarWebSocketClient extends WebSocketClient {
 	@Override
 	public void onMessage(String message) {
 
-		System.out.println(message);
-		/*JsonObject jsonObject = gson.fromJson(message, JsonObject.class);
-		String type = jsonObject.get("type").getAsString();
+		JsonObject jsonObject = gson.fromJson(message, JsonObject.class);
+		String type = JsonUtils.getStringProperty(jsonObject, "type", "");
 
 		WebSocketHandler handler = handlers.get(type);
 
@@ -44,7 +44,7 @@ public class SoarWebSocketClient extends WebSocketClient {
 			handler.handle(jsonObject);
 		} else {
 			SoarLogger.warn("No handler found for message type: " + type);
-		}*/
+		}
 	}
 
 	@Override
