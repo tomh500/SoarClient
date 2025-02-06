@@ -93,7 +93,6 @@ public abstract class MixinMinecraftClient implements IMixinMinecraftClient {
 						Direction direction = blockHitResult.getSide();
 						this.particleManager.addBlockBreakingParticles(blockPos, direction);
 						((IMixinLivingEntity)player).fakeSwingHand(Hand.MAIN_HAND);
-						ci.cancel();
 					}
 				}
 			}

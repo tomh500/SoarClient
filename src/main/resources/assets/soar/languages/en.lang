@@ -191,3 +191,7 @@ setting.max=Max
 setting.max.description=Set the max
 setting.oldbreaking=Old Breaking
 setting.oldbreaking.description=Return to blocking animation while sword or eating
+setting.disableattackcooldown=Disable Attack Cooldown
+setting.disableattackcooldown.description=Prevents the sword from going down on cooldown when attacking
+settings.oldpvpsounds=Old PvP Sounds
+settings.oldpvpsounds.description=Disable sound for new PvP
