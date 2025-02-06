@@ -39,6 +39,7 @@ import com.soarclient.management.mod.impl.misc.WeatherChangerMod;
 import com.soarclient.management.mod.impl.player.FreelookMod;
 import com.soarclient.management.mod.impl.player.HitDelayFixMod;
 import com.soarclient.management.mod.impl.player.NoJumpDelayMod;
+import com.soarclient.management.mod.impl.player.OldAnimationsMod;
 import com.soarclient.management.mod.impl.player.SnapTapMod;
 import com.soarclient.management.mod.impl.player.TaplookMod;
 import com.soarclient.management.mod.impl.player.ZoomMod;
@@ -92,6 +93,7 @@ public class ModManager {
 		mods.add(new FreelookMod());
 		mods.add(new HitDelayFixMod());
 		mods.add(new NoJumpDelayMod());
+		mods.add(new OldAnimationsMod());
 		mods.add(new SnapTapMod());
 		mods.add(new TaplookMod());
 		mods.add(new ZoomMod());

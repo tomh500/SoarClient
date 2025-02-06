@@ -126,6 +126,9 @@ mod.memoryusage.description=Display Minecraft memory usage
 mod.bedwarsstatsoverlay.name=Bedwars Stats Overlay
 mod.bedwarsstatsoverlay.description=Display Bedwars Stats
 
+mod.oldanimations.name=Old Animations
+mod.oldanimations.description=Return animation to 1.7
+
 setting.darkmode=Dark Mode
 setting.darkmode.description=Enable dark mode
 setting.keybind=Keybind
@@ -186,3 +189,5 @@ setting.time=Time
 setting.time.description=Set the time
 setting.max=Max
 setting.max.description=Set the max
+setting.oldbreaking=Old Breaking
+setting.oldbreaking.description=Return to blocking animation while sword or eating

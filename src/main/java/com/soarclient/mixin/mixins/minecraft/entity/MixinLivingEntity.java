@@ -8,16 +8,30 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import com.soarclient.management.mod.impl.hud.JumpResetIndicatorMod;
 import com.soarclient.management.mod.impl.player.NoJumpDelayMod;
+import com.soarclient.mixin.interfaces.IMixinLivingEntity;
 
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.util.Hand;
 
 @Mixin(LivingEntity.class)
-public class MixinLivingEntity {
+public abstract class MixinLivingEntity implements IMixinLivingEntity {
 
 	@Shadow
 	private int jumpingCooldown;
 
+	@Shadow
+	public int handSwingTicks;
+	
+	@Shadow
+	public boolean handSwinging;
+	
+	@Shadow
+	public Hand preferredHand;
+	
+	@Shadow
+	public abstract int getHandSwingDuration();
+	
 	@Inject(method = "tickMovement", at = @At("HEAD"))
 	public void onNoJumpDelay(CallbackInfo ci) {
 		if (NoJumpDelayMod.getInstance().isEnabled()) {
@@ -45,6 +59,15 @@ public class MixinLivingEntity {
 
 		if ((LivingEntity) (Object) this == client.player) {
 			mod.setHurtAge(client.player.age);
+		}
+	}
+
+	@Override
+	public void fakeSwingHand(Hand hand) {
+		if (!this.handSwinging || this.handSwingTicks >= this.getHandSwingDuration() / 2 || this.handSwingTicks < 0) {
+			this.handSwingTicks = -1;
+			this.handSwinging = true;
+			this.preferredHand = hand;
 		}
 	}
 }

@@ -17,15 +17,28 @@ import com.soarclient.event.EventBus;
 import com.soarclient.event.client.ClientTickEvent;
 import com.soarclient.event.client.GameLoopEvent;
 import com.soarclient.management.mod.impl.player.HitDelayFixMod;
+import com.soarclient.management.mod.impl.player.OldAnimationsMod;
+import com.soarclient.mixin.interfaces.IMixinLivingEntity;
 import com.soarclient.mixin.interfaces.IMixinMinecraftClient;
 import com.soarclient.shader.impl.KawaseBlur;
 import com.soarclient.skia.context.SkiaContext;
 
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.RunArgs;
+import net.minecraft.client.network.ClientPlayerEntity;
+import net.minecraft.client.network.ClientPlayerInteractionManager;
+import net.minecraft.client.option.GameOptions;
+import net.minecraft.client.particle.ParticleManager;
 import net.minecraft.client.util.Window;
+import net.minecraft.client.world.ClientWorld;
+import net.minecraft.util.Hand;
+import net.minecraft.util.hit.BlockHitResult;
+import net.minecraft.util.hit.HitResult;
+import net.minecraft.util.hit.HitResult.Type;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Direction;
 
-@Mixin(MinecraftClient.class)
+@Mixin(value = MinecraftClient.class, priority = 300)
 public abstract class MixinMinecraftClient implements IMixinMinecraftClient {
 
 	@Shadow
@@ -35,17 +48,59 @@ public abstract class MixinMinecraftClient implements IMixinMinecraftClient {
 	@Shadow
 	public int attackCooldown;
 
+    @Shadow
+    public ClientPlayerInteractionManager interactionManager;
+
+    @Final
+    @Shadow
+    public ParticleManager particleManager;
+
+    @Shadow
+    public GameOptions options;
+    
+    @Shadow
+    public HitResult crosshairTarget;
+    
+    @Shadow
+    public ClientWorld world;
+    
+    @Shadow
+	public ClientPlayerEntity player;
+    
 	@Shadow
 	public abstract String getWindowTitle();
 
 	@Unique
 	private File assetDir;
-	
+
 	@Inject(method = "<init>(Lnet/minecraft/client/RunArgs;)V", at = @At("TAIL"))
 	public void onInit(RunArgs args, CallbackInfo ci) {
 		assetDir = args.directories.assetDir;
 	}
 	
+	@Inject(method = "handleBlockBreaking", at = @At("HEAD"), cancellable = true)
+	private void handleBlockBreaking(boolean breaking, CallbackInfo ci) {
+		
+		if (OldAnimationsMod.getInstance().isEnabled() && OldAnimationsMod.getInstance().isOldBreaking()) {
+			if (this.options.attackKey.isPressed() && this.options.useKey.isPressed()) {
+				
+				if (breaking && this.crosshairTarget != null && this.crosshairTarget.getType() == Type.BLOCK) {
+					
+					BlockHitResult blockHitResult = (BlockHitResult)this.crosshairTarget;
+					BlockPos blockPos = blockHitResult.getBlockPos();
+					
+					if (!this.world.getBlockState(blockPos).isAir()) {
+						Direction direction = blockHitResult.getSide();
+						this.particleManager.addBlockBreakingParticles(blockPos, direction);
+						((IMixinLivingEntity)player).fakeSwingHand(Hand.MAIN_HAND);
+					}
+					
+					ci.cancel();
+				}
+			}
+		}
+	}
+
 	@Inject(method = "doAttack", at = @At("HEAD"))
 	private void onHitDelayFix(CallbackInfoReturnable<Boolean> cir) {
 		if (HitDelayFixMod.getInstance().isEnabled()) {
@@ -80,7 +135,7 @@ public abstract class MixinMinecraftClient implements IMixinMinecraftClient {
 		KawaseBlur.GUI_BLUR.resize();
 		KawaseBlur.INGAME_BLUR.resize();
 	}
-	
+
 	@Override
 	public File getAssetDir() {
 		return this.assetDir;
