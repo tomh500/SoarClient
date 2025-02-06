@@ -195,3 +195,7 @@ setting.disableattackcooldown=Disable Attack Cooldown
 setting.disableattackcooldown.description=Prevents the sword from going down on cooldown when attacking
 settings.oldpvpsounds=Old PvP Sounds
 settings.oldpvpsounds.description=Disable sound for new PvP
+settings.oldrod=Old Rod
+settings.oldrod.description=Revert to the old Rod
+settings.oldbow=Old Bow
+setting.oldbow.description=Revert to the old bow

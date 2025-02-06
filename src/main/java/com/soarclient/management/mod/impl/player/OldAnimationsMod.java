@@ -16,6 +16,10 @@ public class OldAnimationsMod extends Mod {
 			"setting.disableattackcooldown.description", Icon.SCHEDULE, this, true);
 	private BooleanSetting oldPvPSoundsSetting = new BooleanSetting("setting.oldpvpsounds",
 			"setting.oldpvpsounds.description", Icon.SPEAKER, this, true);
+	private BooleanSetting oldBowSetting = new BooleanSetting("setting.oldbow",
+			"setting.oldbow.description", Icon.AZM, this, false);
+	private BooleanSetting oldRodSetting = new BooleanSetting("setting.oldrod",
+			"setting.oldrod.description", Icon.PHISHING, this, false);
 
 	public OldAnimationsMod() {
 		super("mod.oldanimations.name", "mod.oldanimations.description", Icon.ANIMATION, ModCategory.PLAYER);
@@ -37,6 +41,14 @@ public class OldAnimationsMod extends Mod {
 	
 	public boolean isOldPvPSounds() {
 		return isv1_8() && oldPvPSoundsSetting.isEnabled();
+	}
+	
+	public boolean isOldRod() {
+		return isv1_8() && oldRodSetting.isEnabled();
+	}
+	
+	public boolean isOldBow() {
+		return isv1_8() && oldBowSetting.isEnabled();
 	}
 	
 	private boolean isv1_8() {
