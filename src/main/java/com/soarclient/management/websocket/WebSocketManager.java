@@ -75,7 +75,7 @@ public class WebSocketManager {
     }
     
     public void send(SoarPacket packet) {
-        if (webSocket != null) {
+        if (webSocket != null && webSocket.isOpen()) {
             webSocket.send(packet.toJson().toString());
         }
     }
