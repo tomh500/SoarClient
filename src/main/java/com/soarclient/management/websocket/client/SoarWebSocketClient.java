@@ -13,6 +13,7 @@ import com.google.gson.JsonObject;
 import com.soarclient.logger.SoarLogger;
 import com.soarclient.management.websocket.handler.WebSocketHandler;
 import com.soarclient.management.websocket.handler.impl.HypixelStatsHandler;
+import com.soarclient.management.websocket.handler.impl.SoarUserHandler;
 import com.soarclient.utils.JsonUtils;
 
 public class SoarWebSocketClient extends WebSocketClient {
@@ -28,7 +29,8 @@ public class SoarWebSocketClient extends WebSocketClient {
 	}
 
     private void initializeHandlers() {
-    	registerHandler("sc-hypixel-stats", new HypixelStatsHandler());
+    	register("sc-hypixel-stats", new HypixelStatsHandler());
+    	register("sc-soar-user", new SoarUserHandler());
     }
     
 	@Override
@@ -63,7 +65,7 @@ public class SoarWebSocketClient extends WebSocketClient {
 		SoarLogger.error("WebSocket error occurred", ex);
 	}
 
-	private void registerHandler(String type, WebSocketHandler handler) {
+	private void register(String type, WebSocketHandler handler) {
 		handlers.put(type, handler);
 	}
 }

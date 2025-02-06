@@ -9,9 +9,11 @@ public class SoarHandler {
 	public final EventBus.EventListener<ClientTickEvent> onClientTick = event -> {
 		Soar.getInstance().getColorManager().onTick();
 		Soar.getInstance().getHypixelManager().update();
+		Soar.getInstance().getUserManager().update();
 	};
 	
 	public final EventBus.EventListener<GameJoinEvent> onGameJoin = event -> {
 		Soar.getInstance().getHypixelManager().clear();
+		Soar.getInstance().getUserManager().clear();
 	};
 }
