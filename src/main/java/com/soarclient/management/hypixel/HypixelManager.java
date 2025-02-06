@@ -16,7 +16,7 @@ import net.minecraft.client.MinecraftClient;
 public class HypixelManager {
 
 	private final MinecraftClient client = MinecraftClient.getInstance();
-	private final Cache<String, HypixelUser> cache = Caffeine.newBuilder().maximumSize(500).build();
+	private final Cache<String, HypixelUser> cache = Caffeine.newBuilder().maximumSize(1000).build();
 	private final Set<String> requests = new HashSet<>();
 	private final TimerUtils timer = new TimerUtils();
 
