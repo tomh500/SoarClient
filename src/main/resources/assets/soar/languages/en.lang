@@ -129,6 +129,9 @@ mod.bedwarsstatsoverlay.description=Display Bedwars Stats
 mod.oldanimations.name=Old Animations
 mod.oldanimations.description=Return animation to 1.7
 
+mod.hypixel.name=Hypixel
+mod.hypixel.description=Useful features for Hypixel
+
 setting.darkmode=Dark Mode
 setting.darkmode.description=Enable dark mode
 setting.keybind=Keybind
@@ -201,3 +204,7 @@ setting.oldbow=Old Bow
 setting.oldbow.description=Revert to the old bow
 setting.disableheartflash=Disable Heart Flash
 setting.disableheartflash.description=Disable heart flash and revert to 1.7
+setting.levelhead=Level Head
+setting.levelhead.description=Display Hypixel Level on nametag
+setting.autotip=Auto Tip
+setting.autotip.description=Automate the tip
