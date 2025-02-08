@@ -22,16 +22,16 @@ public abstract class MixinLivingEntity implements IMixinLivingEntity {
 
 	@Shadow
 	public int handSwingTicks;
-	
+
 	@Shadow
 	public boolean handSwinging;
-	
+
 	@Shadow
 	public Hand preferredHand;
-	
+
 	@Shadow
 	public abstract int getHandSwingDuration();
-	
+
 	@Inject(method = "tickMovement", at = @At("HEAD"))
 	public void onNoJumpDelay(CallbackInfo ci) {
 		if (NoJumpDelayMod.getInstance().isEnabled()) {

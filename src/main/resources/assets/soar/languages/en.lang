@@ -132,6 +132,9 @@ mod.oldanimations.description=Return animation to 1.7
 mod.hypixel.name=Hypixel
 mod.hypixel.description=Useful features for Hypixel
 
+mod.particles.name=Particles
+mod.particles.description=Customize the particles
+
 setting.darkmode=Dark Mode
 setting.darkmode.description=Enable dark mode
 setting.keybind=Keybind
@@ -208,3 +211,15 @@ setting.levelhead=Level Head
 setting.levelhead.description=Display Hypixel Level on nametag
 setting.autotip=Auto Tip
 setting.autotip.description=Automate the tip
+setting.alwayssharpness=Always Sharpness
+setting.alwayssharpness.description=Always spawn the sharpness effect
+setting.alwayscriticals=Always Criticals
+setting.alwayscriticals.description=Always spawn the criticals effect
+setting.sharpness=Sharpness
+setting.sharpness.description=Enable the sharpness effect
+setting.criticals=Criticals
+setting.criticals.description=Enable the criticals effect
+setting.sharpnessamount=Sharpness Amount
+setting.sharpnessamount.description=Set the amount of sharpness effect
+setting.criticalsamount=Criticals Amount
+setting.criticalsamount.description=Set the amount of criticals effect

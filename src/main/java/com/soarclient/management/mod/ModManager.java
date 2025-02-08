@@ -45,6 +45,7 @@ import com.soarclient.management.mod.impl.player.SnapTapMod;
 import com.soarclient.management.mod.impl.player.TaplookMod;
 import com.soarclient.management.mod.impl.player.ZoomMod;
 import com.soarclient.management.mod.impl.render.OverlayEditorMod;
+import com.soarclient.management.mod.impl.render.ParticlesMod;
 import com.soarclient.management.mod.impl.settings.HUDModSettings;
 import com.soarclient.management.mod.impl.settings.ModMenuSettings;
 import com.soarclient.management.mod.settings.Setting;
@@ -101,6 +102,7 @@ public class ModManager {
 
 		// Render
 		mods.add(new OverlayEditorMod());
+		mods.add(new ParticlesMod());
 
 		// Misc
 		mods.add(new DiscordRPCMod());
