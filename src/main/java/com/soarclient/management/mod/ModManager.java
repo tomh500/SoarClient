@@ -47,6 +47,7 @@ import com.soarclient.management.mod.impl.player.ZoomMod;
 import com.soarclient.management.mod.impl.render.BloodParticleMod;
 import com.soarclient.management.mod.impl.render.OverlayEditorMod;
 import com.soarclient.management.mod.impl.render.ParticlesMod;
+import com.soarclient.management.mod.impl.render.ProjectileTrailMod;
 import com.soarclient.management.mod.impl.settings.HUDModSettings;
 import com.soarclient.management.mod.impl.settings.ModMenuSettings;
 import com.soarclient.management.mod.settings.Setting;
@@ -105,6 +106,7 @@ public class ModManager {
 		mods.add(new BloodParticleMod());
 		mods.add(new OverlayEditorMod());
 		mods.add(new ParticlesMod());
+		mods.add(new ProjectileTrailMod());
 
 		// Misc
 		mods.add(new DiscordRPCMod());
