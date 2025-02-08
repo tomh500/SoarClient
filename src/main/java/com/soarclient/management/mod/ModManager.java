@@ -44,6 +44,7 @@ import com.soarclient.management.mod.impl.player.OldAnimationsMod;
 import com.soarclient.management.mod.impl.player.SnapTapMod;
 import com.soarclient.management.mod.impl.player.TaplookMod;
 import com.soarclient.management.mod.impl.player.ZoomMod;
+import com.soarclient.management.mod.impl.render.BloodParticleMod;
 import com.soarclient.management.mod.impl.render.OverlayEditorMod;
 import com.soarclient.management.mod.impl.render.ParticlesMod;
 import com.soarclient.management.mod.impl.settings.HUDModSettings;
@@ -101,6 +102,7 @@ public class ModManager {
 		mods.add(new ZoomMod());
 
 		// Render
+		mods.add(new BloodParticleMod());
 		mods.add(new OverlayEditorMod());
 		mods.add(new ParticlesMod());
 
