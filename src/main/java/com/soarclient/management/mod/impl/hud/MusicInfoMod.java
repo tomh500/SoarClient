@@ -11,7 +11,6 @@ import com.soarclient.management.mod.api.hud.SimpleHUDMod;
 import com.soarclient.management.mod.settings.impl.ComboSetting;
 import com.soarclient.management.music.Music;
 import com.soarclient.management.music.MusicManager;
-import com.soarclient.management.music.MusicPlayer;
 import com.soarclient.skia.Skia;
 import com.soarclient.skia.font.Fonts;
 import com.soarclient.skia.font.Icon;
@@ -30,8 +29,8 @@ public class MusicInfoMod extends SimpleHUDMod {
 	private float mx, my, dx, dy;
 
 	private final ComboSetting typeSetting = new ComboSetting("setting.type", "setting.type.description",
-			Icon.FORMAT_LIST_BULLETED, this,
-			Arrays.asList("setting.simple", "setting.normal", "setting.cover", "setting.waveform"), "setting.simple");
+			Icon.FORMAT_LIST_BULLETED, this, Arrays.asList("setting.simple", "setting.normal", "setting.cover"),
+			"setting.simple");
 
 	public MusicInfoMod() {
 		super("mod.musicinfo.name", "mod.musicinfo.description", Icon.MUSIC_NOTE);
@@ -48,14 +47,11 @@ public class MusicInfoMod extends SimpleHUDMod {
 
 		if (type.equals("setting.simple")) {
 			this.draw();
-			this.setMovable(true);
-		} else if (type.equals("setting.waveform")) {
-			drawWaveform();
-			this.setMovable(false);
 		} else {
+			this.begin();
 			drawInfo(width, height);
+			this.finish();
 			position.setSize(width, height);
-			this.setMovable(true);
 		}
 	};
 
@@ -117,26 +113,6 @@ public class MusicInfoMod extends SimpleHUDMod {
 			if (image != null) {
 				Skia.getCanvas().drawImageRect(image, Rect.makeWH(image.getWidth(), image.getHeight()),
 						Rect.makeXYWH(x, y, width, height), blurPaint, true);
-			}
-		}
-	}
-
-	private void drawWaveform() {
-
-		MusicManager musicManager = Soar.getInstance().getMusicManager();
-		Music m = musicManager.getCurrentMusic();
-
-		int offsetX = 0;
-
-		if (musicManager.isPlaying()) {
-
-			for (int i = 0; i < MusicPlayer.SPECTRUM_BANDS; i++) {
-
-				MusicPlayer.ANIMATIONS[i].onTick(MusicPlayer.VISUALIZER[i], 10);
-				Skia.drawRect(offsetX, client.getWindow().getScaledHeight() + MusicPlayer.ANIMATIONS[i].getValue(), 10,
-						client.getWindow().getScaledHeight(), ColorUtils.applyAlpha(m.getColor(), 80));
-
-				offsetX += 10;
 			}
 		}
 	}

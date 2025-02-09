@@ -141,6 +141,9 @@ mod.bloodparticles.description=Add a blood effects
 mod.projectiletrail.name=Projectile Trail
 mod.projectiletrail.description=Display effects after thrown objects
 
+mod.musicwaveform.name=Music Waveform
+mod.musicwaveform.description=Displays the waveform of the currently playing music
+
 setting.darkmode=Dark Mode
 setting.darkmode.description=Enable dark mode
 setting.keybind=Keybind
@@ -168,7 +171,6 @@ setting.type.description=Set the Type
 setting.cover=Cover
 setting.simple=Simple
 setting.normal=Normal
-setting.waveform=Waveform
 setting.perspective=Perspective
 setting.perspective.description=Set the Perspective orientation
 setting.front=Front
