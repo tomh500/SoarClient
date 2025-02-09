@@ -31,6 +31,7 @@ import com.soarclient.management.mod.impl.hud.PlayerCounterMod;
 import com.soarclient.management.mod.impl.hud.ProtocolVersionMod;
 import com.soarclient.management.mod.impl.hud.ReachDisplayMod;
 import com.soarclient.management.mod.impl.hud.ServerIPDisplayMod;
+import com.soarclient.management.mod.impl.hud.SpeedometerMod;
 import com.soarclient.management.mod.impl.hud.StopwatchMod;
 import com.soarclient.management.mod.impl.hud.WeatherDisplayMod;
 import com.soarclient.management.mod.impl.hud.YawDisplayMod;
@@ -92,6 +93,7 @@ public class ModManager {
 		mods.add(new ProtocolVersionMod());
 		mods.add(new ReachDisplayMod());
 		mods.add(new ServerIPDisplayMod());
+		mods.add(new SpeedometerMod());
 		mods.add(new StopwatchMod());
 		mods.add(new WeatherDisplayMod());
 		mods.add(new YawDisplayMod());
