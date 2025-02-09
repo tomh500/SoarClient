@@ -20,6 +20,7 @@ import com.soarclient.management.mod.impl.hud.GameModeDisplayMod;
 import com.soarclient.management.mod.impl.hud.HealthDisplayMod;
 import com.soarclient.management.mod.impl.hud.JumpResetIndicatorMod;
 import com.soarclient.management.mod.impl.hud.KeystrokesMod;
+import com.soarclient.management.mod.impl.hud.MemoryUsageMod;
 import com.soarclient.management.mod.impl.hud.MouseStrokesMod;
 import com.soarclient.management.mod.impl.hud.MusicInfoMod;
 import com.soarclient.management.mod.impl.hud.NameDisplayMod;
@@ -80,6 +81,7 @@ public class ModManager {
 		mods.add(new HealthDisplayMod());
 		mods.add(new JumpResetIndicatorMod());
 		mods.add(new KeystrokesMod());
+		mods.add(new MemoryUsageMod());
 		mods.add(new MouseStrokesMod());
 		mods.add(new MusicInfoMod());
 		mods.add(new NameDisplayMod());
