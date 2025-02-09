@@ -154,7 +154,7 @@ public class SettingBar extends Component {
 		if(setting instanceof FileSetting) {
 			
 			FileSetting fSetting = (FileSetting) setting;
-			FileSelector fileSelector = new FileSelector(0, 0, fSetting.getFile());
+			FileSelector fileSelector = new FileSelector(0, 0, fSetting.getFile(), fSetting.getExtensions());
 			
 			fileSelector.setHandler(new FileSelectorHandler() {
 

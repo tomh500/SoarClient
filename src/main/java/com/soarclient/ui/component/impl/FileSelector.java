@@ -13,6 +13,7 @@ import com.soarclient.ui.component.api.PressAnimation;
 import com.soarclient.ui.component.handler.impl.FileSelectorHandler;
 import com.soarclient.utils.Multithreading;
 import com.soarclient.utils.file.dialog.SoarFileDialog;
+import com.soarclient.utils.language.I18n;
 import com.soarclient.utils.mouse.MouseUtils;
 
 import it.unimi.dsi.fastutil.objects.ObjectObjectImmutablePair;
@@ -20,13 +21,15 @@ import it.unimi.dsi.fastutil.objects.ObjectObjectImmutablePair;
 public class FileSelector extends Component {
 
 	private PressAnimation pressAnimation = new PressAnimation();
+	private String[] extensions;
 	private File file;
 
-	public FileSelector(float x, float y, File file) {
+	public FileSelector(float x, float y, File file, String[] extensions) {
 		super(x, y);
 		width = 126;
 		height = 32;
 		this.file = file;
+		this.extensions = extensions;
 	}
 
 	@Override
@@ -52,7 +55,7 @@ public class FileSelector extends Component {
 			pressAnimation.onPressed(mouseX, mouseY, x, y);
 			Multithreading.runAsync(() -> {
 
-				ObjectObjectImmutablePair<Boolean, File> p = SoarFileDialog.chooseFile("Select Image", "png");
+				ObjectObjectImmutablePair<Boolean, File> p = SoarFileDialog.chooseFile(I18n.get("text.selectfile"), extensions);
 
 				if (p.left()) {
 					file = p.right();

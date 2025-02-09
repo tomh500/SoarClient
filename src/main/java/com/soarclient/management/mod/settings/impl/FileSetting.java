@@ -9,11 +9,13 @@ public class FileSetting extends Setting {
 
 	private final File defaultValue;
 	private File file;
+	private String[] extensions;
 	
-	public FileSetting(String name, String description, String icon, Mod parent, File file) {
+	public FileSetting(String name, String description, String icon, Mod parent, File file, String... extensions) {
 		super(name, description, icon, parent);
 		this.defaultValue = file;
 		this.file = file;
+		this.extensions = extensions;
 	}
 
 	@Override
@@ -31,5 +33,9 @@ public class FileSetting extends Setting {
 
 	public void setFile(File file) {
 		this.file = file;
+	}
+
+	public String[] getExtensions() {
+		return extensions;
 	}
 }
