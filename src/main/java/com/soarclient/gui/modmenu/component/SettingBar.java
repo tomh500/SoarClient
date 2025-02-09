@@ -1,5 +1,7 @@
 package com.soarclient.gui.modmenu.component;
 
+import java.io.File;
+
 import com.soarclient.Soar;
 import com.soarclient.animation.SimpleAnimation;
 import com.soarclient.libraries.material3.hct.Hct;
@@ -7,6 +9,7 @@ import com.soarclient.management.color.api.ColorPalette;
 import com.soarclient.management.mod.settings.Setting;
 import com.soarclient.management.mod.settings.impl.BooleanSetting;
 import com.soarclient.management.mod.settings.impl.ComboSetting;
+import com.soarclient.management.mod.settings.impl.FileSetting;
 import com.soarclient.management.mod.settings.impl.HctColorSetting;
 import com.soarclient.management.mod.settings.impl.KeybindSetting;
 import com.soarclient.management.mod.settings.impl.NumberSetting;
@@ -15,12 +18,14 @@ import com.soarclient.skia.Skia;
 import com.soarclient.skia.font.Fonts;
 import com.soarclient.ui.component.Component;
 import com.soarclient.ui.component.handler.impl.ComboButtonHandler;
+import com.soarclient.ui.component.handler.impl.FileSelectorHandler;
 import com.soarclient.ui.component.handler.impl.HctColorPickerHandler;
 import com.soarclient.ui.component.handler.impl.KeybindHandler;
 import com.soarclient.ui.component.handler.impl.SliderHandler;
 import com.soarclient.ui.component.handler.impl.SwitchHandler;
 import com.soarclient.ui.component.handler.impl.TextHandler;
 import com.soarclient.ui.component.impl.ComboButton;
+import com.soarclient.ui.component.impl.FileSelector;
 import com.soarclient.ui.component.impl.HctColorPicker;
 import com.soarclient.ui.component.impl.Keybind;
 import com.soarclient.ui.component.impl.Slider;
@@ -144,6 +149,22 @@ public class SettingBar extends Component {
 			});
 
 			component = textField;
+		}
+		
+		if(setting instanceof FileSetting) {
+			
+			FileSetting fSetting = (FileSetting) setting;
+			FileSelector fileSelector = new FileSelector(0, 0, fSetting.getFile());
+			
+			fileSelector.setHandler(new FileSelectorHandler() {
+
+				@Override
+				public void onSelect(File file) {
+					fSetting.setFile(file);
+				}
+			});
+			
+			component = fileSelector;
 		}
 	}
 
