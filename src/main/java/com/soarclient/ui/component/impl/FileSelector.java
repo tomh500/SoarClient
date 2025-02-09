@@ -10,6 +10,7 @@ import com.soarclient.skia.Skia;
 import com.soarclient.skia.font.Fonts;
 import com.soarclient.ui.component.Component;
 import com.soarclient.ui.component.api.PressAnimation;
+import com.soarclient.ui.component.handler.impl.FileSelectorHandler;
 import com.soarclient.utils.Multithreading;
 import com.soarclient.utils.file.dialog.SoarFileDialog;
 import com.soarclient.utils.mouse.MouseUtils;
@@ -55,6 +56,9 @@ public class FileSelector extends Component {
 
 				if (p.left()) {
 					file = p.right();
+					if (handler instanceof FileSelectorHandler) {
+						((FileSelectorHandler) handler).onSelect(file);
+					}
 				}
 			});
 		}
