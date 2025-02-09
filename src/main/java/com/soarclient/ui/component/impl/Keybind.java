@@ -16,7 +16,6 @@ import net.minecraft.client.util.InputUtil;
 public class Keybind extends Component {
 
 	private PressAnimation pressAnimation = new PressAnimation();
-	private int[] pressedPos;
 
 	private boolean binding;
 	private InputUtil.Key key;
@@ -26,7 +25,6 @@ public class Keybind extends Component {
 		this.key = key;
 		width = 126;
 		height = 32;
-		pressedPos = new int[] { 0, 0 };
 	}
 
 	@Override
@@ -37,7 +35,7 @@ public class Keybind extends Component {
 		Skia.drawRoundedRect(x, y, width, height, 12, palette.getPrimary());
 		Skia.save();
 		Skia.clip(x, y, width, height, 12);
-		pressAnimation.draw(x + pressedPos[0], y + pressedPos[1], width, height, palette.getPrimaryContainer(), 0.12F);
+		pressAnimation.draw(x, y, width, height, palette.getPrimaryContainer(), 0.12F);
 		Skia.restore();
 
 		Skia.drawFullCenteredText(binding ? "..." : key.getLocalizedText().getString(), x + (width / 2),

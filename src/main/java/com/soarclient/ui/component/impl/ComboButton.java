@@ -22,7 +22,6 @@ import com.soarclient.utils.mouse.MouseUtils;
 public class ComboButton extends Component {
 
 	private PressAnimation pressAnimation = new PressAnimation();
-	private int[] pressedPos;
 
 	private Animation animation;
 	private List<String> options;
@@ -35,7 +34,6 @@ public class ComboButton extends Component {
 		this.animation = new DummyAnimation(1);
 		width = 126;
 		height = 32;
-		pressedPos = new int[] { 0, 0 };
 	}
 
 	@Override
@@ -46,7 +44,7 @@ public class ComboButton extends Component {
 		Skia.drawRoundedRect(x, y, width, height, 12, palette.getPrimary());
 		Skia.save();
 		Skia.clip(x, y, width, height, 12);
-		pressAnimation.draw(x + pressedPos[0], y + pressedPos[1], width, height, palette.getPrimaryContainer(), 0.12F);
+		pressAnimation.draw(x, y, width, height, palette.getPrimaryContainer(), 0.12F);
 		Skia.restore();
 		Skia.drawHeightCenteredText("<", x + 6, y + (height / 2), palette.getSurface(), Fonts.getMedium(14));
 		Skia.drawHeightCenteredText(">", x + width - 16, y + (height / 2), palette.getSurface(), Fonts.getMedium(14));
