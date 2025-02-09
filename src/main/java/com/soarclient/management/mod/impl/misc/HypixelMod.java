@@ -8,8 +8,6 @@ import com.soarclient.management.mod.settings.impl.BooleanSetting;
 import com.soarclient.skia.font.Icon;
 import com.soarclient.utils.TimerUtils;
 
-import net.minecraft.text.Text;
-
 public class HypixelMod extends Mod {
 
 	private static HypixelMod instance;
@@ -30,7 +28,7 @@ public class HypixelMod extends Mod {
 		if (autoTipSetting.isEnabled() && client.player != null && client.getCurrentServerEntry() != null
 				&& client.getCurrentServerEntry().address.contains("hypixel")) {
 			if (tipTimer.delay(1200000)) {
-				client.player.sendMessage(Text.of("/tip all"), false);
+				client.player.networkHandler.sendChatCommand("tip all");
 				tipTimer.reset();
 			}
 		} else {
