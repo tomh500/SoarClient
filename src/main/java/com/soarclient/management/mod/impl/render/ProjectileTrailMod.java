@@ -37,8 +37,9 @@ public class ProjectileTrailMod extends Mod {
 			for (ProjectileEntity projectile : client.world.getEntitiesByClass(ProjectileEntity.class, box,
 					entity -> true)) {
 
-				if (!(projectile.getVelocity().lengthSquared() > 0.01) || projectile.isOnGround() || client.world
-						.getBlockState(projectile.getBlockPos()).isSolidBlock(client.world, projectile.getBlockPos())) {
+				if (!(projectile.getVelocity().lengthSquared() > 0.01) || projectile.isOnGround()
+						|| client.world.getBlockState(projectile.getBlockPos()).isSolidBlock(client.world,
+								projectile.getBlockPos()) && projectile.getOwner().getId() != client.player.getId()) {
 					continue;
 				}
 
