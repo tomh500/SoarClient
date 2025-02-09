@@ -2,6 +2,7 @@ plugins {
 	id 'fabric-loom' version '1.9-SNAPSHOT'
 }
 
+project.ext.lwjglVersion = "3.3.3"
 version = project.mod_version
 group = project.maven_group
 
@@ -54,6 +55,14 @@ dependencies {
 	jij "net.lenni0451:MCPing:1.4.2"
 	jij "net.lenni0451:Reflect:1.4.0"
 	
+	implementation platform("org.lwjgl:lwjgl-bom:$lwjglVersion")
+
+	jij "org.lwjgl:lwjgl-nfd"
+    runtimeOnly "org.lwjgl:lwjgl-nfd::natives-linux"
+    runtimeOnly "org.lwjgl:lwjgl-nfd::natives-macos"
+    runtimeOnly "org.lwjgl:lwjgl-nfd::natives-macos-arm64"
+    runtimeOnly "org.lwjgl:lwjgl-nfd::natives-windows"
+
 	implementation fileTree(dir: 'libs', include: ['*.jar'])
 
 	afterEvaluate {
