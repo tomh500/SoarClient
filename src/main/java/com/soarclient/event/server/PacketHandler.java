@@ -16,6 +16,7 @@ import net.minecraft.network.packet.c2s.play.PlayerInteractEntityC2SPacket;
 import net.minecraft.network.packet.s2c.play.ChatMessageS2CPacket;
 import net.minecraft.network.packet.s2c.play.EntityDamageS2CPacket;
 import net.minecraft.network.packet.s2c.play.GameJoinS2CPacket;
+import net.minecraft.network.packet.s2c.play.GameMessageS2CPacket;
 
 public class PacketHandler {
 
@@ -70,8 +71,20 @@ public class PacketHandler {
 				packetEvent.setCancelled(true);
 			}
 		}
-		
-		if(basePacket instanceof GameJoinS2CPacket) {
+
+		if (basePacket instanceof GameMessageS2CPacket) {
+
+			GameMessageS2CPacket packet = (GameMessageS2CPacket) basePacket;
+			ReceiveChatEvent event = new ReceiveChatEvent(packet.content().getString());
+
+			EventBus.getInstance().post(event);
+
+			if (event.isCancelled()) {
+				packetEvent.setCancelled(true);
+			}
+		}
+
+		if (basePacket instanceof GameJoinS2CPacket) {
 			EventBus.getInstance().post(new GameJoinEvent());
 		}
 	};
