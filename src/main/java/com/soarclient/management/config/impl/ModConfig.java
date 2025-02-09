@@ -1,5 +1,6 @@
 package com.soarclient.management.config.impl;
 
+import java.io.File;
 import java.util.List;
 
 import com.google.gson.JsonObject;
@@ -16,6 +17,7 @@ import com.soarclient.management.mod.settings.Setting;
 import com.soarclient.management.mod.settings.impl.BooleanSetting;
 import com.soarclient.management.mod.settings.impl.ColorSetting;
 import com.soarclient.management.mod.settings.impl.ComboSetting;
+import com.soarclient.management.mod.settings.impl.FileSetting;
 import com.soarclient.management.mod.settings.impl.HctColorSetting;
 import com.soarclient.management.mod.settings.impl.KeybindSetting;
 import com.soarclient.management.mod.settings.impl.NumberSetting;
@@ -153,6 +155,14 @@ public class ModConfig extends Config {
 									ss.setValue(JsonUtils.getStringProperty(settingJsonObject, s.getName(),
 											ss.getDefaultValue()));
 								}
+
+								if (s instanceof FileSetting) {
+
+									FileSetting fs = (FileSetting) s;
+
+									fs.setFile(new File(JsonUtils.getStringProperty(settingJsonObject, s.getName(),
+											fs.getDefaultValue().getAbsolutePath())));
+								}
 							}
 						}
 					}
@@ -238,6 +248,11 @@ public class ModConfig extends Config {
 
 					if (s instanceof StringSetting) {
 						settingJsonObject.addProperty(s.getName(), ((StringSetting) s).getValue());
+					}
+					
+					if(s instanceof FileSetting) {
+						File f = ((FileSetting)s).getFile();
+						settingJsonObject.addProperty(s.getName(), f != null ? f.getAbsolutePath() : "null");
 					}
 				}
 
