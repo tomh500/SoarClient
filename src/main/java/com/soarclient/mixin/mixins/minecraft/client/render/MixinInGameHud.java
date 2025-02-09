@@ -28,6 +28,6 @@ public class MixinInGameHud {
     
 	@Inject(method = "renderMainHud", at = @At("TAIL"))
 	private void renderMainHud(DrawContext context, RenderTickCounter tickCounter, CallbackInfo ci) {
-		EventBus.getInstance().post(new RenderGameOverlayEvent());
+		EventBus.getInstance().post(new RenderGameOverlayEvent(context));
 	}
 }
