@@ -10,6 +10,8 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import com.soarclient.Soar;
 import com.soarclient.management.mod.impl.misc.HypixelMod;
+import com.soarclient.utils.server.Server;
+import com.soarclient.utils.server.ServerUtils;
 
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.font.TextRenderer;
@@ -38,7 +40,7 @@ public abstract class MixinEntityRenderer<T extends Entity, S extends EntityRend
 		MinecraftClient client = MinecraftClient.getInstance();
 
 		if (inState instanceof PlayerEntityRenderState state) {
-			if (client.getCurrentServerEntry() != null && client.getCurrentServerEntry().address.contains("hypixel")) {
+			if (ServerUtils.isJoin(Server.HYPIXEL)) {
 
 				AbstractClientPlayerEntity player = (AbstractClientPlayerEntity) client.world.getEntityById(state.id);
 

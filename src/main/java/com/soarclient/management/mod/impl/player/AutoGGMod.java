@@ -1,6 +1,7 @@
 package com.soarclient.management.mod.impl.player;
 
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
@@ -14,13 +15,12 @@ import com.soarclient.management.mod.settings.impl.NumberSetting;
 import com.soarclient.management.mod.settings.impl.StringSetting;
 import com.soarclient.skia.font.Icon;
 import com.soarclient.utils.Multithreading;
-
-import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
+import com.soarclient.utils.server.Server;
+import com.soarclient.utils.server.ServerUtils;
 
 public class AutoGGMod extends Mod {
 
-	private static final int HYPIXEL = 0;
-	private final Map<Integer, List<String>> strings = new Int2ObjectOpenHashMap<>();
+	private final Map<Server, List<String>> strings = new HashMap<>();
 
 	private NumberSetting delaySetting = new NumberSetting("setting.delay", "setting.delay.description", Icon.TIMER,
 			this, 0, 0, 5, 1);
@@ -32,7 +32,7 @@ public class AutoGGMod extends Mod {
 	public AutoGGMod() {
 		super("mod.autogg.name", "mod.autogg.description", Icon.TROPHY, ModCategory.PLAYER);
 
-		strings.put(HYPIXEL,
+		strings.put(Server.HYPIXEL,
 				addToList("1st Killer -", "1st Place -", "Winner:", " - Damage Dealt -", "Winning Team -", "1st -",
 						"Winners:", "Winner:", "Winning Team:", " won the game!", "Top Seeker:", "1st Place:",
 						"Last team standing!", "Winner #1 (", "Top Survivors", "Winners -", "Sumo Duel -",
@@ -44,10 +44,9 @@ public class AutoGGMod extends Mod {
 		String message = event.getMessage();
 
 		if (message != null) {
-			if (client.getCurrentServerEntry() != null) {
-
-				if (client.getCurrentServerEntry().address.contains("hypixel") && hypixelSetting.isEnabled()) {
-					processChat(strings.get(HYPIXEL), message);
+			if (ServerUtils.isMultiplayer()) {
+				if (ServerUtils.isJoin(Server.HYPIXEL) && hypixelSetting.isEnabled()) {
+					processChat(strings.get(Server.HYPIXEL), message);
 				}
 			}
 		}

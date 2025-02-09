@@ -9,16 +9,14 @@ import com.github.benmanes.caffeine.cache.Caffeine;
 import com.soarclient.Soar;
 import com.soarclient.management.websocket.packet.impl.SC_SoarUserPacket;
 import com.soarclient.utils.TimerUtils;
-
-import net.minecraft.client.MinecraftClient;
+import com.soarclient.utils.server.ServerUtils;
 
 public class UserManager {
 
-	private final MinecraftClient client = MinecraftClient.getInstance();
 	private final Cache<String, Boolean> cache = Caffeine.newBuilder().maximumSize(1000).build();
 	private final Set<String> requests = new HashSet<>();
 	private final TimerUtils timer = new TimerUtils();
-	
+
 	public UserManager() {
 	}
 
@@ -26,7 +24,7 @@ public class UserManager {
 
 		Iterator<String> iterator = requests.iterator();
 
-		if (client.getCurrentServerEntry() != null) {
+		if (ServerUtils.isMultiplayer()) {
 			if (timer.delay(100)) {
 				if (iterator.hasNext()) {
 					String request = iterator.next();
@@ -40,7 +38,7 @@ public class UserManager {
 			timer.reset();
 		}
 	}
-	
+
 	public void add(String uuid, boolean isUser) {
 		cache.put(uuid, isUser);
 	}
@@ -48,7 +46,7 @@ public class UserManager {
 	public boolean isSoarUser(String uuid) {
 		return cache.getIfPresent(uuid);
 	}
-	
+
 	public void clear() {
 		requests.clear();
 	}

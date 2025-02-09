@@ -12,6 +12,8 @@ import com.soarclient.skia.Skia;
 import com.soarclient.skia.font.Fonts;
 import com.soarclient.skia.font.Icon;
 import com.soarclient.utils.SkinUtils;
+import com.soarclient.utils.server.Server;
+import com.soarclient.utils.server.ServerUtils;
 
 import net.minecraft.client.network.PlayerListEntry;
 
@@ -42,7 +44,7 @@ public class BedwarsStatsOverlayMod extends HUDMod {
 		Skia.drawFullCenteredText("FKDR", getX() + 220, getY() + 27, this.getDesign().getTextColor(), Fonts.getMedium(9F));
 		Skia.drawFullCenteredText("BBLR", getX() + 270, getY() + 27, this.getDesign().getTextColor(), Fonts.getMedium(9F));
 
-		if (client.getCurrentServerEntry() != null && client.getCurrentServerEntry().address.contains("hypixel")) {
+		if (ServerUtils.isJoin(Server.HYPIXEL)) {
 
 			for (PlayerListEntry player : client.getNetworkHandler().getPlayerList()) {
 

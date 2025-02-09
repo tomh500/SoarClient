@@ -7,6 +7,7 @@ import com.soarclient.management.mod.settings.impl.NumberSetting;
 import com.soarclient.skia.font.Icon;
 import com.soarclient.utils.Multithreading;
 import com.soarclient.utils.TimerUtils;
+import com.soarclient.utils.server.ServerUtils;
 
 import net.lenni0451.mcping.MCPing;
 
@@ -31,7 +32,7 @@ public class PingDisplayMod extends SimpleHUDMod {
 
 		if (timer.delay((long) (1000 * refreshTimeSetting.getValue()))) {
 
-			if (client.getCurrentServerEntry() != null) {
+			if (ServerUtils.isMultiplayer()) {
 				if (client.getCurrentServerEntry().ping <= 1 && !pinging) {
 					Multithreading.runAsync(() -> {
 						pinging = true;

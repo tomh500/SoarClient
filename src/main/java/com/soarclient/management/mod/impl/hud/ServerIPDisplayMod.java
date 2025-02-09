@@ -4,6 +4,7 @@ import com.soarclient.event.EventBus;
 import com.soarclient.event.client.RenderSkiaEvent;
 import com.soarclient.management.mod.api.hud.SimpleHUDMod;
 import com.soarclient.skia.font.Icon;
+import com.soarclient.utils.server.ServerUtils;
 
 public class ServerIPDisplayMod extends SimpleHUDMod {
 
@@ -18,15 +19,11 @@ public class ServerIPDisplayMod extends SimpleHUDMod {
 	@Override
 	public String getText() {
 
-		if (client.isConnectedToLocalServer()) {
+		if (ServerUtils.isSingleplayer()) {
 			return "Singleplayer";
 		}
 
-		if (client.getCurrentServerEntry() == null) {
-			return "None";
-		}
-
-		return client.getCurrentServerEntry().address;
+		return ServerUtils.getAddress();
 	}
 
 	@Override

@@ -7,6 +7,8 @@ import com.soarclient.management.mod.ModCategory;
 import com.soarclient.management.mod.settings.impl.BooleanSetting;
 import com.soarclient.skia.font.Icon;
 import com.soarclient.utils.TimerUtils;
+import com.soarclient.utils.server.Server;
+import com.soarclient.utils.server.ServerUtils;
 
 public class HypixelMod extends Mod {
 
@@ -25,8 +27,7 @@ public class HypixelMod extends Mod {
 	}
 
 	public final EventBus.EventListener<ClientTickEvent> onClientTick = event -> {
-		if (autoTipSetting.isEnabled() && client.player != null && client.getCurrentServerEntry() != null
-				&& client.getCurrentServerEntry().address.contains("hypixel")) {
+		if (autoTipSetting.isEnabled() && client.player != null && ServerUtils.isJoin(Server.HYPIXEL)) {
 			if (tipTimer.delay(1200000)) {
 				client.player.networkHandler.sendChatCommand("tip all");
 				tipTimer.reset();

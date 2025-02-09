@@ -10,12 +10,11 @@ import com.soarclient.Soar;
 import com.soarclient.management.hypixel.api.HypixelUser;
 import com.soarclient.management.websocket.packet.impl.SC_HypixelStatsPacket;
 import com.soarclient.utils.TimerUtils;
-
-import net.minecraft.client.MinecraftClient;
+import com.soarclient.utils.server.Server;
+import com.soarclient.utils.server.ServerUtils;
 
 public class HypixelManager {
 
-	private final MinecraftClient client = MinecraftClient.getInstance();
 	private final Cache<String, HypixelUser> cache = Caffeine.newBuilder().maximumSize(1000).build();
 	private final Set<String> requests = new HashSet<>();
 	private final TimerUtils timer = new TimerUtils();
@@ -31,7 +30,7 @@ public class HypixelManager {
 
 		Iterator<String> iterator = requests.iterator();
 
-		if (client.getCurrentServerEntry() != null && client.getCurrentServerEntry().address.contains("hypixel")) {
+		if (ServerUtils.isJoin(Server.HYPIXEL)) {
 			if (timer.delay(500)) {
 
 				if (iterator.hasNext()) {
@@ -59,7 +58,7 @@ public class HypixelManager {
 
 		return user;
 	}
-	
+
 	public void clear() {
 		requests.clear();
 	}
