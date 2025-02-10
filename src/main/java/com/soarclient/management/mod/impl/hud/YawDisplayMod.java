@@ -21,7 +21,7 @@ public class YawDisplayMod extends SimpleHUDMod {
 
 	@Override
 	public String getText() {
-		return "Yaw: " + df.format(client.player.getYaw());
+		return "Yaw: " + df.format(Math.abs(client.player.getYaw() % 90));
 	}
 
 	@Override
