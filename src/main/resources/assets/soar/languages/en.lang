@@ -157,6 +157,9 @@ mod.autogg.description=Automatically send with gg when the game is finished
 mod.customhand.name=Custom Hand
 mod.customhand.description=Change the position scale etc
 
+mod.bossbar.name=Boss Bar
+mod.bossbar.description=Customize boss bar
+
 setting.darkmode=Dark Mode
 setting.darkmode.description=Enable dark mode
 setting.keybind=Keybind
@@ -268,3 +271,5 @@ setting.z=Z
 setting.z.description=Set the z position
 setting.scale=Scale
 setting.scale.description=Set the scale
+setting.vanillaposition=Vanilla Position
+setting.vanillaposition.description=Set to the Position of Vanilla

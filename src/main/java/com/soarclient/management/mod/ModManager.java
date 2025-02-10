@@ -11,6 +11,7 @@ import com.soarclient.management.mod.api.hud.design.impl.ClearDesign;
 import com.soarclient.management.mod.api.hud.design.impl.MaterialYouDesign;
 import com.soarclient.management.mod.api.hud.design.impl.SimpleDesign;
 import com.soarclient.management.mod.impl.hud.BedwarsStatsOverlayMod;
+import com.soarclient.management.mod.impl.hud.BossBarMod;
 import com.soarclient.management.mod.impl.hud.ClockMod;
 import com.soarclient.management.mod.impl.hud.ComboCounterMod;
 import com.soarclient.management.mod.impl.hud.CoordsMod;
@@ -75,6 +76,7 @@ public class ModManager {
 
 		// HUD
 		mods.add(new BedwarsStatsOverlayMod());
+		mods.add(new BossBarMod());
 		mods.add(new ClockMod());
 		mods.add(new ComboCounterMod());
 		mods.add(new CoordsMod());

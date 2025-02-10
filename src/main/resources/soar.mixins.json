@@ -3,6 +3,7 @@
 	"package": "com.soarclient.mixin.mixins",
 	"compatibilityLevel": "JAVA_21",
 	"client": [
+		"minecraft.client.gui.MixinBossBarHud",
 		"minecraft.client.option.MixinKeyBinding",
 		"minecraft.client.render.BufferRendererAccessor",
 		"minecraft.client.render.MixinCamera",
