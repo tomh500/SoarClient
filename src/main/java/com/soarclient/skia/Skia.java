@@ -288,6 +288,16 @@ public class Skia {
 		}
 	}
 
+	public static void drawArc(float x, float y, float radius, float startAngle, float endAngle, float strokeWidth,
+			Color color) {
+
+		Paint paint = getPaint(color);
+		paint.setStrokeWidth(strokeWidth);
+		paint.setMode(PaintMode.STROKE);
+
+		getCanvas().drawArc(x - radius, y - radius, x + radius, y + radius, startAngle - 90, endAngle, false, paint);
+	}
+
 	public static void drawLine(float x, float y, float endX, float endY, float width, Color color) {
 
 		Paint paint = getPaint(color);
