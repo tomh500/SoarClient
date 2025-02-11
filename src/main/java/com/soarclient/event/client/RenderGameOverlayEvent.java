@@ -1,17 +1,18 @@
 package com.soarclient.event.client;
 
 import com.soarclient.event.Event;
-import net.minecraft.client.gui.GuiGraphics;
+
+import net.minecraft.client.gui.DrawContext;
 
 public class RenderGameOverlayEvent extends Event {
 	
-	private final GuiGraphics context;
+	private final DrawContext context;
 	
-	public RenderGameOverlayEvent(GuiGraphics context) {
+	public RenderGameOverlayEvent(DrawContext context) {
 		this.context = context;
 	}
 
-	public GuiGraphics getContext() {
+	public DrawContext getContext() {
 		return context;
 	}
 }

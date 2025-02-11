@@ -1,11 +1,12 @@
 package com.soarclient.management.mod;
 
 import com.soarclient.event.EventBus;
-import net.minecraft.client.Minecraft;
+
+import net.minecraft.client.MinecraftClient;
 
 public class Mod {
 
-	protected Minecraft client = Minecraft.getInstance();
+	protected MinecraftClient client = MinecraftClient.getInstance();
 	private final String name, description, icon;
 	private boolean enabled, movable, hidden;
 	private ModCategory category;

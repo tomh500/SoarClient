@@ -3,19 +3,21 @@ package com.soarclient.management.websocket;
 import java.net.URISyntaxException;
 import java.util.HashMap;
 import java.util.Map;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.User;
+
 import com.google.gson.JsonObject;
 import com.mojang.authlib.GameProfile;
 import com.soarclient.management.websocket.client.SoarWebSocketClient;
 import com.soarclient.management.websocket.packet.SoarPacket;
 import com.soarclient.utils.HttpUtils;
 
+import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.session.Session;
+
 public class WebSocketManager {
 
     private static final int MAX_RETRY = 3;
     
-    private Minecraft client = Minecraft.getInstance();
+    private MinecraftClient client = MinecraftClient.getInstance();
     private GameProfile gameProfile;
     private SoarWebSocketClient webSocket;
     private int retryCount = 0;
@@ -47,10 +49,10 @@ public class WebSocketManager {
                         }
                         
                         JsonObject postObject = new JsonObject();
-                        User session = client.getUser();
+                        Session session = client.getSession();
 
                         postObject.addProperty("accessToken", session.getAccessToken());
-                        postObject.addProperty("selectedProfile", session.getProfileId().toString().replace("-", ""));
+                        postObject.addProperty("selectedProfile", session.getUuidOrNull().toString().replace("-", ""));
                         postObject.addProperty("serverId", "cbd2c3f65d7ba5cceba0cc9647ff9a85c371f4");
                         HttpUtils.postJson("https://sessionserver.mojang.com/session/minecraft/join", postObject);
                         

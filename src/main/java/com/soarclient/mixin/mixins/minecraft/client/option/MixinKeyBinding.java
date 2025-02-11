@@ -7,17 +7,19 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
-import com.mojang.blaze3d.platform.InputConstants;
+
 import com.soarclient.management.mod.impl.player.SnapTapMod;
 import com.soarclient.mixin.interfaces.IMixinKeyBinding;
-import net.minecraft.client.KeyMapping;
 
-@Mixin(KeyMapping.class)
+import net.minecraft.client.option.KeyBinding;
+import net.minecraft.client.util.InputUtil;
+
+@Mixin(KeyBinding.class)
 public class MixinKeyBinding implements IMixinKeyBinding {
 
 	@Shadow
 	@Final
-	private InputConstants.Key defaultKey;
+	private InputUtil.Key defaultKey;
 
 	@Shadow
 	private boolean pressed;
@@ -31,7 +33,7 @@ public class MixinKeyBinding implements IMixinKeyBinding {
 			return;
 		}
 
-		if (this.defaultKey.getValue() == InputConstants.KEY_A) {
+		if (this.defaultKey.getCode() == InputUtil.GLFW_KEY_A) {
 			if (this.pressed) {
 				if (mod.getRightPressTime() == 0) {
 					cir.setReturnValue(true);
@@ -42,7 +44,7 @@ public class MixinKeyBinding implements IMixinKeyBinding {
 				cir.setReturnValue(mod.getRightPressTime() <= mod.getLeftPressTime());
 				cir.cancel();
 			}
-		} else if (this.defaultKey.getValue() == InputConstants.KEY_D) {
+		} else if (this.defaultKey.getCode() == InputUtil.GLFW_KEY_D) {
 			if (this.pressed) {
 				if (mod.getLeftPressTime() == 0) {
 					cir.setReturnValue(true);
@@ -53,7 +55,7 @@ public class MixinKeyBinding implements IMixinKeyBinding {
 				cir.setReturnValue(mod.getLeftPressTime() <= mod.getRightPressTime());
 				cir.cancel();
 			}
-		} else if (this.defaultKey.getValue() == InputConstants.KEY_W) {
+		} else if (this.defaultKey.getCode() == InputUtil.GLFW_KEY_W) {
 			if (this.pressed) {
 				if (mod.getForwardPressTime() == 0) {
 					cir.setReturnValue(true);
@@ -64,7 +66,7 @@ public class MixinKeyBinding implements IMixinKeyBinding {
 				cir.setReturnValue(mod.getBackPressTime() <= mod.getForwardPressTime());
 				cir.cancel();
 			}
-		} else if (this.defaultKey.getValue() == InputConstants.KEY_S) {
+		} else if (this.defaultKey.getCode() == InputUtil.GLFW_KEY_S) {
 			if (this.pressed) {
 				if (mod.getBackPressTime() == 0) {
 					cir.setReturnValue(true);
@@ -87,25 +89,25 @@ public class MixinKeyBinding implements IMixinKeyBinding {
 			return;
 		}
 
-		if (this.defaultKey.getValue() == InputConstants.KEY_A) {
+		if (this.defaultKey.getCode() == InputUtil.GLFW_KEY_A) {
 			if (pressed) {
 				mod.setLeftPressTime(System.currentTimeMillis());
 			} else {
 				mod.setLeftPressTime(0);
 			}
-		} else if (this.defaultKey.getValue() == InputConstants.KEY_D) {
+		} else if (this.defaultKey.getCode() == InputUtil.GLFW_KEY_D) {
 			if (pressed) {
 				mod.setRightPressTime(System.currentTimeMillis());
 			} else {
 				mod.setRightPressTime(0);
 			}
-		} else if (this.defaultKey.getValue() == InputConstants.KEY_W) {
+		} else if (this.defaultKey.getCode() == InputUtil.GLFW_KEY_W) {
 			if (pressed) {
 				mod.setForwardPressTime(System.currentTimeMillis());
 			} else {
 				mod.setForwardPressTime(0);
 			}
-		} else if (this.defaultKey.getValue() == InputConstants.KEY_S) {
+		} else if (this.defaultKey.getCode() == InputUtil.GLFW_KEY_S) {
 			if (pressed) {
 				mod.setBackPressTime(System.currentTimeMillis());
 			} else {

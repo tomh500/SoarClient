@@ -9,13 +9,14 @@ import com.soarclient.event.server.impl.GameJoinEvent;
 import com.soarclient.event.server.impl.ReceiveChatEvent;
 import com.soarclient.event.server.impl.SendChatEvent;
 import com.soarclient.mixin.mixins.minecraft.network.packet.PlayerInteractEntityC2SPacketAccessor;
-import net.minecraft.network.protocol.Packet;
-import net.minecraft.network.protocol.game.ClientboundDamageEventPacket;
-import net.minecraft.network.protocol.game.ClientboundLoginPacket;
-import net.minecraft.network.protocol.game.ClientboundPlayerChatPacket;
-import net.minecraft.network.protocol.game.ClientboundSystemChatPacket;
-import net.minecraft.network.protocol.game.ServerboundChatPacket;
-import net.minecraft.network.protocol.game.ServerboundInteractPacket;
+
+import net.minecraft.network.packet.Packet;
+import net.minecraft.network.packet.c2s.play.ChatMessageC2SPacket;
+import net.minecraft.network.packet.c2s.play.PlayerInteractEntityC2SPacket;
+import net.minecraft.network.packet.s2c.play.ChatMessageS2CPacket;
+import net.minecraft.network.packet.s2c.play.EntityDamageS2CPacket;
+import net.minecraft.network.packet.s2c.play.GameJoinS2CPacket;
+import net.minecraft.network.packet.s2c.play.GameMessageS2CPacket;
 
 public class PacketHandler {
 
@@ -23,22 +24,22 @@ public class PacketHandler {
 
 		Packet<?> basePacket = packetEvent.getPacket();
 
-		if (basePacket instanceof ServerboundInteractPacket) {
+		if (basePacket instanceof PlayerInteractEntityC2SPacket) {
 
-			ServerboundInteractPacket packet = (ServerboundInteractPacket) basePacket;
-			ServerboundInteractPacket.ActionType type = ((PlayerInteractEntityC2SPacketAccessor) packet)
+			PlayerInteractEntityC2SPacket packet = (PlayerInteractEntityC2SPacket) basePacket;
+			PlayerInteractEntityC2SPacket.InteractType type = ((PlayerInteractEntityC2SPacketAccessor) packet)
 					.getInteractTypeHandler().getType();
 
-			if (type.equals(ServerboundInteractPacket.ActionType.ATTACK)) {
+			if (type.equals(PlayerInteractEntityC2SPacket.InteractType.ATTACK)) {
 				EventBus.getInstance()
 						.post(new AttackEntityEvent(((PlayerInteractEntityC2SPacketAccessor) packet).entityId()));
 			}
 		}
 
-		if (basePacket instanceof ServerboundChatPacket) {
+		if (basePacket instanceof ChatMessageC2SPacket) {
 
-			ServerboundChatPacket packet = (ServerboundChatPacket) basePacket;
-			SendChatEvent event = new SendChatEvent(packet.message());
+			ChatMessageC2SPacket packet = (ChatMessageC2SPacket) basePacket;
+			SendChatEvent event = new SendChatEvent(packet.chatMessage());
 
 			EventBus.getInstance().post(event);
 
@@ -52,16 +53,16 @@ public class PacketHandler {
 
 		Packet<?> basePacket = packetEvent.getPacket();
 
-		if (basePacket instanceof ClientboundDamageEventPacket) {
+		if (basePacket instanceof EntityDamageS2CPacket) {
 
-			ClientboundDamageEventPacket packet = (ClientboundDamageEventPacket) basePacket;
+			EntityDamageS2CPacket packet = (EntityDamageS2CPacket) basePacket;
 
 			EventBus.getInstance().post(new DamageEntityEvent(packet.entityId()));
 		}
 
-		if (basePacket instanceof ClientboundPlayerChatPacket) {
+		if (basePacket instanceof ChatMessageS2CPacket) {
 
-			ClientboundPlayerChatPacket packet = (ClientboundPlayerChatPacket) basePacket;
+			ChatMessageS2CPacket packet = (ChatMessageS2CPacket) basePacket;
 			ReceiveChatEvent event = new ReceiveChatEvent(packet.body().content());
 
 			EventBus.getInstance().post(event);
@@ -71,9 +72,9 @@ public class PacketHandler {
 			}
 		}
 
-		if (basePacket instanceof ClientboundSystemChatPacket) {
+		if (basePacket instanceof GameMessageS2CPacket) {
 
-			ClientboundSystemChatPacket packet = (ClientboundSystemChatPacket) basePacket;
+			GameMessageS2CPacket packet = (GameMessageS2CPacket) basePacket;
 			ReceiveChatEvent event = new ReceiveChatEvent(packet.content().getString());
 
 			EventBus.getInstance().post(event);
@@ -83,7 +84,7 @@ public class PacketHandler {
 			}
 		}
 
-		if (basePacket instanceof ClientboundLoginPacket) {
+		if (basePacket instanceof GameJoinS2CPacket) {
 			EventBus.getInstance().post(new GameJoinEvent());
 		}
 	};

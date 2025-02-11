@@ -2,7 +2,7 @@ package com.soarclient.gui.api;
 
 import java.util.ArrayList;
 import java.util.List;
-import net.minecraft.client.gui.screens.Screen;
+
 import org.lwjgl.glfw.GLFW;
 
 import com.soarclient.Soar;
@@ -20,6 +20,7 @@ import com.soarclient.ui.component.Component;
 import com.soarclient.utils.Multithreading;
 
 import io.github.humbleui.skija.SurfaceOrigin;
+import net.minecraft.client.gui.screen.Screen;
 
 public abstract class SoarGui extends SimpleSoarGui {
 
@@ -71,8 +72,8 @@ public abstract class SoarGui extends SimpleSoarGui {
 		ColorPalette palette = Soar.getInstance().getColorManager().getPalette();
 
 		if (ModMenuSettings.getInstance().getBlurSetting().isEnabled()) {
-			Skia.drawImage(KawaseBlur.GUI_BLUR.getTexture(), 0, 0, client.getWindow().getScreenWidth(),
-					client.getWindow().getScreenHeight(), inOutAnimation.getValue(), SurfaceOrigin.BOTTOM_LEFT);
+			Skia.drawImage(KawaseBlur.GUI_BLUR.getTexture(), 0, 0, client.getWindow().getWidth(),
+					client.getWindow().getHeight(), inOutAnimation.getValue(), SurfaceOrigin.BOTTOM_LEFT);
 		}
 
 		Skia.save();

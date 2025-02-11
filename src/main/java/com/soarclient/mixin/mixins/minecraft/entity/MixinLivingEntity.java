@@ -9,9 +9,10 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import com.soarclient.management.mod.impl.hud.JumpResetIndicatorMod;
 import com.soarclient.management.mod.impl.player.NoJumpDelayMod;
 import com.soarclient.mixin.interfaces.IMixinLivingEntity;
-import net.minecraft.client.Minecraft;
-import net.minecraft.world.InteractionHand;
-import net.minecraft.world.entity.LivingEntity;
+
+import net.minecraft.client.MinecraftClient;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.util.Hand;
 
 @Mixin(LivingEntity.class)
 public abstract class MixinLivingEntity implements IMixinLivingEntity {
@@ -26,7 +27,7 @@ public abstract class MixinLivingEntity implements IMixinLivingEntity {
 	public boolean handSwinging;
 
 	@Shadow
-	public InteractionHand preferredHand;
+	public Hand preferredHand;
 
 	@Shadow
 	public abstract int getHandSwingDuration();
@@ -42,10 +43,10 @@ public abstract class MixinLivingEntity implements IMixinLivingEntity {
 	private void onJump(CallbackInfo info) {
 
 		JumpResetIndicatorMod mod = JumpResetIndicatorMod.getInstance();
-		Minecraft client = Minecraft.getInstance();
+		MinecraftClient client = MinecraftClient.getInstance();
 
 		if ((LivingEntity) (Object) this == client.player) {
-			mod.setJumpAge(client.player.tickCount);
+			mod.setJumpAge(client.player.age);
 			mod.setLastTime(System.currentTimeMillis());
 		}
 	}
@@ -54,15 +55,15 @@ public abstract class MixinLivingEntity implements IMixinLivingEntity {
 	private void onDamage(CallbackInfo info) {
 
 		JumpResetIndicatorMod mod = JumpResetIndicatorMod.getInstance();
-		Minecraft client = Minecraft.getInstance();
+		MinecraftClient client = MinecraftClient.getInstance();
 
 		if ((LivingEntity) (Object) this == client.player) {
-			mod.setHurtAge(client.player.tickCount);
+			mod.setHurtAge(client.player.age);
 		}
 	}
 
 	@Override
-	public void fakeSwingHand(InteractionHand hand) {
+	public void fakeSwingHand(Hand hand) {
 		if (!this.handSwinging || this.handSwingTicks >= this.getHandSwingDuration() / 2 || this.handSwingTicks < 0) {
 			this.handSwingTicks = -1;
 			this.handSwinging = true;

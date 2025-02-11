@@ -15,8 +15,9 @@ import static org.lwjgl.opengl.GL30C.GL_FRAMEBUFFER;
 import org.lwjgl.opengl.GL30C;
 
 import com.mojang.blaze3d.platform.GlStateManager;
-import com.mojang.blaze3d.platform.Window;
-import net.minecraft.client.Minecraft;
+
+import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.util.Window;
 
 public class Framebuffer {
 
@@ -36,7 +37,7 @@ public class Framebuffer {
 
 	private void init() {
 
-		Window window = Minecraft.getInstance().getWindow();
+		Window window = MinecraftClient.getInstance().getWindow();
 
 		id = GlStateManager.glGenFramebuffers();
 		bind();
@@ -50,8 +51,8 @@ public class Framebuffer {
 		ShaderHelper.textureParam(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 		ShaderHelper.textureParam(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
-		width = (int) (window.getWidth() * sizeMulti);
-		height = (int) (window.getHeight() * sizeMulti);
+		width = (int) (window.getFramebufferWidth() * sizeMulti);
+		height = (int) (window.getFramebufferHeight() * sizeMulti);
 
 		ShaderHelper.textureImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, null);
 		ShaderHelper.framebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, texture, 0);
@@ -68,7 +69,7 @@ public class Framebuffer {
 	}
 
 	public void unbind() {
-		Minecraft.getInstance().getMainRenderTarget().bindWrite(false);
+		MinecraftClient.getInstance().getFramebuffer().beginWrite(false);
 	}
 
 	public void resize() {

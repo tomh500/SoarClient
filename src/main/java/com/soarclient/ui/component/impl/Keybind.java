@@ -1,7 +1,7 @@
 package com.soarclient.ui.component.impl;
 
 import org.lwjgl.glfw.GLFW;
-import com.mojang.blaze3d.platform.InputConstants;
+
 import com.soarclient.Soar;
 import com.soarclient.management.color.api.ColorPalette;
 import com.soarclient.skia.Skia;
@@ -11,14 +11,16 @@ import com.soarclient.ui.component.api.PressAnimation;
 import com.soarclient.ui.component.handler.impl.KeybindHandler;
 import com.soarclient.utils.mouse.MouseUtils;
 
+import net.minecraft.client.util.InputUtil;
+
 public class Keybind extends Component {
 
 	private PressAnimation pressAnimation = new PressAnimation();
 
 	private boolean binding;
-	private InputConstants.Key key;
+	private InputUtil.Key key;
 
-	public Keybind(float x, float y, InputConstants.Key key) {
+	public Keybind(float x, float y, InputUtil.Key key) {
 		super(x, y);
 		this.key = key;
 		width = 126;
@@ -36,7 +38,7 @@ public class Keybind extends Component {
 		pressAnimation.draw(x, y, width, height, palette.getPrimaryContainer(), 0.12F);
 		Skia.restore();
 
-		Skia.drawFullCenteredText(binding ? "..." : key.getDisplayName().getString(), x + (width / 2),
+		Skia.drawFullCenteredText(binding ? "..." : key.getLocalizedText().getString(), x + (width / 2),
 				y + (height / 2), palette.getSurface(), Fonts.getMedium(14));
 	}
 
@@ -60,10 +62,10 @@ public class Keybind extends Component {
 		if (binding) {
 
 			if (button == GLFW.GLFW_MOUSE_BUTTON_MIDDLE) {
-				setKeyCode(InputConstants.UNKNOWN);
+				setKeyCode(InputUtil.UNKNOWN_KEY);
 			} else if (button != GLFW.GLFW_MOUSE_BUTTON_LEFT && button != GLFW.GLFW_MOUSE_BUTTON_RIGHT
 					&& button != GLFW.GLFW_MOUSE_BUTTON_MIDDLE) {
-				setKeyCode(InputConstants.Type.MOUSE.getOrCreate(button));
+				setKeyCode(InputUtil.Type.MOUSE.createFromCode(button));
 			}
 
 			binding = false;
@@ -75,16 +77,16 @@ public class Keybind extends Component {
 	@Override
 	public void keyPressed(int keyCode, int scanCode, int modifiers) {
 		if (binding) {
-			setKeyCode(InputConstants.getKey(keyCode, scanCode));
+			setKeyCode(InputUtil.fromKeyCode(keyCode, scanCode));
 			this.binding = false;
 		}
 	}
 
-	public InputConstants.Key getKeyCode() {
+	public InputUtil.Key getKeyCode() {
 		return key;
 	}
 
-	public void setKeyCode(InputConstants.Key key) {
+	public void setKeyCode(InputUtil.Key key) {
 
 		this.key = key;
 

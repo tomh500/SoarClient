@@ -1,14 +1,14 @@
 package com.soarclient.skia.context;
 
 import java.util.function.Consumer;
-import net.minecraft.client.Minecraft;
+
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL13;
 import org.lwjgl.opengl.GL33;
 
 import com.mojang.blaze3d.platform.GlConst;
 import com.mojang.blaze3d.systems.RenderSystem;
-import com.mojang.blaze3d.vertex.BufferUploader;
+
 import io.github.humbleui.skija.BackendRenderTarget;
 import io.github.humbleui.skija.Canvas;
 import io.github.humbleui.skija.ColorSpace;
@@ -16,6 +16,8 @@ import io.github.humbleui.skija.DirectContext;
 import io.github.humbleui.skija.Surface;
 import io.github.humbleui.skija.SurfaceColorFormat;
 import io.github.humbleui.skija.SurfaceOrigin;
+import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.render.BufferRenderer;
 
 public class SkiaContext {
 
@@ -44,7 +46,7 @@ public class SkiaContext {
 		}
 
 		renderTarget = BackendRenderTarget.makeGL(width, height, 0, 8,
-				Minecraft.getInstance().getMainRenderTarget().frameBufferId, GL11.GL_RGBA8);
+				MinecraftClient.getInstance().getFramebuffer().fbo, GL11.GL_RGBA8);
 		surface = Surface.wrapBackendRenderTarget(context, renderTarget, SurfaceOrigin.BOTTOM_LEFT,
 				SurfaceColorFormat.RGBA_8888, ColorSpace.getSRGB());
 	}
@@ -63,7 +65,7 @@ public class SkiaContext {
 
 		context.flush();
 
-		BufferUploader.reset();
+		BufferRenderer.reset();
 		GL33.glBindSampler(0, 0);
 		RenderSystem.disableBlend();
 		GL11.glDisable(GL11.GL_BLEND);
