@@ -155,7 +155,7 @@ public class ModManager {
 
 	public List<KeybindSetting> getKeybindSettings() {
 		return settings.stream().filter(s -> s instanceof KeybindSetting).map(s -> (KeybindSetting) s)
-				.collect(Collectors.toList());
+				.collect(Collectors.toList())
 	}
 
 	public List<Setting> getSettingsByMod(Mod m) {
