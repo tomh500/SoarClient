@@ -7,16 +7,15 @@ import com.soarclient.management.mod.ModCategory;
 import com.soarclient.management.mod.settings.impl.BooleanSetting;
 import com.soarclient.management.mod.settings.impl.NumberSetting;
 import com.soarclient.skia.font.Icon;
-
-import net.minecraft.block.Blocks;
-import net.minecraft.client.sound.PositionedSoundInstance;
-import net.minecraft.client.sound.SoundInstance;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.particle.BlockStateParticleEffect;
-import net.minecraft.particle.ParticleTypes;
-import net.minecraft.sound.SoundCategory;
-import net.minecraft.sound.SoundEvents;
+import net.minecraft.client.resources.sounds.SimpleSoundInstance;
+import net.minecraft.client.resources.sounds.SoundInstance;
+import net.minecraft.core.particles.BlockParticleOption;
+import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.level.block.Blocks;
 
 public class BloodParticleMod extends Mod {
 
@@ -31,19 +30,19 @@ public class BloodParticleMod extends Mod {
 
 	public final EventBus.EventListener<AttackEntityEvent> onAttackEntity = event -> {
 
-		Entity target = client.world.getEntityById(event.getEntityId());
+		Entity target = client.level.getEntity(event.getEntityId());
 
 		if (target != null && target instanceof LivingEntity) {
 			for (int i = 0; i < multiplierSetting.getValue(); i++) {
-				client.particleManager.addEmitter(target,
-						new BlockStateParticleEffect(ParticleTypes.BLOCK, Blocks.REDSTONE_BLOCK.getDefaultState()));
+				client.particleEngine.createTrackingEmitter(target,
+						new BlockParticleOption(ParticleTypes.BLOCK, Blocks.REDSTONE_BLOCK.defaultBlockState()));
 			}
 		}
 
 		if (soundSetting.isEnabled() && target != null) {
 			client.getSoundManager()
-					.play(new PositionedSoundInstance(SoundEvents.BLOCK_STONE_BREAK.id(), SoundCategory.BLOCKS, 4.0F,
-							1.2F, SoundInstance.createRandom(), false, 0, SoundInstance.AttenuationType.LINEAR,
+					.play(new SimpleSoundInstance(SoundEvents.STONE_BREAK.location(), SoundSource.BLOCKS, 4.0F,
+							1.2F, SoundInstance.createUnseededRandom(), false, 0, SoundInstance.Attenuation.LINEAR,
 							target.getX(), target.getY(), target.getZ(), false));
 		}
 	};

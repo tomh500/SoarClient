@@ -13,17 +13,16 @@ import com.soarclient.management.mod.impl.settings.HUDModSettings;
 import com.soarclient.shader.impl.KawaseBlur;
 import com.soarclient.skia.Skia;
 import com.soarclient.skia.context.SkiaContext;
-
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.render.Camera;
-import net.minecraft.client.render.GameRenderer;
-import net.minecraft.client.render.RenderTickCounter;
+import net.minecraft.client.Camera;
+import net.minecraft.client.DeltaTracker;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.GameRenderer;
 
 @Mixin(GameRenderer.class)
 public class MixinGameRenderer {
 
 	@Inject(method = "render", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/hud/InGameHud;render(Lnet/minecraft/client/gui/DrawContext;Lnet/minecraft/client/render/RenderTickCounter;)V", shift = At.Shift.BEFORE))
-	public void render(RenderTickCounter tickCounter, boolean tick, CallbackInfo ci) {
+	public void render(DeltaTracker tickCounter, boolean tick, CallbackInfo ci) {
 
 		if (HUDModSettings.getInstance().getBlurSetting().isEnabled()) {
 			KawaseBlur.INGAME_BLUR.draw((int) HUDModSettings.getInstance().getBlurIntensitySetting().getValue());
@@ -31,7 +30,7 @@ public class MixinGameRenderer {
 
 		SkiaContext.draw((context) -> {
 			Skia.save();
-			Skia.scale((float) MinecraftClient.getInstance().getWindow().getScaleFactor());
+			Skia.scale((float) Minecraft.getInstance().getWindow().getGuiScale());
 			EventBus.getInstance().post(new RenderSkiaEvent());
 			Skia.restore();
 		});

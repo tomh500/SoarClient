@@ -5,16 +5,14 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-
+import com.mojang.blaze3d.platform.InputConstants.Type;
 import com.soarclient.Soar;
 import com.soarclient.event.EventBus;
 import com.soarclient.event.client.MouseScrollEvent;
 import com.soarclient.management.mod.settings.impl.KeybindSetting;
+import net.minecraft.client.MouseHandler;
 
-import net.minecraft.client.Mouse;
-import net.minecraft.client.util.InputUtil.Type;
-
-@Mixin(Mouse.class)
+@Mixin(MouseHandler.class)
 public class MixinMouse {
 
 	@Inject(method = "onMouseButton", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/option/KeyBinding;onKeyPressed(Lnet/minecraft/client/util/InputUtil$Key;)V", shift = At.Shift.AFTER))
@@ -22,7 +20,7 @@ public class MixinMouse {
 
 		for (KeybindSetting s : Soar.getInstance().getModManager().getKeybindSettings()) {
 
-			if (s.getKey().equals(Type.MOUSE.createFromCode(button))) {
+			if (s.getKey().equals(Type.MOUSE.getOrCreate(button))) {
 
 				if (action == GLFW.GLFW_PRESS) {
 					s.setPressed();
@@ -36,7 +34,7 @@ public class MixinMouse {
 	@Inject(method = "onMouseButton", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/option/KeyBinding;setKeyPressed(Lnet/minecraft/client/util/InputUtil$Key;Z)V", shift = At.Shift.AFTER, ordinal = 0))
 	public void onReleased(long window, int button, int action, int mods, CallbackInfo ci) {
 		for (KeybindSetting s : Soar.getInstance().getModManager().getKeybindSettings()) {
-			if (s.getKey().equals(Type.MOUSE.createFromCode(button))) {
+			if (s.getKey().equals(Type.MOUSE.getOrCreate(button))) {
 				s.setKeyDown(false);
 			}
 		}

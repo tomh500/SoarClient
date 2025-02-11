@@ -2,7 +2,8 @@ package com.soarclient.skia;
 
 import java.awt.Color;
 import java.io.File;
-
+import net.minecraft.client.Minecraft;
+import com.mojang.blaze3d.platform.Window;
 import com.soarclient.management.mod.impl.settings.HUDModSettings;
 import com.soarclient.shader.impl.KawaseBlur;
 import com.soarclient.skia.context.SkiaContext;
@@ -22,8 +23,6 @@ import io.github.humbleui.skija.SurfaceOrigin;
 import io.github.humbleui.types.Point;
 import io.github.humbleui.types.RRect;
 import io.github.humbleui.types.Rect;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.util.Window;
 
 public class Skia {
 
@@ -62,13 +61,13 @@ public class Skia {
 
 		if (HUDModSettings.getInstance().getBlurSetting().isEnabled()) {
 
-			Window window = MinecraftClient.getInstance().getWindow();
+			Window window = Minecraft.getInstance().getWindow();
 			Path path = new Path();
 			path.addRect(Rect.makeXYWH(x, y, width, height));
 
 			save();
 			getCanvas().clipPath(path, ClipMode.INTERSECT, true);
-			drawImage(KawaseBlur.INGAME_BLUR.getTexture(), 0, 0, window.getScaledWidth(), window.getScaledHeight(), 1F,
+			drawImage(KawaseBlur.INGAME_BLUR.getTexture(), 0, 0, window.getGuiScaledWidth(), window.getGuiScaledHeight(), 1F,
 					SurfaceOrigin.BOTTOM_LEFT);
 			restore();
 		}
@@ -78,13 +77,13 @@ public class Skia {
 
 		if (HUDModSettings.getInstance().getBlurSetting().isEnabled()) {
 
-			Window window = MinecraftClient.getInstance().getWindow();
+			Window window = Minecraft.getInstance().getWindow();
 			Path path = new Path();
 			path.addRRect(RRect.makeXYWH(x, y, width, height, radius));
 
 			save();
 			getCanvas().clipPath(path, ClipMode.INTERSECT, true);
-			drawImage(KawaseBlur.INGAME_BLUR.getTexture(), 0, 0, window.getScaledWidth(), window.getScaledHeight(), 1F,
+			drawImage(KawaseBlur.INGAME_BLUR.getTexture(), 0, 0, window.getGuiScaledWidth(), window.getGuiScaledHeight(), 1F,
 					SurfaceOrigin.BOTTOM_LEFT);
 			restore();
 		}

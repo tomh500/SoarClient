@@ -2,15 +2,14 @@ package com.soarclient.gui.api;
 
 import com.soarclient.skia.Skia;
 import com.soarclient.skia.context.SkiaContext;
-
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.gui.DrawContext;
-import net.minecraft.client.gui.screen.Screen;
-import net.minecraft.text.Text;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.network.chat.Component;
 
 public class SimpleSoarGui {
 
-	protected MinecraftClient client = MinecraftClient.getInstance();
+	protected Minecraft client = Minecraft.getInstance();
 	private boolean mcScale;
 
 	public SimpleSoarGui(boolean mcScale) {
@@ -42,7 +41,7 @@ public class SimpleSoarGui {
 	}
 
 	public Screen build() {
-		return new Screen(Text.empty()) {
+		return new Screen(Component.empty()) {
 
 			@Override
 			public void init() {
@@ -50,43 +49,43 @@ public class SimpleSoarGui {
 			}
 
 			@Override
-			public void render(DrawContext context, int mouseX, int mouseY, float delta) {
+			public void render(GuiGraphics context, int mouseX, int mouseY, float delta) {
 
-				SimpleSoarGui.this.drawOpenGL(mcScale ? mouseX : client.mouse.getX(),
-						mcScale ? mouseY : client.mouse.getY());
+				SimpleSoarGui.this.drawOpenGL(mcScale ? mouseX : minecraft.mouseHandler.xpos(),
+						mcScale ? mouseY : minecraft.mouseHandler.ypos());
 
 				SkiaContext.draw((skiaContext) -> {
 
 					Skia.save();
 
 					if (mcScale) {
-						Skia.scale((float) client.getWindow().getScaleFactor());
+						Skia.scale((float) minecraft.getWindow().getGuiScale());
 					}
 
-					SimpleSoarGui.this.draw(mcScale ? mouseX : client.mouse.getX(),
-							mcScale ? mouseY : client.mouse.getY());
+					SimpleSoarGui.this.draw(mcScale ? mouseX : minecraft.mouseHandler.xpos(),
+							mcScale ? mouseY : minecraft.mouseHandler.ypos());
 					Skia.restore();
 				});
 			}
 
 			@Override
 			public boolean mouseClicked(double mouseX, double mouseY, int button) {
-				SimpleSoarGui.this.mousePressed(mcScale ? mouseX : client.mouse.getX(),
-						mcScale ? mouseY : client.mouse.getY(), button);
+				SimpleSoarGui.this.mousePressed(mcScale ? mouseX : minecraft.mouseHandler.xpos(),
+						mcScale ? mouseY : minecraft.mouseHandler.ypos(), button);
 				return true;
 			}
 
 			@Override
 			public boolean mouseReleased(double mouseX, double mouseY, int button) {
-				SimpleSoarGui.this.mouseReleased(mcScale ? mouseX : client.mouse.getX(),
-						mcScale ? mouseY : (int) client.mouse.getY(), button);
+				SimpleSoarGui.this.mouseReleased(mcScale ? mouseX : minecraft.mouseHandler.xpos(),
+						mcScale ? mouseY : (int) minecraft.mouseHandler.ypos(), button);
 				return true;
 			}
 
 			@Override
 			public boolean mouseScrolled(double mouseX, double mouseY, double horizontalAmount, double verticalAmount) {
-				SimpleSoarGui.this.mouseScrolled(mcScale ? mouseX : client.mouse.getX(),
-						mcScale ? mouseY : (int) client.mouse.getY(), horizontalAmount, verticalAmount);
+				SimpleSoarGui.this.mouseScrolled(mcScale ? mouseX : minecraft.mouseHandler.xpos(),
+						mcScale ? mouseY : (int) minecraft.mouseHandler.ypos(), horizontalAmount, verticalAmount);
 				return true;
 			}
 
@@ -103,7 +102,7 @@ public class SimpleSoarGui {
 			}
 
 			@Override
-			public boolean shouldPause() {
+			public boolean isPauseScreen() {
 				return false;
 			}
 		};

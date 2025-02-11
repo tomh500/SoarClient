@@ -5,14 +5,12 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-
+import com.mojang.blaze3d.platform.InputConstants;
 import com.soarclient.Soar;
 import com.soarclient.management.mod.settings.impl.KeybindSetting;
+import net.minecraft.client.KeyboardHandler;
 
-import net.minecraft.client.Keyboard;
-import net.minecraft.client.util.InputUtil;
-
-@Mixin(Keyboard.class)
+@Mixin(KeyboardHandler.class)
 public class MixinKeyboard {
 
 	@Inject(method = "onKey", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/option/KeyBinding;onKeyPressed(Lnet/minecraft/client/util/InputUtil$Key;)V", shift = At.Shift.AFTER))
@@ -20,7 +18,7 @@ public class MixinKeyboard {
 
 		for (KeybindSetting s : Soar.getInstance().getModManager().getKeybindSettings()) {
 
-			if (s.getKey().equals(InputUtil.fromKeyCode(key, scancode))) {
+			if (s.getKey().equals(InputConstants.getKey(key, scancode))) {
 
 				if (action == GLFW.GLFW_PRESS) {
 					s.setPressed();
@@ -34,7 +32,7 @@ public class MixinKeyboard {
 	@Inject(method = "onKey", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/option/KeyBinding;setKeyPressed(Lnet/minecraft/client/util/InputUtil$Key;Z)V", shift = At.Shift.AFTER, ordinal = 0))
 	public void onReleased(long window, int key, int scancode, int action, int modifiers, CallbackInfo ci) {
 		for (KeybindSetting s : Soar.getInstance().getModManager().getKeybindSettings()) {
-			if (s.getKey().equals(InputUtil.fromKeyCode(key, scancode))) {
+			if (s.getKey().equals(InputConstants.getKey(key, scancode))) {
 				s.setKeyDown(false);
 			}
 		}

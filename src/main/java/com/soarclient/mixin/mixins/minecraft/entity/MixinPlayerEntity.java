@@ -6,10 +6,9 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import com.soarclient.management.mod.impl.player.OldAnimationsMod;
+import net.minecraft.world.entity.player.Player;
 
-import net.minecraft.entity.player.PlayerEntity;
-
-@Mixin(PlayerEntity.class)
+@Mixin(Player.class)
 public class MixinPlayerEntity {
 
 	@Inject(method = "getAttackCooldownProgress", at = @At("HEAD"), cancellable = true)

@@ -9,14 +9,13 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import com.soarclient.event.EventBus;
 import com.soarclient.event.client.ReceivePacketEvent;
 import com.soarclient.event.client.SendPacketEvent;
+import net.minecraft.network.Connection;
+import net.minecraft.network.PacketListener;
+import net.minecraft.network.protocol.Packet;
+import net.minecraft.network.protocol.game.ClientboundBundlePacket;
+import net.minecraft.server.RunningOnDifferentThreadException;
 
-import net.minecraft.network.ClientConnection;
-import net.minecraft.network.OffThreadException;
-import net.minecraft.network.listener.PacketListener;
-import net.minecraft.network.packet.Packet;
-import net.minecraft.network.packet.s2c.play.BundleS2CPacket;
-
-@Mixin(ClientConnection.class)
+@Mixin(Connection.class)
 public abstract class MixinClientConnection {
 
 	@Shadow
@@ -38,13 +37,13 @@ public abstract class MixinClientConnection {
 	@Inject(method = "handlePacket", at = @At("HEAD"), cancellable = true, require = 1)
 	private static void onRecievePacket(Packet<?> packet, PacketListener listener, CallbackInfo ci) {
 
-		if (packet instanceof BundleS2CPacket bundleS2CPacket) {
+		if (packet instanceof ClientboundBundlePacket bundleS2CPacket) {
 			ci.cancel();
 
-			for (Packet<?> packetInBundle : bundleS2CPacket.getPackets()) {
+			for (Packet<?> packetInBundle : bundleS2CPacket.subPackets()) {
 				try {
 					handlePacket(packetInBundle, listener);
-				} catch (OffThreadException ignored) {
+				} catch (RunningOnDifferentThreadException ignored) {
 				}
 			}
 			return;

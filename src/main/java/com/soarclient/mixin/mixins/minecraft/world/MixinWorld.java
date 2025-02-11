@@ -6,10 +6,9 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import com.soarclient.management.mod.impl.misc.WeatherChangerMod;
+import net.minecraft.world.level.Level;
 
-import net.minecraft.world.World;
-
-@Mixin(World.class)
+@Mixin(Level.class)
 public class MixinWorld {
 
 	@Inject(method = "getRainGradient", at = @At("HEAD"), cancellable = true)

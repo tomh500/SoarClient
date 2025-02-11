@@ -9,25 +9,24 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import com.soarclient.event.EventBus;
 import com.soarclient.event.client.RenderGameOverlayEvent;
 import com.soarclient.management.mod.impl.player.OldAnimationsMod;
+import net.minecraft.client.DeltaTracker;
+import net.minecraft.client.gui.Gui;
+import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.renderer.RenderType;
 
-import net.minecraft.client.gui.DrawContext;
-import net.minecraft.client.gui.hud.InGameHud;
-import net.minecraft.client.render.RenderLayer;
-import net.minecraft.client.render.RenderTickCounter;
-
-@Mixin(InGameHud.class)
+@Mixin(Gui.class)
 public class MixinInGameHud {
 
 	@Overwrite
-	private void drawHeart(DrawContext context, InGameHud.HeartType type, int x, int y, boolean hardcore, boolean blinking, boolean half) {
+	private void drawHeart(GuiGraphics context, Gui.HeartType type, int x, int y, boolean hardcore, boolean blinking, boolean half) {
 		
     	OldAnimationsMod mod = OldAnimationsMod.getInstance();
     	
-		context.drawGuiTexture(RenderLayer::getGuiTextured, type.getTexture(hardcore, half, mod.isEnabled() && mod.isDisableHeartFlash() ? false : blinking), x, y, 9, 9);
+		context.blitSprite(RenderType::guiTextured, type.getSprite(hardcore, half, mod.isEnabled() && mod.isDisableHeartFlash() ? false : blinking), x, y, 9, 9);
 	}
     
 	@Inject(method = "renderMainHud", at = @At("TAIL"))
-	private void renderMainHud(DrawContext context, RenderTickCounter tickCounter, CallbackInfo ci) {
+	private void renderMainHud(GuiGraphics context, DeltaTracker tickCounter, CallbackInfo ci) {
 		EventBus.getInstance().post(new RenderGameOverlayEvent(context));
 	}
 }

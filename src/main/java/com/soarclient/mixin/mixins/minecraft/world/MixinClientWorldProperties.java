@@ -6,10 +6,9 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import com.soarclient.management.mod.impl.misc.TimeChangerMod;
+import net.minecraft.client.multiplayer.ClientLevel;
 
-import net.minecraft.client.world.ClientWorld;
-
-@Mixin(ClientWorld.Properties.class)
+@Mixin(ClientLevel.ClientLevelData.class)
 public class MixinClientWorldProperties {
 
 	@Inject(method = "getTimeOfDay", at = @At("HEAD"), cancellable = true)

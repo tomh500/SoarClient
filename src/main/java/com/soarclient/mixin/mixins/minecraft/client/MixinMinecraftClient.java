@@ -1,7 +1,19 @@
 package com.soarclient.mixin.mixins.minecraft.client;
 
 import java.io.File;
-
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.Options;
+import net.minecraft.client.main.GameConfig;
+import net.minecraft.client.multiplayer.ClientLevel;
+import net.minecraft.client.multiplayer.MultiPlayerGameMode;
+import net.minecraft.client.particle.ParticleEngine;
+import net.minecraft.client.player.LocalPlayer;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.phys.HitResult;
+import net.minecraft.world.phys.HitResult.Type;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
@@ -11,7 +23,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
-
+import com.mojang.blaze3d.platform.Window;
 import com.soarclient.Soar;
 import com.soarclient.event.EventBus;
 import com.soarclient.event.client.ClientTickEvent;
@@ -23,22 +35,7 @@ import com.soarclient.mixin.interfaces.IMixinMinecraftClient;
 import com.soarclient.shader.impl.KawaseBlur;
 import com.soarclient.skia.context.SkiaContext;
 
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.RunArgs;
-import net.minecraft.client.network.ClientPlayerEntity;
-import net.minecraft.client.network.ClientPlayerInteractionManager;
-import net.minecraft.client.option.GameOptions;
-import net.minecraft.client.particle.ParticleManager;
-import net.minecraft.client.util.Window;
-import net.minecraft.client.world.ClientWorld;
-import net.minecraft.util.Hand;
-import net.minecraft.util.hit.BlockHitResult;
-import net.minecraft.util.hit.HitResult;
-import net.minecraft.util.hit.HitResult.Type;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Direction;
-
-@Mixin(value = MinecraftClient.class, priority = 300)
+@Mixin(value = Minecraft.class, priority = 300)
 public abstract class MixinMinecraftClient implements IMixinMinecraftClient {
 
 	@Shadow
@@ -49,23 +46,23 @@ public abstract class MixinMinecraftClient implements IMixinMinecraftClient {
 	public int attackCooldown;
 
     @Shadow
-    public ClientPlayerInteractionManager interactionManager;
+    public MultiPlayerGameMode interactionManager;
 
     @Final
     @Shadow
-    public ParticleManager particleManager;
+    public ParticleEngine particleManager;
 
     @Shadow
-    public GameOptions options;
+    public Options options;
     
     @Shadow
     public HitResult crosshairTarget;
     
     @Shadow
-    public ClientWorld world;
+    public ClientLevel world;
     
     @Shadow
-	public ClientPlayerEntity player;
+	public LocalPlayer player;
     
 	@Shadow
 	public abstract String getWindowTitle();
@@ -74,15 +71,15 @@ public abstract class MixinMinecraftClient implements IMixinMinecraftClient {
 	private File assetDir;
 
 	@Inject(method = "<init>(Lnet/minecraft/client/RunArgs;)V", at = @At("TAIL"))
-	public void onInit(RunArgs args, CallbackInfo ci) {
-		assetDir = args.directories.assetDir;
+	public void onInit(GameConfig args, CallbackInfo ci) {
+		assetDir = args.location.assetDirectory;
 	}
 	
 	@Inject(method = "handleBlockBreaking", at = @At("HEAD"), cancellable = true)
 	private void handleBlockBreaking(boolean breaking, CallbackInfo ci) {
 		
 		if (OldAnimationsMod.getInstance().isEnabled() && OldAnimationsMod.getInstance().isOldBreaking()) {
-			if (this.options.attackKey.isPressed() && this.options.useKey.isPressed()) {
+			if (this.options.keyAttack.isDown() && this.options.keyUse.isDown()) {
 				
 				if (breaking && this.crosshairTarget != null && this.crosshairTarget.getType() == Type.BLOCK) {
 					
@@ -90,9 +87,9 @@ public abstract class MixinMinecraftClient implements IMixinMinecraftClient {
 					BlockPos blockPos = blockHitResult.getBlockPos();
 					
 					if (!this.world.getBlockState(blockPos).isAir()) {
-						Direction direction = blockHitResult.getSide();
-						this.particleManager.addBlockBreakingParticles(blockPos, direction);
-						((IMixinLivingEntity)player).fakeSwingHand(Hand.MAIN_HAND);
+						Direction direction = blockHitResult.getDirection();
+						this.particleManager.crack(blockPos, direction);
+						((IMixinLivingEntity)player).fakeSwingHand(InteractionHand.MAIN_HAND);
 					}
 				}
 			}
@@ -114,7 +111,7 @@ public abstract class MixinMinecraftClient implements IMixinMinecraftClient {
 
 	@Inject(method = "<init>", at = @At("TAIL"))
 	public void init(CallbackInfo ci) {
-		SkiaContext.createSurface(window.getWidth(), window.getHeight());
+		SkiaContext.createSurface(window.getScreenWidth(), window.getScreenHeight());
 		Soar.getInstance().start();
 	}
 
