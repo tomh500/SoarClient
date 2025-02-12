@@ -62,7 +62,6 @@ public class KawaseBlur {
 			if (timer.delay(16)) {
 				timer.reset();
 			} else {
-				System.out.println("return");
 				return;
 			}
 		}
