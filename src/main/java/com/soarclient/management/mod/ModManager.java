@@ -56,6 +56,7 @@ import com.soarclient.management.mod.impl.render.ParticlesMod;
 import com.soarclient.management.mod.impl.render.ProjectileTrailMod;
 import com.soarclient.management.mod.impl.settings.HUDModSettings;
 import com.soarclient.management.mod.impl.settings.ModMenuSettings;
+import com.soarclient.management.mod.impl.settings.SystemSettings;
 import com.soarclient.management.mod.settings.Setting;
 import com.soarclient.management.mod.settings.impl.KeybindSetting;
 
@@ -129,6 +130,7 @@ public class ModManager {
 		// Settings
 		mods.add(new HUDModSettings());
 		mods.add(new ModMenuSettings());
+		mods.add(new SystemSettings());
 
 		sortMods();
 	}

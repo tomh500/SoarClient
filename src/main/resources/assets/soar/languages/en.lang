@@ -160,6 +160,9 @@ mod.customhand.description=Change the position scale etc
 mod.bossbar.name=Boss Bar
 mod.bossbar.description=Customize boss bar
 
+mod.systemsettings.name=System Settings
+mod.systemsettings.description=Setting the system details
+
 setting.darkmode=Dark Mode
 setting.darkmode.description=Enable dark mode
 setting.keybind=Keybind
@@ -273,3 +276,7 @@ setting.scale=Scale
 setting.scale.description=Set the scale
 setting.vanillaposition=Vanilla Position
 setting.vanillaposition.description=Set to the Position of Vanilla
+setting.blurtype=Blur Type
+setting.blurtype.description=Set the blur type
+setting.fastblur=Fast Blur
+setting.normalblur=Normal Blur

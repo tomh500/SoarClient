@@ -1,5 +1,6 @@
 package com.soarclient.shader.impl;
 
+import com.soarclient.management.mod.impl.settings.SystemSettings;
 import com.soarclient.shader.Framebuffer;
 import com.soarclient.shader.PostProcessRenderer;
 import com.soarclient.shader.Shader;
@@ -55,31 +56,39 @@ public class KawaseBlur {
 			firstTick = false;
 		}
 
-		if (timer.delay(16)) {
-			IntDoubleImmutablePair strength = STRENGTHS[(int) ((radius - 1))];
-			int iterations = strength.leftInt();
-			double offset = strength.rightDouble();
-
-			PostProcessRenderer.beginRender();
-
-			renderToFbo(fbos[0], MinecraftClient.getInstance().getFramebuffer().getColorAttachment(), shaderDown,
-					offset);
-
-			for (int i = 0; i < iterations; i++) {
-				renderToFbo(fbos[i + 1], fbos[i].texture, shaderDown, offset);
+		SystemSettings setting = SystemSettings.getInstance();
+		
+		if(setting.isFastBlur()) {
+			if (timer.delay(16)) {
+				timer.reset();
+			} else {
+				System.out.println("return");
+				return;
 			}
-
-			for (int i = iterations; i >= 1; i--) {
-				renderToFbo(fbos[i - 1], fbos[i].texture, shaderUp, offset);
-			}
-
-			MinecraftClient.getInstance().getFramebuffer().beginWrite(true);
-			shaderPassthrough.bind();
-			ShaderHelper.bindTexture(fbos[0].texture);
-			shaderPassthrough.set("uTexture", 0);
-			PostProcessRenderer.endRender();
-			timer.reset();
 		}
+		
+		IntDoubleImmutablePair strength = STRENGTHS[(int) ((radius - 1))];
+		int iterations = strength.leftInt();
+		double offset = strength.rightDouble();
+
+		PostProcessRenderer.beginRender();
+
+		renderToFbo(fbos[0], MinecraftClient.getInstance().getFramebuffer().getColorAttachment(), shaderDown,
+				offset);
+
+		for (int i = 0; i < iterations; i++) {
+			renderToFbo(fbos[i + 1], fbos[i].texture, shaderDown, offset);
+		}
+
+		for (int i = iterations; i >= 1; i--) {
+			renderToFbo(fbos[i - 1], fbos[i].texture, shaderUp, offset);
+		}
+
+		MinecraftClient.getInstance().getFramebuffer().beginWrite(true);
+		shaderPassthrough.bind();
+		ShaderHelper.bindTexture(fbos[0].texture);
+		shaderPassthrough.set("uTexture", 0);
+		PostProcessRenderer.endRender();
 	}
 
 	public int getTexture() {
