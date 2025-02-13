@@ -1,7 +1,12 @@
 package com.soarclient.gui.modmenu.component;
 
+import com.soarclient.Soar;
+import com.soarclient.management.color.api.ColorPalette;
 import com.soarclient.management.mod.impl.settings.SystemSettings;
+import com.soarclient.management.music.Music;
+import com.soarclient.management.music.MusicManager;
 import com.soarclient.management.music.ytdlp.Ytdlp;
+import com.soarclient.skia.Skia;
 import com.soarclient.skia.font.Icon;
 import com.soarclient.ui.component.Component;
 import com.soarclient.ui.component.handler.impl.ButtonHandler;
@@ -48,6 +53,12 @@ public class MusicAddBar extends Component {
 
 	@Override
 	public void draw(double mouseX, double mouseY) {
+		
+		Soar instance = Soar.getInstance();
+		ColorPalette palette = instance.getColorManager().getPalette();
+
+		Skia.drawRoundedRect(x, y, width, height, 16, palette.getSurface());
+		
 		downloadButton.draw(mouseX, mouseY);
 		urlField.draw(mouseX, mouseY);
 	}
