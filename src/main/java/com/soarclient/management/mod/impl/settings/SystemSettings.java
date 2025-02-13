@@ -1,10 +1,12 @@
 package com.soarclient.management.mod.impl.settings;
 
+import java.io.File;
 import java.util.Arrays;
 
 import com.soarclient.management.mod.Mod;
 import com.soarclient.management.mod.ModCategory;
 import com.soarclient.management.mod.settings.impl.ComboSetting;
+import com.soarclient.management.mod.settings.impl.FileSetting;
 import com.soarclient.management.mod.settings.impl.StringSetting;
 import com.soarclient.skia.font.Icon;
 import com.soarclient.utils.OS;
@@ -15,8 +17,8 @@ public class SystemSettings extends Mod {
 	private ComboSetting blurTypeSetting = new ComboSetting("setting.blurtype", "setting.blurtype.description",
 			Icon.BLUR_MEDIUM, this, Arrays.asList("setting.fastblur", "setting.normalblur"), "setting.normalblur");
 
-	private StringSetting ytdlpPathSetting;
-	private StringSetting ffmpegPathSetting;
+	private FileSetting ytdlpPathSetting;
+	private FileSetting ffmpegPathSetting;
 	private StringSetting ytdlpCommandSetting;
 
 	public SystemSettings() {
@@ -26,10 +28,10 @@ public class SystemSettings extends Mod {
 		this.setEnabled(true);
 
 		if (OS.isWindows()) {
-			ytdlpPathSetting = new StringSetting("setting.ytdlppath", "setting.ytdlppath.description",
-					Icon.CONVERSION_PATH, this, "");
-			ffmpegPathSetting = new StringSetting("setting.ffmpegpath", "setting.ffmpegpath.description",
-					Icon.CONVERSION_PATH, this, "");
+			ytdlpPathSetting = new FileSetting("setting.ytdlppath", "setting.ytdlppath.description",
+					Icon.CONVERSION_PATH, this, null, "exe");
+			ffmpegPathSetting = new FileSetting("setting.ffmpegpath", "setting.ffmpegpath.description",
+					Icon.CONVERSION_PATH, this, null, "exe");
 		} else if (OS.isMacOS() || OS.isLinux()) {
 			ytdlpCommandSetting = new StringSetting("setting.ytdlpcommand", "setting.ytdlpcommand.description",
 					Icon.TERMINAL, this, "yt-dlp");
@@ -49,12 +51,12 @@ public class SystemSettings extends Mod {
 		return blurTypeSetting.getOption().contains("fastblur");
 	}
 
-	public String getYtdlpPath() {
-		return ytdlpPathSetting != null ? ytdlpPathSetting.getValue() : "";
+	public File getYtdlpPath() {
+		return ytdlpPathSetting != null && ytdlpPathSetting.getFile() != null ? ytdlpPathSetting.getFile() : null;
 	}
 
-	public String getFFmpegPath() {
-		return ffmpegPathSetting != null ? ffmpegPathSetting.getValue() : "";
+	public File getFFmpegPath() {
+		return ffmpegPathSetting != null && ffmpegPathSetting.getFile() != null ? ffmpegPathSetting.getFile() : null;
 	}
 
 	public String getYtdlpCommand() {
