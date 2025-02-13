@@ -2,6 +2,7 @@ package com.soarclient.management.mod.settings.impl;
 
 import java.io.File;
 
+import com.soarclient.Soar;
 import com.soarclient.management.mod.Mod;
 import com.soarclient.management.mod.settings.Setting;
 
@@ -16,6 +17,7 @@ public class FileSetting extends Setting {
 		this.defaultValue = file;
 		this.file = file;
 		this.extensions = extensions;
+		Soar.getInstance().getModManager().addSetting(this);
 	}
 
 	@Override
