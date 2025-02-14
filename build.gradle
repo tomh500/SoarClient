@@ -117,14 +117,13 @@ task proguard(type: proguard.gradle.ProGuardTask) {
 		}
 	}
     
-	ignorewarnings
     dontwarn '**'
     dontnote '**'
 
     keepattributes 'Signature,LineNumberTable,*Annotation*,Exceptions'
     
-    keep 'class com.soarclient.mixin.mixins.** { *; }'
-    keeppackagenames 'com.soarclient.mixin.mixins.**'
+    keep 'class com.soarclient.mixin.** { *; }'
+    keeppackagenames 'com.soarclient.mixin.**'
     
     renamesourcefileattribute 'SourceFile'
 	repackageclasses ''
