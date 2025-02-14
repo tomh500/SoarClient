@@ -1,3 +1,13 @@
+buildscript {
+    repositories {
+        mavenCentral()
+        gradlePluginPortal()
+    }
+    dependencies {
+        classpath 'com.guardsquare:proguard-gradle:7.6.1'
+    }
+}
+
 plugins {
 	id 'fabric-loom' version '1.9-SNAPSHOT'
 }
@@ -26,6 +36,7 @@ repositories {
 
 configurations {
     jij
+	proguard
 }
 
 dependencies {
@@ -49,6 +60,10 @@ dependencies {
 
 	jij 'com.github.ben-manes.caffeine:caffeine:3.1.8'
 	jij 'io.github.humbleui:types:0.2.0'
+	jij 'io.github.humbleui:skija-windows-x64:0.116.4'
+	jij 'io.github.humbleui:skija-linux-x64:0.116.4'
+	jij 'io.github.humbleui:skija-macos-x64:0.116.4'
+	jij 'io.github.humbleui:skija-macos-arm64:0.116.4'
 	jij 'com.kohlschutter.junixsocket:junixsocket-common:2.10.1'
 	jij 'org.java-websocket:Java-WebSocket:1.6.0'
 	jij "net.lenni0451:MCPing:1.4.2"
@@ -60,7 +75,7 @@ dependencies {
     jij "org.lwjgl:lwjgl-nfd::natives-macos-arm64"
     jij "org.lwjgl:lwjgl-nfd::natives-windows"
 
-	implementation fileTree(dir: 'libs', include: ['*.jar'])
+	proguard 'com.guardsquare:proguard-base:7.6.1'
 
 	afterEvaluate {
         configurations.jij.incoming.resolutionResult.allDependencies.each {
@@ -89,3 +104,39 @@ java {
 	sourceCompatibility = JavaVersion.VERSION_21
 	targetCompatibility = JavaVersion.VERSION_21
 }
+
+task proguard(type: proguard.gradle.ProGuardTask) {
+    dependsOn jar
+    
+    injars jar.archiveFile
+    outjars "build/libs/${project.archives_base_name}-${version}-obfuscated.jar"
+    
+	fileTree("${System.properties['java.home']}\\jmods\\") {
+		forEach() {
+			libraryjars "${it.path}"
+		}
+	}
+    
+	ignorewarnings
+    dontwarn '**'
+    dontnote '**'
+
+    keepattributes 'Signature,LineNumberTable,*Annotation*,Exceptions'
+    
+    keep 'class com.soarclient.mixin.mixins.** { *; }'
+    keeppackagenames 'com.soarclient.mixin.mixins.**'
+    
+    renamesourcefileattribute 'SourceFile'
+	repackageclasses ''
+    
+    useuniqueclassmembernames
+    dontusemixedcaseclassnames
+    allowaccessmodification
+	dontoptimize
+	dontshrink
+
+    keepattributes 'RuntimeVisible*Annotations'
+    keepattributes 'RuntimeInvisible*Annotations'
+}
+
+build.finalizedBy(proguard)

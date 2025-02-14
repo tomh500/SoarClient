@@ -30,7 +30,7 @@ public class ImageHelper {
 	public boolean load(int texture, float width, float height, SurfaceOrigin origin) {
 
 		if (!textures.containsKey(texture)) {
-			Image image = Image.adoptTextureFrom(SkiaContext.getContext(), texture, GL11.GL_TEXTURE_2D, (int) width,
+			Image image = Image.adoptGLTextureFrom(SkiaContext.getContext(), texture, GL11.GL_TEXTURE_2D, (int) width,
 					(int) height, GL11.GL_RGBA8, origin, ColorType.RGBA_8888);
 			textures.put(texture, image);
 		}
