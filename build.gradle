@@ -106,9 +106,8 @@ java {
 }
 
 task proguard(type: proguard.gradle.ProGuardTask) {
-    dependsOn jar
     
-    injars jar.archiveFile
+    injars "build/libs/${project.archives_base_name}-${version}.jar"
     outjars "build/libs/${project.archives_base_name}-${version}-obfuscated.jar"
     
 	fileTree("${System.properties['java.home']}\\jmods\\") {
