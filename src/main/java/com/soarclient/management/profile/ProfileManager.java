@@ -185,4 +185,8 @@ public class ProfileManager {
 			}
 		}
 	}
+
+	public List<Profile> getProfiles() {
+		return profiles;
+	}
 }

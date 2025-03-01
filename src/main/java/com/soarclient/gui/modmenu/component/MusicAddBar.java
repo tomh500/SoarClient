@@ -3,8 +3,6 @@ package com.soarclient.gui.modmenu.component;
 import com.soarclient.Soar;
 import com.soarclient.management.color.api.ColorPalette;
 import com.soarclient.management.mod.impl.settings.SystemSettings;
-import com.soarclient.management.music.Music;
-import com.soarclient.management.music.MusicManager;
 import com.soarclient.management.music.ytdlp.Ytdlp;
 import com.soarclient.skia.Skia;
 import com.soarclient.skia.font.Icon;
