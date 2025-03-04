@@ -8,6 +8,7 @@ import com.soarclient.Soar;
 import com.soarclient.animation.SimpleAnimation;
 import com.soarclient.gui.api.SoarGui;
 import com.soarclient.gui.api.page.Page;
+import com.soarclient.gui.api.page.impl.LeftRightTransition;
 import com.soarclient.gui.api.page.impl.RightLeftTransition;
 import com.soarclient.gui.modmenu.pages.profile.ProfileAddPage;
 import com.soarclient.management.color.api.ColorPalette;
@@ -22,22 +23,16 @@ import com.soarclient.utils.SearchUtils;
 public class ProfilePage extends Page {
 
 	private final List<Item> items = new ArrayList<>();
-	private final IconButton addButton;
+	private IconButton addButton;
 
 	public ProfilePage(SoarGui parent) {
 		super(parent, "text.profile", Icon.DESCRIPTION, new RightLeftTransition(true));
 
-		for(Profile p : Soar.getInstance().getProfileManager().getProfiles()) {
+		for (Profile p : Soar.getInstance().getProfileManager().getProfiles()) {
 			items.add(new Item(p));
 		}
 
-		addButton = new IconButton(Icon.ADD, 0, 0, IconButton.Size.NORMAL, IconButton.Style.PRIMARY);
-		addButton.setHandler(new ButtonHandler() {
-			@Override
-			public void onAction() {
-				parent.setCurrentPage(new ProfileAddPage(parent, ProfilePage.this.getClass()));
-			}
-		});
+		addButton = new IconButton(Icon.ADD, 0, 0, IconButton.Size.LARGE, IconButton.Style.SECONDARY);
 	}
 
 	@Override
@@ -48,6 +43,17 @@ public class ProfilePage extends Page {
 			i.xAnimation.setFirstTick(true);
 			i.yAnimation.setFirstTick(true);
 		}
+
+		addButton = new IconButton(Icon.ADD, x + width - addButton.getWidth() - 20,
+				y + height - addButton.getHeight() - 20,
+				IconButton.Size.LARGE, IconButton.Style.SECONDARY);
+		addButton.setHandler(new ButtonHandler() {
+			@Override
+			public void onAction() {
+				parent.setCurrentPage(new ProfileAddPage(parent, ProfilePage.this.getClass()));
+				ProfilePage.this.setTransition(new LeftRightTransition(true));
+			}
+		});
 	}
 
 	@Override
@@ -55,6 +61,8 @@ public class ProfilePage extends Page {
 		super.draw(mouseX, mouseY);
 
 		ColorPalette palette = Soar.getInstance().getColorManager().getPalette();
+
+		addButton.draw(mouseX, mouseY);
 
 		mouseY = mouseY - scrollHelper.getValue();
 
@@ -65,7 +73,7 @@ public class ProfilePage extends Page {
 		Skia.save();
 		Skia.translate(0, scrollHelper.getValue());
 
-		for(Item i : items) {
+		for (Item i : items) {
 
 			Profile p = i.profile;
 			SimpleAnimation xAnimation = i.xAnimation;
@@ -75,7 +83,8 @@ public class ProfilePage extends Page {
 			float itemX = x + offsetX;
 			float itemY = y + 96 + offsetY;
 
-			if (!searchBar.getText().isEmpty() && !SearchUtils.isSimilar(p.getName() + " " + p.getAuthor(), searchBar.getText())) {
+			if (!searchBar.getText().isEmpty()
+					&& !SearchUtils.isSimilar(p.getName() + " " + p.getAuthor(), searchBar.getText())) {
 				continue;
 			}
 
@@ -84,12 +93,12 @@ public class ProfilePage extends Page {
 
 			itemX = xAnimation.getValue();
 			itemY = yAnimation.getValue();
-			
+
 			Skia.drawRoundedRect(itemX, itemY, 100, 200, 12, palette.getSurface());
 
-			if(icon instanceof ProfileIcon) {
+			if (icon instanceof ProfileIcon) {
 
-			} else if(icon instanceof File) {
+			} else if (icon instanceof File) {
 
 			}
 
@@ -107,12 +116,19 @@ public class ProfilePage extends Page {
 
 	@Override
 	public void mousePressed(double mouseX, double mouseY, int button) {
-
+		super.mousePressed(mouseX, mouseY, button);
+		addButton.mousePressed(mouseX, mouseY, button);
 	}
 
 	@Override
 	public void mouseReleased(double mouseX, double mouseY, int button) {
+		super.mouseReleased(mouseX, mouseY, button);
+		addButton.mouseReleased(mouseX, mouseY, button);
+	}
 
+	@Override
+	public void onClosed() {
+		this.setTransition(new RightLeftTransition(true));
 	}
 
 	private class Item {

@@ -14,6 +14,11 @@ text.settings=Settings
 text.search=Search
 text.selectfile=Select File
 text.addmusic=Add Music
+text.add=Add
+text.name=Name
+text.serveraddress=Server Address
+text.createprofile=Create Profile
+text.icon=Icon
 
 design.simple=Simple
 design.classic=Classic
