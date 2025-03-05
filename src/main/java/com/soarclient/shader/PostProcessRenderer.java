@@ -148,6 +148,8 @@ public class PostProcessRenderer {
 		}
 
 		public void beginRender(MatrixStack matrices) {
+			ShaderHelper.disableCull();
+
 			beganRendering = true;
 		}
 
