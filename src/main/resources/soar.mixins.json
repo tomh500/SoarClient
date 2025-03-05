@@ -13,6 +13,7 @@
 		"minecraft.client.render.MixinHeldItemRenderer",
 		"minecraft.client.render.MixinInGameHud",
 		"minecraft.client.render.MixinInGameOverlayRenderer",
+		"minecraft.client.render.MixinLightmapTextureManager",
 		"minecraft.client.sound.MixinSoundSystem",
 		"minecraft.client.util.MixinWindow",
 		"minecraft.client.MixinKeyboard",

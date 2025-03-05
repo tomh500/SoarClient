@@ -169,6 +169,9 @@ mod.bossbar.description=Customize boss bar
 mod.systemsettings.name=System Settings
 mod.systemsettings.description=Setting the system details
 
+mod.fullbright.name=Fullbright
+mod.fullbright.description=Brighten your viewpoint
+
 setting.darkmode=Dark Mode
 setting.darkmode.description=Enable dark mode
 setting.keybind=Keybind

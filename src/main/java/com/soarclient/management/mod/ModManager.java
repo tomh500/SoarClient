@@ -50,6 +50,7 @@ import com.soarclient.management.mod.impl.player.TaplookMod;
 import com.soarclient.management.mod.impl.player.ZoomMod;
 import com.soarclient.management.mod.impl.render.BloodParticleMod;
 import com.soarclient.management.mod.impl.render.CustomHandMod;
+import com.soarclient.management.mod.impl.render.FullbrightMod;
 import com.soarclient.management.mod.impl.render.MusicWaveformMod;
 import com.soarclient.management.mod.impl.render.OverlayEditorMod;
 import com.soarclient.management.mod.impl.render.ParticlesMod;
@@ -116,6 +117,7 @@ public class ModManager {
 		// Render
 		mods.add(new BloodParticleMod());
 		mods.add(new CustomHandMod());
+		mods.add(new FullbrightMod());
 		mods.add(new MusicWaveformMod());
 		mods.add(new OverlayEditorMod());
 		mods.add(new ParticlesMod());
