@@ -295,3 +295,5 @@ setting.ffmpegpath=FFmpeg Path
 setting.ffmpegpath.description=Set the ffmpeg path
 setting.ytdlpcommand=Ytdlp Command
 setting.ytdlpcommand.description=Set the ytdlp command
+setting.gamma=Gamma
+setting.gamma.description=Set the gamma
