@@ -148,11 +148,6 @@ public class PostProcessRenderer {
 		}
 
 		public void beginRender(MatrixStack matrices) {
-			ShaderHelper.disableDepth();
-			ShaderHelper.enableBlend();
-			ShaderHelper.disableCull();
-			ShaderHelper.enableLineSmooth();
-
 			beganRendering = true;
 		}
 
