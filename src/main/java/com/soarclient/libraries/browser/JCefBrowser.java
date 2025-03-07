@@ -8,7 +8,6 @@ import com.soarclient.utils.Multithreading;
 import net.ccbluex.liquidbounce.mcef.MCEF;
 import net.ccbluex.liquidbounce.mcef.MCEFDownloadManager;
 import net.ccbluex.liquidbounce.mcef.cef.MCEFBrowser;
-import net.minecraft.client.MinecraftClient;
 
 public class JCefBrowser {
 
