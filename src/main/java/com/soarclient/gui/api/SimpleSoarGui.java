@@ -20,9 +20,6 @@ public class SimpleSoarGui {
 	public void init() {
 	}
 
-	public void drawOpenGL(double mouseX, double mouseY) {
-	}
-
 	public void draw(double mouseX, double mouseY) {
 	}
 
@@ -51,9 +48,6 @@ public class SimpleSoarGui {
 
 			@Override
 			public void render(DrawContext context, int mouseX, int mouseY, float delta) {
-
-				SimpleSoarGui.this.drawOpenGL(mcScale ? mouseX : client.mouse.getX(),
-						mcScale ? mouseY : client.mouse.getY());
 
 				SkiaContext.draw((skiaContext) -> {
 

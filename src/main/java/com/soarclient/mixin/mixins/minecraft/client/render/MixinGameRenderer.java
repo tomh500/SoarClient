@@ -35,6 +35,10 @@ public class MixinGameRenderer {
 			EventBus.getInstance().post(new RenderSkiaEvent());
 			Skia.restore();
 		});
+		
+		if (HUDModSettings.getInstance().getBlurSetting().isEnabled()) {
+			KawaseBlur.GUI_BLUR.draw((int) HUDModSettings.getInstance().getBlurIntensitySetting().getValue());
+		}
 	}
 
 	@Inject(method = "getFov", at = @At(value = "RETURN", ordinal = 1), cancellable = true)

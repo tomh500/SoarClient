@@ -60,13 +60,6 @@ public abstract class SoarGui extends SimpleSoarGui {
 	}
 
 	@Override
-	public void drawOpenGL(double mouseX, double mouseY) {
-		if (ModMenuSettings.getInstance().getBlurSetting().isEnabled()) {
-			KawaseBlur.GUI_BLUR.draw((int) ModMenuSettings.getInstance().getBlurIntensitySetting().getValue());
-		}
-	}
-
-	@Override
 	public void draw(double mouseX, double mouseY) {
 
 		ColorPalette palette = Soar.getInstance().getColorManager().getPalette();
