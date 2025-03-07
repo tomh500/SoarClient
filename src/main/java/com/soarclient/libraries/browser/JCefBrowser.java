@@ -43,7 +43,7 @@ public class JCefBrowser {
 			
 			if(!resourceManager.isSystemCompatible()) {
 				unsupport = true;
-				SoarLogger.error("The computer does not support the browser");
+				SoarLogger.error("[JCEF] The computer does not support the browser");
 				return;
 			}
 			
