@@ -1,9 +1,12 @@
 package com.soarclient.management.music.ytdlp;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.soarclient.logger.SoarLogger;
 import com.soarclient.utils.file.FileLocation;
 
 public class Ytdlp {
@@ -34,6 +37,8 @@ public class Ytdlp {
 		command.add("--audio-format");
 		command.add("flac");
 		command.add("--embed-thumbnail");
+		command.add("--convert-thumbnails");
+		command.add("png");
 		command.add("--add-metadata");
 
 		if (ffmpeg != null && !ffmpeg.isBlank() && !ffmpeg.isEmpty()) {
@@ -48,6 +53,12 @@ public class Ytdlp {
 		try {
 			ProcessBuilder processBuilder = new ProcessBuilder(command);
 			Process process = processBuilder.start();
+            
+            BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
+            String line;
+            while ((line = reader.readLine()) != null) {
+            	SoarLogger.info("[Ytdlp] " + line);
+            }
             
 			int exitCode = process.waitFor();
 
