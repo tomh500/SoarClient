@@ -35,6 +35,7 @@ import com.soarclient.management.mod.impl.hud.ServerIPDisplayMod;
 import com.soarclient.management.mod.impl.hud.SpeedometerMod;
 import com.soarclient.management.mod.impl.hud.StopwatchMod;
 import com.soarclient.management.mod.impl.hud.WeatherDisplayMod;
+import com.soarclient.management.mod.impl.hud.WebBrowserMod;
 import com.soarclient.management.mod.impl.hud.YawDisplayMod;
 import com.soarclient.management.mod.impl.misc.DiscordRPCMod;
 import com.soarclient.management.mod.impl.misc.HypixelMod;
@@ -101,6 +102,7 @@ public class ModManager {
 		mods.add(new ServerIPDisplayMod());
 		mods.add(new SpeedometerMod());
 		mods.add(new StopwatchMod());
+		mods.add(new WebBrowserMod());
 		mods.add(new WeatherDisplayMod());
 		mods.add(new YawDisplayMod());
 

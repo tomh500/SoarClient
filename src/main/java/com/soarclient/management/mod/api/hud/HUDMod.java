@@ -20,13 +20,6 @@ public abstract class HUDMod extends Mod {
 	}
 
 	public void begin() {
-
-		/*
-		 * if (HUDModSettings.getInstance().getBlurSetting().isEnabled()) {
-		 * Skia.drawRoundedBlur(position.getX(), position.getY(), position.getWidth(),
-		 * position.getHeight(), getRadius() * position.getScale()); }
-		 */
-
 		Skia.save();
 		Skia.scale(position.getX(), position.getY(), position.getScale());
 	}
@@ -37,6 +30,11 @@ public abstract class HUDMod extends Mod {
 
 	public void drawBackground(float x, float y, float width, float height) {
 		getDesign().drawBackground(x, y, width, height, getRadius());
+	}
+	
+	public void drawBlurBackground(float x, float y, float width, float height) {
+		Skia.drawRoundedBlur(x, y, width, height, getRadius());
+		Skia.drawShadow(x, y, width, height, getRadius());
 	}
 
 	public void drawText(String text, float x, float y, Font font) {

@@ -36,6 +36,10 @@ repositories {
 
 configurations {
     jij
+	modJij
+	include.extendsFrom modJij
+    modImplementation.extendsFrom modJij
+    modCompileOnlyApi.extendsFrom modJij
 	proguard
 }
 
@@ -68,6 +72,8 @@ dependencies {
 	jij 'org.java-websocket:Java-WebSocket:1.6.0'
 	jij "net.lenni0451:MCPing:1.4.2"
 	jij "net.lenni0451:Reflect:1.4.0"
+	
+	modJij 'com.github.CCBlueX:mcef:3.0.0-1.21.4'
 	
 	runtimeOnly "org.lwjgl:lwjgl-nfd:$lwjglVersion"
     runtimeOnly "org.lwjgl:lwjgl-nfd::natives-linux"

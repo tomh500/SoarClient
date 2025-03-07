@@ -3,6 +3,7 @@ package com.soarclient;
 import com.soarclient.animation.Delta;
 import com.soarclient.event.EventBus;
 import com.soarclient.event.server.PacketHandler;
+import com.soarclient.libraries.browser.JCefBrowser;
 import com.soarclient.management.color.ColorManager;
 import com.soarclient.management.config.ConfigManager;
 import com.soarclient.management.hypixel.HypixelManager;
@@ -36,6 +37,7 @@ public class Soar {
 
 	public void start() {
 
+		JCefBrowser.download();
 		Fonts.loadAll();
 		FileLocation.init();
 		I18n.setLanguage(Language.ENGLISH);

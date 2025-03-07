@@ -172,6 +172,9 @@ mod.systemsettings.description=Setting the system details
 mod.fullbright.name=Fullbright
 mod.fullbright.description=Brighten your viewpoint
 
+mod.webbrowser.name=Web Browser
+mod.webbrowser.description=Display the Web Browser
+
 setting.darkmode=Dark Mode
 setting.darkmode.description=Enable dark mode
 setting.keybind=Keybind
@@ -297,3 +300,5 @@ setting.ytdlpcommand=Ytdlp Command
 setting.ytdlpcommand.description=Set the ytdlp command
 setting.gamma=Gamma
 setting.gamma.description=Set the gamma
+setting.opacity=Opacity
+setting.opacity.description=Set the opacity
