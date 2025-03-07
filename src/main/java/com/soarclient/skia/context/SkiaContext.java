@@ -57,7 +57,7 @@ public class SkiaContext {
 		RenderSystem.pixelStore(GlConst.GL_UNPACK_SKIP_PIXELS, 0);
 		RenderSystem.pixelStore(GlConst.GL_UNPACK_SKIP_ROWS, 0);
 		RenderSystem.pixelStore(GlConst.GL_UNPACK_ALIGNMENT, 4);
-
+        RenderSystem.clearColor(0f, 0f, 0f, 0f);
 		context.resetGLAll();
 
 		Canvas canvas = getCanvas();
