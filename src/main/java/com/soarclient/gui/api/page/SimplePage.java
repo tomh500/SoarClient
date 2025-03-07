@@ -103,4 +103,8 @@ public class SimplePage {
 	public void setAnimation(Animation animation) {
 		this.animation = animation;
 	}
+
+	public SoarGui getParent() {
+		return parent;
+	}
 }

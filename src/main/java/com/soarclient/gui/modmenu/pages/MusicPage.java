@@ -40,15 +40,17 @@ public class MusicPage extends Page {
 
 	public MusicPage(SoarGui parent) {
 		super(parent, "text.music", Icon.MUSIC_NOTE, new RightLeftTransition(true));
-
-		for (Music m : Soar.getInstance().getMusicManager().getMusics()) {
-			items.add(new Item(m));
-		}
 	}
 
 	@Override
 	public void init() {
 		super.init();
+		
+		items.clear();
+		
+		for (Music m : Soar.getInstance().getMusicManager().getMusics()) {
+			items.add(new Item(m));
+		}
 
 		controlBar = new MusicControlBar(x + 22, y + height - 60 - 18, width - 44);
 
@@ -192,6 +194,18 @@ public class MusicPage extends Page {
 				}
 			}
 		}
+	}
+	
+	@Override
+	public void keyPressed(int keyCode, int scanCode, int modifiers) {
+		super.keyPressed(keyCode, scanCode, modifiers);
+		controlBar.keyPressed(keyCode, scanCode, modifiers);
+	}
+	
+	@Override
+	public void charTyped(char chr, int modifiers) {
+		super.charTyped(chr, modifiers);
+		controlBar.charTyped(chr, modifiers);
 	}
 
 	private void drawRoundedImage(File file, float x, float y, float width, float height, float cornerRadius,

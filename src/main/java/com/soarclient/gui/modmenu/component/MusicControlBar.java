@@ -8,25 +8,37 @@ import java.util.List;
 import org.lwjgl.glfw.GLFW;
 
 import com.soarclient.Soar;
+import com.soarclient.animation.SimpleAnimation;
 import com.soarclient.management.color.api.ColorPalette;
+import com.soarclient.management.mod.impl.settings.SystemSettings;
 import com.soarclient.management.music.Music;
 import com.soarclient.management.music.MusicManager;
+import com.soarclient.management.music.ytdlp.Ytdlp;
 import com.soarclient.skia.Skia;
 import com.soarclient.skia.font.Fonts;
 import com.soarclient.skia.font.Icon;
 import com.soarclient.ui.component.Component;
+import com.soarclient.ui.component.handler.impl.ButtonHandler;
+import com.soarclient.ui.component.impl.IconButton;
+import com.soarclient.ui.component.impl.text.TextField;
+import com.soarclient.utils.Multithreading;
 import com.soarclient.utils.mouse.MouseUtils;
 
 public class MusicControlBar extends Component {
 
+	private List<Component> components = new ArrayList<>();
 	private List<ControlButton> buttons = new ArrayList<>();
-	private boolean locked;
+	private SimpleAnimation animation = new SimpleAnimation();
+	private boolean addMusic;
+
+	private IconButton downloadButton;
+	private TextField urlField;
 
 	public MusicControlBar(float x, float y, float width) {
 		super(x, y);
 		this.width = width;
 		this.height = 64;
-
+		
 		MusicManager musicManager = Soar.getInstance().getMusicManager();
 
 		float offsetY = 26;
@@ -57,6 +69,44 @@ public class MusicControlBar extends Component {
 			b.setX(offsetX);
 			offsetX += 30;
 		}
+
+		urlField = new TextField(x + 8, y + 12, 320, "");
+		downloadButton = new IconButton(Icon.DOWNLOAD, x + 320 + 16, y + 12, IconButton.Size.SMALL, IconButton.Style.PRIMARY);
+		
+		centerX = centerX - ((downloadButton.getWidth() + urlField.getWidth() + 8) / 2);
+		urlField.setX(centerX);
+		downloadButton.setX(centerX + urlField.getWidth() + 8);
+		
+		downloadButton.setHandler(new ButtonHandler() {
+
+			@Override
+			public void onAction() {
+				
+				Ytdlp ytdlp = new Ytdlp();
+				
+				ytdlp.setFFmpegPath(SystemSettings.getInstance().getFFmpegPath());
+				ytdlp.setYtdlpPath(SystemSettings.getInstance().getYtdlpPath());
+				
+				if(!urlField.getText().isEmpty()) {
+					Multithreading.runAsync(() -> {
+						
+						boolean result = ytdlp.download(urlField.getText());
+						
+						if(result) {
+							try {
+								Soar.getInstance().getMusicManager().load();
+							} catch (Exception e) {
+								e.printStackTrace();
+							}
+						}
+					});
+					addMusic = false;
+				}
+			}
+		});
+
+		components.add(urlField);
+		components.add(downloadButton);
 	}
 
 	@Override
@@ -67,7 +117,15 @@ public class MusicControlBar extends Component {
 		MusicManager musicManager = instance.getMusicManager();
 		Music music = musicManager.getCurrentMusic();
 
+		animation.onTick(addMusic ? 1 : 0, 16);
+
 		Skia.drawRoundedRect(x, y, width, height, 16, palette.getSurface());
+
+		Skia.save();
+		Skia.clip(x, y, width, height, 16);
+
+		Skia.save();
+		Skia.translate(0, animation.getValue() * -height);
 
 		File album = music != null ? music.getAlbum() : null;
 
@@ -98,6 +156,23 @@ public class MusicControlBar extends Component {
 		for (ControlButton b : buttons) {
 			b.draw(mouseX, mouseY);
 		}
+
+		Skia.restore();
+
+		Skia.save();
+		Skia.translate(0, (1 - animation.getValue()) * height);
+		
+		for (Component c : components) {
+			c.draw(mouseX, mouseY);
+		}
+
+		Skia.restore();
+		Skia.restore();
+
+		String icon = addMusic ? Icon.CLOSE : Icon.DOWNLOAD;
+		float iconWidth = Skia.getTextBounds(icon, Fonts.getRegular(24)).getWidth();
+
+		Skia.drawText(icon, x + width - iconWidth - 8, y + 8, palette.getOnSurface(), Fonts.getIcon(24));
 	}
 
 	private void drawSeekBar(float x, float y, float width, float height) {
@@ -115,20 +190,55 @@ public class MusicControlBar extends Component {
 
 	@Override
 	public void mousePressed(double mouseX, double mouseY, int button) {
-		for (ControlButton b : buttons) {
-			b.mousePressed(mouseX, mouseY, button);
+		if (addMusic) {
+			for (Component c : components) {
+				c.mousePressed(mouseX, mouseY, button);
+			}
+		} else {
+			for (ControlButton b : buttons) {
+				b.mousePressed(mouseX, mouseY, button);
+			}
 		}
 	}
 
 	@Override
 	public void mouseReleased(double mouseX, double mouseY, int button) {
-		for (ControlButton b : buttons) {
-			b.mouseReleased(mouseX, mouseY, button);
+
+		if (addMusic) {
+			for (Component c : components) {
+				c.mouseReleased(mouseX, mouseY, button);
+			}
+		} else {
+			for (ControlButton b : buttons) {
+				b.mouseReleased(mouseX, mouseY, button);
+			}
+		}
+
+		String icon = addMusic ? Icon.CLOSE : Icon.DOWNLOAD;
+		float iconWidth = Skia.getTextBounds(icon, Fonts.getRegular(24)).getWidth();
+
+		if (MouseUtils.isInside(mouseX, mouseY, x + width - iconWidth - 16, y, 32, 32)
+				&& button == GLFW.GLFW_MOUSE_BUTTON_LEFT) {
+			addMusic = !addMusic;
 		}
 	}
 
-	public boolean isLocked() {
-		return locked;
+	@Override
+	public void keyPressed(int keyCode, int scanCode, int modifiers) {
+		if (addMusic) {
+			for (Component c : components) {
+				c.keyPressed(keyCode, scanCode, modifiers);
+			}
+		}
+	}
+	
+	@Override
+	public void charTyped(char chr, int modifiers) {
+		if (addMusic) {
+			for (Component c : components) {
+				c.charTyped(chr, modifiers);
+			}
+		}
 	}
 
 	private class ControlButton extends Component {

@@ -43,11 +43,12 @@ public class Ytdlp {
 
 		command.add("--output");
 		command.add(FileLocation.MUSIC_DIR + File.separator + "%(title)s.%(ext)s");
+		command.add(url);
 
 		try {
 			ProcessBuilder processBuilder = new ProcessBuilder(command);
 			Process process = processBuilder.start();
-
+            
 			int exitCode = process.waitFor();
 
 			if (exitCode == 0) {

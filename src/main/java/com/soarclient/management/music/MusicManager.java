@@ -73,6 +73,8 @@ public class MusicManager {
 
 	public void load() throws Exception {
 
+		musics.clear();
+		
 		File musicDir = FileLocation.MUSIC_DIR;
 
 		if (musicDir.listFiles() == null) {
