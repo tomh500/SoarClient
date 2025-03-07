@@ -159,9 +159,16 @@ public class ModConfig extends Config {
 								if (s instanceof FileSetting) {
 
 									FileSetting fs = (FileSetting) s;
-
-									fs.setFile(new File(JsonUtils.getStringProperty(settingJsonObject, s.getName(),
-											fs.getDefaultValue().getAbsolutePath())));
+									String filePath = JsonUtils.getStringProperty(settingJsonObject, s.getName(), "");
+									File f = null;
+									
+									if(filePath != null && !filePath.isEmpty()) {
+										f = new File(filePath);
+									} else {
+										f = fs.getDefaultValue();
+									}
+									
+									fs.setFile(f);
 								}
 							}
 						}
@@ -249,9 +256,9 @@ public class ModConfig extends Config {
 					if (s instanceof StringSetting) {
 						settingJsonObject.addProperty(s.getName(), ((StringSetting) s).getValue());
 					}
-					
-					if(s instanceof FileSetting) {
-						File f = ((FileSetting)s).getFile();
+
+					if (s instanceof FileSetting) {
+						File f = ((FileSetting) s).getFile();
 						settingJsonObject.addProperty(s.getName(), f != null ? f.getAbsolutePath() : "null");
 					}
 				}
