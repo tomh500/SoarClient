@@ -54,7 +54,7 @@ public class ProfileManager {
 			for (ConfigType t : types) {
 				Config c = configManager.getConfig(t);
 				c.onSave();
-				addJsonToZip(t.getId() + ".josn", c.getJsonObject(), zipOut);
+				addJsonToZip(t.getId() + ".json", c.getJsonObject(), zipOut);
 			}
 
 			if (icon instanceof File) {
@@ -71,7 +71,7 @@ public class ProfileManager {
 	public void load(Profile profile) {
 
 		List<ObjectObjectImmutablePair<ConfigType, JsonObject>> configs = profile.getConfigs();
-
+		
 		for (ObjectObjectImmutablePair<ConfigType, JsonObject> p : configs) {
 
 			Config config = Soar.getInstance().getConfigManager().getConfig(p.left());
@@ -82,6 +82,8 @@ public class ProfileManager {
 	}
 
 	public void readProfiles() {
+
+		profiles.clear();
 
 		for (File f : FileLocation.PROFILE_DIR.listFiles()) {
 
@@ -137,7 +139,11 @@ public class ProfileManager {
 						zipIn.closeEntry();
 					}
 
-					profiles.add(new Profile(name, author, configs, icon == null ? "" : icon, serverIp));
+					profiles.add(new Profile(name, author, configs,
+							icon == null ? ""
+									: icon != null && icon instanceof File ? icon
+											: icon instanceof String ? ProfileIcon.getIconById((String) icon) : "",
+							serverIp));
 				} catch (IOException e) {
 					e.printStackTrace();
 				}

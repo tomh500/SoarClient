@@ -69,6 +69,12 @@ dependencies {
 	jij "net.lenni0451:MCPing:1.4.2"
 	jij "net.lenni0451:Reflect:1.4.0"
 	
+	runtimeOnly "org.lwjgl:lwjgl-nfd:$lwjglVersion"
+    runtimeOnly "org.lwjgl:lwjgl-nfd::natives-linux"
+    runtimeOnly "org.lwjgl:lwjgl-nfd::natives-macos"
+    runtimeOnly "org.lwjgl:lwjgl-nfd::natives-macos-arm64"
+    runtimeOnly "org.lwjgl:lwjgl-nfd::natives-windows"
+
 	jij "org.lwjgl:lwjgl-nfd:$lwjglVersion"
     jij "org.lwjgl:lwjgl-nfd::natives-linux"
     jij "org.lwjgl:lwjgl-nfd::natives-macos"

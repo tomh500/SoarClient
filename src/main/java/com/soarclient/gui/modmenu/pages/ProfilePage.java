@@ -4,6 +4,8 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.lwjgl.glfw.GLFW;
+
 import com.soarclient.Soar;
 import com.soarclient.animation.SimpleAnimation;
 import com.soarclient.gui.api.SoarGui;
@@ -15,10 +17,12 @@ import com.soarclient.management.color.api.ColorPalette;
 import com.soarclient.management.profile.Profile;
 import com.soarclient.management.profile.ProfileIcon;
 import com.soarclient.skia.Skia;
+import com.soarclient.skia.font.Fonts;
 import com.soarclient.skia.font.Icon;
 import com.soarclient.ui.component.handler.impl.ButtonHandler;
 import com.soarclient.ui.component.impl.IconButton;
 import com.soarclient.utils.SearchUtils;
+import com.soarclient.utils.mouse.MouseUtils;
 
 public class ProfilePage extends Page {
 
@@ -27,17 +31,18 @@ public class ProfilePage extends Page {
 
 	public ProfilePage(SoarGui parent) {
 		super(parent, "text.profile", Icon.DESCRIPTION, new RightLeftTransition(true));
-
-		for (Profile p : Soar.getInstance().getProfileManager().getProfiles()) {
-			items.add(new Item(p));
-		}
-
 		addButton = new IconButton(Icon.ADD, 0, 0, IconButton.Size.LARGE, IconButton.Style.SECONDARY);
 	}
 
 	@Override
 	public void init() {
 		super.init();
+		
+		items.clear();
+		
+		for (Profile p : Soar.getInstance().getProfileManager().getProfiles()) {
+			items.add(new Item(p));
+		}
 
 		for (Item i : items) {
 			i.xAnimation.setFirstTick(true);
@@ -45,8 +50,7 @@ public class ProfilePage extends Page {
 		}
 
 		addButton = new IconButton(Icon.ADD, x + width - addButton.getWidth() - 20,
-				y + height - addButton.getHeight() - 20,
-				IconButton.Size.LARGE, IconButton.Style.SECONDARY);
+				y + height - addButton.getHeight() - 20, IconButton.Size.LARGE, IconButton.Style.SECONDARY);
 		addButton.setHandler(new ButtonHandler() {
 			@Override
 			public void onAction() {
@@ -94,22 +98,28 @@ public class ProfilePage extends Page {
 			itemX = xAnimation.getValue();
 			itemY = yAnimation.getValue();
 
-			Skia.drawRoundedRect(itemX, itemY, 100, 200, 12, palette.getSurface());
-
+			Skia.drawRoundedRect(itemX, itemY, 245, 88, 12, palette.getSurface());
+			
 			if (icon instanceof ProfileIcon) {
-
+				Skia.drawRoundedImage(((ProfileIcon) icon).getIconPath(), itemX + 8, itemY + 8, 72, 72, 12);
 			} else if (icon instanceof File) {
-
+				Skia.drawRoundedImage(((File) icon), itemX + 8, itemY + 8, 72, 72, 12);
+			} else {
+				Skia.drawRoundedRect(itemX + 8, itemY + 8, 72, 72, 12, palette.getSurfaceContainer());
 			}
+			
+			Skia.drawText(p.getName(), itemX + 86, itemY + 16, palette.getOnSurface(), Fonts.getMedium(20));
 
 			index++;
-			offsetX += 32 + 100;
+			offsetX += 26 + 245;
 
 			if (index % 3 == 0) {
 				offsetX = 26;
-				offsetY += 22 + 151;
+				offsetY += 22 + 88;
 			}
 		}
+		
+		scrollHelper.setMaxScroll(88, 22, index, 3, height - 96);
 
 		Skia.restore();
 	}
@@ -124,6 +134,16 @@ public class ProfilePage extends Page {
 	public void mouseReleased(double mouseX, double mouseY, int button) {
 		super.mouseReleased(mouseX, mouseY, button);
 		addButton.mouseReleased(mouseX, mouseY, button);
+		
+		for (Item i : items) {
+			
+			float itemX = i.xAnimation.getValue();
+			float itemY = i.yAnimation.getValue();
+			
+			if(MouseUtils.isInside(mouseX, mouseY, itemX, itemY, 245, 88) && button == GLFW.GLFW_MOUSE_BUTTON_LEFT) {
+				Soar.getInstance().getProfileManager().load(i.profile);
+			}
+		}
 	}
 
 	@Override

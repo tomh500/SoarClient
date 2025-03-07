@@ -2,7 +2,7 @@ package com.soarclient.management.profile;
 
 public enum ProfileIcon {
 	COMMAND("command"), CRAFTING_TABLE("crafting_table"), FURNACE("furnace"), GRASS("grass"), HAY("hay"),
-	PUMPKIN("pumpkin"), TNT("tnt");
+	PUMPKIN("pumpkin"), TNT("tnt"), CUSTOM("custom");
 
 	private final String id;
 	private final String iconPath;

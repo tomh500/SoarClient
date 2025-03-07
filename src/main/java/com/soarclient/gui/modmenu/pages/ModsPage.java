@@ -28,7 +28,14 @@ public class ModsPage extends Page {
 
 	public ModsPage(SoarGui parent) {
 		super(parent, "text.mods", Icon.INVENTORY_2, new RightLeftTransition(true));
+	}
 
+	@Override
+	public void init() {
+		super.init();
+
+		items.clear();
+		
 		for (Mod m : Soar.getInstance().getModManager().getMods()) {
 
 			Item i = new Item(m);
@@ -39,12 +46,7 @@ public class ModsPage extends Page {
 
 			items.add(i);
 		}
-	}
-
-	@Override
-	public void init() {
-		super.init();
-
+		
 		for (Item i : items) {
 			i.xAnimation.setFirstTick(true);
 			i.yAnimation.setFirstTick(true);
