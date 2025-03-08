@@ -35,7 +35,7 @@ public class SoarWebSocketClient extends WebSocketClient {
     
 	@Override
 	public void onOpen(ServerHandshake handshakedata) {
-		SoarLogger.info("WebSocket connection opened");
+		SoarLogger.info("API", "WebSocket connection opened");
 	}
 
 	@Override
@@ -50,19 +50,19 @@ public class SoarWebSocketClient extends WebSocketClient {
 		if (handler != null) {
 			handler.handle(jsonObject);
 		} else {
-			SoarLogger.warn("No handler found for message type: " + type);
+			SoarLogger.warn("API", "No handler found for message type: " + type);
 		}
 	}
 
 	@Override
 	public void onClose(int code, String reason, boolean remote) {
-		SoarLogger.info("WebSocket connection closed: " + reason);
+		SoarLogger.info("API", "WebSocket connection closed: " + reason);
 		closeTask.run();
 	}
 
 	@Override
 	public void onError(Exception ex) {
-		SoarLogger.error("WebSocket error occurred", ex);
+		SoarLogger.error("API", "WebSocket error occurred", ex);
 	}
 
 	private void register(String type, WebSocketHandler handler) {

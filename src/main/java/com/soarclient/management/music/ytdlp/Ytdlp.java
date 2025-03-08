@@ -57,7 +57,7 @@ public class Ytdlp {
             BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
             String line;
             while ((line = reader.readLine()) != null) {
-            	SoarLogger.info("[Ytdlp] " + line);
+            	SoarLogger.info("YTDLP", line);
             }
             
 			int exitCode = process.waitFor();

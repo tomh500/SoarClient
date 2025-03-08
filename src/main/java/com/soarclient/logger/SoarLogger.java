@@ -7,20 +7,20 @@ public class SoarLogger {
 
 	private static final Logger logger = LogManager.getLogger("Soar Client");
 
-	public static void info(String message) {
-		logger.info("[SC/INFO] " + message);
+	public static void info(String prefix, String message) {
+		logger.info("[SC/INFO] [" + prefix + "] " + message);
 	}
 
-	public static void warn(String message) {
-		logger.warn("[SC/WARN] " + message);
+	public static void warn(String prefix, String message) {
+		logger.warn("[SC/WARN] [" + prefix + "] " + message);
 	}
 
-	public static void error(String message) {
-		logger.error("[SC/ERROR] " + message);
+	public static void error(String prefix, String message) {
+		logger.error("[SC/ERROR] [" + prefix + "] " + message);
 	}
 
-	public static void error(String message, Exception e) {
-		logger.error("[SC/ERROR] " + message, e);
+	public static void error(String prefix, String message, Exception e) {
+		logger.error("[SC/ERROR] [" + prefix + "] " + message, e);
 	}
 
 	public static Logger getLogger() {
