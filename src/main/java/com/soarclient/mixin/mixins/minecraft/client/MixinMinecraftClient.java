@@ -1,6 +1,8 @@
 package com.soarclient.mixin.mixins.minecraft.client;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.InputStreamReader;
 
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
@@ -16,6 +18,8 @@ import com.soarclient.Soar;
 import com.soarclient.event.EventBus;
 import com.soarclient.event.client.ClientTickEvent;
 import com.soarclient.event.client.GameLoopEvent;
+import com.soarclient.libraries.browser.JCefBrowser;
+import com.soarclient.management.config.ConfigType;
 import com.soarclient.management.mod.impl.player.HitDelayFixMod;
 import com.soarclient.management.mod.impl.player.OldAnimationsMod;
 import com.soarclient.mixin.interfaces.IMixinLivingEntity;
@@ -23,6 +27,8 @@ import com.soarclient.mixin.interfaces.IMixinMinecraftClient;
 import com.soarclient.shader.impl.KawaseBlur;
 import com.soarclient.skia.context.SkiaContext;
 
+import net.ccbluex.liquidbounce.mcef.MCEF;
+import net.ccbluex.liquidbounce.mcef.MCEFPlatform;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.RunArgs;
 import net.minecraft.client.network.ClientPlayerEntity;
@@ -48,25 +54,25 @@ public abstract class MixinMinecraftClient implements IMixinMinecraftClient {
 	@Shadow
 	public int attackCooldown;
 
-    @Shadow
-    public ClientPlayerInteractionManager interactionManager;
+	@Shadow
+	public ClientPlayerInteractionManager interactionManager;
 
-    @Final
-    @Shadow
-    public ParticleManager particleManager;
+	@Final
+	@Shadow
+	public ParticleManager particleManager;
 
-    @Shadow
-    public GameOptions options;
-    
-    @Shadow
-    public HitResult crosshairTarget;
-    
-    @Shadow
-    public ClientWorld world;
-    
-    @Shadow
+	@Shadow
+	public GameOptions options;
+
+	@Shadow
+	public HitResult crosshairTarget;
+
+	@Shadow
+	public ClientWorld world;
+
+	@Shadow
 	public ClientPlayerEntity player;
-    
+
 	@Shadow
 	public abstract String getWindowTitle();
 
@@ -77,22 +83,56 @@ public abstract class MixinMinecraftClient implements IMixinMinecraftClient {
 	public void onInit(RunArgs args, CallbackInfo ci) {
 		assetDir = args.directories.assetDir;
 	}
-	
+
+	@Inject(method = "stop", at = @At("HEAD"))
+	public void onStop(CallbackInfo ci) {
+		Soar.getInstance().getConfigManager().save(ConfigType.MOD);
+		JCefBrowser.close();
+
+		if (MCEFPlatform.getPlatform().isWindows()) {
+			String processName = "jcef_helper.exe";
+			try {
+				ProcessBuilder processBuilder = new ProcessBuilder("tasklist");
+				Process process = processBuilder.start();
+
+				BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
+				String line;
+				boolean isRunning = false;
+				while ((line = reader.readLine()) != null) {
+					if (line.contains(processName)) {
+						isRunning = true;
+						break;
+					}
+				}
+				reader.close();
+
+				if (isRunning) {
+					MCEF.INSTANCE.getLogger().warn("JCEF is still running, killing to avoid lingering processes.");
+					ProcessBuilder killProcess = new ProcessBuilder("taskkill", "/F", "/IM", processName);
+					killProcess.start();
+				}
+			} catch (Exception e) {
+				MCEF.INSTANCE.getLogger()
+						.error("Unable to check if JCEF is still running. There may be lingering processes.", e);
+			}
+		}
+	}
+
 	@Inject(method = "handleBlockBreaking", at = @At("HEAD"), cancellable = true)
 	private void handleBlockBreaking(boolean breaking, CallbackInfo ci) {
-		
+
 		if (OldAnimationsMod.getInstance().isEnabled() && OldAnimationsMod.getInstance().isOldBreaking()) {
 			if (this.options.attackKey.isPressed() && this.options.useKey.isPressed()) {
-				
+
 				if (breaking && this.crosshairTarget != null && this.crosshairTarget.getType() == Type.BLOCK) {
-					
-					BlockHitResult blockHitResult = (BlockHitResult)this.crosshairTarget;
+
+					BlockHitResult blockHitResult = (BlockHitResult) this.crosshairTarget;
 					BlockPos blockPos = blockHitResult.getBlockPos();
-					
+
 					if (!this.world.getBlockState(blockPos).isAir()) {
 						Direction direction = blockHitResult.getSide();
 						this.particleManager.addBlockBreakingParticles(blockPos, direction);
-						((IMixinLivingEntity)player).fakeSwingHand(Hand.MAIN_HAND);
+						((IMixinLivingEntity) player).fakeSwingHand(Hand.MAIN_HAND);
 					}
 				}
 			}

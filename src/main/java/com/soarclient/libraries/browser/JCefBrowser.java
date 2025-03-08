@@ -30,6 +30,7 @@ public class JCefBrowser {
 		
 		if(browser != null) {
 			browser.close();
+			browser = null;
 		}
 		
 		if(MCEF.INSTANCE.isInitialized()) {
