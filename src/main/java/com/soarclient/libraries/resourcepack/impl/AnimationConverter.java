@@ -19,7 +19,7 @@ import java.util.Collections;
 public class AnimationConverter extends Converter {
 
     public AnimationConverter(PackConverter packConverter) {
-        super(packConverter);
+        super("AnimationConverter", packConverter);
     }
 
     @Override

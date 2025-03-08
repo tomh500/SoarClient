@@ -18,7 +18,7 @@ public class PackMetaConverter extends Converter {
     private final MinecraftVersion version;
 
     public PackMetaConverter(PackConverter packConverter, MinecraftVersion version) {
-        super(packConverter);
+        super("PackMetaConverter", packConverter);
         this.version = version;
     }
 

@@ -22,7 +22,7 @@ public class MapIconConverter extends Converter {
 	protected Map<Long, Long> mapping = new HashMap<>();
 
 	public MapIconConverter(PackConverter packConverter) {
-		super(packConverter);
+		super("MapIconConverter", packConverter);
 
 		mapping.put(pack(0, 0), pack(0, 0));
 		mapping.put(pack(8, 0), pack(8, 0));

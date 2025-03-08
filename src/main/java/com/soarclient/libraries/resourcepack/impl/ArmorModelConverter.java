@@ -34,7 +34,7 @@ public class ArmorModelConverter extends Converter {
 	});
 
 	public ArmorModelConverter(PackConverter packConverter) {
-		super(packConverter);
+		super("ArmorModelConverter", packConverter);
 	}
 
 	@Override

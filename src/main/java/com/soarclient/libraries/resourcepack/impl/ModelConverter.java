@@ -19,7 +19,7 @@ import java.util.Map;
 public class ModelConverter extends Converter {
 
     public ModelConverter(PackConverter packConverter) {
-        super(packConverter);
+        super("ModelConverter", packConverter);
     }
 
     @Override

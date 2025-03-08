@@ -43,7 +43,7 @@ public class ParticleSeparatorConverter extends Converter {
 
 	// 1.14 separated particles into their own individual files
 	public ParticleSeparatorConverter(PackConverter packConverter) {
-		super(packConverter);
+		super("ParticleSeparatorConverter", packConverter);
 	}
 
 	@Override

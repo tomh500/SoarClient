@@ -88,8 +88,7 @@ public class PackConverter {
 					if (version.ordinal() < converter.getVersion().ordinal()) {
 						continue;
 					}
-					// TODO: Obfuscate support
-					SoarLogger.info("RPC", "Running " + converter.getClass().getSimpleName());
+					SoarLogger.info("RPC", "Running " + converter.getName());
 					converter.convert(pack);
 				}
 

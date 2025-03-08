@@ -22,7 +22,7 @@ public class NameConverter extends Converter {
     protected final Mapping itemMapping = new ItemMapping();
 
     public NameConverter(PackConverter packConverter) {
-        super(packConverter);
+        super("NameConverter", packConverter);
     }
 
     @Override

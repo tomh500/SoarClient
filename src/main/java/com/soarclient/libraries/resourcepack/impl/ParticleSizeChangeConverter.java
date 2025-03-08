@@ -17,7 +17,7 @@ public class ParticleSizeChangeConverter extends Converter {
 
     // 1.13 expanded the size of the texture atlas. This does that, but doesn't fill the new textures
     public ParticleSizeChangeConverter(PackConverter packConverter) {
-        super(packConverter);
+        super("ParticleSizeChangeConverter", packConverter);
     }
 
     @Override

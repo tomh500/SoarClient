@@ -18,7 +18,7 @@ public class UnicodeFontConverter extends Converter {
     private static final String LEGACY_UNICODE_TEXTURE_FILE_NAME_PREFIX = "unicode_page_";
 
     public UnicodeFontConverter(PackConverter packConverter) {
-        super(packConverter);
+        super("UnicodeFontConverter", packConverter);
     }
 
     @Override

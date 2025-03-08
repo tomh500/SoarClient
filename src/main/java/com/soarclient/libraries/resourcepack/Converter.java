@@ -6,14 +6,19 @@ import com.soarclient.libraries.resourcepack.pack.Pack;
 
 public abstract class Converter {
 
-    protected PackConverter packConverter;
+	private final String name;
+	protected PackConverter packConverter;
 
-    public Converter(PackConverter packConverter) {
-        this.packConverter = packConverter;
-    }
+	public Converter(String name, PackConverter packConverter) {
+		this.name = name;
+		this.packConverter = packConverter;
+	}
 
-    public abstract MinecraftVersion getVersion();
+	public abstract MinecraftVersion getVersion();
 
-    public abstract void convert(Pack pack) throws IOException;
+	public abstract void convert(Pack pack) throws IOException;
 
+	public String getName() {
+		return name;
+	}
 }

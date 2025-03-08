@@ -25,7 +25,7 @@ public class PaintingConverter extends Converter {
 	private final Map<Location, String> paintings = new HashMap<>();
 
 	public PaintingConverter(PackConverter packConverter) {
-		super(packConverter);
+		super("PaintingConverter", packConverter);
 		registerPaintings();
 	}
 

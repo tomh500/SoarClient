@@ -21,7 +21,7 @@ import java.util.Map;
 public class BlockStateConverter extends Converter {
 
 	public BlockStateConverter(PackConverter packConverter) {
-		super(packConverter);
+		super("BlockStateConverter", packConverter);
 	}
 
 	@Override

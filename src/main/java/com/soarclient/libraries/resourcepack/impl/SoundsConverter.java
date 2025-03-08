@@ -22,7 +22,7 @@ import java.util.Map;
 public class SoundsConverter extends Converter {
 
 	public SoundsConverter(PackConverter packConverter) {
-		super(packConverter);
+		super("SoundsConverter", packConverter);
 	}
 
 	@Override

@@ -14,7 +14,7 @@ import com.soarclient.logger.SoarLogger;
 public class SpacesConverter extends Converter {
 
     public SpacesConverter(PackConverter packConverter) {
-        super(packConverter);
+        super("SpacesConverter", packConverter);
     }
 
     @Override
