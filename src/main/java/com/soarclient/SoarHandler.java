@@ -15,21 +15,21 @@ public class SoarHandler {
 		Soar.getInstance().getHypixelManager().update();
 		Soar.getInstance().getUserManager().update();
 	};
-	
+
 	public final EventBus.EventListener<GameJoinEvent> onGameJoin = event -> {
 		Soar.getInstance().getHypixelManager().clear();
 		Soar.getInstance().getUserManager().clear();
 	};
-	
+
 	public final EventBus.EventListener<ServerJoinEvent> onServerJoin = event -> {
-		
+
 		List<Profile> profiles = Soar.getInstance().getProfileManager().getProfiles();
-		
-		for(Profile p : profiles) {
-			
+
+		for (Profile p : profiles) {
+
 			String address = p.getServerIp();
-			
-			if(event.getAddress().contains(address)) {
+
+			if (event.getAddress().contains(address)) {
 				Soar.getInstance().getProfileManager().load(p);
 				break;
 			}
