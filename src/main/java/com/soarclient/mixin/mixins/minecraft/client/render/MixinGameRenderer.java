@@ -10,6 +10,7 @@ import com.soarclient.event.EventBus;
 import com.soarclient.event.client.RenderSkiaEvent;
 import com.soarclient.management.mod.impl.player.ZoomMod;
 import com.soarclient.management.mod.impl.settings.HUDModSettings;
+import com.soarclient.management.mod.impl.settings.ModMenuSettings;
 import com.soarclient.shader.impl.KawaseBlur;
 import com.soarclient.skia.Skia;
 import com.soarclient.skia.context.SkiaContext;
@@ -37,7 +38,7 @@ public class MixinGameRenderer {
 		});
 		
 		if (HUDModSettings.getInstance().getBlurSetting().isEnabled()) {
-			KawaseBlur.GUI_BLUR.draw((int) HUDModSettings.getInstance().getBlurIntensitySetting().getValue());
+			KawaseBlur.GUI_BLUR.draw((int) ModMenuSettings.getInstance().getBlurIntensitySetting().getValue());
 		}
 	}
 
