@@ -7,6 +7,7 @@ import com.soarclient.libraries.resourcepack.MinecraftVersion;
 import com.soarclient.libraries.resourcepack.PackConverter;
 import com.soarclient.libraries.resourcepack.Util;
 import com.soarclient.libraries.resourcepack.pack.Pack;
+import com.soarclient.logger.SoarLogger;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -47,10 +48,10 @@ public class UnicodeFontConverter extends Converter {
 
         JsonObject defaultFontDefinitionJson;
         if (Files.exists(defaultFontDefinition)) {
-            System.out.println("      Default font definition already exists... appending to it instead");
+        	SoarLogger.info("RPC", "Default font definition already exists... appending to it instead");
             defaultFontDefinitionJson = Util.readJson(packConverter.getGson(), defaultFontDefinition);
         } else {
-            System.out.println("      Creating default font definition.");
+        	SoarLogger.info("RPC", "Creating default font definition.");
             Files.createFile(defaultFontDefinition);
             defaultFontDefinitionJson = createDefaultFontDefinitionJson();
         }
@@ -66,7 +67,7 @@ public class UnicodeFontConverter extends Converter {
 
         for (String textureFileName : legacyUnicodeTextureFileNames) {
             String jsonFileName = textureFileName.replace(".png", ".json");
-            System.out.println("      Creating include font definition " + jsonFileName);
+            SoarLogger.info("RPC", "Creating include font definition");
             JsonObject fontDefinition = createFontDefinitionJson(createLegacyUnicodeBitmapProvider(textureFileName));
 
             Path providerPath = fontDefinitionIncludeDir.resolve(jsonFileName);

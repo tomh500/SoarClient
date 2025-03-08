@@ -9,6 +9,7 @@ import com.soarclient.libraries.resourcepack.MinecraftVersion;
 import com.soarclient.libraries.resourcepack.PackConverter;
 import com.soarclient.libraries.resourcepack.Util;
 import com.soarclient.libraries.resourcepack.pack.Pack;
+import com.soarclient.logger.SoarLogger;
 
 public class SpacesConverter extends Converter {
 
@@ -32,10 +33,10 @@ public class SpacesConverter extends Converter {
             String noSpaces = path.getFileName().toString().replaceAll(" ", "_");
             Boolean ret = Util.renameFile(path, noSpaces);
             if (ret == null) return;
-            if (ret && PackConverter.DEBUG) {
-                System.out.println("      Renamed: " + path.getFileName().toString() + "->" + noSpaces);
+            if (ret) {
+            	SoarLogger.info("RPC", "Renamed: " + path.getFileName().toString() + "->" + noSpaces);
             } else if (!ret) {
-                System.err.println("      Failed to rename: " + path.getFileName().toString() + "->" + noSpaces);
+            	SoarLogger.error("RPC", "Failed to rename: " + path.getFileName().toString() + "->" + noSpaces);
             }
         });
     }

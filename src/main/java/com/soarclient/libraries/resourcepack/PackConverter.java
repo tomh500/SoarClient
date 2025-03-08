@@ -23,10 +23,9 @@ import com.soarclient.libraries.resourcepack.impl.SoundsConverter;
 import com.soarclient.libraries.resourcepack.impl.SpacesConverter;
 import com.soarclient.libraries.resourcepack.impl.UnicodeFontConverter;
 import com.soarclient.libraries.resourcepack.pack.Pack;
+import com.soarclient.logger.SoarLogger;
 
 public class PackConverter {
-
-	public static final boolean DEBUG = true;
 
 	protected final Gson gson;
 	private final File dir;
@@ -42,8 +41,7 @@ public class PackConverter {
 		this.gson = gsonBuilder.create();
 		this.version = inVersion;
 		if (this.version == null) {
-			System.out.println("Invalid version provided!");
-			System.exit(0);
+			SoarLogger.error("RPC", "Invalid version provided!");
 			return;
 		}
 
@@ -81,25 +79,23 @@ public class PackConverter {
 	public void run() throws IOException {
 		Files.list(dir.toPath()).map(Pack::parse).filter(Objects::nonNull).forEach(pack -> {
 			try {
-				System.out.println("Converting " + pack);
+				SoarLogger.info("RPC", "Converting " + pack);
 
 				pack.getHandler().setup();
 
-				System.out.println("  Running Converters");
+				SoarLogger.info("RPC", "Running Converters");
 				for (Converter converter : converters.values()) {
 					if (version.ordinal() < converter.getVersion().ordinal()) {
 						continue;
 					}
-					if (PackConverter.DEBUG) {
-						System.out.println("    Running " + converter.getClass().getSimpleName());
-					}
+					// TODO: Obfuscate support
+					SoarLogger.info("RPC", "Running " + converter.getClass().getSimpleName());
 					converter.convert(pack);
 				}
 
 				pack.getHandler().finish();
-			} catch (Throwable t) {
-				System.err.println("Failed to convert!");
-				Util.propagate(t);
+			} catch (Exception e) {
+				SoarLogger.error("RPC", "Failed to convert!", e);
 			}
 		});
 	}

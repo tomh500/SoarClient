@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.nio.file.Path;
 
 import com.soarclient.libraries.resourcepack.Util;
+import com.soarclient.logger.SoarLogger;
 
 public class Pack {
 
@@ -65,11 +66,11 @@ public class Pack {
 
         public void setup() throws IOException {
             if (pack.getWorkingPath().toFile().exists()) {
-                System.out.println("  Deleting existing conversion");
+            	SoarLogger.info("RPC", "Deleting existing conversion");
                 Util.deleteDirectoryAndContents(pack.getWorkingPath());
             }
 
-            System.out.println("  Copying existing pack");
+            SoarLogger.info("RPC", "Copying existing pack");
             Util.copyDir(pack.getOriginalPath(), pack.getWorkingPath());
         }
 

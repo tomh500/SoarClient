@@ -15,6 +15,7 @@ import java.util.zip.ZipInputStream;
 import java.util.zip.ZipOutputStream;
 
 import com.soarclient.libraries.resourcepack.Util;
+import com.soarclient.logger.SoarLogger;
 
 public class ZipPack extends Pack {
 
@@ -45,13 +46,13 @@ public class ZipPack extends Pack {
         @Override
         public void setup() throws IOException {
             if (pack.getWorkingPath().toFile().exists()) {
-                System.out.println("  Deleting existing conversion");
+            	SoarLogger.info("RPC", "Deleting existing conversion");
                 Util.deleteDirectoryAndContents(pack.getWorkingPath());
             }
 
             Path convertedZipPath = getConvertedZipPath();
             if (convertedZipPath.toFile().exists()) {
-                System.out.println("  Deleting existing conversion zip");
+            	SoarLogger.info("RPC", "Deleting existing conversion zip");
                 convertedZipPath.toFile().delete();
             }
 
@@ -94,13 +95,13 @@ public class ZipPack extends Pack {
         @Override
         public void finish() throws IOException {
             try {
-                System.out.println("  Zipping working directory");
+            	SoarLogger.info("RPC", "Zipping working directory");
                 zipDirectory(pack.getWorkingPath(), getConvertedZipPath());
             } catch (Exception e) {
-                Util.propagate(e);
+            	SoarLogger.error("RPC", "Failed to get zipping working directory", e);
             }
 
-            System.out.println("  Deleting working directory");
+            SoarLogger.info("RPC", "Deleting working directory");
             Util.deleteDirectoryAndContents(pack.getWorkingPath());
         }
 

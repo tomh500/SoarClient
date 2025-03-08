@@ -7,6 +7,7 @@ import com.soarclient.libraries.resourcepack.MinecraftVersion;
 import com.soarclient.libraries.resourcepack.PackConverter;
 import com.soarclient.libraries.resourcepack.Util;
 import com.soarclient.libraries.resourcepack.pack.Pack;
+import com.soarclient.logger.SoarLogger;
 
 import java.io.File;
 import java.io.IOException;
@@ -56,7 +57,7 @@ public class AnimationConverter extends Converter {
                         if (anyChanges) {
                             Files.write(file, Collections.singleton(packConverter.getGson().toJson(json)), Charset.forName("UTF-8"));
 
-                            if (PackConverter.DEBUG) System.out.println("      Converted " + file.getFileName());
+                            SoarLogger.info("RPC", "Converted " + file.getFileName());
                         }
                     } catch (IOException e) {
                         Util.propagate(e);

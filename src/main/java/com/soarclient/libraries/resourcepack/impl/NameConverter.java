@@ -7,6 +7,7 @@ import com.soarclient.libraries.resourcepack.MinecraftVersion;
 import com.soarclient.libraries.resourcepack.PackConverter;
 import com.soarclient.libraries.resourcepack.Util;
 import com.soarclient.libraries.resourcepack.pack.Pack;
+import com.soarclient.logger.SoarLogger;
 
 import java.io.File;
 import java.io.IOException;
@@ -59,10 +60,10 @@ public class NameConverter extends Converter {
                 if (newName != null && !newName.equals(baseName)) {
                     Boolean ret = Util.renameFile(path1, newName + extension);
                     if (ret == null) return;
-                    if (ret && PackConverter.DEBUG) {
-                        System.out.println("      Renamed: " + path1.getFileName().toString() + "->" + newName + extension);
+                    if (ret) {
+                    	SoarLogger.info("RPC", "Renamed: " + path1.getFileName().toString() + "->" + newName + extension);
                     } else if (!ret) {
-                        System.err.println("      Failed to rename: " + path1.getFileName().toString() + "->" + newName + extension);
+                    	SoarLogger.error("RPC", "Failed to rename: " + path1.getFileName().toString() + "->" + newName + extension);
                     }
                 }
             });
