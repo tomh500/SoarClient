@@ -27,7 +27,8 @@
 		"minecraft.network.MixinClientConnection",
 		"minecraft.world.MixinBiome",
 		"minecraft.world.MixinClientWorldProperties",
-		"minecraft.world.MixinWorld"
+		"minecraft.world.MixinWorld",
+		"viafabricplus.MixinMinecraftClient"
 	],
 	"injectors": {
 		"defaultRequire": 1
