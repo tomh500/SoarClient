@@ -33,7 +33,8 @@ public class PackMetaConverter extends Converter {
 		}
 
 		try {
-			JsonObject json = gson.fromJson(new JsonReader(new FileReader(file.toFile())), JsonObject.class);
+			FileReader reader = new FileReader(file.toFile());
+			JsonObject json = gson.fromJson(new JsonReader(reader), JsonObject.class);
 
 			JsonObject packObject = json.getAsJsonObject("pack");
 
@@ -44,6 +45,7 @@ public class PackMetaConverter extends Converter {
 			json.addProperty("convert", true);
 
 			Files.write(file, Collections.singleton(gson.toJson(json)), Charset.forName("UTF-8"));
+			reader.close();
 		} catch (JsonIOException | JsonSyntaxException | IOException e) {
 		}
 	}

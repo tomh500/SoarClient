@@ -17,7 +17,6 @@ import com.soarclient.libraries.resourcepack.ResourcePackConverter;
 import com.soarclient.utils.JsonUtils;
 import com.soarclient.utils.Multithreading;
 import com.soarclient.utils.file.FileLocation;
-import com.soarclient.utils.file.FileUtils;
 
 import it.unimi.dsi.fastutil.objects.ObjectObjectImmutablePair;
 import net.minecraft.client.gui.DrawContext;
@@ -61,10 +60,9 @@ public class GuiResourcePackConvert extends Screen {
 		
 		List<ObjectObjectImmutablePair<File, File>> packs = new ArrayList<>();
 		File cacheDir = new File(FileLocation.CACHE_DIR, "resourcepack");
-		File tempDir = new File(cacheDir, "temp");
 		
 		try {
-			Files.createDirectories(tempDir.toPath());
+			Files.createDirectories(cacheDir.toPath());
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -73,7 +71,7 @@ public class GuiResourcePackConvert extends Screen {
 			
 			try {
 				
-				File targetFile = new File(cacheDir, FileUtils.getMd5Checksum(f));
+				File targetFile = new File(cacheDir, f.getName());
 				File packDir = new File(client.runDirectory, "resourcepacks");
 				File outputFile = new File(packDir, f.getName());
 				
@@ -85,7 +83,7 @@ public class GuiResourcePackConvert extends Screen {
 			}
 		}
 		
-		return new ResourcePackConverter(packs, tempDir, progress -> {
+		return new ResourcePackConverter(packs, cacheDir, progress -> {
 			this.progress = progress.toString();
 		});
 	}

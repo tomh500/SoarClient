@@ -1,6 +1,7 @@
 package com.soarclient.libraries.resourcepack;
 
 import java.io.File;
+import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
@@ -89,15 +90,14 @@ public class ResourcePackConverter {
 		int currentStep = 0;
 		updateProgress(currentStep, totalSteps, "Starting conversion process...", null);
 
-		if (tempDir.exists()) {
-			FileUtils.deleteDirectory(tempDir.toPath());
-		}
-
 		for (int i = 0; i < files.size(); i++) {
 			ObjectObjectImmutablePair<File, File> pair = files.get(i);
 
 			File inputFile = pair.left();
 			File outputFile = pair.right();
+			File newTempDir = new File(tempDir, inputFile.getName().replace(".zip", ""));
+			
+			Files.createDirectories(newTempDir.toPath());
 
 			if (!inputFile.exists()) {
 				updateProgress(currentStep, totalSteps,
@@ -113,20 +113,20 @@ public class ResourcePackConverter {
 			try {
 				updateProgress(++currentStep, totalSteps, String.format("Extracting %s...", inputFile.getName()),
 						inputFile);
-				FileUtils.unzip(inputFile, tempDir);
+				FileUtils.unzip(inputFile, newTempDir);
 
-				if (tempDir.exists()) {
+				if (newTempDir.exists()) {
 
 					for (int j = 0; j < converters.size(); j++) {
 						Converter converter = converters.get(j);
 						updateProgress(++currentStep, totalSteps,
 								String.format("Applying converter %d of %d", j + 1, converters.size()), inputFile);
-						converter.convert(tempDir);
+						converter.convert(newTempDir);
 					}
 
 					updateProgress(++currentStep, totalSteps,
 							String.format("Creating output file: %s", outputFile.getName()), outputFile);
-					FileUtils.zip(tempDir, outputFile);
+					FileUtils.zip(newTempDir, outputFile);
 				} else {
 					updateProgress(currentStep, totalSteps, String
 							.format("Skipping processing of %s (temp directory creation failed)", inputFile.getName()),
@@ -141,10 +141,8 @@ public class ResourcePackConverter {
 		}
 
 		updateProgress(++currentStep, totalSteps, "Cleaning up temporary files...", null);
-		if (tempDir.exists()) {
-			FileUtils.deleteDirectory(tempDir.toPath());
-		}
-
+		FileUtils.deleteDirectory(tempDir.toPath());
+		
 		updateProgress(totalSteps, totalSteps, "Conversion process completed", null);
 	}
 
