@@ -42,6 +42,7 @@ import com.soarclient.management.mod.impl.misc.HypixelMod;
 import com.soarclient.management.mod.impl.misc.TimeChangerMod;
 import com.soarclient.management.mod.impl.misc.WeatherChangerMod;
 import com.soarclient.management.mod.impl.player.AutoGGMod;
+import com.soarclient.management.mod.impl.player.ForceMainHandMod;
 import com.soarclient.management.mod.impl.player.FreelookMod;
 import com.soarclient.management.mod.impl.player.HitDelayFixMod;
 import com.soarclient.management.mod.impl.player.NoJumpDelayMod;
@@ -108,6 +109,7 @@ public class ModManager {
 
 		// Player
 		mods.add(new AutoGGMod());
+		mods.add(new ForceMainHandMod());
 		mods.add(new FreelookMod());
 		mods.add(new HitDelayFixMod());
 		mods.add(new NoJumpDelayMod());
