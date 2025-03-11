@@ -13,7 +13,7 @@ import com.google.gson.JsonIOException;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonSyntaxException;
 import com.google.gson.stream.JsonReader;
-import com.soarclient.libraries.resourcepack.ResourcePackUpdater;
+import com.soarclient.libraries.resourcepack.ResourcePackConverter;
 import com.soarclient.libraries.resourcepack.convert.Converter;
 
 public class PackMetaConverter extends Converter {
@@ -39,7 +39,7 @@ public class PackMetaConverter extends Converter {
 
 			if (packObject == null)
 				packObject = new JsonObject();
-			packObject.addProperty("pack_format", ResourcePackUpdater.VERSION);
+			packObject.addProperty("pack_format", ResourcePackConverter.VERSION);
 			json.add("pack", packObject);
 			json.addProperty("convert", true);
 

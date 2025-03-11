@@ -4,7 +4,6 @@ import com.soarclient.animation.Delta;
 import com.soarclient.event.EventBus;
 import com.soarclient.event.server.PacketHandler;
 import com.soarclient.libraries.browser.JCefBrowser;
-import com.soarclient.libraries.resourcepack.ResourcePackHelper;
 import com.soarclient.management.color.ColorManager;
 import com.soarclient.management.config.ConfigManager;
 import com.soarclient.management.hypixel.HypixelManager;
@@ -58,8 +57,6 @@ public class Soar {
 		EventBus.getInstance().register(new SoarHandler());
 		EventBus.getInstance().register(new PacketHandler());
 		EventBus.getInstance().register(new Delta());
-		
-		ResourcePackHelper.convertAll();
 	}
 
 	public static Soar getInstance() {

@@ -6,6 +6,7 @@
 		"minecraft.client.gui.MixinBossBarHud",
 		"minecraft.client.gui.MixinChatScreen",
 		"minecraft.client.gui.MixinMultiplayerScreen",
+		"minecraft.client.gui.MixinPackScreen",
 		"minecraft.client.option.MixinKeyBinding",
 		"minecraft.client.render.BufferRendererAccessor",
 		"minecraft.client.render.MixinCamera",
