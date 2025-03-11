@@ -13,6 +13,7 @@ import com.soarclient.libraries.resourcepack.convert.impl.CreativeTabsConverter;
 import com.soarclient.libraries.resourcepack.convert.impl.DirectoryConverter;
 import com.soarclient.libraries.resourcepack.convert.impl.EnchantConverter;
 import com.soarclient.libraries.resourcepack.convert.impl.ImageFormatConverter;
+import com.soarclient.libraries.resourcepack.convert.impl.IndicatorConverter;
 import com.soarclient.libraries.resourcepack.convert.impl.InventoryConverter;
 import com.soarclient.libraries.resourcepack.convert.impl.NameConverter;
 import com.soarclient.libraries.resourcepack.convert.impl.OffHandConverter;
@@ -64,6 +65,7 @@ public class ResourcePackConverter {
 		this.converters.add(new V1_14_SliceConverter());
 		this.converters.add(new V1_20_2_SliceConverter());
 		this.converters.add(new V1_20_5_SliceConverter());
+		this.converters.add(new IndicatorConverter());
 		this.converters.add(new PackMetaConverter());
 	}
 
