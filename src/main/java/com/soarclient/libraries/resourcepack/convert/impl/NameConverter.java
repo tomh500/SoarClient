@@ -62,7 +62,7 @@ public class NameConverter extends Converter {
 
 	private void load(String name, List<ObjectObjectImmutablePair<String, String>> pairs) {
 
-		try (InputStream is = NameConverter.class.getResourceAsStream("/assets/soar/" + name + ".txt")) {
+		try (InputStream is = NameConverter.class.getResourceAsStream("/assets/soar/converter/" + name + ".txt")) {
 			if (is == null) {
 				return;
 			}
