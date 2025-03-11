@@ -30,7 +30,7 @@ import it.unimi.dsi.fastutil.objects.ObjectObjectImmutablePair;
 
 public class ResourcePackConverter {
 
-	public static final int VERSION = 46;
+	public static final int MC_VERSION = 46;
 
 	private List<Converter> converters = new ArrayList<>();
 

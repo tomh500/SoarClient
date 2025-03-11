@@ -113,7 +113,7 @@ public class GuiResourcePackConvert extends Screen {
 								boolean convert = JsonUtils.getBooleanProperty(packJsonObject, "convert",
 										false);
 
-								if (version == 1 || (version != ResourcePackConverter.VERSION && convert)) {
+								if (version == 1 || (version != ResourcePackConverter.MC_VERSION && convert)) {
 									convertPacks.add(f);
 								}
 							}

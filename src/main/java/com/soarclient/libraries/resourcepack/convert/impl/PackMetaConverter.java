@@ -39,7 +39,7 @@ public class PackMetaConverter extends Converter {
 
 			if (packObject == null)
 				packObject = new JsonObject();
-			packObject.addProperty("pack_format", ResourcePackConverter.VERSION);
+			packObject.addProperty("pack_format", ResourcePackConverter.MC_VERSION);
 			json.add("pack", packObject);
 			json.addProperty("convert", true);
 
