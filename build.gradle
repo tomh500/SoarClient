@@ -74,21 +74,24 @@ dependencies {
 	jij "net.lenni0451:Reflect:1.4.0"
 	
 	modJij 'com.github.CCBlueX:mcef:3.0.0-1.21.4'
-	
-	runtimeOnly "org.lwjgl:lwjgl-nfd:$lwjglVersion"
-    runtimeOnly "org.lwjgl:lwjgl-nfd::natives-linux"
-    runtimeOnly "org.lwjgl:lwjgl-nfd::natives-macos"
-    runtimeOnly "org.lwjgl:lwjgl-nfd::natives-macos-arm64"
-    runtimeOnly "org.lwjgl:lwjgl-nfd::natives-windows"
-
-	jij "org.lwjgl:lwjgl-nfd:$lwjglVersion"
-    jij "org.lwjgl:lwjgl-nfd::natives-linux"
-    jij "org.lwjgl:lwjgl-nfd::natives-macos"
-    jij "org.lwjgl:lwjgl-nfd::natives-macos-arm64"
-    jij "org.lwjgl:lwjgl-nfd::natives-windows"
 
 	proguard 'com.guardsquare:proguard-base:7.6.1'
 
+    def lwjglNfdDeps = [
+        "org.lwjgl:lwjgl-nfd:$lwjglVersion",
+        "org.lwjgl:lwjgl-nfd::natives-linux",
+        "org.lwjgl:lwjgl-nfd::natives-macos",
+        "org.lwjgl:lwjgl-nfd::natives-macos-arm64",
+        "org.lwjgl:lwjgl-nfd::natives-windows"
+    ]
+    
+    // Add LWJGL NFD dependencies to both jij and implementation
+    lwjglNfdDeps.each { dep ->
+        jij dep
+        implementation dep
+        include dep
+    }
+	
 	afterEvaluate {
         configurations.jij.incoming.resolutionResult.allDependencies.each {
             dependencies.include(dependencies.implementation(dependencies.compileOnlyApi(it.requested.toString()) {
@@ -132,7 +135,7 @@ task proguard(type: proguard.gradle.ProGuardTask) {
     
     dontwarn '**'
 
-    keepattributes 'Signature,LineNumberTable,*Annotation*,Exceptions'
+    keepattributes 'Signature,*Annotation*,Exceptions'
     
     keep 'class com.soarclient.mixin.mixins** { *; }'
     keeppackagenames 'com.soarclient.mixin.mixins**'
