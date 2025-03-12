@@ -118,35 +118,35 @@ java {
 }
 
 task proguard(type: proguard.gradle.ProGuardTask) {
+    dependsOn jar
+    injars jar.archiveFile
+    outjars "build/libs/${project.archives_base_name}-${version}-proguarded.jar"
     
-    injars "build/libs/${project.archives_base_name}-${version}.jar"
-    outjars "build/libs/${project.archives_base_name}-${version}-obfuscated.jar"
-    
-	fileTree("${System.properties['java.home']}\\jmods\\") {
-		forEach() {
-			libraryjars "${it.path}"
-		}
-	}
+    fileTree("${System.properties['java.home']}\\jmods\\") {
+        forEach() {
+            libraryjars "${it.path}"
+        }
+    }
+
+    libraryjars configurations.compileClasspath
     
     dontwarn '**'
-    dontnote '**'
 
     keepattributes 'Signature,LineNumberTable,*Annotation*,Exceptions'
     
-    keep 'class com.soarclient.mixin.** { *; }'
-    keeppackagenames 'com.soarclient.mixin.**'
+    keep 'class com.soarclient.mixin.mixins** { *; }'
+    keeppackagenames 'com.soarclient.mixin.mixins**'
     
     renamesourcefileattribute 'SourceFile'
-	repackageclasses ''
+    repackageclasses ''
     
     useuniqueclassmembernames
     dontusemixedcaseclassnames
-    allowaccessmodification
-	dontoptimize
-	dontshrink
-
-    keepattributes 'RuntimeVisible*Annotations'
-    keepattributes 'RuntimeInvisible*Annotations'
+    dontoptimize
+    dontshrink
 }
 
-build.finalizedBy(proguard)
+remapJar {
+    dependsOn proguard
+    input = file("build/libs/${project.archives_base_name}-${version}-proguarded.jar")
+}

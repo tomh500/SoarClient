@@ -9,10 +9,6 @@ import com.soarclient.libraries.resourcepack.utils.ImageConverter;
 
 public class OffHandConverter extends Converter {
 
-	public OffHandConverter() {
-		super();
-	}
-
 	@Override
 	public void convert(File assetsDir) {
 		

@@ -6,7 +6,6 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import com.soarclient.gui.GuiResourcePackConvert;
-import com.viaversion.viafabricplus.settings.impl.GeneralSettings;
 
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.screen.pack.PackScreen;
@@ -26,6 +25,7 @@ public class MixinPackScreen extends Screen {
 		ButtonWidget.Builder builder = ButtonWidget
 				.builder(Text.of("Convert"), button -> client.setScreen(new GuiResourcePackConvert(this))).size(98, 20);
 
-		this.addDrawableChild(GeneralSettings.withOrientation(builder, 2, width, height).build());
+		builder.position(width - 98 - 5, 5);
+		this.addDrawableChild(builder.build());
 	}
 }

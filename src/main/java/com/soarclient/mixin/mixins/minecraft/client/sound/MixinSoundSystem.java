@@ -1,6 +1,6 @@
 package com.soarclient.mixin.mixins.minecraft.client.sound;
 
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import org.spongepowered.asm.mixin.Mixin;
@@ -20,17 +20,10 @@ import net.minecraft.util.Identifier;
 public class MixinSoundSystem {
 
 	@Unique
-	private final List<Identifier> newPvPSounds = new ArrayList<>() {
-		private static final long serialVersionUID = 1L;
-		{
-			add(SoundEvents.ENTITY_PLAYER_ATTACK_KNOCKBACK.id());
-			add(SoundEvents.ENTITY_PLAYER_ATTACK_SWEEP.id());
-			add(SoundEvents.ENTITY_PLAYER_ATTACK_CRIT.id());
-			add(SoundEvents.ENTITY_PLAYER_ATTACK_STRONG.id());
-			add(SoundEvents.ENTITY_PLAYER_ATTACK_WEAK.id());
-			add(SoundEvents.ENTITY_PLAYER_ATTACK_NODAMAGE.id());
-		}
-	};
+	private final List<Identifier> newPvPSounds = Arrays.asList(SoundEvents.ENTITY_PLAYER_ATTACK_KNOCKBACK.id(),
+			SoundEvents.ENTITY_PLAYER_ATTACK_SWEEP.id(), SoundEvents.ENTITY_PLAYER_ATTACK_CRIT.id(),
+			SoundEvents.ENTITY_PLAYER_ATTACK_STRONG.id(), SoundEvents.ENTITY_PLAYER_ATTACK_WEAK.id(),
+			SoundEvents.ENTITY_PLAYER_ATTACK_NODAMAGE.id());
 
 	@Inject(method = "play(Lnet/minecraft/client/sound/SoundInstance;)V", at = @At("HEAD"), cancellable = true)
 	public void oldAnimations$disableNewPvPSounds(SoundInstance sound, CallbackInfo ci) {
