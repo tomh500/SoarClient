@@ -15,7 +15,6 @@ import com.soarclient.libraries.resourcepack.convert.impl.DirectoryConverter;
 import com.soarclient.libraries.resourcepack.convert.impl.EnchantConverter;
 import com.soarclient.libraries.resourcepack.convert.impl.ImageFormatConverter;
 import com.soarclient.libraries.resourcepack.convert.impl.IndicatorConverter;
-import com.soarclient.libraries.resourcepack.convert.impl.InventoryConverter;
 import com.soarclient.libraries.resourcepack.convert.impl.NameConverter;
 import com.soarclient.libraries.resourcepack.convert.impl.OffHandConverter;
 import com.soarclient.libraries.resourcepack.convert.impl.PackMetaConverter;
@@ -59,7 +58,6 @@ public class ResourcePackConverter {
 		this.converters.add(new OffHandConverter());
 		this.converters.add(new CompassConverter());
 		this.converters.add(new CreativeTabsConverter());
-		this.converters.add(new InventoryConverter());
 		this.converters.add(new WaterConverter());
 		this.converters.add(new SlidersConverter());
 		this.converters.add(new EnchantConverter());
