@@ -84,8 +84,6 @@ public class ShaderHelper {
 		GlStateManager._viewport(x, y, width, height);
 	}
 
-	// Uniforms
-
 	public static int getUniformLocation(int program, String name) {
 		return GlStateManager._glGetUniformLocation(program, name);
 	}
