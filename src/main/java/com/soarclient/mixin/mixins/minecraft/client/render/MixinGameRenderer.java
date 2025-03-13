@@ -36,7 +36,11 @@ public class MixinGameRenderer {
 			EventBus.getInstance().post(new RenderSkiaEvent());
 			Skia.restore();
 		});
-		
+	}
+	
+	@Inject(method = "render", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/hud/InGameHud;render(Lnet/minecraft/client/gui/DrawContext;Lnet/minecraft/client/render/RenderTickCounter;)V", shift = At.Shift.AFTER))
+	public void renderGuiBlur(RenderTickCounter tickCounter, boolean tick, CallbackInfo ci) {
+
 		if (HUDModSettings.getInstance().getBlurSetting().isEnabled()) {
 			KawaseBlur.GUI_BLUR.draw((int) ModMenuSettings.getInstance().getBlurIntensitySetting().getValue());
 		}
